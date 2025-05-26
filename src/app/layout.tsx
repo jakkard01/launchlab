@@ -1,14 +1,22 @@
 import './globals.css';
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 
-export const metadata = {
+const inter = Inter({ subsets: ['latin'] });
+
+export const metadata: Metadata = {
   title: 'Powered by IA',
-  description: 'App web personal con perfil e IA',
+  description: 'Transformando ideas en realidad con IA, visión y código',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="es">
-      <body>{children}</body>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }
