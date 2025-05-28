@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Powered by IA</title>
+    <link href="/styles/main.css" rel="stylesheet">
+</head>
+<body class="relative flex items-center justify-center min-h-screen text-center text-white">
+    <!-- Fondo con overlay -->
+    <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-black opacity-80"></div>
+        <div 
+            class="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style="background-image: url('/imagenes/fondo/ChatGPT Image 24 may 2025, 05_10_00 a.m..png')">
+        </div>
+    </div>
+
+    <!-- Contenido -->
+    <div class="relative z-10">
+        <h1 class="text-5xl font-bold mb-4">Powered by IA</h1>
+        <p class="text-xl mb-6">Transformando ideas en realidad con IA, visión y código</p>
+        <button 
+            onclick="startApp()" 
+            class="bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-4 rounded shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+            Empezar ahora
+        </button>
+        <p class="mt-4 text-sm opacity-75">v1.0 - LaunchLab app web/mobile</p>
+    </div>
+
+    <script>
+        function startApp() {
+            alert('¡Función Empezar ahora activada!');
+        }
+    </script>
+</body>
+</html> 
