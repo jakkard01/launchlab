@@ -1,13 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
+import Image from 'next/image'; // ✅ En uso correctamente
 
 export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleImageClick = () => {
-    console.log("✅ Se hizo clic en la imagen");
     setModalOpen(true);
   };
 
@@ -32,7 +31,7 @@ export default function Home() {
           priority
         />
 
-        {/* MODAL */}
+        {/* Modal */}
         {modalOpen && (
           <div
             className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
@@ -66,17 +65,17 @@ export default function Home() {
         Transformando ideas en realidad con IA, visión y código
       </p>
 
-      {/* Botón */}
+      {/* Botón CTA */}
       <button className="mt-6 bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-6 rounded-full transition-colors shadow-md">
         Empezar ahora
       </button>
 
-      {/* Versión */}
+      {/* Pie de versión */}
       <p className="text-sm text-white opacity-60 mt-4">
         v1.1 - LaunchLab app web/mobile
       </p>
 
-      {/* Sobre mí */}
+      {/* Sección "Sobre mí" */}
       <section className="mt-20 max-w-4xl w-full text-white text-center px-6">
         <h2 className="text-3xl md:text-4xl font-bold mb-4 border-b-2 inline-block border-purple-500">
           ¿Quién soy?
