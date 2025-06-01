@@ -1,18 +1,16 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image'; // IMPORTANTE: Ahora SÍ lo usamos
+import Image from 'next/image';
 
 export default function Home() {
-  // Estado para el modal de imagen ampliada
   const [modalOpen, setModalOpen] = useState(false);
 
-  // Abre el modal al clickar la imagen de perfil
   const handleImageClick = () => {
+    console.log("✅ Se hizo clic en la imagen");
     setModalOpen(true);
   };
 
-  // Cierra el modal
   const handleCloseModal = () => {
     setModalOpen(false);
   };
@@ -22,10 +20,10 @@ export default function Home() {
       className="min-h-screen bg-cover bg-center flex flex-col items-center justify-center px-4"
       style={{ backgroundImage: "url('/imagenes/fondo/tu-fondo.png')" }}
     >
-      {/* Imagen de perfil (ahora usando Next.js <Image />) */}
+      {/* Imagen de perfil */}
       <div className="relative">
         <Image
-          src="/imagenes/profile/mifoto.jpg"
+          src="/imagenes/perfil/mifoto.jpg"
           alt="Mi foto"
           width={128}
           height={128}
@@ -34,25 +32,33 @@ export default function Home() {
           priority
         />
 
-        {/* Modal con la imagen grande (también <Image />) */}
+        {/* MODAL */}
         {modalOpen && (
           <div
             className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
             onClick={handleCloseModal}
           >
-            <Image
-              src="/imagenes/profile/mifoto.jpg"
-              alt="Mi foto grande"
-              width={400} // Puedes ajustar el tamaño aquí
-              height={400}
-              className="max-w-full max-h-full rounded-xl shadow-lg"
-              priority
-            />
+            <div className="relative p-4">
+              <Image
+                src="/imagenes/perfil/mifoto.jpg"
+                alt="Mi foto grande"
+                width={400}
+                height={400}
+                className="rounded-xl shadow-lg cursor-pointer"
+                priority
+              />
+              <button
+                onClick={handleCloseModal}
+                className="absolute top-2 right-2 text-white text-2xl font-bold"
+              >
+                ✕
+              </button>
+            </div>
           </div>
         )}
       </div>
 
-      {/* Título principal */}
+      {/* Título */}
       <h1 className="text-white text-4xl md:text-5xl font-bold mt-6 text-center drop-shadow-lg">
         Powered by IA
       </h1>
@@ -60,19 +66,17 @@ export default function Home() {
         Transformando ideas en realidad con IA, visión y código
       </p>
 
-      {/* Botón principal */}
-      <button
-        className="mt-6 bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-6 rounded-full transition-colors shadow-md"
-      >
+      {/* Botón */}
+      <button className="mt-6 bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-6 rounded-full transition-colors shadow-md">
         Empezar ahora
       </button>
 
-      {/* Pie de versión */}
+      {/* Versión */}
       <p className="text-sm text-white opacity-60 mt-4">
         v1.1 - LaunchLab app web/mobile
       </p>
 
-      {/* Sección modular "Sobre mí" */}
+      {/* Sobre mí */}
       <section className="mt-20 max-w-4xl w-full text-white text-center px-6">
         <h2 className="text-3xl md:text-4xl font-bold mb-4 border-b-2 inline-block border-purple-500">
           ¿Quién soy?
