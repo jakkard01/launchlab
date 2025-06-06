@@ -1,5 +1,3 @@
-# Código refactorizado para sobrescribir `page.tsx` con buenas prácticas
-refactored_page = """\
 'use client';
 
 import React, { useState } from 'react';
@@ -91,10 +89,3 @@ export default function Home() {
     </main>
   );
 }
-"""
-
-# Sobrescribir el archivo
-with open(page_path, 'w', encoding='utf-8') as f:
-    f.write(refactored_page)
-
-"✅ Archivo 'page.tsx' actualizado con refactor limpio y buenas prácticas."
