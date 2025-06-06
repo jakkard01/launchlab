@@ -1,22 +1,16 @@
-import './globals.css';
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+// src/app/layout.tsx
+import './globals.css'
+import { ReactNode } from 'react'
 
-const inter = Inter({ subsets: ['latin'] });
+export const metadata = {
+  title: 'Powered by IA 😈',
+  description: 'Portfolio impulsado por inteligencia artificial, visión y código👽.',
+}
 
-export const metadata: Metadata = {
-  title: 'Powered by IA',
-  description: 'Transformando ideas en realidad con IA, visión y código',
-};
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="es">
-      <body className={inter.className}>{children}</body>
+      <body className="bg-gray-900">{children}</body>
     </html>
-  );
+  )
 }
