@@ -1,4 +1,3 @@
-// src/app/page.tsx
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -13,48 +12,42 @@ export default function Home() {
   const [step, setStep] = useState<'init' | 'video' | 'bot'>('init');
   const [showModal, setShowModal] = useState(false);
 
-  // Si ya eligió saltar la intro alguna vez, va directo al bot
+  // Si ya saltó la intro antes, va directo al bot
   useEffect(() => {
     if (localStorage.getItem(SKIP_KEY) === '1') {
       setStep('bot');
     }
   }, []);
 
-  // Empieza el video SIN confirmación
-  const startVideo = () => {
-    setStep('video');
-  };
+  const startVideo = () => setStep('video');
 
-  // Solo al pulsar "Saltar Intro" aparece confirmación
   const handleSkip = () => {
     const ok = window.confirm('🔥 ¿Seguro que querés saltarte esta intro brutal?');
     if (ok) {
       localStorage.setItem(SKIP_KEY, '1');
       setStep('bot');
     }
-    // si cancela, permanece en video
   };
 
-  // Cuando termina el video
-  const finishVideo = () => {
-    setStep('bot');
-  };
-
-  // Cerrar video y volver al inicio
-  const closeVideo = () => {
-    setStep('init');
-  };
+  const finishVideo = () => setStep('bot');
+  const closeVideo = () => setStep('init');
 
   return (
     <main
-      className="min-h-screen bg-cover bg-center flex flex-col items-center justify-center p-4"
+      className="
+        min-h-screen bg-cover bg-center 
+        flex flex-col items-center justify-center p-4
+      "
       style={{ backgroundImage: "url('/imagenes/fondo/tu-fondo.png')" }}
     >
-      {/* Modal de perfil */}
+      {/* — Modal de Perfil — */}
       {showModal && <ProfileModal onClose={() => setShowModal(false)} />}
 
-      {/* Foto de perfil clicable */}
-      <div className="mt-10 cursor-pointer" onClick={() => setShowModal(true)}>
+      {/* — Foto de Perfil clicable — */}
+      <div
+        className="mt-10 cursor-pointer"
+        onClick={() => setShowModal(true)}
+      >
         <Image
           src="/imagenes/perfil/mifoto.jpg"
           alt="Perfil"
@@ -65,7 +58,7 @@ export default function Home() {
         />
       </div>
 
-      {/* Título */}
+      {/* — Título y subtítulo — */}
       <h1 className="mt-6 text-white text-4xl md:text-5xl font-bold drop-shadow-lg text-center">
         Powered by IA
       </h1>
@@ -73,7 +66,7 @@ export default function Home() {
         Transformando ideas en realidad con IA, visión y código
       </p>
 
-      {/* Zona dinámica */}
+      {/* — Contenedor dinámico (botones, video, bot) — */}
       <div className="w-full max-w-2xl mt-6 space-y-4">
         {step === 'init' && (
           <button
@@ -107,12 +100,12 @@ export default function Home() {
         )}
       </div>
 
-      {/* Footer */}
+      {/* — Footer — */}
       <footer className="text-sm text-white opacity-60 mt-6">
         v1.8 – LaunchLab web & mobile
       </footer>
 
-      {/* Sección "¿Quién soy?" */}
+      {/* — Sección “¿Quién soy?” — */}
       <section className="mt-20 text-white text-center max-w-4xl px-6">
         <h2 className="text-3xl md:text-4xl font-bold mb-4 inline-block border-b-2 border-purple-500">
           ¿Quién soy?
@@ -122,5 +115,5 @@ export default function Home() {
         </p>
       </section>
     </main>
-);
+  );
 }
