@@ -1,26 +1,21 @@
-// src/app/layout.tsx
 import './globals.css';
-import { Inter } from 'next/font/google';
 import type { Metadata } from 'next';
-
-const inter = Inter({ subsets: ['latin'] });
+import IntroOverlay from './components/IntroOverlay';
+import React from 'react';
 
 export const metadata: Metadata = {
   title: 'Powered by IA',
-  description: 'Transformando ideas en realidad con IA, visión y código.',
+  description: 'Transformando ideas en realidad con IA, visión y código',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const [showIntro, setShowIntro] = React.useState(true);
   return (
     <html lang="es">
-      <head>
-        <link rel="icon" href="/favicon.ico" />
-      </head>
-      <body className={inter.className}>{children}</body>
+      <body>
+        {showIntro && <IntroOverlay onFinish={() => setShowIntro(false)} />}
+        {children}
+      </body>
     </html>
   );
 }

@@ -1,27 +1,36 @@
 'use client';
 
 import React from 'react';
+import Image from "next/image";
 
 interface HeroProps {
-  onCTA?: () => void;
+  onShowProfile: () => void;
 }
 
-export default function Hero({ onCTA }: HeroProps) {
+export default function Hero({ onShowProfile }: HeroProps) {
   return (
-    <header className="mt-6 text-center">
-      <h1 className="text-white text-4xl md:text-5xl font-bold drop-shadow-lg">
-        Powered by IA
+    <section className="flex flex-col items-center justify-center py-12">
+      <div className="mb-6 flex items-center justify-center">
+        <Image
+          src="/gerardo-avatar.jpg"
+          alt="Avatar Gerardo"
+          width={160}
+          height={160}
+          className="rounded-full border-4 border-white w-40 h-40 object-cover shadow-lg"
+        />
+      </div>
+      <h1 className="text-4xl font-extrabold tracking-tight text-center">
+        Powered by <span className="text-cyan-400">IA</span>
       </h1>
-      <p className="text-white mt-2 text-lg md:text-xl opacity-80 max-w-xl mx-auto">
-        Transformando ideas en realidad con IA, visión y código
+      <p className="mt-4 text-lg text-gray-400 text-center max-w-xl">
+        Transformando ideas en realidad con inteligencia artificial, visión y código.
       </p>
-
       <button
-        className="mt-6 bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-6 rounded-full transition-colors shadow-md"
-        onClick={onCTA}
+        onClick={onShowProfile}
+        className="mt-6 rounded-xl border border-cyan-400 bg-transparent px-6 py-3 text-cyan-400 font-semibold transition-all hover:bg-cyan-400 hover:text-black shadow-md hover:shadow-cyan-400/50 focus:outline-none focus:ring-2 focus:ring-cyan-300 animate-glow"
       >
-        Empezar ahora
+        ¿Quién soy?
       </button>
-    </header>
+    </section>
   );
 }
