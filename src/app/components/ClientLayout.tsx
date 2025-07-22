@@ -1,17 +1,26 @@
 "use client";
+
+import React, { useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import Header from "./Header";
-import { useRef } from "react";
-import Hero from "./hero";
+import IntroOverlay from "./IntroOverlay";
+import Hero from "./Hero"; // Ajusta la ruta si tu componente Hero está en otra carpeta
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
+  const [showIntro, setShowIntro] = useState(true);
   const avatarRef = useRef<HTMLImageElement>(null);
+  const pathname = usePathname();
+
   return (
     <>
+      {/* Header recibe opcionalmente avatarRef pero no lo usa internamente */}
       <Header avatarRef={avatarRef} />
-      {/* Si la página es Home, renderiza Hero con ref, si no, renderiza children normalmente */}
-      {children.type && children.type.name === 'Home'
-        ? <Hero ref={avatarRef} />
-        : children}
+
+      {/* Si la ruta es "/" (home), muestran el Hero con ref, sino renderizan los children */}
+      {pathname === "/" ? <Hero ref={avatarRef} /> : children}
+
+      {/* Overlay de intro */}
+      {showIntro && <IntroOverlay onSkip={() => setShowIntro(false)} />}
     </>
   );
-} 
+}
