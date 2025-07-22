@@ -4,7 +4,9 @@ import React, { useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Header from "./Header";
 import IntroOverlay from "./IntroOverlay";
-import Hero from "./Hero"; // Ajusta la ruta si tu componente Hero está en otra carpeta
+import Hero from './Hero';
+
+
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const [showIntro, setShowIntro] = useState(true);
