@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Fondo galaxia global */
+.bg-galaxy {
+  background-image: url('/imagenes/fondo/tu-fondo.png');
+}
+
 body {
   @apply bg-gray-900 text-white font-sans;
 }

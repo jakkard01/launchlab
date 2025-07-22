@@ -2,6 +2,8 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
 import type { Metadata } from 'next'
+import ClientLayout from './components/ClientLayout'
+import FAB from './components/FAB';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -10,19 +12,18 @@ export const metadata: Metadata = {
   description: 'Transformando ideas en realidad con IA, visión y código.',
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es">
-      <head>
-        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-      </head>
-      <body className={inter.className}>
-        {children}
+      <body className={inter.className + ' relative min-h-screen'}>
+        {/* Fondo galaxia global */}
+        <div className="fixed inset-0 -z-10 w-full h-full bg-galaxy bg-cover bg-center bg-no-repeat" aria-hidden="true" />
+        <ClientLayout>
+          {children}
+        </ClientLayout>
+        {/* FAB global: solo visible si no estamos en la home */}
+        <FAB />
       </body>
     </html>
-  )
+  );
 }
