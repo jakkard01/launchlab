@@ -1,15 +1,23 @@
-"use client";
-import { useEffect, useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+'use client';
+import { useRef } from 'react';
+import { motion } from 'framer-motion';
 
 interface IntroOverlayProps {
   src: string;
   onClose?: () => void;
   onEnded?: () => void;
+  /** NUEVO: permite que ClientLayout use onSkip */
+  onSkip?: () => void;
   children?: React.ReactNode;
 }
 
-export default function IntroOverlay({ src, onClose, onEnded, children }: IntroOverlayProps) {
+export default function IntroOverlay({
+  src,
+  onClose,
+  onEnded,
+  onSkip,
+  children,
+}: IntroOverlayProps) {
   const vidRef = useRef<HTMLVideoElement>(null);
 
   return (
@@ -30,7 +38,9 @@ export default function IntroOverlay({ src, onClose, onEnded, children }: IntroO
         onEnded={onEnded}
         className="mx-auto block w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg rounded-2xl shadow-lg"
       />
+
       <div className="flex flex-row justify-between w-full max-w-xs sm:max-w-sm md:max-w-md mt-4">
+        {/* Botón “Volver al inicio” */}
         <button
           onClick={onClose}
           className="text-white underline"
@@ -38,15 +48,18 @@ export default function IntroOverlay({ src, onClose, onEnded, children }: IntroO
         >
           Volver al inicio
         </button>
+
+        {/* Botón “Saltar intro” (usa onSkip si existe, si no onClose) */}
         <button
-          onClick={onClose}
+          onClick={onSkip ?? onClose}
           className="bg-cyan-500 text-white px-4 py-2 rounded shadow"
           aria-label="Saltar intro"
         >
           Saltar intro
         </button>
       </div>
+
       {children}
     </motion.div>
   );
-} 
+}
