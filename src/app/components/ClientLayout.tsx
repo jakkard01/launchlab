@@ -1,17 +1,19 @@
 "use client";
 import Header from "./Header";
-import { useRef } from "react";
+import { useRef, ReactNode, isValidElement } from "react";
 import Hero from "./Hero";
 
-export default function ClientLayout({ children }: { children: React.ReactNode }) {
+export default function ClientLayout({ children }: { children: ReactNode }) {
   const avatarRef = useRef<HTMLImageElement>(null);
+
+  const isHome =
+    isValidElement(children) && children.type && (children.type as any).name === "Home";
+
   return (
     <>
       <Header avatarRef={avatarRef} />
       {/* Si la página es Home, renderiza Hero con ref, si no, renderiza children normalmente */}
-      {children.type && children.type.name === 'Home'
-        ? <Hero ref={avatarRef} />
-        : children}
+      {isHome ? <Hero ref={avatarRef} /> : children}
     </>
   );
-} 
+}

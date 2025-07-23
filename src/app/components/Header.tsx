@@ -1,11 +1,16 @@
 "use client";
 import Link from "next/link";
+import React, { MutableRefObject } from "react";
 
-export default function Header() {
+type HeaderProps = {
+  avatarRef: MutableRefObject<HTMLImageElement | null>;
+};
+
+export default function Header({ avatarRef }: HeaderProps) {
   return (
     <header className="fixed top-0 inset-x-0 z-[50] bg-black/70 backdrop-blur flex items-center justify-between px-6 py-4">
       {/* Logo */}
       <Link href="/" className="font-bold text-cyan-400">Powered by IA</Link>
     </header>
   );
-} 
+}
