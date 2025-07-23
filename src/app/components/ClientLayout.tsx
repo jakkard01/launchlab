@@ -1,7 +1,7 @@
 "use client";
 import Header from "./Header";
 import { useRef } from "react";
-import Hero from "./hero";
+import Hero from "./Hero";
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const avatarRef = useRef<HTMLImageElement>(null);
