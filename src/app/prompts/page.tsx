@@ -1,5 +1,11 @@
 import type { Metadata } from 'next';
-import PromptsList from './PromptsList';
+import dynamic from 'next/dynamic';
+
+// --- AQUÍ ESTÁ LA CLAVE: IMPORTAMOS EL NUEVO NOMBRE 'PromptsGrid' ---
+const PromptsGrid = dynamic(() => import('./PromptsGrid'), { 
+  ssr: false,
+  loading: () => <div className="min-h-[50vh] animate-pulse bg-transparent" />
+});
 
 export const metadata: Metadata = {
   title: 'Biblioteca de Prompts | Powered by IA',
@@ -21,7 +27,8 @@ export default function PromptsPage() {
         </p>
       </header>
 
-      <PromptsList />
+      {/* Cargamos el componente con el nombre nuevo */}
+      <PromptsGrid />
     </main>
   );
 }
