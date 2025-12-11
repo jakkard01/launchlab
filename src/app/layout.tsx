@@ -1,9 +1,9 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
-import type { Metadata, Viewport } from 'next';
+import type { Metadata } from 'next'; // <--- HE QUITADO 'Viewport' DE AQUÍ
 import ClientLayout from './components/ClientLayout';
 import FAB from './components/FAB';
-import CookieBanner from './components/CookieBanner'; // <--- IMPORTADO AQUÍ
+import CookieBanner from './components/CookieBanner';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     description: 'Transformando ideas en resultados reales con IA, visión y código.',
     images: [
       {
-        url: '/imagenes/perfil/mifoto.jpg', // Tu foto como imagen por defecto
+        url: '/imagenes/perfil/mifoto.jpg',
         width: 1200,
         height: 630,
         alt: 'Powered by IA - Transformando ideas',
@@ -46,7 +46,8 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = {
+// --- FIX: QUITAMOS EL TIPO EXPLÍCITO ': Viewport' ---
+export const viewport = {
   themeColor: '#000000',
   width: 'device-width',
   initialScale: 1,
@@ -70,7 +71,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         
         {/* Componentes Flotantes Globales */}
         <FAB />
-        <CookieBanner /> {/* <--- AÑADIDO AQUÍ */}
+        <CookieBanner />
       </body>
     </html>
   );
