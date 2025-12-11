@@ -1,26 +1,26 @@
-import { MetadataRoute } from 'next';
+import type { MetadataRoute } from 'next';
+
+const baseUrl = 'https://www.poweredbyia.com';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://www.poweredbyia.com';
+  const lastModified = new Date();
 
   return [
     {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 1,
+      url: `${baseUrl}/`,
+      lastModified,
     },
     {
       url: `${baseUrl}/prompts`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
+      lastModified,
     },
     {
       url: `${baseUrl}/cursos`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.6,
+      lastModified,
+    },
+    {
+      url: `${baseUrl}/bot`,
+      lastModified,
     },
   ];
 }
