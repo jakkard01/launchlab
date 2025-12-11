@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Powered by IA',
-  description: 'Transformando ideas en realidad con IA, visión y código.',
+  description: 'Transformando ideas en resultados con IA, visión y código',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

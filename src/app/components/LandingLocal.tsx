@@ -88,7 +88,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
           </button>
         )}
         <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 drop-shadow-lg">Powered by IA</h1>
-        <p className="text-cyan-200 text-lg mb-4">Transformando ideas en realidad con IA, visión y código</p>
+        <p className="text-cyan-200 text-lg mb-4">Transformando ideas en resultados con IA, visión y código</p>
         <button
           onClick={onShowVideo}
           className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg transition mb-4 focus:outline-none focus:ring-2 focus:ring-purple-400"
