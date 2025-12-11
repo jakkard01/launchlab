@@ -1,116 +1,49 @@
 'use client';
 
-import { useState } from 'react';
-
-type Prompt = {
-  id: string;
-  title: string;
-  category: string;
-  description: string;
-  content: string;
-};
-
-// CATEGORÍAS DISPONIBLES: 'Vídeo IA', 'Productividad', 'Código', 'Meta-Prompts'
-
-const prompts: Prompt[] = [
-  {
-    id: 'meta-prompt-generator',
-    category: 'Meta-Prompts (Generadores)',
-    title: '🛠️ El Constructor de Prompts (Sistema de Opciones)',
-    description:
-      'Usa este prompt para que ChatGPT te ayude a crear el prompt perfecto seleccionando opciones predefinidas. Ideal para no empezar de cero.',
-    content: `Actúa como mi "Ingeniero de Prompts". Quiero crear un prompt nuevo, pero necesito que me guíes con opciones.
-
-1. Primero, pregúntame: "¿Para qué herramienta es el prompt?"
-   (Opciones: A) HeyGen Avatar, B) CapCut Script-to-Video, C) Midjourney, D) Chat General).
-
-2. Según mi respuesta, dame una lista numerada de 3 "Tonos/Estilos" para elegir (ej: 1. Profesional/Serio, 2. Dinámico/YouTuber, 3. Narrativo/Cine).
-
-3. Luego, pídeme el "Tema Central" en una frase.
-
-4. Con esos datos (Herramienta + Tono + Tema), GENERA el prompt final optimizado y listo para copiar y pegar en esa herramienta específica.`,
-  },
-  {
-    id: 'capcut-script-video',
-    category: 'Vídeo IA',
-    title: '🎬 Guion para CapCut (Script-to-Video)',
-    description:
-      'Genera guiones visuales que la IA de CapCut entienda perfectamente para crear B-Roll automático.',
-    content: `Actúa como experto en la herramienta "Script-to-Video" de CapCut.
-Genera un guion para un video de [DURACIÓN, ej: 30 segundos] sobre [TEMA].
-
-Estructura obligatoria para que la IA elija bien las imágenes:
-1. [Escena 1 - Gancho Visual]: Describe visualmente la primera imagen (ej: "Persona estresada mirando reloj"). Texto en pantalla: "[FRASE CORTE]".
-2. [Escena 2 - Problema]: Descripción visual clara. Texto: "[FRASE PROBLEMA]".
-3. [Escena 3 - Solución]: Descripción visual brillante/positiva. Texto: "[TU SOLUCIÓN]".
-4. [Escena 4 - CTA]: Fondo liso o logo. Texto: "Sígueme para más".
-
-Usa lenguaje visual muy descriptivo entre corchetes [] para que la IA de CapCut encuentre los clips de stock correctos.`,
-  },
-  {
-    id: 'heygen-avatar-sales',
-    category: 'Vídeo IA',
-    title: '🗣️ Avatar de Ventas (HeyGen) - Estructura AIDA',
-    description:
-      'Guion para que tu avatar de HeyGen venda un servicio en menos de 1 minuto.',
-    content: `Escribe un guion para un avatar de IA (HeyGen) hablando a cámara.
-Objetivo: Vender [NOMBRE DEL SERVICIO].
-Tono: Cercano, autoridad, directo.
-
-Estructura:
-1. Atención (0-5s): Una pregunta retórica sobre un dolor del cliente.
-2. Interés (5-15s): Dato curioso o "sabías que..." que amplifica el problema.
-3. Deseo (15-40s): Cómo mi servicio lo soluciona sin esfuerzo (beneficios, no características).
-4. Acción (40-60s): Instrucción clara (ej: "Comenta la palabra X").
-
-Incluye marcas de pausa <break time="0.5s" /> donde sea necesario para que el avatar respire.`,
-  },
-  {
-    id: 'pareto-playlist-brave',
-    category: 'Productividad',
-    title: '🎵 Pareto Playlist Brave (YouTube limpio)',
-    description:
-      'Genera playlists de 6-8 canciones en un solo link, sin anuncios ni distracciones.',
-    content: `Quiero que actúes como mi DJ de productividad.
-Objetivo: Crear una playlist de [NÚMERO] canciones para [MOOD: Concentración / Gym / Relax].
-
-Requisitos:
-1. Solo vídeos oficiales de música.
-2. Devuélveme UN SOLO ENLACE con este formato exacto:
-   https://www.youtube.com/watch_videos?video_ids=ID1,ID2,ID3...
-3. Lista debajo los títulos de las canciones.
-
-¡Dame la música!`,
-  },
-  {
-    id: 'secuencia-videos-tiktok',
-    category: 'Vídeo IA',
-    title: '📱 Secuencia de 5 Vídeos (Estrategia Semanal)',
-    description:
-      'Planifica una semana entera de contenido sobre un tema, con ganchos conectados.',
-    content: `Actúa como estratega de contenidos. Tengo un nicho: [TU NICHO].
-Dame 5 ideas de vídeos cortos (TikTok/Reels) que formen una secuencia lógica para esta semana:
-
-- Lunes: Mito común (Romper creencia).
-- Martes: Tutorial rápido "Cómo hacer X".
-- Miércoles: Herramienta secreta / Recurso.
-- Jueves: Historia personal / Error aprendido.
-- Viernes: Venta suave / CTA.
-
-Para cada día, dame:
-1. Título Gancho (lo que aparece en portada).
-2. La primera frase del guion.`,
-  },
-];
+import { useState, useMemo, useEffect } from 'react';
+import {
+  promptsData,
+  MAIN_LABELS,
+  SUB_LABELS,
+  CATEGORY_RELATIONS,
+  MainCategory,
+  SubCategory,
+  PromptItem,
+} from './promptsData';
 
 export default function PromptsList() {
+  const [mounted, setMounted] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
-  const [filter, setFilter] = useState<string>('Todos');
+  
+  const [selectedMain, setSelectedMain] = useState<MainCategory | 'all'>('all');
+  const [selectedSub, setSelectedSub] = useState<SubCategory | 'all'>('all');
 
-  // Extraemos las categorías únicas para el filtro
-  const categories = ['Todos', ...Array.from(new Set(prompts.map((p) => p.category)))];
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  const handleCopy = async (prompt: Prompt) => {
+  const availableSubCategories = useMemo(() => {
+    if (selectedMain === 'all') return [];
+    return CATEGORY_RELATIONS[selectedMain] || [];
+  }, [selectedMain]);
+
+  const filteredPrompts = useMemo(() => {
+    // Protección antibalas por si falla la carga de datos
+    const safeData = promptsData || [];
+    
+    return safeData.filter((prompt) => {
+      if (selectedMain !== 'all' && prompt.mainCategory !== selectedMain) return false;
+      if (selectedMain !== 'all' && selectedSub !== 'all' && prompt.subCategory !== selectedSub) return false;
+      return true;
+    });
+  }, [selectedMain, selectedSub]);
+
+  const handleMainChange = (category: MainCategory | 'all') => {
+    setSelectedMain(category);
+    setSelectedSub('all'); // Resetear subcategoría al cambiar la principal
+  };
+
+  const handleCopy = async (prompt: PromptItem) => {
     try {
       await navigator.clipboard.writeText(prompt.content);
       setCopiedId(prompt.id);
@@ -120,71 +53,122 @@ export default function PromptsList() {
     }
   };
 
-  const filteredPrompts =
-    filter === 'Todos' ? prompts : prompts.filter((p) => p.category === filter);
+  if (!mounted) return null;
 
   return (
-    <div>
-      {/* Filtro de Categorías */}
-      <div className="flex flex-wrap gap-2 mb-8 justify-center">
-        {categories.map((cat) => (
+    <div className="w-full animate-in fade-in duration-500">
+      {/* MENÚ PRINCIPAL (Categorías) */}
+      <div className="flex flex-wrap gap-3 mb-8 justify-center">
+        <button
+          onClick={() => handleMainChange('all')}
+          className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all shadow-sm ${
+            selectedMain === 'all'
+              ? 'bg-cyan-500 text-black shadow-cyan-500/40 scale-105'
+              : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700'
+          }`}
+        >
+          Todo
+        </button>
+        {(Object.keys(MAIN_LABELS) as MainCategory[]).map((key) => (
           <button
-            key={cat}
-            onClick={() => setFilter(cat)}
-            className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all ${
-              filter === cat
-                ? 'bg-sky-500 text-black shadow-[0_0_15px_rgba(14,165,233,0.4)]'
-                : 'bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white'
+            key={key}
+            onClick={() => handleMainChange(key)}
+            className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all shadow-sm ${
+              selectedMain === key
+                ? 'bg-cyan-500 text-black shadow-cyan-500/40 scale-105'
+                : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700'
             }`}
           >
-            {cat}
+            {MAIN_LABELS[key]}
           </button>
         ))}
       </div>
 
-      {/* Grid de Prompts */}
-      <div className="grid gap-6 md:grid-cols-2">
-        {filteredPrompts.map((p) => (
-          <article
-            key={p.id}
-            className="rounded-2xl border border-white/10 bg-slate-950/40 backdrop-blur-sm p-5 shadow-lg shadow-black/40 flex flex-col hover:border-sky-500/30 transition-colors duration-300"
+      {/* SUBMENÚ (Subcategorías) */}
+      {selectedMain !== 'all' && availableSubCategories.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-10 justify-center animate-in fade-in slide-in-from-top-2 duration-300 bg-black/20 p-4 rounded-2xl border border-white/5 inline-flex mx-auto w-full md:w-auto">
+          <button
+            onClick={() => setSelectedSub('all')}
+            className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all border ${
+              selectedSub === 'all'
+                ? 'bg-purple-600 text-white border-purple-500 shadow-purple-500/30'
+                : 'bg-transparent text-slate-400 border-slate-700 hover:border-slate-500 hover:text-white'
+            }`}
           >
-            <div className="flex justify-between items-start mb-2">
-              <span className="text-[10px] uppercase tracking-wider font-bold text-sky-400/80 bg-sky-950/30 px-2 py-1 rounded">
-                {p.category}
-              </span>
-            </div>
-            
-            <h2 className="text-lg font-bold text-white mb-2">{p.title}</h2>
-            <p className="text-sm text-slate-300/80 flex-1 mb-4 leading-relaxed">
-              {p.description}
-            </p>
-            
-            <div className="relative group">
-              <pre className="text-[11px] leading-relaxed bg-black/60 border border-white/5 rounded-xl p-4 overflow-auto max-h-48 whitespace-pre-wrap text-slate-200 font-mono">
-                {p.content}
-              </pre>
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20 pointer-events-none rounded-xl" />
-            </div>
-
+            Ver todo
+          </button>
+          {availableSubCategories.map((subKey) => (
             <button
-              onClick={() => handleCopy(p)}
-              className={`mt-4 w-full inline-flex items-center justify-center rounded-xl px-4 py-3 text-sm font-semibold transition-all duration-200 ${
-                copiedId === p.id
-                  ? 'bg-green-500/20 text-green-400 border border-green-500/50'
-                  : 'bg-white/5 text-white hover:bg-white/10 border border-white/10 hover:border-white/20'
+              key={subKey}
+              onClick={() => setSelectedSub(subKey)}
+              className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all border ${
+                selectedSub === subKey
+                  ? 'bg-purple-600 text-white border-purple-500 shadow-purple-500/30'
+                  : 'bg-transparent text-slate-400 border-slate-700 hover:border-slate-500 hover:text-white'
               }`}
             >
-              {copiedId === p.id ? (
-                <span className="flex items-center gap-2">
-                  ✓ Copiado al portapapeles
-                </span>
-              ) : (
-                'Copiar Prompt'
-              )}
+              {SUB_LABELS[subKey]}
             </button>
-          </article>
-        ))}
+          ))}
+        </div>
+      )}
+
+      {/* GRID DE RESULTADOS */}
+      <div className="grid gap-6 md:grid-cols-2">
+        {filteredPrompts.length > 0 ? (
+          filteredPrompts.map((p) => (
+            <article
+              key={p.id}
+              className="group relative rounded-2xl border border-white/10 bg-slate-900/60 backdrop-blur-md p-6 shadow-xl transition-all hover:border-cyan-500/40 hover:shadow-cyan-500/10"
+            >
+              <div className="flex flex-wrap gap-2 mb-4">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded text-[10px] font-bold bg-cyan-950 text-cyan-400 border border-cyan-800/50 uppercase tracking-wide">
+                  {MAIN_LABELS[p.mainCategory]}
+                </span>
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded text-[10px] font-bold bg-purple-950 text-purple-400 border border-purple-800/50 uppercase tracking-wide">
+                  {SUB_LABELS[p.subCategory]}
+                </span>
+              </div>
+
+              <h2 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">
+                {p.titulo}
+              </h2>
+              <p className="text-sm text-slate-400 mb-5 leading-relaxed min-h-[40px]">
+                {p.descripcion}
+              </p>
+
+              <div className="relative mb-5 bg-black/50 rounded-xl border border-white/5 group-hover:border-white/10 transition-colors">
+                <textarea
+                  readOnly
+                  value={p.content}
+                  className="w-full h-32 bg-transparent p-4 text-[11px] font-mono text-slate-300 resize-none focus:outline-none scrollbar-thin scrollbar-thumb-slate-700"
+                />
+                <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-black/80 to-transparent pointer-events-none rounded-b-xl" />
+              </div>
+
+              <button
+                onClick={() => handleCopy(p)}
+                className={`w-full py-3 rounded-xl text-sm font-bold uppercase tracking-wider transition-all duration-200 flex items-center justify-center gap-2 ${
+                  copiedId === p.id
+                    ? 'bg-green-500 text-black shadow-[0_0_15px_rgba(34,197,94,0.4)] scale-[0.98]'
+                    : 'bg-white/10 text-white hover:bg-cyan-500 hover:text-black hover:shadow-[0_0_15px_rgba(6,182,212,0.4)]'
+                }`}
+              >
+                {copiedId === p.id ? '¡Copiado!' : 'Copiar Prompt'}
+              </button>
+            </article>
+          ))
+        ) : (
+          <div className="col-span-full py-20 text-center">
+            <p className="text-slate-500 mb-4">No hay prompts con estos filtros.</p>
+            <button 
+              onClick={() => { setSelectedMain('all'); setSelectedSub('all'); }}
+              className="text-cyan-400 hover:text-cyan-300 underline underline-offset-4"
+            >
+              Volver a ver todo
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -3,16 +3,18 @@ import { Inter } from 'next/font/google';
 import type { Metadata, Viewport } from 'next';
 import ClientLayout from './components/ClientLayout';
 import FAB from './components/FAB';
+import CookieBanner from './components/CookieBanner'; // <--- IMPORTADO AQUÍ
 
 const inter = Inter({ subsets: ['latin'] });
 
+// --- CONFIGURACIÓN SEO GLOBAL ---
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.poweredbyia.com'),
   title: {
     default: 'Powered by IA | Transformando ideas con Inteligencia Artificial',
     template: '%s | Powered by IA',
   },
-  description: 'Plataforma de aprendizaje sobre IA, prompts y código. Transforma ideas en resultados reales con herramientas de automatización.',
+  description: 'Aprende a transformar ideas en resultados reales con IA, visión y código. Biblioteca de prompts, cursos y herramientas de automatización.',
   keywords: ['Inteligencia Artificial', 'Prompts', 'ChatGPT', 'Gemini', 'Cursos IA', 'Desarrollo Web', 'Automatización'],
   authors: [{ name: 'Powered by IA' }],
   creator: 'Powered by IA',
@@ -25,7 +27,7 @@ export const metadata: Metadata = {
     description: 'Transformando ideas en resultados reales con IA, visión y código.',
     images: [
       {
-        url: '/imagenes/perfil/mifoto.jpg',
+        url: '/imagenes/perfil/mifoto.jpg', // Tu foto como imagen por defecto
         width: 1200,
         height: 630,
         alt: 'Powered by IA - Transformando ideas',
@@ -50,6 +52,7 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+// --- LAYOUT PRINCIPAL ---
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es">
@@ -59,10 +62,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           className="fixed inset-0 -z-10 w-full h-full bg-galaxy bg-cover bg-center bg-no-repeat" 
           aria-hidden="true" 
         />
+        
+        {/* Layout del Cliente (Navbar, etc) */}
         <ClientLayout>
           {children}
         </ClientLayout>
+        
+        {/* Componentes Flotantes Globales */}
         <FAB />
+        <CookieBanner /> {/* <--- AÑADIDO AQUÍ */}
       </body>
     </html>
   );
