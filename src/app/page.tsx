@@ -1,8 +1,10 @@
 // src/app/page.tsx
 'use client';
 import { useState, useRef, useEffect } from 'react';
-import IntroVideo from './components/IntroVideo';
-import LandingLocal from './components/LandingLocal';
+import IntroVideo from "@/app/components/IntroVideo";
+import LandingLocal from "@/app/components/LandingLocal";
+
+
 
 export default function HomePage() {
   const [showVideo, setShowVideo] = useState(false);
