@@ -1,50 +1,51 @@
-// src/app/prompts/promptsData.ts
+﻿// src/app/prompts/promptsData.ts
 
-// 1. TIPOS (Estructura sólida)
-export type MainCategory = 
-  | 'musica' 
-  | 'video-ia' 
-  | 'productividad' 
-  | 'cursos' 
-  | 'imagen' 
-  | 'dev' 
-  | 'mentalidad' 
+export type MainCategory =
+  | 'musica'
+  | 'video-ia'
+  | 'productividad'
+  | 'cursos'
+  | 'imagen'
+  | 'dev'
+  | 'mentalidad'
   | 'vida'
-  | 'inversion'; // Nueva categoría para mover el dinero
+  | 'inversion';
 
-export type SubCategory = 
+export type SubCategory =
   // Música
-  | 'playlists' 
-  // Vídeo
-  | 'guion-shorts' 
-  | 'youtube-largo' 
-  | 'heygen-avatar' 
+  | 'playlists'
+  | 'foco'
+  // Video IA
+  | 'guion-shorts'
+  | 'youtube-largo'
+  | 'heygen-avatar'
   | 'seo-youtube'
   // Productividad
-  | 'planificacion' 
-  | 'emails' 
-  | 'revision' 
+  | 'planificacion'
+  | 'emails'
+  | 'revision'
+  | 'oratoria'
   // Cursos
-  | 'arquitectura-curso' 
-  | 'estudio'
+  | 'english'
+  | 'resumen'
   // Imagen
-  | 'midjourney' 
-  | 'assets-web'
+  | 'midjourney'
+  | 'thumbnails'
+  | 'branding'
   // Dev
-  | 'codigo-pro' 
+  | 'codigo-pro'
   | 'debug'
   | 'herramientas-basicas'
   // Mentalidad
-  | 'stoic' 
+  | 'stoic'
   | 'decision'
   // Vida
-  | 'chollos' 
+  | 'chollos'
   | 'viajes'
   | 'cocina'
-  // Inversión (Dinero ahorrado)
+  // Inversión
   | 'setup-upgrade'
   | 'ads-trafico'
-  // Meta
   | 'meta-prompts';
 
 export interface PromptItem {
@@ -54,9 +55,11 @@ export interface PromptItem {
   mainCategory: MainCategory;
   subCategory: SubCategory;
   content: string;
+  // flags opcionales (no rompen nada si no se usan)
+  isTop10?: boolean;
+  isExclusive?: boolean;
 }
 
-// 2. ETIQUETAS VISUALES
 export const MAIN_LABELS: Record<MainCategory, string> = {
   musica: '🎵 Música / Foco',
   'video-ia': '🎬 Contenido / Vídeo',
@@ -71,431 +74,469 @@ export const MAIN_LABELS: Record<MainCategory, string> = {
 
 export const SUB_LABELS: Record<SubCategory, string> = {
   playlists: 'Playlists Brave',
-  'guion-shorts': 'Shorts / Reels',
+  foco: 'Foco',
+
+  'guion-shorts': 'Guion Shorts',
   'youtube-largo': 'YouTube Largo',
   'heygen-avatar': 'Avatar HeyGen',
-  'seo-youtube': 'SEO Studio',
+  'seo-youtube': 'SEO YouTube',
+
   planificacion: 'Organización',
-  emails: 'Emails & Textos',
-  revision: 'Revisión Pareto',
-  'arquitectura-curso': 'Diseño Amigable',
-  estudio: 'Técnicas Estudio',
-  midjourney: 'Midjourney V6',
-  'assets-web': 'Assets Web',
+  emails: 'Emails',
+  revision: 'Revisión / Obsidian',
+  oratoria: 'Oratoria / Discurso',
+
+  english: 'Inglés',
+  resumen: 'Resumen',
+
+  midjourney: 'Midjourney v6',
+  thumbnails: 'Thumbnails',
+  branding: 'Branding',
+
   'codigo-pro': 'Experto Dev',
   debug: 'Debugging',
   'herramientas-basicas': 'Tools Básicas',
+
   stoic: 'Estoicismo',
   decision: 'Toma Decisiones',
+
   chollos: 'Caza-Ofertas',
   viajes: 'Viajes Smart',
-  cocina: 'Nutrición',
+  cocina: 'Cocina / Proteína',
+
   'setup-upgrade': 'Hardware/Software',
   'ads-trafico': 'Publicidad',
   'meta-prompts': 'Wizards / Generadores',
 };
 
-// 3. RELACIONES
 export const CATEGORY_RELATIONS: Record<MainCategory, SubCategory[]> = {
   musica: ['playlists', 'meta-prompts'],
+
   'video-ia': ['guion-shorts', 'youtube-largo', 'heygen-avatar', 'seo-youtube', 'meta-prompts'],
-  productividad: ['planificacion', 'emails', 'revision', 'meta-prompts'],
-  cursos: ['arquitectura-curso', 'estudio'],
-  imagen: ['midjourney', 'assets-web', 'meta-prompts'],
-  dev: ['codigo-pro', 'debug', 'herramientas-basicas'],
-  mentalidad: ['stoic', 'decision'],
-  vida: ['chollos', 'viajes', 'cocina', 'meta-prompts'],
+
+  productividad: ['planificacion', 'oratoria', 'emails', 'revision', 'meta-prompts'],
+
+  cursos: ['english', 'resumen', 'meta-prompts'],
+
+  imagen: ['midjourney', 'thumbnails', 'branding', 'meta-prompts'],
+
+  dev: ['codigo-pro', 'debug', 'herramientas-basicas', 'meta-prompts'],
+
+  mentalidad: ['stoic', 'decision', 'meta-prompts'],
+
+  vida: ['chollos', 'cocina', 'viajes', 'meta-prompts'],
+
   inversion: ['setup-upgrade', 'ads-trafico', 'decision'],
 };
 
-// 4. EL ARSENAL COMPLETO
 export const promptsData: PromptItem[] = [
-
   // ===========================================================================
-  // 🏆 TOP 10: TUS ARMAS PRINCIPALES (Supervivencia & Facturación)
+  // 🏆 TOP 10 — EXCLUSIVOS CHIEF (sin info confidencial)
   // ===========================================================================
   {
-    id: 'top-1-avatar-ventas-b2b',
-    titulo: '🏆 Vendedor IA B2B (El "Agente")',
-    descripcion: 'Guion diseñado para vender automatización. Foco en dolor (perder clientes).',
-    mainCategory: 'video-ia',
-    subCategory: 'heygen-avatar',
-    content: `Escribe un guion de 45s para mi Avatar HeyGen. 
-Objetivo: Vender mi servicio de "Agentes IA que responden WhatsApp".
-Público: Dueños de PYMES (Clínicas, Talleres, Restaurantes).
-Estructura:
-1. Hook (0-5s): "¿Cuánto dinero pierdes cuando no coges el teléfono?"
-2. Dolor: Explicar que el cliente se va a la competencia.
-3. Solución: Mi Agente IA que trabaja 24/7.
-4. CTA: "Comenta AGENTE para una demo".
-Usa pausas <break time="0.5s" />. Tono: Autoridad, serio, directo.`,
-  },
-  {
-    id: 'top-2-plan-camarero',
-    titulo: '🏆 Plan del Día (Turno Camarero)',
-    descripcion: 'Organiza el día protegiendo tu energía antes/después del turno.',
+    id: 'top-1-plan-dia',
+    titulo: '🏆 TOP10 — Plan del Día (Turno + Kratos + Proteína)',
+    descripcion: 'Agenda realista por bloques. Turnos, energía, proteína 110g, paseo Kratos, 1 tarea Pareto.',
     mainCategory: 'productividad',
     subCategory: 'planificacion',
-    content: `Actúa como mi Jefe de Operaciones.
-Input: 
-- Hora despertar: [HORA].
-- Turno de trabajo: [HORA INICIO] a [HORA FIN].
-- Energía: [1-10].
-Tu misión:
-1. Bloquear tiempo sagrado para KRATOS.
-2. Bloquear 1 hora sagrada para PROYECTO (antes de estar cansado).
-3. Definir logística de comida (tuppers/preparación).
-Dame la agenda hora a hora.`,
+    isTop10: true,
+    isExclusive: true,
+    content: `Actúa como mi Jefe de Operaciones (modo Brujo Chief). Organiza mi día SIN drama.
+
+INPUT
+- Tipo de día: [LIBRE / TURNO APERTURA / TURNO LARGO / TURNO CIERRE]
+- Hora actual: [HH:MM]
+- Turno (si aplica): [INICIO–FIN]
+- Energía: [1–10]
+- Objetivo Pareto #1: [1 frase]
+- Comidas hechas hoy: [lista rápida]
+- Proteína estimada hoy: [g] (objetivo mínimo 110g)
+- Kratos: [paseo corto/largo pendiente]
+- Entreno: [sí/no + tipo]
+
+NO NEGOCIABLES
+1) Paseo Kratos mínimo 25 min (ideal 45).
+2) Proteína 110g (si voy corto: “Yogur high-protein 28g” como comodín).
+3) 1 bloque Pareto 25–45 min antes del cansancio.
+4) 10 min orden rápido (casa/ropa) en el primer bloque útil.
+5) Si detectas rumiación: activa “CORTA + RESET60” (respiración 4-4-4-4 + siguiente micro-tarea).
+
+REGLAS
+- Máximo 2 preguntas si falta algo. Si no respondo, asume y ejecuta.
+- Nada de agenda imposible. Bloques realistas.
+
+SALIDA (OBLIGATORIA)
+A) Tarea Pareto del día (1 frase).
+B) Agenda por bloques: MAÑANA / PRE-TURNO / TURNO / POST / CIERRE.
+C) Plan comida simple (2 opciones) + cuándo.
+D) Checklist de 5 ítems (máximo).`,
   },
+
   {
-    id: 'top-3-senior-nextjs',
-    titulo: '🏆 Senior Next.js Dev (LaunchLab)',
-    descripcion: 'Experto en tu stack para arreglar bugs o crear componentes rápido.',
-    mainCategory: 'dev',
-    subCategory: 'codigo-pro',
-    content: `Actúa como Senior Fullstack Dev experto en Next.js 14 (App Router), TypeScript y Tailwind CSS.
-Conoces mi proyecto "Powered by IA".
-Tarea: [DESCRIBE LO QUE QUIERES HACER O EL ERROR].
-Dame:
-1. El código completo y corregido.
-2. Explicación breve de por qué fallaba.
-3. Comandos de terminal si hace falta instalar algo.
-Prioridad: Código limpio y funcional.`,
-  },
-  {
-    id: 'top-4-dj-pareto',
-    titulo: '🏆 DJ Pareto (Anti-Repetición)',
-    descripcion: 'Playlists de YouTube limpias que no repiten temas. Tu combustible.',
-    mainCategory: 'musica',
-    subCategory: 'playlists',
-    content: `Actúa como DJ experto.
-Objetivo: Playlist de 8 canciones para [MOOD: Gym / Code / Relax].
-Estilo: [GÉNERO: Metal, Rap, Reggae].
-IMPORTANTE: Revisa el historial de este chat y NO REPITAS canciones anteriores.
-Salida: Link único watch_videos para Brave.`,
-  },
-  {
-    id: 'top-5-branding-cyberpunk',
-    titulo: '🏆 Branding Cyberpunk IA',
-    descripcion: 'Genera assets visuales coherentes para tu web y vídeos.',
-    mainCategory: 'imagen',
-    subCategory: 'midjourney',
-    content: `Prompt para Midjourney V6.
-Sujeto: [DESCRIPCIÓN, ej: Avatar hacker, fondo de código].
-Estilo: Cyberpunk, Neon Blue & Purple (colores de mi marca), Dark mode, High Tech, 8k, Cinematic lighting.
-Aspect Ratio: --ar 16:9 (para web/YouTube) o --ar 9:16 (para Shorts).`,
-  },
-  {
-    id: 'top-6-estoico-guerra',
-    titulo: '🏆 Modo Guerra (Anti-Quejas)',
-    descripcion: 'Reset mental rápido cuando el turno o la vida se ponen difíciles.',
+    id: 'top-2-anti-quejas',
+    titulo: '🏆 TOP10 — Modo Guerra (Anti-Quejas) + RESET60',
+    descripcion: 'Corta rumiación y vuelve al control en 60s. Directo, útil, sin terapia.',
     mainCategory: 'mentalidad',
     subCategory: 'stoic',
-    content: `Actúa como mi Coach Estoico.
-Situación: Estoy agobiado/cansado/enfadado por [CAUSA].
-Dame:
-1. Un reencuadre brutalmente honesto (La Dicotomía del Control).
-2. Una acción física inmediata para cambiar el estado.
-3. Un recordatorio de mi objetivo (2000€/mes).
-Hazlo corto y duro.`,
-  },
-  {
-    id: 'top-7-cazador-chollos',
-    titulo: '🏆 Cazador de Chollos Tech',
-    descripcion: 'Para comprar hardware/software sin tirar el dinero.',
-    mainCategory: 'vida',
-    subCategory: 'chollos',
-    content: `Quiero comprar [PRODUCTO].
-Analiza:
-1. Precio histórico (¿Es oferta real?).
-2. Alternativas mejores por el mismo precio.
-3. Veredicto: ¿Comprar ya o esperar?`,
-  },
-  {
-    id: 'top-8-guion-viral',
-    titulo: '🏆 Guion Short Viral (Retención)',
-    descripcion: 'Estructura probada para vídeos de 30s que retienen.',
-    mainCategory: 'video-ia',
-    subCategory: 'guion-shorts',
-    content: `Guion para TikTok/Reels sobre [TEMA].
-Estructura Rígida:
-0-3s: Hook Visual + Frase Polémica.
-3-15s: Agitación del Problema.
-15-40s: Solución Rápida (Tu método).
-40-50s: CTA Claro ("Sígueme para X").
-Formato: Tabla con Visual / Audio / Texto.`,
-  },
-  {
-    id: 'top-9-ideas-bots',
-    titulo: '🏆 Arquitecto de Bots',
-    descripcion: 'Ideas para vender automatizaciones a clientes.',
-    mainCategory: 'dev',
-    subCategory: 'codigo-pro',
-    content: `Analiza este tipo de negocio: [TIPO, ej: Peluquería].
-Dime 3 automatizaciones simples (con n8n o Zapier) que les ahorrarían tiempo/dinero y por las que pagarían 200-500€.
-Explica el flujo lógico de cada una.`,
-  },
-  {
-    id: 'top-10-ingles-tech',
-    titulo: '🏆 Inglés Tech de Guerrilla',
-    descripcion: 'Para entender documentación y tutoriales sin sufrir.',
-    mainCategory: 'cursos',
-    subCategory: 'estudio',
-    content: `Actúa como profesor de Inglés Técnico.
-Tengo este texto/documentación: [PEGAR TEXTO].
-1. Resúmelo en Español.
-2. Explícame las 3 palabras técnicas clave.
-3. Dame un ejemplo de cómo usar esas palabras en una frase laboral.`,
+    isTop10: true,
+    isExclusive: true,
+    content: `Actúa como Coach Estoico (modo “cero quejas, cero drama”). Tono: directo, humor seco inteligente.
+
+INPUT
+- Qué pasó: [2–4 líneas]
+- Estado: [cansado/cabreado/ansioso/rumiando/con ganas de alcohol/disperso]
+- Energía: [1–10]
+- Próxima obligación: [turno/gym/proyecto/dormir]
+
+REGLAS
+- 10–14 líneas máximo.
+- No te enrolles. No terapia.
+- Si detectas rumiación: activa CORTA + RESET60.
+
+SALIDA (en este orden)
+1) Realidad (1 frase dura y verdadera).
+2) Hechos vs Historia (2 bullets).
+3) Controlable vs No controlable (2 bullets).
+4) CORTA + RESET60:
+   - respiración 4-4-4-4 (1 línea)
+   - micro-tarea ejecutable en 3 minutos (1 línea)
+5) Plan 10 minutos (checklist 4 ítems).
+6) Cierre: “soy una flecha” + 1 acción ahora.`,
   },
 
-  // ===========================================================================
-  // 💸 EL TRIDENTE DE INVERSIÓN (Para el siguiente ciclo)
-  // ===========================================================================
   {
-    id: 'inv-11-setup-upgrade',
-    titulo: '🚀 Inversión: Next Level Setup',
-    descripcion: 'Tengo dinero ahorrado. ¿En qué hardware/software invierto para ir más rápido?',
-    mainCategory: 'inversion',
-    subCategory: 'setup-upgrade',
-    content: `Tengo [CANTIDAD] ahorrada para mejorar mi setup.
-Objetivo: Producir contenido y código más rápido.
-Mi equipo actual: [DESCRIBE TU PC/MÓVIL].
-Analiza el ROI (Retorno de Inversión) de:
-1. Mejorar PC (RAM/Gráfica).
-2. Comprar periféricos (Micro/Pantalla).
-3. Pagar Software (Cursor, Midjourney anual, etc.).
-Dime qué compra me va a ahorrar más horas al mes.`,
-  },
-  {
-    id: 'inv-12-ads-scaling',
-    titulo: '🚀 Inversión: Ads & Tráfico',
-    descripcion: 'Cómo meter dinero en publicidad para captar clientes sin quemarlo.',
-    mainCategory: 'inversion',
-    subCategory: 'ads-trafico',
-    content: `Quiero invertir [CANTIDAD] en Ads para vender mi servicio de Bots.
-Actúa como Trafficker Digital.
-Dime:
-1. ¿En qué plataforma meto el dinero (Meta/TikTok/Google)?
-2. Estrategia de campaña simple para empezar.
-3. Qué métricas debo mirar para saber si estoy tirando el dinero o ganando.`,
-  },
-  {
-    id: 'inv-13-delegacion',
-    titulo: '🚀 Inversión: Comprar Tiempo (Delegar)',
-    descripcion: 'Cuándo y cómo contratar a alguien para quitarme trabajo sucio.',
-    mainCategory: 'inversion',
-    subCategory: 'decision',
-    content: `Estoy saturado. Tengo [CANTIDAD] para delegar.
-¿Qué me sale más rentable delegar primero?
-A) Edición de vídeo básica.
-B) Prospección de clientes (Lead Gen).
-C) Tareas administrativas.
-Dame un plan para contratar a un freelancer barato pero bueno y qué instrucciones darle.`,
-  },
-
-  // ===========================================================================
-  // MÚSICA / FOCO (El resto del arsenal)
-  // ===========================================================================
-  {
-    id: 'playlist-metal',
-    titulo: 'Playlist: Metal Gym',
-    descripcion: 'Slipknot, Korn, Rammstein. Energía pura.',
-    mainCategory: 'musica',
-    subCategory: 'playlists',
-    content: `Genera playlist YouTube (watch_videos). Género: Nu Metal / Metalcore. Mood: Agresivo, Entreno Pesado. 8 Canciones. Solo oficiales.`,
-  },
-  {
-    id: 'playlist-rap',
-    titulo: 'Playlist: Rap Español',
-    descripcion: 'Violadores, SFDK, Nach. Foco callejero.',
-    mainCategory: 'musica',
-    subCategory: 'playlists',
-    content: `Genera playlist YouTube. Género: Rap Español Clásico y Nuevo. Mood: Foco, Liricismo. 8 Canciones.`,
-  },
-  {
-    id: 'playlist-reggae',
-    titulo: 'Playlist: Reggae Chill',
-    descripcion: 'Bob Marley, Morodo. Para pasear a Kratos.',
-    mainCategory: 'musica',
-    subCategory: 'playlists',
-    content: `Genera playlist YouTube. Género: Reggae Roots & Dub. Mood: Relax, Positivo. 8 Canciones.`,
-  },
-  {
-    id: 'playlist-phonk',
-    titulo: 'Playlist: Aggressive Phonk',
-    descripcion: 'Para conducir de noche o codear rápido.',
-    mainCategory: 'musica',
-    subCategory: 'playlists',
-    content: `Genera playlist YouTube. Género: Drift Phonk / Aggressive Phonk. Mood: Velocidad, Adrenalina. 8 Canciones.`,
-  },
-  {
-    id: 'dj-wizard',
-    titulo: '🧙‍♂️ DJ Wizard (Interactivo)',
-    descripcion: 'Te entrevista para crear la lista perfecta.',
-    mainCategory: 'musica',
-    subCategory: 'meta-prompts',
-    content: `Actúa como DJ. Hazme 3 preguntas (ánimo, género, actividad) y luego genera el link de YouTube.`,
-  },
-
-  // ===========================================================================
-  // VIDA & CHOLLOS (Optimizados y Temporales)
-  // ===========================================================================
-  {
-    id: 'pareto-chollos-season',
-    titulo: 'Ofertas Chollos Temporada',
-    descripcion: '¿Es buen momento para comprar X? Análisis estacional.',
+    id: 'top-3-compra-necesidad-impulso',
+    titulo: '🏆 TOP10 — Compra: Necesidad vs Impulso (Veredicto Brutal)',
+    descripcion: 'Filtro anti-capricho: necesidad, ROI, alternativa, y “esperar 24h” si aplica.',
     mainCategory: 'vida',
     subCategory: 'chollos',
-    content: `Quiero comprar [PRODUCTO].
-Analiza la estacionalidad:
-1. ¿Estamos en buena época para comprar esto (Rebajas, Black Friday, Liquidación)?
-2. ¿Va a salir un modelo nuevo pronto que baje el precio del actual?
-3. ¿Me espero o compro ya?`,
+    isTop10: true,
+    isExclusive: true,
+    content: `Actúa como mi Analista Anti-Capricho.
+
+INPUT
+- Producto: [modelo]
+- Precio: [€]
+- Tienda: [Amazon/ECI/otra]
+- Motivo real de compra: [1 frase]
+- Urgencia: [hoy/esta semana/puedo esperar]
+- ¿Qué problema resuelve?: [1 frase]
+- ¿Qué pasa si NO lo compro?: [1 frase]
+- Alternativas que ya tengo: [lista]
+
+REGLAS
+- No me justifiques caprichos.
+- Si parece impulso: aplica “Regla 24h + comparación 2 alternativas”.
+- Prioriza Amazon envío gratis (Prime). Evitar Carrefour salvo chollo excepcional y compra firme.
+
+SALIDA (OBLIGATORIA)
+1) Clasificación: NECESIDAD / MEJORA / CAPRICHO.
+2) Veredicto: COMPRAR / ESPERAR 24H / DESCARTAR.
+3) Razón principal (1 línea).
+4) 2 alternativas (mismo presupuesto) + por qué.
+5) Si es “comprar”: qué comprobar antes (checklist 5 items).`,
   },
+
   {
-    id: 'cazador-chollos-real',
-    titulo: 'Cazador de Chollos (Anti-Estafa)',
-    descripcion: 'Filtra opiniones falsas y precios inflados.',
-    mainCategory: 'vida',
-    subCategory: 'chollos',
-    content: `Analiza esta oferta de [PRODUCTO] a [PRECIO].
-1. ¿Es su precio mínimo histórico real?
-2. Busca opiniones negativas recurrentes (lo que nadie dice).
-3. ¿Hay alguna alternativa china (AliExpress/Temu) que sea el MISMO producto sin marca?`,
-  },
-  {
-    id: 'meal-prep',
-    titulo: 'Planificador de Comidas (Batch Cooking)',
-    descripcion: 'Cocina un día, come toda la semana. Ahorro y salud.',
+    id: 'top-4-cocina-proteina',
+    titulo: '🏆 TOP10 — Cocina Proteica (110g) Sin Cocina Infinita',
+    descripcion: 'Plan simple, compra mínima, batch cooking ligero y opciones post-turno.',
     mainCategory: 'vida',
     subCategory: 'cocina',
-    content: `Dame un plan de comidas semanal barato y saludable. Tengo [INGREDIENTES]. Quiero cocinar solo el domingo (Batch Cooking). Dame la lista de la compra y los pasos.`,
-  },
-  {
-    id: 'viaje-presupuesto',
-    titulo: 'Presupuesto de Viaje Detallado',
-    descripcion: 'Calcula cuánto necesitas realmente para El Salvador o escapadas.',
-    mainCategory: 'vida',
-    subCategory: 'viajes',
-    content: `Calcula un presupuesto realista para un viaje a [DESTINO] de [DÍAS] días. Incluye: Vuelos, Alojamiento medio, Comida callejera y Transporte. Dame el total y un margen de seguridad.`,
+    isTop10: true,
+    isExclusive: true,
+    content: `Actúa como mi Chef Operativo (alto en proteína, cero complicaciones).
+
+INPUT
+- Tipo de día: [LIBRE / TURNO]
+- Hora actual: [HH:MM]
+- Proteína estimada ya consumida: [g]
+- Comida disponible en casa: [lista]
+- Tiempo para cocinar: [5/10/20/40 min]
+- Equipo: [plancha / horno / airfryer / micro]
+
+REGLAS
+- Objetivo: llegar a 110g proteína hoy.
+- 2 opciones “rápidas” + 1 opción “batch” (para 2 días).
+- Si voy corto: usa comodín “yogur high-protein 28g”.
+
+SALIDA (OBLIGATORIA)
+1) Proteína que falta para 110g (cálculo).
+2) Plan de 2 comidas (qué, cómo, cuánto).
+3) Lista de compra mínima (si falta algo) con sustitutos.
+4) Versión post-turno (cena ligera, fácil).`,
   },
 
-  // ===========================================================================
-  // FORMACIÓN / CURSOS (Concatenados y Amigables)
-  // ===========================================================================
   {
-    id: 'curso-concatenado-friendly',
-    titulo: 'Diseñador de Cursos "Saga"',
-    descripcion: 'Crea cursos con nombres épicos/familiares, no "Nivel 1".',
-    mainCategory: 'cursos',
-    subCategory: 'arquitectura-curso',
-    content: `Actúa como diseñador de experiencias de aprendizaje. Quiero crear una ruta de aprendizaje sobre [TEMA].
-Diseña 3 etapas, pero NO las llames "Básico/Medio/Avanzado".
-Usa nombres metafóricos o épicos (Ej: "El Despertar", "La Forja", "La Maestría" o "Cinturón Blanco/Negro").
-Para cada etapa:
-1. Objetivo (La Transformación).
-2. 3 Lecciones clave.
-3. Un "Jefe Final" (Proyecto práctico para pasar de nivel).`,
-  },
-  {
-    id: 'youtube-a-estudio',
-    titulo: 'YouTube a Material de Estudio',
-    descripcion: 'Convierte la transcripción de un vídeo en apuntes y tests.',
-    mainCategory: 'cursos',
-    subCategory: 'estudio',
-    content: `Toma la transcripción o el resumen de este vídeo de YouTube sobre [TEMA]: [TEXTO/LINK]. 
-Genera: 
-1. Un resumen ejecutivo de 5 puntos. 
-2. Un glosario de términos clave. 
-3. Un test de 5 preguntas tipo opción múltiple para evaluar mi comprensión.`,
-  },
-  {
-    id: 'feynman-technique',
-    titulo: 'Técnica Feynman (Explicar simple)',
-    descripcion: 'Aprende cualquier cosa explicándosela a un niño.',
-    mainCategory: 'cursos',
-    subCategory: 'estudio',
-    content: `Explícame el concepto [CONCEPTO COMPLEJO] como si tuviera 12 años. Usa analogías sencillas y evita la jerga técnica.`,
-  },
-
-  // ===========================================================================
-  // CONTENIDO / VÍDEO (Más herramientas)
-  // ===========================================================================
-  {
-    id: 'ideas-infinitas',
-    titulo: 'Generador de Ideas Infinitas',
-    descripcion: 'Nunca te quedes en blanco. Matriz de contenidos.',
-    mainCategory: 'video-ia',
-    subCategory: 'guion-shorts',
-    content: `Dame 10 ideas de vídeos cortos para mi nicho [TU NICHO]. 
-Distribución:
-- 3 Educativos (Cómo hacer X).
-- 3 Mitos/Errores (No hagas X).
-- 2 Entretenimiento/Humor.
-- 2 Venta directa.`,
-  },
-  {
-    id: 'comment-responder',
-    titulo: 'Respondedor de Comentarios (Haters)',
-    descripcion: 'Convierte el odio en engagement.',
-    mainCategory: 'video-ia',
-    subCategory: 'guion-shorts',
-    content: `Tengo este comentario hater: [COMENTARIO]. Escribe una respuesta ingeniosa y educada que me haga quedar bien y genere más debate.`,
-  },
-  {
-    id: 'seo-youtube-pack',
-    titulo: 'Pack SEO YouTube',
-    descripcion: 'Título, Descripción y Tags optimizados.',
-    mainCategory: 'video-ia',
-    subCategory: 'seo-youtube',
-    content: `Para un vídeo sobre [TEMA]. Genera: 5 Títulos clickbait (alto CTR), Descripción SEO friendly (200 palabras) y 20 Tags separados por comas.`,
-  },
-
-  // ===========================================================================
-  // DEV / CÓDIGO (Más herramientas)
-  // ===========================================================================
-  {
-    id: 'pair-programmer',
-    titulo: 'Pair Programmer (Explicador)',
-    descripcion: 'Te explica código complejo línea a línea.',
+    id: 'top-5-dev-minimo',
+    titulo: '🏆 TOP10 — Senior Next.js (Cambio Mínimo, Cero Bugs)',
+    descripcion: 'Patch por archivo + test rápido. No inventa rutas ni refactors.',
     mainCategory: 'dev',
     subCategory: 'codigo-pro',
-    content: `Actúa como un Senior Developer mentor. Tengo este trozo de código: [CÓDIGO]. Explícame qué hace paso a paso, en lenguaje sencillo. Si hay errores o malas prácticas, señálalos.`,
+    isTop10: true,
+    isExclusive: true,
+    content: `Actúa como Senior Fullstack Dev (Next.js App Router + TS + Tailwind). Prioridad: cambio mínimo y no romper nada.
+
+INPUT
+1) Objetivo exacto (1–2 frases)
+2) Error exacto (stack/console)
+3) Archivos completos relevantes + rutas
+4) Qué NO quieres (refactors, librerías, etc.)
+
+REGLAS
+- Si faltan datos, pide máx 3 cosas.
+- No inventes nada. Si es incierto, dilo.
+
+SALIDA
+1) Diagnóstico (3 bullets).
+2) Patch por archivo:
+   - FILE:
+   - BEFORE:
+   - AFTER:
+3) Checklist de pruebas (5 pasos).
+4) Commit sugerido.`,
   },
+
   {
-    id: 'regex-generator',
-    titulo: 'Generador de Regex',
-    descripcion: 'La magia negra de las expresiones regulares, fácil.',
-    mainCategory: 'dev',
-    subCategory: 'herramientas-basicas',
-    content: `Necesito una expresión regular (Regex) para capturar: [QUÉ QUIERES CAPTURAR]. Explícame cómo funciona.`,
+    id: 'top-6-playlist-brave',
+    titulo: '🏆 TOP10 — DJ Pareto (Playlist Brave Anti-Repetición)',
+    descripcion: '6–8 temas + 1 link watch_videos + lista numerada.',
+    mainCategory: 'musica',
+    subCategory: 'playlists',
+    isTop10: true,
+    isExclusive: true,
+    content: `Actúa como DJ Pareto. Quiero playlist (6–8 temas) para [MOOD: gym / code / limpieza / relax / turno].
+
+REGLAS
+- CERO repetición de canciones.
+- Mezcla inteligente.
+- Si no puedes verificar IDs/región, dilo y dame cómo comprobar.
+
+SALIDA (PROMPT PLAYLIST BRAVE)
+1) Un ÚNICO link:
+   https://www.youtube.com/watch_videos?video_ids=ID1,ID2,ID3,ID4,ID5,ID6(,ID7,ID8)
+2) Lista numerada:
+   1. Título — Artista
+   ...
+3) Nota de energía (1 línea).`,
   },
+
   {
-    id: 'git-commands',
-    titulo: 'Chuleta Git de Emergencia',
-    descripcion: 'Comandos para no romper el repositorio cuando la lías.',
-    mainCategory: 'dev',
-    subCategory: 'herramientas-basicas',
-    content: `¿Qué comando de Git uso para [ACCIÓN: deshacer commit, crear rama, fusionar]? Explica los riesgos antes de que lo ejecute.`,
+    id: 'top-7-branding-kit',
+    titulo: '🏆 TOP10 — Branding Cyberpunk (Kit Consistente)',
+    descripcion: 'Prompts + negative + variaciones. Que no parezca genérico.',
+    mainCategory: 'imagen',
+    subCategory: 'branding',
+    isTop10: true,
+    isExclusive: true,
+    content: `Actúa como Director de Arte de Powered by IA. Quiero un KIT consistente (no imagen suelta).
+
+INPUT
+- Uso: [web hero / thumbnail / banner / post]
+- Tema: [agente IA / productividad / bots / etc.]
+- Formato: [16:9 / 9:16 / 1:1]
+- Texto (si aplica): [texto exacto]
+
+SALIDA
+1) Mini style guide (5 bullets).
+2) Prompt Midjourney v6 (con --ar sugerido).
+3) Prompt alternativo (sin sintaxis MJ).
+4) Negative prompts (qué evitar).
+5) 3 variaciones: minimal / glitch / corporate premium.`,
+  },
+
+  {
+    id: 'top-8-oratoria-maestro',
+    titulo: '🏆 TOP10 — Oratoria (Político / Pastor / Chef) Sin Humo',
+    descripcion: 'Discurso potente adaptado al público, sin manipulación barata.',
+    mainCategory: 'productividad',
+    subCategory: 'oratoria',
+    isTop10: true,
+    isExclusive: true,
+    content: `Actúa como Speechwriter y entrenador de oratoria.
+
+INPUT
+- Rol: [POLÍTICO / PASTOR / CHEF / OTRO]
+- Público: [quiénes y dónde]
+- Objetivo: [convencer / inspirar / vender / calmar / anunciar]
+- Tema: [1 frase]
+- Duración: [45s / 2 min / 5 min]
+- Estilo: [serio / emocional / técnico / humor inteligente]
+
+REGLAS
+- Nada de demagogia barata.
+- 1 idea central. 3 puntos. 1 cierre fuerte.
+- Lenguaje claro.
+
+SALIDA (OBLIGATORIA)
+1) Estructura (hook → 3 puntos → cierre).
+2) Discurso completo.
+3) Pausas y énfasis (marcados).
+4) 5 “frases-bala” (cortas) para rematar.
+5) Entrenamiento: 5 tips de voz/ritmo/presencia.`,
+  },
+
+  {
+    id: 'top-9-heygen-guion',
+    titulo: '🏆 TOP10 — Guion HeyGen (30s) + Subtítulos CapCut',
+    descripcion: 'Guion + subtítulos cortos + b-roll + CTA.',
+    mainCategory: 'video-ia',
+    subCategory: 'heygen-avatar',
+    isTop10: true,
+    isExclusive: true,
+    content: `Crea un guion para avatar HeyGen (30s) en español de España.
+
+INPUT
+- Tema: [qué vendo/explico]
+- Público: [quién]
+- CTA: [comentar / DM / web]
+
+REGLAS
+- Hook 0–2s.
+- Cortes cada 2–3s (pattern interrupt).
+- Subtítulos 2–6 palabras.
+
+SALIDA
+1) Guion (con <break time="0.3s"/>).
+2) Subtítulos CapCut (líneas cortas).
+3) B-roll (8 clips).
+4) Overlays (6 textos) con timing.
+5) CTA final (1 línea).`,
+  },
+
+  {
+    id: 'top-10-obsidian-log',
+    titulo: '🏆 TOP10 — Nota Obsidian PJECTOX (Acción, no novela)',
+    descripcion: 'Convierte cualquier caos en nota clara: decisiones, tareas, siguiente paso.',
+    mainCategory: 'productividad',
+    subCategory: 'revision',
+    isTop10: true,
+    isExclusive: true,
+    content: `Convierte esto en nota Obsidian lista para ejecutar.
+
+INPUT: [PEGA TEXTO / IDEAS / CAPTURA]
+
+FORMATO OBLIGATORIO
+# Título
+## Resumen (5 líneas)
+## Decisiones (bullets)
+## Tareas (máx 7) (cada una con “siguiente acción”)
+## Riesgos / Bloqueos
+## Siguiente paso (1 sola cosa)
+## Checklist 5 min (para arrancar YA)
+
+REGLA: si falta algo, NO inventes. Pregunta máximo 2 cosas y si no respondo, asume y sigue.`,
   },
 
   // ===========================================================================
-  // MENTALIDAD (Más herramientas)
+  // 🔥 MÁS PROMPTS (para nichos / catálogo)
   // ===========================================================================
+
+  // ORATORIA — Variantes
   {
-    id: 'decision-matrix',
-    titulo: 'Matriz de Decisión',
-    descripcion: 'Evalúa pros y contras objetivamente.',
-    mainCategory: 'mentalidad',
-    subCategory: 'decision',
-    content: `Ayúdame a decidir entre [OPCIÓN A] y [OPCIÓN B]. Haz una lista de Pros y Contras ponderados para cada una.`,
+    id: 'ora-1-debate-politico',
+    titulo: 'Oratoria: Debate Político (sin embarrarte)',
+    descripcion: 'Respuesta a ataque + puente a tu mensaje + cierre corto.',
+    mainCategory: 'productividad',
+    subCategory: 'oratoria',
+    content: `Eres coach de debate. Dame una respuesta para este ataque:
+[ATAQUE]
+
+Contexto:
+- Mi postura: [1 frase]
+- Mi objetivo: [ganar confianza / desmontar / calmar]
+- Tono: [serio / firme / humor inteligente]
+
+Salida:
+1) Respuesta 20s
+2) Respuesta 45s
+3) “Puente” a mi tema (1 línea)
+4) Qué NO decir (3 bullets)`,
   },
+
   {
-    id: 'pre-mortem',
-    titulo: 'Análisis Pre-Mortem',
-    descripcion: 'Anticipa fallos antes de empezar un proyecto.',
-    mainCategory: 'mentalidad',
-    subCategory: 'decision',
-    content: `Voy a lanzar [PROYECTO]. Imagina que ha pasado un año y ha fracasado estrepitosamente. Dame 5 razones probables de por qué falló y cómo prevenirlas hoy.`,
+    id: 'ora-2-sermon-pastor',
+    titulo: 'Oratoria: Sermón Pastor (estructura clara)',
+    descripcion: 'Historia breve + enseñanza + acción práctica.',
+    mainCategory: 'productividad',
+    subCategory: 'oratoria',
+    content: `Eres redactor de sermones. Tema: [TEMA]. Público: [PÚBLICO]. Duración: [min].
+
+Salida:
+- Apertura con historia corta (30–60s)
+- 3 puntos con ejemplo cada uno
+- Cierre: 1 acción práctica para esta semana
+- Frases memorables (5)`,
+  },
+
+  {
+    id: 'ora-3-presentacion-chef',
+    titulo: 'Oratoria: Chef presenta menú (vende sin parecer vendedor)',
+    descripcion: 'Presentación de plato + historia + sugerencia de maridaje.',
+    mainCategory: 'productividad',
+    subCategory: 'oratoria',
+    content: `Eres chef y comunicador. Plato: [PLATO]. Público: [tipo]. Lugar: [restaurante].
+
+Salida:
+1) Pitch 20s (mesa)
+2) Pitch 45s (evento)
+3) 3 frases “premium” sin cursilería
+4) 1 recomendación de bebida y por qué`,
+  },
+
+  // VIDA / COCINA — extra
+  {
+    id: 'coc-1-batch-2-dias',
+    titulo: 'Cocina: Batch 2 días (alto en proteína)',
+    descripcion: 'Cocina 1 vez, comes 4 veces.',
+    mainCategory: 'vida',
+    subCategory: 'cocina',
+    content: `Diseña batch cooking para 2 días.
+Tiempo total: [30/45/60 min]. Equipo: [plancha/horno/airfryer/micro].
+Objetivo: proteína alta, simple, barato.
+
+Salida:
+- 2 recetas base + 2 variaciones
+- Lista de compra
+- Cómo guardar/recalentar
+- Proteína estimada por ración`,
+  },
+
+  // VIDA / CHOLLOS — extra
+  {
+    id: 'cho-1-rebajas-real',
+    titulo: 'Compras: ¿Rebaja real o humo?',
+    descripcion: 'Checklist para detectar descuentos falsos.',
+    mainCategory: 'vida',
+    subCategory: 'chollos',
+    content: `Analiza esta “oferta”:
+- Producto: [modelo]
+- Precio ahora: [€]
+- Precio antes (si dicen): [€]
+- Tienda: [X]
+- Link (si tienes): [pega]
+
+Salida:
+1) Señales de descuento falso (bullets)
+2) Cómo verificar rápido (pasos)
+3) Precio objetivo para que sí sea chollo
+4) Veredicto: comprar / esperar / buscar alternativa`,
+  },
+
+  // DEV / BOT — (solo base, sin irnos de rama todavía)
+  {
+    id: 'dev-bot-whatsapp-brief',
+    titulo: 'WhatsApp Bot: Brief perfecto (para avanzar luego)',
+    descripcion: 'Define el bot antes de programar: objetivo, flujos, límites.',
+    mainCategory: 'dev',
+    subCategory: 'meta-prompts',
+    content: `Vamos a definir un bot de WhatsApp sin programar todavía.
+
+Pregúntame solo lo mínimo (máx 7 preguntas) y luego entrega:
+- Objetivo del bot
+- Flujos (3–5) con ejemplo de conversación
+- Qué datos guarda y qué no (privacidad)
+- Respuestas “no sé / no puedo” (límites)
+- Métrica de éxito (qué medimos)`,
   },
 ];
