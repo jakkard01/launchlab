@@ -1,29 +1,57 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+
+type ConsentStatus = 'accepted' | 'rejected';
+
+type ConsentPayload = {
+  v: number;          // versión del consentimiento (por si cambias textos/política)
+  status: ConsentStatus;
+  ts: number;         // timestamp
+};
+
+const CONSENT_KEY = 'launchlab_cookie_consent_v1';
+const CONSENT_VERSION = 1;
+
+function readConsent(): ConsentPayload | null {
+  try {
+    const raw = localStorage.getItem(CONSENT_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as ConsentPayload;
+    if (!parsed?.status || typeof parsed.ts !== 'number') return null;
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+function writeConsent(status: ConsentStatus) {
+  const payload: ConsentPayload = { v: CONSENT_VERSION, status, ts: Date.now() };
+  localStorage.setItem(CONSENT_KEY, JSON.stringify(payload));
+
+  // Evento para que el resto de la app se entere (cargar scripts, etc.)
+  window.dispatchEvent(new CustomEvent('cookie-consent', { detail: payload }));
+}
 
 export default function CookieBanner() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    // Comprobamos si ya aceptó las cookies en el pasado
-    const consent = localStorage.getItem('launchlab_cookie_consent');
+    const consent = readConsent();
     if (!consent) {
-      // Si no hay rastro, mostramos el banner tras 1 segundo para no ser agresivos
-      const timer = setTimeout(() => setShow(true), 1000);
+      const timer = setTimeout(() => setShow(true), 900);
       return () => clearTimeout(timer);
     }
   }, []);
 
-  const acceptCookies = () => {
-    localStorage.setItem('launchlab_cookie_consent', 'true');
+  const acceptAll = () => {
+    writeConsent('accepted');
     setShow(false);
-    console.log('Cookies aceptadas: Activando trackers (a futuro)...');
   };
 
-  const declineCookies = () => {
-    localStorage.setItem('launchlab_cookie_consent', 'false');
+  const rejectAll = () => {
+    writeConsent('rejected');
     setShow(false);
   };
 
@@ -36,24 +64,29 @@ export default function CookieBanner() {
           <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
             🍪 Cookies & Privacidad
           </h3>
+
           <p className="text-sm text-slate-300 leading-relaxed">
-            Usamos cookies para mejorar la experiencia y analizar el tráfico (preparando el terreno para monetizar). 
+            Usamos cookies para mejorar la experiencia. Las de analítica/marketing solo se activan si aceptas.
             Puedes leer nuestra{' '}
-            <Link href="#" className="text-cyan-400 hover:text-cyan-300 underline underline-offset-2">
+            <Link
+              href="/privacidad"
+              className="text-cyan-400 hover:text-cyan-300 underline underline-offset-2"
+            >
               política de privacidad
             </Link>.
           </p>
         </div>
-        
+
         <div className="flex gap-3 pt-2">
           <button
-            onClick={declineCookies}
+            onClick={rejectAll}
             className="flex-1 px-4 py-2 text-xs font-semibold text-slate-400 hover:text-white border border-slate-700 hover:border-slate-500 rounded-lg transition-colors"
           >
             Rechazar
           </button>
+
           <button
-            onClick={acceptCookies}
+            onClick={acceptAll}
             className="flex-1 px-4 py-2 text-xs font-semibold text-black bg-cyan-500 hover:bg-cyan-400 rounded-lg shadow-lg shadow-cyan-500/20 transition-all hover:scale-105"
           >
             Aceptar todo
