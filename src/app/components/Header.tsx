@@ -6,14 +6,14 @@ import { useEffect, useState } from "react";
 const navItems = [
   { label: "Inicio", href: "/#inicio" },
   { label: "Servicios", href: "/#servicios" },
-  { label: "Demos", href: "/demos" },
-  { label: "Cursos", href: "/courses" },
+  { label: "Demos", href: "/#demos" },
+  { label: "Cursos", href: "/#cursos" },
   { label: "Prompts", href: "/prompts" },
-  { label: "Contacto", href: "/contact" },
+  { label: "Contacto", href: "/#contacto" },
 ];
 
 const whatsappLink =
-  "https://wa.me/34911528753?text=Hola%20Powered%20by%20IA,%20quiero%20info%20de%20servicios%20IA.";
+  "https://wa.me/34911528753?text=Hola%2C%20vengo%20desde%20poweredbyia.com.%20Quiero%20info%20de%20servicios%20y%20una%20demo.";
 
 export default function Header() {
   const pathname = usePathname();
@@ -25,7 +25,11 @@ export default function Header() {
       if (event.key === "Escape") setMenuOpen(false);
     };
     document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKeyDown);
+    };
   }, [menuOpen]);
 
   return (
