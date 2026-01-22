@@ -4,6 +4,8 @@
 import React, { useEffect, useState } from 'react';
 
 export default function EmbeddedBot() {
+  const whatsappLink =
+    'https://wa.me/34911528753?text=Hola%2C%20vengo%20desde%20poweredbyia.com.%20Quiero%20info%20de%20servicios%20y%20una%20demo.';
   const [online, setOnline] = useState(true);
   const [input, setInput] = useState('');
   const [response, setResponse] = useState('');
@@ -44,8 +46,20 @@ export default function EmbeddedBot() {
   return (
     <div className="w-full max-w-2xl mx-auto rounded-xl border border-white/10 bg-white/5 p-4 text-white shadow-md">
       {!online && (
-        <div className="text-red-400 font-semibold mb-4">
-          🚧 Bot fuera de servicio.
+        <div className="rounded-lg border border-white/10 bg-black/50 p-4 text-sm text-slate-200">
+          <p className="font-semibold text-white">Demo en preparación</p>
+          <p className="mt-2 text-slate-300">
+            Solicita una demo personalizada por WhatsApp.
+          </p>
+          <a
+            href={whatsappLink}
+            className="mt-3 inline-flex rounded-full border border-emerald-300/60 px-4 py-2 text-xs font-semibold text-emerald-200 transition hover:bg-emerald-300 hover:text-black"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Solicitar demo por WhatsApp"
+          >
+            Solicitar demo
+          </a>
         </div>
       )}
       {online && (

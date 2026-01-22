@@ -15,7 +15,7 @@ const quickAccess = [
     titulo: "Servicios",
     descripcion: "Soluciones IA y automatizaciones para negocio.",
     icono: "/favicon.ico",
-    link: "/services",
+    link: "/#servicios",
   },
   {
     titulo: "Prompts",
@@ -27,17 +27,17 @@ const quickAccess = [
     titulo: "Cursos",
     descripcion: "Formación aplicada y workshops in-company.",
     icono: "/favicon.ico",
-    link: "/courses",
+    link: "/#cursos",
   },
 ];
 
 const services = [
   {
-    titulo: "Webs demo",
-    descripcion: "Landing pages premium listas para negocio y validación.",
+    titulo: "Landing premium (demo)",
+    descripcion: "Experiencias de conversión listas para negocio y validación.",
   },
   {
-    titulo: "Chatbot / Bot web",
+    titulo: "Chatbot / Bot IA",
     descripcion: "Asistentes IA con base de conocimiento y flujos guiados.",
   },
   {
@@ -133,7 +133,7 @@ const faqs = [
 
 const whatsappNumber = "911 52 87 53";
 const whatsappLink =
-  "https://wa.me/34911528753?text=Hola%20Powered%20by%20IA,%20quiero%20info%20de%20servicios%20IA.";
+  "https://wa.me/34911528753?text=Hola%2C%20vengo%20desde%20poweredbyia.com.%20Quiero%20info%20de%20servicios%20y%20una%20demo.";
 const contactEmail = "poweredbyiaoficial@gmail.com";
 
 export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: LandingLocalProps) {
@@ -141,15 +141,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <main
-      className="min-h-screen w-full flex flex-col items-center px-4 pb-20 pt-28 sm:px-6 lg:px-8 relative"
-      style={{
-        backgroundImage: 'url(/imagenes/fondo/tu-fondo.png)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}
-    >
+    <main className="min-h-screen w-full flex flex-col items-center px-4 pb-20 pt-28 sm:px-6 lg:px-8 relative">
       {/* Modal de imagen grande */}
       {showModal && !imgError && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm" onClick={() => setShowModal(false)}>
@@ -406,7 +398,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
         </div>
       </section>
 
-      <section className="mt-20 w-full max-w-5xl">
+      <section id="faq" className="mt-20 w-full max-w-5xl">
         <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">FAQ</p>
         <h2 className="mt-3 text-3xl font-semibold text-white">Respuestas rápidas</h2>
         <div className="mt-8 grid gap-4">

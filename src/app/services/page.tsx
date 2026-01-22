@@ -9,12 +9,12 @@ export const metadata: Metadata = {
 
 const serviceBlocks = [
   {
-    title: "Webs demo",
+    title: "Landing premium (demo)",
     detail:
-      "Landing pages premium listas para negocio, validación y posicionamiento.",
+      "Experiencias de conversión listas para negocio, validación y posicionamiento.",
   },
   {
-    title: "Chatbot / Bot web",
+    title: "Chatbot / Bot IA",
     detail:
       "Asistentes IA entrenados con tu conocimiento y flujo conversacional.",
   },

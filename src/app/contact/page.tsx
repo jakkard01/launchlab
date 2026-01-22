@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 const whatsappLink =
-  "https://wa.me/34911528753?text=Hola%20Powered%20by%20IA,%20quiero%20info%20de%20servicios%20IA.";
+  "https://wa.me/34911528753?text=Hola%2C%20vengo%20desde%20poweredbyia.com.%20Quiero%20info%20de%20servicios%20y%20una%20demo.";
 const email = "poweredbyiaoficial@gmail.com";
 
 export default function ContactPage() {
