@@ -102,13 +102,13 @@ const demos = [
 const testimonials = [
   {
     quote: "“Implementación impecable y resultados desde la primera semana.”",
-    name: "Cliente Enterprise",
-    role: "Head of Growth",
+    name: "Testimonio de ejemplo",
+    role: "Dirección Comercial",
   },
   {
     quote: "“El equipo entendió nuestro negocio y ejecutó con precisión.”",
-    name: "Cliente SaaS",
-    role: "CEO",
+    name: "Testimonio de ejemplo",
+    role: "Dirección General",
   },
 ];
 
@@ -131,9 +131,9 @@ const faqs = [
   },
 ];
 
-const whatsappNumber = "+34 911 52 87 53";
+const whatsappNumber = "911 52 87 53";
 const whatsappLink =
-  "https://wa.me/34911528753?text=Hola%2C%20vengo%20desde%20poweredbyia.com.%20Quiero%20info%20sobre%20servicios.";
+  "https://wa.me/34911528753?text=Hola%20Powered%20by%20IA,%20quiero%20info%20de%20servicios%20IA.";
 const contactEmail = "poweredbyiaoficial@gmail.com";
 
 export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: LandingLocalProps) {
@@ -173,11 +173,15 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
         </div>
       )}
       {/* Hero */}
-      <section ref={heroRef} className="w-full max-w-5xl mx-auto rounded-3xl border border-white/10 bg-black/65 px-6 py-10 shadow-2xl backdrop-blur">
+      <section
+        id="inicio"
+        ref={heroRef}
+        className="w-full max-w-5xl mx-auto rounded-3xl border border-white/10 bg-black/65 px-6 py-10 shadow-2xl backdrop-blur"
+      >
         <div className="grid gap-10 md:grid-cols-[1.1fr_0.9fr] md:items-center">
           <div>
             <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">
-              Portfolio tech & servicios
+              Sistemas IA aplicados
             </p>
             <h1 className="mt-4 text-4xl font-semibold leading-tight text-white md:text-5xl">
               Diseñamos sistemas IA listos para vender, operar y escalar.
@@ -230,7 +234,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
             <div className="rounded-2xl border border-white/10 bg-white/5 px-6 py-4 text-sm text-slate-200">
               <p className="font-semibold text-white">Powered by IA</p>
               <p className="mt-1 text-slate-300">
-                Estudios de caso, demos funcionales y servicios premium.
+                Sistemas, demos funcionales y servicios premium.
               </p>
             </div>
           </div>
@@ -307,7 +311,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
       </section>
 
       <section id="demos" className="mt-20 w-full max-w-6xl">
-        <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Demos & proyectos</p>
+        <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Demos & casos</p>
         <h2 className="mt-3 text-3xl font-semibold text-white">Casos de uso demostrables</h2>
         <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {demos.map((demo) => (
@@ -317,6 +321,51 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               <p className="mt-5 text-xs uppercase tracking-[0.3em] text-cyan-200/70">Disponible pronto</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section id="cursos" className="mt-20 w-full max-w-6xl">
+        <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Cursos</p>
+        <h2 className="mt-3 text-3xl font-semibold text-white">Formación práctica para equipos</h2>
+        <div className="mt-8 grid gap-6 md:grid-cols-2">
+          <div className="rounded-2xl border border-white/10 bg-black/60 p-6">
+            <h3 className="text-lg font-semibold text-white">IA aplicada para negocio</h3>
+            <p className="mt-3 text-sm text-slate-300">
+              Capacitación para equipos que necesitan estrategia, datos y ejecución.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-black/60 p-6">
+            <h3 className="text-lg font-semibold text-white">Automatización con IA</h3>
+            <p className="mt-3 text-sm text-slate-300">
+              Flujos reales con n8n, integraciones y operación continua.
+            </p>
+          </div>
+        </div>
+        <div className="mt-6">
+          <Link
+            href="/courses"
+            className="inline-flex rounded-full border border-white/20 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
+          >
+            Ver programas
+          </Link>
+        </div>
+      </section>
+
+      <section id="prompts" className="mt-20 w-full max-w-6xl">
+        <div className="rounded-3xl border border-white/10 bg-black/60 p-8">
+          <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Prompts</p>
+          <h2 className="mt-3 text-3xl font-semibold text-white">Biblioteca diaria de prompts</h2>
+          <p className="mt-4 text-sm text-slate-300">
+            Acceso a prompts listos para producción, organizados por categoría.
+          </p>
+          <div className="mt-6">
+            <Link
+              href="/prompts"
+              className="inline-flex rounded-full border border-cyan-300/60 px-5 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-400 hover:text-black"
+            >
+              Ir a la biblioteca
+            </Link>
+          </div>
         </div>
       </section>
 
