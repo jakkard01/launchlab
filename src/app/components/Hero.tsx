@@ -117,7 +117,6 @@ const Hero = forwardRef<HTMLImageElement>((props, ref) => {
               transition={{ duration: 0.3 }}
               className="overflow-hidden w-full flex flex-col items-center"
               role="menu"
-              aria-modal="true"
             >
               <div className="rounded-xl flex flex-col items-center gap-3 text-white max-w-xs w-full mx-auto mt-2">
                 <Link
@@ -239,3 +238,5 @@ const Hero = forwardRef<HTMLImageElement>((props, ref) => {
 });
 
 export default Hero;
+
+Hero.displayName = "Hero";

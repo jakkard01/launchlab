@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import EmbeddedBot from "./EmbeddedBot";
 
 interface LandingLocalProps {
   onShowVideo: () => void;
@@ -9,26 +10,131 @@ interface LandingLocalProps {
   onScrollToHero: () => void;
 }
 
-const accesos = [
+const quickAccess = [
   {
-    titulo: 'Prompts',
-    descripcion: 'Explora y copia los mejores prompts para IA',
-    icono: '/favicon.ico',
-    link: '/prompts'
+    titulo: "Servicios",
+    descripcion: "Soluciones IA y automatizaciones para negocio.",
+    icono: "/favicon.ico",
+    link: "/services",
   },
   {
-    titulo: 'Cursos',
-    descripcion: 'Aprende IA, visión y código desde cero',
-    icono: '/favicon.ico',
-    link: '/cursos'
+    titulo: "Prompts",
+    descripcion: "Biblioteca táctica lista para producción.",
+    icono: "/favicon.ico",
+    link: "/prompts",
   },
   {
-    titulo: 'Bot',
-    descripcion: 'Chatea con nuestro bot de IA',
-    icono: '/favicon.ico',
-    link: '#bot'
-  }
+    titulo: "Cursos",
+    descripcion: "Formación aplicada y workshops in-company.",
+    icono: "/favicon.ico",
+    link: "/courses",
+  },
 ];
+
+const services = [
+  {
+    titulo: "Webs demo",
+    descripcion: "Landing pages premium listas para negocio y validación.",
+  },
+  {
+    titulo: "Chatbot / Bot web",
+    descripcion: "Asistentes IA con base de conocimiento y flujos guiados.",
+  },
+  {
+    titulo: "Automatizaciones",
+    descripcion: "n8n, IA local y operaciones conectadas a tu stack.",
+  },
+  {
+    titulo: "Avatares / videos IA",
+    descripcion: "Contenido audiovisual escalable para ventas y soporte.",
+  },
+  {
+    titulo: "Consultoría / Implementación",
+    descripcion: "Roadmap, ejecución y despliegue técnico seguro.",
+  },
+];
+
+const processSteps = [
+  {
+    titulo: "Diagnóstico",
+    descripcion: "Entendemos tu contexto, objetivos y fricciones clave.",
+  },
+  {
+    titulo: "Implementación",
+    descripcion: "Prototipos rápidos, iteración y despliegue seguro.",
+  },
+  {
+    titulo: "Escalado",
+    descripcion: "Métricas, optimización continua y documentación.",
+  },
+];
+
+const values = [
+  {
+    titulo: "Misión",
+    descripcion: "Convertir IA aplicada en resultados medibles para negocio.",
+  },
+  {
+    titulo: "Visión",
+    descripcion: "Ser el partner tecnológico que simplifica lo complejo.",
+  },
+  {
+    titulo: "Valores",
+    descripcion: "Claridad, velocidad, seguridad y foco en impacto real.",
+  },
+];
+
+const demos = [
+  {
+    titulo: "Demo: Onboarding IA",
+    descripcion: "Experiencia interactiva para clientes y equipos internos.",
+  },
+  {
+    titulo: "Demo: Asistente Comercial",
+    descripcion: "Respuestas entrenadas para convertir leads en clientes.",
+  },
+  {
+    titulo: "Demo: Automatización",
+    descripcion: "Flujos conectados a tu stack operativo actual.",
+  },
+];
+
+const testimonials = [
+  {
+    quote: "“Implementación impecable y resultados desde la primera semana.”",
+    name: "Cliente Enterprise",
+    role: "Head of Growth",
+  },
+  {
+    quote: "“El equipo entendió nuestro negocio y ejecutó con precisión.”",
+    name: "Cliente SaaS",
+    role: "CEO",
+  },
+];
+
+const faqs = [
+  {
+    q: "¿Qué tipo de empresas atienden?",
+    a: "Startups, pymes y equipos enterprise que necesitan IA aplicada.",
+  },
+  {
+    q: "¿Cuánto tarda un proyecto?",
+    a: "Entre 2 y 6 semanas según alcance y validaciones.",
+  },
+  {
+    q: "¿Ofrecen soporte continuo?",
+    a: "Sí, con planes de mantenimiento y evolución trimestral.",
+  },
+  {
+    q: "¿Pueden integrarse con mi stack actual?",
+    a: "Sí, trabajamos con APIs, CRMs y herramientas existentes.",
+  },
+];
+
+const whatsappNumber = "+34 911 52 87 53";
+const whatsappLink =
+  "https://wa.me/34911528753?text=Hola%2C%20vengo%20desde%20poweredbyia.com.%20Quiero%20info%20sobre%20servicios.";
+const contactEmail = "poweredbyiaoficial@gmail.com";
 
 export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: LandingLocalProps) {
   const [imgError, setImgError] = useState(false);
@@ -36,7 +142,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
 
   return (
     <main
-      className="min-h-screen w-full flex flex-col items-center px-2 py-6 sm:px-4 sm:py-10 relative"
+      className="min-h-screen w-full flex flex-col items-center px-4 pb-20 pt-28 sm:px-6 lg:px-8 relative"
       style={{
         backgroundImage: 'url(/imagenes/fondo/tu-fondo.png)',
         backgroundSize: 'cover',
@@ -67,76 +173,242 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
         </div>
       )}
       {/* Hero */}
-      <div ref={heroRef} className="w-full max-w-2xl mx-auto text-center mb-10 bg-black/60 rounded-2xl py-8 px-4 shadow-lg mt-8">
-        {/* Foto de perfil redonda si existe */}
-        {!imgError && (
-          <button
-            onClick={() => setShowModal(true)}
-            className="focus:outline-none focus:ring-2 focus:ring-purple-400 rounded-full mb-4"
-            aria-label="Ver foto de perfil en grande"
-            tabIndex={0}
-          >
-            <Image
-              src="/imagenes/perfil/mifoto.jpg"
-              alt="Foto de perfil"
-              width={96}
-              height={96}
-              className="rounded-full w-24 h-24 ring-4 ring-purple-500 mx-auto object-cover"
-              onError={() => setImgError(true)}
-              priority
-            />
-          </button>
-        )}
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 drop-shadow-lg">Powered by IA</h1>
-        <p className="text-cyan-200 text-lg mb-4">Transformando ideas en resultados con IA, visión y código
-🔥😈😈😈</p>
-        <button
-          onClick={onShowVideo}
-          className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg transition mb-4 focus:outline-none focus:ring-2 focus:ring-purple-400"
-          aria-label="Ver video de bienvenida"
-        >
-          <span className="inline-flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-6.518-3.759A1 1 0 007 8.118v7.764a1 1 0 001.234.97l6.518-1.757A1 1 0 0016 14.118V9.882a1 1 0 00-1.248-.714z" /></svg>
-            Ver video de bienvenida
-          </span>
-        </button>
-        <p className="text-gray-300 mb-2">Bienvenido a LaunchLab, tu espacio para aprender, experimentar y crear con inteligencia artificial. Explora prompts, cursos y herramientas para potenciar tus ideas.</p>
-      </div>
+      <section ref={heroRef} className="w-full max-w-5xl mx-auto rounded-3xl border border-white/10 bg-black/65 px-6 py-10 shadow-2xl backdrop-blur">
+        <div className="grid gap-10 md:grid-cols-[1.1fr_0.9fr] md:items-center">
+          <div>
+            <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">
+              Portfolio tech & servicios
+            </p>
+            <h1 className="mt-4 text-4xl font-semibold leading-tight text-white md:text-5xl">
+              Diseñamos sistemas IA listos para vender, operar y escalar.
+            </h1>
+            <p className="mt-4 text-base text-slate-200 md:text-lg">
+              Para equipos que necesitan automatizar procesos, potenciar ventas y lanzar productos digitales
+              con foco en resultados medibles.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-4">
+              <button
+                onClick={onShowVideo}
+                className="rounded-full bg-cyan-400 px-6 py-3 text-sm font-semibold text-black transition hover:bg-cyan-300"
+                aria-label="Ver demo en video"
+              >
+                Ver demo en video
+              </button>
+              <Link
+                href="#bot"
+                className="rounded-full border border-cyan-300/60 px-6 py-3 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-400 hover:text-black"
+              >
+                Probar bot ahora
+              </Link>
+              <Link
+                href="/services"
+                className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white/90 transition hover:border-white/60"
+              >
+                Ver servicios
+              </Link>
+            </div>
+          </div>
+          <div className="flex flex-col items-center gap-4">
+            {!imgError && (
+              <button
+                onClick={() => setShowModal(true)}
+                className="focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-full"
+                aria-label="Ver foto de perfil en grande"
+                tabIndex={0}
+              >
+                <Image
+                  src="/imagenes/perfil/mifoto.jpg"
+                  alt="Foto de perfil"
+                  width={160}
+                  height={160}
+                  className="rounded-full w-32 h-32 ring-4 ring-cyan-400/60 mx-auto object-cover"
+                  onError={() => setImgError(true)}
+                  priority
+                />
+              </button>
+            )}
+            <div className="rounded-2xl border border-white/10 bg-white/5 px-6 py-4 text-sm text-slate-200">
+              <p className="font-semibold text-white">Powered by IA</p>
+              <p className="mt-1 text-slate-300">
+                Estudios de caso, demos funcionales y servicios premium.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
       {/* Accesos rápidos */}
-      <section className="w-full max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mb-16">
-        {accesos.map((a) => (
+      <section className="mt-12 w-full max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {quickAccess.map((a) => (
           <Link
             key={a.titulo}
             href={a.link}
-            className="flex flex-col items-center bg-black/60 rounded-2xl shadow-lg p-6 hover:bg-cyan-900/40 transition focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            className="flex flex-col items-start gap-3 rounded-2xl border border-white/10 bg-black/60 p-6 shadow-lg transition hover:border-cyan-300/40 focus:outline-none focus:ring-2 focus:ring-cyan-400"
           >
-            <Image src={a.icono} alt={a.titulo} width={48} height={48} className="mb-3" loading="lazy" />
-            <h3 className="text-lg font-bold text-cyan-200 mb-1">{a.titulo}</h3>
-            <p className="text-gray-300 text-sm text-center">{a.descripcion}</p>
+            <Image src={a.icono} alt={a.titulo} width={36} height={36} className="opacity-80" loading="lazy" />
+            <h3 className="text-lg font-semibold text-white">{a.titulo}</h3>
+            <p className="text-sm text-slate-300">{a.descripcion}</p>
           </Link>
         ))}
       </section>
-      <section className="w-full max-w-2xl mx-auto text-center mb-10 bg-black/40 rounded-2xl py-6 px-4 shadow mt-4">
-        <h2 className="text-2xl font-bold text-cyan-300 mb-2">¿Qué puedes hacer aquí?</h2>
-        <ul className="text-gray-200 text-left mx-auto max-w-md list-disc list-inside space-y-2">
-          <li>Explorar y copiar prompts para IA generativa.</li>
-          <li>Aprender sobre inteligencia artificial, visión y código con cursos y recursos.</li>
-          <li>Chatear con nuestro bot de IA para resolver dudas o inspirarte.</li>
-          <li>Descubrir novedades y herramientas cada semana.</li>
-        </ul>
+
+      <section id="servicios" className="mt-20 w-full max-w-6xl">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Servicios</p>
+            <h2 className="mt-3 text-3xl font-semibold text-white">Soluciones IA de alto impacto</h2>
+          </div>
+          <Link
+            href="/services"
+            className="rounded-full border border-white/20 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
+          >
+            Ver detalle completo
+          </Link>
+        </div>
+        <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {services.map((service) => (
+            <div
+              key={service.titulo}
+              className="rounded-2xl border border-white/10 bg-black/55 p-6 shadow-lg"
+            >
+              <h3 className="text-lg font-semibold text-white">{service.titulo}</h3>
+              <p className="mt-3 text-sm text-slate-300">{service.descripcion}</p>
+            </div>
+          ))}
+        </div>
       </section>
-      <footer className="w-full text-center text-cyan-200 py-6 opacity-80 text-sm mt-auto">
-        &copy; {new Date().getFullYear()} Powered by IA — LaunchLab web & mobile
+
+      <section className="mt-20 w-full max-w-6xl">
+        <div className="grid gap-10 md:grid-cols-[1fr_1.1fr]">
+          <div className="rounded-3xl border border-white/10 bg-black/60 p-8">
+            <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Proceso</p>
+            <h2 className="mt-3 text-3xl font-semibold text-white">De estrategia a ejecución</h2>
+            <p className="mt-4 text-sm text-slate-300">
+              Diseñamos, prototipamos e iteramos con foco en resultados y experiencia de usuario.
+            </p>
+            <div className="mt-6 space-y-4">
+              {processSteps.map((step, index) => (
+                <div key={step.titulo} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                  <p className="text-xs font-semibold text-cyan-200">Paso 0{index + 1}</p>
+                  <h3 className="mt-2 text-base font-semibold text-white">{step.titulo}</h3>
+                  <p className="mt-2 text-sm text-slate-300">{step.descripcion}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="grid gap-6">
+            {values.map((item) => (
+              <div key={item.titulo} className="rounded-3xl border border-white/10 bg-black/55 p-6">
+                <h3 className="text-lg font-semibold text-white">{item.titulo}</h3>
+                <p className="mt-3 text-sm text-slate-300">{item.descripcion}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="demos" className="mt-20 w-full max-w-6xl">
+        <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Demos & proyectos</p>
+        <h2 className="mt-3 text-3xl font-semibold text-white">Casos de uso demostrables</h2>
+        <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {demos.map((demo) => (
+            <div key={demo.titulo} className="rounded-2xl border border-white/10 bg-black/60 p-6">
+              <h3 className="text-lg font-semibold text-white">{demo.titulo}</h3>
+              <p className="mt-3 text-sm text-slate-300">{demo.descripcion}</p>
+              <p className="mt-5 text-xs uppercase tracking-[0.3em] text-cyan-200/70">Disponible pronto</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="bot" className="mt-20 w-full max-w-5xl">
+        <div className="rounded-3xl border border-white/10 bg-black/65 p-8">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div>
+              <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Bot en vivo</p>
+              <h2 className="mt-3 text-3xl font-semibold text-white">Prueba una demo interactiva</h2>
+            </div>
+          <button
+            onClick={onShowVideo}
+            className="rounded-full border border-cyan-300/60 px-5 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-400 hover:text-black"
+          >
+            Ver video
+          </button>
+        </div>
+          <p className="mt-4 text-sm text-slate-300">
+            Explora cómo un asistente entrenado puede resolver consultas y acelerar ventas.
+          </p>
+          <div className="mt-6">
+            <EmbeddedBot />
+          </div>
+        </div>
+      </section>
+
+      <section className="mt-20 w-full max-w-6xl">
+        <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Testimonios</p>
+        <h2 className="mt-3 text-3xl font-semibold text-white">Confianza validada</h2>
+        <div className="mt-8 grid gap-6 md:grid-cols-2">
+          {testimonials.map((t) => (
+            <div key={t.quote} className="rounded-3xl border border-white/10 bg-black/55 p-6">
+              <p className="text-lg text-white">{t.quote}</p>
+              <p className="mt-4 text-sm text-cyan-200">{t.name}</p>
+              <p className="text-xs text-slate-400">{t.role}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-20 w-full max-w-5xl">
+        <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">FAQ</p>
+        <h2 className="mt-3 text-3xl font-semibold text-white">Respuestas rápidas</h2>
+        <div className="mt-8 grid gap-4">
+          {faqs.map((faq) => (
+            <div key={faq.q} className="rounded-2xl border border-white/10 bg-black/55 p-5">
+              <h3 className="text-base font-semibold text-white">{faq.q}</h3>
+              <p className="mt-2 text-sm text-slate-300">{faq.a}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="contacto" className="mt-20 w-full max-w-5xl">
+        <div className="rounded-3xl border border-cyan-400/30 bg-black/70 p-8 shadow-lg">
+          <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">Contacto</p>
+          <h2 className="mt-3 text-3xl font-semibold text-white">
+            ¿Listo para lanzar tu próximo sistema IA?
+          </h2>
+          <p className="mt-4 text-sm text-slate-300">
+            Agenda una llamada o escribe por WhatsApp Business. Respuesta en menos de 24 horas hábiles.
+          </p>
+          <div className="mt-6 flex flex-col gap-4 md:flex-row">
+            <a
+              href={whatsappLink}
+              className="rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Abrir WhatsApp Business"
+            >
+              WhatsApp Business: {whatsappNumber}
+            </a>
+            <a
+              href={`mailto:${contactEmail}`}
+              className="rounded-full border border-white/20 px-6 py-3 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
+              aria-label="Enviar email"
+            >
+              {contactEmail}
+            </a>
+          </div>
+          <button
+            onClick={onScrollToHero}
+            className="mt-6 text-sm font-semibold text-cyan-200 underline-offset-4 hover:underline"
+          >
+            Volver al inicio
+          </button>
+        </div>
+      </section>
+
+      <footer className="mt-16 w-full text-center text-xs text-slate-400">
+        &copy; {new Date().getFullYear()} Powered by IA. Todos los derechos reservados.
       </footer>
-      {/* FAB flotante para volver al inicio */}
-      <button
-        onClick={onScrollToHero}
-        className="fixed bottom-6 right-6 z-40 bg-cyan-700 hover:bg-cyan-500 text-white rounded-full shadow-lg p-4 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
-        aria-label="Volver al inicio"
-        style={{ boxShadow: '0 4px 24px 0 rgba(0,0,0,0.25)' }}
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0h6" /></svg>
-      </button>
     </main>
   );
-} 
+}

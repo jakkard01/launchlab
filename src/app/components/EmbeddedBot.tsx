@@ -42,9 +42,9 @@ export default function EmbeddedBot() {
   };
 
   return (
-    <div className="bg-white bg-opacity-90 p-4 rounded-xl shadow-md text-black w-full max-w-2xl mx-auto">
+    <div className="w-full max-w-2xl mx-auto rounded-xl border border-white/10 bg-white/5 p-4 text-white shadow-md">
       {!online && (
-        <div className="text-red-600 font-semibold mb-4">
+        <div className="text-red-400 font-semibold mb-4">
           🚧 Bot fuera de servicio.
         </div>
       )}
@@ -55,15 +55,15 @@ export default function EmbeddedBot() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={onKey}
             placeholder="Escribe tu mensaje..."
-            className="w-full p-2 rounded border mb-2 focus:ring"
+            className="w-full rounded-lg border border-white/10 bg-black/60 p-3 text-sm text-white placeholder:text-slate-400 focus:ring-2 focus:ring-cyan-400"
             rows={3}
             disabled={loading}
           />
           <button
             onClick={send}
             disabled={loading}
-            className={`w-full py-2 rounded mb-2 font-bold transition ${
-              loading ? 'bg-gray-400 text-gray-700' : 'bg-purple-700 hover:bg-purple-800 text-white'
+            className={`w-full py-2 rounded-lg mb-2 text-sm font-semibold transition ${
+              loading ? 'bg-slate-500 text-slate-200' : 'bg-cyan-400 hover:bg-cyan-300 text-black'
             }`}
           >
             {loading ? 'Pensando…' : 'Enviar'}
@@ -71,7 +71,7 @@ export default function EmbeddedBot() {
         </>
       )}
       {response && (
-        <div className="mt-2 p-3 bg-gray-100 rounded text-sm">{response}</div>
+        <div className="mt-2 rounded-lg bg-black/50 p-3 text-sm text-slate-200">{response}</div>
       )}
     </div>
   );
