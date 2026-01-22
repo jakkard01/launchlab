@@ -7,20 +7,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: baseUrl,
       lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 1,
     },
     {
       url: `${baseUrl}/prompts`,
       lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
     },
     {
       url: `${baseUrl}/cursos`,
       lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/services`,
+      lastModified: new Date(),
+    },
+    {
+      url: `${baseUrl}/demos`,
+      lastModified: new Date(),
+    },
+    {
+      url: `${baseUrl}/courses`,
+      lastModified: new Date(),
+    },
+    {
+      url: `${baseUrl}/contact`,
+      lastModified: new Date(),
     },
   ];
 }

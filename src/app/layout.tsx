@@ -1,21 +1,18 @@
 import './globals.css';
-import { Inter } from 'next/font/google';
-import type { Metadata, Viewport } from 'next';
+import type { Metadata } from 'next';
 import ClientLayout from './components/ClientLayout';
 import FAB from './components/FAB';
 import CookieBanner from './components/CookieBanner'; // <--- IMPORTADO AQUÍ
-
-const inter = Inter({ subsets: ['latin'] });
 
 // --- CONFIGURACIÓN SEO GLOBAL ---
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.poweredbyia.com'),
   title: {
-    default: 'Powered by IA | Transformando ideas con Inteligencia Artificial',
+    default: 'Powered by IA | Sistemas IA, automatización y productos digitales',
     template: '%s | Powered by IA',
   },
-  description: 'Aprende a transformar ideas en resultados reales con IA, visión y código. Biblioteca de prompts, cursos y herramientas de automatización.',
-  keywords: ['Inteligencia Artificial', 'Prompts', 'ChatGPT', 'Gemini', 'Cursos IA', 'Desarrollo Web', 'Automatización'],
+  description: 'Portafolio tech y servicios premium de IA aplicada: automatización, asistentes inteligentes y lanzamientos digitales.',
+  keywords: ['Inteligencia Artificial', 'Automatización', 'Prompts', 'Asistentes IA', 'n8n', 'Productos digitales'],
   authors: [{ name: 'Powered by IA' }],
   creator: 'Powered by IA',
   openGraph: {
@@ -23,8 +20,8 @@ export const metadata: Metadata = {
     locale: 'es_ES',
     url: 'https://www.poweredbyia.com',
     siteName: 'Powered by IA',
-    title: 'Powered by IA | Domina la Inteligencia Artificial',
-    description: 'Transformando ideas en resultados reales con IA, visión y código.',
+    title: 'Powered by IA | Sistemas IA listos para vender y escalar',
+    description: 'Soluciones IA premium, demos funcionales y servicios para equipos exigentes.',
     images: [
       {
         url: '/imagenes/perfil/mifoto.jpg', // Tu foto como imagen por defecto
@@ -36,8 +33,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Powered by IA',
-    description: 'Aprende a usar la IA para proyectos reales.',
+    title: 'Powered by IA | Sistemas IA premium',
+    description: 'Portafolio tech, demos y servicios de IA aplicada.',
     images: ['/imagenes/perfil/mifoto.jpg'],
   },
   robots: {
@@ -46,21 +43,19 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = {
-  themeColor: '#000000',
-  width: 'device-width',
-  initialScale: 1,
-};
-
 // --- LAYOUT PRINCIPAL ---
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es">
-      <body className={inter.className + ' relative min-h-screen'}>
+      <body className="relative min-h-screen">
         {/* Fondo galaxia global */}
         <div 
           className="fixed inset-0 -z-10 w-full h-full bg-galaxy bg-cover bg-center bg-no-repeat" 
           aria-hidden="true" 
+        />
+        <div
+          className="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(34,211,238,0.15),_transparent_55%),radial-gradient(circle_at_30%_70%,_rgba(14,116,144,0.25),_transparent_50%)]"
+          aria-hidden="true"
         />
         
         {/* Layout del Cliente (Navbar, etc) */}

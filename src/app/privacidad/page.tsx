@@ -33,7 +33,7 @@ export default function PrivacidadPage() {
               <span className="text-cyan-500">01.</span> Introducción
             </h2>
             <p>
-              Bienvenido a <strong>Powered by IA</strong> ("nosotros", "nuestro"). Respetamos tu privacidad y nos comprometemos a proteger tus datos personales. 
+              Bienvenido a <strong>Powered by IA</strong> (&quot;nosotros&quot;, &quot;nuestro&quot;). Respetamos tu privacidad y nos comprometemos a proteger tus datos personales. 
               Esta política explica cómo tratamos la información cuando visitas nuestra web.
             </p>
           </section>
@@ -78,10 +78,10 @@ export default function PrivacidadPage() {
               <p className="text-xs text-slate-400">Alcalá de Henares, Madrid, España.</p>
             </div>
             <a 
-              href="mailto:hola@poweredbyia.com" 
+              href="mailto:poweredbyiaoficial@gmail.com" 
               className="text-cyan-400 hover:text-white transition-colors text-sm font-bold border border-cyan-500/30 px-4 py-2 rounded-full hover:bg-cyan-950/50 hover:border-cyan-400"
             >
-              hola@poweredbyia.com
+              poweredbyiaoficial@gmail.com
             </a>
           </section>
 

@@ -37,9 +37,9 @@ export default function CookieBanner() {
             🍪 Cookies & Privacidad
           </h3>
           <p className="text-sm text-slate-300 leading-relaxed">
-            Usamos cookies para mejorar la experiencia y analizar el tráfico (preparando el terreno para monetizar). 
+            Usamos cookies para mejorar la experiencia y analizar el tráfico. 
             Puedes leer nuestra{' '}
-            <Link href="#" className="text-cyan-400 hover:text-cyan-300 underline underline-offset-2">
+            <Link href="/privacidad" className="text-cyan-400 hover:text-cyan-300 underline underline-offset-2">
               política de privacidad
             </Link>.
           </p>
