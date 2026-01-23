@@ -58,7 +58,7 @@ export default function Header() {
             href={whatsappLink}
             className="rounded-full border border-emerald-300/60 px-4 py-2 text-sm font-semibold text-emerald-200 transition hover:bg-emerald-300 hover:text-black"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             aria-label="Abrir WhatsApp Business"
           >
             WhatsApp
@@ -110,7 +110,7 @@ export default function Header() {
                 onClick={() => setMenuOpen(false)}
                 className="rounded-full border border-emerald-300/60 px-4 py-2 text-center text-sm font-semibold text-emerald-200 transition hover:bg-emerald-300 hover:text-black"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 aria-label="Abrir WhatsApp Business"
               >
                 WhatsApp
