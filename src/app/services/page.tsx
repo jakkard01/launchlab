@@ -66,7 +66,13 @@ export default function ServicesPage() {
               key={service.title}
               className="rounded-2xl border border-white/10 bg-black/60 p-6 shadow-lg"
             >
-              <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-cyan-300/30 bg-black/70 px-3 py-1"><GlyphBadge glyph={service.glyph} /><span className="text-[11px] font-semibold uppercase tracking-[0.25em] text-cyan-100/90">{service.step}</span></div><h2 className="text-lg font-semibold text-white">
+              <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-cyan-300/30 bg-black/70 px-3 py-1">
+  <GlyphBadge glyph={service.glyph} />
+  <span className="text-[11px] font-semibold uppercase tracking-[0.25em] text-cyan-100/90">
+    {service.step}
+  </span>
+</div>
+<h2 className="text-lg font-semibold text-white">
                 {service.title}
               </h2>
               <p className="mt-3 text-sm text-slate-300">{service.detail}</p>
