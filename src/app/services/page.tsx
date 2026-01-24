@@ -1,49 +1,13 @@
 import type { Metadata } from "next";
-import type { ComponentProps } from "react";
 import Link from "next/link";
 import GlyphBadge from "../components/GlyphBadge";
+import { services } from "../content/catalog";
 
 export const metadata: Metadata = {
   title: "Servicios IA | Powered by IA",
   description:
     "Servicios premium de IA aplicada: automatización, asistentes inteligentes y sistemas de venta digital.",
 };
-
-type Glyph = ComponentProps<typeof GlyphBadge>["glyph"];
-
-const serviceBlocks: { title: string; detail: string; glyph: Glyph; step: string }[] = [
-  {
-    title: "Landing premium (demo)",
-    detail:
-      "Experiencias de conversión listas para negocio, validación y posicionamiento.",
-    glyph: "layout",
-    step: "Paso 02 · Implementación",
-  },
-  {
-    title: "Chatbot / Bot IA",
-    detail: "Bots web + WhatsApp con base de conocimiento real.",
-    glyph: "messages",
-    step: "Paso 02 · Implementación",
-  },
-  {
-    title: "Automatizaciones",
-    detail: "n8n, IA local y orquestación de procesos conectados a tu stack.",
-    glyph: "workflow",
-    step: "Paso 03 · Escalado",
-  },
-  {
-    title: "Avatares / videos IA",
-    detail: "Guion, diseño y producción de videos IA de marca.",
-    glyph: "video",
-    step: "Paso 02 · Implementación",
-  },
-  {
-    title: "Consultoría / Implementación",
-    detail: "Diagnóstico, roadmap y ejecución con despliegue técnico seguro.",
-    glyph: "shield",
-    step: "Paso 01 · Diagnóstico",
-  },
-];
 
 export default function ServicesPage() {
   return (
@@ -61,22 +25,23 @@ export default function ServicesPage() {
         </p>
 
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {serviceBlocks.map((service) => (
-            <div
-              key={service.title}
-              className="rounded-2xl border border-white/10 bg-black/60 p-6 shadow-lg"
+          {services.map((service) => (
+            <Link
+              key={service.slug}
+              href={`/services/${service.slug}`}
+              className="rounded-2xl border border-white/10 bg-black/60 p-6 shadow-lg transition hover:border-cyan-300/40 focus:outline-none focus:ring-2 focus:ring-cyan-400"
             >
               <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-cyan-300/30 bg-black/70 px-3 py-1">
-  <GlyphBadge glyph={service.glyph} />
-  <span className="text-[11px] font-semibold uppercase tracking-[0.25em] text-cyan-100/90">
-    {service.step}
-  </span>
-</div>
-<h2 className="text-lg font-semibold text-white">
+                <GlyphBadge glyph={service.glyph} />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.25em] text-cyan-100/90">
+                  {service.step}
+                </span>
+              </div>
+              <h2 className="text-lg font-semibold text-white">
                 {service.title}
               </h2>
-              <p className="mt-3 text-sm text-slate-300">{service.detail}</p>
-            </div>
+              <p className="mt-3 text-sm text-slate-300">{service.summary}</p>
+            </Link>
           ))}
         </div>
 

@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { services } from "../content/catalog";
 import EmbeddedBot from "./EmbeddedBot";
 
 interface LandingLocalProps {
@@ -28,29 +29,6 @@ const quickAccess = [
     descripcion: "Formación aplicada y workshops in-company.",
     icono: "/favicon.ico",
     link: "/#cursos",
-  },
-];
-
-const services = [
-  {
-    titulo: "Landing premium (demo)",
-    descripcion: "Experiencias de conversión listas para negocio y validación.",
-  },
-  {
-    titulo: "Chatbot / Bot IA",
-    descripcion: "Asistentes IA con base de conocimiento y flujos guiados.",
-  },
-  {
-    titulo: "Automatizaciones",
-    descripcion: "n8n, IA local y operaciones conectadas a tu stack.",
-  },
-  {
-    titulo: "Avatares / videos IA",
-    descripcion: "Contenido audiovisual escalable para ventas y soporte.",
-  },
-  {
-    titulo: "Consultoría / Implementación",
-    descripcion: "Roadmap, ejecución y despliegue técnico seguro.",
   },
 ];
 
@@ -263,11 +241,11 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
         <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {services.map((service) => (
             <div
-              key={service.titulo}
+              key={service.slug}
               className="rounded-2xl border border-white/10 bg-black/55 p-6 shadow-lg"
             >
-              <h3 className="text-lg font-semibold text-white">{service.titulo}</h3>
-              <p className="mt-3 text-sm text-slate-300">{service.descripcion}</p>
+              <h3 className="text-lg font-semibold text-white">{service.title}</h3>
+              <p className="mt-3 text-sm text-slate-300">{service.summary}</p>
             </div>
           ))}
         </div>
