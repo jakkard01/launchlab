@@ -15,7 +15,7 @@ type ContactPageProps = {
   searchParams?: { source?: string };
 };
 
-const allowedSources = ["pricing", "portfolio", "demos", "services"] as const;
+const allowedSources = ["pricing", "portfolio", "demos", "services", "business-os-demo"] as const;
 
 export default function ContactPage({ searchParams }: ContactPageProps) {
   const source =

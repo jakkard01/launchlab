@@ -73,4 +73,18 @@ export const showcase: ShowcaseItem[] = [
     ctaHref: "/contact?source=demos",
     relatedServices: ["automatizaciones", "consultoria-implementacion"],
   },
+  {
+    slug: "business-os-pedidos",
+    title: "Demo: Business OS (Pedidos)",
+    type: "system",
+    status: "demo",
+    summary: "Panel operativo para gestionar pedidos y estados en tiempo real.",
+    detail:
+      "Dashboard ligero con KPIs, filtros y actividad reciente para equipos de operaciones.",
+    tags: ["ops", "dashboard", "orders"],
+    glyph: "workflow",
+    ctaLabel: "Ver demo",
+    ctaHref: "/demos/business-os",
+    relatedServices: ["automatizaciones", "consultoria-implementacion"],
+  },
 ];
