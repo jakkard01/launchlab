@@ -1,22 +1,46 @@
-﻿export default function DemosPage() {
+import type { Metadata } from "next";
+import Link from "next/link";
+import ShowcaseGrid from "./ShowcaseGrid";
+import { showcase } from "../content/showcase";
+
+export const metadata: Metadata = {
+  title: "Demos | Powered by IA",
+  description: "Showcase de demos y productos IA listos para activar.",
+};
+
+export default function DemosPage() {
   return (
-    <main className="mx-auto max-w-5xl px-4 py-10">
-      <h1 className="text-3xl font-semibold">Demos</h1>
-      <p className="mt-3 opacity-80">
-        Ejemplos reales: bots, automatizaciones y vídeo IA. Sin humo. Sin PowerPoint.
-      </p>
+    <main className="min-h-screen w-full px-4 pb-20 pt-28 sm:px-6 lg:px-8">
+      <section className="mx-auto w-full max-w-6xl">
+        <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">
+          Demos
+        </p>
+        <h1 className="mt-3 text-4xl font-semibold text-white">
+          Showcase de productos y demos
+        </h1>
+        <p className="mt-4 max-w-2xl text-base text-slate-300">
+          Activos reales para validar, vender y escalar sin rehacer la base.
+        </p>
 
-      <div className="mt-8 grid gap-4 md:grid-cols-2">
-        <a className="rounded-2xl border p-5 hover:opacity-90" href="/demos/bot">
-          <h2 className="text-xl font-semibold">Demo: Bot de atención</h2>
-          <p className="mt-2 opacity-80">Simulador rápido para ver cómo respondería en tu negocio.</p>
-        </a>
+        <ShowcaseGrid items={showcase} />
 
-        <a className="rounded-2xl border p-5 hover:opacity-90" href="/prompts">
-          <h2 className="text-xl font-semibold">Biblioteca de Prompts</h2>
-          <p className="mt-2 opacity-80">Recursos listos para usar (esta ruta no se toca).</p>
-        </a>
-      </div>
+        <div className="mt-14 flex flex-col gap-4 rounded-3xl border border-cyan-400/30 bg-black/70 p-8 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h2 className="text-2xl font-semibold text-white">
+              Quieres activar una demo?
+            </h2>
+            <p className="mt-2 text-sm text-slate-300">
+              Te ayudamos a personalizarla para tu negocio.
+            </p>
+          </div>
+          <Link
+            href="/contact?source=demos"
+            className="rounded-full bg-cyan-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-cyan-300"
+          >
+            Hablar con el equipo
+          </Link>
+        </div>
+      </section>
     </main>
   );
 }

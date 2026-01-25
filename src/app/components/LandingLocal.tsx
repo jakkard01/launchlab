@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { services } from "../content/catalog";
+import { portfolio } from "../content/portfolio";
+import { showcase } from "../content/showcase";
 import EmbeddedBot from "./EmbeddedBot";
 
 interface LandingLocalProps {
@@ -109,6 +111,24 @@ const faqs = [
   },
 ];
 
+const pricingHighlights = [
+  {
+    title: "Sprint IA",
+    price: "Desde EUR 900",
+    summary: "Diagnostico y quick wins en 7 dias.",
+  },
+  {
+    title: "Launch",
+    price: "Desde EUR 2.500",
+    summary: "Bot o landing premium lista para publicar.",
+  },
+  {
+    title: "Scale",
+    price: "Desde EUR 6.500",
+    summary: "Sistema IA conectado a procesos reales.",
+  },
+];
+
 const whatsappNumber = "911 52 87 53";
 const whatsappLink =
   "https://wa.me/34911528753?text=Hola%2C%20vengo%20desde%20poweredbyia.com.%20Quiero%20info%20de%20servicios%20y%20una%20demo.";
@@ -117,6 +137,10 @@ const contactEmail = "poweredbyiaoficial@gmail.com";
 export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: LandingLocalProps) {
   const [imgError, setImgError] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const demoHighlights = showcase
+    .filter((item) => item.status === "demo" || item.status === "live")
+    .slice(0, 3);
+  const portfolioHighlights = portfolio.slice(0, 2);
 
   return (
     <main className="min-h-screen w-full flex flex-col items-center px-4 pb-20 pt-28 sm:px-6 lg:px-8 relative">
@@ -247,6 +271,97 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               <h3 className="text-lg font-semibold text-white">{service.title}</h3>
               <p className="mt-3 text-sm text-slate-300">{service.summary}</p>
             </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="demos" className="mt-20 w-full max-w-6xl">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Demos</p>
+            <h2 className="mt-3 text-3xl font-semibold text-white">Showcase listo para activar</h2>
+          </div>
+          <Link
+            href="/demos"
+            className="rounded-full border border-white/20 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
+          >
+            Ver todas las demos
+          </Link>
+        </div>
+        <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {demoHighlights.map((item) => (
+            <Link
+              key={item.slug}
+              href={item.ctaHref}
+              className="rounded-2xl border border-white/10 bg-black/55 p-6 shadow-lg transition hover:border-cyan-300/40"
+            >
+              <h3 className="text-lg font-semibold text-white">{item.title}</h3>
+              <p className="mt-3 text-sm text-slate-300">{item.summary}</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {item.tags.slice(0, 3).map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full border border-white/10 bg-black/50 px-3 py-1 text-xs font-semibold text-slate-300"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section id="paquetes" className="mt-20 w-full max-w-6xl">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Paquetes</p>
+            <h2 className="mt-3 text-3xl font-semibold text-white">Planes listos para facturar</h2>
+          </div>
+          <Link
+            href="/pricing"
+            className="rounded-full border border-white/20 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
+          >
+            Ver todos los paquetes
+          </Link>
+        </div>
+        <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {pricingHighlights.map((plan) => (
+            <div
+              key={plan.title}
+              className="rounded-2xl border border-white/10 bg-black/55 p-6 shadow-lg"
+            >
+              <h3 className="text-lg font-semibold text-white">{plan.title}</h3>
+              <p className="mt-2 text-sm text-cyan-200">{plan.price}</p>
+              <p className="mt-3 text-sm text-slate-300">{plan.summary}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="portfolio" className="mt-20 w-full max-w-6xl">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Portfolio</p>
+            <h2 className="mt-3 text-3xl font-semibold text-white">Casos demo para inspirar</h2>
+          </div>
+          <Link
+            href="/portfolio"
+            className="rounded-full border border-white/20 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
+          >
+            Ver portfolio
+          </Link>
+        </div>
+        <div className="mt-8 grid gap-6 md:grid-cols-2">
+          {portfolioHighlights.map((item) => (
+            <Link
+              key={item.slug}
+              href={`/portfolio/${item.slug}`}
+              className="rounded-2xl border border-white/10 bg-black/55 p-6 shadow-lg transition hover:border-cyan-300/40"
+            >
+              <h3 className="text-lg font-semibold text-white">{item.title}</h3>
+              <p className="mt-3 text-sm text-slate-300">{item.summary}</p>
+            </Link>
           ))}
         </div>
       </section>

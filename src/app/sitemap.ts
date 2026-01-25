@@ -21,6 +21,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
     },
     {
+      url: `${baseUrl}/pricing`,
+      lastModified: new Date(),
+    },
+    {
+      url: `${baseUrl}/portfolio`,
+      lastModified: new Date(),
+    },
+    {
       url: `${baseUrl}/demos`,
       lastModified: new Date(),
     },

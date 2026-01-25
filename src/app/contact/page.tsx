@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import ContactForm from "./ContactForm";
 
 export const metadata: Metadata = {
   title: "Contacto | Powered by IA",
@@ -10,7 +11,17 @@ const whatsappLink =
   "https://wa.me/34911528753?text=Hola%2C%20vengo%20desde%20poweredbyia.com.%20Quiero%20info%20de%20servicios%20y%20una%20demo.";
 const email = "poweredbyiaoficial@gmail.com";
 
-export default function ContactPage() {
+type ContactPageProps = {
+  searchParams?: { source?: string };
+};
+
+const allowedSources = ["pricing", "portfolio", "demos", "services"] as const;
+
+export default function ContactPage({ searchParams }: ContactPageProps) {
+  const source =
+    searchParams?.source && allowedSources.includes(searchParams.source as (typeof allowedSources)[number])
+      ? searchParams.source
+      : "contact";
   return (
     <main className="min-h-screen w-full px-4 pb-20 pt-28 sm:px-6 lg:px-8">
       <section className="mx-auto w-full max-w-4xl rounded-3xl border border-cyan-400/30 bg-black/70 p-10 shadow-lg">
@@ -25,7 +36,9 @@ export default function ContactPage() {
           para entender objetivos y proponer un roadmap claro.
         </p>
 
-        <div className="mt-8 flex flex-col gap-4">
+        <ContactForm source={source} />
+
+        <div className="mt-10 flex flex-col gap-4">
           <a
             href={whatsappLink}
             className="rounded-full bg-emerald-400 px-6 py-4 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"

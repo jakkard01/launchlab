@@ -4,12 +4,12 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const navItems = [
-  { label: "Inicio", href: "/#inicio" },
-  { label: "Servicios", href: "/#servicios" },
-  { label: "Demos", href: "/#demos" },
-  { label: "Cursos", href: "/#cursos" },
-  { label: "Prompts", href: "/prompts" },
-  { label: "Contacto", href: "/#contacto" },
+  { label: "Inicio", href: "/" },
+  { label: "Servicios", href: "/services" },
+  { label: "Demos", href: "/demos" },
+  { label: "Paquetes", href: "/pricing" },
+  { label: "Portfolio", href: "/portfolio" },
+  { label: "Contacto", href: "/contact" },
 ];
 
 const whatsappLink =
@@ -41,7 +41,7 @@ export default function Header() {
 
         <nav className="hidden items-center gap-6 md:flex">
           {navItems.map((item) => {
-            const isActive = item.href.startsWith("/#") ? pathname === "/" : pathname === item.href;
+            const isActive = pathname === item.href;
             return (
               <Link
                 key={item.label}
