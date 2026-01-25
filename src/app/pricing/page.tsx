@@ -6,37 +6,37 @@ export const metadata: Metadata = {
   description: "Paquetes claros para implementar IA, automatizar y escalar.",
 };
 
-const whatsappLink =
-  "https://wa.me/34911528753?text=Hola%2C%20vengo%20desde%20poweredbyia.com.%20Quiero%20info%20de%20servicios%20y%20una%20demo.";
-
 const plans = [
   {
     title: "Sprint IA",
-    price: "Desde EUR 900",
+    from: "Desde EUR 900",
+    typicalTimeline: "Plazo tipico: 7-10 dias",
     description: "Diagnostico, propuesta y quick wins en 7 dias.",
     features: [
       "Workshop de objetivos",
       "Mapa de automatizaciones",
       "Plan de implementacion rapido",
     ],
-    ctaLabel: "Cotizar por WhatsApp",
-    ctaHref: whatsappLink,
+    ctaLabel: "Reservar llamada",
+    ctaHref: "/contact?source=pricing-sprint",
   },
   {
     title: "Launch",
-    price: "Desde EUR 2.500",
+    from: "Desde EUR 2.500",
+    typicalTimeline: "Plazo tipico: 2-3 semanas",
     description: "Implementacion de un bot o landing premium.",
     features: [
       "Setup funcional completo",
       "Iteraciones de copy y flujo",
       "Entrega lista para publicar",
     ],
-    ctaLabel: "Hablar por WhatsApp",
-    ctaHref: whatsappLink,
+    ctaLabel: "Reservar llamada",
+    ctaHref: "/contact?source=pricing-launch",
   },
   {
     title: "Scale",
-    price: "Desde EUR 6.500",
+    from: "Desde EUR 6.500",
+    typicalTimeline: "Plazo tipico: 3-5 semanas",
     description: "Sistema IA con automatizaciones y soporte al equipo.",
     features: [
       "Integraciones clave",
@@ -44,11 +44,12 @@ const plans = [
       "Documentacion operativa",
     ],
     ctaLabel: "Reservar llamada",
-    ctaHref: "/contact?source=pricing",
+    ctaHref: "/contact?source=pricing-scale",
   },
   {
     title: "Enterprise",
-    price: "Custom",
+    from: "Custom",
+    typicalTimeline: "Plazo tipico: 4-8 semanas",
     description: "Arquitectura a medida para equipos complejos.",
     features: [
       "Roadmap trimestral",
@@ -56,7 +57,7 @@ const plans = [
       "Acompanamiento continuo",
     ],
     ctaLabel: "Reservar llamada",
-    ctaHref: "/contact?source=pricing",
+    ctaHref: "/contact?source=pricing-enterprise",
   },
 ];
 
@@ -82,7 +83,10 @@ export default function PricingPage() {
               className="rounded-2xl border border-white/10 bg-black/60 p-6 shadow-lg"
             >
               <h2 className="text-lg font-semibold text-white">{plan.title}</h2>
-              <p className="mt-2 text-sm text-cyan-200">{plan.price}</p>
+              <p className="mt-2 text-sm text-cyan-200">{plan.from}</p>
+              <p className="mt-2 text-xs uppercase tracking-[0.3em] text-slate-400">
+                {plan.typicalTimeline}
+              </p>
               <p className="mt-3 text-sm text-slate-300">
                 {plan.description}
               </p>
@@ -94,23 +98,12 @@ export default function PricingPage() {
                   </li>
                 ))}
               </ul>
-              {plan.ctaHref.startsWith("/") ? (
-                <Link
-                  href={plan.ctaHref}
-                  className="mt-6 inline-flex w-full items-center justify-center rounded-full border border-cyan-300/60 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-400 hover:text-black"
-                >
-                  {plan.ctaLabel}
-                </Link>
-              ) : (
-                <a
-                  href={plan.ctaHref}
-                  className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-emerald-400 px-4 py-2 text-sm font-semibold text-black transition hover:bg-emerald-300"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {plan.ctaLabel}
-                </a>
-              )}
+              <Link
+                href={plan.ctaHref}
+                className="mt-6 inline-flex w-full items-center justify-center rounded-full border border-cyan-300/60 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-400 hover:text-black"
+              >
+                {plan.ctaLabel}
+              </Link>
             </div>
           ))}
         </div>

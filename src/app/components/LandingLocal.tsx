@@ -185,25 +185,25 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               con foco en resultados medibles.
             </p>
             <div className="mt-6 flex flex-wrap gap-4">
-              <button
-                onClick={onShowVideo}
+              <Link
+                href="/contact?source=home"
                 className="rounded-full bg-cyan-400 px-6 py-3 text-sm font-semibold text-black transition hover:bg-cyan-300"
-                aria-label="Ver demo en video"
               >
-                Ver demo en video
-              </button>
+                Reservar llamada
+              </Link>
               <Link
                 href="/demos/bot"
                 className="rounded-full border border-cyan-300/60 px-6 py-3 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-400 hover:text-black"
               >
                 Ver demo del bot
               </Link>
-              <Link
-                href="/services"
+              <button
+                onClick={onShowVideo}
                 className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white/90 transition hover:border-white/60"
+                aria-label="Ver demo en video"
               >
-                Ver servicios
-              </Link>
+                Ver demo en video
+              </button>
             </div>
           </div>
           <div className="flex flex-col items-center gap-4">
@@ -391,6 +391,18 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
                 <p className="mt-3 text-sm text-slate-300">{item.descripcion}</p>
               </div>
             ))}
+            <div className="rounded-3xl border border-cyan-400/30 bg-black/70 p-6">
+              <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">
+                Garantia de proceso
+              </p>
+              <h3 className="mt-2 text-lg font-semibold text-white">
+                Metodo claro, entregables definidos
+              </h3>
+              <p className="mt-3 text-sm text-slate-300">
+                Alcance, iteraciones y entregables acordados desde el inicio.
+                Sin promesas infladas, con foco en ejecucion real.
+              </p>
+            </div>
           </div>
         </div>
       </section>
