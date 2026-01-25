@@ -193,10 +193,10 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
                 Ver demo en video
               </button>
               <Link
-                href="#bot"
+                href="/demos/bot"
                 className="rounded-full border border-cyan-300/60 px-6 py-3 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-400 hover:text-black"
               >
-                Probar bot ahora
+                Ver demo del bot
               </Link>
               <Link
                 href="/services"

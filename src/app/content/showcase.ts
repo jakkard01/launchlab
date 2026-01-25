@@ -32,6 +32,20 @@ export const showcase: ShowcaseItem[] = [
     relatedServices: ["chatbot-bot-ia", "automatizaciones"],
   },
   {
+    slug: "faq-bot-demo",
+    title: "Demo: FAQ Bot (determinista)",
+    type: "bot",
+    status: "demo",
+    summary: "Flujos guiados con respuestas predefinidas y buscador.",
+    detail:
+      "Demo sin IA para mostrar preguntas frecuentes, categorias y CTA de venta.",
+    tags: ["faq", "determinista", "ventas"],
+    glyph: "messages",
+    ctaLabel: "Ver demo",
+    ctaHref: "/demos/bot",
+    relatedServices: ["chatbot-bot-ia", "consultoria-implementacion"],
+  },
+  {
     slug: "bot-web-kb-demo",
     title: "Bot Web KB (demo)",
     type: "bot",
