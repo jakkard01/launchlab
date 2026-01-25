@@ -37,7 +37,7 @@ export default function DemosPage() {
             href="/contact?source=demos"
             className="rounded-full bg-cyan-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-cyan-300"
           >
-            Hablar con el equipo
+            Reservar llamada
           </Link>
         </div>
       </section>

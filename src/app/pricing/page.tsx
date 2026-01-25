@@ -43,7 +43,7 @@ const plans = [
       "Automatizaciones multi-proceso",
       "Documentacion operativa",
     ],
-    ctaLabel: "Agendar llamada",
+    ctaLabel: "Reservar llamada",
     ctaHref: "/contact?source=pricing",
   },
   {
@@ -55,7 +55,7 @@ const plans = [
       "Seguridad y compliance",
       "Acompanamiento continuo",
     ],
-    ctaLabel: "Contactar equipo",
+    ctaLabel: "Reservar llamada",
     ctaHref: "/contact?source=pricing",
   },
 ];

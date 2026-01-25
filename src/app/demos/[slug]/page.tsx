@@ -174,7 +174,7 @@ export default function DemoDetailPage({ params }: PageProps) {
               href={item.status === "wip" ? "/contact?source=demos" : item.ctaHref}
               className="rounded-full bg-cyan-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-cyan-300"
             >
-              {item.status === "wip" ? "Pedir acceso" : "Hablar con el equipo"}
+              {item.status === "wip" ? "Pedir acceso" : "Reservar llamada"}
             </Link>
           </div>
         </div>

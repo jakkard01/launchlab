@@ -31,6 +31,38 @@ export default function PortfolioPage() {
             >
               <h2 className="text-lg font-semibold text-white">{item.title}</h2>
               <p className="mt-3 text-sm text-slate-300">{item.summary}</p>
+              <div className="mt-4 space-y-3 text-xs text-slate-300">
+                <div>
+                  <p className="text-[11px] uppercase tracking-[0.25em] text-cyan-200/70">
+                    Problema
+                  </p>
+                  <p className="mt-1">{item.problem}</p>
+                </div>
+                <div>
+                  <p className="text-[11px] uppercase tracking-[0.25em] text-cyan-200/70">
+                    Solucion
+                  </p>
+                  <p className="mt-1">{item.solution}</p>
+                </div>
+                <div>
+                  <p className="text-[11px] uppercase tracking-[0.25em] text-cyan-200/70">
+                    Entregables
+                  </p>
+                  <p className="mt-1">{item.deliverables.join(", ")}</p>
+                </div>
+                <div>
+                  <p className="text-[11px] uppercase tracking-[0.25em] text-cyan-200/70">
+                    Stack
+                  </p>
+                  <p className="mt-1">{item.stack.join(", ")}</p>
+                </div>
+                <div>
+                  <p className="text-[11px] uppercase tracking-[0.25em] text-cyan-200/70">
+                    Resultado esperado
+                  </p>
+                  <p className="mt-1">{item.expectedResult}</p>
+                </div>
+              </div>
               <span className="mt-4 inline-flex text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200/70">
                 Ver caso
               </span>
@@ -51,7 +83,7 @@ export default function PortfolioPage() {
             href="/contact?source=portfolio"
             className="rounded-full bg-cyan-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-cyan-300"
           >
-            Hablar con el equipo
+            Reservar llamada
           </Link>
         </div>
       </section>

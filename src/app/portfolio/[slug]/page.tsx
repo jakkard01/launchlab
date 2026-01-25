@@ -54,23 +54,43 @@ export default function PortfolioDetailPage({ params }: PageProps) {
 
         <div className="mt-10 grid gap-6 lg:grid-cols-3">
           <div className="rounded-3xl border border-white/10 bg-black/60 p-6">
-            <h2 className="text-lg font-semibold text-white">Reto</h2>
-            <p className="mt-3 text-sm text-slate-300">{item.challenge}</p>
+            <h2 className="text-lg font-semibold text-white">Problema</h2>
+            <p className="mt-3 text-sm text-slate-300">{item.problem}</p>
           </div>
           <div className="rounded-3xl border border-white/10 bg-black/60 p-6">
             <h2 className="text-lg font-semibold text-white">Solucion</h2>
             <p className="mt-3 text-sm text-slate-300">{item.solution}</p>
           </div>
           <div className="rounded-3xl border border-white/10 bg-black/60 p-6">
-            <h2 className="text-lg font-semibold text-white">Resultados</h2>
+            <h2 className="text-lg font-semibold text-white">Entregables</h2>
             <ul className="mt-4 space-y-3 text-sm text-slate-300">
-              {item.results.map((result) => (
-                <li key={result} className="flex gap-2">
+              {item.deliverables.map((deliverable) => (
+                <li key={deliverable} className="flex gap-2">
                   <span className="mt-1 h-1.5 w-1.5 rounded-full bg-cyan-300" />
-                  <span>{result}</span>
+                  <span>{deliverable}</span>
                 </li>
               ))}
             </ul>
+          </div>
+        </div>
+
+        <div className="mt-6 grid gap-6 lg:grid-cols-2">
+          <div className="rounded-3xl border border-white/10 bg-black/60 p-6">
+            <h2 className="text-lg font-semibold text-white">Stack</h2>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {item.stack.map((tech) => (
+                <span
+                  key={tech}
+                  className="rounded-full border border-white/10 bg-black/50 px-3 py-1 text-xs font-semibold text-slate-300"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className="rounded-3xl border border-white/10 bg-black/60 p-6">
+            <h2 className="text-lg font-semibold text-white">Resultado esperado</h2>
+            <p className="mt-3 text-sm text-slate-300">{item.expectedResult}</p>
           </div>
         </div>
 
@@ -103,12 +123,22 @@ export default function PortfolioDetailPage({ params }: PageProps) {
               Compartenos tu contexto y proponemos la siguiente iteracion.
             </p>
           </div>
-          <Link
-            href="/contact?source=portfolio"
-            className="rounded-full bg-cyan-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-cyan-300"
-          >
-            Iniciar conversacion
-          </Link>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <a
+              href="https://wa.me/34911528753?text=Hola%2C%20vengo%20desde%20poweredbyia.com.%20Quiero%20info%20de%20servicios%20y%20una%20demo."
+              className="rounded-full border border-emerald-300/60 px-6 py-3 text-center text-sm font-semibold text-emerald-200 transition hover:bg-emerald-300 hover:text-black"
+              target="_blank"
+              rel="noreferrer"
+            >
+              WhatsApp
+            </a>
+            <Link
+              href="/contact?source=portfolio"
+              className="rounded-full bg-cyan-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-cyan-300"
+            >
+              Reservar llamada
+            </Link>
+          </div>
         </div>
       </section>
     </main>

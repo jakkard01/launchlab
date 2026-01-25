@@ -116,7 +116,7 @@ export default function ServiceDetailPage({ params }: PageProps) {
               href="/contact?source=services"
               className="rounded-full border border-white/20 px-6 py-3 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
             >
-              Agendar llamada
+              Reservar llamada
             </Link>
           </div>
         </div>
