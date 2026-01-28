@@ -1,37 +1,43 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import LandingLocal from './LandingLocal';
-import IntroOverlay from './IntroOverlay'; // O IntroVideo, según cuál uses
-import { AnimatePresence } from 'framer-motion';
+import IntroVideo from './IntroVideo';
 
 export default function HomeClient() {
   const [showVideo, setShowVideo] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
 
-  const handleShowVideo = () => setShowVideo(true);
-  const handleCloseVideo = () => setShowVideo(false);
-  
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const seen = localStorage.getItem('welcomeVideoSeen');
+      if (!seen) {
+        setShowVideo(true);
+      }
+    }
+  }, []);
+
+  const handleVideoFinish = () => {
+    setShowVideo(false);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('welcomeVideoSeen', 'true');
+    }
+  };
+
   const handleScrollToHero = () => {
     heroRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <>
-      <AnimatePresence>
-        {showVideo && (
-          <div className="fixed inset-0 z-[60] bg-black">
-            <IntroOverlay 
-              src="/video/video.mp4" // Asegúrate que esta ruta es la correcta de tu video
-              onClose={handleCloseVideo}
-              onEnded={handleCloseVideo}
-            />
-          </div>
-        )}
-      </AnimatePresence>
-
-      <LandingLocal 
-        onShowVideo={handleShowVideo}
+      {showVideo && (
+        <IntroVideo
+          onFinish={handleVideoFinish}
+          onSkip={handleVideoFinish}
+        />
+      )}
+      <LandingLocal
+        onShowVideo={() => setShowVideo(true)}
         heroRef={heroRef}
         onScrollToHero={handleScrollToHero}
       />

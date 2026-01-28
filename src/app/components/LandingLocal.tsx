@@ -34,48 +34,31 @@ const quickAccess = [
   },
 ];
 
+const heroBullets = [
+  "Demo funcional en 7 días",
+  "Integraciones WhatsApp/Web/CRM",
+  "Soporte 30 días",
+];
+
+const proofStrip = [
+  "SSR + SEO listo",
+  "Rate limit en /api/contact",
+  "Demos: Bot + Business OS",
+  "Stack: Next.js + TS",
+];
+
 const processSteps = [
   {
-    titulo: "Diagnóstico",
-    descripcion: "Entendemos tu contexto, objetivos y fricciones clave.",
+    titulo: "Diagnóstico (15 min)",
+    descripcion: "Alineamos objetivos, stack y fricciones en una llamada breve.",
   },
   {
-    titulo: "Implementación",
-    descripcion: "Prototipos rápidos, iteración y despliegue seguro.",
+    titulo: "Build (demo en días)",
+    descripcion: "Construimos un demo funcional para validar flujos y valor.",
   },
   {
-    titulo: "Escalado",
-    descripcion: "Métricas, optimización continua y documentación.",
-  },
-];
-
-const values = [
-  {
-    titulo: "Misión",
-    descripcion: "Convertir IA aplicada en resultados medibles para negocio.",
-  },
-  {
-    titulo: "Visión",
-    descripcion: "Ser el partner tecnológico que simplifica lo complejo.",
-  },
-  {
-    titulo: "Valores",
-    descripcion: "Claridad, velocidad, seguridad y foco en impacto real.",
-  },
-];
-
-const demos = [
-  {
-    titulo: "Demo: Onboarding IA",
-    descripcion: "Experiencia interactiva para clientes y equipos internos.",
-  },
-  {
-    titulo: "Demo: Asistente Comercial",
-    descripcion: "Respuestas entrenadas para convertir leads en clientes.",
-  },
-  {
-    titulo: "Demo: Automatización",
-    descripcion: "Flujos conectados a tu stack operativo actual.",
+    titulo: "Deploy + iteración",
+    descripcion: "Lanzamos, medimos y optimizamos con entregables claros.",
   },
 ];
 
@@ -111,21 +94,31 @@ const faqs = [
   },
 ];
 
-const pricingHighlights = [
+const pricingPlans = [
   {
-    title: "Sprint IA",
-    price: "Desde EUR 900",
-    summary: "Diagnostico y quick wins en 7 dias.",
+    slug: "basico",
+    title: "Plan Básico",
+    price: "Desde €900",
+    who: "Teams que necesitan un primer sistema IA operativo.",
+    includes: ["Diagnóstico + alcance", "1 flujo automatizado", "Demo funcional"],
+    cta: "Reservar Básico",
   },
   {
-    title: "Launch",
-    price: "Desde EUR 2.500",
-    summary: "Bot o landing premium lista para publicar.",
+    slug: "growth",
+    title: "Plan Growth",
+    price: "Desde €1.500",
+    who: "Equipos comerciales que buscan convertir más rápido.",
+    includes: ["Bot + integraciones", "Training inicial", "Soporte 30 días"],
+    cta: "Reservar Growth",
+    featured: true,
   },
   {
-    title: "Scale",
-    price: "Desde EUR 6.500",
-    summary: "Sistema IA conectado a procesos reales.",
+    slug: "pro",
+    title: "Plan Pro",
+    price: "Desde €3.000",
+    who: "Operaciones que necesitan IA conectada a procesos core.",
+    includes: ["Mapa de procesos", "Automatizaciones multi-stack", "Iteraciones por sprint"],
+    cta: "Reservar Pro",
   },
 ];
 
@@ -143,7 +136,11 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
   const portfolioHighlights = portfolio.slice(0, 2);
 
   return (
-    <main className="min-h-screen w-full flex flex-col items-center px-4 pb-20 pt-28 sm:px-6 lg:px-8 relative">
+    <main className="relative min-h-screen w-full flex flex-col items-center px-4 pb-36 pt-28 sm:px-6 lg:px-8 md:pb-20">
+      <div
+        className="pointer-events-none absolute inset-0 -z-10 bg-black/45"
+        aria-hidden="true"
+      />
       {/* Modal de imagen grande */}
       {showModal && !imgError && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm" onClick={() => setShowModal(false)}>
@@ -184,26 +181,31 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               Para equipos que necesitan automatizar procesos, potenciar ventas y lanzar productos digitales
               con foco en resultados medibles.
             </p>
+            <div className="mt-5 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+              <ul className="flex flex-col gap-2 text-sm text-slate-200 sm:flex-row sm:flex-wrap sm:gap-4">
+                {heroBullets.map((item) => (
+                  <li key={item} className="flex items-center gap-2">
+                    <span className="h-1.5 w-1.5 rounded-full bg-cyan-300" aria-hidden="true" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
             <div className="mt-6 flex flex-wrap gap-4">
               <Link
                 href="/contact?source=home"
                 className="rounded-full bg-cyan-400 px-6 py-3 text-sm font-semibold text-black transition hover:bg-cyan-300"
+                aria-label="Reservar llamada"
               >
                 Reservar llamada
               </Link>
               <Link
                 href="/demos/bot"
                 className="rounded-full border border-cyan-300/60 px-6 py-3 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-400 hover:text-black"
+                aria-label="Ver demo del bot"
               >
                 Ver demo del bot
               </Link>
-              <button
-                onClick={onShowVideo}
-                className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white/90 transition hover:border-white/60"
-                aria-label="Ver demo en video"
-              >
-                Ver demo en video
-              </button>
             </div>
           </div>
           <div className="flex flex-col items-center gap-4">
@@ -234,6 +236,17 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
           </div>
         </div>
       </section>
+      {/* Proof strip */}
+      <section className="mt-6 w-full max-w-5xl mx-auto">
+        <div className="grid gap-3 rounded-2xl border border-white/10 bg-white/5 px-6 py-4 text-sm text-slate-200 shadow-lg backdrop-blur sm:grid-cols-2 lg:grid-cols-4">
+          {proofStrip.map((item) => (
+            <div key={item} className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-cyan-300" aria-hidden="true" />
+              <span>{item}</span>
+            </div>
+          ))}
+        </div>
+      </section>
       {/* Accesos rápidos */}
       <section className="mt-12 w-full max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {quickAccess.map((a) => (
@@ -250,174 +263,184 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
       </section>
 
       <section id="servicios" className="mt-20 w-full max-w-6xl">
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Servicios</p>
-            <h2 className="mt-3 text-3xl font-semibold text-white">Soluciones IA de alto impacto</h2>
-          </div>
-          <Link
-            href="/services"
-            className="rounded-full border border-white/20 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
-          >
-            Ver detalle completo
-          </Link>
-        </div>
-        <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {services.map((service) => (
-            <div
-              key={service.slug}
-              className="rounded-2xl border border-white/10 bg-black/55 p-6 shadow-lg"
-            >
-              <h3 className="text-lg font-semibold text-white">{service.title}</h3>
-              <p className="mt-3 text-sm text-slate-300">{service.summary}</p>
+        <div className="rounded-3xl border border-white/10 bg-black/60 p-8 shadow-xl">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Servicios</p>
+              <h2 className="mt-3 text-3xl font-semibold text-white">Soluciones IA de alto impacto</h2>
             </div>
-          ))}
+            <Link
+              href="/services"
+              className="rounded-full border border-white/20 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
+              aria-label="Ver detalle completo de servicios"
+            >
+              Ver detalle completo
+            </Link>
+          </div>
+          <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {services.map((service, index) => (
+              <div
+                key={service.slug}
+                className={`rounded-2xl border border-white/10 p-6 shadow-lg ${
+                  index < 2 ? "bg-black/70" : "bg-black/45"
+                }`}
+              >
+                <h3 className="text-lg font-semibold text-white">{service.title}</h3>
+                <p className="mt-3 text-sm text-slate-300">{service.summary}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       <section id="demos" className="mt-20 w-full max-w-6xl">
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Demos</p>
-            <h2 className="mt-3 text-3xl font-semibold text-white">Showcase listo para activar</h2>
-          </div>
-          <Link
-            href="/demos"
-            className="rounded-full border border-white/20 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
-          >
-            Ver todas las demos
-          </Link>
-        </div>
-        <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {demoHighlights.map((item) => (
+        <div className="rounded-3xl border border-white/10 bg-white/5 p-8 shadow-xl">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Demos</p>
+              <h2 className="mt-3 text-3xl font-semibold text-white">Showcase listo para activar</h2>
+            </div>
             <Link
-              key={item.slug}
-              href={item.ctaHref}
-              className="rounded-2xl border border-white/10 bg-black/55 p-6 shadow-lg transition hover:border-cyan-300/40"
+              href="/demos"
+              className="rounded-full border border-white/20 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
+              aria-label="Ver todas las demos"
             >
-              <h3 className="text-lg font-semibold text-white">{item.title}</h3>
-              <p className="mt-3 text-sm text-slate-300">{item.summary}</p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {item.tags.slice(0, 3).map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full border border-white/10 bg-black/50 px-3 py-1 text-xs font-semibold text-slate-300"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
+              Ver todas las demos
             </Link>
-          ))}
+          </div>
+          <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {demoHighlights.map((item, index) => (
+              <Link
+                key={item.slug}
+                href={item.ctaHref}
+                className={`rounded-2xl border border-white/10 p-6 shadow-lg transition hover:border-cyan-300/40 ${
+                  index === 0 ? "bg-black/70" : "bg-black/45"
+                }`}
+              >
+                <h3 className="text-lg font-semibold text-white">{item.title}</h3>
+                <p className="mt-3 text-sm text-slate-300">{item.summary}</p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {item.tags.slice(0, 3).map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full border border-white/10 bg-black/50 px-3 py-1 text-xs font-semibold text-slate-300"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
       <section id="paquetes" className="mt-20 w-full max-w-6xl">
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Paquetes</p>
-            <h2 className="mt-3 text-3xl font-semibold text-white">Planes listos para facturar</h2>
-          </div>
-          <Link
-            href="/pricing"
-            className="rounded-full border border-white/20 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
-          >
-            Ver todos los paquetes
-          </Link>
-        </div>
-        <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {pricingHighlights.map((plan) => (
-            <div
-              key={plan.title}
-              className="rounded-2xl border border-white/10 bg-black/55 p-6 shadow-lg"
-            >
-              <h3 className="text-lg font-semibold text-white">{plan.title}</h3>
-              <p className="mt-2 text-sm text-cyan-200">{plan.price}</p>
-              <p className="mt-3 text-sm text-slate-300">{plan.summary}</p>
+        <div className="rounded-3xl border border-white/10 bg-black/60 p-8 shadow-xl">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Paquetes</p>
+              <h2 className="mt-3 text-3xl font-semibold text-white">Planes listos para facturar</h2>
             </div>
-          ))}
+            <Link
+              href="/pricing"
+              className="rounded-full border border-white/20 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
+              aria-label="Ver todos los paquetes"
+            >
+              Ver todos los paquetes
+            </Link>
+          </div>
+          <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {pricingPlans.map((plan) => (
+              <div
+                key={plan.title}
+                className={`rounded-2xl border p-6 shadow-lg ${
+                  plan.featured
+                    ? "border-cyan-400/40 bg-black/75"
+                    : "border-white/10 bg-black/50"
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold text-white">{plan.title}</h3>
+                  <span className="text-xs uppercase tracking-[0.2em] text-cyan-200/80">
+                    {plan.price}
+                  </span>
+                </div>
+                <p className="mt-3 text-sm text-slate-300">Para quién: {plan.who}</p>
+                <ul className="mt-4 space-y-2 text-sm text-slate-300">
+                  {plan.includes.map((item) => (
+                    <li key={item} className="flex items-center gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-cyan-300" aria-hidden="true" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-4 text-xs text-slate-400">Precio final según alcance.</p>
+                <Link
+                  href={`/contact?source=home&plan=${plan.slug}`}
+                  className="mt-5 inline-flex w-full items-center justify-center rounded-full bg-cyan-400 px-5 py-2 text-sm font-semibold text-black transition hover:bg-cyan-300"
+                  aria-label={`Reservar llamada para ${plan.title}`}
+                >
+                  {plan.cta}
+                </Link>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       <section id="portfolio" className="mt-20 w-full max-w-6xl">
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Portfolio</p>
-            <h2 className="mt-3 text-3xl font-semibold text-white">Casos demo para inspirar</h2>
-          </div>
-          <Link
-            href="/portfolio"
-            className="rounded-full border border-white/20 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
-          >
-            Ver portfolio
-          </Link>
-        </div>
-        <div className="mt-8 grid gap-6 md:grid-cols-2">
-          {portfolioHighlights.map((item) => (
+        <div className="rounded-3xl border border-white/10 bg-white/5 p-8 shadow-xl">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Portfolio</p>
+              <h2 className="mt-3 text-3xl font-semibold text-white">Casos demo para inspirar</h2>
+            </div>
             <Link
-              key={item.slug}
-              href={`/portfolio/${item.slug}`}
-              className="rounded-2xl border border-white/10 bg-black/55 p-6 shadow-lg transition hover:border-cyan-300/40"
+              href="/portfolio"
+              className="rounded-full border border-white/20 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
+              aria-label="Ver portfolio completo"
             >
-              <h3 className="text-lg font-semibold text-white">{item.title}</h3>
-              <p className="mt-3 text-sm text-slate-300">{item.summary}</p>
+              Ver portfolio
             </Link>
-          ))}
+          </div>
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            {portfolioHighlights.map((item, index) => (
+              <Link
+                key={item.slug}
+                href={`/portfolio/${item.slug}`}
+                className={`rounded-2xl border border-white/10 p-6 shadow-lg transition hover:border-cyan-300/40 ${
+                  index === 0 ? "bg-black/70" : "bg-black/45"
+                }`}
+              >
+                <h3 className="text-lg font-semibold text-white">{item.title}</h3>
+                <p className="mt-3 text-sm text-slate-300">{item.summary}</p>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
       <section className="mt-20 w-full max-w-6xl">
-        <div className="grid gap-10 md:grid-cols-[1fr_1.1fr]">
-          <div className="rounded-3xl border border-white/10 bg-black/60 p-8">
-            <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Proceso</p>
-            <h2 className="mt-3 text-3xl font-semibold text-white">De estrategia a ejecución</h2>
-            <p className="mt-4 text-sm text-slate-300">
-              Diseñamos, prototipamos e iteramos con foco en resultados y experiencia de usuario.
-            </p>
-            <div className="mt-6 space-y-4">
-              {processSteps.map((step, index) => (
-                <div key={step.titulo} className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                  <p className="text-xs font-semibold text-cyan-200">Paso 0{index + 1}</p>
-                  <h3 className="mt-2 text-base font-semibold text-white">{step.titulo}</h3>
-                  <p className="mt-2 text-sm text-slate-300">{step.descripcion}</p>
-                </div>
-              ))}
+        <div className="rounded-3xl border border-white/10 bg-black/60 p-8 shadow-xl">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Proceso</p>
+              <h2 className="mt-3 text-3xl font-semibold text-white">De diagnóstico a deploy</h2>
             </div>
+            <p className="text-sm text-slate-300">
+              Ruta clara para validar, construir y escalar sin humo.
+            </p>
           </div>
-          <div className="grid gap-6">
-            {values.map((item) => (
-              <div key={item.titulo} className="rounded-3xl border border-white/10 bg-black/55 p-6">
-                <h3 className="text-lg font-semibold text-white">{item.titulo}</h3>
-                <p className="mt-3 text-sm text-slate-300">{item.descripcion}</p>
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {processSteps.map((step, index) => (
+              <div key={step.titulo} className="rounded-2xl border border-white/10 bg-white/5 p-6">
+                <p className="text-xs font-semibold text-cyan-200">Paso 0{index + 1}</p>
+                <h3 className="mt-2 text-base font-semibold text-white">{step.titulo}</h3>
+                <p className="mt-2 text-sm text-slate-300">{step.descripcion}</p>
               </div>
             ))}
-            <div className="rounded-3xl border border-cyan-400/30 bg-black/70 p-6">
-              <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">
-                Garantia de proceso
-              </p>
-              <h3 className="mt-2 text-lg font-semibold text-white">
-                Metodo claro, entregables definidos
-              </h3>
-              <p className="mt-3 text-sm text-slate-300">
-                Alcance, iteraciones y entregables acordados desde el inicio.
-                Sin promesas infladas, con foco en ejecucion real.
-              </p>
-            </div>
           </div>
-        </div>
-      </section>
-
-      <section id="demos" className="mt-20 w-full max-w-6xl">
-        <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Demos & casos</p>
-        <h2 className="mt-3 text-3xl font-semibold text-white">Casos de uso demostrables</h2>
-        <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {demos.map((demo) => (
-            <div key={demo.titulo} className="rounded-2xl border border-white/10 bg-black/60 p-6">
-              <h3 className="text-lg font-semibold text-white">{demo.titulo}</h3>
-              <p className="mt-3 text-sm text-slate-300">{demo.descripcion}</p>
-              <p className="mt-5 text-xs uppercase tracking-[0.3em] text-cyan-200/70">Disponible pronto</p>
-            </div>
-          ))}
         </div>
       </section>
 
@@ -476,6 +499,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
           <button
             onClick={onShowVideo}
             className="rounded-full border border-cyan-300/60 px-5 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-400 hover:text-black"
+            aria-label="Ver video demo"
           >
             Ver video
           </button>
@@ -551,6 +575,27 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
           </button>
         </div>
       </section>
+
+      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-white/10 bg-black/80 px-4 py-3 backdrop-blur md:hidden">
+        <div className="mx-auto flex w-full max-w-md gap-3">
+          <Link
+            href="/contact?source=sticky"
+            className="flex-1 rounded-full bg-cyan-400 px-4 py-3 text-center text-sm font-semibold text-black transition hover:bg-cyan-300"
+            aria-label="Reservar llamada desde la barra inferior"
+          >
+            Reservar
+          </Link>
+          <a
+            href={whatsappLink}
+            target="_blank"
+            rel="noreferrer"
+            className="flex-1 rounded-full border border-emerald-400/70 px-4 py-3 text-center text-sm font-semibold text-emerald-200 transition hover:bg-emerald-400 hover:text-black"
+            aria-label="Abrir WhatsApp desde la barra inferior"
+          >
+            WhatsApp
+          </a>
+        </div>
+      </div>
 
       <footer className="mt-16 w-full text-center text-xs text-slate-400">
         &copy; {new Date().getFullYear()} Powered by IA. Todos los derechos reservados.
