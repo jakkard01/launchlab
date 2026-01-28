@@ -4,7 +4,7 @@ import { portfolio } from "../content/portfolio";
 
 export const metadata: Metadata = {
   title: "Portfolio | Powered by IA",
-  description: "Casos demo y plantillas de sistemas IA en accion.",
+  description: "Casos demo Powered by IA y plantillas de sistemas IA en accion.",
 };
 
 export default function PortfolioPage() {
@@ -15,7 +15,7 @@ export default function PortfolioPage() {
           Portfolio
         </p>
         <h1 className="mt-3 text-4xl font-semibold text-white">
-          Casos y demos aplicadas
+          Casos Powered by IA para validar y escalar
         </h1>
         <p className="mt-4 max-w-2xl text-base text-slate-300">
           Ejemplos reales en formato demo para mostrar como resolvemos friccion

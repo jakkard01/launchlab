@@ -3,7 +3,8 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Paquetes | Powered by IA",
-  description: "Paquetes claros para implementar IA, automatizar y escalar.",
+  description:
+    "Paquetes claros de Powered by IA para implementar IA, automatizar y escalar.",
 };
 
 const plans = [
@@ -69,7 +70,7 @@ export default function PricingPage() {
           Paquetes
         </p>
         <h1 className="mt-3 text-4xl font-semibold text-white">
-          Planes claros para lanzar IA con impacto
+          Planes Powered by IA para lanzar IA con impacto
         </h1>
         <p className="mt-4 max-w-2xl text-base text-slate-300">
           Selecciona el nivel que necesitas hoy y escala cuando el sistema ya

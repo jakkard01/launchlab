@@ -5,7 +5,7 @@ import { showcase } from "../content/showcase";
 
 export const metadata: Metadata = {
   title: "Demos | Powered by IA",
-  description: "Showcase de demos y productos IA listos para activar.",
+  description: "Showcase de demos Powered by IA y productos listos para activar.",
 };
 
 export default function DemosPage() {
@@ -16,7 +16,7 @@ export default function DemosPage() {
           Demos
         </p>
         <h1 className="mt-3 text-4xl font-semibold text-white">
-          Showcase de productos y demos
+          Demos Powered by IA para validar y vender
         </h1>
         <p className="mt-4 max-w-2xl text-base text-slate-300">
           Activos reales para validar, vender y escalar sin rehacer la base.

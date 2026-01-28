@@ -6,7 +6,7 @@ import { services } from "../content/catalog";
 export const metadata: Metadata = {
   title: "Servicios IA | Powered by IA",
   description:
-    "Servicios premium de IA aplicada: automatización, asistentes inteligentes y sistemas de venta digital.",
+    "Servicios premium de Powered by IA: automatización, asistentes inteligentes y sistemas de venta digital.",
 };
 
 export default function ServicesPage() {
@@ -17,7 +17,7 @@ export default function ServicesPage() {
           Servicios
         </p>
         <h1 className="mt-3 text-4xl font-semibold text-white">
-          Soluciones IA diseñadas para equipos ambiciosos
+          Servicios Powered by IA para equipos ambiciosos
         </h1>
         <p className="mt-4 max-w-2xl text-base text-slate-300">
           Implementamos sistemas inteligentes que reducen fricción, elevan la
