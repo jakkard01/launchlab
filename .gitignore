@@ -142,3 +142,7 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# basura de shell/ssh
+/eval "$(ssh-agent -s)"
+/eval "$(ssh-agent -s)".pub
