@@ -7,58 +7,66 @@ export const metadata: Metadata = {
     "Paquetes claros de Powered by IA para implementar IA, automatizar y escalar.",
 };
 
+const whatsappBase = "https://wa.me/34911528753?text=";
+
+const buildWhatsappLink = (source: string, plan: string) =>
+  `${whatsappBase}${encodeURIComponent(
+    `Hola, vengo desde poweredbyia.com. Me interesa el plan ${plan}. Fuente: ${source}.`
+  )}`;
+
 const plans = [
   {
-    title: "Sprint IA",
-    from: "Desde EUR 900",
-    typicalTimeline: "Plazo tipico: 7-10 dias",
-    description: "Diagnostico, propuesta y quick wins en 7 dias.",
-    features: [
-      "Workshop de objetivos",
-      "Mapa de automatizaciones",
-      "Plan de implementacion rapido",
+    slug: "starter",
+    title: "Plan Starter",
+    from: "Desde €900",
+    typicalTimeline: "Plazo típico: 7-10 días",
+    description: "Sprint para validar un flujo con IA y medir respuesta.",
+    includes: [
+      "Diagnóstico + alcance",
+      "1 flujo automatizado",
+      "Demo funcional",
     ],
-    ctaLabel: "Reservar llamada",
-    ctaHref: "/contact?source=pricing-sprint",
+    excludes: ["Integraciones complejas", "Múltiples squads"],
   },
   {
-    title: "Launch",
-    from: "Desde EUR 2.500",
-    typicalTimeline: "Plazo tipico: 2-3 semanas",
-    description: "Implementacion de un bot o landing premium.",
-    features: [
-      "Setup funcional completo",
-      "Iteraciones de copy y flujo",
-      "Entrega lista para publicar",
+    slug: "growth",
+    title: "Plan Growth",
+    from: "Desde €1.500",
+    typicalTimeline: "Plazo típico: 2-3 semanas",
+    description: "Bot o landing con integraciones ligeras para ventas.",
+    includes: [
+      "Setup completo + copy base",
+      "Integraciones WhatsApp / Web",
+      "Soporte 30 días",
     ],
-    ctaLabel: "Reservar llamada",
-    ctaHref: "/contact?source=pricing-launch",
+    excludes: ["Automatizaciones multi-área", "Infraestructura a medida"],
+    featured: true,
   },
   {
-    title: "Scale",
-    from: "Desde EUR 6.500",
-    typicalTimeline: "Plazo tipico: 3-5 semanas",
-    description: "Sistema IA con automatizaciones y soporte al equipo.",
-    features: [
-      "Integraciones clave",
-      "Automatizaciones multi-proceso",
-      "Documentacion operativa",
+    slug: "pro",
+    title: "Plan Pro",
+    from: "Desde €3.000",
+    typicalTimeline: "Plazo típico: 3-5 semanas",
+    description: "Sistema IA conectado a procesos críticos.",
+    includes: [
+      "Mapa de procesos",
+      "Automatizaciones multi-stack",
+      "Documentación operativa",
     ],
-    ctaLabel: "Reservar llamada",
-    ctaHref: "/contact?source=pricing-scale",
+    excludes: ["Desarrollo de producto completo", "Equipos dedicados"],
   },
   {
-    title: "Enterprise",
-    from: "Custom",
-    typicalTimeline: "Plazo tipico: 4-8 semanas",
-    description: "Arquitectura a medida para equipos complejos.",
-    features: [
-      "Roadmap trimestral",
-      "Seguridad y compliance",
-      "Acompanamiento continuo",
+    slug: "custom",
+    title: "Custom",
+    from: "A medida",
+    typicalTimeline: "Plazo típico: 4-8 semanas",
+    description: "Arquitectura avanzada y coordinación multi-equipo.",
+    includes: [
+      "Roadmap y sprints",
+      "Compliance básico",
+      "Acompañamiento continuo",
     ],
-    ctaLabel: "Reservar llamada",
-    ctaHref: "/contact?source=pricing-enterprise",
+    excludes: ["Soporte 24/7", "Licencias de terceros"],
   },
 ];
 
@@ -81,7 +89,11 @@ export default function PricingPage() {
           {plans.map((plan) => (
             <div
               key={plan.title}
-              className="rounded-2xl border border-white/10 bg-black/60 p-6 shadow-lg"
+              className={`rounded-2xl border p-6 shadow-lg ${
+                plan.featured
+                  ? "border-cyan-400/40 bg-black/70"
+                  : "border-white/10 bg-black/60"
+              }`}
             >
               <h2 className="text-lg font-semibold text-white">{plan.title}</h2>
               <p className="mt-2 text-sm text-cyan-200">{plan.from}</p>
@@ -91,20 +103,48 @@ export default function PricingPage() {
               <p className="mt-3 text-sm text-slate-300">
                 {plan.description}
               </p>
-              <ul className="mt-4 space-y-2 text-sm text-slate-300">
-                {plan.features.map((feature) => (
-                  <li key={feature} className="flex gap-2">
-                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-cyan-300" />
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-              <Link
-                href={plan.ctaHref}
-                className="mt-6 inline-flex w-full items-center justify-center rounded-full border border-cyan-300/60 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-400 hover:text-black"
-              >
-                {plan.ctaLabel}
-              </Link>
+              <div className="mt-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200/70">
+                  Incluye
+                </p>
+                <ul className="mt-3 space-y-2 text-sm text-slate-300">
+                  {plan.includes.map((feature) => (
+                    <li key={feature} className="flex gap-2">
+                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-cyan-300" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mt-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
+                  No incluye
+                </p>
+                <ul className="mt-3 space-y-2 text-sm text-slate-400">
+                  {plan.excludes.map((feature) => (
+                    <li key={feature} className="flex gap-2">
+                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-white/20" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mt-6 flex flex-col gap-3">
+                <Link
+                  href={`/contact?source=pricing_${plan.slug}`}
+                  className="inline-flex w-full items-center justify-center rounded-full bg-cyan-400 px-4 py-2 text-sm font-semibold text-black transition hover:bg-cyan-300"
+                >
+                  Reservar llamada
+                </Link>
+                <a
+                  href={buildWhatsappLink(`pricing_${plan.slug}`, plan.title)}
+                  className="inline-flex w-full items-center justify-center rounded-full border border-emerald-300/60 px-4 py-2 text-sm font-semibold text-emerald-200 transition hover:bg-emerald-300 hover:text-black"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  WhatsApp directo
+                </a>
+              </div>
             </div>
           ))}
         </div>
