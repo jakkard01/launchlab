@@ -21,30 +21,47 @@ const quickAccess = [
     link: "/#servicios",
   },
   {
-    titulo: "Prompts",
-    descripcion: "Biblioteca táctica lista para producción.",
+    titulo: "Demos",
+    descripcion: "Demos funcionales para validar rápido.",
     icono: "/favicon.ico",
-    link: "/prompts",
+    link: "/#demos",
   },
   {
-    titulo: "Cursos",
-    descripcion: "Formación aplicada y workshops in-company.",
+    titulo: "Paquetes",
+    descripcion: "Planes claros con alcance y entregables.",
     icono: "/favicon.ico",
-    link: "/#cursos",
+    link: "/#paquetes",
   },
 ];
 
-const heroBullets = [
+const trustItems = [
   "Demo funcional en 7 días",
-  "Integraciones WhatsApp/Web/CRM",
+  "Integraciones: WhatsApp/Web/CRM",
   "Soporte 30 días",
-];
-
-const proofStrip = [
+  "Stack: Next.js + TS",
   "SSR + SEO listo",
   "Rate limit en /api/contact",
-  "Demos: Bot + Business OS",
-  "Stack: Next.js + TS",
+];
+
+const conversionPath = [
+  {
+    step: "Paso 1",
+    title: "Reservar llamada",
+    description: "15 minutos para aterrizar objetivos.",
+    href: "/contact?source=home_path",
+  },
+  {
+    step: "Paso 2",
+    title: "Ver demo",
+    description: "Bot o Business OS en acción.",
+    href: "/demos",
+  },
+  {
+    step: "Paso 3",
+    title: "Ver paquetes",
+    description: "Precios desde y alcance claro.",
+    href: "/pricing",
+  },
 ];
 
 const processSteps = [
@@ -62,17 +79,11 @@ const processSteps = [
   },
 ];
 
-const testimonials = [
-  {
-    quote: "“Implementación impecable y resultados desde la primera semana.”",
-    name: "Testimonio de ejemplo",
-    role: "Dirección Comercial",
-  },
-  {
-    quote: "“El equipo entendió nuestro negocio y ejecutó con precisión.”",
-    name: "Testimonio de ejemplo",
-    role: "Dirección General",
-  },
+const deliveryItems = [
+  "Landing o sección de conversión",
+  "Tracking básico + eventos clave",
+  "Demo de bot o flujo automatizado",
+  "Documentación y handoff al equipo",
 ];
 
 const faqs = [
@@ -181,19 +192,9 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               Para equipos que necesitan automatizar procesos, potenciar ventas y lanzar productos digitales
               con foco en resultados medibles.
             </p>
-            <div className="mt-5 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
-              <ul className="flex flex-col gap-2 text-sm text-slate-200 sm:flex-row sm:flex-wrap sm:gap-4">
-                {heroBullets.map((item) => (
-                  <li key={item} className="flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-cyan-300" aria-hidden="true" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
             <div className="mt-6 flex flex-wrap gap-4">
               <Link
-                href="/contact?source=home"
+                href="/contact?source=home_hero"
                 className="rounded-full bg-cyan-400 px-6 py-3 text-sm font-semibold text-black transition hover:bg-cyan-300"
                 aria-label="Reservar llamada"
               >
@@ -206,6 +207,33 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               >
                 Ver demo del bot
               </Link>
+            </div>
+            <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 px-4 py-4">
+              <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">
+                Proof inmediato
+              </p>
+              <div className="mt-3 grid gap-2 text-sm text-slate-200 sm:grid-cols-2">
+                {trustItems.map((item) => (
+                  <div key={item} className="flex items-center gap-2">
+                    <span className="h-1.5 w-1.5 rounded-full bg-cyan-300" aria-hidden="true" />
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="mt-6 grid gap-3 sm:grid-cols-3">
+              {conversionPath.map((item) => (
+                <Link
+                  key={item.title}
+                  href={item.href}
+                  className="rounded-2xl border border-white/10 bg-black/50 px-4 py-3 text-left transition hover:border-cyan-300/40"
+                  aria-label={item.title}
+                >
+                  <p className="text-xs font-semibold text-cyan-200">{item.step}</p>
+                  <p className="mt-1 text-sm font-semibold text-white">{item.title}</p>
+                  <p className="mt-1 text-xs text-slate-300">{item.description}</p>
+                </Link>
+              ))}
             </div>
           </div>
           <div className="flex flex-col items-center gap-4">
@@ -234,17 +262,6 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               </p>
             </div>
           </div>
-        </div>
-      </section>
-      {/* Proof strip */}
-      <section className="mt-6 w-full max-w-5xl mx-auto">
-        <div className="grid gap-3 rounded-2xl border border-white/10 bg-white/5 px-6 py-4 text-sm text-slate-200 shadow-lg backdrop-blur sm:grid-cols-2 lg:grid-cols-4">
-          {proofStrip.map((item) => (
-            <div key={item} className="flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-cyan-300" aria-hidden="true" />
-              <span>{item}</span>
-            </div>
-          ))}
         </div>
       </section>
       {/* Accesos rápidos */}
@@ -425,11 +442,11 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
         <div className="rounded-3xl border border-white/10 bg-black/60 p-8 shadow-xl">
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Proceso</p>
-              <h2 className="mt-3 text-3xl font-semibold text-white">De diagnóstico a deploy</h2>
+              <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Cómo trabajamos</p>
+              <h2 className="mt-3 text-3xl font-semibold text-white">De diagnóstico a demo en días</h2>
             </div>
             <p className="text-sm text-slate-300">
-              Ruta clara para validar, construir y escalar sin humo.
+              Sprint inicial para validar, luego iteramos con entregables claros.
             </p>
           </div>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
@@ -440,6 +457,30 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
                 <p className="mt-2 text-sm text-slate-300">{step.descripcion}</p>
               </div>
             ))}
+          </div>
+          <div className="mt-8 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+            <div className="rounded-2xl border border-white/10 bg-black/55 p-6">
+              <h3 className="text-lg font-semibold text-white">Qué entregamos</h3>
+              <ul className="mt-4 space-y-2 text-sm text-slate-300">
+                {deliveryItems.map((item) => (
+                  <li key={item} className="flex items-center gap-2">
+                    <span className="h-1.5 w-1.5 rounded-full bg-cyan-300" aria-hidden="true" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="rounded-2xl border border-cyan-400/30 bg-black/70 p-6">
+              <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">
+                Riesgo controlado
+              </p>
+              <h3 className="mt-2 text-lg font-semibold text-white">
+                Demo first, luego escalamos
+              </h3>
+              <p className="mt-3 text-sm text-slate-300">
+                Arrancamos con un sprint corto para validar el flujo antes de invertir en un despliegue mayor.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -471,23 +512,6 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
         </div>
       </section>
 
-      <section id="prompts" className="mt-20 w-full max-w-6xl">
-        <div className="rounded-3xl border border-white/10 bg-black/60 p-8">
-          <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Prompts</p>
-          <h2 className="mt-3 text-3xl font-semibold text-white">Biblioteca diaria de prompts</h2>
-          <p className="mt-4 text-sm text-slate-300">
-            Acceso a prompts listos para producción, organizados por categoría.
-          </p>
-          <div className="mt-6">
-            <Link
-              href="/prompts"
-              className="inline-flex rounded-full border border-cyan-300/60 px-5 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-400 hover:text-black"
-            >
-              Ir a la biblioteca
-            </Link>
-          </div>
-        </div>
-      </section>
 
       <section id="bot" className="mt-20 w-full max-w-5xl">
         <div className="rounded-3xl border border-white/10 bg-black/65 p-8">
@@ -510,20 +534,6 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
           <div className="mt-6">
             <EmbeddedBot />
           </div>
-        </div>
-      </section>
-
-      <section className="mt-20 w-full max-w-6xl">
-        <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Testimonios</p>
-        <h2 className="mt-3 text-3xl font-semibold text-white">Confianza validada</h2>
-        <div className="mt-8 grid gap-6 md:grid-cols-2">
-          {testimonials.map((t) => (
-            <div key={t.quote} className="rounded-3xl border border-white/10 bg-black/55 p-6">
-              <p className="text-lg text-white">{t.quote}</p>
-              <p className="mt-4 text-sm text-cyan-200">{t.name}</p>
-              <p className="text-xs text-slate-400">{t.role}</p>
-            </div>
-          ))}
         </div>
       </section>
 
