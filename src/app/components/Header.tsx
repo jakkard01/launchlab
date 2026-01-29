@@ -8,9 +8,11 @@ import {
   HandCoins,
   Home,
   Layers3,
+  Languages,
   LineChart,
   Mail,
   Rocket,
+  Video,
   X,
 } from "lucide-react";
 import { trackEvent } from "../../lib/analytics";
@@ -29,6 +31,20 @@ const navItems = [
     href: "/demos",
     icon: Layers3,
     tagline: "ver funcionando",
+  },
+  {
+    label: "Video Packs",
+    href: "/video",
+    match: "/video",
+    icon: Video,
+    tagline: "packs mensuales",
+  },
+  {
+    label: "Doblaje",
+    href: "/video#doblaje",
+    match: "/video",
+    icon: Languages,
+    tagline: "EN + DE listo para vender",
   },
   {
     label: "Paquetes",
@@ -62,12 +78,11 @@ export default function Header() {
   const socialLinks = getSocialLinks("header");
 
   useEffect(() => {
-    if (!menuOpen) return;
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") setMenuOpen(false);
     };
     document.addEventListener("keydown", onKeyDown);
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
       document.removeEventListener("keydown", onKeyDown);
@@ -99,7 +114,9 @@ export default function Header() {
 
         <nav className="hidden items-center gap-6 md:flex">
           {navItems.map((item) => {
-            const isActive = pathname === item.href;
+            const isActive =
+              pathname === item.href ||
+              (item.match ? pathname === item.match : false);
             return (
               <Link
                 key={item.label}
