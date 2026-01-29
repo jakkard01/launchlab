@@ -1,0 +1,2 @@
+- Reemplazar /public/docs/alcance-web.txt por un PDF final de alcance.
+- Añadir imagenes reales para productos del catalogo (mockAdapter).
