@@ -26,7 +26,7 @@ const videoPacks = [
   {
     name: "Pack Starter",
     cadence: "4 videos / mes",
-    price: "Desde €450-€750 / mes",
+    price: "Desde: consulta",
     campaign: "starter",
     includes: [
       "Guion ligero (hooks + CTA)",
@@ -52,7 +52,7 @@ const videoPacks = [
   {
     name: "Pack Growth",
     cadence: "8 videos / mes",
-    price: "Desde €950-€1,450 / mes",
+    price: "Desde: consulta",
     campaign: "growth",
     includes: [
       "Guion ligero (hooks + CTA)",
@@ -79,7 +79,7 @@ const videoPacks = [
   {
     name: "Pack Pro",
     cadence: "12-16 videos / mes",
-    price: "Desde €1,750-€3,200 / mes",
+    price: "Desde: consulta",
     campaign: "pro",
     includes: [
       "Guion completo + storyboard simple",
@@ -108,7 +108,7 @@ const videoPacks = [
 const dubbingProducts = [
   {
     name: "1 video / 2 idiomas",
-    price: "Desde €120-€280",
+    price: "Desde: consulta",
     campaign: "one_video",
     includes: [
       "Voiceover natural",
@@ -131,7 +131,7 @@ const dubbingProducts = [
   },
   {
     name: "Batch 5 videos / 2 idiomas",
-    price: "Desde €450-€1,100",
+    price: "Desde: consulta",
     campaign: "batch",
     includes: [
       "Voiceover + subtitulos pro",
@@ -163,7 +163,7 @@ export default function VideoPage() {
             Video Packs
           </p>
           <h1 className="mt-4 text-3xl font-semibold text-white md:text-4xl">
-            Produccion mensual con alcance definido + doblaje en cualquier idioma
+            Produccion mensual + doblaje en cualquier idioma
           </h1>
           <p className="mt-3 text-base text-slate-200 md:text-lg">
             Video packs claros y doblaje/subtitulos con limites definidos.
@@ -288,13 +288,13 @@ export default function VideoPage() {
                     rel="noopener noreferrer"
                     className="rounded-full bg-emerald-400 px-5 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
                   >
-                    WhatsApp: quiero este pack
+                    Hablar por WhatsApp
                   </a>
                   <Link
                     href={contactLink}
                     className="rounded-full border border-white/20 px-5 py-3 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
                   >
-                    Reservar llamada
+                    Solicitar propuesta
                   </Link>
                 </div>
               </article>
@@ -396,15 +396,14 @@ export default function VideoPage() {
                   className="mt-4 rounded-full bg-emerald-400 px-5 py-2 text-center text-xs font-semibold text-black transition hover:bg-emerald-300"
                   data-fab-avoid
                 >
-                  WhatsApp: solicitar este pack
+                  Hablar por WhatsApp
                 </a>
               </article>
             ))}
           </div>
 
           <p className="mt-6 text-xs text-slate-400">
-            Idiomas extra: €39 por video o €149 por batch. Lip-sync avanzado y
-            urgencias se cotizan aparte.
+            Idiomas extra y lip-sync avanzado se cotizan aparte.
           </p>
         </div>
       </section>
@@ -422,7 +421,7 @@ export default function VideoPage() {
             intents + handoff) + 2 doblajes/mes (2 idiomas). SLA 24-48h habiles.
           </p>
           <p className="mt-4 text-lg font-semibold text-emerald-200">
-            Desde €2,499 / mes
+            Desde: consulta
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row" data-fab-avoid>
             <a
@@ -435,13 +434,13 @@ export default function VideoPage() {
               rel="noopener noreferrer"
               className="rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
             >
-              WhatsApp: quiero el Super Pack
+              Hablar por WhatsApp
             </a>
             <Link
               href={buildContactLink("superpack", { utm_campaign: "video" })}
               className="rounded-full border border-white/20 px-6 py-3 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
             >
-              Reservar llamada
+              Solicitar propuesta
             </Link>
           </div>
         </div>

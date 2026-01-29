@@ -24,45 +24,45 @@ export const metadata: Metadata = {
 const plans = [
   {
     slug: "starter",
-    title: "Starter",
+    title: "Web Starter",
     from: "Desde: consulta",
-    typicalTimeline: "Plazo típico: 7-10 días",
-    description: "Demo + captación para validar rápido.",
+    typicalTimeline: "Plazo típico: 5-7 días hábiles",
+    description: "Landing clara para validar oferta y convertir.",
     includes: [
-      "Diagnóstico express y objetivos",
-      "1 flujo de captación (form o WhatsApp)",
-      "Demo funcional con guion",
-      "Copy base + CTA listos",
-      "Handoff + próximos pasos",
+      "1 página (secciones)",
+      "Copy base + CTA + formulario",
+      "SEO básico (title/meta, sitemap, robots)",
+      "Performance mobile first",
+      "1 ronda de cambios",
     ],
   },
   {
     slug: "growth",
-    title: "Growth",
+    title: "Web Growth",
     from: "Desde: consulta",
-    typicalTimeline: "Plazo típico: 2-3 semanas",
-    description: "Captación + seguimiento + dashboard básico.",
+    typicalTimeline: "Plazo típico: 10-14 días hábiles",
+    description: "Sitio completo con páginas clave y analítica.",
     includes: [
-      "Landing o bot con seguimiento",
-      "Integraciones WhatsApp / Web",
-      "Dashboard básico de leads",
-      "Alertas y handoff al equipo",
-      "Soporte 30 días",
+      "4-6 páginas",
+      "2 rondas de cambios",
+      "Integración Calendly/WhatsApp",
+      "Analítica básica",
+      "FAQ + Legal",
     ],
     featured: true,
   },
   {
     slug: "pro",
-    title: "Pro",
+    title: "Web Pro",
     from: "Desde: consulta",
-    typicalTimeline: "Plazo típico: 3-5 semanas",
-    description: "End-to-end + integraciones + soporte.",
+    typicalTimeline: "Plazo típico: 2-3 semanas",
+    description: "Conversión premium con variantes y casos.",
     includes: [
-      "Mapa de procesos + roadmap",
-      "Automatizaciones multi-stack",
-      "Integraciones CRM / ERP",
-      "QA + documentación operativa",
-      "Soporte continuo",
+      "6-10 páginas",
+      "3 rondas de cambios",
+      "A/B de CTA o 2 variantes de hero",
+      "Componentes premium",
+      "QA + handoff",
     ],
   },
 ];
@@ -72,14 +72,14 @@ export default function PricingPage() {
     <main className="min-h-screen w-full px-4 pb-20 pt-28 sm:px-6 lg:px-8">
       <section className="mx-auto w-full max-w-6xl">
         <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">
-          Paquetes
+          Web / Páginas Web
         </p>
         <h1 className="mt-3 text-4xl font-semibold text-white">
-          Planes Powered by IA para lanzar IA con impacto
+          Webs de conversión con entregables claros
         </h1>
         <p className="mt-4 max-w-2xl text-base text-slate-300">
-          Selecciona el nivel que necesitas hoy y escala cuando el sistema ya
-          este probado.
+          Planes con alcance definido, plazos típicos y revisiones claras. Precio
+          a medida.
         </p>
         <div className="mt-6 rounded-2xl border border-white/10 bg-black/60 px-6 py-4 text-sm text-slate-200 shadow-lg">
           <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">
@@ -143,11 +143,55 @@ export default function PricingPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Pedir precio por WhatsApp
+                  Pedir propuesta por WhatsApp
                 </a>
               </div>
             </div>
           ))}
+        </div>
+        <div className="mt-8 rounded-2xl border border-white/10 bg-black/60 px-6 py-4 text-sm text-slate-300">
+          <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">
+            Limites claros
+          </p>
+          <p className="mt-3">
+            Hosting, dominio, licencias premium e integraciones enterprise se
+            cotizan aparte. Alcance final se valida en llamada.
+          </p>
+        </div>
+
+        <div className="mt-10 rounded-3xl border border-white/10 bg-black/60 p-6 md:p-8">
+          <p className="text-xs uppercase tracking-[0.4em] text-cyan-200/80">
+            Quién está detrás
+          </p>
+          <div className="mt-4 flex flex-col gap-6 md:flex-row md:items-center">
+            <img
+              src="/imagenes/perfil/mifoto.jpg"
+              alt="Foto del responsable del proyecto"
+              className="h-20 w-20 rounded-full border border-white/10 object-cover"
+              loading="lazy"
+            />
+            <div>
+              <h3 className="text-xl font-semibold text-white">
+                Equipo reducido, ejecución directa
+              </h3>
+              <p className="mt-2 text-sm text-slate-300">
+                Proceso por etapas, validación continua y soporte post-entrega
+                según plan.
+              </p>
+              <ul className="mt-3 space-y-2 text-sm text-slate-200">
+                {[
+                  "Roadmaps claros y realistas",
+                  "Implementación con QA y handoff",
+                  "Soporte post-entrega definido",
+                ].map((item) => (
+                  <li key={item} className="flex gap-2">
+                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-cyan-300" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
       </section>
     </main>

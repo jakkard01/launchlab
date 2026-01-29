@@ -147,47 +147,47 @@ const deliveryItems = [
 const faqs = [
   {
     q: "¿Qué tipo de empresas atienden?",
-    a: "Startups, pymes y equipos enterprise que necesitan IA aplicada.",
+    a: "Startups, pymes y negocios locales que necesitan web y sistemas digitales claros.",
   },
   {
     q: "¿Cuánto tarda un proyecto?",
-    a: "Entre 2 y 6 semanas según alcance y validaciones.",
+    a: "Los plazos típicos dependen del alcance, activos y validaciones.",
   },
   {
     q: "¿Ofrecen soporte continuo?",
-    a: "Sí, con planes de mantenimiento y evolución trimestral.",
+    a: "Sí, con soporte post-entrega según el plan acordado.",
   },
   {
     q: "¿Pueden integrarse con mi stack actual?",
-    a: "Sí, trabajamos con APIs, CRMs y herramientas existentes.",
+    a: "Sí, si hay APIs disponibles y el alcance lo contempla.",
   },
 ];
 
 const pricingPlans = [
   {
-    slug: "basico",
-    title: "Plan Básico",
-    price: "Desde €900",
-    who: "Teams que necesitan un primer sistema IA operativo.",
-    includes: ["Diagnóstico + alcance", "1 flujo automatizado", "Demo funcional"],
-    cta: "Reservar Básico",
+    slug: "starter",
+    title: "Web Starter",
+    price: "Desde: consulta",
+    who: "Landing clara para validar oferta y convertir.",
+    includes: ["1 página", "Copy base + CTA", "SEO básico", "1 ronda"],
+    cta: "Solicitar propuesta",
   },
   {
     slug: "growth",
-    title: "Plan Growth",
-    price: "Desde €1.500",
-    who: "Equipos comerciales que buscan convertir más rápido.",
-    includes: ["Bot + integraciones", "Training inicial", "Soporte 30 días"],
-    cta: "Reservar Growth",
+    title: "Web Growth",
+    price: "Desde: consulta",
+    who: "Sitio completo con páginas clave y analítica.",
+    includes: ["4-6 páginas", "2 rondas", "Calendly/WhatsApp", "FAQ + Legal"],
+    cta: "Solicitar propuesta",
     featured: true,
   },
   {
     slug: "pro",
-    title: "Plan Pro",
-    price: "Desde €3.000",
-    who: "Operaciones que necesitan IA conectada a procesos core.",
-    includes: ["Mapa de procesos", "Automatizaciones multi-stack", "Iteraciones por sprint"],
-    cta: "Reservar Pro",
+    title: "Web Pro",
+    price: "Desde: consulta",
+    who: "Conversión premium con variantes y casos.",
+    includes: ["6-10 páginas", "3 rondas", "A/B CTA o hero", "QA + handoff"],
+    cta: "Solicitar propuesta",
   },
 ];
 
@@ -903,15 +903,52 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               trackEvent("click_whatsapp_primary", { source: "home_faq" })
             }
           >
-            WhatsApp (principal)
+            Hablar por WhatsApp
           </a>
           <Link
             href={buildContactLink("home_faq")}
             className="rounded-full border border-white/20 px-5 py-2 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
             onClick={() => trackEvent("click_book_call", { source: "home_faq" })}
           >
-            Reservar llamada
+            Solicitar propuesta
           </Link>
+        </div>
+      </section>
+
+      <section id="equipo" className="mt-20 w-full max-w-5xl">
+        <div className="rounded-3xl border border-white/10 bg-black/60 p-6 md:p-8">
+          <p className="text-xs uppercase tracking-[0.4em] text-cyan-200/80">
+            Quién está detrás
+          </p>
+          <div className="mt-4 flex flex-col gap-6 md:flex-row md:items-center">
+            <img
+              src="/imagenes/perfil/mifoto.jpg"
+              alt="Foto del responsable del proyecto"
+              className="h-24 w-24 rounded-full border border-white/10 object-cover"
+              loading="lazy"
+            />
+            <div>
+              <h3 className="text-xl font-semibold text-white">
+                Dirección y entrega directa
+              </h3>
+              <p className="mt-2 text-sm text-slate-300">
+                Equipo reducido con procesos claros, entregables definidos y
+                validación por etapas.
+              </p>
+              <ul className="mt-3 space-y-2 text-sm text-slate-200">
+                {[
+                  "Roadmaps claros y realistas",
+                  "Implementación y handoff documentado",
+                  "Soporte post-entrega según plan",
+                ].map((item) => (
+                  <li key={item} className="flex gap-2">
+                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-cyan-300" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
       </section>
 

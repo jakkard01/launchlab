@@ -34,7 +34,7 @@
 - Rationale: diseño conversacional + integraciones + QA + handoff.
 
 ## Super Pack
-- Precio desde €2,499/mes por caps fijos:
+- Precio a medida por caps fijos:
   - 8 videos/mes (≤45s, 2 formatos)
   - 2 flujos n8n/mes
   - 1 bot (≤15 intents + handoff)

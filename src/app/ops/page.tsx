@@ -26,7 +26,7 @@ const opsPacks = [
   {
     name: "Ops Starter",
     cadence: "1 flujo",
-    price: "Desde €490-€1,200",
+    price: "Desde: consulta",
     campaign: "starter",
     includes: [
       "Discovery + mapeo del proceso",
@@ -51,7 +51,7 @@ const opsPacks = [
   {
     name: "Ops Growth",
     cadence: "3-5 flujos",
-    price: "Desde €1,500-€3,500",
+    price: "Desde: consulta",
     campaign: "growth",
     includes: [
       "Flujos criticos orquestados",
@@ -77,7 +77,7 @@ const opsPacks = [
   {
     name: "Ops Pro",
     cadence: "Multi-sistema",
-    price: "Desde €3,800-€7,500",
+    price: "Desde: consulta",
     campaign: "pro",
     includes: [
       "Arquitectura n8n escalable",
@@ -237,13 +237,13 @@ export default function OpsPage() {
                     rel="noopener noreferrer"
                     className="rounded-full bg-emerald-400 px-5 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
                   >
-                    WhatsApp: quiero este pack
+                    Hablar por WhatsApp
                   </a>
                   <Link
                     href={contactLink}
                     className="rounded-full border border-white/20 px-5 py-3 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
                   >
-                    Reservar llamada
+                    Solicitar propuesta
                   </Link>
                 </div>
               </article>
@@ -265,7 +265,7 @@ export default function OpsPage() {
             intents + handoff) + 2 doblajes/mes (2 idiomas). SLA 24-48h habiles.
           </p>
           <p className="mt-4 text-lg font-semibold text-emerald-200">
-            Desde €2,499 / mes
+            Desde: consulta
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row" data-fab-avoid>
             <a
@@ -278,13 +278,13 @@ export default function OpsPage() {
               rel="noopener noreferrer"
               className="rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
             >
-              WhatsApp: quiero el Super Pack
+              Hablar por WhatsApp
             </a>
             <Link
               href={buildContactLink("superpack", { utm_campaign: "ops" })}
               className="rounded-full border border-white/20 px-6 py-3 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
             >
-              Reservar llamada
+              Solicitar propuesta
             </Link>
           </div>
         </div>

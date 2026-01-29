@@ -25,7 +25,7 @@ const buildWhatsappUtmLink = (
 const webTiers = [
   {
     name: "Web Starter (Landing)",
-    price: "Desde €850-€1,400",
+    price: "Desde: consulta",
     campaign: "starter",
     summary: "1 pagina optimizada para conversion.",
     includes: [
@@ -50,7 +50,7 @@ const webTiers = [
   },
   {
     name: "Web Growth (Sitio)",
-    price: "Desde €1,800-€3,000",
+    price: "Desde: consulta",
     campaign: "growth",
     summary: "Sitio completo con 4-6 paginas.",
     includes: [
@@ -75,7 +75,7 @@ const webTiers = [
   },
   {
     name: "Web Pro (Conversion)",
-    price: "Desde €3,500-€6,500",
+    price: "Desde: consulta",
     campaign: "pro",
     summary: "Sitio premium para conversion y captacion.",
     includes: [
@@ -102,7 +102,7 @@ const webTiers = [
 
 const ecommerceAddon = {
   name: "Add-on Ecommerce",
-  price: "Desde €2,500-€6,000",
+  price: "Desde: consulta",
   campaign: "ecommerce",
   includes: [
     "Catalogo + carrito/checkout o pedido por WhatsApp",
@@ -273,13 +273,13 @@ export default function WebPage() {
                     rel="noopener noreferrer"
                     className="rounded-full bg-emerald-400 px-5 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
                   >
-                    WhatsApp: quiero este plan
+                    Hablar por WhatsApp
                   </a>
                   <Link
                     href={contactLink}
                     className="rounded-full border border-white/20 px-5 py-3 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
                   >
-                    Reservar llamada
+                    Solicitar propuesta
                   </Link>
                 </div>
               </article>
@@ -372,13 +372,13 @@ export default function WebPage() {
               rel="noopener noreferrer"
               className="rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
             >
-              WhatsApp: pedir ecommerce
+              Hablar por WhatsApp
             </a>
             <Link
               href={buildContactLink("web", { utm_campaign: "ecommerce" })}
               className="rounded-full border border-white/20 px-6 py-3 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
             >
-              Reservar llamada
+              Solicitar propuesta
             </Link>
           </div>
         </div>
@@ -422,7 +422,7 @@ export default function WebPage() {
               rel="noopener noreferrer"
               className="rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
             >
-              WhatsApp: iniciar proyecto
+              Hablar por WhatsApp
             </a>
             <Link
               href="/alcance"
