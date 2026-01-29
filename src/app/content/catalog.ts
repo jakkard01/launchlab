@@ -143,6 +143,7 @@ export const services: ServiceItem[] = [
       "Roadmap priorizado con quick wins",
       "Acompanamiento en la implementacion",
     ],
+    tags: ["roadmap", "estrategia", "diagnostico"],
     forWho: [
       "Equipos que quieren una hoja de ruta clara",
       "Direcciones que necesitan impacto medible",
