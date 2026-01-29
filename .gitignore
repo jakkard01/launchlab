@@ -149,3 +149,5 @@ dist
 # basura de shell/ssh
 /eval "$(ssh-agent -s)"
 /eval "$(ssh-agent -s)".pub
+.vercel
+.env*.local
