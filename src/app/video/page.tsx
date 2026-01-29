@@ -3,9 +3,9 @@ import Link from "next/link";
 import { buildContactLink, buildWhatsappLink, siteUrl } from "../../lib/site";
 
 export const metadata: Metadata = {
-  title: "Video Packs",
+  title: "Video Packs y Doblaje/Traduccion",
   description:
-    "Video packs mensuales con edicion premium y automatizaciones n8n para publicar y escalar.",
+    "Video packs mensuales con edicion premium, doblaje EN/DE y automatizaciones n8n para publicar y escalar.",
   alternates: {
     canonical: `${siteUrl}/video`,
   },
@@ -63,6 +63,29 @@ const packs = [
   },
 ];
 
+const dubbingProducts = [
+  {
+    title: "1 video / 2 idiomas (EN + DE)",
+    subtitle: "Doblaje natural + subtitulos pro",
+    plazo: "48-72h",
+    items: [
+      "Voz IA realista alineada a la marca",
+      "Sincronizacion labial y timing",
+      "Subtitulos limpios y listos para publicar",
+    ],
+  },
+  {
+    title: "Batch 5 videos / 2 idiomas",
+    subtitle: "Flujo optimizado para volumen",
+    plazo: "5-7 dias",
+    items: [
+      "Produccion en lote con QA",
+      "Correcciones expresas incluidas",
+      "Entrega organizada por plataforma",
+    ],
+  },
+];
+
 export default function VideoPage() {
   return (
     <main className="min-h-screen w-full px-4 pb-20 pt-28 sm:px-6 lg:px-8">
@@ -72,11 +95,12 @@ export default function VideoPage() {
             Nueva linea premium
           </p>
           <h1 className="mt-4 text-3xl font-semibold text-white md:text-4xl">
-            Video Packs + n8n/Automatizaciones
+            Video Packs + Doblaje/Traduccion + n8n/Automatizaciones
           </h1>
           <p className="mt-3 text-base text-slate-200 md:text-lg">
-            Produccion mensual lista para vender: videos de alto impacto y
-            automatizaciones para publicar y convertir sin friccion.
+            Produccion mensual lista para vender: videos de alto impacto,
+            doblaje EN/DE y automatizaciones para publicar y convertir sin
+            friccion.
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
             <a
@@ -194,6 +218,79 @@ export default function VideoPage() {
         </div>
       </section>
 
+      <section id="doblaje" className="mx-auto mt-16 w-full max-w-6xl">
+        <div className="rounded-[28px] border border-white/10 bg-black/60 p-6 md:p-10">
+          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+            <div>
+              <p className="text-xs uppercase tracking-[0.35em] text-cyan-200/80">
+                Doblaje / Traduccion
+              </p>
+              <h2 className="mt-3 text-2xl font-semibold text-white md:text-3xl">
+                Expande tu oferta en EN + DE sin regrabar
+              </h2>
+              <p className="mt-3 text-sm text-slate-300">
+                Traduccion, doblaje y subtitulos listos para vender en nuevos
+                mercados. Nosotros hacemos la adaptacion y la entrega.
+              </p>
+
+              <div className="mt-6 rounded-3xl border border-cyan-300/30 bg-[radial-gradient(circle_at_top,_rgba(34,211,238,0.18),_transparent_55%)] p-5">
+                <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">
+                  Story Card
+                </p>
+                <p className="mt-3 text-base font-semibold text-white">
+                  Conoce a Carla. Vendia solo en espanol... ahora cierra fuera.
+                </p>
+                <p className="mt-2 text-sm text-slate-300">
+                  Una sola pieza, dos idiomas, mas cierres internacionales.
+                </p>
+              </div>
+
+              <div className="mt-6">
+                <a
+                  href={buildWhatsappUtmLink(
+                    "dubbing",
+                    undefined,
+                    "Quiero info de doblaje/traduccion EN+DE."
+                  )}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
+                >
+                  WhatsApp: necesito doblaje
+                </a>
+              </div>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              {dubbingProducts.map((product) => (
+                <article
+                  key={product.title}
+                  className="flex h-full flex-col rounded-2xl border border-white/10 bg-black/70 p-5"
+                >
+                  <h3 className="text-lg font-semibold text-white">
+                    {product.title}
+                  </h3>
+                  <p className="mt-2 text-xs uppercase tracking-[0.2em] text-cyan-200/70">
+                    {product.subtitle}
+                  </p>
+                  <ul className="mt-4 space-y-2 text-sm text-slate-200">
+                    {product.items.map((item) => (
+                      <li key={item} className="flex gap-2">
+                        <span className="mt-1 h-1.5 w-1.5 rounded-full bg-cyan-300" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-4 rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-xs text-slate-300">
+                    <span className="font-semibold text-white">Plazo:</span>{" "}
+                    {product.plazo}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }
