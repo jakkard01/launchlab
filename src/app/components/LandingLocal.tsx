@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { services } from "../content/catalog";
 import { portfolio } from "../content/portfolio";
@@ -194,10 +194,30 @@ const pricingPlans = [
 export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: LandingLocalProps) {
   const [imgError, setImgError] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const demoHighlights = showcase
     .filter((item) => item.status === "demo" || item.status === "live")
     .slice(0, 3);
   const portfolioHighlights = portfolio.slice(0, 2);
+
+  useEffect(() => {
+    const syncFromBody = () => {
+      if (typeof document === "undefined") return;
+      setMenuOpen(document.body.dataset.mobileMenuOpen === "true");
+    };
+
+    syncFromBody();
+
+    const handleToggle = (event: Event) => {
+      const detail = (event as CustomEvent<{ open: boolean }>).detail;
+      if (detail) setMenuOpen(detail.open);
+    };
+
+    window.addEventListener("mobile-menu-toggle", handleToggle);
+    return () => {
+      window.removeEventListener("mobile-menu-toggle", handleToggle);
+    };
+  }, []);
 
   return (
     <main className="relative min-h-screen w-full flex flex-col items-center px-4 pb-36 pt-28 sm:px-6 lg:px-8 md:pb-20">
@@ -828,28 +848,30 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
         </div>
       </section>
 
-      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-white/10 bg-black/80 px-4 py-3 backdrop-blur md:hidden">
-        <div className="mx-auto flex w-full max-w-md gap-3">
-          <a
-            href={buildWhatsappLink("sticky")}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 rounded-full bg-emerald-400 px-4 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
-            aria-label="Abrir WhatsApp desde la barra inferior"
-            onClick={() => trackEvent("click_whatsapp", { source: "sticky" })}
-          >
-            WhatsApp
-          </a>
-          <Link
-            href={buildContactLink("sticky")}
-            className="flex-1 rounded-full border border-white/20 px-4 py-3 text-center text-sm font-semibold text-white/90 transition hover:border-cyan-300/60"
-            aria-label="Reservar llamada desde la barra inferior"
-            onClick={() => trackEvent("click_call", { source: "sticky" })}
-          >
-            Reservar
-          </Link>
+      {!menuOpen && (
+        <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-white/10 bg-black/80 px-4 py-3 backdrop-blur md:hidden">
+          <div className="mx-auto flex w-full max-w-md gap-3">
+            <a
+              href={buildWhatsappLink("sticky")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 rounded-full bg-emerald-400 px-4 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
+              aria-label="Abrir WhatsApp desde la barra inferior"
+              onClick={() => trackEvent("click_whatsapp", { source: "sticky" })}
+            >
+              WhatsApp
+            </a>
+            <Link
+              href={buildContactLink("sticky")}
+              className="flex-1 rounded-full border border-white/20 px-4 py-3 text-center text-sm font-semibold text-white/90 transition hover:border-cyan-300/60"
+              aria-label="Reservar llamada desde la barra inferior"
+              onClick={() => trackEvent("click_call", { source: "sticky" })}
+            >
+              Reservar
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
     </main>
   );
 }

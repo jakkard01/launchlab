@@ -161,7 +161,7 @@ export default function Header() {
           >
             <div
               id="mobile-nav"
-              className="w-full max-w-sm border border-white/10 bg-black/70 px-6 pb-6 pt-6 shadow-2xl rounded-2xl"
+              className="w-full max-w-sm max-h-[calc(100dvh-24px)] overflow-y-auto border border-white/10 bg-black/70 px-6 pb-[calc(env(safe-area-inset-bottom)+96px)] pt-6 shadow-2xl rounded-2xl"
             >
               <div className="flex items-start justify-between gap-4">
                 <div>
