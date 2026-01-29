@@ -161,7 +161,7 @@ export default function Header() {
               className="absolute inset-x-0 top-0 mx-auto w-full max-w-md p-4 pt-[calc(env(safe-area-inset-top)+16px)]"
               onPointerDown={(event) => event.stopPropagation()}
             >
-              <div className="rounded-2xl border border-white/10 bg-black/70 shadow-2xl max-h-[calc(100dvh-24px)] overflow-hidden">
+              <div className="flex max-h-[calc(100dvh-24px)] flex-col overflow-hidden rounded-2xl border border-white/10 bg-black/70 shadow-2xl">
                 <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
                   <div>
                     <p className="text-xs uppercase tracking-[0.3em] text-cyan-300/80">
@@ -181,7 +181,7 @@ export default function Header() {
                 </div>
 
                 <div
-                  className="overflow-y-auto overscroll-contain px-3 py-3 pb-[calc(env(safe-area-inset-bottom)+24px)]"
+                  className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 py-3 pb-[calc(env(safe-area-inset-bottom)+24px)]"
                   style={{
                     WebkitOverflowScrolling: "touch",
                     touchAction: "pan-y",
