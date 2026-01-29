@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import GlyphBadge from "../components/GlyphBadge";
 import { services } from "../content/catalog";
-import { site } from "../lib/site";
+import { site } from "../../lib/site";
 
 export const metadata: Metadata = {
   title: "Servicios IA | Powered by IA",

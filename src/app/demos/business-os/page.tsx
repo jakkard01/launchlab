@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { buildWhatsappLink } from "../../lib/site";
+import { buildWhatsappLink } from "../../../lib/site";
 
 const statusOptions = ["Pendiente", "En proceso", "Entregado"] as const;
 

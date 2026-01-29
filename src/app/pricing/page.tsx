@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { buildWhatsappLink, site } from "../lib/site";
+import { buildWhatsappLink, site } from "../../lib/site";
 
 export const metadata: Metadata = {
   title: "Paquetes | Powered by IA",

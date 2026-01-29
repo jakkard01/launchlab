@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import ContactForm from "./ContactForm";
-import { buildWhatsappLink, site } from "../lib/site";
+import { buildWhatsappLink, site } from "../../lib/site";
 
 export const metadata: Metadata = {
   title: "Contacto | Powered by IA",

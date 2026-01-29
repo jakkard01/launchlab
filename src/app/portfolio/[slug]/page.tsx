@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { portfolio } from "../../content/portfolio";
 import { services } from "../../content/catalog";
-import { buildWhatsappLink } from "../../lib/site";
+import { buildWhatsappLink } from "../../../lib/site";
 
 type PageProps = {
   params: { slug: string };

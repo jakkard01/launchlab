@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { portfolio } from "../content/portfolio";
-import { site } from "../lib/site";
+import { site } from "../../lib/site";
 
 export const metadata: Metadata = {
   title: "Portfolio | Powered by IA",
