@@ -193,7 +193,10 @@ const pricingPlans = [
 export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: LandingLocalProps) {
   const [imgError, setImgError] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(() => {
+    if (typeof document === "undefined") return false;
+    return document.body.dataset.mobileMenuOpen === "true";
+  });
   const demoHighlights = showcase
     .filter((item) => item.status === "demo" || item.status === "live")
     .slice(0, 3);
