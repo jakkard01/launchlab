@@ -46,10 +46,9 @@ const trustItems = [
 ];
 
 const expectedResults = [
-  "+15–35% leads cualificados (según canal)",
-  "-20–40% tiempo de respuesta",
-  "Demo funcional en 7–10 días",
-  "Tracking básico + eventos clave",
+  "+10–30% leads cualificados (si hay tráfico y oferta clara)",
+  "-20–40% tiempo en soporte (si hay FAQ/KB)",
+  "Demo validable en 7 días",
 ];
 
 const conversionPath = [

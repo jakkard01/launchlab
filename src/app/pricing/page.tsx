@@ -91,6 +91,25 @@ export default function PricingPage() {
           Selecciona el nivel que necesitas hoy y escala cuando el sistema ya
           este probado.
         </p>
+        <div className="mt-6 rounded-2xl border border-white/10 bg-black/60 px-6 py-4 text-sm text-slate-200 shadow-lg">
+          <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">
+            Resultados esperados (orientativos)
+          </p>
+          <ul className="mt-3 space-y-2">
+            <li className="flex items-start gap-2">
+              <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-300" aria-hidden="true" />
+              <span>+10–30% leads cualificados (si hay tráfico y oferta clara)</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-300" aria-hidden="true" />
+              <span>-20–40% tiempo en soporte (si hay FAQ/KB)</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-300" aria-hidden="true" />
+              <span>Demo validable en 7 días</span>
+            </li>
+          </ul>
+        </div>
 
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {plans.map((plan) => (
