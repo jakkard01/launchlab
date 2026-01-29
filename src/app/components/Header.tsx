@@ -148,20 +148,17 @@ export default function Header() {
 
       {menuOpen && (
         <div className="md:hidden">
-          <button
-            className="fixed inset-0 z-[9999] bg-black/85 backdrop-blur-sm"
-            aria-hidden="true"
-            onClick={() => setMenuOpen(false)}
-            tabIndex={-1}
-          />
           <div
-            className="fixed inset-0 z-[10000] flex items-center justify-center px-5 py-10"
+            className="fixed inset-0 z-[9999] flex items-center justify-center px-5 py-10"
             role="dialog"
             aria-modal="true"
+            onClick={() => setMenuOpen(false)}
           >
+            <div className="absolute inset-0 bg-black/85 backdrop-blur-sm" />
             <div
               id="mobile-nav"
-              className="w-full max-w-sm max-h-[calc(100dvh-24px)] overflow-y-auto border border-white/10 bg-black/70 px-6 pb-[calc(env(safe-area-inset-bottom)+96px)] pt-6 shadow-2xl rounded-2xl"
+              className="relative w-full max-w-sm border border-white/10 bg-black/70 px-6 pb-6 pt-6 shadow-2xl rounded-2xl"
+              onClick={(event) => event.stopPropagation()}
             >
               <div className="flex items-start justify-between gap-4">
                 <div>
