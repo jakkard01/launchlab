@@ -24,6 +24,29 @@ export const metadata: Metadata = {
 };
 
 export default function ServicesPage() {
+  const renderTags = (tags: string[]) => {
+    const visible = tags.slice(0, 3);
+    const extra = tags.length - visible.length;
+
+    return (
+      <>
+        {visible.map((tag, index) => (
+          <span
+            key={`${tag}-${index}`}
+            className="rounded-full border border-white/10 bg-black/50 px-3 py-1 text-xs font-semibold text-slate-300"
+          >
+            {tag}
+          </span>
+        ))}
+        {extra > 0 && (
+          <span className="rounded-full border border-white/10 bg-black/50 px-3 py-1 text-xs font-semibold text-slate-300">
+            +{extra}
+          </span>
+        )}
+      </>
+    );
+  };
+
   return (
     <main className="min-h-screen w-full px-4 pb-20 pt-28 sm:px-6 lg:px-8">
       <section className="mx-auto w-full max-w-6xl">
@@ -57,14 +80,7 @@ export default function ServicesPage() {
               </h2>
               <p className="mt-3 text-sm text-slate-300">{service.summary}</p>
               <div className="mt-4 flex flex-wrap gap-2">
-                {service.tags.slice(0, 3).map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full border border-white/10 bg-black/50 px-3 py-1 text-xs font-semibold text-slate-300"
-                  >
-                    {tag}
-                  </span>
-                ))}
+                {renderTags(service.tags)}
               </div>
               <div className="mt-5 flex items-center justify-end gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200/70 transition group-hover:text-cyan-200 group-hover:underline underline-offset-4">
                 <span>Ver detalles</span>

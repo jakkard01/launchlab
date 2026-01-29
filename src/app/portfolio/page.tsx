@@ -22,6 +22,29 @@ export const metadata: Metadata = {
 };
 
 export default function PortfolioPage() {
+  const renderTags = (tags: string[]) => {
+    const visible = tags.slice(0, 3);
+    const extra = tags.length - visible.length;
+
+    return (
+      <>
+        {visible.map((tag, index) => (
+          <span
+            key={`${tag}-${index}`}
+            className="rounded-full border border-white/10 bg-black/50 px-3 py-1 text-xs font-semibold text-slate-300"
+          >
+            {tag}
+          </span>
+        ))}
+        {extra > 0 && (
+          <span className="rounded-full border border-white/10 bg-black/50 px-3 py-1 text-xs font-semibold text-slate-300">
+            +{extra}
+          </span>
+        )}
+      </>
+    );
+  };
+
   return (
     <main className="min-h-screen w-full px-4 pb-20 pt-28 sm:px-6 lg:px-8">
       <section className="mx-auto w-full max-w-6xl">
@@ -50,14 +73,7 @@ export default function PortfolioPage() {
               <h2 className="mt-4 text-lg font-semibold text-white">{item.title}</h2>
               <p className="mt-3 text-sm text-slate-300">{item.summary}</p>
               <div className="mt-4 flex flex-wrap gap-2">
-                {item.stack.slice(0, 3).map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full border border-white/10 bg-black/50 px-3 py-1 text-xs font-semibold text-slate-300"
-                  >
-                    {tag}
-                  </span>
-                ))}
+                {renderTags(item.stack)}
               </div>
               <div className="mt-4 space-y-3 text-xs text-slate-300">
                 <div>

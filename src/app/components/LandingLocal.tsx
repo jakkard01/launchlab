@@ -88,6 +88,29 @@ const courseCards = [
   },
 ];
 
+const renderTags = (tags: string[]) => {
+  const visible = tags.slice(0, 3);
+  const extra = tags.length - visible.length;
+
+  return (
+    <>
+      {visible.map((tag, index) => (
+        <span
+          key={`${tag}-${index}`}
+          className="rounded-full border border-white/10 bg-black/50 px-3 py-1 text-xs font-semibold text-slate-300"
+        >
+          {tag}
+        </span>
+      ))}
+      {extra > 0 && (
+        <span className="rounded-full border border-white/10 bg-black/50 px-3 py-1 text-xs font-semibold text-slate-300">
+          +{extra}
+        </span>
+      )}
+    </>
+  );
+};
+
 const processSteps = [
   {
     titulo: "Diagnóstico (15 min)",
@@ -353,14 +376,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
                 <h3 className="mt-4 text-lg font-semibold text-white">{service.title}</h3>
                 <p className="mt-3 text-sm text-slate-300">{service.summary}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
-                  {service.tags.slice(0, 3).map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full border border-white/10 bg-black/50 px-3 py-1 text-xs font-semibold text-slate-300"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                  {renderTags(service.tags)}
                 </div>
                 <div className="mt-5 flex items-center justify-end gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200/70 transition group-hover:text-cyan-200 group-hover:underline underline-offset-4">
                   <span>Ver detalles</span>
@@ -431,14 +447,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
                 <h3 className="mt-4 text-lg font-semibold text-white">{item.title}</h3>
                 <p className="mt-3 text-sm text-slate-300">{item.summary}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
-                  {item.tags.slice(0, 3).map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full border border-white/10 bg-black/50 px-3 py-1 text-xs font-semibold text-slate-300"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                  {renderTags(item.tags)}
                 </div>
                 <div className="mt-5 flex items-center justify-end gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200/70 transition group-hover:text-cyan-200 group-hover:underline underline-offset-4">
                   <span>Ver demo</span>
@@ -576,14 +585,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
                 <h3 className="mt-4 text-lg font-semibold text-white">{item.title}</h3>
                 <p className="mt-3 text-sm text-slate-300">{item.summary}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
-                  {item.stack.slice(0, 3).map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full border border-white/10 bg-black/50 px-3 py-1 text-xs font-semibold text-slate-300"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                  {renderTags(item.stack)}
                 </div>
                 <div className="mt-5 flex items-center justify-end gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200/70 transition group-hover:text-cyan-200 group-hover:underline underline-offset-4">
                   <span>Ver caso</span>
@@ -684,14 +686,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               <h3 className="mt-4 text-lg font-semibold text-white">{course.title}</h3>
               <p className="mt-3 text-sm text-slate-300">{course.description}</p>
               <div className="mt-4 flex flex-wrap gap-2">
-                {course.tags.slice(0, 3).map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full border border-white/10 bg-black/50 px-3 py-1 text-xs font-semibold text-slate-300"
-                  >
-                    {tag}
-                  </span>
-                ))}
+                {renderTags(course.tags)}
               </div>
               <div className="mt-5 flex items-center justify-end gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200/70 transition group-hover:text-cyan-200 group-hover:underline underline-offset-4">
                 <span>Ver detalles</span>
