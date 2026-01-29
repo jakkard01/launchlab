@@ -7,7 +7,7 @@ import { portfolio } from "../content/portfolio";
 import { showcase } from "../content/showcase";
 import EmbeddedBot from "./EmbeddedBot";
 import GlyphBadge from "./GlyphBadge";
-import { buildWhatsappLink, site } from "../../lib/site";
+import { buildWhatsappLink, siteConfig } from "../../lib/site";
 
 interface LandingLocalProps {
   onShowVideo: () => void;
@@ -789,14 +789,14 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               rel="noopener noreferrer"
               aria-label="Abrir WhatsApp Business"
             >
-              WhatsApp Business: {site.whatsappNumber}
+              WhatsApp Business: {siteConfig.whatsapp.phone}
             </a>
             <a
-              href={`mailto:${site.email}`}
+              href={`mailto:${siteConfig.email}`}
               className="rounded-full border border-white/20 px-6 py-3 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
               aria-label="Enviar email"
             >
-              {site.email}
+              {siteConfig.email}
             </a>
           </div>
           <button

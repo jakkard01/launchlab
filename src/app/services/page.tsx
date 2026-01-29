@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import GlyphBadge from "../components/GlyphBadge";
 import { services } from "../content/catalog";
-import { buildWhatsappLink, site } from "../../lib/site";
+import { buildWhatsappLink, siteConfig } from "../../lib/site";
 
 export const metadata: Metadata = {
   title: "Servicios IA | Powered by IA",
@@ -12,14 +12,14 @@ export const metadata: Metadata = {
     title: "Servicios IA | Powered by IA",
     description:
       "Servicios premium de Powered by IA: automatización, asistentes inteligentes y sistemas de venta digital.",
-    images: [{ url: site.ogImage, alt: site.ogAlt }],
+    images: [{ url: siteConfig.ogImage, alt: siteConfig.ogAlt }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Servicios IA | Powered by IA",
     description:
       "Servicios premium de Powered by IA: automatización, asistentes inteligentes y sistemas de venta digital.",
-    images: [site.ogImage],
+    images: [siteConfig.ogImage],
   },
 };
 

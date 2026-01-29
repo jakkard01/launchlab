@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import ContactForm from "./ContactForm";
-import { buildWhatsappLink, site } from "../../lib/site";
+import { buildWhatsappLink, siteConfig } from "../../lib/site";
 
 export const metadata: Metadata = {
   title: "Contacto | Powered by IA",
@@ -10,14 +10,14 @@ export const metadata: Metadata = {
     title: "Contacto | Powered by IA",
     description:
       "Agenda una llamada o escribe por WhatsApp Business para conocer nuestros servicios.",
-    images: [{ url: site.ogImage, alt: site.ogAlt }],
+    images: [{ url: siteConfig.ogImage, alt: siteConfig.ogAlt }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Contacto | Powered by IA",
     description:
       "Agenda una llamada o escribe por WhatsApp Business para conocer nuestros servicios.",
-    images: [site.ogImage],
+    images: [siteConfig.ogImage],
   },
 };
 
@@ -56,11 +56,11 @@ export default function ContactPage({ searchParams }: ContactPageProps) {
             WhatsApp Business (principal)
           </a>
           <a
-            href={`mailto:${site.email}`}
+            href={`mailto:${siteConfig.email}`}
             className="rounded-full border border-white/20 px-6 py-4 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
             aria-label="Enviar email"
           >
-            {site.email}
+            {siteConfig.email}
           </a>
         </div>
 

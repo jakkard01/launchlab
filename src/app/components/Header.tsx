@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getSocialLinks, site } from "../../lib/site";
+import { getSocialLinks, siteConfig } from "../../lib/site";
 
 const navItems = [
   { label: "Inicio", href: "/" },
@@ -35,7 +35,7 @@ export default function Header() {
     <header className="fixed top-0 inset-x-0 z-[50] bg-black/70 backdrop-blur border-b border-white/10">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-4 md:px-6">
         <Link href="/" className="font-semibold tracking-wide text-cyan-300">
-          {site.name}
+          {siteConfig.brand}
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">

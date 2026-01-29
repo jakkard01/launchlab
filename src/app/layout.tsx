@@ -3,32 +3,32 @@ import type { Metadata } from 'next';
 import ClientLayout from './components/ClientLayout';
 import FAB from './components/FAB';
 import CookieBanner from './components/CookieBanner'; // <--- IMPORTADO AQUÍ
-import { site } from '../lib/site';
+import { siteConfig, siteUrl } from '../lib/site';
 
 // --- CONFIGURACIÓN SEO GLOBAL ---
 export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
+  metadataBase: new URL(siteUrl),
   title: {
     default: 'Powered by IA | Sistemas IA, automatización y productos digitales',
-    template: `%s | ${site.name}`,
+    template: `%s | ${siteConfig.brand}`,
   },
   description: 'Portafolio tech y servicios premium de IA aplicada: automatización, asistentes inteligentes y lanzamientos digitales.',
   keywords: ['Inteligencia Artificial', 'Automatización', 'Prompts', 'Asistentes IA', 'n8n', 'Productos digitales'],
-  authors: [{ name: site.name }],
-  creator: site.name,
+  authors: [{ name: siteConfig.brand }],
+  creator: siteConfig.brand,
   openGraph: {
     type: 'website',
     locale: 'es_ES',
-    url: site.url,
-    siteName: site.name,
+    url: siteUrl,
+    siteName: siteConfig.brand,
     title: 'Powered by IA | Sistemas IA listos para vender y escalar',
     description: 'Soluciones IA premium, demos funcionales y servicios para equipos exigentes.',
     images: [
       {
-        url: site.ogImage,
+        url: siteConfig.ogImage,
         width: 1200,
         height: 630,
-        alt: site.ogAlt,
+        alt: siteConfig.ogAlt,
       },
     ],
   },
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Powered by IA | Sistemas IA premium',
     description: 'Portafolio tech, demos y servicios de IA aplicada.',
-    images: [site.ogImage],
+    images: [siteConfig.ogImage],
   },
   robots: {
     index: true,

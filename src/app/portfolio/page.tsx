@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { portfolio } from "../content/portfolio";
-import { buildWhatsappLink, site } from "../../lib/site";
+import { buildWhatsappLink, siteConfig } from "../../lib/site";
 
 export const metadata: Metadata = {
   title: "Portfolio | Powered by IA",
@@ -10,14 +10,14 @@ export const metadata: Metadata = {
     title: "Portfolio | Powered by IA",
     description:
       "Casos demo Powered by IA y plantillas de sistemas IA en accion.",
-    images: [{ url: site.ogImage, alt: site.ogAlt }],
+    images: [{ url: siteConfig.ogImage, alt: siteConfig.ogAlt }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Portfolio | Powered by IA",
     description:
       "Casos demo Powered by IA y plantillas de sistemas IA en accion.",
-    images: [site.ogImage],
+    images: [siteConfig.ogImage],
   },
 };
 

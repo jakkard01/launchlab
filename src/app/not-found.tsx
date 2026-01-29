@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { buildWhatsappLink, site } from "../lib/site";
+import { buildWhatsappLink, siteConfig } from "../lib/site";
 
 export default function NotFound() {
   return (
@@ -31,7 +31,7 @@ export default function NotFound() {
             href="/"
             className="rounded-full border border-white/20 px-6 py-3 text-center text-sm font-semibold text-white/90 transition hover:border-cyan-300/60"
           >
-            Volver a {site.name}
+            Volver a {siteConfig.brand}
           </Link>
         </div>
       </section>

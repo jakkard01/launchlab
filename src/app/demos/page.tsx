@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import ShowcaseGrid from "./ShowcaseGrid";
 import { showcase } from "../content/showcase";
-import { buildWhatsappLink, site } from "../../lib/site";
+import { buildWhatsappLink, siteConfig } from "../../lib/site";
 
 export const metadata: Metadata = {
   title: "Demos | Powered by IA",
@@ -11,14 +11,14 @@ export const metadata: Metadata = {
     title: "Demos | Powered by IA",
     description:
       "Showcase de demos Powered by IA y productos listos para activar.",
-    images: [{ url: site.ogImage, alt: site.ogAlt }],
+    images: [{ url: siteConfig.ogImage, alt: siteConfig.ogAlt }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Demos | Powered by IA",
     description:
       "Showcase de demos Powered by IA y productos listos para activar.",
-    images: [site.ogImage],
+    images: [siteConfig.ogImage],
   },
 };
 

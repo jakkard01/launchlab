@@ -1,7 +1,7 @@
 // src/app/page.tsx
 import type { Metadata } from 'next';
 import HomeClient from './components/HomeClient';
-import { site } from '../lib/site';
+import { siteConfig } from '../lib/site';
 
 export const metadata: Metadata = {
   title: 'Powered by IA | Sistemas IA listos para vender y escalar',
@@ -16,8 +16,8 @@ export const metadata: Metadata = {
       'Sistemas IA aplicados para ventas, operaciones y automatización. Demos funcionales, integraciones y entrega rápida para equipos B2B.',
     images: [
       {
-        url: site.ogImage,
-        alt: site.ogAlt,
+        url: siteConfig.ogImage,
+        alt: siteConfig.ogAlt,
       },
     ],
   },
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     title: 'Powered by IA | Sistemas IA listos para vender y escalar',
     description:
       'Sistemas IA aplicados para ventas, operaciones y automatización. Demos funcionales, integraciones y entrega rápida para equipos B2B.',
-    images: [site.ogImage],
+    images: [siteConfig.ogImage],
   },
 };
 
