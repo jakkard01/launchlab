@@ -13,6 +13,9 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.brand}`,
   },
   description: 'Portafolio tech y servicios premium de IA aplicada: automatización, asistentes inteligentes y lanzamientos digitales.',
+  alternates: {
+    canonical: siteUrl,
+  },
   keywords: ['Inteligencia Artificial', 'Automatización', 'Prompts', 'Asistentes IA', 'n8n', 'Productos digitales'],
   authors: [{ name: siteConfig.brand }],
   creator: siteConfig.brand,
