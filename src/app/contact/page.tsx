@@ -6,6 +6,19 @@ export const metadata: Metadata = {
   title: "Contacto | Powered by IA",
   description:
     "Agenda una llamada o escribe por WhatsApp Business para conocer nuestros servicios.",
+  openGraph: {
+    title: "Contacto | Powered by IA",
+    description:
+      "Agenda una llamada o escribe por WhatsApp Business para conocer nuestros servicios.",
+    images: [{ url: site.ogImage, alt: site.ogAlt }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contacto | Powered by IA",
+    description:
+      "Agenda una llamada o escribe por WhatsApp Business para conocer nuestros servicios.",
+    images: [site.ogImage],
+  },
 };
 
 export const dynamic = "force-dynamic";

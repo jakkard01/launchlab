@@ -1,10 +1,24 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { portfolio } from "../content/portfolio";
+import { site } from "../content/site";
 
 export const metadata: Metadata = {
   title: "Portfolio | Powered by IA",
   description: "Casos demo Powered by IA y plantillas de sistemas IA en accion.",
+  openGraph: {
+    title: "Portfolio | Powered by IA",
+    description:
+      "Casos demo Powered by IA y plantillas de sistemas IA en accion.",
+    images: [{ url: site.ogImage, alt: site.ogAlt }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Portfolio | Powered by IA",
+    description:
+      "Casos demo Powered by IA y plantillas de sistemas IA en accion.",
+    images: [site.ogImage],
+  },
 };
 
 export default function PortfolioPage() {

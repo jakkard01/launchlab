@@ -2,10 +2,24 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import ShowcaseGrid from "./ShowcaseGrid";
 import { showcase } from "../content/showcase";
+import { site } from "../content/site";
 
 export const metadata: Metadata = {
   title: "Demos | Powered by IA",
   description: "Showcase de demos Powered by IA y productos listos para activar.",
+  openGraph: {
+    title: "Demos | Powered by IA",
+    description:
+      "Showcase de demos Powered by IA y productos listos para activar.",
+    images: [{ url: site.ogImage, alt: site.ogAlt }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Demos | Powered by IA",
+    description:
+      "Showcase de demos Powered by IA y productos listos para activar.",
+    images: [site.ogImage],
+  },
 };
 
 export default function DemosPage() {

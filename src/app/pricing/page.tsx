@@ -1,11 +1,24 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { buildWhatsappLink } from "../content/site";
+import { buildWhatsappLink, site } from "../content/site";
 
 export const metadata: Metadata = {
   title: "Paquetes | Powered by IA",
   description:
     "Paquetes claros de Powered by IA para implementar IA, automatizar y escalar.",
+  openGraph: {
+    title: "Paquetes | Powered by IA",
+    description:
+      "Paquetes claros de Powered by IA para implementar IA, automatizar y escalar.",
+    images: [{ url: site.ogImage, alt: site.ogAlt }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Paquetes | Powered by IA",
+    description:
+      "Paquetes claros de Powered by IA para implementar IA, automatizar y escalar.",
+    images: [site.ogImage],
+  },
 };
 
 const plans = [
