@@ -13,6 +13,23 @@
 - Contacto: success/error/429 con mensajes claros
 - WhatsApp CTA funcionando (principal)
 
+## Post-deploy verification (PROD)
+- `/sitemap.xml`
+- `/robots.txt`
+- `/api/health`
+- `/contact`
+- `/pricing`
+- `/portfolio`
+- Confirmar que `/prompts` responde 404 y no está en sitemap.
+
+## Dominio en Vercel
+- Configura `NEXT_PUBLIC_SITE_URL` y `SITE_URL` con el dominio de producción.
+- Ejemplo: `https://poweredbyia.com`
+
+## Facebook link
+- Mientras el perfil no sea público, usar link de búsqueda.
+- Cuando esté activo, reemplazar por la URL final del perfil o ID.
+
 ## Obsidian snapshot (permisos)
 Si el script falla por permisos en `/mnt/c`:
 1. Crea snapshot local:
