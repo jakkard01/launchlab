@@ -33,6 +33,18 @@ export const buildWhatsappLink = (source: string, message?: string) => {
   return `${siteConfig.whatsapp.url}?text=${encodeURIComponent(text)}`;
 };
 
+export const buildContactLink = (
+  source: string,
+  extraParams: Record<string, string> = {}
+) => {
+  const params = new URLSearchParams({
+    source,
+    utm_source: source,
+    ...extraParams,
+  });
+  return `/contact?${params.toString()}`;
+};
+
 const withSource = (href: string, source: string) => {
   const separator = href.includes("?") ? "&" : "?";
   return `${href}${separator}utm_source=${source}`;

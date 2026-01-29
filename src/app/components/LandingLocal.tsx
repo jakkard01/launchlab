@@ -7,7 +7,7 @@ import { services } from "../content/catalog";
 import { portfolio } from "../content/portfolio";
 import { showcase } from "../content/showcase";
 import GlyphBadge from "./GlyphBadge";
-import { buildWhatsappLink, siteConfig } from "../../lib/site";
+import { buildContactLink, buildWhatsappLink, siteConfig } from "../../lib/site";
 import { trackEvent } from "../../lib/analytics";
 
 const EmbeddedBot = dynamic(() => import("./EmbeddedBot"), {
@@ -67,7 +67,7 @@ const conversionPath = [
     step: "Paso 1",
     title: "Reservar llamada",
     description: "15 minutos para aterrizar objetivos.",
-    href: "/contact?source=home_path",
+    href: buildContactLink("home_path"),
   },
   {
     step: "Paso 2",
@@ -257,7 +257,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
                 WhatsApp (principal)
               </a>
               <Link
-                href="/contact?source=home_hero"
+                href={buildContactLink("home_hero")}
                 className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white/90 transition hover:border-cyan-300/60"
                 aria-label="Reservar llamada"
                 onClick={() => trackEvent("click_call", { source: "home_hero" })}
@@ -417,7 +417,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               WhatsApp (principal)
             </a>
             <Link
-              href="/contact?source=home_services"
+              href={buildContactLink("home_services")}
               className="rounded-full border border-white/20 px-5 py-2 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
               onClick={() => trackEvent("click_call", { source: "home_services" })}
             >
@@ -490,7 +490,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               WhatsApp (principal)
             </a>
             <Link
-              href="/contact?source=home_demos"
+              href={buildContactLink("home_demos")}
               className="rounded-full border border-white/20 px-5 py-2 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
               onClick={() => trackEvent("click_call", { source: "home_demos" })}
             >
@@ -542,7 +542,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
                 </ul>
                 <p className="mt-4 text-xs text-slate-400">Precio final según alcance.</p>
                 <Link
-                  href={`/contact?source=home_packages&plan=${plan.slug}`}
+                  href={buildContactLink("home_packages", { plan: plan.slug })}
                   className="mt-5 inline-flex w-full items-center justify-center rounded-full bg-cyan-400 px-5 py-2 text-sm font-semibold text-black transition hover:bg-cyan-300"
                   aria-label={`Reservar llamada para ${plan.title}`}
                   onClick={() => trackEvent("click_call", { source: "home_packages", plan: plan.slug })}
@@ -563,7 +563,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               WhatsApp (principal)
             </a>
             <Link
-              href="/contact?source=home_packages"
+              href={buildContactLink("home_packages")}
               className="rounded-full border border-white/20 px-5 py-2 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
               onClick={() => trackEvent("click_call", { source: "home_packages" })}
             >
@@ -633,7 +633,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               WhatsApp (principal)
             </a>
             <Link
-              href="/contact?source=home_portfolio"
+              href={buildContactLink("home_portfolio")}
               className="rounded-full border border-white/20 px-5 py-2 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
               onClick={() => trackEvent("click_call", { source: "home_portfolio" })}
             >
@@ -782,7 +782,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
             WhatsApp (principal)
           </a>
           <Link
-            href="/contact?source=home_faq"
+            href={buildContactLink("home_faq")}
             className="rounded-full border border-white/20 px-5 py-2 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
             onClick={() => trackEvent("click_call", { source: "home_faq" })}
           >
@@ -841,7 +841,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
             WhatsApp
           </a>
           <Link
-            href="/contact?source=sticky"
+            href={buildContactLink("sticky")}
             className="flex-1 rounded-full border border-white/20 px-4 py-3 text-center text-sm font-semibold text-white/90 transition hover:border-cyan-300/60"
             aria-label="Reservar llamada desde la barra inferior"
             onClick={() => trackEvent("click_call", { source: "sticky" })}
