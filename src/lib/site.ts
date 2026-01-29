@@ -12,7 +12,7 @@ export const siteConfig = {
     tiktok: "https://www.tiktok.com/@poweredbyia0",
     youtube: "https://www.youtube.com/@poweredbyiaoficial",
     x: "https://x.com/poweredbyiao",
-    facebook: "https://www.facebook.com/search/top?q=poweredbyia0ficial",
+    facebook: "https://www.facebook.com/search/top?q=powered%20by%20ia%20oficial",
   },
   ogImage: "/og.png",
   ogAlt: "Powered by IA",
