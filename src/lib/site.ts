@@ -18,7 +18,12 @@ export const siteConfig = {
   ogAlt: "Powered by IA",
 };
 
-export const siteUrl = `https://${siteConfig.domain}`;
+const rawSiteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  process.env.SITE_URL ??
+  `https://${siteConfig.domain}`;
+
+export const siteUrl = rawSiteUrl.replace(/\/$/, "");
 
 const defaultWhatsappMessage =
   "Hola, vengo desde poweredbyia.com. Quiero info de servicios y una demo.";
