@@ -12,6 +12,9 @@
 - OG image (`/public/og.png`) y metadata global válidas
 - Contacto: success/error/429 con mensajes claros
 - WhatsApp CTA funcionando (principal)
+- Mobile menu: tap fuera cierra, scroll interno funciona, safe-area OK
+- Sticky CTA + FAB ocultos cuando menú está abierto
+- Hero mobile: H1 + sub + bullets + proof chips + CTAs visibles en 5s
 
 ## Post-deploy verification (PROD)
 - `/sitemap.xml`
