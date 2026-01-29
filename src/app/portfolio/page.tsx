@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { portfolio } from "../content/portfolio";
-import { site } from "../../lib/site";
+import { buildWhatsappLink, site } from "../../lib/site";
 
 export const metadata: Metadata = {
   title: "Portfolio | Powered by IA",
@@ -111,12 +111,22 @@ export default function PortfolioPage() {
               Cuentalo y armamos un plan adaptado a tu negocio.
             </p>
           </div>
-          <Link
-            href="/contact?source=portfolio"
-            className="rounded-full bg-cyan-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-cyan-300"
-          >
-            Reservar llamada
-          </Link>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <a
+              href={buildWhatsappLink("portfolio_cta")}
+              className="rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              WhatsApp (principal)
+            </a>
+            <Link
+              href="/contact?source=portfolio"
+              className="rounded-full border border-white/20 px-6 py-3 text-center text-sm font-semibold text-white/90 transition hover:border-cyan-300/60"
+            >
+              Reservar llamada
+            </Link>
+          </div>
         </div>
       </section>
     </main>

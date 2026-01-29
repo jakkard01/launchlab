@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import GlyphBadge from "../components/GlyphBadge";
 import { services } from "../content/catalog";
-import { site } from "../../lib/site";
+import { buildWhatsappLink, site } from "../../lib/site";
 
 export const metadata: Metadata = {
   title: "Servicios IA | Powered by IA",
@@ -92,12 +92,22 @@ export default function ServicesPage() {
               Diagnóstico inicial, roadmap y próximos pasos claros.
             </p>
           </div>
-          <Link
-            href="/contact?source=services"
-            className="rounded-full bg-cyan-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-cyan-300"
-          >
-            Reservar llamada
-          </Link>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <a
+              href={buildWhatsappLink("services_cta")}
+              className="rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              WhatsApp (principal)
+            </a>
+            <Link
+              href="/contact?source=services"
+              className="rounded-full border border-white/20 px-6 py-3 text-center text-sm font-semibold text-white/90 transition hover:border-cyan-300/60"
+            >
+              Reservar llamada
+            </Link>
+          </div>
         </div>
       </section>
     </main>
