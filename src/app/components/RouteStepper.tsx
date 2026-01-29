@@ -17,7 +17,7 @@ export default function RouteStepper() {
             <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Ruta</p>
             <h2 className="mt-3 text-2xl font-semibold text-white">De estrategia a ejecución</h2>
             <p className="mt-2 max-w-2xl text-sm text-white/70">
-              Un recorrido claro para pasar de idea a sistema IA operativo, sin humo.
+              Un recorrido claro para pasar de idea a sistema IA operativo, con limites definidos.
             </p>
           </div>
         </div>

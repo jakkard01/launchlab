@@ -1,0 +1,27 @@
+Documento de Alcance - Web
+
+Incluye:
+- Diseno UI/UX responsive
+- SEO basico (title/meta, sitemap, robots)
+- Performance mobile first
+- CTA + formulario + WhatsApp
+- Revisiones segun plan
+
+No incluye:
+- Hosting o dominio
+- Licencias premium (fotos, fonts)
+- Integraciones enterprise
+
+Requisitos del cliente:
+- Logo/brand kit
+- Copy base o brief
+- Assets/imagenes base
+
+Plazos:
+- Landing: 5-7 dias habiles
+- Sitio: 10-14 dias habiles
+- Pro: 2-3 semanas
+
+Cambios:
+- Microcambios: ajustes menores
+- Nuevo scope: cambio de concepto/estructura completa

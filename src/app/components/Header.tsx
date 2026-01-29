@@ -1,10 +1,12 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import {
   BriefcaseBusiness,
+  Bot,
+  Globe,
   HandCoins,
   Home,
   Layers3,
@@ -21,6 +23,13 @@ import { buildContactLink, getSocialLinks, siteConfig } from "../../lib/site";
 
 const navItems = [
   { label: "Inicio", href: "/", icon: Home, tagline: "volver al inicio" },
+  {
+    label: "Web",
+    href: "/web",
+    match: "/web",
+    icon: Globe,
+    tagline: "paginas web listas",
+  },
   {
     label: "Servicios",
     href: "/services",
@@ -55,6 +64,13 @@ const navItems = [
     tagline: "automatizaciones premium",
   },
   {
+    label: "Bots",
+    href: "/bots",
+    match: "/bots",
+    icon: Bot,
+    tagline: "web + WhatsApp API",
+  },
+  {
     label: "Paquetes",
     href: "/pricing",
     icon: BriefcaseBusiness,
@@ -84,10 +100,26 @@ export default function Header() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const socialLinks = getSocialLinks("header");
+  const menuRef = useRef<HTMLDivElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") setMenuOpen(false);
+      if (!menuOpen || event.key !== "Tab" || !menuRef.current) return;
+      const focusable = menuRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
     document.addEventListener("keydown", onKeyDown);
     document.body.style.overflow = menuOpen ? "hidden" : "";
@@ -95,6 +127,19 @@ export default function Header() {
       document.body.style.overflow = "";
       document.removeEventListener("keydown", onKeyDown);
     };
+  }, [menuOpen]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const timer = window.setTimeout(() => {
+      const focusable = menuRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusable && focusable.length > 0) {
+        focusable[0].focus();
+      }
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, [menuOpen]);
 
   useEffect(() => {
@@ -170,6 +215,7 @@ export default function Header() {
           aria-expanded={menuOpen}
           aria-controls="mobile-nav"
           aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+          ref={menuButtonRef}
         >
           <span className="flex flex-col gap-1.5">
             <span className="h-0.5 w-6 rounded bg-white" />
@@ -190,6 +236,8 @@ export default function Header() {
           >
             <div className="absolute inset-0 bg-black/85 backdrop-blur-sm pointer-events-auto" />
             <div
+              ref={menuRef}
+              id="mobile-nav"
               className="absolute inset-x-0 top-0 mx-auto w-full max-w-md p-4 pt-[calc(env(safe-area-inset-top)+16px)]"
               onPointerDown={(event) => event.stopPropagation()}
             >

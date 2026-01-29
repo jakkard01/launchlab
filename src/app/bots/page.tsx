@@ -3,11 +3,11 @@ import Link from "next/link";
 import { buildContactLink, buildWhatsappLink, siteUrl } from "../../lib/site";
 
 export const metadata: Metadata = {
-  title: "n8n Ops",
+  title: "Bots / Chatbot",
   description:
-    "Automatizaciones n8n con limites claros: flujos, integraciones y soporte operativo.",
+    "Bots web + WhatsApp Cloud API con alcance definido, handoff y analitica basica.",
   alternates: {
-    canonical: `${siteUrl}/ops`,
+    canonical: `${siteUrl}/bots`,
   },
 };
 
@@ -22,107 +22,105 @@ const buildWhatsappUtmLink = (
   return url.toString();
 };
 
-const opsPacks = [
+const botPacks = [
   {
-    name: "Ops Starter",
-    cadence: "1 flujo",
-    price: "Desde €490-€1,200",
+    name: "Bot Starter",
+    cadence: "Web widget",
+    price: "Desde €650-€1,200",
     campaign: "starter",
     includes: [
-      "Discovery + mapeo del proceso",
-      "1 flujo n8n con QA",
-      "Documentacion y handoff",
+      "Web widget embebible",
+      "Hasta 8 intents",
+      "Handoff a humano",
+      "Analitica basica",
     ],
     excludes: [
+      "WhatsApp Cloud API",
       "Integraciones complejas",
-      "Dashboards avanzados",
+      "Canales extra",
+    ],
+    requirements: [
+      "FAQs/KB base",
+      "Tonality + brand assets",
+      "Owner para validacion",
+    ],
+    revisions: "2 rondas de ajustes en intents.",
+    timeline: "1-2 semanas.",
+    priceNote: "Hasta 8 intents. Web widget only.",
+  },
+  {
+    name: "Bot Growth",
+    cadence: "Web + WhatsApp Cloud API",
+    price: "Desde €1,500-€3,000",
+    campaign: "growth",
+    includes: [
+      "Web widget + WhatsApp Cloud API",
+      "Hasta 15 intents",
+      "Handoff + alertas",
+      "Analitica basica",
+    ],
+    excludes: [
+      "Canales adicionales",
+      "Integraciones ERP/CRM custom",
       "Soporte 24/7",
     ],
     requirements: [
-      "Acceso a herramientas",
-      "Definicion del proceso",
-      "Owner interno para validacion",
+      "Acceso a WhatsApp Cloud API",
+      "KB/FAQs estructuradas",
+      "Aprobacion de flows",
     ],
-    revisions: "1 ronda de ajustes (cambios de alcance = nuevo flujo).",
-    timeline: "5-7 dias habiles.",
-    priceNote:
-      "Simple = 1-2 integraciones, <10 nodos, sin ERP/CRM custom.",
-  },
-  {
-    name: "Ops Growth",
-    cadence: "3-5 flujos",
-    price: "Desde €1,500-€3,500",
-    campaign: "growth",
-    includes: [
-      "Flujos criticos orquestados",
-      "Integracion CRM + alertas",
-      "Monitoreo basico + logging",
-      "Soporte post-lanzamiento",
-    ],
-    excludes: [
-      "Integraciones custom complejas",
-      "Dashboards BI avanzados",
-      "SLA 24/7",
-    ],
-    requirements: [
-      "Accesos API y credenciales",
-      "Mapa de procesos acordado",
-      "Tiempo de validacion semanal",
-    ],
-    revisions: "1 ronda por flujo.",
+    revisions: "2 rondas de ajustes en flows.",
     timeline: "2-3 semanas.",
-    priceNote:
-      "Simple a media complejidad. Compleja se cotiza aparte.",
+    priceNote: "Hasta 15 intents. Canales extra bajo pedido.",
   },
   {
-    name: "Ops Pro",
-    cadence: "Multi-sistema",
-    price: "Desde €3,800-€7,500",
+    name: "Bot Pro",
+    cadence: "Multi-flow",
+    price: "Desde €3,500-€7,000",
     campaign: "pro",
     includes: [
-      "Arquitectura n8n escalable",
-      "Dashboards operativos",
-      "Logs, retries y branching",
+      "Flows multi-objetivo",
+      "Handoff avanzado",
+      "Dashboards y eventos",
       "Soporte prioritario",
     ],
     excludes: [
-      "Integraciones propietarias sin API",
-      "Cambios ilimitados",
-      "Infra on-prem sin alcance",
+      "WhatsApp on-prem",
+      "Integraciones sin API",
+      "Mantenimiento ilimitado",
     ],
     requirements: [
-      "Acceso completo a stack",
       "Stakeholders disponibles",
-      "Definicion de KPIs",
+      "Integraciones acordadas",
+      "KPIs definidos",
     ],
-    revisions: "2 rondas por flujo.",
-    timeline: "4-6 semanas.",
-    priceNote:
-      "Compleja = 3+ integraciones, 20+ nodos, ERP/CRM custom.",
+    revisions: "3 rondas de ajustes.",
+    timeline: "3-5 semanas.",
+    priceNote: "WhatsApp Cloud API + web widget. Otros canales bajo pedido.",
   },
 ];
 
-export default function OpsPage() {
+export default function BotsPage() {
   return (
     <main className="min-h-screen w-full px-4 pb-20 pt-28 sm:px-6 lg:px-8">
       <section className="mx-auto w-full max-w-6xl">
         <div className="rounded-[32px] border border-white/10 bg-black/65 p-8 shadow-2xl">
           <p className="text-xs uppercase tracking-[0.4em] text-cyan-200/80">
-            n8n Ops
+            Bots / Chatbot
           </p>
           <h1 className="mt-4 text-3xl font-semibold text-white md:text-4xl">
-            Automatizaciones operativas con limites claros
+            Bots claros, con limites definidos
           </h1>
           <p className="mt-3 text-base text-slate-200 md:text-lg">
-            Flujos n8n definidos por complejidad y volumen. Sin mezclar con otros
-            productos fuera del Super Pack.
+            Canales soportados: Web widget + WhatsApp Cloud API. Otros canales
+            bajo pedido.
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center" data-fab-avoid>
             <a
               href={buildWhatsappUtmLink(
-                "ops",
+                "bots",
                 "hero",
-                "Quiero info de automatizaciones n8n."
+                "Quiero info de bots/chatbot."
               )}
               target="_blank"
               rel="noopener noreferrer"
@@ -131,7 +129,7 @@ export default function OpsPage() {
               Hablar por WhatsApp
             </a>
             <Link
-              href={buildContactLink("ops", { utm_campaign: "hero" })}
+              href={buildContactLink("bots", { utm_campaign: "hero" })}
               className="rounded-full border border-white/20 px-6 py-3 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
             >
               Reservar llamada
@@ -142,23 +140,22 @@ export default function OpsPage() {
 
       <section className="mx-auto mt-12 w-full max-w-6xl">
         <p className="text-xs uppercase tracking-[0.35em] text-cyan-200/80">
-          n8n Ops (producto)
+          Bots (producto)
         </p>
         <h2 className="mt-2 text-2xl font-semibold text-white md:text-3xl">
-          Packs por flujos, con complejidad definida
+          Packs con alcance por intents y canales
         </h2>
         <div className="mt-8 grid gap-6 lg:grid-cols-3">
-          {opsPacks.map((pack) => {
+          {botPacks.map((pack) => {
             const whatsappLink = buildWhatsappUtmLink(
-              "ops",
+              "bots",
               pack.campaign,
-              `Quiero el ${pack.name} de n8n Ops.`
+              `Quiero el ${pack.name}.`
             );
-            const contactLink = buildContactLink("ops", {
+            const contactLink = buildContactLink("bots", {
               utm_campaign: pack.campaign,
               utm_content: pack.name.toLowerCase().replace(/\s+/g, "_"),
             });
-
             return (
               <article
                 key={pack.name}
@@ -271,7 +268,7 @@ export default function OpsPage() {
             <a
               href={buildWhatsappUtmLink(
                 "superpack",
-                "ops",
+                "bots",
                 "Quiero el Super Pack."
               )}
               target="_blank"
@@ -281,7 +278,7 @@ export default function OpsPage() {
               WhatsApp: quiero el Super Pack
             </a>
             <Link
-              href={buildContactLink("superpack", { utm_campaign: "ops" })}
+              href={buildContactLink("superpack", { utm_campaign: "bots" })}
               className="rounded-full border border-white/20 px-6 py-3 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
             >
               Reservar llamada
