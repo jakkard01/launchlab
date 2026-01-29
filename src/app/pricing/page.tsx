@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { buildWhatsappLink, siteConfig } from "../../lib/site";
 
 export const metadata: Metadata = {
@@ -24,56 +23,46 @@ export const metadata: Metadata = {
 const plans = [
   {
     slug: "starter",
-    title: "Plan Starter",
-    from: "Desde €900",
+    title: "Starter",
+    from: "Desde: consulta",
     typicalTimeline: "Plazo típico: 7-10 días",
-    description: "Sprint para validar un flujo con IA y medir respuesta.",
+    description: "Demo + captación para validar rápido.",
     includes: [
-      "Diagnóstico + alcance",
-      "1 flujo automatizado",
-      "Demo funcional",
+      "Diagnóstico express y objetivos",
+      "1 flujo de captación (form o WhatsApp)",
+      "Demo funcional con guion",
+      "Copy base + CTA listos",
+      "Handoff + próximos pasos",
     ],
-    excludes: ["Integraciones complejas", "Múltiples squads"],
   },
   {
     slug: "growth",
-    title: "Plan Growth",
-    from: "Desde €1.500",
+    title: "Growth",
+    from: "Desde: consulta",
     typicalTimeline: "Plazo típico: 2-3 semanas",
-    description: "Bot o landing con integraciones ligeras para ventas.",
+    description: "Captación + seguimiento + dashboard básico.",
     includes: [
-      "Setup completo + copy base",
+      "Landing o bot con seguimiento",
       "Integraciones WhatsApp / Web",
+      "Dashboard básico de leads",
+      "Alertas y handoff al equipo",
       "Soporte 30 días",
     ],
-    excludes: ["Automatizaciones multi-área", "Infraestructura a medida"],
     featured: true,
   },
   {
     slug: "pro",
-    title: "Plan Pro",
-    from: "Desde €3.000",
+    title: "Pro",
+    from: "Desde: consulta",
     typicalTimeline: "Plazo típico: 3-5 semanas",
-    description: "Sistema IA conectado a procesos críticos.",
+    description: "End-to-end + integraciones + soporte.",
     includes: [
-      "Mapa de procesos",
+      "Mapa de procesos + roadmap",
       "Automatizaciones multi-stack",
-      "Documentación operativa",
+      "Integraciones CRM / ERP",
+      "QA + documentación operativa",
+      "Soporte continuo",
     ],
-    excludes: ["Desarrollo de producto completo", "Equipos dedicados"],
-  },
-  {
-    slug: "custom",
-    title: "Custom",
-    from: "A medida",
-    typicalTimeline: "Plazo típico: 4-8 semanas",
-    description: "Arquitectura avanzada y coordinación multi-equipo.",
-    includes: [
-      "Roadmap y sprints",
-      "Compliance básico",
-      "Acompañamiento continuo",
-    ],
-    excludes: ["Soporte 24/7", "Licencias de terceros"],
   },
 ];
 
@@ -98,15 +87,15 @@ export default function PricingPage() {
           <ul className="mt-3 space-y-2">
             <li className="flex items-start gap-2">
               <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-300" aria-hidden="true" />
-              <span>+10–30% leads cualificados (si hay tráfico y oferta clara)</span>
+              <span>Demo funcional en 7-10 días</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-300" aria-hidden="true" />
-              <span>-20–40% tiempo en soporte (si hay FAQ/KB)</span>
+              <span>Casos reales y entregables claros</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-300" aria-hidden="true" />
-              <span>Demo validable en 7 días</span>
+              <span>Proceso claro con validación por etapas</span>
             </li>
           </ul>
         </div>
@@ -131,7 +120,7 @@ export default function PricingPage() {
               </p>
               <div className="mt-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200/70">
-                  Incluye
+                  Entregables
                 </p>
                 <ul className="mt-3 space-y-2 text-sm text-slate-300">
                   {plan.includes.map((feature) => (
@@ -142,36 +131,17 @@ export default function PricingPage() {
                   ))}
                 </ul>
               </div>
-              <div className="mt-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
-                  No incluye
-                </p>
-                <ul className="mt-3 space-y-2 text-sm text-slate-400">
-                  {plan.excludes.map((feature) => (
-                    <li key={feature} className="flex gap-2">
-                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-white/20" />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
               <div className="mt-6 flex flex-col gap-3">
-                <Link
-                  href={`/contact?source=pricing_${plan.slug}`}
-                  className="inline-flex w-full items-center justify-center rounded-full bg-cyan-400 px-4 py-2 text-sm font-semibold text-black transition hover:bg-cyan-300"
-                >
-                  Reservar llamada
-                </Link>
                 <a
                   href={buildWhatsappLink(
                     `pricing_${plan.slug}`,
-                    `Hola, vengo desde poweredbyia.com. Me interesa el plan ${plan.title}.`
+                    `Hola, vengo desde poweredbyia.com. Me interesa el paquete ${plan.title}. Industria: __. Objetivo: __. Presupuesto: __.`
                   )}
                   className="inline-flex w-full items-center justify-center rounded-full border border-emerald-300/60 px-4 py-2 text-sm font-semibold text-emerald-200 transition hover:bg-emerald-300 hover:text-black"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  WhatsApp directo
+                  Pedir precio por WhatsApp
                 </a>
               </div>
             </div>
