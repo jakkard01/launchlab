@@ -194,6 +194,7 @@ const pricingPlans = [
 export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: LandingLocalProps) {
   const [imgError, setImgError] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [activeFaq, setActiveFaq] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(() => {
     if (typeof document === "undefined") return false;
     return document.body.dataset.mobileMenuOpen === "true";
@@ -873,13 +874,26 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
         <h2 className="mt-3 text-3xl font-semibold text-white">Respuestas rápidas</h2>
         <div className="mt-8 grid gap-4">
           {faqs.map((faq) => (
-            <div key={faq.q} className="rounded-2xl border border-white/10 bg-black/55 p-5">
+            <button
+              key={faq.q}
+              type="button"
+              onClick={() =>
+                setActiveFaq((current) => (current === faq.q ? null : faq.q))
+              }
+              className={`rounded-2xl border p-5 text-left transition ${
+                activeFaq === faq.q
+                  ? "border-cyan-300 bg-cyan-400/10"
+                  : "border-white/10 bg-black/55 hover:border-cyan-300/40"
+              }`}
+            >
               <h3 className="text-base font-semibold text-white">{faq.q}</h3>
-              <p className="mt-2 text-sm text-slate-300">{faq.a}</p>
-            </div>
+              {activeFaq === faq.q && (
+                <p className="mt-2 text-sm text-slate-300">{faq.a}</p>
+              )}
+            </button>
           ))}
         </div>
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row" data-fab-avoid>
           <a
             href={buildWhatsappLink("home_faq")}
             className="rounded-full bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"

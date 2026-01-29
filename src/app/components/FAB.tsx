@@ -5,6 +5,7 @@ import { buildWhatsappLink } from "../../lib/site";
 export default function FAB() {
   const [showTop, setShowTop] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isColliding, setIsColliding] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
@@ -34,10 +35,55 @@ export default function FAB() {
     };
   }, []);
 
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const intersecting = new Set<Element>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const nearBottom =
+            entry.isIntersecting &&
+            entry.boundingClientRect.bottom >= window.innerHeight - 180;
+          if (nearBottom) {
+            intersecting.add(entry.target);
+          } else {
+            intersecting.delete(entry.target);
+          }
+        });
+        setIsColliding(intersecting.size > 0);
+      },
+      { root: null, threshold: 0.1 }
+    );
+
+    const targets = Array.from(
+      document.querySelectorAll("footer, [data-fab-avoid]")
+    );
+    targets.forEach((target) => observer.observe(target));
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const padding = isColliding ? "180px" : "120px";
+    document.documentElement.style.setProperty("--fab-safe-padding", padding);
+  }, [isColliding]);
+
   if (menuOpen) return null;
 
+  const bottomOffset = isColliding ? 96 : 0;
+
   return (
-    <div className="fixed bottom-[calc(env(safe-area-inset-bottom)+24px)] right-[calc(env(safe-area-inset-right)+24px)] z-50 flex flex-col gap-3">
+    <div
+      className={`fixed right-[calc(env(safe-area-inset-right)+24px)] z-50 flex flex-col gap-3 transition-all duration-200 ${
+        isColliding ? "opacity-80" : "opacity-100"
+      }`}
+      style={{
+        bottom: `calc(env(safe-area-inset-bottom) + 24px + ${bottomOffset}px)`,
+      }}
+    >
       <a
         href={buildWhatsappLink("fab")}
         className="bg-emerald-400 hover:bg-emerald-300 text-black rounded-full shadow-lg p-4 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-emerald-200"

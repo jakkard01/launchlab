@@ -11,11 +11,13 @@ body {
   @apply text-white antialiased;
   background-color: #06070b;
   font-family: "Space Grotesk", "Sora", "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  padding-bottom: calc(env(safe-area-inset-bottom) + var(--fab-safe-padding, 120px));
 }
 
 :root {
   --background: #06070b;
   --foreground: #f5f6fb;
+  --fab-safe-padding: 120px;
 }
 
 @media (prefers-color-scheme: dark) {
