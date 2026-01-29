@@ -2,12 +2,21 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { services } from "../content/catalog";
 import { portfolio } from "../content/portfolio";
 import { showcase } from "../content/showcase";
-import EmbeddedBot from "./EmbeddedBot";
 import GlyphBadge from "./GlyphBadge";
 import { buildWhatsappLink, siteConfig } from "../../lib/site";
+
+const EmbeddedBot = dynamic(() => import("./EmbeddedBot"), {
+  ssr: false,
+  loading: () => (
+    <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm text-slate-300">
+      Cargando demo...
+    </div>
+  ),
+});
 
 interface LandingLocalProps {
   onShowVideo: () => void;
@@ -242,6 +251,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
                 aria-label="Abrir WhatsApp para iniciar conversación"
                 target="_blank"
                 rel="noopener noreferrer"
+
               >
                 WhatsApp (principal)
               </a>
@@ -249,6 +259,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
                 href="/contact?source=home_hero"
                 className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white/90 transition hover:border-cyan-300/60"
                 aria-label="Reservar llamada"
+
               >
                 Reservar llamada
               </Link>
@@ -400,12 +411,14 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               className="rounded-full bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
               target="_blank"
               rel="noopener noreferrer"
+
             >
               WhatsApp (principal)
             </a>
             <Link
               href="/contact?source=home_services"
               className="rounded-full border border-white/20 px-5 py-2 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
+
             >
               Reservar llamada
             </Link>
@@ -471,12 +484,14 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               className="rounded-full bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
               target="_blank"
               rel="noopener noreferrer"
+
             >
               WhatsApp (principal)
             </a>
             <Link
               href="/contact?source=home_demos"
               className="rounded-full border border-white/20 px-5 py-2 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
+
             >
               Reservar llamada
             </Link>
@@ -541,12 +556,14 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               className="rounded-full bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
               target="_blank"
               rel="noopener noreferrer"
+
             >
               WhatsApp (principal)
             </a>
             <Link
               href="/contact?source=home_packages"
               className="rounded-full border border-white/20 px-5 py-2 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
+
             >
               Reservar llamada
             </Link>
@@ -609,12 +626,14 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               className="rounded-full bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
               target="_blank"
               rel="noopener noreferrer"
+
             >
               WhatsApp (principal)
             </a>
             <Link
               href="/contact?source=home_portfolio"
               className="rounded-full border border-white/20 px-5 py-2 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
+
             >
               Reservar llamada
             </Link>
@@ -756,12 +775,14 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
             className="rounded-full bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
             target="_blank"
             rel="noopener noreferrer"
+
           >
             WhatsApp (principal)
           </a>
           <Link
             href="/contact?source=home_faq"
             className="rounded-full border border-white/20 px-5 py-2 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
+
           >
             Reservar llamada
           </Link>
@@ -778,15 +799,16 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
             Agenda una llamada o escribe por WhatsApp Business. Respuesta en menos de 24 horas hábiles.
           </p>
           <div className="mt-6 flex flex-col gap-4 md:flex-row">
-            <a
-              href={buildWhatsappLink("home_contact")}
-              className="rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Abrir WhatsApp Business"
-            >
-              WhatsApp Business: {siteConfig.whatsapp.phone}
-            </a>
+          <a
+            href={buildWhatsappLink("home_contact")}
+            className="rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Abrir WhatsApp Business"
+
+          >
+            WhatsApp Business: {siteConfig.whatsapp.phone}
+          </a>
             <a
               href={`mailto:${siteConfig.email}`}
               className="rounded-full border border-white/20 px-6 py-3 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
@@ -812,6 +834,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
             rel="noopener noreferrer"
             className="flex-1 rounded-full bg-emerald-400 px-4 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
             aria-label="Abrir WhatsApp desde la barra inferior"
+
           >
             WhatsApp
           </a>
@@ -819,6 +842,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
             href="/contact?source=sticky"
             className="flex-1 rounded-full border border-white/20 px-4 py-3 text-center text-sm font-semibold text-white/90 transition hover:border-cyan-300/60"
             aria-label="Reservar llamada desde la barra inferior"
+
           >
             Reservar
           </Link>
