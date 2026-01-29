@@ -22,119 +22,75 @@ const faqData: FaqItem[] = [
       "Brief claro, assets básicos (logo/brand), ejemplos de referencia y acceso a herramientas clave. Si no hay assets, podemos definir un pack mínimo con plantilla base.",
   },
   {
-    id: "web_offer",
-    category: "Web",
-    question: "Quiero una web: ¿qué entregan?",
-    answer:
-      "Landing o sitio completo con diseño premium, SEO base, performance y panel de edición. Alcance y páginas definidos por plan.",
-  },
-  {
     id: "timeline",
     category: "Plazos",
     question: "¿Cuánto tarda?",
     answer:
-      "Depende del producto. Video Packs: producción semanal. Doblaje: 48-72h por pieza. n8n Ops: 1-3 semanas según complejidad. Bot: 1-3 semanas según canales.",
+      "Depende del alcance. Webs: 5-14 días típicos, Pro hasta 3 semanas. Video y doblaje tienen plazos por pieza. Se confirma con assets completos.",
   },
   {
-    id: "includes_excludes",
-    category: "Scope",
-    question: "¿Qué incluye y qué NO incluye?",
+    id: "scope_limits",
+    category: "Alcance",
+    question: "¿Qué incluye y qué no incluye?",
     answer:
-      "Incluimos entregables y revisiones definidas en cada pack. No incluye cambios de concepto fuera de scope, grabaciones presenciales, ni licencias de terceros.",
+      "Incluimos entregables y revisiones definidos por plan. No incluye hosting/dominio, licencias premium ni cambios de concepto fuera de alcance.",
   },
   {
     id: "revisions",
-    category: "Scope",
+    category: "Cambios",
     question: "¿Cuántas revisiones tengo?",
     answer:
-      "2 revisiones por pieza en Video Packs. En Doblaje, 1 pase de corrección de timing/texto. Cambios de guion/concepto cuentan como nueva pieza.",
+      "Web: 1-3 rondas según plan. Video: 2 revisiones por pieza. Cambios estructurales se consideran nuevo alcance.",
   },
   {
-    id: "more_scope",
-    category: "Upgrades",
-    question: "¿Qué pasa si quiero más?",
+    id: "integrations",
+    category: "Integraciones",
+    question: "¿Se integra con mis herramientas?",
     answer:
-      "Podemos ampliar volumen, formatos o idiomas con add-ons. Se cotiza por unidad extra o por upgrade de pack.",
-  },
-  {
-    id: "languages",
-    category: "Doblaje",
-    question: "¿Soportan cualquier idioma?",
-    answer:
-      "Sí. Incluimos 2 idiomas por defecto (demo EN + DE). Idiomas extra disponibles como add-on.",
-  },
-  {
-    id: "whatsapp_channels",
-    category: "Bots",
-    question: "¿WhatsApp API o web?",
-    answer:
-      "Soportamos Web widget y WhatsApp Cloud API. Otros canales son bajo pedido.",
-  },
-  {
-    id: "crm",
-    category: "n8n Ops",
-    question: "¿Integran CRM?",
-    answer:
-      "Sí, con integraciones simples (1-2 sistemas) o complejas (3+ sistemas, ERP/CRM custom, logs y retries).",
+      "Sí si hay APIs disponibles. Integraciones enterprise o custom se cotizan aparte.",
   },
   {
     id: "support",
     category: "Soporte",
     question: "¿Qué soporte ofrecen?",
     answer:
-      "Soporte estándar en horario laboral y handoff documentado. En packs Pro, soporte prioritario y ventanas de respuesta más cortas.",
+      "Handoff documentado y soporte post-entrega según plan. SLA y ventanas de soporte se definen en la propuesta.",
   },
   {
-    id: "pricing_logic",
-    category: "Pricing",
-    question: "¿Cómo se calculan los precios?",
+    id: "changes",
+    category: "Cambios",
+    question: "¿Qué pasa si quiero más cambios o páginas?",
     answer:
-      "Por volumen, duración, formatos y complejidad. Todos los precios son “desde” con límites claros.",
+      "Se cotiza como ampliación de alcance o nueva pieza. Se valida antes de ejecutar.",
   },
   {
-    id: "video_packs",
-    category: "Video Packs",
-    question: "Quiero Video Packs: ¿qué entregan?",
+    id: "privacy",
+    category: "Privacidad",
+    question: "¿Cómo manejan datos y privacidad?",
     answer:
-      "Producción mensual con guion, edición y subtítulos. Hasta 45s por video, 2 revisiones, formatos según pack.",
+      "Se minimiza el uso de datos y se sigue la normativa aplicable. Si hay datos sensibles, se define flujo y permisos.",
   },
   {
-    id: "dubbing",
-    category: "Doblaje",
-    question: "Quiero Doblaje: ¿qué entregan?",
+    id: "channels",
+    category: "Canales",
+    question: "¿Qué canales soportan en bots?",
     answer:
-      "Voiceover + subtítulos pro. Lip-sync básico solo talking head. Lip-sync avanzado es add-on.",
+      "Web widget y WhatsApp Cloud API. Otros canales son bajo pedido y se evalúan por caso.",
   },
   {
-    id: "ops",
-    category: "n8n Ops",
-    question: "Quiero n8n Ops: ¿qué entregan?",
+    id: "next_steps",
+    category: "Siguiente paso",
+    question: "¿Cuál es el siguiente paso?",
     answer:
-      "Flujos n8n con requisitos definidos, QA, documentación y handoff. Complejidad determina el rango de precio.",
-  },
-  {
-    id: "bot",
-    category: "Bots",
-    question: "Quiero un Bot: ¿qué entregan?",
-    answer:
-      "Bot con intents y flows definidos, handoff humano y analítica básica. Canales: web widget y WhatsApp Cloud API.",
-  },
-  {
-    id: "super_pack",
-    category: "Super Pack",
-    question: "¿Qué incluye el Super Pack?",
-    answer:
-      "8 videos/mes (≤45s, 2 formatos) + 2 flujos n8n/mes + 1 bot (≤15 intents + handoff) + 2 doblajes/mes (2 idiomas).",
+      "Agendar una llamada corta para definir alcance, plazos y propuesta.",
   },
 ];
 
 const quickReplies = [
-  { label: "Quiero una web", target: "web_offer" },
-  { label: "Quiero automatizar (n8n)", target: "ops" },
-  { label: "Quiero video/doblaje", target: "video_packs" },
-  { label: "Quiero un bot", target: "bot" },
-  { label: "Super Pack", target: "super_pack" },
-  { label: "Hablar por WhatsApp", target: "start_needs" },
+  { label: "Quiero una web", target: "scope_limits" },
+  { label: "Ver demos", target: "next_steps" },
+  { label: "Ver paquetes", target: "scope_limits" },
+  { label: "Hablar por WhatsApp", target: "next_steps" },
 ];
 
 export default function DemoBotPage() {
