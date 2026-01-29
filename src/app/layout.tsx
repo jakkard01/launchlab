@@ -16,6 +16,12 @@ export const metadata: Metadata = {
   alternates: {
     canonical: siteUrl,
   },
+  manifest: "/site.webmanifest",
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+    shortcut: "/favicon.ico",
+  },
   keywords: ['Inteligencia Artificial', 'Automatización', 'Prompts', 'Asistentes IA', 'n8n', 'Productos digitales'],
   authors: [{ name: siteConfig.brand }],
   creator: siteConfig.brand,
