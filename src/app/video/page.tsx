@@ -95,7 +95,7 @@ const dubbingProducts = [
 
 export default function VideoPage() {
   return (
-    <main className="min-h-screen w-full px-4 pb-20 pt-28 sm:px-6 lg:px-8">
+    <main className="min-h-screen w-full px-4 pb-[calc(env(safe-area-inset-bottom)+140px)] pt-28 sm:px-6 lg:px-8">
       <section className="mx-auto w-full max-w-6xl">
         <div className="rounded-[32px] border border-white/10 bg-black/65 p-8 shadow-2xl">
           <p className="text-xs uppercase tracking-[0.4em] text-cyan-200/80">
