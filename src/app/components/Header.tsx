@@ -12,6 +12,7 @@ import {
   LineChart,
   Mail,
   Rocket,
+  Settings,
   Video,
   X,
 } from "lucide-react";
@@ -45,6 +46,13 @@ const navItems = [
     match: "/video",
     icon: Languages,
     tagline: "EN + DE listo para vender",
+  },
+  {
+    label: "n8n Ops",
+    href: "/ops",
+    match: "/ops",
+    icon: Settings,
+    tagline: "automatizaciones premium",
   },
   {
     label: "Paquetes",
