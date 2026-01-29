@@ -44,7 +44,7 @@ export default function ContactForm({ source }: ContactFormProps) {
       if (response.status === 429) {
         setStatus("error");
         setErrorMessage(
-          "Demasiados intentos. Prueba de nuevo en 1 minuto o usa WhatsApp."
+          "Demasiadas solicitudes. Intenta en unos minutos o usa WhatsApp."
         );
         return;
       }
