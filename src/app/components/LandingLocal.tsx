@@ -44,6 +44,13 @@ const trustItems = [
   "Rate limit en /api/contact",
 ];
 
+const expectedResults = [
+  "+15–35% leads cualificados (según canal)",
+  "-20–40% tiempo de respuesta",
+  "Demo funcional en 7–10 días",
+  "Tracking básico + eventos clave",
+];
+
 const conversionPath = [
   {
     step: "Paso 1",
@@ -189,19 +196,21 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               con foco en resultados medibles.
             </p>
             <div className="mt-6 flex flex-wrap gap-4">
+              <a
+                href={buildWhatsappLink("home_hero")}
+                className="rounded-full bg-emerald-400 px-6 py-3 text-sm font-semibold text-black transition hover:bg-emerald-300"
+                aria-label="Abrir WhatsApp para iniciar conversación"
+                target="_blank"
+                rel="noreferrer"
+              >
+                WhatsApp (principal)
+              </a>
               <Link
                 href="/contact?source=home_hero"
-                className="rounded-full bg-cyan-400 px-6 py-3 text-sm font-semibold text-black transition hover:bg-cyan-300"
+                className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white/90 transition hover:border-cyan-300/60"
                 aria-label="Reservar llamada"
               >
                 Reservar llamada
-              </Link>
-              <Link
-                href="/demos/bot"
-                className="rounded-full border border-cyan-300/60 px-6 py-3 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-400 hover:text-black"
-                aria-label="Ver demo del bot"
-              >
-                Ver demo del bot
               </Link>
             </div>
             <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 px-4 py-4">
@@ -260,6 +269,24 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
           </div>
         </div>
       </section>
+      <section className="mt-6 w-full max-w-5xl mx-auto">
+        <div className="rounded-2xl border border-white/10 bg-black/60 px-6 py-4 shadow-lg">
+          <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">
+            Resultados esperados
+          </p>
+          <div className="mt-3 grid gap-2 text-sm text-slate-200 sm:grid-cols-2">
+            {expectedResults.map((item) => (
+              <div key={item} className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" aria-hidden="true" />
+                <span>{item}</span>
+              </div>
+            ))}
+          </div>
+          <p className="mt-3 text-xs text-slate-400">
+            Métricas orientativas según alcance y canal.
+          </p>
+        </div>
+      </section>
       {/* Accesos rápidos */}
       <section className="mt-12 w-full max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {quickAccess.map((a) => (
@@ -303,6 +330,22 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               </div>
             ))}
           </div>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <a
+              href={buildWhatsappLink("home_services")}
+              className="rounded-full bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
+              target="_blank"
+              rel="noreferrer"
+            >
+              WhatsApp (principal)
+            </a>
+            <Link
+              href="/contact?source=home_services"
+              className="rounded-full border border-white/20 px-5 py-2 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
+            >
+              Reservar llamada
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -344,6 +387,22 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
                 </div>
               </Link>
             ))}
+          </div>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <a
+              href={buildWhatsappLink("home_demos")}
+              className="rounded-full bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
+              target="_blank"
+              rel="noreferrer"
+            >
+              WhatsApp (principal)
+            </a>
+            <Link
+              href="/contact?source=home_demos"
+              className="rounded-full border border-white/20 px-5 py-2 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
+            >
+              Reservar llamada
+            </Link>
           </div>
         </div>
       </section>
@@ -399,6 +458,22 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               </div>
             ))}
           </div>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <a
+              href={buildWhatsappLink("home_packages")}
+              className="rounded-full bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
+              target="_blank"
+              rel="noreferrer"
+            >
+              WhatsApp (principal)
+            </a>
+            <Link
+              href="/contact?source=home_packages"
+              className="rounded-full border border-white/20 px-5 py-2 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
+            >
+              Reservar llamada
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -430,6 +505,22 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
                 <p className="mt-3 text-sm text-slate-300">{item.summary}</p>
               </Link>
             ))}
+          </div>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <a
+              href={buildWhatsappLink("home_portfolio")}
+              className="rounded-full bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
+              target="_blank"
+              rel="noreferrer"
+            >
+              WhatsApp (principal)
+            </a>
+            <Link
+              href="/contact?source=home_portfolio"
+              className="rounded-full border border-white/20 px-5 py-2 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
+            >
+              Reservar llamada
+            </Link>
           </div>
         </div>
       </section>
@@ -544,6 +635,22 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
             </div>
           ))}
         </div>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <a
+            href={buildWhatsappLink("home_faq")}
+            className="rounded-full bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
+            target="_blank"
+            rel="noreferrer"
+          >
+            WhatsApp (principal)
+          </a>
+          <Link
+            href="/contact?source=home_faq"
+            className="rounded-full border border-white/20 px-5 py-2 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
+          >
+            Reservar llamada
+          </Link>
+        </div>
       </section>
 
       <section id="contacto" className="mt-20 w-full max-w-5xl">
@@ -584,22 +691,22 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
 
       <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-white/10 bg-black/80 px-4 py-3 backdrop-blur md:hidden">
         <div className="mx-auto flex w-full max-w-md gap-3">
-          <Link
-            href="/contact?source=sticky"
-            className="flex-1 rounded-full bg-cyan-400 px-4 py-3 text-center text-sm font-semibold text-black transition hover:bg-cyan-300"
-            aria-label="Reservar llamada desde la barra inferior"
-          >
-            Reservar
-          </Link>
           <a
             href={buildWhatsappLink("sticky")}
             target="_blank"
             rel="noreferrer"
-            className="flex-1 rounded-full border border-emerald-400/70 px-4 py-3 text-center text-sm font-semibold text-emerald-200 transition hover:bg-emerald-400 hover:text-black"
+            className="flex-1 rounded-full bg-emerald-400 px-4 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
             aria-label="Abrir WhatsApp desde la barra inferior"
           >
             WhatsApp
           </a>
+          <Link
+            href="/contact?source=sticky"
+            className="flex-1 rounded-full border border-white/20 px-4 py-3 text-center text-sm font-semibold text-white/90 transition hover:border-cyan-300/60"
+            aria-label="Reservar llamada desde la barra inferior"
+          >
+            Reservar
+          </Link>
         </div>
       </div>
     </main>
