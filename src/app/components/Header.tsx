@@ -157,7 +157,7 @@ export default function Header() {
             <div className="absolute inset-0 bg-black/85 backdrop-blur-sm" />
             <div
               id="mobile-nav"
-              className="relative flex max-h-[100dvh] w-full max-w-sm flex-col border border-white/10 bg-black/70 px-6 pb-6 pt-6 shadow-2xl rounded-2xl"
+              className="relative flex max-h-[100dvh] w-full max-w-sm flex-col border border-white/10 bg-black/70 px-6 pt-[calc(env(safe-area-inset-top)+16px)] pb-[calc(env(safe-area-inset-bottom)+24px)] shadow-2xl rounded-2xl"
               onClick={(event) => event.stopPropagation()}
             >
               <div className="flex items-start justify-between gap-4">
