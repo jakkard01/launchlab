@@ -1,7 +1,8 @@
 import { MetadataRoute } from 'next';
+import { siteUrl } from '../lib/site';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://www.poweredbyia.com';
+  const baseUrl = siteUrl;
 
   return [
     {
