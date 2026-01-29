@@ -1,5 +1,6 @@
 "use client";
 
+import { trackEvent } from "../../lib/analytics";
 import { getSocialLinks } from "../../lib/site";
 
 type SocialLinksProps = {
@@ -29,6 +30,11 @@ export default function SocialLinks({
             target="_blank"
             rel="noopener noreferrer"
             aria-label={link.label}
+            onClick={() => {
+              if (link.label === "WhatsApp") {
+                trackEvent("click_whatsapp", { source });
+              }
+            }}
           >
             {link.label}
           </a>

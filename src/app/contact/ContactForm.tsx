@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { trackEvent } from "../../lib/analytics";
 
 type ContactFormProps = {
   source: string;
@@ -46,22 +47,26 @@ export default function ContactForm({ source }: ContactFormProps) {
         setErrorMessage(
           "Demasiadas solicitudes. Intenta en unos minutos o usa WhatsApp."
         );
+        trackEvent("contact_submit_429", { source });
         return;
       }
 
       if (!response.ok || !data.ok) {
         setStatus("error");
         setErrorMessage(data.message ?? "No pudimos enviar el mensaje.");
+        trackEvent("contact_submit_error", { source });
         return;
       }
 
       setStatus("success");
+      trackEvent("contact_submit_ok", { source });
       setName("");
       setEmail("");
       setMessage("");
     } catch (error) {
       setStatus("error");
       setErrorMessage("No pudimos enviar el mensaje.");
+      trackEvent("contact_submit_error", { source });
     }
   }
 
