@@ -54,18 +54,23 @@ export default function Header() {
             );
           })}
           <div className="flex items-center gap-4 border-l border-white/10 pl-4">
-            {socialLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="text-sm font-semibold text-slate-300 transition hover:text-white"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={link.label}
-              >
-                {link.label}
-              </a>
-            ))}
+            {socialLinks.map((link) => {
+              const safeHref = link.href.startsWith("http")
+                ? link.href
+                : `https://${link.href}`;
+              return (
+                <a
+                  key={link.label}
+                  href={safeHref}
+                  className="text-sm font-semibold text-slate-300 transition hover:text-white"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={link.label}
+                >
+                  {link.label}
+                </a>
+              );
+            })}
           </div>
         </nav>
 
@@ -110,19 +115,24 @@ export default function Header() {
                 </Link>
               ))}
               <div className="flex flex-col gap-3 border-t border-white/10 pt-4">
-                {socialLinks.map((link) => (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    onClick={() => setMenuOpen(false)}
-                    className="rounded-full border border-white/10 px-4 py-2 text-center text-sm font-semibold text-slate-200 transition hover:border-cyan-300/60 hover:text-white"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={link.label}
-                  >
-                    {link.label}
-                  </a>
-                ))}
+                {socialLinks.map((link) => {
+                  const safeHref = link.href.startsWith("http")
+                    ? link.href
+                    : `https://${link.href}`;
+                  return (
+                    <a
+                      key={link.label}
+                      href={safeHref}
+                      onClick={() => setMenuOpen(false)}
+                      className="rounded-full border border-white/10 px-4 py-2 text-center text-sm font-semibold text-slate-200 transition hover:border-cyan-300/60 hover:text-white"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={link.label}
+                    >
+                      {link.label}
+                    </a>
+                  );
+                })}
               </div>
             </div>
           </div>

@@ -17,18 +17,23 @@ export default function SocialLinks({
 
   return (
     <div className={className}>
-      {links.map((link) => (
-        <a
-          key={link.label}
-          href={link.href}
-          className={linkClassName}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={link.label}
-        >
-          {link.label}
-        </a>
-      ))}
+      {links.map((link) => {
+        const safeHref = link.href.startsWith("http")
+          ? link.href
+          : `https://${link.href}`;
+        return (
+          <a
+            key={link.label}
+            href={safeHref}
+            className={linkClassName}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={link.label}
+          >
+            {link.label}
+          </a>
+        );
+      })}
     </div>
   );
 }
