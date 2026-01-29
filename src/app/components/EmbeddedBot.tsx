@@ -55,7 +55,7 @@ export default function EmbeddedBot() {
             href={whatsappLink}
             className="mt-3 inline-flex rounded-full border border-emerald-300/60 px-4 py-2 text-xs font-semibold text-emerald-200 transition hover:bg-emerald-300 hover:text-black"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             aria-label="Solicitar demo por WhatsApp"
           >
             Solicitar demo

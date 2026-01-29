@@ -217,7 +217,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
                 className="rounded-full bg-emerald-400 px-6 py-3 text-sm font-semibold text-black transition hover:bg-emerald-300"
                 aria-label="Abrir WhatsApp para iniciar conversación"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
               >
                 WhatsApp (principal)
               </a>
@@ -382,7 +382,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               href={buildWhatsappLink("home_services")}
               className="rounded-full bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               WhatsApp (principal)
             </a>
@@ -460,7 +460,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               href={buildWhatsappLink("home_demos")}
               className="rounded-full bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               WhatsApp (principal)
             </a>
@@ -530,7 +530,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               href={buildWhatsappLink("home_packages")}
               className="rounded-full bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               WhatsApp (principal)
             </a>
@@ -605,7 +605,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               href={buildWhatsappLink("home_portfolio")}
               className="rounded-full bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               WhatsApp (principal)
             </a>
@@ -759,7 +759,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
             href={buildWhatsappLink("home_faq")}
             className="rounded-full bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             WhatsApp (principal)
           </a>
@@ -786,7 +786,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               href={buildWhatsappLink("home_contact")}
               className="rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               aria-label="Abrir WhatsApp Business"
             >
               WhatsApp Business: {site.whatsappNumber}
@@ -813,7 +813,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
           <a
             href={buildWhatsappLink("sticky")}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="flex-1 rounded-full bg-emerald-400 px-4 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
             aria-label="Abrir WhatsApp desde la barra inferior"
           >

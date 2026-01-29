@@ -23,7 +23,7 @@ export default function NotFound() {
             href={buildWhatsappLink("404")}
             className="rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             WhatsApp (principal)
           </a>

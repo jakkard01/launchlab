@@ -23,7 +23,7 @@ export default function SocialLinks({
           href={link.href}
           className={linkClassName}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
           aria-label={link.label}
         >
           {link.label}

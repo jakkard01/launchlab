@@ -164,7 +164,7 @@ export default function DemoDetailPage({ params }: PageProps) {
               <a
                 href={item.liveUrl}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="rounded-full border border-emerald-300/60 px-6 py-3 text-center text-sm font-semibold text-emerald-200 transition hover:bg-emerald-300 hover:text-black"
               >
                 Ver demo live

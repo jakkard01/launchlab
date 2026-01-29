@@ -167,7 +167,7 @@ export default function ShowcaseGrid({ items }: ShowcaseGridProps) {
               href={ctaHref}
               className="group rounded-2xl border border-white/10 bg-black/60 p-6 shadow-lg transition hover:-translate-y-1 hover:border-cyan-300/40 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               aria-label={`Ver demo ${item.title}`}
             >
               {cardContent}

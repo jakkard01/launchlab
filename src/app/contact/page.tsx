@@ -50,7 +50,7 @@ export default function ContactPage({ searchParams }: ContactPageProps) {
             href={buildWhatsappLink(source)}
             className="rounded-full bg-emerald-400 px-6 py-4 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             aria-label="Abrir WhatsApp Business"
           >
             WhatsApp Business (principal)

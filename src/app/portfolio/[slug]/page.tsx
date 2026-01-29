@@ -129,7 +129,7 @@ export default function PortfolioDetailPage({ params }: PageProps) {
               href={buildWhatsappLink("portfolio_detail")}
               className="rounded-full border border-emerald-300/60 px-6 py-3 text-center text-sm font-semibold text-emerald-200 transition hover:bg-emerald-300 hover:text-black"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               WhatsApp
             </a>
