@@ -54,11 +54,12 @@ const heroBenefits = [
 
 const proofChips = ["Demos reales", "Casos", "7–14 días", "KPIs"];
 
+const quickProof = ["Demo funcional en 7–10 días", "Casos reales", "Proceso claro"];
+
 const expectedResults = [
-  "+15–35% leads cualificados",
-  "-20–40% tiempo de respuesta",
-  "Demo funcional en 7–10 días",
-  "Tracking básico + eventos clave",
+  "Proceso guiado con entregables claros",
+  "Demo funcional lista para validar",
+  "Sistema listo para escalar sin fricción",
 ];
 
 const conversionPath = [
@@ -266,6 +267,21 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
             <p className="mt-4 text-base text-slate-100 md:text-lg">
               En 7–14 días montamos captación, seguimiento y soporte. Con demos y casos.
             </p>
+            <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+              <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">
+                Prueba rápida
+              </p>
+              <div className="mt-2 flex flex-wrap gap-2 text-xs font-semibold text-slate-200">
+                {quickProof.map((item) => (
+                  <span
+                    key={item}
+                    className="rounded-full border border-white/10 bg-black/60 px-3 py-1"
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
             <ul className="mt-5 space-y-2 text-sm text-slate-200 sm:text-base">
               {heroBenefits.map((benefit) => (
                 <li key={benefit} className="flex items-start gap-2">
