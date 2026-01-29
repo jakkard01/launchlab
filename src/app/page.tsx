@@ -6,14 +6,14 @@ import { siteConfig } from '../lib/site';
 export const metadata: Metadata = {
   title: 'Powered by IA | Sistemas IA listos para vender y escalar',
   description:
-    'Sistemas IA aplicados para ventas, operaciones y automatización. Demos funcionales, integraciones y entrega rápida para equipos B2B.',
+    'Sistemas de IA listos para vender y escalar. Captación, seguimiento y soporte con demos y casos reales.',
   alternates: {
     canonical: '/',
   },
   openGraph: {
     title: 'Powered by IA | Sistemas IA listos para vender y escalar',
     description:
-      'Sistemas IA aplicados para ventas, operaciones y automatización. Demos funcionales, integraciones y entrega rápida para equipos B2B.',
+      'Sistemas de IA listos para vender y escalar. Captación, seguimiento y soporte con demos y casos reales.',
     images: [
       {
         url: siteConfig.ogImage,
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Powered by IA | Sistemas IA listos para vender y escalar',
     description:
-      'Sistemas IA aplicados para ventas, operaciones y automatización. Demos funcionales, integraciones y entrega rápida para equipos B2B.',
+      'Sistemas de IA listos para vender y escalar. Captación, seguimiento y soporte con demos y casos reales.',
     images: [siteConfig.ogImage],
   },
 };
@@ -40,7 +40,7 @@ export default function HomePage() {
         name: "¿Qué tipo de empresas atienden?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Startups, pymes y equipos enterprise que necesitan IA aplicada.",
+          text: "Startups, pymes y equipos B2B que necesitan IA aplicada con foco en ventas y operación.",
         },
       },
       {
@@ -48,7 +48,7 @@ export default function HomePage() {
         name: "¿Cuánto tarda un proyecto?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Entre 2 y 6 semanas según alcance y validaciones.",
+          text: "Entre 7 y 30 días según alcance, integraciones y validaciones.",
         },
       },
       {
@@ -70,11 +70,38 @@ export default function HomePage() {
     ],
   };
 
+  const serviceJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Sistemas de IA listos para vender y escalar",
+    serviceType: [
+      "Captación y seguimiento automatizado",
+      "Asistentes inteligentes para soporte",
+      "Integraciones con CRM y WhatsApp",
+    ],
+    provider: {
+      "@type": "Organization",
+      name: siteConfig.brand,
+      url: siteConfig.domain.startsWith("http")
+        ? siteConfig.domain
+        : `https://${siteConfig.domain}`,
+    },
+    areaServed: "Global",
+    audience: {
+      "@type": "BusinessAudience",
+      audienceType: "B2B",
+    },
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
       />
       <HomeClient />
     </>

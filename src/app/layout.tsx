@@ -60,6 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     "@type": "Organization",
     name: siteConfig.brand,
     url: siteUrl,
+    logo: `${siteUrl}${siteConfig.ogImage}`,
     email: siteConfig.email,
     sameAs: [
       siteConfig.socials.instagram,

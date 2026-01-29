@@ -7,18 +7,19 @@ import { buildWhatsappLink, siteConfig } from "../../lib/site";
 export const metadata: Metadata = {
   title: "Servicios IA | Powered by IA",
   description:
-    "Servicios premium de Powered by IA: automatización, asistentes inteligentes y sistemas de venta digital.",
+    "Servicios de IA para vender y escalar: captación, soporte e integraciones.",
+  alternates: { canonical: "/services" },
   openGraph: {
     title: "Servicios IA | Powered by IA",
     description:
-      "Servicios premium de Powered by IA: automatización, asistentes inteligentes y sistemas de venta digital.",
+      "Servicios de IA para vender y escalar: captación, soporte e integraciones.",
     images: [{ url: siteConfig.ogImage, alt: siteConfig.ogAlt }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Servicios IA | Powered by IA",
     description:
-      "Servicios premium de Powered by IA: automatización, asistentes inteligentes y sistemas de venta digital.",
+      "Servicios de IA para vender y escalar: captación, soporte e integraciones.",
     images: [siteConfig.ogImage],
   },
 };

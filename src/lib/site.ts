@@ -1,6 +1,6 @@
 export const siteConfig = {
   brand: "Powered by IA",
-  domain: "poweredbyia.com",
+  domain: "www.poweredbyia.com",
   email: "poweredbyiaoficial@gmail.com",
   whatsapp: {
     phone: "911 52 87 53",
@@ -26,7 +26,7 @@ const rawSiteUrl =
 export const siteUrl = rawSiteUrl.replace(/\/$/, "");
 
 const defaultWhatsappMessage =
-  "Hola, vengo desde poweredbyia.com. Quiero info de servicios y una demo.";
+  "Hola, vengo desde www.poweredbyia.com. Quiero info de servicios y una demo.";
 
 export const buildWhatsappLink = (source: string, message?: string) => {
   const text = `${message ?? defaultWhatsappMessage} Fuente: ${source}.`;

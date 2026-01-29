@@ -5,18 +5,19 @@ import { buildWhatsappLink, siteConfig } from "../../lib/site";
 export const metadata: Metadata = {
   title: "Contacto | Powered by IA",
   description:
-    "Agenda una llamada o escribe por WhatsApp Business para conocer nuestros servicios.",
+    "Agenda una llamada o escribe por WhatsApp para activar tu sistema IA.",
+  alternates: { canonical: "/contact" },
   openGraph: {
     title: "Contacto | Powered by IA",
     description:
-      "Agenda una llamada o escribe por WhatsApp Business para conocer nuestros servicios.",
+      "Agenda una llamada o escribe por WhatsApp para activar tu sistema IA.",
     images: [{ url: siteConfig.ogImage, alt: siteConfig.ogAlt }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Contacto | Powered by IA",
     description:
-      "Agenda una llamada o escribe por WhatsApp Business para conocer nuestros servicios.",
+      "Agenda una llamada o escribe por WhatsApp para activar tu sistema IA.",
     images: [siteConfig.ogImage],
   },
 };

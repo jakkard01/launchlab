@@ -4,18 +4,19 @@ import { buildWhatsappLink, siteConfig } from "../../lib/site";
 export const metadata: Metadata = {
   title: "Paquetes | Powered by IA",
   description:
-    "Paquetes claros de Powered by IA para implementar IA, automatizar y escalar.",
+    "Paquetes claros para sistemas de IA listos para vender y escalar.",
+  alternates: { canonical: "/pricing" },
   openGraph: {
     title: "Paquetes | Powered by IA",
     description:
-      "Paquetes claros de Powered by IA para implementar IA, automatizar y escalar.",
+      "Paquetes claros para sistemas de IA listos para vender y escalar.",
     images: [{ url: siteConfig.ogImage, alt: siteConfig.ogAlt }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Paquetes | Powered by IA",
     description:
-      "Paquetes claros de Powered by IA para implementar IA, automatizar y escalar.",
+      "Paquetes claros para sistemas de IA listos para vender y escalar.",
     images: [siteConfig.ogImage],
   },
 };

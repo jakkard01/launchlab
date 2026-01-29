@@ -5,18 +5,19 @@ import { buildWhatsappLink, siteConfig } from "../../lib/site";
 
 export const metadata: Metadata = {
   title: "Portfolio | Powered by IA",
-  description: "Casos demo Powered by IA y plantillas de sistemas IA en accion.",
+  description: "Casos reales de sistemas IA listos para vender y escalar.",
+  alternates: { canonical: "/portfolio" },
   openGraph: {
     title: "Portfolio | Powered by IA",
     description:
-      "Casos demo Powered by IA y plantillas de sistemas IA en accion.",
+      "Casos reales de sistemas IA listos para vender y escalar.",
     images: [{ url: siteConfig.ogImage, alt: siteConfig.ogAlt }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Portfolio | Powered by IA",
     description:
-      "Casos demo Powered by IA y plantillas de sistemas IA en accion.",
+      "Casos reales de sistemas IA listos para vender y escalar.",
     images: [siteConfig.ogImage],
   },
 };

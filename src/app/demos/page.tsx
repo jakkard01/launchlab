@@ -6,18 +6,19 @@ import { buildWhatsappLink, siteConfig } from "../../lib/site";
 
 export const metadata: Metadata = {
   title: "Demos | Powered by IA",
-  description: "Showcase de demos Powered by IA y productos listos para activar.",
+  description: "Demos reales de sistemas IA listos para vender y escalar.",
+  alternates: { canonical: "/demos" },
   openGraph: {
     title: "Demos | Powered by IA",
     description:
-      "Showcase de demos Powered by IA y productos listos para activar.",
+      "Demos reales de sistemas IA listos para vender y escalar.",
     images: [{ url: siteConfig.ogImage, alt: siteConfig.ogAlt }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Demos | Powered by IA",
     description:
-      "Showcase de demos Powered by IA y productos listos para activar.",
+      "Demos reales de sistemas IA listos para vender y escalar.",
     images: [siteConfig.ogImage],
   },
 };
