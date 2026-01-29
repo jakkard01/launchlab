@@ -41,9 +41,26 @@
 - Otros canales: solo bajo pedido (no estandar).
 
 ## Super Pack (bundle)
-- Desde €2,499/mes.
+- Rango orientativo: €2,499–€4,500/mes.
 - Caps: 8 videos/mes (≤45s, 2 formatos) + 2 flujos n8n/mes + 1 bot (≤15 intents + handoff) + 2 doblajes/mes (2 idiomas) + SLA 24–48h habiles.
 
 ## Precios
-- Modelo: precio a medida (Desde: consulta).
+- Modelo: rangos orientativos (“Desde”) en web y productos.
 - Se cotiza por alcance, volumen, formatos y complejidad.
+- Rangos actuales en web:
+  - Web Starter: €850–€1,400.
+  - Web Growth: €1,800–€3,000.
+  - Web Pro: €3,500–€6,500.
+  - Add-on Ecommerce: €2,500–€6,000.
+  - Video Starter: €450–€750/mes.
+  - Video Growth: €950–€1,450/mes.
+  - Video Pro: €1,750–€3,200/mes.
+  - Doblaje 1 video: €120–€280.
+  - Doblaje batch 5: €450–€1,100.
+  - Ops Starter: €490–€1,200.
+  - Ops Growth: €1,500–€3,500.
+  - Ops Pro: €3,800–€7,500.
+  - Bots Starter: €650–€1,200.
+  - Bots Growth: €1,500–€3,000.
+  - Bots Pro: €3,500–€7,000.
+  - Super Pack: €2,499–€4,500/mes.

@@ -1,7 +1,7 @@
 # Pricing Rationale
 
 ## Principios
-- Precios en EUR basados en esfuerzo real (horas/mes), revisiones y complejidad.
+- Precios en EUR con rangos orientativos basados en esfuerzo real (horas/mes), revisiones y complejidad.
 - “Desde…” siempre con caps claros (duracion, volumen, formatos, integraciones).
 - Subidas de precio cuando hay regrabaciones, integraciones complejas o SLA mas estricto.
 
@@ -34,7 +34,7 @@
 - Rationale: diseño conversacional + integraciones + QA + handoff.
 
 ## Super Pack
-- Precio a medida por caps fijos:
+- Precio orientativo por caps fijos:
   - 8 videos/mes (≤45s, 2 formatos)
   - 2 flujos n8n/mes
   - 1 bot (≤15 intents + handoff)
