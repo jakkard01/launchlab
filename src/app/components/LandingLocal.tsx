@@ -181,7 +181,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
       <section
         id="inicio"
         ref={heroRef}
-        className="w-full max-w-5xl mx-auto rounded-3xl border border-white/10 bg-black/65 px-6 py-10 shadow-2xl backdrop-blur"
+        className="w-full max-w-5xl mx-auto rounded-3xl border border-white/10 bg-black/75 px-6 py-10 shadow-2xl backdrop-blur"
       >
         <div className="grid gap-10 md:grid-cols-[1.1fr_0.9fr] md:items-center">
           <div>
@@ -191,7 +191,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
             <h1 className="mt-4 text-4xl font-semibold leading-tight text-white md:text-5xl">
               Diseñamos sistemas IA listos para vender, operar y escalar.
             </h1>
-            <p className="mt-4 text-base text-slate-200 md:text-lg">
+            <p className="mt-4 text-base text-slate-100 md:text-lg">
               Para equipos que necesitan automatizar procesos, potenciar ventas y lanzar productos digitales
               con foco en resultados medibles.
             </p>

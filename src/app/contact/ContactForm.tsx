@@ -104,12 +104,13 @@ export default function ContactForm({ source }: ContactFormProps) {
 
       {status === "success" && (
         <div className="rounded-2xl border border-emerald-400/40 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-200">
-          Mensaje enviado. Te contactamos pronto.
+          Mensaje enviado. Si no recibes respuesta en 24h hábiles, escríbenos por WhatsApp.
         </div>
       )}
       {status === "error" && (
         <div className="rounded-2xl border border-red-400/40 bg-red-400/10 px-4 py-3 text-sm text-red-200">
-          {errorMessage}
+          {errorMessage ?? "No pudimos enviar el mensaje."}{" "}
+          Si alcanzaste el límite de envíos, espera unos minutos o usa WhatsApp.
         </div>
       )}
 
@@ -120,6 +121,9 @@ export default function ContactForm({ source }: ContactFormProps) {
       >
         {status === "loading" ? "Enviando..." : "Enviar mensaje"}
       </button>
+      <p className="text-xs text-slate-400">
+        Protegido con rate limit para evitar spam.
+      </p>
     </form>
   );
 }
