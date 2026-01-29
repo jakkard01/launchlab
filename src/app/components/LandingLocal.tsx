@@ -107,6 +107,7 @@ const deliveryItems = [
   "Tracking básico + eventos clave",
   "Demo de bot o flujo automatizado",
   "Documentación y handoff al equipo",
+  "Versionado y commits por iteración",
 ];
 
 const faqs = [
