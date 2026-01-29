@@ -16,7 +16,7 @@ export default function NotFound() {
           WhatsApp o vuelve al inicio.
         </p>
         <p className="mt-2 text-xs text-slate-400">
-          Si el enlace estaba en la web, avísanos y lo corregimos.
+          Si el enlace estaba en la web, avísanos y lo corregimos rápido.
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
           <a
