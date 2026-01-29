@@ -37,7 +37,7 @@ export default function FAB() {
   if (menuOpen) return null;
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+    <div className="fixed bottom-[calc(env(safe-area-inset-bottom)+24px)] right-[calc(env(safe-area-inset-right)+24px)] z-50 flex flex-col gap-3">
       <a
         href={buildWhatsappLink("fab")}
         className="bg-emerald-400 hover:bg-emerald-300 text-black rounded-full shadow-lg p-4 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-emerald-200"

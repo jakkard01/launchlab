@@ -5,7 +5,7 @@ import { siteConfig } from "../../lib/site";
 
 export default function SiteFooter() {
   return (
-    <footer className="mt-16 w-full border-t border-white/10 bg-black/60 px-4 py-10 text-sm text-slate-400">
+    <footer className="mt-16 w-full border-t border-white/10 bg-black/60 px-4 pt-10 pb-[calc(env(safe-area-inset-bottom)+96px)] text-sm text-slate-400">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 md:flex-row md:items-center md:justify-between">
         <div>
           <p className="text-base font-semibold text-white">{siteConfig.brand}</p>
