@@ -19,7 +19,6 @@ export default function CookieBanner() {
   const acceptCookies = () => {
     localStorage.setItem('launchlab_cookie_consent', 'true');
     setShow(false);
-    console.log('Cookies aceptadas: Activando trackers (a futuro)...');
   };
 
   const declineCookies = () => {
