@@ -5,7 +5,7 @@ import { buildContactLink, buildWhatsappLink, siteUrl } from "../../lib/site";
 export const metadata: Metadata = {
   title: "Video Packs y Doblaje/Traduccion",
   description:
-    "Video packs mensuales con edicion premium, doblaje EN/DE y automatizaciones n8n para publicar y escalar.",
+    "Video packs mensuales con edicion premium y doblaje para publicar y escalar.",
   alternates: {
     canonical: `${siteUrl}/video`,
   },
@@ -28,6 +28,7 @@ const packs = [
     cadence: "4 videos / mes",
     plazo: "Entrega en 7-10 dias habiles",
     campaign: "starter",
+    price: "Desde $399-$699 / mes",
     includes: [
       "Guion corto con hook + CTA",
       "Edicion vertical 9:16 con subtitulos",
@@ -40,12 +41,13 @@ const packs = [
     cadence: "8 videos / mes",
     plazo: "Entrega semanal + buffer de urgencias",
     campaign: "growth",
+    price: "Desde $799-$1299 / mes",
     includes: [
       "Guiones optimizados por oferta",
       "Edicion 9:16 + adaptacion 1:1",
       "2 rondas de ajustes",
-      "Calendario y automatizacion n8n",
-      "Report de rendimiento mensual",
+      "Calendario editorial mensual",
+      "Reporte de rendimiento mensual",
     ],
   },
   {
@@ -53,11 +55,12 @@ const packs = [
     cadence: "12-16 videos / mes",
     plazo: "Produccion continua con slots reservados",
     campaign: "pro",
+    price: "Desde $1499-$2499 / mes",
     includes: [
       "Linea creativa completa + storyboard",
       "Edicion multi-formato (9:16, 1:1, 16:9)",
       "Doble CTA y variaciones A/B",
-      "Automatizaciones n8n + bots para leads",
+      "Calendario editorial + estrategia",
       "Soporte prioritario",
     ],
   },
@@ -95,12 +98,11 @@ export default function VideoPage() {
             Nueva linea premium
           </p>
           <h1 className="mt-4 text-3xl font-semibold text-white md:text-4xl">
-            Video Packs + Doblaje/Traduccion + n8n/Automatizaciones
+            Video Packs + Doblaje/Traduccion
           </h1>
           <p className="mt-3 text-base text-slate-200 md:text-lg">
-            Produccion mensual lista para vender: videos de alto impacto,
-            doblaje EN/DE y automatizaciones para publicar y convertir sin
-            friccion.
+            Produccion mensual lista para vender: videos de alto impacto y
+            doblaje para publicar y convertir sin friccion.
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
             <a
@@ -126,7 +128,7 @@ export default function VideoPage() {
             {[
               "Brief creativo + guiones accionables",
               "Edicion premium + subtitulos",
-              "Delivery con automatizaciones n8n",
+              "Calendario editorial y delivery",
             ].map((item) => (
               <div
                 key={item}
@@ -180,6 +182,9 @@ export default function VideoPage() {
                     {pack.cadence}
                   </span>
                 </div>
+                <p className="mt-3 text-base font-semibold text-emerald-200">
+                  {pack.price}
+                </p>
 
                 <p className="mt-4 text-sm text-slate-300">Que incluye</p>
                 <ul className="mt-3 space-y-3 text-sm text-slate-200">
@@ -216,6 +221,9 @@ export default function VideoPage() {
             );
           })}
         </div>
+        <p className="mt-6 text-xs text-slate-400">
+          Precio orientativo; depende de volumen, formatos y complejidad.
+        </p>
       </section>
 
       <section id="doblaje" className="mx-auto mt-16 w-full max-w-6xl">
