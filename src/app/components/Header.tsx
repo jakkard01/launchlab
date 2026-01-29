@@ -157,7 +157,7 @@ export default function Header() {
             <div className="absolute inset-0 bg-black/85 backdrop-blur-sm" />
             <div
               id="mobile-nav"
-              className="relative w-full max-w-sm border border-white/10 bg-black/70 px-6 pb-6 pt-6 shadow-2xl rounded-2xl"
+              className="relative flex max-h-[100dvh] w-full max-w-sm flex-col border border-white/10 bg-black/70 px-6 pb-6 pt-6 shadow-2xl rounded-2xl"
               onClick={(event) => event.stopPropagation()}
             >
               <div className="flex items-start justify-between gap-4">
@@ -178,51 +178,56 @@ export default function Header() {
                 </button>
               </div>
 
-              <nav className="mt-6 flex flex-col gap-3">
-                {navItems.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <Link
-                      key={item.label}
-                      href={item.href}
-                      onClick={() => setMenuOpen(false)}
-                      className="group flex items-start gap-3 rounded-xl border border-white/10 bg-black/60 px-4 py-3 text-left transition hover:border-cyan-300/50 hover:bg-black/70"
-                    >
-                      <span className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/70 text-cyan-200">
-                        <Icon className="h-5 w-5" />
-                      </span>
-                      <span className="flex flex-col">
-                        <span className="text-base font-semibold text-white">
-                          {item.label}
+              <div
+                className="mt-6 flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto overscroll-contain"
+                style={{ WebkitOverflowScrolling: "touch" }}
+              >
+                <nav className="flex flex-col gap-3">
+                  {navItems.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <Link
+                        key={item.label}
+                        href={item.href}
+                        onClick={() => setMenuOpen(false)}
+                        className="group flex items-start gap-3 rounded-xl border border-white/10 bg-black/60 px-4 py-3 text-left transition hover:border-cyan-300/50 hover:bg-black/70"
+                      >
+                        <span className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/70 text-cyan-200">
+                          <Icon className="h-5 w-5" />
                         </span>
-                        <span className="text-xs text-slate-300">
-                          {item.tagline}
+                        <span className="flex flex-col">
+                          <span className="text-base font-semibold text-white">
+                            {item.label}
+                          </span>
+                          <span className="text-xs text-slate-300">
+                            {item.tagline}
+                          </span>
                         </span>
-                      </span>
-                    </Link>
-                  );
-                })}
-              </nav>
+                      </Link>
+                    );
+                  })}
+                </nav>
 
-              <div className="mt-6 flex flex-col gap-3 border-t border-white/10 pt-4">
-                {socialLinks.map((link) => {
-                  const safeHref = link.href.startsWith("http")
-                    ? link.href
-                    : `https://${link.href}`;
-                  return (
-                    <a
-                      key={link.label}
-                      href={safeHref}
-                      onClick={() => setMenuOpen(false)}
-                      className="rounded-full border border-white/10 px-4 py-2 text-center text-sm font-semibold text-slate-200 transition hover:border-cyan-300/60 hover:text-white"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={link.label}
-                    >
-                      {link.label}
-                    </a>
-                  );
-                })}
+                <div className="flex flex-col gap-3 border-t border-white/10 pt-4">
+                  {socialLinks.map((link) => {
+                    const safeHref = link.href.startsWith("http")
+                      ? link.href
+                      : `https://${link.href}`;
+                    return (
+                      <a
+                        key={link.label}
+                        href={safeHref}
+                        onClick={() => setMenuOpen(false)}
+                        className="rounded-full border border-white/10 px-4 py-2 text-center text-sm font-semibold text-slate-200 transition hover:border-cyan-300/60 hover:text-white"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={link.label}
+                      >
+                        {link.label}
+                      </a>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>
