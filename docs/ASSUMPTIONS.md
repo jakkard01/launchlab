@@ -6,8 +6,9 @@
 - Web Growth: 4-6 paginas, 2 rondas, 1 idioma.
 - Web Pro: 6-10 paginas, 3 rondas, 1 idioma, A/B de CTA o 2 variantes hero.
 - Add-on Ecommerce: catalogo + carrito/checkout o pedido por WhatsApp, hasta 100 productos iniciales.
-- No incluye: hosting, dominio, licencias premium, integraciones enterprise.
-- Panel de edicion simple incluido en planes web.
+- Dominio/hosting: se gestionan a nombre del cliente con coste externo (guiado por el equipo).
+- No incluye: licencias premium, integraciones enterprise.
+- Panel de edicion simple disponible si se activa modulo de productos (/admin + mock o Supabase).
 - Integraciones n8n solo como add-on.
 
 ## Admin / Data layer
@@ -27,7 +28,7 @@
 - Incluye voiceover + subtitulos pro.
 - Lip-sync basico SOLO talking head.
 - Lip-sync avanzado = add-on.
-- Idiomas incluidos: 2 (demo EN + DE + ES). Cualquier idioma disponible.
+- Idiomas incluidos: 2 (demo EN + DE). Cualquier idioma disponible.
 - Idioma extra: €39/video o €149/batch.
 - Duracion max asumida: hasta 2 minutos por video en precios base.
 
@@ -64,3 +65,9 @@
   - Bots Growth: €1,500–€3,000.
   - Bots Pro: €3,500–€7,000.
   - Super Pack: €2,499–€4,500/mes.
+
+## Pendiente de confirmacion
+- CTA principal global (WhatsApp vs Solicitar propuesta).
+- SLA final del Super Pack.
+- Revisiones exactas para Bots/Ops cuando no se especifiquen.
+- Gestion de dominio/hosting: compra directa por el equipo o solo guia.
