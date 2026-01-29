@@ -56,7 +56,7 @@ export default function FAB() {
     );
 
     const targets = Array.from(
-      document.querySelectorAll("footer, [data-fab-avoid]")
+      document.querySelectorAll("footer, [data-fab-avoid], .sticky-cta")
     );
     targets.forEach((target) => observer.observe(target));
 

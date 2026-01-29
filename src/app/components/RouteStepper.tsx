@@ -2,7 +2,7 @@ import React from "react";
 import GlyphBadge from "./GlyphBadge";
 
 const steps = [
-  { n: "01", title: "Descubre", desc: "Objetivos, stack y fricciones clave.", glyph: "cpu" as const },
+  { n: "01", title: "Descubre", desc: "Objetivos, stack y bloqueos clave.", glyph: "cpu" as const },
   { n: "02", title: "Demo", desc: "Pruebas interactivas antes de prometer.", glyph: "play" as const },
   { n: "03", title: "Implementación", desc: "Bots, automatización y entrega sólida.", glyph: "workflow" as const },
   { n: "04", title: "Escala", desc: "Mantenimiento, mejoras y resultados.", glyph: "shield" as const },

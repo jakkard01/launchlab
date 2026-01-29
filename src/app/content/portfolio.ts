@@ -14,7 +14,7 @@ export const portfolio: PortfolioItem[] = [
   {
     slug: "demo-onboarding-saas",
     title: "Onboarding IA para SaaS (demo)",
-    summary: "Flujo guiado para activar usuarios y reducir friccion inicial.",
+    summary: "Flujo guiado para activar usuarios y reducir bloqueos iniciales.",
     problem:
       "Onboarding largo, dudas repetitivas y baja activacion en los primeros dias.",
     solution:

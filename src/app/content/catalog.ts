@@ -79,13 +79,13 @@ export const services: ServiceItem[] = [
   {
     slug: "automatizaciones",
     title: "Automatizaciones",
-    summary: "Procesos conectados que reducen friccion y escalan la operacion.",
+    summary: "Procesos conectados que reducen bloqueos y escalan la operacion.",
     detail:
       "Orquestamos tareas entre sistemas para eliminar trabajo manual y acelerar tiempos de respuesta.",
     glyph: "workflow",
     step: "Paso 03 · Escalado",
     bullets: [
-      "Mapeo de procesos criticos y puntos de friccion",
+      "Mapeo de procesos criticos y puntos de bloqueo",
       "Automatizaciones con disparadores claros y alertas",
       "Monitoreo inicial para asegurar estabilidad",
     ],

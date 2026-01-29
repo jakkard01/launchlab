@@ -21,7 +21,7 @@ export default function ServiceNotFound() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            WhatsApp (principal)
+            Hablar por WhatsApp
           </a>
           <Link
             href="/services"

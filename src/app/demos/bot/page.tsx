@@ -219,6 +219,28 @@ export default function DemoBotPage() {
                         </button>
                       ))}
                     </div>
+                    <div className="flex flex-col gap-2 sm:flex-row">
+                      <Link
+                        href="/demos"
+                        className="rounded-full border border-white/20 px-4 py-2 text-center text-xs font-semibold text-white/80 transition hover:border-cyan-300/60"
+                      >
+                        Ver demos
+                      </Link>
+                      <Link
+                        href="/pricing"
+                        className="rounded-full border border-white/20 px-4 py-2 text-center text-xs font-semibold text-white/80 transition hover:border-cyan-300/60"
+                      >
+                        Ver planes
+                      </Link>
+                      <a
+                        href={whatsappLink}
+                        className="rounded-full bg-emerald-400 px-4 py-2 text-center text-xs font-semibold text-black transition hover:bg-emerald-300"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Contáctanos
+                      </a>
+                    </div>
                   </div>
                 )}
               </div>
@@ -249,7 +271,7 @@ export default function DemoBotPage() {
               href="/contact?source=demos"
               className="rounded-full border border-white/20 px-6 py-3 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
             >
-              Reservar llamada
+              Solicitar propuesta
             </Link>
           </div>
         </div>

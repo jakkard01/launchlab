@@ -58,9 +58,38 @@ export default function ServicesPage() {
           Servicios Powered by IA para equipos ambiciosos
         </h1>
         <p className="mt-4 max-w-2xl text-base text-slate-300">
-          Implementamos sistemas inteligentes que reducen fricción, elevan la
-          experiencia del cliente y aumentan la velocidad operativa.
+          Implementamos sistemas con alcance definido, validación por etapas y
+          entregables claros.
         </p>
+
+        <div className="mt-8 rounded-3xl border border-cyan-400/30 bg-black/70 p-6">
+          <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">
+            Producto principal
+          </p>
+          <h2 className="mt-3 text-2xl font-semibold text-white">
+            Webs de conversión
+          </h2>
+          <p className="mt-2 text-sm text-slate-300">
+            Landing, sitio o conversión (Pro). Entregables claros, plazos
+            típicos y revisiones definidas.
+          </p>
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row" data-fab-avoid>
+            <Link
+              href="/web"
+              className="rounded-full bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
+            >
+              Ver planes web
+            </Link>
+            <a
+              href={buildWhatsappLink("services_web")}
+              className="rounded-full border border-white/20 px-5 py-2 text-center text-sm font-semibold text-white/90 transition hover:border-cyan-300/60"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Hablar por WhatsApp
+            </a>
+          </div>
+        </div>
 
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {services.map((service) => (
@@ -109,20 +138,20 @@ export default function ServicesPage() {
               Diagnóstico inicial, roadmap y próximos pasos claros.
             </p>
           </div>
-          <div className="flex flex-col gap-3 sm:flex-row">
+          <div className="flex flex-col gap-3 sm:flex-row" data-fab-avoid>
             <a
               href={buildWhatsappLink("services_cta")}
               className="rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
               target="_blank"
               rel="noopener noreferrer"
             >
-              WhatsApp (principal)
+              Hablar por WhatsApp
             </a>
             <Link
               href="/contact?source=services"
               className="rounded-full border border-white/20 px-6 py-3 text-center text-sm font-semibold text-white/90 transition hover:border-cyan-300/60"
             >
-              Reservar llamada
+              Solicitar propuesta
             </Link>
           </div>
         </div>

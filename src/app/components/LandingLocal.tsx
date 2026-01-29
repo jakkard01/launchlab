@@ -49,7 +49,7 @@ const quickAccess = [
 const heroBenefits = [
   "Captación y seguimiento automatizado.",
   "Soporte y cierres con IA aplicada.",
-  "Implementación rápida sin fricción.",
+  "Implementación rápida con alcance definido.",
 ];
 
 const proofChips = ["Demos reales", "Casos", "7–14 días", "KPIs"];
@@ -59,7 +59,7 @@ const quickProof = ["Demo funcional en 7–10 días", "Casos reales", "Proceso c
 const expectedResults = [
   "Proceso guiado con entregables claros",
   "Demo funcional lista para validar",
-  "Sistema listo para escalar sin fricción",
+  "Sistema listo para escalar con límites claros",
 ];
 
 const conversionPath = [
@@ -124,7 +124,7 @@ const renderTags = (tags: string[]) => {
 const processSteps = [
   {
     titulo: "Diagnóstico (15 min)",
-    descripcion: "Alineamos objetivos, stack y fricciones en una llamada breve.",
+    descripcion: "Alineamos objetivos, stack y bloqueos en una llamada breve.",
   },
   {
     titulo: "Build (demo en días)",
@@ -167,7 +167,7 @@ const pricingPlans = [
   {
     slug: "starter",
     title: "Web Starter",
-    price: "Desde: consulta",
+    price: "Rango orientativo: €850–€1,400",
     who: "Landing clara para validar oferta y convertir.",
     includes: ["1 página", "Copy base + CTA", "SEO básico", "1 ronda"],
     cta: "Solicitar propuesta",
@@ -175,7 +175,7 @@ const pricingPlans = [
   {
     slug: "growth",
     title: "Web Growth",
-    price: "Desde: consulta",
+    price: "Rango orientativo: €1,800–€3,000",
     who: "Sitio completo con páginas clave y analítica.",
     includes: ["4-6 páginas", "2 rondas", "Calendly/WhatsApp", "FAQ + Legal"],
     cta: "Solicitar propuesta",
@@ -184,7 +184,7 @@ const pricingPlans = [
   {
     slug: "pro",
     title: "Web Pro",
-    price: "Desde: consulta",
+    price: "Rango orientativo: €3,500–€6,500",
     who: "Conversión premium con variantes y casos.",
     includes: ["6-10 páginas", "3 rondas", "A/B CTA o hero", "QA + handoff"],
     cta: "Solicitar propuesta",
@@ -480,7 +480,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
                 trackEvent("click_whatsapp_primary", { source: "home_services" })
               }
             >
-              WhatsApp (principal)
+              Hablar por WhatsApp
             </a>
             <Link
               href={buildContactLink("home_services")}
@@ -569,7 +569,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
                 trackEvent("click_whatsapp_primary", { source: "home_demos" })
               }
             >
-              WhatsApp (principal)
+              Hablar por WhatsApp
             </a>
             <Link
               href={buildContactLink("home_demos")}
@@ -588,15 +588,15 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
         <div className="rounded-3xl border border-white/10 bg-black/60 p-8 shadow-xl">
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Paquetes</p>
-              <h2 className="mt-3 text-3xl font-semibold text-white">Planes listos para facturar</h2>
+              <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Web</p>
+              <h2 className="mt-3 text-3xl font-semibold text-white">Planes web con alcance definido</h2>
             </div>
             <Link
               href="/pricing"
               className="rounded-full border border-white/20 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
               aria-label="Ver todos los paquetes"
             >
-              Ver todos los paquetes
+              Ver todos los planes
             </Link>
           </div>
           <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -615,6 +615,9 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
                     {plan.price}
                   </span>
                 </div>
+                <p className="mt-2 text-xs text-slate-400">
+                  Rango orientativo según alcance, contenidos e integraciones.
+                </p>
                 <p className="mt-3 text-sm text-slate-300">Para quién: {plan.who}</p>
                 <ul className="mt-4 space-y-2 text-sm text-slate-300">
                   {plan.includes.map((item) => (
@@ -636,7 +639,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
                     })
                   }
                 >
-                  {plan.cta}
+                  Solicitar propuesta
                 </Link>
               </div>
             ))}
@@ -651,7 +654,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
                 trackEvent("click_whatsapp_primary", { source: "home_packages" })
               }
             >
-              WhatsApp (principal)
+              Hablar por WhatsApp
             </a>
             <Link
               href={buildContactLink("home_packages")}
@@ -660,7 +663,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
                 trackEvent("click_book_call", { source: "home_packages" })
               }
             >
-              Reservar llamada
+              Solicitar propuesta
             </Link>
           </div>
         </div>
@@ -737,7 +740,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
                 trackEvent("click_whatsapp_primary", { source: "home_portfolio" })
               }
             >
-              WhatsApp (principal)
+              Hablar por WhatsApp
             </a>
             <Link
               href={buildContactLink("home_portfolio")}
@@ -893,26 +896,26 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
             </button>
           ))}
         </div>
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row" data-fab-avoid>
-          <a
-            href={buildWhatsappLink("home_faq")}
-            className="rounded-full bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() =>
-              trackEvent("click_whatsapp_primary", { source: "home_faq" })
-            }
-          >
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row" data-fab-avoid>
+            <a
+              href={buildWhatsappLink("home_faq")}
+              className="rounded-full bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() =>
+                trackEvent("click_whatsapp_primary", { source: "home_faq" })
+              }
+            >
             Hablar por WhatsApp
-          </a>
-          <Link
-            href={buildContactLink("home_faq")}
-            className="rounded-full border border-white/20 px-5 py-2 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
-            onClick={() => trackEvent("click_book_call", { source: "home_faq" })}
-          >
+            </a>
+            <Link
+              href={buildContactLink("home_faq")}
+              className="rounded-full border border-white/20 px-5 py-2 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
+              onClick={() => trackEvent("click_book_call", { source: "home_faq" })}
+            >
             Solicitar propuesta
-          </Link>
-        </div>
+            </Link>
+          </div>
       </section>
 
       <section id="equipo" className="mt-20 w-full max-w-5xl">
@@ -993,7 +996,10 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
       </section>
 
       {!menuOpen && (
-        <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-white/10 bg-black/80 px-4 py-3 backdrop-blur md:hidden">
+        <div
+          className="fixed bottom-0 left-0 right-0 z-40 border-t border-white/10 bg-black/80 px-4 py-3 backdrop-blur md:hidden sticky-cta"
+          data-fab-avoid
+        >
           <div className="mx-auto flex w-full max-w-md gap-3">
             <a
               href={buildWhatsappLink("sticky")}

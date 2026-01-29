@@ -26,7 +26,7 @@ const opsPacks = [
   {
     name: "Ops Starter",
     cadence: "1 flujo",
-    price: "Desde: consulta",
+    price: "Rango orientativo: €490–€1,200",
     campaign: "starter",
     includes: [
       "Discovery + mapeo del proceso",
@@ -51,7 +51,7 @@ const opsPacks = [
   {
     name: "Ops Growth",
     cadence: "3-5 flujos",
-    price: "Desde: consulta",
+    price: "Rango orientativo: €1,500–€3,500",
     campaign: "growth",
     includes: [
       "Flujos criticos orquestados",
@@ -77,7 +77,7 @@ const opsPacks = [
   {
     name: "Ops Pro",
     cadence: "Multi-sistema",
-    price: "Desde: consulta",
+    price: "Rango orientativo: €3,800–€7,500",
     campaign: "pro",
     includes: [
       "Arquitectura n8n escalable",
@@ -175,6 +175,9 @@ export default function OpsPage() {
                 <p className="mt-3 text-lg font-semibold text-emerald-200">
                   {pack.price}
                 </p>
+                <p className="mt-2 text-xs text-slate-400">
+                  Rango orientativo según alcance, integraciones y complejidad.
+                </p>
                 <p className="mt-2 text-xs text-slate-400">{pack.priceNote}</p>
 
                 <div className="mt-5 space-y-4 text-sm text-slate-200">
@@ -265,7 +268,10 @@ export default function OpsPage() {
             intents + handoff) + 2 doblajes/mes (2 idiomas). SLA 24-48h habiles.
           </p>
           <p className="mt-4 text-lg font-semibold text-emerald-200">
-            Desde: consulta
+            Rango orientativo: €2,499–€4,500 / mes
+          </p>
+          <p className="mt-2 text-xs text-slate-400">
+            Rango orientativo según alcance, volumen y complejidad.
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row" data-fab-avoid>
             <a

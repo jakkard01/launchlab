@@ -26,7 +26,7 @@ const plans = [
   {
     slug: "starter",
     title: "Web Starter",
-    from: "Desde: consulta",
+    from: "Rango orientativo: €850–€1,400",
     typicalTimeline: "Plazo típico: 5-7 días hábiles",
     description: "Landing clara para validar oferta y convertir.",
     includes: [
@@ -40,7 +40,7 @@ const plans = [
   {
     slug: "growth",
     title: "Web Growth",
-    from: "Desde: consulta",
+    from: "Rango orientativo: €1,800–€3,000",
     typicalTimeline: "Plazo típico: 10-14 días hábiles",
     description: "Sitio completo con páginas clave y analítica.",
     includes: [
@@ -55,7 +55,7 @@ const plans = [
   {
     slug: "pro",
     title: "Web Pro",
-    from: "Desde: consulta",
+    from: "Rango orientativo: €3,500–€6,500",
     typicalTimeline: "Plazo típico: 2-3 semanas",
     description: "Conversión premium con variantes y casos.",
     includes: [
@@ -80,7 +80,7 @@ export default function PricingPage() {
         </h1>
         <p className="mt-4 max-w-2xl text-base text-slate-300">
           Planes con alcance definido, plazos típicos y revisiones claras. Precio
-          a medida.
+          orientativo según alcance.
         </p>
         <div className="mt-6 rounded-2xl border border-white/10 bg-black/60 px-6 py-4 text-sm text-slate-200 shadow-lg">
           <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">
@@ -89,15 +89,15 @@ export default function PricingPage() {
           <ul className="mt-3 space-y-2">
             <li className="flex items-start gap-2">
               <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-300" aria-hidden="true" />
-              <span>Demo funcional en 7-10 días</span>
+              <span>Entrega web según plan y activos disponibles</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-300" aria-hidden="true" />
-              <span>Casos reales y entregables claros</span>
+              <span>SEO base + performance mobile first</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-300" aria-hidden="true" />
-              <span>Proceso claro con validación por etapas</span>
+              <span>Proceso por etapas con validación</span>
             </li>
           </ul>
         </div>
@@ -114,6 +114,9 @@ export default function PricingPage() {
             >
               <h2 className="text-lg font-semibold text-white">{plan.title}</h2>
               <p className="mt-2 text-sm text-cyan-200">{plan.from}</p>
+              <p className="mt-2 text-xs text-slate-400">
+                Rango orientativo según alcance, contenidos e integraciones.
+              </p>
               <p className="mt-2 text-xs uppercase tracking-[0.3em] text-slate-400">
                 {plan.typicalTimeline}
               </p>
@@ -155,8 +158,9 @@ export default function PricingPage() {
             Limites claros
           </p>
           <p className="mt-3">
-            Hosting, dominio, licencias premium e integraciones enterprise se
-            cotizan aparte. Alcance final se valida en llamada.
+            Dominio y hosting pueden gestionarse por nuestro equipo con coste
+            externo y quedan a tu nombre. Licencias premium e integraciones
+            enterprise se cotizan aparte. Alcance final se valida en llamada.
           </p>
         </div>
 

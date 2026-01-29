@@ -56,7 +56,7 @@ export default function PortfolioPage() {
           Casos Powered by IA para validar y escalar
         </h1>
         <p className="mt-4 max-w-2xl text-base text-slate-300">
-          Ejemplos reales en formato demo para mostrar como resolvemos friccion
+          Ejemplos reales en formato demo para mostrar cómo resolvemos bloqueos
           con IA.
         </p>
 
@@ -135,7 +135,7 @@ export default function PortfolioPage() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              WhatsApp (principal)
+              Hablar por WhatsApp
             </a>
             <Link
               href="/contact?source=portfolio"

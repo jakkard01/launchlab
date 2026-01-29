@@ -25,7 +25,7 @@ const buildWhatsappUtmLink = (
 const webTiers = [
   {
     name: "Web Starter (Landing)",
-    price: "Desde: consulta",
+    price: "Rango orientativo: €850–€1,400",
     campaign: "starter",
     summary: "1 pagina optimizada para conversion.",
     includes: [
@@ -35,7 +35,7 @@ const webTiers = [
       "Performance + mobile first",
     ],
     excludes: [
-      "Dominio y hosting",
+      "Dominio/hosting (se gestiona con coste externo + configuracion)",
       "Fotos premium/licencias",
       "Automatizaciones avanzadas",
     ],
@@ -50,7 +50,7 @@ const webTiers = [
   },
   {
     name: "Web Growth (Sitio)",
-    price: "Desde: consulta",
+    price: "Rango orientativo: €1,800–€3,000",
     campaign: "growth",
     summary: "Sitio completo con 4-6 paginas.",
     includes: [
@@ -63,6 +63,7 @@ const webTiers = [
       "Multilenguaje completo",
       "Integraciones enterprise",
       "Produccion de contenido audiovisual",
+      "Dominio/hosting (se gestiona con coste externo + configuracion)",
     ],
     requirements: [
       "Brief y jerarquia de contenido",
@@ -75,7 +76,7 @@ const webTiers = [
   },
   {
     name: "Web Pro (Conversion)",
-    price: "Desde: consulta",
+    price: "Rango orientativo: €3,500–€6,500",
     campaign: "pro",
     summary: "Sitio premium para conversion y captacion.",
     includes: [
@@ -88,6 +89,7 @@ const webTiers = [
       "Apps internas",
       "Integraciones complejas sin API",
       "SEO avanzado fuera de alcance",
+      "Dominio/hosting (se gestiona con coste externo + configuracion)",
     ],
     requirements: [
       "KPIs claros",
@@ -102,7 +104,7 @@ const webTiers = [
 
 const ecommerceAddon = {
   name: "Add-on Ecommerce",
-  price: "Desde: consulta",
+  price: "Rango orientativo: €2,500–€6,000",
   campaign: "ecommerce",
   includes: [
     "Catalogo + carrito/checkout o pedido por WhatsApp",
@@ -210,6 +212,9 @@ export default function WebPage() {
                   <p className="mt-3 text-lg font-semibold text-emerald-200">
                     {tier.price}
                   </p>
+                  <p className="mt-2 text-xs text-slate-400">
+                    Rango orientativo según alcance, contenidos e integraciones.
+                  </p>
                   <p className="mt-2 text-xs text-slate-400">{tier.priceNote}</p>
                 </div>
 
@@ -306,6 +311,9 @@ export default function WebPage() {
           </p>
           <p className="mt-3 text-lg font-semibold text-emerald-200">
             {ecommerceAddon.price}
+          </p>
+          <p className="mt-1 text-xs text-slate-400">
+            Rango orientativo según catálogo e integraciones.
           </p>
           <p className="mt-2 text-xs text-slate-400">
             {ecommerceAddon.priceNote}

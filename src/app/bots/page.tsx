@@ -26,7 +26,7 @@ const botPacks = [
   {
     name: "Bot Starter",
     cadence: "Web widget",
-    price: "Desde: consulta",
+    price: "Rango orientativo: €650–€1,200",
     campaign: "starter",
     includes: [
       "Web widget embebible",
@@ -51,7 +51,7 @@ const botPacks = [
   {
     name: "Bot Growth",
     cadence: "Web + WhatsApp Cloud API",
-    price: "Desde: consulta",
+    price: "Rango orientativo: €1,500–€3,000",
     campaign: "growth",
     includes: [
       "Web widget + WhatsApp Cloud API",
@@ -76,7 +76,7 @@ const botPacks = [
   {
     name: "Bot Pro",
     cadence: "Multi-flow",
-    price: "Desde: consulta",
+    price: "Rango orientativo: €3,500–€7,000",
     campaign: "pro",
     includes: [
       "Flows multi-objetivo",
@@ -172,6 +172,9 @@ export default function BotsPage() {
                 <p className="mt-3 text-lg font-semibold text-emerald-200">
                   {pack.price}
                 </p>
+                <p className="mt-2 text-xs text-slate-400">
+                  Rango orientativo según alcance, canales y complejidad.
+                </p>
                 <p className="mt-2 text-xs text-slate-400">{pack.priceNote}</p>
 
                 <div className="mt-5 space-y-4 text-sm text-slate-200">
@@ -262,7 +265,10 @@ export default function BotsPage() {
             intents + handoff) + 2 doblajes/mes (2 idiomas). SLA 24-48h habiles.
           </p>
           <p className="mt-4 text-lg font-semibold text-emerald-200">
-            Desde: consulta
+            Rango orientativo: €2,499–€4,500 / mes
+          </p>
+          <p className="mt-2 text-xs text-slate-400">
+            Rango orientativo según alcance, volumen y complejidad.
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row" data-fab-avoid>
             <a
