@@ -194,6 +194,40 @@ export default function OpsPage() {
             );
           })}
         </div>
+        <div className="mt-8 rounded-3xl border border-cyan-300/30 bg-black/70 p-6 shadow-xl">
+          <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">
+            Super Pack
+          </p>
+          <h3 className="mt-3 text-2xl font-semibold text-white">
+            Video + Doblaje + Ops + Bot
+          </h3>
+          <p className="mt-2 text-sm text-slate-300">
+            Bundle premium para equipos que quieren crecimiento full-stack.
+          </p>
+          <p className="mt-4 text-lg font-semibold text-emerald-200">
+            Desde $2,499
+          </p>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <a
+              href={buildWhatsappUtmLink(
+                "superpack",
+                "ops",
+                "Quiero el Super Pack."
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
+            >
+              WhatsApp: quiero el Super Pack
+            </a>
+            <Link
+              href={buildContactLink("superpack", { utm_campaign: "ops" })}
+              className="rounded-full border border-white/20 px-6 py-3 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
+            >
+              Reservar llamada
+            </Link>
+          </div>
+        </div>
       </section>
     </main>
   );
