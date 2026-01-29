@@ -1,5 +1,6 @@
 import type { ComponentProps } from "react";
 import GlyphBadge from "../components/GlyphBadge";
+import { buildWhatsappLink } from "./site";
 
 export type Glyph = ComponentProps<typeof GlyphBadge>["glyph"];
 
@@ -17,9 +18,7 @@ export type ServiceItem = {
   ctaHref: string;
 };
 
-const whatsappMessage =
-  "Hola, vengo desde poweredbyia.com. Quiero info de servicios y una demo.";
-const whatsappLink = `https://wa.me/34911528753?text=${encodeURIComponent(whatsappMessage)}`;
+const whatsappLink = buildWhatsappLink("services_catalog");
 
 export const services: ServiceItem[] = [
   {

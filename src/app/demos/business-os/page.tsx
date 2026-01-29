@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { buildWhatsappLink } from "../../content/site";
 
 const statusOptions = ["Pendiente", "En proceso", "Entregado"] as const;
 
@@ -91,9 +92,10 @@ const initialOrders: Order[] = [
   },
 ];
 
-const whatsappMessage =
-  "Hola, vengo desde poweredbyia.com. Quiero una demo de Business OS para pedidos.";
-const whatsappLink = `https://wa.me/34911528753?text=${encodeURIComponent(whatsappMessage)}`;
+const whatsappLink = buildWhatsappLink(
+  "demo_business_os",
+  "Hola, vengo desde poweredbyia.com. Quiero una demo de Business OS para pedidos."
+);
 
 export default function BusinessOSDemoPage() {
   const [orders, setOrders] = useState<Order[]>(initialOrders);

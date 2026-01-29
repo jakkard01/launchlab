@@ -6,6 +6,7 @@ import { services } from "../content/catalog";
 import { portfolio } from "../content/portfolio";
 import { showcase } from "../content/showcase";
 import EmbeddedBot from "./EmbeddedBot";
+import { buildWhatsappLink, site } from "../content/site";
 
 interface LandingLocalProps {
   onShowVideo: () => void;
@@ -132,11 +133,6 @@ const pricingPlans = [
     cta: "Reservar Pro",
   },
 ];
-
-const whatsappNumber = "911 52 87 53";
-const whatsappLink =
-  "https://wa.me/34911528753?text=Hola%2C%20vengo%20desde%20poweredbyia.com.%20Quiero%20info%20de%20servicios%20y%20una%20demo.";
-const contactEmail = "poweredbyiaoficial@gmail.com";
 
 export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: LandingLocalProps) {
   const [imgError, setImgError] = useState(false);
@@ -394,7 +390,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
                 </ul>
                 <p className="mt-4 text-xs text-slate-400">Precio final según alcance.</p>
                 <Link
-                  href={`/contact?source=home&plan=${plan.slug}`}
+                  href={`/contact?source=home_packages&plan=${plan.slug}`}
                   className="mt-5 inline-flex w-full items-center justify-center rounded-full bg-cyan-400 px-5 py-2 text-sm font-semibold text-black transition hover:bg-cyan-300"
                   aria-label={`Reservar llamada para ${plan.title}`}
                 >
@@ -504,7 +500,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
         </div>
         <div className="mt-6">
           <Link
-            href="/courses"
+            href="/cursos"
             className="inline-flex rounded-full border border-white/20 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
           >
             Ver programas
@@ -561,20 +557,20 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
           </p>
           <div className="mt-6 flex flex-col gap-4 md:flex-row">
             <a
-              href={whatsappLink}
+              href={buildWhatsappLink("home_contact")}
               className="rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
               target="_blank"
               rel="noreferrer"
               aria-label="Abrir WhatsApp Business"
             >
-              WhatsApp Business: {whatsappNumber}
+              WhatsApp Business: {site.whatsappNumber}
             </a>
             <a
-              href={`mailto:${contactEmail}`}
+              href={`mailto:${site.email}`}
               className="rounded-full border border-white/20 px-6 py-3 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
               aria-label="Enviar email"
             >
-              {contactEmail}
+              {site.email}
             </a>
           </div>
           <button
@@ -596,7 +592,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
             Reservar
           </Link>
           <a
-            href={whatsappLink}
+            href={buildWhatsappLink("sticky")}
             target="_blank"
             rel="noreferrer"
             className="flex-1 rounded-full border border-emerald-400/70 px-4 py-3 text-center text-sm font-semibold text-emerald-200 transition hover:bg-emerald-400 hover:text-black"
@@ -606,10 +602,6 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
           </a>
         </div>
       </div>
-
-      <footer className="mt-16 w-full text-center text-xs text-slate-400">
-        &copy; {new Date().getFullYear()} Powered by IA. Todos los derechos reservados.
-      </footer>
     </main>
   );
 }

@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { getSocialLinks, site } from "../content/site";
 
 const navItems = [
   { label: "Inicio", href: "/" },
@@ -12,12 +13,10 @@ const navItems = [
   { label: "Contacto", href: "/contact" },
 ];
 
-const whatsappLink =
-  "https://wa.me/34911528753?text=Hola%2C%20vengo%20desde%20poweredbyia.com.%20Quiero%20info%20de%20servicios%20y%20una%20demo.";
-
 export default function Header() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const socialLinks = getSocialLinks("header");
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -36,7 +35,7 @@ export default function Header() {
     <header className="fixed top-0 inset-x-0 z-[50] bg-black/70 backdrop-blur border-b border-white/10">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-4 md:px-6">
         <Link href="/" className="font-semibold tracking-wide text-cyan-300">
-          Powered by IA
+          {site.name}
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">
@@ -54,15 +53,20 @@ export default function Header() {
               </Link>
             );
           })}
-          <a
-            href={whatsappLink}
-            className="rounded-full border border-emerald-300/60 px-4 py-2 text-sm font-semibold text-emerald-200 transition hover:bg-emerald-300 hover:text-black"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Abrir WhatsApp Business"
-          >
-            WhatsApp
-          </a>
+          <div className="flex items-center gap-4 border-l border-white/10 pl-4">
+            {socialLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-sm font-semibold text-slate-300 transition hover:text-white"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={link.label}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
         </nav>
 
         <button
@@ -105,16 +109,21 @@ export default function Header() {
                   {item.label}
                 </Link>
               ))}
-              <a
-                href={whatsappLink}
-                onClick={() => setMenuOpen(false)}
-                className="rounded-full border border-emerald-300/60 px-4 py-2 text-center text-sm font-semibold text-emerald-200 transition hover:bg-emerald-300 hover:text-black"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Abrir WhatsApp Business"
-              >
-                WhatsApp
-              </a>
+              <div className="flex flex-col gap-3 border-t border-white/10 pt-4">
+                {socialLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="rounded-full border border-white/10 px-4 py-2 text-center text-sm font-semibold text-slate-200 transition hover:border-cyan-300/60 hover:text-white"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={link.label}
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
         </div>

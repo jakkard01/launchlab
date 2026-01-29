@@ -1,10 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
+import { buildWhatsappLink } from "../content/site";
 
 export default function FAB() {
   const [showTop, setShowTop] = useState(false);
-  const whatsappLink =
-    "https://wa.me/34911528753?text=Hola%2C%20vengo%20desde%20poweredbyia.com.%20Quiero%20info%20de%20servicios%20y%20una%20demo.";
 
   useEffect(() => {
     const onScroll = () => {
@@ -18,7 +17,7 @@ export default function FAB() {
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
       <a
-        href={whatsappLink}
+        href={buildWhatsappLink("fab")}
         className="bg-emerald-400 hover:bg-emerald-300 text-black rounded-full shadow-lg p-4 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-emerald-200"
         aria-label="WhatsApp Business"
         target="_blank"

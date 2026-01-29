@@ -9,10 +9,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
     },
     {
-      url: `${baseUrl}/prompts`,
-      lastModified: new Date(),
-    },
-    {
       url: `${baseUrl}/cursos`,
       lastModified: new Date(),
     },
@@ -30,10 +26,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/demos`,
-      lastModified: new Date(),
-    },
-    {
-      url: `${baseUrl}/courses`,
       lastModified: new Date(),
     },
     {

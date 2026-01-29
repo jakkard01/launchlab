@@ -4,6 +4,9 @@ import ComingSoon from '../components/ComingSoon'; // Ajustamos la ruta para sal
 export const metadata: Metadata = {
   title: 'Cursos de IA y Automatización | Powered by IA',
   description: 'Formación práctica en Inteligencia Artificial, visión por computador y código. Próximamente.',
+  alternates: {
+    canonical: '/cursos',
+  },
 };
 
 export default function CursosPage() {

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { portfolio } from "../../content/portfolio";
 import { services } from "../../content/catalog";
+import { buildWhatsappLink } from "../../content/site";
 
 type PageProps = {
   params: { slug: string };
@@ -125,7 +126,7 @@ export default function PortfolioDetailPage({ params }: PageProps) {
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
             <a
-              href="https://wa.me/34911528753?text=Hola%2C%20vengo%20desde%20poweredbyia.com.%20Quiero%20info%20de%20servicios%20y%20una%20demo."
+              href={buildWhatsappLink("portfolio_detail")}
               className="rounded-full border border-emerald-300/60 px-6 py-3 text-center text-sm font-semibold text-emerald-200 transition hover:bg-emerald-300 hover:text-black"
               target="_blank"
               rel="noreferrer"

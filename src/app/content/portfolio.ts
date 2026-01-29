@@ -25,7 +25,7 @@ export const portfolio: PortfolioItem[] = [
       "Guia de mantenimiento de contenido",
     ],
     stack: ["Next.js", "UI components", "Tracking basico"],
-    expectedResult: "Mayor activacion y menos tickets repetitivos.",
+    expectedResult: "Demo validado con equipo y checklist de activación.",
     relatedServices: ["chatbot-bot-ia", "automatizaciones"],
   },
   {
@@ -42,7 +42,7 @@ export const portfolio: PortfolioItem[] = [
       "Checklist de conversion",
     ],
     stack: ["Next.js", "Tailwind", "SEO basico"],
-    expectedResult: "Tiempo de lanzamiento reducido y mas conversion.",
+    expectedResult: "Demo validado para captar leads iniciales.",
     relatedServices: ["landing-premium", "consultoria-implementacion"],
   },
   {
@@ -59,7 +59,7 @@ export const portfolio: PortfolioItem[] = [
       "Panel de responsables",
     ],
     stack: ["n8n", "Webhooks", "Dashboards basicos"],
-    expectedResult: "Menos pasos manuales y mas control operativo.",
+    expectedResult: "Demo operativo con métricas base y flujos definidos.",
     relatedServices: ["automatizaciones", "consultoria-implementacion"],
   },
 ];

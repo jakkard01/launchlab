@@ -2,9 +2,9 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { buildWhatsappLink } from "../../content/site";
 
-const whatsappLink =
-  "https://wa.me/34911528753?text=Hola%2C%20vengo%20desde%20poweredbyia.com.%20Quiero%20info%20de%20servicios%20y%20una%20demo.";
+const whatsappLink = buildWhatsappLink("demo_bot");
 
 const faqData = [
   {

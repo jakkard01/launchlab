@@ -130,13 +130,13 @@ const Hero = forwardRef<HTMLImageElement>((props, ref) => {
                   Cursos
                 </Link>
                 <Link
-                  href="/prompts"
+                  href="/portfolio"
                   onClick={() => setMenuOpen(false)}
                   className="text-lg font-semibold hover:text-cyan-400 transition-colors w-full text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
                   role="menuitem"
                   tabIndex={0}
                 >
-                  Prompts
+                  Portfolio
                 </Link>
                 <button
                   onClick={abrirModalBot}

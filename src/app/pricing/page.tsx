@@ -1,18 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { buildWhatsappLink } from "../content/site";
 
 export const metadata: Metadata = {
   title: "Paquetes | Powered by IA",
   description:
     "Paquetes claros de Powered by IA para implementar IA, automatizar y escalar.",
 };
-
-const whatsappBase = "https://wa.me/34911528753?text=";
-
-const buildWhatsappLink = (source: string, plan: string) =>
-  `${whatsappBase}${encodeURIComponent(
-    `Hola, vengo desde poweredbyia.com. Me interesa el plan ${plan}. Fuente: ${source}.`
-  )}`;
 
 const plans = [
   {
@@ -137,7 +131,10 @@ export default function PricingPage() {
                   Reservar llamada
                 </Link>
                 <a
-                  href={buildWhatsappLink(`pricing_${plan.slug}`, plan.title)}
+                  href={buildWhatsappLink(
+                    `pricing_${plan.slug}`,
+                    `Hola, vengo desde poweredbyia.com. Me interesa el plan ${plan.title}.`
+                  )}
                   className="inline-flex w-full items-center justify-center rounded-full border border-emerald-300/60 px-4 py-2 text-sm font-semibold text-emerald-200 transition hover:bg-emerald-300 hover:text-black"
                   target="_blank"
                   rel="noreferrer"
