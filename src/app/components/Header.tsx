@@ -2,15 +2,56 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getSocialLinks, siteConfig } from "../../lib/site";
+import {
+  BriefcaseBusiness,
+  HandCoins,
+  Home,
+  Layers3,
+  LineChart,
+  Mail,
+  Rocket,
+  X,
+} from "lucide-react";
+import { buildContactLink, getSocialLinks, siteConfig } from "../../lib/site";
 
 const navItems = [
-  { label: "Inicio", href: "/" },
-  { label: "Servicios", href: "/services" },
-  { label: "Demos", href: "/demos" },
-  { label: "Paquetes", href: "/pricing" },
-  { label: "Portfolio", href: "/portfolio" },
-  { label: "Contacto", href: "/contact" },
+  { label: "Inicio", href: "/", icon: Home, tagline: "volver al inicio" },
+  {
+    label: "Servicios",
+    href: "/services",
+    icon: Rocket,
+    tagline: "IA que vende",
+  },
+  {
+    label: "Demos",
+    href: "/demos",
+    icon: Layers3,
+    tagline: "ver funcionando",
+  },
+  {
+    label: "Paquetes",
+    href: "/pricing",
+    icon: BriefcaseBusiness,
+    tagline: "listos para comprar",
+  },
+  {
+    label: "Portfolio",
+    href: "/portfolio",
+    icon: LineChart,
+    tagline: "casos reales",
+  },
+  {
+    label: "Inversión",
+    href: buildContactLink("nav_inversion", { intent: "ganar_dinero" }),
+    icon: HandCoins,
+    tagline: "ganar dinero",
+  },
+  {
+    label: "Contacto",
+    href: "/contact",
+    icon: Mail,
+    tagline: "agenda una llamada",
+  },
 ];
 
 export default function Header() {
@@ -117,24 +158,37 @@ export default function Header() {
                 </div>
                 <button
                   onClick={() => setMenuOpen(false)}
-                  className="rounded-full border border-white/10 px-3 py-1 text-white hover:border-cyan-300/60 hover:text-cyan-200 transition"
+                  className="rounded-full border border-white/10 p-2 text-white hover:border-cyan-300/60 hover:text-cyan-200 transition"
                   aria-label="Cerrar menú"
                 >
-                  ✕
+                  <X className="h-5 w-5" />
                 </button>
               </div>
 
               <nav className="mt-6 flex flex-col gap-3">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    onClick={() => setMenuOpen(false)}
-                    className="rounded-xl border border-white/10 bg-black/60 px-4 py-3 text-base font-semibold text-white transition hover:border-cyan-300/50 hover:bg-black/70"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+                {navItems.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <Link
+                      key={item.label}
+                      href={item.href}
+                      onClick={() => setMenuOpen(false)}
+                      className="group flex items-start gap-3 rounded-xl border border-white/10 bg-black/60 px-4 py-3 text-left transition hover:border-cyan-300/50 hover:bg-black/70"
+                    >
+                      <span className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/70 text-cyan-200">
+                        <Icon className="h-5 w-5" />
+                      </span>
+                      <span className="flex flex-col">
+                        <span className="text-base font-semibold text-white">
+                          {item.label}
+                        </span>
+                        <span className="text-xs text-slate-300">
+                          {item.tagline}
+                        </span>
+                      </span>
+                    </Link>
+                  );
+                })}
               </nav>
 
               <div className="mt-6 flex flex-col gap-3 border-t border-white/10 pt-4">
