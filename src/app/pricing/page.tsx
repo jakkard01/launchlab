@@ -155,7 +155,7 @@ export default function PricingPage() {
         </div>
         <div className="mt-8 rounded-2xl border border-white/10 bg-black/60 px-6 py-4 text-sm text-slate-300">
           <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">
-            Limites claros
+            Límites claros
           </p>
           <p className="mt-3">
             Dominio y hosting pueden gestionarse por nuestro equipo con coste

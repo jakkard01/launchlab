@@ -85,7 +85,7 @@ const initialOrders: Order[] = [
   {
     id: "OS-1028",
     customer: "Tech Aria",
-    product: "Integracion CRM",
+    product: "Integración CRM",
     quantity: 2,
     status: "En proceso",
     updatedAt: "2026-01-18 15:10",

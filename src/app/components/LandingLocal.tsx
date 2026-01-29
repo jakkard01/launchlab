@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ComponentType, type SVGProps } from "react";
 import dynamic from "next/dynamic";
 import { services } from "../content/catalog";
 import { portfolio } from "../content/portfolio";
@@ -9,6 +9,7 @@ import { showcase } from "../content/showcase";
 import GlyphBadge from "./GlyphBadge";
 import { buildContactLink, buildWhatsappLink, siteConfig } from "../../lib/site";
 import { trackEvent } from "../../lib/analytics";
+import { Bot, Package, Sparkles } from "lucide-react";
 
 const EmbeddedBot = dynamic(() => import("./EmbeddedBot"), {
   ssr: false,
@@ -25,23 +26,30 @@ interface LandingLocalProps {
   onScrollToHero: () => void;
 }
 
-const quickAccess = [
+type IconType = ComponentType<SVGProps<SVGSVGElement>>;
+
+const quickAccess: Array<{
+  titulo: string;
+  descripcion: string;
+  icono: IconType;
+  link: string;
+}> = [
   {
     titulo: "Servicios",
     descripcion: "Soluciones IA y automatizaciones para negocio.",
-    icono: "/favicon.ico",
+    icono: Sparkles,
     link: "/#servicios",
   },
   {
     titulo: "Demos",
     descripcion: "Demos funcionales para validar rápido.",
-    icono: "/favicon.ico",
+    icono: Bot,
     link: "/#demos",
   },
   {
     titulo: "Paquetes",
     descripcion: "Planes claros con alcance y entregables.",
-    icono: "/favicon.ico",
+    icono: Package,
     link: "/#paquetes",
   },
 ];
@@ -399,7 +407,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
             href={a.link}
             className="flex flex-col items-start gap-3 rounded-2xl border border-white/10 bg-black/60 p-6 shadow-lg transition hover:border-cyan-300/40 focus:outline-none focus:ring-2 focus:ring-cyan-400"
           >
-            <Image src={a.icono} alt={a.titulo} width={36} height={36} className="opacity-80" loading="lazy" />
+              <a.icono className="h-9 w-9 text-cyan-200/80" aria-hidden />
             <h3 className="text-lg font-semibold text-white">{a.titulo}</h3>
             <p className="text-sm text-slate-300">{a.descripcion}</p>
           </Link>

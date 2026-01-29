@@ -5,7 +5,7 @@ import { buildContactLink, buildWhatsappLink, siteUrl } from "../../lib/site";
 export const metadata: Metadata = {
   title: "n8n Ops",
   description:
-    "Automatizaciones n8n con limites claros: flujos, integraciones y soporte operativo.",
+    "Automatizaciones n8n con límites claros: flujos, integraciones y soporte operativo.",
   alternates: {
     canonical: `${siteUrl}/ops`,
   },
@@ -44,7 +44,7 @@ const opsPacks = [
       "Owner interno para validacion",
     ],
     revisions: "1 ronda de ajustes (cambios de alcance = nuevo flujo).",
-    timeline: "5-7 dias habiles.",
+    timeline: "5-7 días hábiles.",
     priceNote:
       "Simple = 1-2 integraciones, <10 nodos, sin ERP/CRM custom.",
   },
@@ -55,8 +55,8 @@ const opsPacks = [
     campaign: "growth",
     includes: [
       "Flujos criticos orquestados",
-      "Integracion CRM + alertas",
-      "Monitoreo basico + logging",
+      "Integración CRM + alertas",
+      "Monitoreo básico + logging",
       "Soporte post-lanzamiento",
     ],
     excludes: [
@@ -111,7 +111,7 @@ export default function OpsPage() {
             n8n Ops
           </p>
           <h1 className="mt-4 text-3xl font-semibold text-white md:text-4xl">
-            Automatizaciones operativas con limites claros
+            Automatizaciones operativas con límites claros
           </h1>
           <p className="mt-3 text-base text-slate-200 md:text-lg">
             Flujos n8n definidos por complejidad y volumen. Sin mezclar con otros
@@ -183,7 +183,7 @@ export default function OpsPage() {
                 <div className="mt-5 space-y-4 text-sm text-slate-200">
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200/70">
-                      Que incluye
+                      Qué incluye
                     </p>
                     <ul className="mt-2 space-y-2">
                       {pack.includes.map((item) => (
@@ -196,7 +196,7 @@ export default function OpsPage() {
                   </div>
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.3em] text-rose-200/80">
-                      Que NO incluye
+                      Qué NO incluye
                     </p>
                     <ul className="mt-2 space-y-2">
                       {pack.excludes.map((item) => (
@@ -265,7 +265,7 @@ export default function OpsPage() {
           </h3>
           <p className="mt-2 text-sm text-slate-300">
             8 videos/mes (≤45s, 2 formatos) + 2 flujos n8n/mes + 1 bot (≤15
-            intents + handoff) + 2 doblajes/mes (2 idiomas). SLA 24-48h habiles.
+            intents + handoff) + 2 doblajes/mes (2 idiomas). SLA 24-48h hábiles.
           </p>
           <p className="mt-4 text-lg font-semibold text-emerald-200">
             Rango orientativo: €2,499–€4,500 / mes

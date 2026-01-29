@@ -5,7 +5,7 @@ import { buildContactLink, buildWhatsappLink, siteUrl } from "../../lib/site";
 export const metadata: Metadata = {
   title: "Bots / Chatbot",
   description:
-    "Bots web + WhatsApp Cloud API con alcance definido, handoff y analitica basica.",
+    "Bots web + WhatsApp Cloud API con alcance definido, handoff y analítica básica.",
   alternates: {
     canonical: `${siteUrl}/bots`,
   },
@@ -32,7 +32,7 @@ const botPacks = [
       "Web widget embebible",
       "Hasta 8 intents",
       "Handoff a humano",
-      "Analitica basica",
+      "Analítica básica",
     ],
     excludes: [
       "WhatsApp Cloud API",
@@ -57,7 +57,7 @@ const botPacks = [
       "Web widget + WhatsApp Cloud API",
       "Hasta 15 intents",
       "Handoff + alertas",
-      "Analitica basica",
+      "Analítica básica",
     ],
     excludes: [
       "Canales adicionales",
@@ -180,7 +180,7 @@ export default function BotsPage() {
                 <div className="mt-5 space-y-4 text-sm text-slate-200">
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200/70">
-                      Que incluye
+                      Qué incluye
                     </p>
                     <ul className="mt-2 space-y-2">
                       {pack.includes.map((item) => (
@@ -193,7 +193,7 @@ export default function BotsPage() {
                   </div>
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.3em] text-rose-200/80">
-                      Que NO incluye
+                      Qué NO incluye
                     </p>
                     <ul className="mt-2 space-y-2">
                       {pack.excludes.map((item) => (
@@ -262,7 +262,7 @@ export default function BotsPage() {
           </h3>
           <p className="mt-2 text-sm text-slate-300">
             8 videos/mes (≤45s, 2 formatos) + 2 flujos n8n/mes + 1 bot (≤15
-            intents + handoff) + 2 doblajes/mes (2 idiomas). SLA 24-48h habiles.
+            intents + handoff) + 2 doblajes/mes (2 idiomas). SLA 24-48h hábiles.
           </p>
           <p className="mt-4 text-lg font-semibold text-emerald-200">
             Rango orientativo: €2,499–€4,500 / mes

@@ -28,7 +28,7 @@ const navItems = [
     href: "/web",
     match: "/web",
     icon: Globe,
-    tagline: "paginas web listas",
+    tagline: "páginas web listas",
   },
   {
     label: "Servicios",

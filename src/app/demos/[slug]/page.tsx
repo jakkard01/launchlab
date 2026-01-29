@@ -34,7 +34,7 @@ function usageSteps(type: string) {
     return [
       "Revisa la narrativa y adapta el copy a tu oferta",
       "Sustituye logos y paleta visual",
-      "Publica y mide conversion",
+      "Publica y mide conversión",
     ];
   }
   if (type === "automation") {

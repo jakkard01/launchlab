@@ -45,7 +45,7 @@ const videoPacks = [
       "Material base o referencias",
     ],
     revisions: "2 revisiones por video (microcambios).",
-    timeline: "Entrega semanal (7-10 dias habiles).",
+    timeline: "Entrega semanal (7-10 días hábiles).",
     priceNote:
       "Hasta 45s por video. 1 formato (9:16). Cambios de concepto cuentan como nueva pieza.",
   },
@@ -99,7 +99,7 @@ const videoPacks = [
       "Feedback consolidado por ronda",
     ],
     revisions: "2 revisiones por video (cambios de concepto = nueva pieza).",
-    timeline: "Produccion continua con slots reservados.",
+    timeline: "Producción continua con slots reservados.",
     priceNote:
       "Hasta 45s por video. 3 formatos (9:16 + 1:1 + 16:9).",
   },
@@ -125,9 +125,9 @@ const dubbingProducts = [
       "Idioma origen definido",
     ],
     revisions: "1 pase de correccion de timing/texto.",
-    timeline: "48-72h habiles.",
+    timeline: "48-72h hábiles.",
     priceNote:
-      "Hasta 2 minutos por video. Lip-sync basico solo talking head.",
+      "Hasta 2 minutos por video. Lip-sync básico solo talking head.",
   },
   {
     name: "Batch 5 videos / 2 idiomas",
@@ -148,7 +148,7 @@ const dubbingProducts = [
       "Checklist de naming",
     ],
     revisions: "1 pase de correcciones por lote.",
-    timeline: "5-7 dias habiles.",
+    timeline: "5-7 días hábiles.",
     priceNote:
       "Hasta 2 minutos por video. 2 idiomas incluidos.",
   },
@@ -163,10 +163,10 @@ export default function VideoPage() {
             Video Packs
           </p>
           <h1 className="mt-4 text-3xl font-semibold text-white md:text-4xl">
-            Produccion mensual + doblaje en cualquier idioma
+            Producción mensual + doblaje en cualquier idioma
           </h1>
           <p className="mt-3 text-base text-slate-200 md:text-lg">
-            Video packs claros y doblaje/subtitulos con limites definidos.
+            Video packs claros y doblaje/subtitulos con límites definidos.
             Cualquier idioma disponible (demos EN + DE + ES).
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center" data-fab-avoid>
@@ -197,7 +197,7 @@ export default function VideoPage() {
           Video Packs (mensual)
         </p>
         <h2 className="mt-2 text-2xl font-semibold text-white md:text-3xl">
-          Packs listos para vender, con limites claros
+          Packs listos para vender, con límites claros
         </h2>
         <div className="mt-8 grid gap-6 lg:grid-cols-3">
           {videoPacks.map((pack) => {
@@ -234,7 +234,7 @@ export default function VideoPage() {
                 <div className="mt-5 space-y-4 text-sm text-slate-200">
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200/70">
-                      Que incluye
+                      Qué incluye
                     </p>
                     <ul className="mt-2 space-y-2">
                       {pack.includes.map((item) => (
@@ -247,7 +247,7 @@ export default function VideoPage() {
                   </div>
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.3em] text-rose-200/80">
-                      Que NO incluye
+                      Qué NO incluye
                     </p>
                     <ul className="mt-2 space-y-2">
                       {pack.excludes.map((item) => (
@@ -341,7 +341,7 @@ export default function VideoPage() {
                 <div className="mt-4 space-y-4 text-sm text-slate-200">
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200/70">
-                      Que incluye
+                      Qué incluye
                     </p>
                     <ul className="mt-2 space-y-2">
                       {product.includes.map((item) => (
@@ -354,7 +354,7 @@ export default function VideoPage() {
                   </div>
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.3em] text-rose-200/80">
-                      Que NO incluye
+                      Qué NO incluye
                     </p>
                     <ul className="mt-2 space-y-2">
                       {product.excludes.map((item) => (
@@ -424,7 +424,7 @@ export default function VideoPage() {
           </h3>
           <p className="mt-2 text-sm text-slate-300">
             8 videos/mes (≤45s, 2 formatos) + 2 flujos n8n/mes + 1 bot (≤15
-            intents + handoff) + 2 doblajes/mes (2 idiomas). SLA 24-48h habiles.
+            intents + handoff) + 2 doblajes/mes (2 idiomas). SLA 24-48h hábiles.
           </p>
           <p className="mt-4 text-lg font-semibold text-emerald-200">
             Rango orientativo: €2,499–€4,500 / mes

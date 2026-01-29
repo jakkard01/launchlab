@@ -3,9 +3,9 @@ import Link from "next/link";
 import { buildContactLink, buildWhatsappLink, siteUrl } from "../../lib/site";
 
 export const metadata: Metadata = {
-  title: "Paginas web",
+  title: "Páginas web",
   description:
-    "Paginas web listas para vender: landing, ecommerce y negocios locales. Alcance y plazos definidos.",
+    "Páginas web listas para vender: landing, ecommerce y negocios locales. Alcance y plazos definidos.",
   alternates: {
     canonical: `${siteUrl}/web`,
   },
@@ -27,15 +27,15 @@ const webTiers = [
     name: "Web Starter (Landing)",
     price: "Rango orientativo: €850–€1,400",
     campaign: "starter",
-    summary: "1 pagina optimizada para conversion.",
+    summary: "1 página optimizada para conversión.",
     includes: [
-      "1 pagina (secciones)",
+      "1 página (secciones)",
       "Copy base + CTA + WhatsApp + formulario",
-      "SEO basico (title/meta, sitemap, robots)",
+      "SEO básico (title/meta, sitemap, robots)",
       "Performance + mobile first",
     ],
     excludes: [
-      "Dominio/hosting (se gestiona con coste externo + configuracion)",
+      "Dominio/hosting (se gestiona con coste externo + configuración)",
       "Fotos premium/licencias",
       "Automatizaciones avanzadas",
     ],
@@ -45,42 +45,42 @@ const webTiers = [
       "Textos base o esquema",
     ],
     revisions: "1 ronda de cambios.",
-    timeline: "5-7 dias habiles.",
-    priceNote: "Hasta 6-8 secciones. Sin multiples idiomas.",
+    timeline: "5-7 días hábiles.",
+    priceNote: "Hasta 6-8 secciones. Sin múltiples idiomas.",
   },
   {
     name: "Web Growth (Sitio)",
     price: "Rango orientativo: €1,800–€3,000",
     campaign: "growth",
-    summary: "Sitio completo con 4-6 paginas.",
+    summary: "Sitio completo con 4-6 páginas.",
     includes: [
-      "4-6 paginas (Inicio, Servicios, Sobre, Contacto, FAQ, Legal)",
+      "4-6 páginas (Inicio, Servicios, Sobre, Contacto, FAQ, Legal)",
       "2 rondas de cambios",
-      "Integracion Calendly/WhatsApp",
-      "Analitica basica",
+      "Integración Calendly/WhatsApp",
+      "Analítica básica",
     ],
     excludes: [
       "Multilenguaje completo",
       "Integraciones enterprise",
-      "Produccion de contenido audiovisual",
-      "Dominio/hosting (se gestiona con coste externo + configuracion)",
+      "Producción de contenido audiovisual",
+      "Dominio/hosting (se gestiona con coste externo + configuración)",
     ],
     requirements: [
-      "Brief y jerarquia de contenido",
+      "Brief y jerarquía de contenido",
       "Assets listos",
       "Accesos a Calendly/Analytics",
     ],
     revisions: "2 rondas de cambios.",
-    timeline: "10-14 dias habiles.",
-    priceNote: "Hasta 6 paginas. 1 idioma.",
+    timeline: "10-14 días hábiles.",
+    priceNote: "Hasta 6 páginas. 1 idioma.",
   },
   {
-    name: "Web Pro (Conversion)",
+    name: "Web Pro (Conversión)",
     price: "Rango orientativo: €3,500–€6,500",
     campaign: "pro",
-    summary: "Sitio premium para conversion y captacion.",
+    summary: "Sitio premium para conversión y captación.",
     includes: [
-      "6-10 paginas",
+      "6-10 páginas",
       "Componentes premium (testimonios, casos, lead magnet)",
       "3 rondas de cambios",
       "A/B de CTA o 2 variantes de hero",
@@ -89,16 +89,16 @@ const webTiers = [
       "Apps internas",
       "Integraciones complejas sin API",
       "SEO avanzado fuera de alcance",
-      "Dominio/hosting (se gestiona con coste externo + configuracion)",
+      "Dominio/hosting (se gestiona con coste externo + configuración)",
     ],
     requirements: [
       "KPIs claros",
       "Contenido validado",
-      "Stakeholder para feedback rapido",
+      "Stakeholder para feedback rápido",
     ],
     revisions: "3 rondas de cambios.",
     timeline: "2-3 semanas.",
-    priceNote: "Hasta 10 paginas. 1 idioma.",
+    priceNote: "Hasta 10 páginas. 1 idioma.",
   },
 ];
 
@@ -107,22 +107,22 @@ const ecommerceAddon = {
   price: "Rango orientativo: €2,500–€6,000",
   campaign: "ecommerce",
   includes: [
-    "Catalogo + carrito/checkout o pedido por WhatsApp",
+    "Catálogo + carrito/checkout o pedido por WhatsApp",
     "Panel admin para productos",
-    "Configuracion basica de envios/pagos",
+    "Configuración básica de envíos/pagos",
   ],
   excludes: [
     "ERP/stock avanzado",
     "Migraciones masivas",
-    "Catalogos con 1,000+ SKUs",
+    "Catálogos con 1,000+ SKUs",
   ],
   requirements: [
     "Listado de productos en CSV",
-    "Fotos/imagenes del cliente",
+    "Fotos/imágenes del cliente",
     "Pasarela de pago si aplica",
   ],
-  revisions: "1 ronda de cambios en catalogo.",
-  timeline: "2-4 semanas (segun catalogo).",
+  revisions: "1 ronda de cambios en catálogo.",
+  timeline: "2-4 semanas (según catálogo).",
   priceNote: "Hasta 100 productos en el setup inicial.",
 };
 
@@ -132,10 +132,10 @@ export default function WebPage() {
       <section className="mx-auto w-full max-w-6xl">
         <div className="rounded-[32px] border border-white/10 bg-black/65 p-8 shadow-2xl">
           <p className="text-xs uppercase tracking-[0.4em] text-cyan-200/80">
-            Web / Paginas Web
+            Web / Páginas Web
           </p>
           <h1 className="mt-4 text-3xl font-semibold text-white md:text-4xl">
-            Paginas web listas para vender (landing, ecommerce y negocios locales)
+            Páginas web listas para vender (landing, ecommerce y negocios locales)
           </h1>
           <p className="mt-3 text-base text-slate-200 md:text-lg">
             Diseno premium + SEO base + velocidad + panel de edicion. Alcance y
@@ -146,7 +146,7 @@ export default function WebPage() {
               href={buildWhatsappUtmLink(
                 "web",
                 "hero",
-                "Quiero una pagina web."
+                "Quiero una página web."
               )}
               target="_blank"
               rel="noopener noreferrer"
@@ -213,7 +213,7 @@ export default function WebPage() {
                     {tier.price}
                   </p>
                   <p className="mt-2 text-xs text-slate-400">
-                    Rango orientativo según alcance, contenidos e integraciones.
+                    Precio orientativo. Confirmamos tras 10 min de briefing.
                   </p>
                   <p className="mt-2 text-xs text-slate-400">{tier.priceNote}</p>
                 </div>
@@ -221,7 +221,7 @@ export default function WebPage() {
                 <div className="mt-5 space-y-4 text-sm text-slate-200">
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200/70">
-                      Que incluye
+                      Qué incluye
                     </p>
                     <ul className="mt-2 space-y-2">
                       {tier.includes.map((item) => (
@@ -234,7 +234,7 @@ export default function WebPage() {
                   </div>
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.3em] text-rose-200/80">
-                      Que NO incluye
+                      Qué NO incluye
                     </p>
                     <ul className="mt-2 space-y-2">
                       {tier.excludes.map((item) => (
@@ -303,7 +303,7 @@ export default function WebPage() {
             Add-on Ecommerce
           </p>
           <h3 className="mt-3 text-2xl font-semibold text-white">
-            Catalogo + carrito o pedido por WhatsApp
+            Catálogo + carrito o pedido por WhatsApp
           </h3>
           <p className="mt-2 text-sm text-slate-300">
             Si necesitas e-commerce, agregamos panel de productos y checkout o
@@ -313,7 +313,7 @@ export default function WebPage() {
             {ecommerceAddon.price}
           </p>
           <p className="mt-1 text-xs text-slate-400">
-            Rango orientativo según catálogo e integraciones.
+            Precio orientativo. Confirmamos tras 10 min de briefing.
           </p>
           <p className="mt-2 text-xs text-slate-400">
             {ecommerceAddon.priceNote}
@@ -321,7 +321,7 @@ export default function WebPage() {
           <div className="mt-5 grid gap-4 md:grid-cols-3">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200/70">
-                Que incluye
+                Qué incluye
               </p>
               <ul className="mt-2 space-y-2 text-sm text-slate-200">
                 {ecommerceAddon.includes.map((item) => (
@@ -334,7 +334,7 @@ export default function WebPage() {
             </div>
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.3em] text-rose-200/80">
-                Que NO incluye
+                Qué NO incluye
               </p>
               <ul className="mt-2 space-y-2 text-sm text-slate-200">
                 {ecommerceAddon.excludes.map((item) => (
@@ -436,7 +436,7 @@ export default function WebPage() {
               href="/alcance"
               className="rounded-full border border-white/20 px-6 py-3 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
             >
-              Ver limites y proceso
+              Ver límites y proceso
             </Link>
             <a
               href="/docs/alcance-web.txt"

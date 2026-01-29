@@ -61,7 +61,7 @@ export default function ServiceDetailPage({ params }: PageProps) {
 
         <div className="mt-10 grid gap-6 lg:grid-cols-3">
           <div className="rounded-3xl border border-white/10 bg-black/60 p-6">
-            <h2 className="text-lg font-semibold text-white">Que incluye</h2>
+            <h2 className="text-lg font-semibold text-white">Qué incluye</h2>
             <ul className="mt-4 space-y-3 text-sm text-slate-300">
               {service.bullets.map((bullet) => (
                 <li key={bullet} className="flex gap-2">
