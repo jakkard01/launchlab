@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { logger } from "../../../lib/observability/logger";
 import { rateLimit } from "../../../lib/security/rateLimit";
 
+export const runtime = "nodejs";
+
 type ContactPayload = {
   name: string;
   email: string;
