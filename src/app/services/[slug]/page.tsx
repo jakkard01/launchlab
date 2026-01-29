@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import GlyphBadge from "../../components/GlyphBadge";
 import { services } from "../../content/catalog";
+import { siteUrl } from "../../../lib/site";
 
 type PageProps = {
   params: { slug: string };
@@ -21,6 +22,9 @@ export function generateMetadata({ params }: PageProps): Metadata {
   return {
     title: `${service.title} | Powered by IA`,
     description: service.summary,
+    alternates: {
+      canonical: `${siteUrl}/services/${params.slug}`,
+    },
   };
 }
 

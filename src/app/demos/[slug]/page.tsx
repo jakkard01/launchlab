@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import GlyphBadge from "../../components/GlyphBadge";
 import { showcase } from "../../content/showcase";
 import { services } from "../../content/catalog";
+import { siteUrl } from "../../../lib/site";
 
 type PageProps = {
   params: { slug: string };
@@ -22,6 +23,9 @@ export function generateMetadata({ params }: PageProps): Metadata {
   return {
     title: `${item.title} | Powered by IA`,
     description: item.summary,
+    alternates: {
+      canonical: `${siteUrl}/demos/${params.slug}`,
+    },
   };
 }
 

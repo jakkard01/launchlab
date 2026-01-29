@@ -31,5 +31,52 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return <HomeClient />;
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "¿Qué tipo de empresas atienden?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Startups, pymes y equipos enterprise que necesitan IA aplicada.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "¿Cuánto tarda un proyecto?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Entre 2 y 6 semanas según alcance y validaciones.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "¿Ofrecen soporte continuo?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Sí, con planes de mantenimiento y evolución trimestral.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "¿Pueden integrarse con mi stack actual?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Sí, trabajamos con APIs, CRMs y herramientas existentes.",
+        },
+      },
+    ],
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <HomeClient />
+    </>
+  );
 }

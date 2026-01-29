@@ -49,9 +49,44 @@ export const metadata: Metadata = {
 
 // --- LAYOUT PRINCIPAL ---
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: siteConfig.brand,
+    url: siteUrl,
+    email: siteConfig.email,
+    sameAs: [
+      siteConfig.socials.instagram,
+      siteConfig.socials.tiktok,
+      siteConfig.socials.youtube,
+      siteConfig.socials.x,
+      siteConfig.socials.facebook,
+    ],
+  };
+
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: siteConfig.brand,
+    url: siteUrl,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${siteUrl}/?q={search_term_string}`,
+      "query-input": "required name=search_term_string",
+    },
+  };
+
   return (
     <html lang="es">
       <body className="relative min-h-screen">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
         {/* Fondo galaxia global */}
         <div 
           className="fixed inset-0 -z-10 w-full h-full bg-galaxy bg-cover bg-center bg-no-repeat" 

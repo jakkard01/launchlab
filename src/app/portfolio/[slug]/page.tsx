@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { portfolio } from "../../content/portfolio";
 import { services } from "../../content/catalog";
-import { buildWhatsappLink } from "../../../lib/site";
+import { buildWhatsappLink, siteUrl } from "../../../lib/site";
 
 type PageProps = {
   params: { slug: string };
@@ -22,6 +22,9 @@ export function generateMetadata({ params }: PageProps): Metadata {
   return {
     title: `${item.title} | Powered by IA`,
     description: item.summary,
+    alternates: {
+      canonical: `${siteUrl}/portfolio/${params.slug}`,
+    },
   };
 }
 
