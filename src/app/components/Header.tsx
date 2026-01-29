@@ -72,6 +72,22 @@ export default function Header() {
     };
   }, [menuOpen]);
 
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.body.dataset.mobileMenuOpen = menuOpen ? "true" : "false";
+    }
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("mobile-menu-toggle", { detail: { open: menuOpen } })
+      );
+    }
+    return () => {
+      if (typeof document !== "undefined") {
+        document.body.dataset.mobileMenuOpen = "false";
+      }
+    };
+  }, [menuOpen]);
+
   return (
     <header className="fixed top-0 inset-x-0 z-[10000] bg-black/70 backdrop-blur border-b border-white/10">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-4 md:px-6">

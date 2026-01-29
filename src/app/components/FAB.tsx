@@ -4,6 +4,7 @@ import { buildWhatsappLink } from "../../lib/site";
 
 export default function FAB() {
   const [showTop, setShowTop] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
@@ -13,6 +14,27 @@ export default function FAB() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    const syncFromBody = () => {
+      if (typeof document === "undefined") return;
+      setMenuOpen(document.body.dataset.mobileMenuOpen === "true");
+    };
+
+    syncFromBody();
+
+    const handleToggle = (event: Event) => {
+      const detail = (event as CustomEvent<{ open: boolean }>).detail;
+      if (detail) setMenuOpen(detail.open);
+    };
+
+    window.addEventListener("mobile-menu-toggle", handleToggle);
+    return () => {
+      window.removeEventListener("mobile-menu-toggle", handleToggle);
+    };
+  }, []);
+
+  if (menuOpen) return null;
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
