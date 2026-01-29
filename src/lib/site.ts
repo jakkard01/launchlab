@@ -5,7 +5,7 @@ export const site = {
   email: "poweredbyiaoficial@gmail.com",
   whatsappNumber: "911 52 87 53",
   whatsappId: "34911528753",
-  ogImage: "/imagenes/perfil/mifoto.jpg",
+  ogImage: "/og.png",
   ogAlt: "Powered by IA",
 };
 
