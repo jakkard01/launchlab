@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import {
   BriefcaseBusiness,
   HandCoins,
@@ -146,93 +147,92 @@ export default function Header() {
         </button>
       </div>
 
-      {menuOpen && (
-        <div className="md:hidden">
+      {menuOpen &&
+        typeof document !== "undefined" &&
+        createPortal(
           <div
-            className="fixed inset-0 z-[9999] flex items-center justify-center px-5 py-10"
+            className="fixed inset-0 z-[99999]"
             role="dialog"
             aria-modal="true"
-            onClick={() => setMenuOpen(false)}
+            onPointerDown={() => setMenuOpen(false)}
           >
-            <div className="absolute inset-0 bg-black/85 backdrop-blur-sm" />
+            <div className="absolute inset-0 bg-black/85 backdrop-blur-sm pointer-events-auto" />
             <div
-              id="mobile-nav"
-              className="relative flex max-h-[100dvh] w-full max-w-sm flex-col border border-white/10 bg-black/70 px-6 pt-[calc(env(safe-area-inset-top)+16px)] pb-[calc(env(safe-area-inset-bottom)+24px)] shadow-2xl rounded-2xl"
-              onClick={(event) => event.stopPropagation()}
+              className="absolute inset-x-0 top-0 mx-auto w-full max-w-md p-4 pt-[calc(env(safe-area-inset-top)+16px)]"
+              onPointerDown={(event) => event.stopPropagation()}
             >
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.3em] text-cyan-300/80">
-                    Menú
-                  </p>
-                  <p className="text-sm text-slate-300">
-                    IA para vender y ganar dinero
-                  </p>
+              <div className="rounded-2xl border border-white/10 bg-black/70 shadow-2xl max-h-[calc(100dvh-24px)] overflow-hidden">
+                <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.3em] text-cyan-300/80">
+                      Menú
+                    </p>
+                    <p className="text-sm text-slate-300">
+                      IA para vender y ganar dinero
+                    </p>
+                  </div>
+                  <button
+                    onPointerDown={() => setMenuOpen(false)}
+                    className="rounded-full border border-white/10 p-2 text-white hover:border-cyan-300/60 hover:text-cyan-200 transition"
+                    aria-label="Cerrar menú"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
                 </div>
-                <button
-                  onClick={() => setMenuOpen(false)}
-                  className="rounded-full border border-white/10 p-2 text-white hover:border-cyan-300/60 hover:text-cyan-200 transition"
-                  aria-label="Cerrar menú"
-                >
-                  <X className="h-5 w-5" />
-                </button>
-              </div>
 
-              <div
-                className="mt-6 flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto overscroll-contain"
-                style={{ WebkitOverflowScrolling: "touch" }}
-              >
-                <nav className="flex flex-col gap-3">
-                  {navItems.map((item) => {
-                    const Icon = item.icon;
-                    return (
-                      <Link
-                        key={item.label}
-                        href={item.href}
-                        onClick={() => setMenuOpen(false)}
-                        className="group flex items-start gap-3 rounded-xl border border-white/10 bg-black/60 px-4 py-3 text-left transition hover:border-cyan-300/50 hover:bg-black/70"
-                      >
-                        <span className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/70 text-cyan-200">
-                          <Icon className="h-5 w-5" />
-                        </span>
-                        <span className="flex flex-col">
-                          <span className="text-base font-semibold text-white">
-                            {item.label}
+                <div className="px-3 py-3 pb-[calc(env(safe-area-inset-bottom)+24px)]">
+                  <nav className="flex flex-col gap-3">
+                    {navItems.map((item) => {
+                      const Icon = item.icon;
+                      return (
+                        <Link
+                          key={item.label}
+                          href={item.href}
+                          onClick={() => setMenuOpen(false)}
+                          className="group flex items-start gap-3 rounded-xl border border-white/10 bg-black/60 px-4 py-3 text-left transition hover:border-cyan-300/50 hover:bg-black/70"
+                        >
+                          <span className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/70 text-cyan-200">
+                            <Icon className="h-5 w-5" />
                           </span>
-                          <span className="text-xs text-slate-300">
-                            {item.tagline}
+                          <span className="flex flex-col">
+                            <span className="text-base font-semibold text-white">
+                              {item.label}
+                            </span>
+                            <span className="text-xs text-slate-300">
+                              {item.tagline}
+                            </span>
                           </span>
-                        </span>
-                      </Link>
-                    );
-                  })}
-                </nav>
+                        </Link>
+                      );
+                    })}
+                  </nav>
 
-                <div className="flex flex-col gap-3 border-t border-white/10 pt-4">
-                  {socialLinks.map((link) => {
-                    const safeHref = link.href.startsWith("http")
-                      ? link.href
-                      : `https://${link.href}`;
-                    return (
-                      <a
-                        key={link.label}
-                        href={safeHref}
-                        onClick={() => setMenuOpen(false)}
-                        className="rounded-full border border-white/10 px-4 py-2 text-center text-sm font-semibold text-slate-200 transition hover:border-cyan-300/60 hover:text-white"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={link.label}
-                      >
-                        {link.label}
-                      </a>
-                    );
-                  })}
+                  <div className="mt-6 flex flex-col gap-3 border-t border-white/10 pt-4">
+                    {socialLinks.map((link) => {
+                      const safeHref = link.href.startsWith("http")
+                        ? link.href
+                        : `https://${link.href}`;
+                      return (
+                        <a
+                          key={link.label}
+                          href={safeHref}
+                          onClick={() => setMenuOpen(false)}
+                          className="rounded-full border border-white/10 px-4 py-2 text-center text-sm font-semibold text-slate-200 transition hover:border-cyan-300/60 hover:text-white"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={link.label}
+                        >
+                          {link.label}
+                        </a>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
     </header>
   );
 }
