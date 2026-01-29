@@ -107,11 +107,8 @@ export default function ShowcaseGrid({ items }: ShowcaseGridProps) {
           const ctaHref = item.status === "wip" ? "/contact?source=demos" : item.ctaHref;
           const ctaLabel = item.status === "wip" ? "Pedir acceso" : item.ctaLabel;
 
-          return (
-            <div
-              key={item.slug}
-              className="rounded-2xl border border-white/10 bg-black/60 p-6 shadow-lg"
-            >
+          const cardContent = (
+            <>
               <div className="flex items-start justify-between">
                 <div className="inline-flex items-center gap-2 rounded-full border border-cyan-300/30 bg-black/70 px-3 py-1">
                   <GlyphBadge glyph={item.glyph} />
@@ -120,14 +117,9 @@ export default function ShowcaseGrid({ items }: ShowcaseGridProps) {
                   </span>
                 </div>
                 {hasLive && (
-                  <a
-                    href={item.liveUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-300"
-                  >
+                  <span className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-300">
                     Live
-                  </a>
+                  </span>
                 )}
               </div>
               <h3 className="mt-4 text-lg font-semibold text-white">
@@ -135,7 +127,7 @@ export default function ShowcaseGrid({ items }: ShowcaseGridProps) {
               </h3>
               <p className="mt-3 text-sm text-slate-300">{item.summary}</p>
               <div className="mt-4 flex flex-wrap gap-2">
-                {item.tags.map((tag) => (
+                {item.tags.slice(0, 3).map((tag) => (
                   <span
                     key={tag}
                     className="rounded-full border border-white/10 bg-black/50 px-3 py-1 text-xs font-semibold text-slate-300"
@@ -144,24 +136,42 @@ export default function ShowcaseGrid({ items }: ShowcaseGridProps) {
                   </span>
                 ))}
               </div>
-              {ctaHref.startsWith("/") ? (
-                <Link
-                  href={ctaHref}
-                  className="mt-6 inline-flex w-full items-center justify-center rounded-full border border-cyan-300/60 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-400 hover:text-black"
+              <div className="mt-5 flex items-center justify-end gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200/70 transition group-hover:text-cyan-200 group-hover:underline underline-offset-4">
+                <span>{ctaLabel}</span>
+                <svg
+                  className="h-3 w-3"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  aria-hidden="true"
                 >
-                  {ctaLabel}
-                </Link>
-              ) : (
-                <a
-                  href={ctaHref}
-                  className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-emerald-400 px-4 py-2 text-sm font-semibold text-black transition hover:bg-emerald-300"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {ctaLabel}
-                </a>
-              )}
-            </div>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 5l7 7-7 7" />
+                </svg>
+              </div>
+            </>
+          );
+
+          return ctaHref.startsWith("/") ? (
+            <Link
+              key={item.slug}
+              href={ctaHref}
+              className="group rounded-2xl border border-white/10 bg-black/60 p-6 shadow-lg transition hover:-translate-y-1 hover:border-cyan-300/40 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+              aria-label={`Ver demo ${item.title}`}
+            >
+              {cardContent}
+            </Link>
+          ) : (
+            <a
+              key={item.slug}
+              href={ctaHref}
+              className="group rounded-2xl border border-white/10 bg-black/60 p-6 shadow-lg transition hover:-translate-y-1 hover:border-cyan-300/40 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`Ver demo ${item.title}`}
+            >
+              {cardContent}
+            </a>
           );
         })}
       </div>

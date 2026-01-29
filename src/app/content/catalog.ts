@@ -14,6 +14,7 @@ export type ServiceItem = {
   bullets: string[];
   forWho: string[];
   deliverables: string[];
+  tags: string[];
   ctaLabel: string;
   ctaHref: string;
 };
@@ -34,6 +35,7 @@ export const services: ServiceItem[] = [
       "Secciones clave: hero, beneficios, prueba social y CTA",
       "Iteraciones rapidas para afinar la propuesta de valor",
     ],
+    tags: ["conversion", "landing", "copy"],
     forWho: [
       "Equipos que lanzan un producto digital y necesitan validar mensaje",
       "Negocios que quieren elevar la tasa de conversion",
@@ -60,6 +62,7 @@ export const services: ServiceItem[] = [
       "Base de conocimiento curada y actualizable",
       "Pruebas con escenarios reales y ajustes finos",
     ],
+    tags: ["bot", "ventas", "soporte"],
     forWho: [
       "Equipos comerciales que buscan responder mas rapido",
       "Operaciones con alto volumen de consultas repetitivas",
@@ -86,6 +89,7 @@ export const services: ServiceItem[] = [
       "Automatizaciones con disparadores claros y alertas",
       "Monitoreo inicial para asegurar estabilidad",
     ],
+    tags: ["ops", "automation", "integraciones"],
     forWho: [
       "Equipos que operan con tareas repetitivas",
       "Empresas que necesitan visibilidad y control",
@@ -112,6 +116,7 @@ export const services: ServiceItem[] = [
       "Estilo visual coherente con tu marca",
       "Versiones optimizadas para distintos canales",
     ],
+    tags: ["video", "ventas", "contenido"],
     forWho: [
       "Equipos que necesitan contenido frecuente",
       "Empresas que venden productos complejos",
