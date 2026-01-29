@@ -180,7 +180,13 @@ export default function Header() {
                   </button>
                 </div>
 
-                <div className="px-3 py-3 pb-[calc(env(safe-area-inset-bottom)+24px)]">
+                <div
+                  className="overflow-y-auto overscroll-contain px-3 py-3 pb-[calc(env(safe-area-inset-bottom)+24px)]"
+                  style={{
+                    WebkitOverflowScrolling: "touch",
+                    touchAction: "pan-y",
+                  }}
+                >
                   <nav className="flex flex-col gap-3">
                     {navItems.map((item) => {
                       const Icon = item.icon;
