@@ -40,6 +40,9 @@ export const buildContactLink = (
   const params = new URLSearchParams({
     source,
     utm_source: source,
+    utm_medium: extraParams.utm_medium ?? "cta",
+    utm_campaign: extraParams.utm_campaign ?? "conversion",
+    utm_content: extraParams.utm_content ?? source,
     ...extraParams,
   });
   return `/contact?${params.toString()}`;

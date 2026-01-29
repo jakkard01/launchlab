@@ -13,6 +13,7 @@ import {
   Rocket,
   X,
 } from "lucide-react";
+import { trackEvent } from "../../lib/analytics";
 import { buildContactLink, getSocialLinks, siteConfig } from "../../lib/site";
 
 const navItems = [
@@ -103,6 +104,12 @@ export default function Header() {
               <Link
                 key={item.label}
                 href={item.href}
+                onClick={() =>
+                  trackEvent("click_nav_item", {
+                    label: item.label,
+                    href: item.href,
+                  })
+                }
                 className={`text-sm font-medium transition ${
                   isActive ? "text-white" : "text-slate-300 hover:text-white"
                 }`}
@@ -194,7 +201,13 @@ export default function Header() {
                         <Link
                           key={item.label}
                           href={item.href}
-                          onClick={() => setMenuOpen(false)}
+                          onClick={() => {
+                            trackEvent("click_nav_item", {
+                              label: item.label,
+                              href: item.href,
+                            });
+                            setMenuOpen(false);
+                          }}
                           className="group flex items-start gap-3 rounded-xl border border-white/10 bg-black/60 px-4 py-3 text-left transition hover:border-cyan-300/50 hover:bg-black/70"
                         >
                           <span className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/70 text-cyan-200">
