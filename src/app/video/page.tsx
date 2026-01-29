@@ -68,9 +68,11 @@ const packs = [
 
 const dubbingProducts = [
   {
-    title: "1 video / 2 idiomas (EN + DE)",
+    title: "1 video / 2 idiomas",
     subtitle: "Doblaje natural + subtitulos pro",
     plazo: "48-72h",
+    price: "Desde $79-$199",
+    campaign: "one_video",
     items: [
       "Voz IA realista alineada a la marca",
       "Sincronizacion labial y timing",
@@ -81,6 +83,8 @@ const dubbingProducts = [
     title: "Batch 5 videos / 2 idiomas",
     subtitle: "Flujo optimizado para volumen",
     plazo: "5-7 dias",
+    price: "Desde $299-$799",
+    campaign: "batch",
     items: [
       "Produccion en lote con QA",
       "Correcciones expresas incluidas",
@@ -234,11 +238,10 @@ export default function VideoPage() {
                 Doblaje / Traduccion
               </p>
               <h2 className="mt-3 text-2xl font-semibold text-white md:text-3xl">
-                Expande tu oferta en EN + DE sin regrabar
+                Expande tu oferta a cualquier idioma (demo EN + DE)
               </h2>
               <p className="mt-3 text-sm text-slate-300">
-                Traduccion, doblaje y subtitulos listos para vender en nuevos
-                mercados. Nosotros hacemos la adaptacion y la entrega.
+                Traduccion + doblaje + subtitulos listos para publicar.
               </p>
 
               <div className="mt-6 rounded-3xl border border-cyan-300/30 bg-[radial-gradient(circle_at_top,_rgba(34,211,238,0.18),_transparent_55%)] p-5">
@@ -253,20 +256,6 @@ export default function VideoPage() {
                 </p>
               </div>
 
-              <div className="mt-6">
-                <a
-                  href={buildWhatsappUtmLink(
-                    "dubbing",
-                    undefined,
-                    "Quiero info de doblaje/traduccion EN+DE."
-                  )}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
-                >
-                  WhatsApp: necesito doblaje
-                </a>
-              </div>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
@@ -281,6 +270,9 @@ export default function VideoPage() {
                   <p className="mt-2 text-xs uppercase tracking-[0.2em] text-cyan-200/70">
                     {product.subtitle}
                   </p>
+                  <p className="mt-3 text-base font-semibold text-emerald-200">
+                    {product.price}
+                  </p>
                   <ul className="mt-4 space-y-2 text-sm text-slate-200">
                     {product.items.map((item) => (
                       <li key={item} className="flex gap-2">
@@ -293,10 +285,25 @@ export default function VideoPage() {
                     <span className="font-semibold text-white">Plazo:</span>{" "}
                     {product.plazo}
                   </div>
+                  <a
+                    href={buildWhatsappUtmLink(
+                      "dubbing",
+                      product.campaign,
+                      "Quiero info de doblaje/traduccion."
+                    )}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 rounded-full bg-emerald-400 px-5 py-2 text-center text-xs font-semibold text-black transition hover:bg-emerald-300"
+                  >
+                    WhatsApp: solicitar este pack
+                  </a>
                 </article>
               ))}
             </div>
           </div>
+          <p className="mt-6 text-xs text-slate-400">
+            Idiomas extra: desde $29 por idioma (segun duracion).
+          </p>
         </div>
       </section>
     </main>
