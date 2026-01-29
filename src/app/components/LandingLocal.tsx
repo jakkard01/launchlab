@@ -46,14 +46,13 @@ const quickAccess = [
   },
 ];
 
-const trustItems = [
-  "Demo funcional en 7 días",
-  "Integraciones: WhatsApp/Web/CRM",
-  "Soporte 30 días",
-  "Stack: Next.js + TS",
-  "SSR + SEO listo",
-  "Rate limit en /api/contact",
+const heroBenefits = [
+  "Captación y seguimiento automatizado.",
+  "Soporte y cierres con IA aplicada.",
+  "Implementación rápida sin fricción.",
 ];
+
+const proofChips = ["Demos reales", "Casos", "7–14 días", "KPIs"];
 
 const expectedResults = [
   "+15–35% leads cualificados",
@@ -259,12 +258,29 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               Sistemas IA aplicados
             </p>
             <h1 className="mt-4 text-4xl font-semibold leading-tight text-white md:text-5xl">
-              Diseñamos sistemas IA listos para vender, operar y escalar.
+              Sistemas de IA listos para vender y escalar.
             </h1>
             <p className="mt-4 text-base text-slate-100 md:text-lg">
-              Para equipos que necesitan automatizar procesos, potenciar ventas y lanzar productos digitales
-              con foco en resultados medibles.
+              En 7–14 días montamos captación, seguimiento y soporte. Con demos y casos.
             </p>
+            <ul className="mt-5 space-y-2 text-sm text-slate-200 sm:text-base">
+              {heroBenefits.map((benefit) => (
+                <li key={benefit} className="flex items-start gap-2">
+                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-cyan-300" aria-hidden="true" />
+                  <span>{benefit}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {proofChips.map((chip) => (
+                <span
+                  key={chip}
+                  className="rounded-full border border-white/10 bg-black/60 px-3 py-1 text-xs font-semibold text-cyan-100"
+                >
+                  {chip}
+                </span>
+              ))}
+            </div>
             <div className="mt-6 flex flex-wrap gap-4">
               <a
                 href={buildWhatsappLink("home_hero")}
@@ -274,7 +290,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
                 rel="noopener noreferrer"
                 onClick={() => trackEvent("click_whatsapp", { source: "home_hero" })}
               >
-                WhatsApp (principal)
+                Quiero una demo
               </a>
               <Link
                 href={buildContactLink("home_hero")}
@@ -284,33 +300,6 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               >
                 Reservar llamada
               </Link>
-            </div>
-            <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 px-4 py-4">
-              <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">
-                Proof inmediato
-              </p>
-              <div className="mt-3 grid gap-2 text-sm text-slate-200 sm:grid-cols-2">
-                {trustItems.map((item) => (
-                  <div key={item} className="flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-cyan-300" aria-hidden="true" />
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="mt-6 grid gap-3 sm:grid-cols-3">
-              {conversionPath.map((item) => (
-                <Link
-                  key={item.title}
-                  href={item.href}
-                  className="rounded-2xl border border-white/10 bg-black/50 px-4 py-3 text-left transition hover:border-cyan-300/40"
-                  aria-label={item.title}
-                >
-                  <p className="text-xs font-semibold text-cyan-200">{item.step}</p>
-                  <p className="mt-1 text-sm font-semibold text-white">{item.title}</p>
-                  <p className="mt-1 text-xs text-slate-300">{item.description}</p>
-                </Link>
-              ))}
             </div>
           </div>
           <div className="flex flex-col items-center gap-4">
@@ -338,6 +327,27 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
                 Sistemas, demos funcionales y servicios premium.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+      <section className="mt-6 w-full max-w-5xl mx-auto">
+        <div className="rounded-2xl border border-white/10 bg-black/60 px-6 py-4 shadow-lg">
+          <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">
+            Cómo funciona en 3 pasos
+          </p>
+          <div className="mt-4 grid gap-3 sm:grid-cols-3">
+            {conversionPath.map((item) => (
+              <Link
+                key={item.title}
+                href={item.href}
+                className="rounded-2xl border border-white/10 bg-black/50 px-4 py-3 text-left transition hover:border-cyan-300/40"
+                aria-label={item.title}
+              >
+                <p className="text-xs font-semibold text-cyan-200">{item.step}</p>
+                <p className="mt-1 text-sm font-semibold text-white">{item.title}</p>
+                <p className="mt-1 text-xs text-slate-300">{item.description}</p>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
