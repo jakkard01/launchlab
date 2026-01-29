@@ -95,6 +95,9 @@ web_modules/
 .next
 out
 
+# Local snapshot fallback
+tmp_runs/
+
 # Nuxt.js build / generate output
 .nuxt
 dist
