@@ -6,7 +6,7 @@ import { services } from "../content/catalog";
 import { portfolio } from "../content/portfolio";
 import { showcase } from "../content/showcase";
 import EmbeddedBot from "./EmbeddedBot";
-import { buildWhatsappLink, site } from "../content/site";
+import { buildWhatsappLink, site } from "../../lib/site";
 
 interface LandingLocalProps {
   onShowVideo: () => void;

@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { buildWhatsappLink } from '../content/site';
+import { buildWhatsappLink } from '../../lib/site';
 
 export default function EmbeddedBot() {
   const whatsappLink = buildWhatsappLink('embedded_bot');

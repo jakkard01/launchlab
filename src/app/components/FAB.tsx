@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { buildWhatsappLink } from "../content/site";
+import { buildWhatsappLink } from "../../lib/site";
 
 export default function FAB() {
   const [showTop, setShowTop] = useState(false);

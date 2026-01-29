@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import ShowcaseGrid from "./ShowcaseGrid";
 import { showcase } from "../content/showcase";
-import { site } from "../content/site";
+import { site } from "../lib/site";
 
 export const metadata: Metadata = {
   title: "Demos | Powered by IA",

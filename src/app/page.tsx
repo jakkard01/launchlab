@@ -1,7 +1,7 @@
 // src/app/page.tsx
 import type { Metadata } from 'next';
 import HomeClient from './components/HomeClient';
-import { site } from './content/site';
+import { site } from '../lib/site';
 
 export const metadata: Metadata = {
   title: 'Powered by IA | Sistemas IA listos para vender y escalar',

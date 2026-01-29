@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getSocialLinks, site } from "../content/site";
+import { getSocialLinks, site } from "../../lib/site";
 
 const navItems = [
   { label: "Inicio", href: "/" },

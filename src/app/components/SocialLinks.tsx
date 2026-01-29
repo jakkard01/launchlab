@@ -1,6 +1,6 @@
 "use client";
 
-import { getSocialLinks } from "../content/site";
+import { getSocialLinks } from "../../lib/site";
 
 type SocialLinksProps = {
   source: string;

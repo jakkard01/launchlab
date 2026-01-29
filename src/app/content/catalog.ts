@@ -1,6 +1,6 @@
 import type { ComponentProps } from "react";
 import GlyphBadge from "../components/GlyphBadge";
-import { buildWhatsappLink } from "./site";
+import { buildWhatsappLink } from "../../lib/site";
 
 export type Glyph = ComponentProps<typeof GlyphBadge>["glyph"];
 

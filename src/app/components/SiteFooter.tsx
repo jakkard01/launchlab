@@ -1,7 +1,7 @@
 "use client";
 
 import SocialLinks from "./SocialLinks";
-import { site } from "../content/site";
+import { site } from "../../lib/site";
 
 export default function SiteFooter() {
   return (

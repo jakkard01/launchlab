@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { buildWhatsappLink, site } from "./content/site";
+import { buildWhatsappLink, site } from "../lib/site";
 
 export default function NotFound() {
   return (
