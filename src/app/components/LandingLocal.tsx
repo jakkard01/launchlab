@@ -46,9 +46,10 @@ const trustItems = [
 ];
 
 const expectedResults = [
-  "+10–30% leads cualificados (si hay tráfico y oferta clara)",
-  "-20–40% tiempo en soporte (si hay FAQ/KB)",
-  "Demo validable en 7 días",
+  "+15–35% leads cualificados",
+  "-20–40% tiempo de respuesta",
+  "Demo funcional en 7–10 días",
+  "Tracking básico + eventos clave",
 ];
 
 const conversionPath = [
@@ -299,7 +300,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
             ))}
           </div>
           <p className="mt-3 text-xs text-slate-400">
-            Métricas orientativas según alcance y canal.
+            Métricas orientativas; dependen de canal, industria y ejecución.
           </p>
         </div>
       </section>
