@@ -921,11 +921,12 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
             Quién está detrás
           </p>
           <div className="mt-4 flex flex-col gap-6 md:flex-row md:items-center">
-            <img
+            <Image
               src="/imagenes/perfil/mifoto.jpg"
               alt="Foto del responsable del proyecto"
+              width={96}
+              height={96}
               className="h-24 w-24 rounded-full border border-white/10 object-cover"
-              loading="lazy"
             />
             <div>
               <h3 className="text-xl font-semibold text-white">
