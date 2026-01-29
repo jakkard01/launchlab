@@ -36,6 +36,27 @@ const faqData: FaqItem[] = [
       "Incluimos entregables y revisiones definidos por plan. No incluye hosting/dominio, licencias premium ni cambios de concepto fuera de alcance.",
   },
   {
+    id: "web_scope",
+    category: "Web",
+    question: "¿Qué incluye una web de conversión?",
+    answer:
+      "Estructura orientada a resultados, copy base, CTA claros, SEO básico y analítica. Dominio/hosting se gestionan a tu nombre con costes de terceros.",
+  },
+  {
+    id: "ops_scope",
+    category: "Ops",
+    question: "¿Cómo funcionan las automatizaciones n8n?",
+    answer:
+      "Definimos flujos y límites por complejidad. Simple: 1-2 integraciones y lógica directa; compleja: 3+ integraciones, ramas y retries.",
+  },
+  {
+    id: "video_scope",
+    category: "Video",
+    question: "¿Qué incluye producción de video y doblaje?",
+    answer:
+      "Packs con guion, edición, formatos y revisiones definidos. Doblaje con voiceover + subtítulos, idiomas extra bajo add-on.",
+  },
+  {
     id: "revisions",
     category: "Cambios",
     question: "¿Cuántas revisiones tengo?",
@@ -87,9 +108,9 @@ const faqData: FaqItem[] = [
 ];
 
 const quickReplies = [
-  { label: "Quiero una web", target: "scope_limits" },
-  { label: "Ver demos", target: "next_steps" },
-  { label: "Ver paquetes", target: "scope_limits" },
+  { label: "Quiero una web", target: "web_scope" },
+  { label: "Quiero automatizar", target: "ops_scope" },
+  { label: "Quiero video/doblaje", target: "video_scope" },
   { label: "Hablar por WhatsApp", target: "next_steps" },
 ];
 
@@ -238,7 +259,7 @@ export default function DemoBotPage() {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        Contáctanos
+                        Hablar por WhatsApp
                       </a>
                     </div>
                   </div>
