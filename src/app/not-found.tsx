@@ -15,6 +15,9 @@ export default function NotFound() {
           Si necesitas ayuda para encontrar lo que buscas, escríbenos por
           WhatsApp o vuelve al inicio.
         </p>
+        <p className="mt-2 text-xs text-slate-400">
+          Si el enlace estaba en la web, avísanos y lo corregimos.
+        </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
           <a
             href={buildWhatsappLink("404")}
