@@ -26,12 +26,12 @@ const plans = [
   {
     slug: "starter",
     title: "Web Starter",
-    from: "Rango orientativo: €850–€1,400",
+    from: "Inversión estimada: €850–€1,400",
     typicalTimeline: "Plazo típico: 5-7 días hábiles",
     description: "Landing clara para validar oferta y convertir.",
     includes: [
       "1 página (secciones)",
-      "Copy base + CTA + formulario",
+      "Copywriting de venta + CTA + formulario",
       "SEO básico (title/meta, sitemap, robots)",
       "Performance mobile first",
       "1 ronda de cambios",
@@ -40,14 +40,14 @@ const plans = [
   {
     slug: "growth",
     title: "Web Growth",
-    from: "Rango orientativo: €1,800–€3,000",
+    from: "Inversión estimada: €1,800–€3,000",
     typicalTimeline: "Plazo típico: 10-14 días hábiles",
     description: "Sitio completo con páginas clave y analítica.",
     includes: [
       "4-6 páginas",
       "2 rondas de cambios",
       "Integración Calendly/WhatsApp",
-      "Analítica básica",
+      "Medición esencial (GA4 + eventos clave)",
       "FAQ + Legal",
     ],
     featured: true,
@@ -55,7 +55,7 @@ const plans = [
   {
     slug: "pro",
     title: "Web Pro",
-    from: "Rango orientativo: €3,500–€6,500",
+    from: "Inversión estimada: €3,500–€6,500",
     typicalTimeline: "Plazo típico: 2-3 semanas",
     description: "Conversión premium con variantes y casos.",
     includes: [
@@ -181,8 +181,8 @@ export default function PricingPage() {
                 Dirección y entrega directa
               </h3>
               <p className="mt-2 text-sm text-slate-300">
-                Equipo reducido, atención senior. Sin intermediarios: definimos,
-                construimos y entregamos con validación por etapas.
+                Atención senior, sin intermediarios: procesos claros, entregables
+                definidos y validación por etapas.
               </p>
               <ul className="mt-3 space-y-2 text-sm text-slate-200">
                 {[

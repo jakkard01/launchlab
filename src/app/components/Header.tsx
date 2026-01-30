@@ -22,7 +22,7 @@ import { trackEvent } from "../../lib/analytics";
 import { buildContactLink, getSocialLinks, siteConfig } from "../../lib/site";
 
 const navItems = [
-  { label: "Inicio", href: "/", icon: Home, tagline: "volver al inicio" },
+  { label: "Inicio", href: "/", icon: Home, tagline: "" },
   {
     label: "Web",
     href: "/web",

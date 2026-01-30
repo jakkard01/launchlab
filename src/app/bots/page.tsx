@@ -5,7 +5,7 @@ import { buildContactLink, buildWhatsappLink, siteUrl } from "../../lib/site";
 export const metadata: Metadata = {
   title: "Bots / Chatbot",
   description:
-    "Bots web + WhatsApp Cloud API con alcance definido, handoff y analítica básica.",
+    "Bots web + WhatsApp Cloud API con alcance definido, handoff y medición esencial (GA4 + eventos clave).",
   alternates: {
     canonical: `${siteUrl}/bots`,
   },
@@ -26,13 +26,13 @@ const botPacks = [
   {
     name: "Bot Starter",
     cadence: "Web widget",
-    price: "Rango orientativo: €650–€1,200",
+    price: "Inversión estimada: €650–€1,200",
     campaign: "starter",
     includes: [
       "Web widget embebible",
       "Hasta 8 intents",
       "Handoff a humano",
-      "Analítica básica",
+      "Medición esencial (GA4 + eventos clave)",
     ],
     excludes: [
       "WhatsApp Cloud API",
@@ -51,13 +51,13 @@ const botPacks = [
   {
     name: "Bot Growth",
     cadence: "Web + WhatsApp Cloud API",
-    price: "Rango orientativo: €1,500–€3,000",
+    price: "Inversión estimada: €1,500–€3,000",
     campaign: "growth",
     includes: [
       "Web widget + WhatsApp Cloud API",
       "Hasta 15 intents",
       "Handoff + alertas",
-      "Analítica básica",
+      "Medición esencial (GA4 + eventos clave)",
     ],
     excludes: [
       "Canales adicionales",
@@ -76,7 +76,7 @@ const botPacks = [
   {
     name: "Bot Pro",
     cadence: "Multi-flow",
-    price: "Rango orientativo: €3,500–€7,000",
+    price: "Inversión estimada: €3,500–€7,000",
     campaign: "pro",
     includes: [
       "Flows multi-objetivo",
@@ -265,7 +265,7 @@ export default function BotsPage() {
             intents + handoff) + 2 doblajes/mes (2 idiomas). SLA 24-48h hábiles.
           </p>
           <p className="mt-4 text-lg font-semibold text-emerald-200">
-            Rango orientativo: €2,499–€4,500 / mes
+            Inversión estimada: €2,499–€4,500 / mes
           </p>
           <p className="mt-2 text-xs text-slate-400">
             Rango orientativo según alcance, volumen y complejidad.

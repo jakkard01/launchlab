@@ -25,12 +25,12 @@ const buildWhatsappUtmLink = (
 const webTiers = [
   {
     name: "Web Starter (Landing)",
-    price: "Rango orientativo: €850–€1,400",
+    price: "Inversión estimada: €850–€1,400",
     campaign: "starter",
     summary: "1 página optimizada para conversión.",
     includes: [
       "1 página (secciones)",
-      "Copy base + CTA + WhatsApp + formulario",
+      "Copywriting de venta + CTA + WhatsApp + formulario",
       "SEO básico (title/meta, sitemap, robots)",
       "Performance + mobile first",
     ],
@@ -50,14 +50,14 @@ const webTiers = [
   },
   {
     name: "Web Growth (Sitio)",
-    price: "Rango orientativo: €1,800–€3,000",
+    price: "Inversión estimada: €1,800–€3,000",
     campaign: "growth",
     summary: "Sitio completo con 4-6 páginas.",
     includes: [
       "4-6 páginas (Inicio, Servicios, Sobre, Contacto, FAQ, Legal)",
       "2 rondas de cambios",
       "Integración Calendly/WhatsApp",
-      "Analítica básica",
+      "Medición esencial (GA4 + eventos clave)",
     ],
     excludes: [
       "Multilenguaje completo",
@@ -76,7 +76,7 @@ const webTiers = [
   },
   {
     name: "Web Pro (Conversión)",
-    price: "Rango orientativo: €3,500–€6,500",
+    price: "Inversión estimada: €3,500–€6,500",
     campaign: "pro",
     summary: "Sitio premium para conversión y captación.",
     includes: [
@@ -104,7 +104,7 @@ const webTiers = [
 
 const ecommerceAddon = {
   name: "Add-on Ecommerce",
-  price: "Rango orientativo: €2,500–€6,000",
+  price: "Inversión estimada: €2,500–€6,000",
   campaign: "ecommerce",
   includes: [
     "Catálogo + carrito/checkout o pedido por WhatsApp",

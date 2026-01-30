@@ -33,14 +33,14 @@ const faqData: FaqItem[] = [
     category: "Alcance",
     question: "¿Qué incluye y qué no incluye?",
     answer:
-      "Incluimos entregables y revisiones definidos por plan. No incluye hosting/dominio, licencias premium ni cambios de concepto fuera de alcance.",
+      "Incluimos entregables y revisiones definidos por plan. No incluye hosting/dominio, licencias premium ni cambios de concepto fuera de alcance. Dominio y hosting se gestionan a tu nombre con coste externo y te guiamos.",
   },
   {
     id: "web_scope",
     category: "Web",
     question: "¿Qué incluye una web de conversión?",
     answer:
-      "Estructura orientada a resultados, copy base, CTA claros, SEO básico y analítica. Dominio/hosting se gestionan a tu nombre con costes de terceros.",
+      "Estructura orientada a resultados, copywriting de venta, CTA claros, SEO básico y medición esencial (GA4 + eventos clave). Dominio/hosting se gestionan a tu nombre con costes de terceros.",
   },
   {
     id: "ops_scope",
@@ -255,7 +255,7 @@ export default function DemoBotPage() {
                       </Link>
                       <a
                         href={whatsappLink}
-                        className="rounded-full bg-emerald-400 px-4 py-2 text-center text-xs font-semibold text-black transition hover:bg-emerald-300"
+                        className="rounded-full border border-emerald-300/60 px-4 py-2 text-center text-xs font-semibold text-emerald-200 transition hover:bg-emerald-300 hover:text-black"
                         target="_blank"
                         rel="noopener noreferrer"
                       >

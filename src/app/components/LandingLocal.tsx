@@ -175,15 +175,15 @@ const pricingPlans = [
   {
     slug: "starter",
     title: "Web Starter",
-    price: "Rango orientativo: €850–€1,400",
+    price: "Inversión estimada: €850–€1,400",
     who: "Landing clara para validar oferta y convertir.",
-    includes: ["1 página", "Copy base + CTA", "SEO básico", "1 ronda"],
+    includes: ["1 página", "Copywriting de venta + CTA", "SEO básico", "1 ronda"],
     cta: "Solicitar propuesta",
   },
   {
     slug: "growth",
     title: "Web Growth",
-    price: "Rango orientativo: €1,800–€3,000",
+    price: "Inversión estimada: €1,800–€3,000",
     who: "Sitio completo con páginas clave y analítica.",
     includes: ["4-6 páginas", "2 rondas", "Calendly/WhatsApp", "FAQ + Legal"],
     cta: "Solicitar propuesta",
@@ -192,7 +192,7 @@ const pricingPlans = [
   {
     slug: "pro",
     title: "Web Pro",
-    price: "Rango orientativo: €3,500–€6,500",
+    price: "Inversión estimada: €3,500–€6,500",
     who: "Conversión premium con variantes y casos.",
     includes: ["6-10 páginas", "3 rondas", "A/B CTA o hero", "QA + handoff"],
     cta: "Solicitar propuesta",
@@ -274,7 +274,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               Sistemas de IA listos para vender y escalar.
             </h1>
             <p className="mt-4 text-base text-slate-100 md:text-lg">
-              En 7–14 días montamos captación, seguimiento y soporte. Con demos y casos.
+              En 7–14 días implementamos captación, seguimiento y soporte. Con demos y casos.
             </p>
             <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
               <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">
@@ -944,8 +944,8 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
                 Dirección y entrega directa
               </h3>
               <p className="mt-2 text-sm text-slate-300">
-                Equipo reducido, atención senior. Sin intermediarios: definimos,
-                construimos y entregamos con validación por etapas.
+                Atención senior, sin intermediarios: procesos claros, entregables
+                definidos y validación por etapas.
               </p>
               <ul className="mt-3 space-y-2 text-sm text-slate-200">
                 {[
@@ -1013,7 +1013,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               href={buildWhatsappLink("sticky")}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 rounded-full bg-emerald-400 px-4 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
+              className="flex-1 rounded-full border border-emerald-300/60 px-4 py-3 text-center text-sm font-semibold text-emerald-200 transition hover:bg-emerald-300 hover:text-black"
               aria-label="Abrir WhatsApp desde la barra inferior"
               onClick={() =>
                 trackEvent("click_whatsapp_sticky", { source: "sticky" })
