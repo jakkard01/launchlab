@@ -26,13 +26,14 @@ const videoPacks = [
   {
     name: "Pack Starter",
     cadence: "4 videos / mes",
-    price: "Rango orientativo: €450–€750 / mes",
+    price: "Inversión estimada: €450–€750 / mes",
     campaign: "starter",
     includes: [
-      "Guion ligero (hooks + CTA)",
+      "Guion de retención (hooks + CTA)",
       "Edicion vertical 9:16",
       "Subtitulos listos para publicar",
       "1 concepto base / mes",
+      "Incluye guía breve para grabarte con móvil (luz/audio/encuadre).",
     ],
     excludes: [
       "Automatizaciones n8n",
@@ -52,14 +53,15 @@ const videoPacks = [
   {
     name: "Pack Growth",
     cadence: "8 videos / mes",
-    price: "Rango orientativo: €950–€1,450 / mes",
+    price: "Inversión estimada: €950–€1,450 / mes",
     campaign: "growth",
     includes: [
-      "Guion ligero (hooks + CTA)",
+      "Guion de retención (hooks + CTA)",
       "Edicion 9:16 + adaptacion 1:1",
       "Subtitulos pro",
       "1 concepto base / mes + variaciones",
       "Calendario editorial mensual",
+      "Incluye guía breve para grabarte con móvil (luz/audio/encuadre).",
     ],
     excludes: [
       "Automatizaciones n8n",
@@ -79,7 +81,7 @@ const videoPacks = [
   {
     name: "Pack Pro",
     cadence: "12-16 videos / mes",
-    price: "Rango orientativo: €1,750–€3,200 / mes",
+    price: "Inversión estimada: €1,750–€3,200 / mes",
     campaign: "pro",
     includes: [
       "Guion completo + storyboard simple",
@@ -87,6 +89,7 @@ const videoPacks = [
       "Subtitulos pro",
       "2 conceptos base / mes",
       "Variaciones A/B de hook/copy",
+      "Incluye guía breve para grabarte con móvil (luz/audio/encuadre).",
     ],
     excludes: [
       "Automatizaciones n8n",
@@ -108,7 +111,7 @@ const videoPacks = [
 const dubbingProducts = [
   {
     name: "1 video / 2 idiomas",
-    price: "Rango orientativo: €120–€280",
+    price: "Inversión estimada: €120–€280",
     campaign: "one_video",
     includes: [
       "Voiceover natural",
@@ -131,7 +134,7 @@ const dubbingProducts = [
   },
   {
     name: "Batch 5 videos / 2 idiomas",
-    price: "Rango orientativo: €450–€1,100",
+    price: "Inversión estimada: €450–€1,100",
     campaign: "batch",
     includes: [
       "Voiceover + subtitulos pro",
@@ -427,7 +430,7 @@ export default function VideoPage() {
             intents + handoff) + 2 doblajes/mes (2 idiomas). SLA 24-48h hábiles.
           </p>
           <p className="mt-4 text-lg font-semibold text-emerald-200">
-            Rango orientativo: €2,499–€4,500 / mes
+            Inversión estimada: €2,499–€4,500 / mes
           </p>
           <p className="mt-2 text-xs text-slate-400">
             Rango orientativo según alcance, volumen y complejidad.
