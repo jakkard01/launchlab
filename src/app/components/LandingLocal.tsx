@@ -312,7 +312,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
             <div className="mt-6 flex flex-wrap gap-4">
               <a
                 href={buildWhatsappLink("home_hero")}
-                className="rounded-full bg-emerald-400 px-6 py-3 text-sm font-semibold text-black transition hover:bg-emerald-300"
+                className="rounded-full border border-emerald-300/60 md:bg-emerald-400 px-6 py-3 text-sm font-semibold text-emerald-200 transition hover:bg-emerald-300 hover:text-black md:text-black"
                 aria-label="Abrir WhatsApp para iniciar conversación"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -481,7 +481,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <a
               href={buildWhatsappLink("home_services")}
-              className="rounded-full bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
+              className="rounded-full border border-emerald-300/60 md:bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-emerald-200 transition hover:bg-emerald-300 hover:text-black md:text-black"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() =>
@@ -570,7 +570,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <a
               href={buildWhatsappLink("home_demos")}
-              className="rounded-full bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
+              className="rounded-full border border-emerald-300/60 md:bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-emerald-200 transition hover:bg-emerald-300 hover:text-black md:text-black"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() =>
@@ -655,7 +655,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <a
               href={buildWhatsappLink("home_packages")}
-              className="rounded-full bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
+              className="rounded-full border border-emerald-300/60 md:bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-emerald-200 transition hover:bg-emerald-300 hover:text-black md:text-black"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() =>
@@ -741,7 +741,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <a
               href={buildWhatsappLink("home_portfolio")}
-              className="rounded-full bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
+              className="rounded-full border border-emerald-300/60 md:bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-emerald-200 transition hover:bg-emerald-300 hover:text-black md:text-black"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() =>
@@ -907,7 +907,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
           <div className="mt-6 flex flex-col gap-3 sm:flex-row" data-fab-avoid>
             <a
               href={buildWhatsappLink("home_faq")}
-              className="rounded-full bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
+              className="rounded-full border border-emerald-300/60 md:bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-emerald-200 transition hover:bg-emerald-300 hover:text-black md:text-black"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() =>
@@ -976,7 +976,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
           <div className="mt-6 flex flex-col gap-4 md:flex-row">
             <a
               href={buildWhatsappLink("home_contact")}
-              className="rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
+              className="rounded-full border border-emerald-300/60 md:bg-emerald-400 px-6 py-3 text-center text-sm font-semibold text-emerald-200 transition hover:bg-emerald-300 hover:text-black md:text-black"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Abrir WhatsApp Business"
