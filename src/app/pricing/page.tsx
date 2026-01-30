@@ -178,17 +178,17 @@ export default function PricingPage() {
             />
             <div>
               <h3 className="text-xl font-semibold text-white">
-                Equipo reducido, ejecución directa
+                Dirección y entrega directa
               </h3>
               <p className="mt-2 text-sm text-slate-300">
-                Proceso por etapas, validación continua y soporte post-entrega
-                según plan.
+                Equipo reducido, atención senior. Sin intermediarios: definimos,
+                construimos y entregamos con validación por etapas.
               </p>
               <ul className="mt-3 space-y-2 text-sm text-slate-200">
                 {[
-                  "Roadmaps claros y realistas",
-                  "Implementación con QA y handoff",
-                  "Soporte post-entrega definido",
+                  "Roadmaps claros y realistas (alcance y plazos definidos)",
+                  "Implementación + handoff documentado (para que no dependas de nosotros)",
+                  "Soporte post-entrega según plan (mejoras y ajustes con orden)",
                 ].map((item) => (
                   <li key={item} className="flex gap-2">
                     <span className="mt-1 h-1.5 w-1.5 rounded-full bg-cyan-300" />
