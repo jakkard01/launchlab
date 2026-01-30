@@ -6,6 +6,8 @@ export default function FAB() {
   const [showTop, setShowTop] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isColliding, setIsColliding] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [stickyVisible, setStickyVisible] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
@@ -66,18 +68,45 @@ export default function FAB() {
   }, []);
 
   useEffect(() => {
-    if (typeof document === "undefined") return;
-    const padding = isColliding ? "180px" : "120px";
-    document.documentElement.style.setProperty("--fab-safe-padding", padding);
-  }, [isColliding]);
+    if (typeof window === "undefined") return;
 
-  if (menuOpen) return null;
+    const updateStickyState = () => {
+      setIsMobile(window.innerWidth < 768);
+      const sticky = document.querySelector(".sticky-cta");
+      if (!sticky) {
+        setStickyVisible(false);
+        return;
+      }
+      const style = window.getComputedStyle(sticky);
+      const visible =
+        style.display !== "none" &&
+        style.visibility !== "hidden" &&
+        (sticky as HTMLElement).offsetHeight > 0;
+      setStickyVisible(visible);
+    };
+
+    updateStickyState();
+    window.addEventListener("resize", updateStickyState);
+    window.addEventListener("scroll", updateStickyState, { passive: true });
+    return () => {
+      window.removeEventListener("resize", updateStickyState);
+      window.removeEventListener("scroll", updateStickyState);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const padding = isMobile && stickyVisible ? "160px" : isColliding ? "180px" : "140px";
+    document.documentElement.style.setProperty("--fab-safe-padding", padding);
+  }, [isColliding, isMobile, stickyVisible]);
+
+  if (menuOpen || isMobile) return null;
 
   const bottomOffset = isColliding ? 96 : 0;
 
   return (
     <div
-      className={`fixed right-[calc(env(safe-area-inset-right)+24px)] z-50 flex flex-col gap-3 transition-all duration-200 ${
+      className={`whatsapp-fab fixed right-[calc(env(safe-area-inset-right)+24px)] z-50 flex flex-col gap-3 transition-all duration-200 ${
         isColliding ? "opacity-80" : "opacity-100"
       }`}
       style={{

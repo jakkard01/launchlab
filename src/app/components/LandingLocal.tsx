@@ -1023,7 +1023,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
             </a>
             <Link
               href={buildContactLink("sticky")}
-              className="flex-1 rounded-full border border-white/20 px-4 py-3 text-center text-sm font-semibold text-white/90 transition hover:border-cyan-300/60"
+              className="flex-1 rounded-full bg-cyan-300 px-4 py-3 text-center text-sm font-semibold text-black transition hover:bg-cyan-200"
               aria-label="Reservar llamada desde la barra inferior"
               onClick={() => trackEvent("click_book_call", { source: "sticky" })}
             >
