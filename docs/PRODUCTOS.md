@@ -4,7 +4,7 @@ Nota de precios: todos los rangos son orientativos. El precio final se confirma 
 
 ## Web (producto principal)
 - Web Starter (Landing)
-  - Incluye: 1 pagina por secciones, copy base + CTA, SEO basico, performance/mobile first.
+  - Incluye: 1 pagina por secciones, copywriting de venta + CTA, SEO basico, performance/mobile first.
   - No incluye: dominio/hosting, licencias premium, automatizaciones avanzadas.
   - Requisitos: logo, colores, brief de oferta, textos base.
   - Revisiones: 1 ronda.

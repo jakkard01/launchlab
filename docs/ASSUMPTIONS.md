@@ -20,7 +20,7 @@
 ## Video Packs
 - Duracion incluida por video: hasta 45s.
 - Revisiones: 2 por video.
-- Growth: 8 videos/mes, formatos 9:16 + 1:1, 1 concepto/mes (variaciones), guion ligero (hooks + CTA).
+- Growth: 8 videos/mes, formatos 9:16 + 1:1, 1 concepto/mes (variaciones), guion de retención (hooks + CTA).
 - Pro: 12-16 videos/mes, formatos 9:16 + 1:1 + 16:9, 2 conceptos/mes, guion completo + storyboard simple.
 - Cambios: ajuste = microcambios; nuevo = rehacer concepto/guion/estilo (cuenta como nueva pieza).
 
@@ -42,7 +42,7 @@
 - Otros canales: solo bajo pedido (no estandar).
 
 ## Super Pack (bundle)
-- Rango orientativo: €2,499–€4,500/mes.
+- Inversión estimada: €2,499–€4,500/mes.
 - Caps: 8 videos/mes (≤45s, 2 formatos) + 2 flujos n8n/mes + 1 bot (≤15 intents + handoff) + 2 doblajes/mes (2 idiomas) + SLA 24–48h habiles.
 
 ## Precios

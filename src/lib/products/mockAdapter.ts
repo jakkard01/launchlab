@@ -4,9 +4,9 @@ const seedProducts: Product[] = [
   {
     id: "landing-starter",
     name: "Landing Starter",
-    price: "Rango orientativo: €850–€1,400",
+    price: "Inversión estimada: €850–€1,400",
     description:
-      "Landing de 1 pagina con copy base, CTA y performance mobile first.",
+      "Landing de 1 pagina con copywriting de venta, CTA y performance mobile first.",
     images: ["/imagenes/demo/landing-starter.png"],
     categories: ["web", "landing"],
     status: "active",
@@ -14,7 +14,7 @@ const seedProducts: Product[] = [
   {
     id: "ecommerce-addon",
     name: "Add-on Ecommerce",
-    price: "Rango orientativo: €2,500–€6,000",
+    price: "Inversión estimada: €2,500–€6,000",
     description:
       "Catalogo + carrito/checkout o pedido por WhatsApp, con panel basico.",
     images: ["/imagenes/demo/ecommerce-addon.png"],
@@ -24,7 +24,7 @@ const seedProducts: Product[] = [
   {
     id: "menu-digital-resto",
     name: "Menu digital restaurante",
-    price: "Rango orientativo: €650–€1,200",
+    price: "Inversión estimada: €650–€1,200",
     description:
       "Carta visual, reservas y pedido por WhatsApp.",
     images: ["/imagenes/demo/resto-menu.png"],
