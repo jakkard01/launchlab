@@ -86,13 +86,13 @@ const navItems = [
     label: "Inversión",
     href: buildContactLink("nav_inversion", { intent: "ganar_dinero" }),
     icon: HandCoins,
-    tagline: "ganar dinero",
+    tagline: "",
   },
   {
     label: "Contacto",
     href: "/contact",
     icon: Mail,
-    tagline: "agenda una llamada",
+    tagline: "",
   },
 ];
 
@@ -248,7 +248,7 @@ export default function Header() {
                       Menú
                     </p>
                     <p className="text-sm text-slate-300">
-                      IA para vender y ganar dinero
+                      IA para vender y escalar
                     </p>
                   </div>
                   <button
@@ -290,7 +290,7 @@ export default function Header() {
                             <span className="text-base font-semibold text-white">
                               {item.label}
                             </span>
-                            <span className="text-xs text-slate-300">
+                            <span className="text-xs text-slate-300 hidden md:block">
                               {item.tagline}
                             </span>
                           </span>
