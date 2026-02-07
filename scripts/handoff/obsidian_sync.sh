@@ -6,6 +6,7 @@ START_HERE="$VAULT/00_START_HERE.md"
 RAMA="$VAULT/RAMA_ACTIVA.md"
 LINK="$VAULT/RAMA_ACTIVA_LINK.md"
 ERR="$VAULT/ERROR_LOG.md"
+CHECK="$VAULT/CHECKLIST_INICIO.md"
 
 need() { test -f "$1" || { echo "❌ Falta archivo: $1"; exit 1; }; }
 
@@ -27,52 +28,48 @@ append_if_missing() {
   fi
 }
 
-# A) ERROR_LOG.md — registrar bug perl y fix python
-TODAY="$(date +%Y-%m-%d)"
+# 1) Garantiza CHECKLIST_INICIO.md (si falta, lo crea limpio)
+if [ ! -f "$CHECK" ]; then
+  cat > "$CHECK" <<'MD'
+# CHECKLIST_INICIO (modo zombie)
 
-ERROR_BLOCK=$(cat <<EOF
-## ${TODAY} — refresh-start-here.sh fallaba con "Unknown regexp modifier /h"
-Síntoma:
-- Al correr \`bash scripts/handoff/refresh-start-here.sh\` salía:
-  \`Unknown regexp modifier "/h"\` (perl compilation aborted)
+## 0) Arranque (30s)
+- cd ~/work/launchlab
+- bash scripts/doctor.sh
+- bash scripts/handoff/refresh-start-here.sh
+- bash scripts/handoff/resume_contextpack.sh
 
-Causa:
-- Reemplazo con perl/regex se rompía por rutas con \`/\` (ej. \`/mnt/c/...\`) y contenido multilinea.
+## 1) Si vas a codear
+- npm ci
+- PORT=3333 npm run dev
 
-Fix definitivo:
-- \`scripts/handoff/refresh-start-here.sh\` usa \`python3\` para reemplazar el bloque:
-  \`<!-- AUTO-ESTADO-START -->\` ... \`<!-- AUTO-ESTADO-END -->\`
+## 2) Si algo huele raro (fantasma)
+- pkill -f "next dev" || true
+- pkill -f "next start" || true
+- rm -f ~/work/launchlab && ln -s ~/projects/launchlab__CLEAN ~/work/launchlab
+- cd ~/work/launchlab && bash scripts/doctor.sh
 
-Verificación rápida:
-- \`cd ~/work/launchlab\`
-- \`bash scripts/handoff/refresh-start-here.sh\`
-- Debe aparecer “Actualizado:” dentro de \`00_START_HERE.md\`.
-EOF
-)
+## 3) Antes de cerrar la laptop (guardar estado)
+- cd ~/work/launchlab
+- bash scripts/handoff/obsidian_sync.sh
+- bash scripts/handoff/refresh-start-here.sh
+- bash scripts/handoff/resume_contextpack.sh
+MD
+  echo "✅ Creado: $CHECK"
+else
+  echo "✅ CHECKLIST ya existe: $CHECK"
+fi
 
-append_if_missing "$ERR" "Unknown regexp modifier /h" "$ERROR_BLOCK"
+# 2) START HERE: link a checklist (para que siempre esté visible)
+append_if_missing "$START_HERE" "CHECKLIST_INICIO (modo zombie)" \
+"## CHECKLIST_INICIO (modo zombie)\n- Abrir: CHECKLIST_INICIO.md\n- Ruta: $CHECK\n- Tip: corre \`llresume\` y listo."
 
-# B) 00_START_HERE.md — Troubleshooting extra
-START_HERE_BLOCK=$(cat <<'EOF'
-E) Error: "Unknown regexp modifier /h" al refrescar START HERE
-- Fix:
-  - cd ~/work/launchlab
-  - bash scripts/handoff/refresh-start-here.sh
-- Nota:
-  - El script ya usa python3 para evitar bugs de regex con rutas (/mnt/c/...) y multilinea.
-EOF
-)
+# 3) ERROR_LOG: registra el bug histórico del perl regex
+append_if_missing "$ERR" "refresh-start-here.sh fallaba con \"Unknown regexp modifier /h\"" \
+"## 2026-02-08 — refresh-start-here.sh fallaba con \"Unknown regexp modifier /h\"\n- Síntoma: al refrescar START HERE salía error de perl regex.\n- Causa: reemplazo con regex incompatible.\n- Fix: refresh-start-here.sh usa Python para reemplazo robusto.\n- Prevención: usar scripts/handoff/refresh-start-here.sh (no inventar sed/perl oneliners)."
 
-append_if_missing "$START_HERE" 'E) Error: "Unknown regexp modifier /h" al refrescar START HERE' "$START_HERE_BLOCK"
-
-# C) RAMA_ACTIVA.md — referencia a handoff scripts
-RAMA_BLOCK=$(cat <<'EOF'
-- Handoff scripts (memoria infinita):
-  - scripts/handoff/refresh-start-here.sh
-  - scripts/handoff/resume_contextpack.sh
-EOF
-)
-
-append_if_missing "$RAMA" "Handoff scripts (memoria infinita):" "$RAMA_BLOCK"
+# 4) RAMA_ACTIVA: menciona scripts handoff
+append_if_missing "$RAMA" "Handoff scripts (memoria infinita):" \
+"- Handoff scripts (memoria infinita):\n  - bash scripts/handoff/refresh-start-here.sh\n  - bash scripts/handoff/resume_contextpack.sh\n  - bash scripts/handoff/obsidian_sync.sh\n  - alias: llresume"
 
 echo "✅ Obsidian sync terminado."
