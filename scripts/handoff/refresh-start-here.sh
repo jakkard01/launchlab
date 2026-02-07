@@ -6,42 +6,56 @@ START_HERE="/mnt/c/Demonio_IA/01_PJECTOX/00_START_HERE.md"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
 
-BRANCH="$(git branch --show-current || true)"
-HEAD="$(git rev-parse --short HEAD || true)"
-STATUS="$(git status -sb || true)"
+BRANCH="$(git branch --show-current 2>/dev/null || true)"
+HEAD="$(git rev-parse --short HEAD 2>/dev/null || true)"
+STATUS="$(git status -sb 2>/dev/null || true)"
 
 SYMLINK="(missing)"
 if [ -L "$HOME/work/launchlab" ]; then
-  SYMLINK="$(readlink -f "$HOME/work/launchlab" || true)"
+  SYMLINK="$(readlink -f "$HOME/work/launchlab" 2>/dev/null || true)"
 fi
 
 VERCEL="(no .vercel/project.json)"
 if [ -f ".vercel/project.json" ]; then
-  VERCEL="$(cat .vercel/project.json | tr -d '\n')"
+  VERCEL="$(tr -d '\n' < .vercel/project.json)"
 fi
 
 NOW="$(date -Is)"
 
-AUTO_CONTENT=$(cat <<EOF
-✅ Updated: $NOW
+AUTO_CONTENT="$(
+cat <<EOF
+Actualizado: $NOW
 
-Repo:
-- top: $(git rev-parse --show-toplevel)
-- branch: $BRANCH
-- head: $HEAD
+Repo top: $ROOT
+Branch:   ${BRANCH:-"(none)"}
+HEAD:     ${HEAD:-"(none)"}
 
-Symlink:
-- ~/work/launchlab -> $SYMLINK
+Symlink ~/work/launchlab -> $SYMLINK
 
-Vercel:
-- .vercel/project.json: $VERCEL
+Vercel link:
+$VERCEL
 
 Git status:
 $STATUS
 EOF
-)
+)"
 
-# Reemplaza bloque AUTO
-perl -0777 -i -pe 's/<!-- AUTO-ESTADO-START -->.*?<!-- AUTO-ESTADO-END -->/<!-- AUTO-ESTADO-START -->\n'"$AUTO_CONTENT"'\n<!-- AUTO-ESTADO-END -->/s' "$START_HERE"
+python3 - <<PY
+from pathlib import Path
 
-echo "✅ Updated AUTO block in: $START_HERE"
+start_here = Path("$START_HERE")
+text = start_here.read_text(encoding="utf-8")
+
+start = "<!-- AUTO-ESTADO-START -->"
+end   = "<!-- AUTO-ESTADO-END -->"
+
+if start not in text or end not in text:
+    raise SystemExit("❌ No encuentro bloque AUTO-ESTADO en 00_START_HERE.md")
+
+before = text.split(start, 1)[0]
+after  = text.split(end, 1)[1]
+
+new_text = before + start + "\n" + """$AUTO_CONTENT""" + "\n" + end + after
+start_here.write_text(new_text, encoding="utf-8")
+print("✅ START HERE actualizado:", start_here)
+PY
