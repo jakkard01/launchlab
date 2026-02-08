@@ -33,7 +33,7 @@ const HomeContent: React.FC = () => {
       {/* Foto de perfil */}
       <div className="z-10 mb-6 flex items-center justify-center">
         <Image
-          src="/imagenes/perfil/mifoto.jpg"
+          src="/imagenes/perfil/perfil-v2.jpg"
           alt="Avatar Gerardo"
           width={160}
           height={160}
