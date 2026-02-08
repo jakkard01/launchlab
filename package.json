@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "preflight": "bash scripts/preflight.sh",
+    "resume": "bash scripts/handoff/obsidian_sync.sh && bash scripts/handoff/refresh-start-here.sh && bash scripts/handoff/resume_contextpack.sh",
+    "dev:safe": "bash scripts/dev_safe.sh"
   },
   "dependencies": {
     "next": "^14.0.0",

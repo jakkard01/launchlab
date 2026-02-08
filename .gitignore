@@ -142,3 +142,12 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Windows ADS junk
+*:Zone.Identifier
+
+# accidental PID marker files
+PID=*
+
+# local scratch
+tmp_runs/
