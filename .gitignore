@@ -151,3 +151,9 @@ dist
 /eval "$(ssh-agent -s)".pub
 .vercel
 .env*.local
+
+# Windows ADS junk
+*:Zone.Identifier
+
+# accidental PID marker files
+PID=*
