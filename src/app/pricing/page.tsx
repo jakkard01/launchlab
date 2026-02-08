@@ -170,7 +170,7 @@ export default function PricingPage() {
           </p>
           <div className="mt-4 flex flex-col gap-6 md:flex-row md:items-center">
             <Image
-              src="/imagenes/perfil/mifoto.jpg"
+              src="/imagenes/perfil/perfil-v2.jpg"
               alt="Foto del responsable del proyecto"
               width={80}
               height={80}

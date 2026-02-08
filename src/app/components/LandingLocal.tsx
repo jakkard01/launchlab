@@ -242,7 +242,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm" onClick={() => setShowModal(false)}>
           <div className="relative" onClick={e => e.stopPropagation()}>
             <Image
-              src="/imagenes/perfil/mifoto.jpg"
+              src="/imagenes/perfil/perfil-v2.jpg"
               alt="Foto de perfil grande"
               width={320}
               height={320}
@@ -341,7 +341,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
                 tabIndex={0}
               >
                 <Image
-                  src="/imagenes/perfil/mifoto.jpg"
+                  src="/imagenes/perfil/perfil-v2.jpg"
                   alt="Foto de perfil"
                   width={160}
                   height={160}
@@ -933,7 +933,7 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
           </p>
           <div className="mt-4 flex flex-col gap-6 md:flex-row md:items-center">
             <Image
-              src="/imagenes/perfil/mifoto.jpg"
+              src="/imagenes/perfil/perfil-v2.jpg"
               alt="Foto del responsable del proyecto"
               width={96}
               height={96}

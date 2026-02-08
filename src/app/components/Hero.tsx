@@ -81,7 +81,7 @@ const Hero = forwardRef<HTMLImageElement>((props, ref) => {
         onClick={openProfile}
       >
         <Image
-          src="/imagenes/perfil/mifoto.jpg"
+          src="/imagenes/perfil/perfil-v2.jpg"
           alt="Avatar Gerardo"
           width={160}
           height={160}

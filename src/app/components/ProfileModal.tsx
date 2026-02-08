@@ -59,7 +59,7 @@ export default function ProfileModal({ onClose }: { onClose: () => void }) {
           className="relative"
         >
           <Image
-            src="/imagenes/perfil/mifoto.jpg"
+            src="/imagenes/perfil/perfil-v2.jpg"
             alt="Foto ampliada"
             width={600}
             height={600}
