@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "npm run guard:check && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "guard:check": "bash scripts/guardrails.sh",
+    "doctor": "bash scripts/doctor.sh",
     "ops:parity:prod": "bash scripts/parity-prod.sh",
     "preflight": "bash scripts/preflight.sh",
     "resume": "bash scripts/handoff/obsidian_sync.sh && bash scripts/handoff/refresh-start-here.sh && bash scripts/handoff/resume_contextpack.sh",
