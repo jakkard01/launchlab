@@ -6,7 +6,7 @@ type WhatsAppParams = {
   zone?: string;
 };
 
-const WHATSAPP_NUMBER = "+34673659294";
+const WHATSAPP_NUMBER = "+34673659294".replace(/^\+/, "");
 
 export const buildWhatsAppMessageLink = (message: string) => {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
