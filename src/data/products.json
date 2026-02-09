@@ -1,0 +1,29 @@
+[
+  {
+    "id": "mo-cafe-pack",
+    "name": "Pack cafe molido",
+    "price": "$6.50",
+    "category": "bebidas",
+    "description": "Cafe molido para pickup con tueste medio.",
+    "image": "/images/placeholder.png",
+    "isFeatured": true
+  },
+  {
+    "id": "mo-granola",
+    "name": "Granola casera",
+    "price": "$4.00",
+    "category": "snacks",
+    "description": "Granola con frutos secos y miel.",
+    "image": "/images/placeholder.png",
+    "isFeatured": false
+  },
+  {
+    "id": "mo-cold-brew",
+    "name": "Cold brew botella",
+    "price": "$5.00",
+    "category": "bebidas",
+    "description": "Cold brew listo para retirar en frio.",
+    "image": "/images/placeholder.png",
+    "isFeatured": false
+  }
+]

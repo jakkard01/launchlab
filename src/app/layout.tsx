@@ -1,8 +1,6 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import ClientLayout from './components/ClientLayout';
-import FAB from './components/FAB';
-import CookieBanner from './components/CookieBanner'; // <--- IMPORTADO AQUÍ
+import AppShell from './components/AppShell';
 import { siteConfig, siteUrl } from '../lib/site';
 
 // --- CONFIGURACIÓN SEO GLOBAL ---
@@ -94,24 +92,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
-        {/* Fondo galaxia global */}
-        <div 
-          className="fixed inset-0 -z-10 w-full h-full bg-galaxy bg-cover bg-center bg-no-repeat" 
-          aria-hidden="true" 
-        />
-        <div
-          className="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(34,211,238,0.15),_transparent_55%),radial-gradient(circle_at_30%_70%,_rgba(14,116,144,0.25),_transparent_50%)]"
-          aria-hidden="true"
-        />
-        
-        {/* Layout del Cliente (Navbar, etc) */}
-        <ClientLayout>
-          {children}
-        </ClientLayout>
-        
-        {/* Componentes Flotantes Globales */}
-        <FAB />
-        <CookieBanner /> {/* <--- AÑADIDO AQUÍ */}
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );
