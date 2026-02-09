@@ -70,8 +70,11 @@ export default function FreeTextOrder() {
           rel="noopener noreferrer"
           aria-label="Pedir algo que no está en el catálogo por WhatsApp"
         >
-          Escribir por WhatsApp
+          Enviar pedido por WhatsApp
         </a>
+        <p className="text-xs text-emerald-700">
+          Te confirmamos disponibilidad y tiempo de pickup.
+        </p>
       </div>
     </div>
   );

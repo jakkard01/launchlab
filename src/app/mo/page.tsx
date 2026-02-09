@@ -111,6 +111,9 @@ export default function MoPage() {
               <p className="mt-2 text-sm text-slate-600">
                 Lun-Sab 9:00-6:00 (placeholder).
               </p>
+              <p className="mt-2 text-sm text-slate-600">
+                Si es urgente, escribinos y te decimos si está listo hoy.
+              </p>
             </div>
             <a
               href="https://maps.google.com/?q=TODO"
