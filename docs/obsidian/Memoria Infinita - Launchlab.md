@@ -1,0 +1,16 @@
+## 2026-02-09 — launchlab tienda hermana (YRS)
+- Rama: feat/pagina-hermana-live
+- Objetivo: tienda pickup + WhatsApp
+- Guardrails/parity: scripts doctor/parity OK
+- WhatsApp: wa.me sin '+', numero temporal configurado
+- Commits relevantes (ultimos 8):
+  - 02d56f9 codex(sis-hermana): add WhatsApp cart checkout (add-to-cart + quantities + message builder)
+  - 0e285c7 codex(sis-hermana): fix wa.me number format (strip plus)
+  - 11aa2f6 codex(sis-hermana): set temporary whatsapp number for store
+  - 3137e37 codex(sis-hermana): set temporary whatsapp number for store
+  - 380fd15 codex(sis-hermana): rename store to YRS Minisuper + add free-text WhatsApp order + mobile UI polish
+  - 41901e0 codex(sis-hermana): remove /tienda route
+  - 7f2f516 codex(sis-hermana): isolate store layout + rename route to /mo + noindex prelaunch
+  - fc65ae9 codex(ops): harden parity script (root+retry+cleanup)
+- Estado: listo para pruebas locales y preview deploy
+- Proximo: carrito WhatsApp + "Pedir algo que no esta en catalogo" + layout aislado + noindex
