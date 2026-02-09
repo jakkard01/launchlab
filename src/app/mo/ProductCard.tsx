@@ -1,32 +1,25 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import type { Product } from "../../lib/mo/types";
-import { buildWhatsAppLink } from "../../lib/mo/whatsapp";
+import QuantityStepper from "./cart/QuantityStepper";
+import { useCart } from "./cart/CartContext";
 
 type ProductCardProps = {
   product: Product;
 };
 
 export default function ProductCard({ product }: ProductCardProps) {
+  const { addItem } = useCart();
   const [qty, setQty] = useState(1);
-  const [note, setNote] = useState("");
-  const [zone, setZone] = useState("");
+  const [justAdded, setJustAdded] = useState(false);
 
-  const whatsappLink = useMemo(() => {
+  const handleAdd = () => {
     const safeQty = Number.isFinite(qty) && qty > 0 ? qty : 1;
-    return buildWhatsAppLink({
-      productName: product.name,
-      qty: safeQty,
-      pickup: true,
-      note,
-      zone,
-    });
-  }, [product.name, qty, note, zone]);
-
-  const qtyId = `${product.id}-qty`;
-  const noteId = `${product.id}-note`;
-  const zoneId = `${product.id}-zone`;
+    addItem(product, safeQty);
+    setJustAdded(true);
+    window.setTimeout(() => setJustAdded(false), 1200);
+  };
 
   return (
     <article className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -45,49 +38,19 @@ export default function ProductCard({ product }: ProductCardProps) {
           {product.category}
         </span>
       </div>
-      <div className="mt-5 grid gap-3">
-        <label className="text-xs font-semibold text-slate-600" htmlFor={qtyId}>
-          Cantidad
-        </label>
-        <input
-          id={qtyId}
-          type="number"
-          min={1}
-          value={qty}
-          onChange={(event) => setQty(Number(event.target.value))}
-          className="h-11 rounded-xl border border-slate-200 px-3 text-sm text-slate-700 focus:border-emerald-400 focus:outline-none"
-        />
-        <label className="text-xs font-semibold text-slate-600" htmlFor={noteId}>
-          Nota (opcional)
-        </label>
-        <input
-          id={noteId}
-          type="text"
-          value={note}
-          onChange={(event) => setNote(event.target.value)}
-          placeholder="Sin picante, por favor"
-          className="h-11 rounded-xl border border-slate-200 px-3 text-sm text-slate-700 focus:border-emerald-400 focus:outline-none"
-        />
-        <label className="text-xs font-semibold text-slate-600" htmlFor={zoneId}>
-          Estoy cerca de
-        </label>
-        <input
-          id={zoneId}
-          type="text"
-          value={zone}
-          onChange={(event) => setZone(event.target.value)}
-          placeholder="Plaza X o zona"
-          className="h-11 rounded-xl border border-slate-200 px-3 text-sm text-slate-700 focus:border-emerald-400 focus:outline-none"
-        />
-        <a
-          href={whatsappLink}
-          className="h-12 rounded-full bg-emerald-500 px-5 py-3 text-center text-sm font-semibold text-white transition hover:bg-emerald-600"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`Pedir ${product.name} por WhatsApp`}
+      <div className="mt-5 flex flex-col gap-4">
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-semibold text-slate-600">Cantidad</span>
+          <QuantityStepper value={qty} onChange={setQty} />
+        </div>
+        <button
+          type="button"
+          onClick={handleAdd}
+          className="h-12 rounded-full bg-emerald-600 px-5 text-center text-sm font-semibold text-white transition hover:bg-emerald-700"
+          aria-label={`Agregar ${product.name} al pedido`}
         >
-          Escribir por WhatsApp
-        </a>
+          {justAdded ? "Agregado ✓" : "Agregar"}
+        </button>
       </div>
     </article>
   );
