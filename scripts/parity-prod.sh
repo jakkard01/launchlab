@@ -4,6 +4,14 @@ set -euo pipefail
 EXPECTED_ROOT="/home/hagga/work/launchlab__PROD"
 PROD_URL="https://www.poweredbyia.com/"
 LOCAL_URL="http://127.0.0.1:3000/"
+BUILD_LOG="/tmp/parity-build.log"
+START_LOG="/tmp/parity-start.log"
+
+ROOT="$(git rev-parse --show-toplevel 2>/dev/null || true)"
+if [[ -z "${ROOT}" ]]; then
+  ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+fi
+cd "$ROOT"
 
 if [[ "${PWD}" != "${EXPECTED_ROOT}"* ]]; then
   echo "Parity: wrong working dir (PWD=${PWD}). Expected ${EXPECTED_ROOT}." >&2
@@ -31,10 +39,23 @@ kill_listener 3001
 
 rm -rf .next
 npm ci
-npm run build
+
+run_build() {
+  npm run build > "${BUILD_LOG}" 2>&1
+}
+
+if ! run_build; then
+  rm -rf .next
+  sleep 1
+  if ! run_build; then
+    echo "Parity: build failed after retry. Tail of build log:" >&2
+    tail -n 60 "${BUILD_LOG}" >&2 || true
+    exit 1
+  fi
+fi
 
 start_server() {
-  npm run start -- --port 3000 --hostname 127.0.0.1 > /tmp/next-start.log 2>&1 &
+  npm run start -- --port 3000 --hostname 127.0.0.1 > "${START_LOG}" 2>&1 &
   echo $!
 }
 
@@ -57,7 +78,8 @@ for _ in {1..10}; do
 done
 
 if [[ "${ready}" -ne 1 ]]; then
-  echo "Parity: local server did not respond on ${LOCAL_URL}" >&2
+  echo "Parity: local server did not respond on ${LOCAL_URL}. Tail of start log:" >&2
+  tail -n 60 "${START_LOG}" >&2 || true
   exit 1
 fi
 
