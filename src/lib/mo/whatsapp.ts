@@ -63,7 +63,12 @@ export const buildOrderWhatsAppLink = (
   zone: string,
   note: string
 ) => {
-  const lines = items.map((item) => `- ${item.name} x${item.qty}`);
+  const lines = items.map((item) => {
+    const parsed = parsePrice(item.price);
+    const subtotal = parsed !== null ? parsed * item.qty : null;
+    const subtotalLabel = subtotal !== null ? ` = $${subtotal.toFixed(2)}` : "";
+    return `- ${item.qty} x ${item.name}${subtotalLabel}`;
+  });
   const totals = items
     .map((item) => {
       const parsed = parsePrice(item.price);
@@ -75,17 +80,17 @@ export const buildOrderWhatsAppLink = (
       ? `Total estimado: $${totals
           .reduce((sum, value) => sum + value, 0)
           .toFixed(2)}`
-      : "";
-  const zoneLine = `Estoy cerca de: ${zone.trim().length > 0 ? zone.trim() : "____"}.`;
+      : "Total estimado: por confirmar";
+  const zoneLine = `Ubicación de referencia: ${zone.trim().length > 0 ? zone.trim() : "____"}.`;
   const noteLine = `Nota: ${note.trim().length > 0 ? note.trim() : "-"}.`;
   const messageParts = [
     "YRS Minisúper (La Gloria)",
-    "Pedido:",
+    "Pedido para pickup:",
     ...lines,
     total,
     zoneLine,
     noteLine,
-    "Pickup.",
+    "Gracias.",
   ].filter((part) => part.length > 0);
   return buildWhatsAppMessageLink(messageParts.join("\n"));
 };
