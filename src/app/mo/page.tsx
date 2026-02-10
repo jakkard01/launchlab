@@ -24,41 +24,49 @@ export default function MoPage() {
 
   return (
     <CartProvider>
-      <main className="min-h-screen w-full px-4 pb-28 pt-10 sm:px-6 lg:px-8">
+      <main className="min-h-screen w-full px-4 pb-36 pt-10 sm:px-6 lg:px-8">
         <div className="mx-auto flex w-full max-w-5xl flex-col gap-10">
-          <section className="rounded-3xl border border-slate-200 bg-white px-6 py-8 shadow-sm sm:px-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-emerald-600">
-              PRE-LANZAMIENTO
-            </p>
-            <h1 className="mt-3 text-4xl font-semibold text-slate-900 sm:text-5xl">
-              YRS Minisúper
-            </h1>
-            <p className="mt-3 text-base text-slate-600">
-              Pickup en San Salvador La Gloria
-            </p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              <span className="rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">
-                Pickup
-              </span>
-              <span className="rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                La Gloria
-              </span>
-            </div>
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <a
-                href={ctaLink}
-                className="h-12 rounded-full bg-emerald-600 px-6 py-3 text-center text-sm font-semibold text-white transition hover:bg-emerald-700"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Escribir por WhatsApp
-              </a>
-              <a
-                href="#catalogo"
-                className="h-12 rounded-full border border-slate-200 px-6 py-3 text-center text-sm font-semibold text-slate-700 transition hover:border-emerald-200 hover:text-emerald-700"
-              >
-                Ver catálogo
-              </a>
+          <section
+            className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white px-6 py-8 shadow-sm sm:px-8"
+            data-hero-bg="placeholder-gradient"
+          >
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.18),_rgba(15,23,42,0.9))]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,_rgba(255,255,255,0.22),_transparent_45%),radial-gradient(circle_at_80%_30%,_rgba(16,185,129,0.18),_transparent_55%)]" />
+            <div className="absolute inset-0 bg-slate-950/25 backdrop-blur-[2px]" />
+            <div className="relative">
+              <p className="text-xs font-semibold uppercase tracking-[0.35em] text-emerald-200">
+                PRE-LANZAMIENTO
+              </p>
+              <h1 className="mt-3 text-4xl font-semibold text-white sm:text-5xl">
+                YRS Minisúper
+              </h1>
+              <p className="mt-2 text-sm text-emerald-50">
+                Pickup en San Salvador La Gloria
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <span className="rounded-full border border-emerald-200/40 bg-emerald-500/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-50">
+                  Pickup
+                </span>
+                <span className="rounded-full border border-white/30 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80">
+                  La Gloria
+                </span>
+              </div>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <a
+                  href={ctaLink}
+                  className="h-12 rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold text-slate-900 transition hover:bg-emerald-300"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Escribir por WhatsApp
+                </a>
+                <a
+                  href="#catalogo"
+                  className="h-12 rounded-full border border-white/40 px-6 py-3 text-center text-sm font-semibold text-white transition hover:border-emerald-200 hover:text-emerald-100"
+                >
+                  Ver catálogo
+                </a>
+              </div>
             </div>
           </section>
 
