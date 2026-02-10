@@ -61,7 +61,9 @@ const parsePrice = (price?: string) => {
 export const buildOrderWhatsAppLink = (
   items: CartItemInput[],
   zone: string,
-  note: string
+  note: string,
+  paymentMethod: "efectivo" | "tigo" | "transferencia",
+  pickupWindow: "mediodia" | "tarde" | "frio" | ""
 ) => {
   const lines = items.map((item) => {
     const parsed = parsePrice(item.price);
@@ -83,6 +85,20 @@ export const buildOrderWhatsAppLink = (
       : "Total estimado: por confirmar";
   const zoneLine = `Ubicación de referencia: ${zone.trim().length > 0 ? zone.trim() : "____"}.`;
   const noteLine = `Nota: ${note.trim().length > 0 ? note.trim() : "-"}.`;
+  const paymentLine =
+    paymentMethod === "tigo"
+      ? "Pago por Tigo Money, enviaré comprobante."
+      : paymentMethod === "transferencia"
+        ? "Pago por transferencia, enviaré comprobante."
+        : "Pago en efectivo.";
+  const pickupWindowLine =
+    pickupWindow === "mediodia"
+      ? "Ventana de retiro: Mediodía (11:30–12:30)."
+      : pickupWindow === "tarde"
+        ? "Ventana de retiro: Tarde (5:00–6:30)."
+        : pickupWindow === "frio"
+          ? "Ventana de retiro: Fuera de ventana, entregar frío."
+          : "";
   const messageParts = [
     "YRS Minisúper (La Gloria)",
     "Pedido para pickup:",
@@ -90,6 +106,8 @@ export const buildOrderWhatsAppLink = (
     total,
     zoneLine,
     noteLine,
+    pickupWindowLine,
+    paymentLine,
     "Gracias.",
   ].filter((part) => part.length > 0);
   return buildWhatsAppMessageLink(messageParts.join("\n"));

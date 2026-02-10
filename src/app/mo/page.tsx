@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import productsData from "../../data/products.json";
 import type { Product } from "../../lib/mo/types";
 import { buildWhatsAppMessageLink } from "../../lib/mo/whatsapp";
+import CatalogSection from "./CatalogSection";
 import FreeTextOrder from "./FreeTextOrder";
-import ProductCard from "./ProductCard";
 import { CartProvider } from "./cart/CartContext";
 import CartUI from "./cart/CartUI";
 
@@ -134,17 +134,7 @@ export default function MoPage() {
           </div>
         </section>
 
-          <section id="catalogo">
-            <h2 className="text-lg font-semibold text-slate-900">Catálogo</h2>
-            <p className="mt-2 text-sm text-slate-600">
-              Catálogo mínimo con productos listos para pickup.
-            </p>
-            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          </section>
+          <CatalogSection products={products} />
         </div>
         <CartUI />
       </main>

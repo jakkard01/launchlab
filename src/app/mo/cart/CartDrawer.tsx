@@ -17,8 +17,19 @@ type CartDrawerProps = {
 };
 
 export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
-  const { items, updateItemQty, zone, note, setZone, setNote, clearCart } =
-    useCart();
+  const {
+    items,
+    updateItemQty,
+    zone,
+    note,
+    paymentMethod,
+    pickupWindow,
+    setZone,
+    setNote,
+    setPaymentMethod,
+    setPickupWindow,
+    clearCart,
+  } = useCart();
   const total = useMemo(() => {
     if (items.length === 0) return null;
     const totals = items
@@ -32,8 +43,8 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   }, [items]);
 
   const whatsappLink = useMemo(
-    () => buildOrderWhatsAppLink(items, zone, note),
-    [items, zone, note]
+    () => buildOrderWhatsAppLink(items, zone, note, paymentMethod, pickupWindow),
+    [items, zone, note, paymentMethod, pickupWindow]
   );
 
   if (!isOpen) return null;
@@ -126,6 +137,59 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 placeholder="Sin picante, por favor"
                 className="h-12 rounded-2xl border border-slate-200 px-4 text-sm text-slate-700 focus:border-emerald-400 focus:outline-none"
               />
+              <div className="mt-2 grid gap-2">
+                <span className="text-xs font-semibold text-slate-600">
+                  Método de pago
+                </span>
+                <div className="grid gap-2 sm:grid-cols-3">
+                  {[
+                    { value: "efectivo", label: "Efectivo" },
+                    { value: "tigo", label: "Tigo Money" },
+                    { value: "transferencia", label: "Transferencia" },
+                  ].map((option) => (
+                    <label
+                      key={option.value}
+                      className="flex items-center gap-2 rounded-2xl border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700"
+                    >
+                      <input
+                        type="radio"
+                        name="payment"
+                        value={option.value}
+                        checked={paymentMethod === option.value}
+                        onChange={() =>
+                          setPaymentMethod(option.value as typeof paymentMethod)
+                        }
+                        className="h-4 w-4 accent-emerald-600"
+                      />
+                      {option.label}
+                    </label>
+                  ))}
+                </div>
+              </div>
+              <div className="mt-2 grid gap-2">
+                <label
+                  className="text-xs font-semibold text-slate-600"
+                  htmlFor="pickup-window"
+                >
+                  Ventana de retiro (Caliente hoy)
+                </label>
+                <select
+                  id="pickup-window"
+                  value={pickupWindow}
+                  onChange={(event) =>
+                    setPickupWindow(event.target.value as typeof pickupWindow)
+                  }
+                  className="h-12 rounded-2xl border border-slate-200 bg-white px-3 text-sm text-slate-700 focus:border-emerald-400 focus:outline-none"
+                >
+                  <option value="">Selecciona una ventana</option>
+                  <option value="mediodia">Mediodía (11:30–12:30)</option>
+                  <option value="tarde">Tarde (5:00–6:30)</option>
+                  <option value="frio">Fuera de ventana: entregar frío</option>
+                </select>
+                <p className="text-[11px] text-slate-500">
+                  Solo aplica si pedís “Caliente hoy”.
+                </p>
+              </div>
             </div>
 
             <a

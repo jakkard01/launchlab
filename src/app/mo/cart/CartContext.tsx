@@ -21,6 +21,8 @@ type CartState = {
   items: CartItem[];
   zone: string;
   note: string;
+  paymentMethod: "efectivo" | "tigo" | "transferencia";
+  pickupWindow: "mediodia" | "tarde" | "frio" | "";
 };
 
 type CartContextValue = CartState & {
@@ -29,6 +31,8 @@ type CartContextValue = CartState & {
   clearCart: () => void;
   setZone: (value: string) => void;
   setNote: (value: string) => void;
+  setPaymentMethod: (value: CartState["paymentMethod"]) => void;
+  setPickupWindow: (value: CartState["pickupWindow"]) => void;
   totalItems: number;
 };
 
@@ -50,6 +54,17 @@ const safeParse = (payload: string | null): CartState | null => {
       })),
       zone: typeof parsed.zone === "string" ? parsed.zone : "",
       note: typeof parsed.note === "string" ? parsed.note : "",
+      paymentMethod:
+        parsed.paymentMethod === "tigo" ||
+        parsed.paymentMethod === "transferencia"
+          ? parsed.paymentMethod
+          : "efectivo",
+      pickupWindow:
+        parsed.pickupWindow === "mediodia" ||
+        parsed.pickupWindow === "tarde" ||
+        parsed.pickupWindow === "frio"
+          ? parsed.pickupWindow
+          : "",
     };
   } catch {
     return null;
@@ -60,6 +75,10 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [items, setItems] = useState<CartItem[]>([]);
   const [zone, setZone] = useState("");
   const [note, setNote] = useState("");
+  const [paymentMethod, setPaymentMethod] =
+    useState<CartState["paymentMethod"]>("efectivo");
+  const [pickupWindow, setPickupWindow] =
+    useState<CartState["pickupWindow"]>("");
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
@@ -68,15 +87,17 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       setItems(stored.items);
       setZone(stored.zone);
       setNote(stored.note);
+      setPaymentMethod(stored.paymentMethod);
+      setPickupWindow(stored.pickupWindow);
     }
     setHydrated(true);
   }, []);
 
   useEffect(() => {
     if (!hydrated) return;
-    const payload: CartState = { items, zone, note };
+    const payload: CartState = { items, zone, note, paymentMethod, pickupWindow };
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(payload));
-  }, [items, zone, note, hydrated]);
+  }, [items, zone, note, paymentMethod, pickupWindow, hydrated]);
 
   const addItem = useCallback((product: Product, qty: number) => {
     const safeQty = Number.isFinite(qty) && qty > 0 ? qty : 1;
@@ -125,14 +146,28 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       items,
       zone,
       note,
+      paymentMethod,
+      pickupWindow,
       addItem,
       updateItemQty,
       clearCart,
       setZone,
       setNote,
+      setPaymentMethod,
+      setPickupWindow,
       totalItems,
     }),
-    [items, zone, note, addItem, updateItemQty, clearCart, totalItems]
+    [
+      items,
+      zone,
+      note,
+      paymentMethod,
+      pickupWindow,
+      addItem,
+      updateItemQty,
+      clearCart,
+      totalItems,
+    ]
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

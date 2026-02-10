@@ -42,7 +42,7 @@ export default function CartButtonSticky({ onOpen }: CartButtonStickyProps) {
       <div className="flex w-full max-w-sm items-center justify-between gap-3 rounded-2xl border border-emerald-200 bg-white px-4 py-3 shadow-lg">
         <div className="flex flex-col">
           <span className="text-xs font-semibold text-slate-700">
-            {totalItems} productos · {totalLabel}
+            {totalItems} items · {totalLabel}
           </span>
           <span className="text-[11px] text-slate-500">Pedido listo para pickup</span>
         </div>
