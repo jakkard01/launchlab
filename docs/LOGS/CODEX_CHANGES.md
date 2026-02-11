@@ -81,3 +81,10 @@
 - Pruebas: npm run dev (falla EPERM 0.0.0.0:3000)
 - Notas/Riesgos: Verificar scroll suave y tabs sticky en navegador.
 
+- Fecha/Hora: 2026-02-11 05:57:44 CET
+- Commit: 10eddbd
+- Scope: src/app/mo/ProductCard.tsx, src/app/mo/admin/page.tsx, src/app/mo/components/MoQuickShop.tsx, src/app/mo/components/MoStorefront.tsx, src/lib/mo/data/localAdapter.ts, src/lib/mo/data/sheetsAdapter.ts, src/lib/mo/data/supabaseAdapter.ts, src/lib/mo/data/types.ts, src/lib/mo/types.ts, src/lib/mo/pricing.ts
+- Resumen: Se agrego control de ofertas en admin, pricing efectivo y seccion de ofertas en storefront.
+- Pruebas: npm run dev (falla EPERM 0.0.0.0:3000)
+- Notas/Riesgos: Validar que el descuento se aplique en carrito y total.
+
