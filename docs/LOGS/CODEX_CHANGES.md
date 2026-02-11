@@ -1,0 +1,13 @@
+- Fecha/Hora: 2026-02-11 02:19:58 CET
+- Commit: 7d1bdda
+- Scope: src/app/mo/admin/page.tsx
+- Resumen: Se creo /mo/admin con panel base y secciones de stock, precios y caliente hoy, guardado local.
+- Pruebas: No probado.
+- Notas/Riesgos: Estado guardado en localStorage como MVP; migrar a Sheets/Supabase.
+
+- Fecha/Hora: 2026-02-11 02:19:58 CET
+- Commit: acb15fa
+- Scope: src/app/mo/admin/page.tsx
+- Resumen: Se agrego registro manual de ventas y resumen basico de top 7/30.
+- Pruebas: No probado.
+- Notas/Riesgos: Estado guardado en localStorage como MVP; migrar a Sheets/Supabase.
