@@ -27,6 +27,14 @@ export default function MoPage() {
     <CartProvider>
       <main className="min-h-screen w-full px-4 pb-36 pt-10 sm:px-6 lg:px-8">
         <div className="mx-auto flex w-full max-w-5xl flex-col gap-10">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between rounded-2xl bg-slate-900 px-4 py-2 text-xs text-white sm:text-sm">
+            <span className="text-center sm:text-left">
+              Pedís por WhatsApp y pasás a recoger. Sin vueltas.
+            </span>
+            <span className="hidden sm:inline text-white/80">
+              La Gloria • Lun–Dom 6:00 a. m. – 10:00 p. m. (aprox.)
+            </span>
+          </div>
           <section
             className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white px-6 py-8 shadow-sm sm:px-8"
             data-hero-bg="placeholder-gradient"
@@ -52,7 +60,7 @@ export default function MoPage() {
                   La Gloria
                 </span>
               </div>
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center">
                 <a
                   href={ctaLink}
                   className="h-12 rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold text-slate-900 transition hover:bg-emerald-300"
@@ -68,6 +76,21 @@ export default function MoPage() {
                   Ver catálogo
                 </a>
               </div>
+            </div>
+          </section>
+
+          <section className="grid gap-3 rounded-3xl border border-slate-200 bg-white px-6 py-5 text-sm text-slate-700 shadow-sm sm:grid-cols-3 sm:gap-4 sm:px-8">
+            <div className="flex items-center gap-2">
+              <span className="text-emerald-600">✅</span>
+              <span>Confirmamos disponibilidad</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-emerald-600">✅</span>
+              <span>Pago al retirar</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-emerald-600">✅</span>
+              <span>Listo para retiro</span>
             </div>
           </section>
 
