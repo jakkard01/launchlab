@@ -32,3 +32,10 @@
 - Pruebas: No probado.
 - Notas/Riesgos: Ajuste de copy en data local; revisar catalogo si hay mas descripciones.
 
+- Fecha/Hora: 2026-02-11 03:13:46 CET
+- Commit: 36422fe
+- Scope: src/middleware.ts, src/app/mo/admin/acceso/page.tsx
+- Resumen: Se agrego gate de /mo/admin con llave por query y cookie httpOnly, mas pantalla de acceso.
+- Pruebas: No probado.
+- Notas/Riesgos: Requiere MO_ADMIN_ENABLED=1 y MO_ADMIN_KEY en entorno.
+
