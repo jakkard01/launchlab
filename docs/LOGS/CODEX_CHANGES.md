@@ -67,3 +67,10 @@
 - Pruebas: No probado.
 - Notas/Riesgos: Revisar contraste en mobile.
 
+- Fecha/Hora: 2026-02-11 05:34:19 CET
+- Commit: 4718544
+- Scope: src/app/mo/page.tsx, src/app/mo/CatalogSection.tsx, src/app/mo/ProductCard.tsx, src/app/mo/catalogConfig.ts, src/app/mo/components/MoHeader.tsx, src/app/mo/components/MoHero.tsx, src/app/mo/components/MoQuickShop.tsx, src/app/mo/components/MoSections.tsx, src/app/mo/components/MoStorefront.tsx
+- Resumen: Redisenio retail del storefront /mo con header, hero compacto, quick shop y cards ajustadas.
+- Pruebas: npm run dev (falla EPERM 0.0.0.0:3000)
+- Notas/Riesgos: Validar layout real en navegador cuando el puerto lo permita.
+
