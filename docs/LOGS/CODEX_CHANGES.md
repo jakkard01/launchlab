@@ -53,3 +53,10 @@
 - Pruebas: MO_ADMIN_ENABLED=1 MO_ADMIN_KEY=clave_larga npm run dev (falla EPERM 0.0.0.0:3000)
 - Notas/Riesgos: No se pudo validar en navegador por bloqueo de puerto.
 
+- Fecha/Hora: 2026-02-11 05:04:43 CET
+- Commit: 798fc93
+- Scope: src/lib/mo/config.ts, src/app/mo/page.tsx
+- Resumen: Se agrego horario real y link de mapas para la tienda RYS.
+- Pruebas: npm run dev (falla EPERM 0.0.0.0:3000)
+- Notas/Riesgos: Sin validacion en navegador por bloqueo de puerto.
+
