@@ -74,3 +74,10 @@
 - Pruebas: npm run dev (falla EPERM 0.0.0.0:3000)
 - Notas/Riesgos: Validar layout real en navegador cuando el puerto lo permita.
 
+- Fecha/Hora: 2026-02-11 05:41:57 CET
+- Commit: cef4e73
+- Scope: src/app/mo/CatalogSection.tsx, src/app/mo/components/MoQuickShop.tsx, src/app/mo/components/MoSections.tsx, src/app/mo/components/MoStorefront.tsx
+- Resumen: Se agregaron pasillos, top picks y catalogo por secciones con tabs sticky.
+- Pruebas: npm run dev (falla EPERM 0.0.0.0:3000)
+- Notas/Riesgos: Verificar scroll suave y tabs sticky en navegador.
+
