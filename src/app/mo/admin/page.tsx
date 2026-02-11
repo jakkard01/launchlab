@@ -14,11 +14,20 @@ type HotState = {
   end: string;
 };
 
+type SaleEntry = {
+  id: string;
+  productId: string;
+  quantity: number;
+  unitPrice: number;
+  total: number;
+  createdAt: string;
+};
+
 type AdminState = {
   stock: Record<string, StockStatus>;
   prices: Record<string, string>;
   hotToday: Record<string, HotState>;
-  sales: [];
+  sales: SaleEntry[];
 };
 
 const storageKey = "moAdminState.v1";
@@ -55,6 +64,61 @@ const mergeState = (incoming: Partial<AdminState>, products: Product[]) => {
   } as AdminState;
 };
 
+const parseMoney = (value: string) => {
+  const cleaned = value.replace(/[^\d.,-]/g, "").replace(",", ".");
+  const parsed = Number(cleaned);
+  return Number.isFinite(parsed) ? parsed : 0;
+};
+
+const formatMoney = (value: number) => `$${value.toFixed(2)}`;
+
+const isSameDay = (date: Date, reference: Date) => {
+  return date.toDateString() === reference.toDateString();
+};
+
+const isWithinDays = (date: Date, days: number, reference: Date) => {
+  const start = new Date(reference);
+  start.setDate(reference.getDate() - (days - 1));
+  start.setHours(0, 0, 0, 0);
+  return date >= start && date <= reference;
+};
+
+const computeTopProducts = (
+  sales: SaleEntry[],
+  days: number,
+  productNameById: Map<string, string>
+) => {
+  const now = new Date();
+  const totals = new Map<string, { quantity: number; total: number }>();
+
+  sales.forEach((sale) => {
+    const createdAt = new Date(sale.createdAt);
+    if (!isWithinDays(createdAt, days, now)) return;
+
+    const current = totals.get(sale.productId) ?? {
+      quantity: 0,
+      total: 0,
+    };
+    totals.set(sale.productId, {
+      quantity: current.quantity + sale.quantity,
+      total: current.total + sale.total,
+    });
+  });
+
+  return Array.from(totals.entries())
+    .map(([productId, totals]) => ({
+      productId,
+      name: productNameById.get(productId) ?? "Producto sin nombre",
+      ...totals,
+    }))
+    .sort((a, b) => {
+      if (b.quantity !== a.quantity) {
+        return b.quantity - a.quantity;
+      }
+      return b.total - a.total;
+    })
+    .slice(0, 7);
+};
 
 export default function MoAdminPage() {
   const products = productsData as Product[];
@@ -62,11 +126,53 @@ export default function MoAdminPage() {
     createDefaultState(products)
   );
   const [ready, setReady] = useState(false);
+  const [saleProductId, setSaleProductId] = useState(
+    products[0]?.id ?? ""
+  );
+  const [saleQuantity, setSaleQuantity] = useState(1);
+  const [saleUnitPrice, setSaleUnitPrice] = useState(0);
 
   const hotCount = useMemo(() => {
     return products.filter((product) => state.hotToday[product.id]?.enabled)
       .length;
   }, [products, state.hotToday]);
+
+  const productNameById = useMemo(() => {
+    const map = new Map<string, string>();
+    products.forEach((product) => map.set(product.id, product.name));
+    return map;
+  }, [products]);
+
+  const todaySales = useMemo(() => {
+    const today = new Date();
+    return state.sales.filter((sale) =>
+      isSameDay(new Date(sale.createdAt), today)
+    );
+  }, [state.sales]);
+
+  const todayTotals = useMemo(() => {
+    return todaySales.reduce(
+      (acc, sale) => {
+        acc.quantity += sale.quantity;
+        acc.total += sale.total;
+        return acc;
+      },
+      { quantity: 0, total: 0 }
+    );
+  }, [todaySales]);
+
+  const safeQuantity = Math.max(1, Math.floor(saleQuantity || 1));
+  const safeUnitPrice = Number.isFinite(saleUnitPrice) ? saleUnitPrice : 0;
+  const saleTotal = safeQuantity * safeUnitPrice;
+
+  const top7 = useMemo(
+    () => computeTopProducts(state.sales, 7, productNameById),
+    [state.sales, productNameById]
+  );
+  const top30 = useMemo(
+    () => computeTopProducts(state.sales, 30, productNameById),
+    [state.sales, productNameById]
+  );
 
   useEffect(() => {
     const raw = window.localStorage.getItem(storageKey);
@@ -80,6 +186,11 @@ export default function MoAdminPage() {
     }
     setReady(true);
   }, [products]);
+
+  useEffect(() => {
+    if (!saleProductId) return;
+    setSaleUnitPrice(parseMoney(state.prices[saleProductId] ?? ""));
+  }, [saleProductId, state.prices]);
 
   useEffect(() => {
     if (!ready) return;
@@ -107,6 +218,34 @@ export default function MoAdminPage() {
         ...prev.hotToday,
         [id]: { ...prev.hotToday[id], ...next },
       },
+    }));
+  };
+
+  const addSale = () => {
+    if (!saleProductId) return;
+    const quantity = Math.max(1, Math.floor(saleQuantity || 1));
+    const unitPrice = Number.isFinite(saleUnitPrice) ? saleUnitPrice : 0;
+    const total = quantity * unitPrice;
+    const entry: SaleEntry = {
+      id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+      productId: saleProductId,
+      quantity,
+      unitPrice,
+      total,
+      createdAt: new Date().toISOString(),
+    };
+
+    setState((prev) => ({
+      ...prev,
+      sales: [entry, ...prev.sales],
+    }));
+    setSaleQuantity(1);
+  };
+
+  const removeSale = (id: string) => {
+    setState((prev) => ({
+      ...prev,
+      sales: prev.sales.filter((sale) => sale.id !== id),
     }));
   };
 
@@ -308,6 +447,178 @@ export default function MoAdminPage() {
                 </div>
               );
             })}
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-slate-200 bg-white px-6 py-6 shadow-sm">
+          <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-emerald-600">
+              Ventas del dia
+            </p>
+            <h2 className="mt-2 text-lg font-semibold text-slate-900">
+              Registrar venta manual
+            </h2>
+          </div>
+          <div className="mt-4 grid gap-3 rounded-2xl border border-slate-200 px-4 py-4 sm:grid-cols-[1.3fr_0.6fr_0.7fr_0.7fr_auto] sm:items-end">
+            <label className="flex flex-col gap-2 text-xs text-slate-600">
+              Producto
+              <select
+                value={saleProductId}
+                onChange={(event) => setSaleProductId(event.target.value)}
+                className="rounded-full border border-slate-200 px-3 py-2 text-sm text-slate-700"
+              >
+                {products.map((product) => (
+                  <option key={product.id} value={product.id}>
+                    {product.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="flex flex-col gap-2 text-xs text-slate-600">
+              Unidades
+              <input
+                type="number"
+                min={1}
+                value={saleQuantity}
+                onChange={(event) => setSaleQuantity(Number(event.target.value))}
+                className="rounded-full border border-slate-200 px-3 py-2 text-sm text-slate-700"
+              />
+            </label>
+            <label className="flex flex-col gap-2 text-xs text-slate-600">
+              Precio unitario
+              <input
+                type="number"
+                min={0}
+                step={0.01}
+                value={safeUnitPrice}
+                onChange={(event) =>
+                  setSaleUnitPrice(Number(event.target.value))
+                }
+                className="rounded-full border border-slate-200 px-3 py-2 text-sm text-slate-700"
+              />
+            </label>
+            <div className="flex flex-col gap-2 text-xs text-slate-600">
+              Total
+              <div className="rounded-full border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-900">
+                {formatMoney(saleTotal)}
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={addSale}
+              className="h-11 rounded-full bg-emerald-500 px-5 text-sm font-semibold text-white transition hover:bg-emerald-400"
+            >
+              Registrar
+            </button>
+          </div>
+
+          <div className="mt-4 flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-600">
+            <span className="rounded-full border border-slate-200 px-3 py-1">
+              Hoy: {todayTotals.quantity} unidades
+            </span>
+            <span className="rounded-full border border-slate-200 px-3 py-1">
+              Total: {formatMoney(todayTotals.total)}
+            </span>
+          </div>
+
+          <div className="mt-4 grid gap-2">
+            {todaySales.length === 0 ? (
+              <p className="text-xs text-slate-500">
+                Sin ventas registradas hoy.
+              </p>
+            ) : (
+              todaySales.map((sale) => {
+                const time = sale.createdAt.slice(11, 16);
+                return (
+                  <div
+                    key={sale.id}
+                    className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 px-4 py-3"
+                  >
+                    <div>
+                      <p className="text-sm font-semibold text-slate-900">
+                        {productNameById.get(sale.productId) ?? "Producto"}
+                      </p>
+                      <p className="text-xs text-slate-500">
+                        {time} · {sale.quantity} unidades ·{" "}
+                        {formatMoney(sale.total)}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => removeSale(sale.id)}
+                      className="rounded-full border border-rose-200 px-3 py-1 text-xs font-semibold text-rose-600"
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                );
+              })
+            )}
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-slate-200 bg-white px-6 py-6 shadow-sm">
+          <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-emerald-600">
+              Resumen basico
+            </p>
+            <h2 className="mt-2 text-lg font-semibold text-slate-900">
+              Mejores 7 y 30 dias
+            </h2>
+          </div>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <div className="rounded-2xl border border-slate-200 px-4 py-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                Ultimos 7 dias
+              </p>
+              <div className="mt-3 grid gap-2">
+                {top7.length === 0 ? (
+                  <p className="text-xs text-slate-500">
+                    Sin datos todavia.
+                  </p>
+                ) : (
+                  top7.map((entry, index) => (
+                    <div
+                      key={entry.productId}
+                      className="flex items-center justify-between text-sm text-slate-700"
+                    >
+                      <span>
+                        {index + 1}. {entry.name}
+                      </span>
+                      <span className="text-xs text-slate-500">
+                        {entry.quantity} u · {formatMoney(entry.total)}
+                      </span>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-slate-200 px-4 py-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                Ultimos 30 dias
+              </p>
+              <div className="mt-3 grid gap-2">
+                {top30.length === 0 ? (
+                  <p className="text-xs text-slate-500">
+                    Sin datos todavia.
+                  </p>
+                ) : (
+                  top30.map((entry, index) => (
+                    <div
+                      key={entry.productId}
+                      className="flex items-center justify-between text-sm text-slate-700"
+                    >
+                      <span>
+                        {index + 1}. {entry.name}
+                      </span>
+                      <span className="text-xs text-slate-500">
+                        {entry.quantity} u · {formatMoney(entry.total)}
+                      </span>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
           </div>
         </section>
       </div>
