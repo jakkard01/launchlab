@@ -25,3 +25,10 @@
 - Pruebas: No probado.
 - Notas/Riesgos: Copys actualizados; revisar mensajes de WhatsApp en flujo real.
 
+- Fecha/Hora: 2026-02-11 03:09:01 CET
+- Commit: 561d366
+- Scope: src/data/products.json
+- Resumen: Se reemplazo "pickup" por "retiro" en descripcion de producto.
+- Pruebas: No probado.
+- Notas/Riesgos: Ajuste de copy en data local; revisar catalogo si hay mas descripciones.
+
