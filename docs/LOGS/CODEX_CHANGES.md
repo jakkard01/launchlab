@@ -46,3 +46,10 @@
 - Pruebas: No probado.
 - Notas/Riesgos: Verificar que el indice canonico sea docs/obsidian/00_INDEX.md.
 
+- Fecha/Hora: 2026-02-11 04:30:26 CET
+- Commit: a53e93d
+- Scope: src/app/mo/admin/page.tsx, src/lib/mo/data/types.ts, src/lib/mo/data/localAdapter.ts, src/lib/mo/data/sheetsAdapter.ts, src/lib/mo/data/supabaseAdapter.ts
+- Resumen: Admin ahora usa data layer; estado y ventas pasan por el adapter local.
+- Pruebas: MO_ADMIN_ENABLED=1 MO_ADMIN_KEY=clave_larga npm run dev (falla EPERM 0.0.0.0:3000)
+- Notas/Riesgos: No se pudo validar en navegador por bloqueo de puerto.
+
