@@ -64,7 +64,9 @@ export default function MoSections({
         </div>
       </section>
 
-      <FreeTextOrder />
+      <div id="pedido-especial" className="scroll-mt-28">
+        <FreeTextOrder />
+      </div>
 
       <section className="rounded-3xl border border-slate-200 bg-white px-6 py-8 shadow-sm sm:px-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
