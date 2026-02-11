@@ -44,7 +44,9 @@ export default function CartButtonSticky({ onOpen }: CartButtonStickyProps) {
           <span className="text-xs font-semibold text-slate-700">
             {totalItems} items · {totalLabel}
           </span>
-          <span className="text-[11px] text-slate-500">Pedido listo para pickup</span>
+          <span className="text-[11px] text-slate-500">
+            Pedido listo para retiro
+          </span>
         </div>
         <button
           type="button"

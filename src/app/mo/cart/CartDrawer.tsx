@@ -184,7 +184,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   <option value="">Selecciona una ventana</option>
                   <option value="mediodia">Mediodía (11:30–12:30)</option>
                   <option value="tarde">Tarde (5:00–6:30)</option>
-                  <option value="frio">Fuera de ventana: entregar frío</option>
+                  <option value="frio">Fuera de ventana: retiro en frío</option>
                 </select>
                 <p className="text-[11px] text-slate-500">
                   Solo aplica si pedís “Caliente hoy”.
@@ -202,7 +202,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               Enviar pedido por WhatsApp
             </a>
             <div className="flex items-center justify-between text-xs text-slate-500">
-              <span>Pickup</span>
+              <span>Retiro</span>
               <button
                 type="button"
                 onClick={clearCart}

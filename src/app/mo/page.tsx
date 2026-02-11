@@ -8,8 +8,8 @@ import { CartProvider } from "./cart/CartContext";
 import CartUI from "./cart/CartUI";
 
 export const metadata: Metadata = {
-  title: "YRS Minisúper",
-  description: "Pickup en San Salvador La Gloria.",
+  title: "RYS Minisúper",
+  description: "Retiro en La Gloria, San Salvador.",
   robots: {
     index: false,
     follow: false,
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 export default function MoPage() {
   const products: Product[] = productsData;
   const ctaLink = buildWhatsAppMessageLink(
-    "Hola YRS Minisúper, quiero hacer un pedido para pickup."
+    "Hola RYS Minisúper, quiero hacer un pedido para retiro."
   );
 
   return (
@@ -38,14 +38,14 @@ export default function MoPage() {
                 PRE-LANZAMIENTO
               </p>
               <h1 className="mt-3 text-4xl font-semibold text-white sm:text-5xl">
-                YRS Minisúper
+                RYS Minisúper
               </h1>
               <p className="mt-2 text-sm text-emerald-50">
-                Pickup en San Salvador La Gloria
+                Retiro en La Gloria, San Salvador
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 <span className="rounded-full border border-emerald-200/40 bg-emerald-500/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-50">
-                  Pickup
+                  Retiro
                 </span>
                 <span className="rounded-full border border-white/30 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80">
                   La Gloria
@@ -76,7 +76,7 @@ export default function MoPage() {
               Cómo pedir
             </p>
             <p className="mt-2 text-sm text-slate-600">
-              3 pasos simples para tu pickup.
+              3 pasos para pedir y retirar.
             </p>
           </div>
           <div className="rounded-2xl border border-slate-200 px-4 py-4">
@@ -100,7 +100,7 @@ export default function MoPage() {
           <div className="rounded-2xl border border-slate-200 px-4 py-4">
             <p className="text-xs font-semibold text-emerald-600">Paso 3</p>
             <p className="mt-1 text-sm font-semibold text-slate-900">
-              Retira en pickup
+              Pasás a recoger
             </p>
             <p className="mt-1 text-xs text-slate-500">
               Listo para retirar.

@@ -19,7 +19,7 @@ export const buildWhatsAppLink = ({
   note,
   zone,
 }: WhatsAppParams) => {
-  const pickupLabel = pickup ? "Pickup" : "Delivery";
+  const pickupLabel = pickup ? "Retiro" : "Entrega";
   const userZone = zone && zone.trim().length > 0 ? zone.trim() : "____";
   const noteLine =
     note && note.trim().length > 0 ? ` Nota: ${note.trim()}.` : "";
@@ -42,7 +42,7 @@ export const buildWhatsAppLinkFreeText = ({
   const userZone = zone && zone.trim().length > 0 ? zone.trim() : "____";
   const noteLine =
     note && note.trim().length > 0 ? ` Nota: ${note.trim()}.` : " Nota: -.";
-  const message = `Hola YRS Minisúper, necesito: ${safeItem}.${noteLine} Estoy cerca de: ${userZone}. Pickup.`;
+  const message = `Hola RYS Minisúper, necesito: ${safeItem}.${noteLine} Estoy cerca de: ${userZone}. Retiro.`;
   return buildWhatsAppMessageLink(message);
 };
 
@@ -97,11 +97,11 @@ export const buildOrderWhatsAppLink = (
       : pickupWindow === "tarde"
         ? "Ventana de retiro: Tarde (5:00–6:30)."
         : pickupWindow === "frio"
-          ? "Ventana de retiro: Fuera de ventana, entregar frío."
+          ? "Ventana de retiro: Fuera de ventana, retiro en frío."
           : "";
   const messageParts = [
-    "YRS Minisúper (La Gloria)",
-    "Pedido para pickup:",
+    "RYS Minisúper (La Gloria)",
+    "Pedido para retiro:",
     ...lines,
     total,
     zoneLine,

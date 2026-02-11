@@ -1,7 +1,7 @@
 import { buildWhatsAppMessageLink } from "../../lib/mo/whatsapp";
 
 export default function StickyWhatsAppButton() {
-  const message = "Hola YRS Minisúper, quiero hacer un pedido para pickup.";
+  const message = "Hola RYS Minisúper, quiero hacer un pedido para retiro.";
   const whatsappLink = buildWhatsAppMessageLink(message);
 
   return (
@@ -11,7 +11,7 @@ export default function StickyWhatsAppButton() {
         className="h-12 w-full max-w-xs rounded-full bg-emerald-600 px-6 py-3 text-center text-sm font-semibold text-white shadow-lg transition hover:bg-emerald-700"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Abrir WhatsApp para pedido pickup"
+        aria-label="Abrir WhatsApp para pedido retiro"
       >
         Escribir por WhatsApp
       </a>

@@ -63,7 +63,7 @@ export default function CatalogSection({ products }: CatalogSectionProps) {
       <div className="flex flex-col gap-3">
         <h2 className="text-lg font-semibold text-slate-900">Catálogo</h2>
         <p className="text-sm text-slate-600">
-          Catálogo mínimo con productos listos para pickup.
+          Catálogo mínimo con productos listos para retiro.
         </p>
         <input
           type="search"

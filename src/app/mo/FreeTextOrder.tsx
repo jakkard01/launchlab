@@ -26,7 +26,7 @@ export default function FreeTextOrder() {
           Pedir algo que no está en el catálogo
         </h2>
         <p className="text-sm text-slate-600">
-          Escríbenos y lo buscamos para pickup.
+          Escríbenos y lo buscamos para retiro.
         </p>
       </div>
       <div className="mt-5 grid gap-3">
@@ -73,7 +73,7 @@ export default function FreeTextOrder() {
           Enviar pedido por WhatsApp
         </a>
         <p className="text-xs text-emerald-700">
-          Te confirmamos disponibilidad y tiempo de pickup.
+          Te confirmamos disponibilidad y tiempo de retiro.
         </p>
       </div>
     </div>
