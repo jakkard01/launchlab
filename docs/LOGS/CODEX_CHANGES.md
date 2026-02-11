@@ -39,3 +39,10 @@
 - Pruebas: No probado.
 - Notas/Riesgos: Requiere MO_ADMIN_ENABLED=1 y MO_ADMIN_KEY en entorno.
 
+- Fecha/Hora: 2026-02-11 04:21:26 CET
+- Commit: 86c78d7
+- Scope: docs/SCOPE_CANONICO.md, scripts/scope-check.sh, package.json, docs/_Quarantine/00-INDEX.md
+- Resumen: Se documento el scope canonico de tienda hermana, se agrego scope-check y se movio el indice duplicado a cuarentena.
+- Pruebas: No probado.
+- Notas/Riesgos: Verificar que el indice canonico sea docs/obsidian/00_INDEX.md.
+
