@@ -60,3 +60,10 @@
 - Pruebas: npm run dev (falla EPERM 0.0.0.0:3000)
 - Notas/Riesgos: Sin validacion en navegador por bloqueo de puerto.
 
+- Fecha/Hora: 2026-02-11 05:18:31 CET
+- Commit: 46f08ea
+- Scope: src/app/mo/page.tsx
+- Resumen: Se agrego announcement bar y trust strip para conversion en /mo.
+- Pruebas: No probado.
+- Notas/Riesgos: Revisar contraste en mobile.
+
