@@ -9,6 +9,7 @@ import type {
   MoStats,
   OrderLogEntry,
   OrderLogInput,
+  PromoState,
   StockStatus,
 } from "./types";
 
@@ -17,6 +18,7 @@ const STORAGE_KEY = "moData.v1";
 type LocalStore = {
   stock: Record<string, StockStatus>;
   prices: Record<string, string>;
+  promo: Record<string, PromoState>;
   hotToday: Record<string, HotState>;
   orderLogs: OrderLogEntry[];
   dailySales: DailySalesEntry[];
@@ -33,17 +35,23 @@ const emptyHotState = (): HotState => ({
 const createDefaultStore = (products: Product[]): LocalStore => {
   const stock: Record<string, StockStatus> = {};
   const prices: Record<string, string> = {};
+  const promo: Record<string, PromoState> = {};
   const hotToday: Record<string, HotState> = {};
 
   products.forEach((product) => {
     stock[product.id] = "disponible";
     prices[product.id] = product.price;
+    promo[product.id] = {
+      enabled: product.promoEnabled ?? false,
+      percent: product.promoPercent ?? 0,
+    };
     hotToday[product.id] = emptyHotState();
   });
 
   return {
     stock,
     prices,
+    promo,
     hotToday,
     orderLogs: [],
     dailySales: [],
@@ -58,6 +66,7 @@ const ensureStore = (incoming: Partial<LocalStore>, products: Product[]) => {
     ...incoming,
     stock: { ...base.stock, ...incoming.stock },
     prices: { ...base.prices, ...incoming.prices },
+    promo: { ...base.promo, ...incoming.promo },
     hotToday: { ...base.hotToday, ...incoming.hotToday },
     orderLogs: Array.isArray(incoming.orderLogs) ? incoming.orderLogs : [],
     dailySales: Array.isArray(incoming.dailySales) ? incoming.dailySales : [],
@@ -140,6 +149,9 @@ const decorateProducts = (store: LocalStore) => {
   return products.map((product) => ({
     ...product,
     price: store.prices[product.id] ?? product.price,
+    promoEnabled: store.promo[product.id]?.enabled ?? false,
+    promoPercent: store.promo[product.id]?.percent ?? 0,
+    stockStatus: store.stock[product.id] ?? "disponible",
   }));
 };
 
@@ -154,6 +166,7 @@ export const localAdapter: MoDataAdapter = {
       products: decorateProducts(store),
       stock: store.stock,
       prices: store.prices,
+      promo: store.promo,
       hotToday: store.hotToday,
       orderLogs: store.orderLogs,
       dailySales: store.dailySales,
@@ -172,6 +185,20 @@ export const localAdapter: MoDataAdapter = {
     const next = {
       ...store,
       prices: { ...store.prices, [id]: price },
+    };
+    writeStore(next);
+  },
+  async updatePromo(id, enabled, percent) {
+    const store = readStore();
+    const next = {
+      ...store,
+      promo: {
+        ...store.promo,
+        [id]: {
+          enabled,
+          percent,
+        },
+      },
     };
     writeStore(next);
   },

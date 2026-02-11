@@ -6,4 +6,9 @@ export type Product = {
   description: string;
   image: string;
   isFeatured: boolean;
+  promoEnabled?: boolean;
+  promoPercent?: number;
+  featuredRank?: number;
+  imageUrl?: string;
+  stockStatus?: "disponible" | "ultimas" | "agotado";
 };

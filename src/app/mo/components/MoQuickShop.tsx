@@ -33,6 +33,18 @@ export default function MoQuickShop({
     [products]
   );
 
+  const promoProducts = useMemo(() => {
+    return products
+      .filter((product) => product.promoEnabled && (product.promoPercent ?? 0) > 0)
+      .sort((a, b) => {
+        const byPercent =
+          (b.promoPercent ?? 0) - (a.promoPercent ?? 0);
+        if (byPercent !== 0) return byPercent;
+        return a.name.localeCompare(b.name);
+      })
+      .slice(0, 6);
+  }, [products]);
+
   const aisles = [
     {
       id: "hot",
@@ -117,6 +129,30 @@ export default function MoQuickShop({
           <span>Pedido especial</span>
           <MessageCircle className="h-4 w-4" aria-hidden="true" />
         </button>
+      </div>
+
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-semibold text-slate-900">
+            Ofertas rápidas
+          </h3>
+          <span className="text-xs text-slate-500">
+            Descuentos del día
+          </span>
+        </div>
+        {promoProducts.length > 0 ? (
+          <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
+            {promoProducts.map((product) => (
+              <div key={product.id} className="min-w-[240px] sm:min-w-0">
+                <ProductCard product={product} variant="compact" />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="rounded-2xl border border-dashed border-slate-200 px-4 py-5 text-sm text-slate-500">
+            Aún no hay ofertas activas.
+          </div>
+        )}
       </div>
 
       <div className="space-y-3">

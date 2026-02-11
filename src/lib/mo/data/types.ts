@@ -55,10 +55,16 @@ export type MoStats = {
   mostRequestedSoldOut: StatEntry[];
 };
 
+export type PromoState = {
+  enabled: boolean;
+  percent: number;
+};
+
 export type AdminSnapshot = {
   products: Product[];
   stock: Record<string, StockStatus>;
   prices: Record<string, string>;
+  promo: Record<string, PromoState>;
   hotToday: Record<string, HotState>;
   orderLogs: OrderLogEntry[];
   dailySales: DailySalesEntry[];
@@ -69,6 +75,7 @@ export type MoDataAdapter = {
   getAdminSnapshot: () => Promise<AdminSnapshot>;
   updateStock: (id: string, status: StockStatus) => Promise<void>;
   updatePrice: (id: string, price: string) => Promise<void>;
+  updatePromo: (id: string, enabled: boolean, percent: number) => Promise<void>;
   updateHot: (id: string, next: Partial<HotState>) => Promise<void>;
   logOrder: (entry: OrderLogInput) => Promise<void>;
   removeOrder: (id: string) => Promise<void>;

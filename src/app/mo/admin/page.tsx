@@ -3,12 +3,18 @@
 import { useEffect, useMemo, useState } from "react";
 import type { Product } from "../../../lib/mo/types";
 import { getMoDataAdapter } from "../../../lib/mo/data";
+import {
+  getEffectivePrice,
+  getPromoLabel,
+  getPromoSavings,
+} from "../../../lib/mo/pricing";
 import type {
   HotState,
   HotStatus,
   MoDataAdapter,
   MoStats,
   OrderLogEntry,
+  PromoState,
   StockStatus,
 } from "../../../lib/mo/data/types";
 
@@ -46,6 +52,7 @@ export default function MoAdminPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [stock, setStock] = useState<Record<string, StockStatus>>({});
   const [prices, setPrices] = useState<Record<string, string>>({});
+  const [promo, setPromo] = useState<Record<string, PromoState>>({});
   const [hotToday, setHotToday] = useState<Record<string, HotState>>({});
   const [orderLogs, setOrderLogs] = useState<OrderLogEntry[]>([]);
   const [stats, setStats] = useState<MoStats | null>(null);
@@ -59,6 +66,7 @@ export default function MoAdminPage() {
     setProducts(snapshot.products);
     setStock(snapshot.stock);
     setPrices(snapshot.prices);
+    setPromo(snapshot.promo);
     setHotToday(snapshot.hotToday);
     setOrderLogs(snapshot.orderLogs);
   };
@@ -173,6 +181,24 @@ export default function MoAdminPage() {
     }
   };
 
+  const updatePromo = async (
+    id: string,
+    enabled: boolean,
+    percent: number
+  ) => {
+    if (!adapter) return;
+    setPromo((prev) => ({
+      ...prev,
+      [id]: { enabled, percent },
+    }));
+    try {
+      await adapter.updatePromo(id, enabled, percent);
+    } catch (err) {
+      setError("No se pudo actualizar la oferta.");
+      await reloadAll(adapter);
+    }
+  };
+
   const updateHot = async (id: string, next: Partial<HotState>) => {
     if (!adapter) return;
     setHotToday((prev) => ({
@@ -228,6 +254,8 @@ export default function MoAdminPage() {
     { value: "se_acabo", label: "Se acabo" },
     { value: "hoy_no_hicimos", label: "Hoy no hicimos" },
   ];
+
+  const promoOptions = [0, 5, 10, 15, 20];
 
   if (loading) {
     return (
@@ -360,6 +388,98 @@ export default function MoAdminPage() {
                 />
               </label>
             ))}
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-slate-200 bg-white px-6 py-6 shadow-sm">
+          <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-emerald-600">
+              Ofertas
+            </p>
+            <h2 className="mt-2 text-lg font-semibold text-slate-900">
+              Descuento controlado por producto
+            </h2>
+          </div>
+          <div className="mt-4 grid gap-3">
+            {products.map((product) => {
+              const promoState = promo[product.id] ?? {
+                enabled: false,
+                percent: 0,
+              };
+              const basePrice = prices[product.id] ?? product.price;
+              const promoProduct: Product = {
+                ...product,
+                price: basePrice,
+                promoEnabled: promoState.enabled,
+                promoPercent: promoState.percent,
+              };
+              const promoLabel = getPromoLabel(promoProduct);
+              const effectivePrice = getEffectivePrice(promoProduct);
+              const savings = getPromoSavings(promoProduct);
+
+              return (
+                <div
+                  key={product.id}
+                  className="grid gap-3 rounded-2xl border border-slate-200 px-4 py-4 sm:grid-cols-[1.3fr_1.1fr_1.1fr]"
+                >
+                  <div>
+                    <p className="text-sm font-semibold text-slate-900">
+                      {product.name}
+                    </p>
+                    <p className="text-xs text-slate-500">
+                      Base: {basePrice} · Final: {effectivePrice}
+                      {savings !== null
+                        ? ` · Ahorro: $${savings.toFixed(2)}`
+                        : ""}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <label className="flex items-center gap-2 text-xs text-slate-600">
+                      <input
+                        type="checkbox"
+                        checked={promoState.enabled}
+                        onChange={(event) =>
+                          updatePromo(
+                            product.id,
+                            event.target.checked,
+                            event.target.checked ? promoState.percent : 0
+                          )
+                        }
+                        className="h-4 w-4 rounded border-slate-300 text-emerald-600"
+                      />
+                      En oferta
+                    </label>
+                    <select
+                      value={promoState.percent}
+                      onChange={(event) =>
+                        updatePromo(
+                          product.id,
+                          promoState.enabled,
+                          Number(event.target.value)
+                        )
+                      }
+                      disabled={!promoState.enabled}
+                      className="rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-700 disabled:opacity-50"
+                    >
+                      {promoOptions.map((percent) => (
+                        <option key={percent} value={percent}>
+                          {percent}%
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-emerald-700">
+                    {promoLabel ? (
+                      <span className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1">
+                        {promoLabel}
+                      </span>
+                    ) : (
+                      <span className="text-slate-400">Sin oferta</span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </section>
 

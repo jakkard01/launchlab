@@ -19,6 +19,9 @@ export const supabaseAdapter: MoDataAdapter = {
   async updatePrice() {
     return notConfigured();
   },
+  async updatePromo() {
+    return notConfigured();
+  },
   async updateHot() {
     return notConfigured();
   },

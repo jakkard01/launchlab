@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { Product } from "../../lib/mo/types";
 import type { StockStatus } from "../../lib/mo/data/types";
+import { getEffectivePrice, getPromoLabel } from "../../lib/mo/pricing";
 import QuantityStepper from "./cart/QuantityStepper";
 import { useCart } from "./cart/CartContext";
 
@@ -26,17 +27,20 @@ const stockLabels: Record<StockStatus, string> = {
 
 export default function ProductCard({
   product,
-  stockStatus = "disponible",
+  stockStatus,
   variant = "default",
 }: ProductCardProps) {
   const { addItem } = useCart();
   const [qty, setQty] = useState(1);
   const [justAdded, setJustAdded] = useState(false);
   const isCompact = variant === "compact";
+  const promoLabel = getPromoLabel(product);
+  const effectivePrice = getEffectivePrice(product);
+  const resolvedStock = stockStatus ?? product.stockStatus ?? "disponible";
 
   const handleAdd = () => {
     const safeQty = Number.isFinite(qty) && qty > 0 ? qty : 1;
-    addItem(product, safeQty);
+    addItem({ ...product, price: effectivePrice }, safeQty);
     setJustAdded(true);
     window.setTimeout(() => setJustAdded(false), 1200);
   };
@@ -52,18 +56,29 @@ export default function ProductCard({
           {product.name}
         </h3>
         <span
-          className={`rounded-full border px-2 py-1 text-[11px] uppercase tracking-[0.2em] ${stockStyles[stockStatus]}`}
+          className={`rounded-full border px-2 py-1 text-[11px] uppercase tracking-[0.2em] ${stockStyles[resolvedStock]}`}
         >
-          {stockLabels[stockStatus]}
+          {stockLabels[resolvedStock]}
         </span>
       </div>
       <div className="mt-2 flex items-center justify-between">
-        <p className="text-base font-semibold text-emerald-700">
-          {product.price}
-        </p>
-        {product.isFeatured ? (
+        <div className="flex items-center gap-2">
+          {promoLabel ? (
+            <span className="text-xs text-slate-400 line-through">
+              {product.price}
+            </span>
+          ) : null}
+          <p className="text-base font-semibold text-emerald-700">
+            {effectivePrice}
+          </p>
+        </div>
+        {promoLabel ? (
+          <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-emerald-700">
+            {promoLabel}
+          </span>
+        ) : product.isFeatured ? (
           <span className="rounded-full border border-slate-200 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-slate-500">
-            Oferta
+            Destacado
           </span>
         ) : null}
       </div>
