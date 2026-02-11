@@ -18,3 +18,10 @@
 - Pruebas: No probado.
 - Notas/Riesgos: Adapters sheets/supabase no estan configurados; local usa almacenamiento local en navegador.
 
+- Fecha/Hora: 2026-02-11 02:58:54 CET
+- Commit: 1a213bd
+- Scope: src/app/mo/CatalogSection.tsx, src/app/mo/FreeTextOrder.tsx, src/app/mo/StickyWhatsAppButton.tsx, src/app/mo/cart/CartButtonSticky.tsx, src/app/mo/cart/CartDrawer.tsx, src/app/mo/page.tsx, src/lib/mo/whatsapp.ts
+- Resumen: Se corrigio la marca a RYS y se reemplazo "pickup" por copy de retiro/pasas a recoger.
+- Pruebas: No probado.
+- Notas/Riesgos: Copys actualizados; revisar mensajes de WhatsApp en flujo real.
+
