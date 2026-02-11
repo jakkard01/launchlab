@@ -12,6 +12,7 @@
     "ops:parity:prod": "bash scripts/parity-prod.sh",
     "preflight": "bash scripts/preflight.sh",
     "resume": "bash scripts/handoff/obsidian_sync.sh && bash scripts/handoff/refresh-start-here.sh && bash scripts/handoff/resume_contextpack.sh",
+    "scope:check": "bash scripts/scope-check.sh",
     "dev:safe": "bash scripts/dev_safe.sh"
   },
   "dependencies": {

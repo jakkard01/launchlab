@@ -1,4 +1,6 @@
-# 00-INDEX
+# 00-INDEX (NO CANONICO)
+
+Nota: archivo en cuarentena; no usar para operar.
 
 - [[PRODUCTS]]
 - [[SCOPE]]
