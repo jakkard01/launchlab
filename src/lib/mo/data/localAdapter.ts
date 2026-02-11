@@ -1,6 +1,7 @@
 import productsData from "../../../data/products.json";
 import type { Product } from "../types";
 import type {
+  AdminSnapshot,
   DailySalesEntry,
   DailySalesInput,
   HotState,
@@ -147,6 +148,17 @@ export const localAdapter: MoDataAdapter = {
     const store = readStore();
     return decorateProducts(store);
   },
+  async getAdminSnapshot(): Promise<AdminSnapshot> {
+    const store = readStore();
+    return {
+      products: decorateProducts(store),
+      stock: store.stock,
+      prices: store.prices,
+      hotToday: store.hotToday,
+      orderLogs: store.orderLogs,
+      dailySales: store.dailySales,
+    };
+  },
   async updateStock(id, status) {
     const store = readStore();
     const next = {
@@ -189,6 +201,14 @@ export const localAdapter: MoDataAdapter = {
     const next = {
       ...store,
       orderLogs: [record, ...store.orderLogs],
+    };
+    writeStore(next);
+  },
+  async removeOrder(id: string) {
+    const store = readStore();
+    const next = {
+      ...store,
+      orderLogs: store.orderLogs.filter((order) => order.id !== id),
     };
     writeStore(next);
   },

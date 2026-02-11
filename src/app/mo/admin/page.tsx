@@ -1,68 +1,16 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import productsData from "../../../data/products.json";
 import type { Product } from "../../../lib/mo/types";
-
-type StockStatus = "disponible" | "ultimas" | "agotado";
-type HotStatus = "activo" | "pausa";
-
-type HotState = {
-  enabled: boolean;
-  status: HotStatus;
-  start: string;
-  end: string;
-};
-
-type SaleEntry = {
-  id: string;
-  productId: string;
-  quantity: number;
-  unitPrice: number;
-  total: number;
-  createdAt: string;
-};
-
-type AdminState = {
-  stock: Record<string, StockStatus>;
-  prices: Record<string, string>;
-  hotToday: Record<string, HotState>;
-  sales: SaleEntry[];
-};
-
-const storageKey = "moAdminState.v1";
-
-const createDefaultState = (products: Product[]): AdminState => {
-  const stock: Record<string, StockStatus> = {};
-  const prices: Record<string, string> = {};
-  const hotToday: Record<string, HotState> = {};
-
-  products.forEach((product) => {
-    stock[product.id] = "disponible";
-    prices[product.id] = product.price;
-    hotToday[product.id] = {
-      enabled: false,
-      status: "activo",
-      start: "",
-      end: "",
-    };
-  });
-
-  return { stock, prices, hotToday, sales: [] };
-};
-
-const mergeState = (incoming: Partial<AdminState>, products: Product[]) => {
-  const base = createDefaultState(products);
-
-  return {
-    ...base,
-    ...incoming,
-    stock: { ...base.stock, ...incoming.stock },
-    prices: { ...base.prices, ...incoming.prices },
-    hotToday: { ...base.hotToday, ...incoming.hotToday },
-    sales: Array.isArray(incoming.sales) ? incoming.sales : [],
-  } as AdminState;
-};
+import { getMoDataAdapter } from "../../../lib/mo/data";
+import type {
+  HotState,
+  HotStatus,
+  MoDataAdapter,
+  MoStats,
+  OrderLogEntry,
+  StockStatus,
+} from "../../../lib/mo/data/types";
 
 const parseMoney = (value: string) => {
   const cleaned = value.replace(/[^\d.,-]/g, "").replace(",", ".");
@@ -76,66 +24,99 @@ const isSameDay = (date: Date, reference: Date) => {
   return date.toDateString() === reference.toDateString();
 };
 
-const isWithinDays = (date: Date, days: number, reference: Date) => {
-  const start = new Date(reference);
-  start.setDate(reference.getDate() - (days - 1));
-  start.setHours(0, 0, 0, 0);
-  return date >= start && date <= reference;
-};
+const defaultHotState = (): HotState => ({
+  status: "hoy_no_hicimos",
+  windowStart: "",
+  windowEnd: "",
+  note: "",
+  updatedAt: "",
+});
 
-const computeTopProducts = (
-  sales: SaleEntry[],
-  days: number,
-  productNameById: Map<string, string>
-) => {
-  const now = new Date();
-  const totals = new Map<string, { quantity: number; total: number }>();
-
-  sales.forEach((sale) => {
-    const createdAt = new Date(sale.createdAt);
-    if (!isWithinDays(createdAt, days, now)) return;
-
-    const current = totals.get(sale.productId) ?? {
-      quantity: 0,
-      total: 0,
-    };
-    totals.set(sale.productId, {
-      quantity: current.quantity + sale.quantity,
-      total: current.total + sale.total,
-    });
-  });
-
-  return Array.from(totals.entries())
-    .map(([productId, totals]) => ({
-      productId,
-      name: productNameById.get(productId) ?? "Producto sin nombre",
-      ...totals,
-    }))
-    .sort((a, b) => {
-      if (b.quantity !== a.quantity) {
-        return b.quantity - a.quantity;
-      }
-      return b.total - a.total;
-    })
-    .slice(0, 7);
+const hotLabels: Record<HotStatus, string> = {
+  preparando: "Preparando",
+  listo: "Listo",
+  se_acabo: "Se acabo",
+  hoy_no_hicimos: "Hoy no hicimos",
 };
 
 export default function MoAdminPage() {
-  const products = productsData as Product[];
-  const [state, setState] = useState<AdminState>(() =>
-    createDefaultState(products)
-  );
-  const [ready, setReady] = useState(false);
-  const [saleProductId, setSaleProductId] = useState(
-    products[0]?.id ?? ""
-  );
+  const [adapter, setAdapter] = useState<MoDataAdapter | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [stock, setStock] = useState<Record<string, StockStatus>>({});
+  const [prices, setPrices] = useState<Record<string, string>>({});
+  const [hotToday, setHotToday] = useState<Record<string, HotState>>({});
+  const [orderLogs, setOrderLogs] = useState<OrderLogEntry[]>([]);
+  const [stats, setStats] = useState<MoStats | null>(null);
+
+  const [saleProductId, setSaleProductId] = useState("");
   const [saleQuantity, setSaleQuantity] = useState(1);
   const [saleUnitPrice, setSaleUnitPrice] = useState(0);
 
+  const loadSnapshot = async (activeAdapter: MoDataAdapter) => {
+    const snapshot = await activeAdapter.getAdminSnapshot();
+    setProducts(snapshot.products);
+    setStock(snapshot.stock);
+    setPrices(snapshot.prices);
+    setHotToday(snapshot.hotToday);
+    setOrderLogs(snapshot.orderLogs);
+  };
+
+  const loadStats = async (activeAdapter: MoDataAdapter) => {
+    const nextStats = await activeAdapter.getStats();
+    setStats(nextStats);
+  };
+
+  const reloadAll = async (activeAdapter?: MoDataAdapter) => {
+    const current = activeAdapter ?? adapter;
+    if (!current) return;
+    await Promise.all([loadSnapshot(current), loadStats(current)]);
+  };
+
+  useEffect(() => {
+    let active = true;
+
+    const init = async () => {
+      setLoading(true);
+      try {
+        const dataAdapter = await getMoDataAdapter();
+        if (!active) return;
+        setAdapter(dataAdapter);
+        await reloadAll(dataAdapter);
+        if (!active) return;
+        setError(null);
+      } catch (err) {
+        if (!active) return;
+        setError("No se pudo cargar el panel.");
+      } finally {
+        if (active) setLoading(false);
+      }
+    };
+
+    init();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!saleProductId && products.length > 0) {
+      setSaleProductId(products[0].id);
+    }
+  }, [products, saleProductId]);
+
+  useEffect(() => {
+    if (!saleProductId) return;
+    setSaleUnitPrice(parseMoney(prices[saleProductId] ?? ""));
+  }, [saleProductId, prices]);
+
   const hotCount = useMemo(() => {
-    return products.filter((product) => state.hotToday[product.id]?.enabled)
-      .length;
-  }, [products, state.hotToday]);
+    return Object.values(hotToday).filter(
+      (hot) => hot && hot.status !== "hoy_no_hicimos"
+    ).length;
+  }, [hotToday]);
 
   const productNameById = useMemo(() => {
     const map = new Map<string, string>();
@@ -145,15 +126,16 @@ export default function MoAdminPage() {
 
   const todaySales = useMemo(() => {
     const today = new Date();
-    return state.sales.filter((sale) =>
+    return orderLogs.filter((sale) =>
       isSameDay(new Date(sale.createdAt), today)
     );
-  }, [state.sales]);
+  }, [orderLogs]);
 
   const todayTotals = useMemo(() => {
     return todaySales.reduce(
       (acc, sale) => {
-        acc.quantity += sale.quantity;
+        const qty = sale.items.reduce((sum, item) => sum + item.quantity, 0);
+        acc.quantity += qty;
         acc.total += sale.total;
         return acc;
       },
@@ -165,88 +147,73 @@ export default function MoAdminPage() {
   const safeUnitPrice = Number.isFinite(saleUnitPrice) ? saleUnitPrice : 0;
   const saleTotal = safeQuantity * safeUnitPrice;
 
-  const top7 = useMemo(
-    () => computeTopProducts(state.sales, 7, productNameById),
-    [state.sales, productNameById]
-  );
-  const top30 = useMemo(
-    () => computeTopProducts(state.sales, 30, productNameById),
-    [state.sales, productNameById]
-  );
+  const top7 = useMemo(() => stats?.top7 ?? [], [stats]);
+  const top30 = useMemo(() => stats?.top30 ?? [], [stats]);
 
-  useEffect(() => {
-    const raw = window.localStorage.getItem(storageKey);
-    if (raw) {
-      try {
-        const parsed = JSON.parse(raw) as Partial<AdminState>;
-        setState(mergeState(parsed, products));
-      } catch {
-        setState(createDefaultState(products));
-      }
+  const updateStock = async (id: string, status: StockStatus) => {
+    if (!adapter) return;
+    setStock((prev) => ({ ...prev, [id]: status }));
+    try {
+      await adapter.updateStock(id, status);
+      await loadStats(adapter);
+    } catch (err) {
+      setError("No se pudo actualizar el stock.");
+      await reloadAll(adapter);
     }
-    setReady(true);
-  }, [products]);
-
-  useEffect(() => {
-    if (!saleProductId) return;
-    setSaleUnitPrice(parseMoney(state.prices[saleProductId] ?? ""));
-  }, [saleProductId, state.prices]);
-
-  useEffect(() => {
-    if (!ready) return;
-    window.localStorage.setItem(storageKey, JSON.stringify(state));
-  }, [ready, state]);
-
-  const updateStock = (id: string, status: StockStatus) => {
-    setState((prev) => ({
-      ...prev,
-      stock: { ...prev.stock, [id]: status },
-    }));
   };
 
-  const updatePrice = (id: string, value: string) => {
-    setState((prev) => ({
-      ...prev,
-      prices: { ...prev.prices, [id]: value },
-    }));
+  const updatePrice = async (id: string, value: string) => {
+    if (!adapter) return;
+    setPrices((prev) => ({ ...prev, [id]: value }));
+    try {
+      await adapter.updatePrice(id, value);
+    } catch (err) {
+      setError("No se pudo actualizar el precio.");
+      await reloadAll(adapter);
+    }
   };
 
-  const updateHot = (id: string, next: Partial<HotState>) => {
-    setState((prev) => ({
+  const updateHot = async (id: string, next: Partial<HotState>) => {
+    if (!adapter) return;
+    setHotToday((prev) => ({
       ...prev,
-      hotToday: {
-        ...prev.hotToday,
-        [id]: { ...prev.hotToday[id], ...next },
-      },
+      [id]: { ...(prev[id] ?? defaultHotState()), ...next },
     }));
+    try {
+      await adapter.updateHot(id, next);
+    } catch (err) {
+      setError("No se pudo actualizar Caliente hoy.");
+      await reloadAll(adapter);
+    }
   };
 
-  const addSale = () => {
-    if (!saleProductId) return;
+  const addSale = async () => {
+    if (!adapter || !saleProductId) return;
     const quantity = Math.max(1, Math.floor(saleQuantity || 1));
     const unitPrice = Number.isFinite(saleUnitPrice) ? saleUnitPrice : 0;
     const total = quantity * unitPrice;
-    const entry: SaleEntry = {
-      id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
-      productId: saleProductId,
-      quantity,
-      unitPrice,
-      total,
-      createdAt: new Date().toISOString(),
-    };
 
-    setState((prev) => ({
-      ...prev,
-      sales: [entry, ...prev.sales],
-    }));
-    setSaleQuantity(1);
+    try {
+      await adapter.logOrder({
+        items: [{ productId: saleProductId, quantity }],
+        total,
+        channel: "manual",
+      });
+      await reloadAll(adapter);
+      setSaleQuantity(1);
+    } catch (err) {
+      setError("No se pudo registrar la venta.");
+    }
   };
 
-  const removeSale = (id: string) => {
-    setState((prev) => ({
-      ...prev,
-      sales: prev.sales.filter((sale) => sale.id !== id),
-    }));
+  const removeSale = async (id: string) => {
+    if (!adapter) return;
+    try {
+      await adapter.removeOrder(id);
+      await reloadAll(adapter);
+    } catch (err) {
+      setError("No se pudo eliminar la venta.");
+    }
   };
 
   const stockOptions: { value: StockStatus; label: string }[] = [
@@ -254,6 +221,31 @@ export default function MoAdminPage() {
     { value: "ultimas", label: "Ultimas" },
     { value: "agotado", label: "Agotado" },
   ];
+
+  const hotOptions: { value: HotStatus; label: string }[] = [
+    { value: "preparando", label: "Preparando" },
+    { value: "listo", label: "Listo" },
+    { value: "se_acabo", label: "Se acabo" },
+    { value: "hoy_no_hicimos", label: "Hoy no hicimos" },
+  ];
+
+  if (loading) {
+    return (
+      <main className="min-h-screen w-full px-4 pb-20 pt-10 sm:px-6 lg:px-8">
+        <p className="text-sm text-slate-500">Cargando panel...</p>
+      </main>
+    );
+  }
+
+  if (!adapter) {
+    return (
+      <main className="min-h-screen w-full px-4 pb-20 pt-10 sm:px-6 lg:px-8">
+        <p className="text-sm text-slate-500">
+          No se pudo cargar el panel. Revisa configuracion.
+        </p>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen w-full px-4 pb-20 pt-10 sm:px-6 lg:px-8">
@@ -279,6 +271,9 @@ export default function MoAdminPage() {
               Volver al catalogo
             </a>
           </div>
+          {error && (
+            <p className="mt-3 text-xs font-semibold text-rose-600">{error}</p>
+          )}
         </header>
 
         <section className="rounded-3xl border border-slate-200 bg-white px-6 py-6 shadow-sm">
@@ -306,7 +301,7 @@ export default function MoAdminPage() {
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {stockOptions.map((option) => {
-                    const isActive = state.stock[product.id] === option.value;
+                    const isActive = stock[product.id] === option.value;
                     const base =
                       "rounded-full px-3 py-1 text-xs font-semibold transition";
                     const activeStyle =
@@ -356,7 +351,7 @@ export default function MoAdminPage() {
                   {product.name}
                 </span>
                 <input
-                  value={state.prices[product.id] ?? ""}
+                  value={prices[product.id] ?? ""}
                   onChange={(event) =>
                     updatePrice(product.id, event.target.value)
                   }
@@ -375,13 +370,13 @@ export default function MoAdminPage() {
                 Caliente hoy
               </p>
               <h2 className="mt-2 text-lg font-semibold text-slate-900">
-                Estado y ventana por producto
+                Estado, ventana y nota por producto
               </h2>
             </div>
           </div>
           <div className="mt-4 grid gap-3">
             {products.map((product) => {
-              const hot = state.hotToday[product.id];
+              const hot = hotToday[product.id] ?? defaultHotState();
               return (
                 <div
                   key={product.id}
@@ -392,17 +387,19 @@ export default function MoAdminPage() {
                       {product.name}
                     </p>
                     <p className="text-xs text-slate-500">
-                      {hot?.enabled ? "Activo" : "Apagado"}
+                      {hotLabels[hot.status]}
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
                     <label className="flex items-center gap-2 text-xs text-slate-600">
                       <input
                         type="checkbox"
-                        checked={hot?.enabled ?? false}
+                        checked={hot.status !== "hoy_no_hicimos"}
                         onChange={(event) =>
                           updateHot(product.id, {
-                            enabled: event.target.checked,
+                            status: event.target.checked
+                              ? "preparando"
+                              : "hoy_no_hicimos",
                           })
                         }
                         className="h-4 w-4 rounded border-slate-300 text-emerald-600"
@@ -410,7 +407,7 @@ export default function MoAdminPage() {
                       Hoy
                     </label>
                     <select
-                      value={hot?.status ?? "activo"}
+                      value={hot.status}
                       onChange={(event) =>
                         updateHot(product.id, {
                           status: event.target.value as HotStatus,
@@ -418,8 +415,11 @@ export default function MoAdminPage() {
                       }
                       className="rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-700"
                     >
-                      <option value="activo">Activo</option>
-                      <option value="pausa">Pausa</option>
+                      {hotOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600">
@@ -428,22 +428,33 @@ export default function MoAdminPage() {
                     </span>
                     <input
                       type="time"
-                      value={hot?.start ?? ""}
+                      value={hot.windowStart}
                       onChange={(event) =>
-                        updateHot(product.id, { start: event.target.value })
+                        updateHot(product.id, {
+                          windowStart: event.target.value,
+                        })
                       }
                       className="rounded-full border border-slate-200 px-3 py-1"
                     />
                     <span>a</span>
                     <input
                       type="time"
-                      value={hot?.end ?? ""}
+                      value={hot.windowEnd}
                       onChange={(event) =>
-                        updateHot(product.id, { end: event.target.value })
+                        updateHot(product.id, { windowEnd: event.target.value })
                       }
                       className="rounded-full border border-slate-200 px-3 py-1"
                     />
                   </div>
+                  <input
+                    type="text"
+                    value={hot.note}
+                    onChange={(event) =>
+                      updateHot(product.id, { note: event.target.value })
+                    }
+                    placeholder="Nota corta"
+                    className="w-full rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-600 sm:col-span-3"
+                  />
                 </div>
               );
             })}
@@ -529,6 +540,15 @@ export default function MoAdminPage() {
             ) : (
               todaySales.map((sale) => {
                 const time = sale.createdAt.slice(11, 16);
+                const qty = sale.items.reduce(
+                  (sum, item) => sum + item.quantity,
+                  0
+                );
+                const primary = sale.items[0];
+                const name = primary
+                  ? productNameById.get(primary.productId) ?? "Producto"
+                  : "Producto";
+
                 return (
                   <div
                     key={sale.id}
@@ -536,11 +556,10 @@ export default function MoAdminPage() {
                   >
                     <div>
                       <p className="text-sm font-semibold text-slate-900">
-                        {productNameById.get(sale.productId) ?? "Producto"}
+                        {name}
                       </p>
                       <p className="text-xs text-slate-500">
-                        {time} · {sale.quantity} unidades ·{" "}
-                        {formatMoney(sale.total)}
+                        {time} · {qty} unidades · {formatMoney(sale.total)}
                       </p>
                     </div>
                     <button
@@ -583,10 +602,10 @@ export default function MoAdminPage() {
                       className="flex items-center justify-between text-sm text-slate-700"
                     >
                       <span>
-                        {index + 1}. {entry.name}
+                        {index + 1}. {productNameById.get(entry.productId) ?? "Producto"}
                       </span>
                       <span className="text-xs text-slate-500">
-                        {entry.quantity} u · {formatMoney(entry.total)}
+                        {entry.quantity} u
                       </span>
                     </div>
                   ))
@@ -609,10 +628,10 @@ export default function MoAdminPage() {
                       className="flex items-center justify-between text-sm text-slate-700"
                     >
                       <span>
-                        {index + 1}. {entry.name}
+                        {index + 1}. {productNameById.get(entry.productId) ?? "Producto"}
                       </span>
                       <span className="text-xs text-slate-500">
-                        {entry.quantity} u · {formatMoney(entry.total)}
+                        {entry.quantity} u
                       </span>
                     </div>
                   ))

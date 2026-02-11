@@ -10,6 +10,9 @@ export const sheetsAdapter: MoDataAdapter = {
   async getProducts() {
     return notConfigured();
   },
+  async getAdminSnapshot() {
+    return notConfigured();
+  },
   async updateStock() {
     return notConfigured();
   },
@@ -20,6 +23,9 @@ export const sheetsAdapter: MoDataAdapter = {
     return notConfigured();
   },
   async logOrder() {
+    return notConfigured();
+  },
+  async removeOrder() {
     return notConfigured();
   },
   async logDailySales() {

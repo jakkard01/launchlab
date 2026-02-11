@@ -55,12 +55,23 @@ export type MoStats = {
   mostRequestedSoldOut: StatEntry[];
 };
 
+export type AdminSnapshot = {
+  products: Product[];
+  stock: Record<string, StockStatus>;
+  prices: Record<string, string>;
+  hotToday: Record<string, HotState>;
+  orderLogs: OrderLogEntry[];
+  dailySales: DailySalesEntry[];
+};
+
 export type MoDataAdapter = {
   getProducts: () => Promise<Product[]>;
+  getAdminSnapshot: () => Promise<AdminSnapshot>;
   updateStock: (id: string, status: StockStatus) => Promise<void>;
   updatePrice: (id: string, price: string) => Promise<void>;
   updateHot: (id: string, next: Partial<HotState>) => Promise<void>;
   logOrder: (entry: OrderLogInput) => Promise<void>;
+  removeOrder: (id: string) => Promise<void>;
   logDailySales: (entry: DailySalesInput) => Promise<void>;
   getStats: () => Promise<MoStats>;
 };
