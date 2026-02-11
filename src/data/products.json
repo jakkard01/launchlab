@@ -4,7 +4,7 @@
     "name": "Pack cafe molido",
     "price": "$6.50",
     "category": "bebidas",
-    "description": "Cafe molido para pickup con tueste medio.",
+    "description": "Cafe molido para retiro con tueste medio.",
     "image": "/images/placeholder.png",
     "isFeatured": true
   },
