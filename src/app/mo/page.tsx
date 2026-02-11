@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import productsData from "../../data/products.json";
 import type { Product } from "../../lib/mo/types";
 import { buildWhatsAppMessageLink } from "../../lib/mo/whatsapp";
+import { MO_STORE_HOURS_LABEL, MO_STORE_MAPS_URL } from "../../lib/mo/config";
 import CatalogSection from "./CatalogSection";
 import FreeTextOrder from "./FreeTextOrder";
 import { CartProvider } from "./cart/CartContext";
@@ -117,19 +118,19 @@ export default function MoPage() {
                 Horario y ubicacion
               </p>
               <p className="mt-2 text-sm text-slate-600">
-                Lun-Sab 9:00-6:00 (placeholder).
+                {MO_STORE_HOURS_LABEL}
               </p>
               <p className="mt-2 text-sm text-slate-600">
-                Si es urgente, escribinos y te decimos si está listo hoy.
+                Si vas tarde, escribinos por WhatsApp y te confirmamos si seguimos atendiendo.
               </p>
             </div>
             <a
-              href="https://maps.google.com/?q=TODO"
+              href={MO_STORE_MAPS_URL}
               className="h-11 rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-emerald-300 hover:text-emerald-700"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Cómo llegar (TODO)
+              Cómo llegar
             </a>
           </div>
         </section>
