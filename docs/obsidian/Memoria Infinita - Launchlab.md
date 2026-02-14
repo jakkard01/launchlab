@@ -122,3 +122,6 @@
   - Scroll horizontal con `-webkit-overflow-scrolling: touch`.
 - Commit:
   - 32fe0cb codex(rys-ui): polish category thumbnails (paths+a11y+iOS)
+
+## 💰 Estrategia capital semilla (500€) — 80/20
+Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX_Vault/02_Documentacion/30_LOGS/decisiones-ia/DECISIONES_IA_2026-02.md
