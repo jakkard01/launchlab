@@ -157,3 +157,12 @@ dist
 
 # accidental PID marker files
 PID=*
+
+# Media heavy (keep out of git)
+assets/media/heygen/raw/
+assets/media/heygen/subs_raw/
+assets/media/edited/
+public/mo/media/
+public/mo/
+public/video/*.mp4
+public/video/*.vtt
