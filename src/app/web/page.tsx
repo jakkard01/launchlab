@@ -182,6 +182,55 @@ export default function WebPage() {
       </section>
 
       <section className="mx-auto mt-12 w-full max-w-6xl">
+        <div className="grid gap-6 rounded-3xl border border-white/10 bg-black/60 p-6 shadow-xl md:grid-cols-[1.1fr_0.9fr] md:items-center">
+          <div>
+            <p className="text-xs uppercase tracking-[0.35em] text-cyan-200/80">
+              Video de venta
+            </p>
+            <h2 className="mt-3 text-2xl font-semibold text-white md:text-3xl">
+              Una web que convierte en menos de 2 minutos
+            </h2>
+            <p className="mt-3 text-sm text-slate-200 md:text-base">
+              Mira el enfoque de narrativa, CTA y prueba social que usamos para
+              vender. Es el mismo framework que aplicamos en cada plan Web.
+            </p>
+            <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+              <a
+                href={buildWhatsappUtmLink(
+                  "web",
+                  "video",
+                  "Quiero una web con enfoque de conversion."
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
+              >
+                Hablar por WhatsApp
+              </a>
+              <Link
+                href={buildContactLink("web", { utm_campaign: "video" })}
+                className="rounded-full border border-white/20 px-6 py-3 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
+              >
+                Pedir demo
+              </Link>
+            </div>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-black/70 p-3">
+            <video
+              controls
+              playsInline
+              preload="metadata"
+              poster="/og.png"
+              className="h-auto w-full rounded-xl"
+            >
+              <source src="/video/video.mp4" type="video/mp4" />
+              Tu navegador no soporta la reproducción de video.
+            </video>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto mt-12 w-full max-w-6xl">
         <p className="text-xs uppercase tracking-[0.35em] text-cyan-200/80">
           Planes Web
         </p>
