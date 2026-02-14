@@ -14,3 +14,21 @@
   - fc65ae9 codex(ops): harden parity script (root+retry+cleanup)
 - Estado: listo para pruebas locales y preview deploy
 - Proximo: carrito WhatsApp + "Pedir algo que no esta en catalogo" + layout aislado + noindex
+
+## 2026-02-14 — Intro video gating + simulador bot
+- Rama: feat/pagina-hermana-live
+- Objetivo: evitar mismatch del intro video en demos y agregar simulador determinista de bot.
+- Cambios clave:
+  - Gateo del IntroVideo por rutas permitidas (solo /, /web, /pricing, /services).
+  - CTA "Bot en vivo" en home ahora lleva a /demos/bot (no dispara video).
+  - Modal de intro con safe-area, botón "Cerrar" + "Saltar", preload metadata y skeleton.
+  - Simulador de bot determinista con auto demo, inputs (nombre, tipo negocio, objetivo) y CTA WhatsApp.
+- Commits:
+  - 354de65 codex(ux): gate intro video by route + fix demo mismatch
+  - b6eb518 codex(ux): improve intro modal mobile behavior
+  - 6bf4bdb codex(demo): add deterministic bot simulator (chat UI)
+- QA mobile:
+  - /: intro video aparece y se puede cerrar/saltar sin cortar contenido.
+  - /demos y /demos/bot: no aparece intro video; simulador visible.
+  - CTA WhatsApp del simulador genera link correcto.
+  - No loops con localStorage welcomeVideoSeen.
