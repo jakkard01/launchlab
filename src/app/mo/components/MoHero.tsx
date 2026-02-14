@@ -62,6 +62,14 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
               ¿Dónde estamos?
             </a>
           </div>
+          <div className="mt-5 rounded-2xl border border-emerald-200/30 bg-emerald-500/10 px-4 py-3 text-xs text-emerald-50 sm:text-sm">
+            <p className="text-xs uppercase tracking-[0.3em] text-emerald-200/80">
+              Retiro local
+            </p>
+            <p className="mt-2">Retiro en La Gloria, San Salvador.</p>
+            <p className="mt-1">Horario: {MO_STORE_HOURS_LABEL}</p>
+            <p className="mt-1">Pagos: efectivo, transferencia o Tigo Money.</p>
+          </div>
           <div className="mt-5 grid gap-2 text-xs text-emerald-50 sm:grid-cols-3">
             <span>✅ Confirmamos disponibilidad</span>
             <span>✅ Pago al retirar</span>
