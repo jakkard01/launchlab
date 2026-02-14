@@ -90,6 +90,7 @@ export default function MoStorefront({ products, ctaLink }: MoStorefrontProps) {
         activeTab={activeTab}
         onTabChange={handleJumpToTab}
         query={query}
+        onScrollToSpecial={() => scrollToId("pedido-especial")}
       />
     </div>
   );

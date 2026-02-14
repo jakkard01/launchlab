@@ -5,6 +5,7 @@ export const COMBO_IDS: string[] = [];
 
 export const TABS = [
   { id: "hot", label: "Caliente hoy" },
+  { id: "antojitos", label: "Antojitos" },
   { id: "combos", label: "Combos" },
   { id: "lacteos", label: "Lácteos" },
   { id: "bebidas", label: "Bebidas" },
@@ -19,6 +20,8 @@ export const matchesTab = (product: Product, tabId: TabId) => {
   switch (tabId) {
     case "hot":
       return HOT_IDS.includes(product.id);
+    case "antojitos":
+      return product.category === "antojitos";
     case "combos":
       return COMBO_IDS.includes(product.id);
     case "lacteos":

@@ -45,6 +45,10 @@ export default function MoQuickShop({
       .slice(0, 6);
   }, [products]);
 
+  const antojitos = useMemo(() => {
+    return products.filter((product) => product.category === "antojitos").slice(0, 8);
+  }, [products]);
+
   const aisles = [
     {
       id: "hot",
@@ -129,6 +133,28 @@ export default function MoQuickShop({
           <span>Pedido especial</span>
           <MessageCircle className="h-4 w-4" aria-hidden="true" />
         </button>
+      </div>
+
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-semibold text-slate-900">
+            Antojitos de hoy
+          </h3>
+          <span className="text-xs text-emerald-600">Pide hoy</span>
+        </div>
+        {antojitos.length > 0 ? (
+          <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
+            {antojitos.map((product) => (
+              <div key={product.id} className="min-w-[240px] sm:min-w-0">
+                <ProductCard product={product} variant="compact" />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="rounded-2xl border border-dashed border-slate-200 px-4 py-5 text-sm text-slate-500">
+            No hay antojitos cargados por ahora.
+          </div>
+        )}
       </div>
 
       <div className="space-y-3">

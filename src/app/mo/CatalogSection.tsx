@@ -10,6 +10,7 @@ type CatalogSectionProps = {
   activeTab: TabId;
   onTabChange: (next: TabId) => void;
   query: string;
+  onScrollToSpecial?: () => void;
 };
 
 export default function CatalogSection({
@@ -17,6 +18,7 @@ export default function CatalogSection({
   activeTab,
   onTabChange,
   query,
+  onScrollToSpecial,
 }: CatalogSectionProps) {
   const activeLabel = TABS.find((tab) => tab.id === activeTab)?.label ?? "Todo";
   const [expandedTab, setExpandedTab] = useState<TabId | null>(null);
@@ -109,7 +111,16 @@ export default function CatalogSection({
               </div>
               {items.length === 0 ? (
                 <div className="rounded-2xl border border-dashed border-slate-200 px-4 py-6 text-sm text-slate-500">
-                  Sin productos en esta categoría.
+                  <p>Sin productos en esta categoría.</p>
+                  {queryFilter ? (
+                    <button
+                      type="button"
+                      onClick={onScrollToSpecial}
+                      className="mt-3 inline-flex items-center rounded-full border border-emerald-200 px-4 py-2 text-xs font-semibold text-emerald-700 transition hover:border-emerald-300 hover:text-emerald-800"
+                    >
+                      No lo tenemos. Agrégalo a tu Pedido Especial.
+                    </button>
+                  ) : null}
                 </div>
               ) : (
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

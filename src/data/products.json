@@ -133,5 +133,59 @@
     "description": "Salsa de tomate para cocina rapida.",
     "image": "/images/placeholder.png",
     "isFeatured": false
+  },
+  {
+    "id": "mo-empanadas",
+    "name": "Empanadas de queso",
+    "price": "$2.90",
+    "category": "antojitos",
+    "description": "Empanadas listas para retirar.",
+    "image": "/images/placeholder.png",
+    "isFeatured": true
+  },
+  {
+    "id": "mo-tostadas",
+    "name": "Tostadas con frijol",
+    "price": "$2.50",
+    "category": "antojitos",
+    "description": "Tostadas caseras con frijol y queso.",
+    "image": "/images/placeholder.png",
+    "isFeatured": false
+  },
+  {
+    "id": "mo-pupusas",
+    "name": "Pupusas mixtas",
+    "price": "$3.50",
+    "category": "antojitos",
+    "description": "Orden de pupusas para retiro.",
+    "image": "/images/placeholder.png",
+    "isFeatured": true
+  },
+  {
+    "id": "mo-sandwich",
+    "name": "Sandwich de pollo",
+    "price": "$3.20",
+    "category": "antojitos",
+    "description": "Sandwich listo para llevar.",
+    "image": "/images/placeholder.png",
+    "isFeatured": false
+  },
+  {
+    "id": "mo-tamales",
+    "name": "Tamales de pollo",
+    "price": "$3.80",
+    "category": "antojitos",
+    "description": "Tamales para retiro en tienda.",
+    "image": "/images/placeholder.png",
+    "isFeatured": false
+  },
+  {
+    "id": "mo-ensalada-frutas",
+    "name": "Ensalada de frutas",
+    "price": "$2.70",
+    "category": "antojitos",
+    "description": "Ensalada fresca lista para hoy.",
+    "image": "/images/placeholder.png",
+    "isFeatured": true
   }
 ]
