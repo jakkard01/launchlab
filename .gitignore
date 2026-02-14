@@ -166,3 +166,6 @@ public/mo/media/
 public/mo/
 public/video/*.mp4
 public/video/*.vtt
+!public/mo/
+!public/mo/products/
+!public/mo/products/*.svg

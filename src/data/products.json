@@ -6,6 +6,7 @@
     "category": "bebidas",
     "description": "Cafe molido para retiro con tueste medio.",
     "image": "/images/placeholder.png",
+    "imageKey": "cafe-pack",
     "isFeatured": true
   },
   {
@@ -15,6 +16,7 @@
     "category": "snacks",
     "description": "Granola con frutos secos y miel.",
     "image": "/images/placeholder.png",
+    "imageKey": "granola",
     "isFeatured": false
   },
   {
@@ -24,6 +26,7 @@
     "category": "bebidas",
     "description": "Cold brew listo para retiro en frio.",
     "image": "/images/placeholder.png",
+    "imageKey": "cold-brew",
     "isFeatured": false
   },
   {
@@ -33,6 +36,7 @@
     "category": "bebidas",
     "description": "Agua mineral para llevar.",
     "image": "/images/placeholder.png",
+    "imageKey": "agua-mineral",
     "isFeatured": false
   },
   {
@@ -42,6 +46,7 @@
     "category": "bebidas",
     "description": "Jugo natural exprimido en el dia.",
     "image": "/images/placeholder.png",
+    "imageKey": "jugo-naranja",
     "isFeatured": true
   },
   {
@@ -51,6 +56,7 @@
     "category": "lacteos",
     "description": "Leche entera para consumo diario.",
     "image": "/images/placeholder.png",
+    "imageKey": "leche-entera",
     "isFeatured": false
   },
   {
@@ -60,6 +66,7 @@
     "category": "lacteos",
     "description": "Leche deslactosada ligera.",
     "image": "/images/placeholder.png",
+    "imageKey": "leche-deslactosada",
     "isFeatured": false
   },
   {
@@ -69,6 +76,7 @@
     "category": "lacteos",
     "description": "Queso fresco para desayunos.",
     "image": "/images/placeholder.png",
+    "imageKey": "queso-fresco",
     "isFeatured": true
   },
   {
@@ -78,6 +86,7 @@
     "category": "abarrotes",
     "description": "Pan integral rebanado.",
     "image": "/images/placeholder.png",
+    "imageKey": "pan-integral",
     "isFeatured": false
   },
   {
@@ -87,6 +96,7 @@
     "category": "snacks",
     "description": "Galletas suaves con avena.",
     "image": "/images/placeholder.png",
+    "imageKey": "galletas-avena",
     "isFeatured": false
   },
   {
@@ -96,6 +106,7 @@
     "category": "abarrotes",
     "description": "Arroz blanco de grano largo.",
     "image": "/images/placeholder.png",
+    "imageKey": "arroz-1kg",
     "isFeatured": false
   },
   {
@@ -105,6 +116,7 @@
     "category": "abarrotes",
     "description": "Azucar refinada para consumo diario.",
     "image": "/images/placeholder.png",
+    "imageKey": "azucar-1kg",
     "isFeatured": false
   },
   {
@@ -114,6 +126,7 @@
     "category": "abarrotes",
     "description": "Atun en agua listo para servir.",
     "image": "/images/placeholder.png",
+    "imageKey": "atun-lata",
     "isFeatured": true
   },
   {
@@ -123,6 +136,7 @@
     "category": "abarrotes",
     "description": "Frijoles rojos para cocinar.",
     "image": "/images/placeholder.png",
+    "imageKey": "frijoles",
     "isFeatured": false
   },
   {
@@ -132,6 +146,7 @@
     "category": "abarrotes",
     "description": "Salsa de tomate para cocina rapida.",
     "image": "/images/placeholder.png",
+    "imageKey": "salsa-tomate",
     "isFeatured": false
   },
   {
@@ -141,6 +156,7 @@
     "category": "antojitos",
     "description": "Empanadas listas para retirar.",
     "image": "/images/placeholder.png",
+    "imageKey": "empanadas",
     "isFeatured": true
   },
   {
@@ -150,6 +166,7 @@
     "category": "antojitos",
     "description": "Tostadas caseras con frijol y queso.",
     "image": "/images/placeholder.png",
+    "imageKey": "tostadas",
     "isFeatured": false
   },
   {
@@ -159,6 +176,7 @@
     "category": "antojitos",
     "description": "Orden de pupusas para retiro.",
     "image": "/images/placeholder.png",
+    "imageKey": "pupusas",
     "isFeatured": true
   },
   {
@@ -168,6 +186,7 @@
     "category": "antojitos",
     "description": "Sandwich listo para llevar.",
     "image": "/images/placeholder.png",
+    "imageKey": "sandwich",
     "isFeatured": false
   },
   {
@@ -177,6 +196,7 @@
     "category": "antojitos",
     "description": "Tamales para retiro en tienda.",
     "image": "/images/placeholder.png",
+    "imageKey": "tamales",
     "isFeatured": false
   },
   {
@@ -186,6 +206,7 @@
     "category": "antojitos",
     "description": "Ensalada fresca lista para hoy.",
     "image": "/images/placeholder.png",
+    "imageKey": "ensalada-frutas",
     "isFeatured": true
   }
 ]

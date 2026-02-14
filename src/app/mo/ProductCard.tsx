@@ -7,6 +7,7 @@ import type { StockStatus } from "../../lib/mo/data/types";
 import { getEffectivePrice, getPromoLabel } from "../../lib/mo/pricing";
 import QuantityStepper from "./cart/QuantityStepper";
 import { useCart } from "./cart/CartContext";
+import productImages from "../../data/product_images.json";
 
 type ProductCardProps = {
   product: Product;
@@ -38,10 +39,12 @@ export default function ProductCard({
   const promoLabel = getPromoLabel(product);
   const effectivePrice = getEffectivePrice(product);
   const resolvedStock = stockStatus ?? product.stockStatus ?? "disponible";
-  const imageSrc =
-    product.image && product.image.startsWith("/")
-      ? product.image
-      : "/images/placeholder.png";
+  const imageEntry =
+    product.imageKey && productImages[product.imageKey as keyof typeof productImages]
+      ? productImages[product.imageKey as keyof typeof productImages]
+      : null;
+  const imageSrc = imageEntry?.src ?? "/images/placeholder.png";
+  const imageAlt = imageEntry?.alt ?? product.name;
 
   const handleAdd = () => {
     const safeQty = Number.isFinite(qty) && qty > 0 ? qty : 1;
@@ -55,7 +58,7 @@ export default function ProductCard({
       <div className="relative overflow-hidden rounded-xl border border-slate-100 bg-slate-50">
         <Image
           src={imageSrc}
-          alt={product.name}
+          alt={imageAlt}
           width={480}
           height={320}
           className="h-40 w-full object-cover"

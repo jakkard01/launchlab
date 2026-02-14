@@ -5,6 +5,7 @@ export type Product = {
   category: string;
   description: string;
   image: string;
+  imageKey?: string;
   isFeatured: boolean;
   promoEnabled?: boolean;
   promoPercent?: number;
