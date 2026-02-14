@@ -70,3 +70,22 @@
   - /web: video visible en desktop y mobile, CTA correcto.
   - /demos/bot: conversacion real con typing y quick replies max 2.
   - /RYSminisuper: antojitos visible y CTA empty-search lleva a pedido especial.
+
+## 2026-02-14 — RYS Mercadito UI + sistema de imagenes
+- Rama: feat/pagina-hermana-live
+- Objetivo: quitar sensacion clinica y ordenar imagenes de producto.
+- Cambios clave:
+  - Hero y cards con estilo mas calido (mercadito), sombras suaves y CTA mas jugoso.
+  - Tabs con emoji para lectura rapida.
+  - Sistema de imagenes:
+    - Archivos en `public/mo/products/`
+    - Mapping en `src/data/product_images.json` con `imageKey -> src/alt`
+    - Productos con `imageKey` en `src/data/products.json`
+    - Script `scripts/check_product_images.mjs` para detectar faltantes.
+- Commits:
+  - 418d09b codex(rys-ui): warm up hero + product cards + category icons
+  - 2692736 codex(data): add product image mapping + checks script
+- QA rapido:
+  - /RYSminisuper: hero legible, cards con sombra y precio destacado.
+  - Tabs con emoji no rompen layout.
+  - No 404 en imagenes; script de check lista faltantes si aplica.
