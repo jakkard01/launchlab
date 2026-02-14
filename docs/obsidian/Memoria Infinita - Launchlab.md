@@ -89,3 +89,26 @@
   - /RYSminisuper: hero legible, cards con sombra y precio destacado.
   - Tabs con emoji no rompen layout.
   - No 404 en imagenes; script de check lista faltantes si aplica.
+
+## 2026-02-14 — Video Packs catalogo + simuladores + tabs con thumbnails
+- Rama: feat/pagina-hermana-live
+- Objetivo: unificar video como producto, galeria en /video, simuladores web/WhatsApp y tabs de RYS con thumbnails.
+- Cambios clave:
+  - Fuente canonica de videos en `src/app/content/videoPacks.ts` con `videoExamples` y `featured`.
+  - Galeria /video renderiza cards + modal con soporte `youtube` y `local`.
+  - Intro video consume el `featured` del catalogo con CTA WhatsApp y link a /video.
+  - Simulador de chat reusable (`ChatSimulator`) con skins web/whatsapp y flow determinista.
+  - Nueva ruta /demos/whatsapp y card en /demos (showcase actualizado).
+  - Tabs RYS con thumbnails (imagen o emoji) y scroller sin scrollbar visible.
+- Commits:
+  - 657b970 codex(video): add video examples catalog + single source of truth
+  - 28d8647 codex(demo): refactor ChatSimulator with web+whatsapp skins
+  - 2ef53a9 codex(demo): add whatsapp demo route + cards in /demos
+  - 2f0ca7f codex(rys-ui): hide category scrollbar + prep category thumbnails
+- Convenciones:
+  - Agregar video: editar `src/app/content/videoPacks.ts` y añadir item con `platform` `local` (src `/video/...`) o `youtube` (videoId).
+  - Agregar thumbnail de categoria RYS: en `src/app/mo/catalogConfig.ts` usar `image: '/mo/products/<archivo>'` o `icon`.
+- QA rapido:
+  - /video: cards y modal funcionan en mobile/desktop.
+  - /demos y /demos/whatsapp: simuladores con typing + reset.
+  - /RYSminisuper: tabs sin scrollbar visible y con icono/thumbnail.
