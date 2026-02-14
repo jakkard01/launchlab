@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { buildWhatsappLink } from "../../../lib/site";
+import BotSimulator from "./BotSimulator";
 
 const whatsappLink = buildWhatsappLink("demo_bot");
 
@@ -172,6 +173,10 @@ export default function DemoBotPage() {
         <p className="mt-4 max-w-2xl text-base text-slate-300">
           Demo UI sin IA. Respuestas predefinidas para guiar decisión de compra.
         </p>
+
+        <div className="mt-8">
+          <BotSimulator />
+        </div>
 
         <div className="mt-6 flex flex-wrap gap-3">
           <input
