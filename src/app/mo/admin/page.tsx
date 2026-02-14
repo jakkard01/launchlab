@@ -293,7 +293,7 @@ export default function MoAdminPage() {
               {hotCount} calientes hoy
             </span>
             <a
-              href="/mo"
+              href="/RYSminisuper"
               className="rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:border-emerald-300 hover:text-emerald-700"
             >
               Volver al catalogo

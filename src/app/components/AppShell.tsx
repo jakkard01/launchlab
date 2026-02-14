@@ -7,7 +7,9 @@ import CookieBanner from "./CookieBanner";
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isMo = pathname?.startsWith("/mo");
+  const isMo =
+    pathname?.startsWith("/mo") ||
+    pathname?.startsWith("/RYSminisuper");
 
   if (isMo) {
     return <div className="min-h-screen bg-slate-50 text-slate-900">{children}</div>;
