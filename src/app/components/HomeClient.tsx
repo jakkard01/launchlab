@@ -1,14 +1,22 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import LandingLocal from './LandingLocal';
 import IntroVideo from './IntroVideo';
+
+const allowIntroVideoRoutes = new Set(['/', '/web', '/pricing', '/services']);
 
 export default function HomeClient() {
   const [showVideo, setShowVideo] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
+    if (!allowIntroVideoRoutes.has(pathname)) {
+      setShowVideo(false);
+      return;
+    }
     if (typeof window !== 'undefined') {
       const seen = localStorage.getItem('welcomeVideoSeen');
       if (!seen) {
@@ -37,7 +45,6 @@ export default function HomeClient() {
         />
       )}
       <LandingLocal
-        onShowVideo={() => setShowVideo(true)}
         heroRef={heroRef}
         onScrollToHero={handleScrollToHero}
       />

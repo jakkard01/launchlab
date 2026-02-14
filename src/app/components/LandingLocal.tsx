@@ -21,7 +21,6 @@ const EmbeddedBot = dynamic(() => import("./EmbeddedBot"), {
 });
 
 interface LandingLocalProps {
-  onShowVideo: () => void;
   heroRef: React.RefObject<HTMLDivElement>;
   onScrollToHero: () => void;
 }
@@ -199,7 +198,7 @@ const pricingPlans = [
   },
 ];
 
-export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: LandingLocalProps) {
+export default function LandingLocal({ heroRef, onScrollToHero }: LandingLocalProps) {
   const [imgError, setImgError] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [activeFaq, setActiveFaq] = useState<string | null>(null);
@@ -863,13 +862,13 @@ export default function LandingLocal({ onShowVideo, heroRef, onScrollToHero }: L
               <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Bot en vivo</p>
               <h2 className="mt-3 text-3xl font-semibold text-white">Prueba una demo interactiva</h2>
             </div>
-            <button
-              onClick={onShowVideo}
+            <Link
+              href="/demos/bot"
               className="rounded-full border border-cyan-300/60 px-5 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-400 hover:text-black"
-              aria-label="Ver video demo"
+              aria-label="Probar demo de bot"
             >
-              Ver video
-            </button>
+              Probar demo
+            </Link>
           </div>
           <p className="mt-4 text-sm text-slate-300">
             Explora cómo un asistente entrenado puede resolver consultas y acelerar ventas.
