@@ -54,3 +54,19 @@
   - CTA mapas abre link correcto.
   - Carrito movil no se corta y CTA WhatsApp es accesible.
   - /mo redirige a /RYSminisuper (308) y admin sigue funcionando.
+
+## 2026-02-14 — Web video + FAQ bot conversacional + RYS antojitos
+- Rama: feat/pagina-hermana-live
+- Objetivo: video de venta en /web, FAQ bot como conversación real, y mejoras de tienda barrio.
+- Cambios clave:
+  - /web ahora incluye bloque de video de venta con CTA directo a WhatsApp/demo.
+  - FAQ Bot demo ahora usa burbujas, typing y quick replies max 2.
+  - RYS agrega bloque Antojitos de hoy + CTA inteligente al Pedido Especial.
+- Commits:
+  - 4fdbc15 codex(pbia): add web sales video block to /web
+  - fb5f258 codex(demo): make FAQ bot conversational (bubbles + typing)
+  - 9d29c3e codex(rys): add antojitos block + smart empty-search CTA
+- QA rapido:
+  - /web: video visible en desktop y mobile, CTA correcto.
+  - /demos/bot: conversacion real con typing y quick replies max 2.
+  - /RYSminisuper: antojitos visible y CTA empty-search lleva a pedido especial.
