@@ -22,7 +22,115 @@
     "name": "Cold brew botella",
     "price": "$5.00",
     "category": "bebidas",
-    "description": "Cold brew listo para retirar en frio.",
+    "description": "Cold brew listo para retiro en frio.",
+    "image": "/images/placeholder.png",
+    "isFeatured": false
+  },
+  {
+    "id": "mo-agua-mineral",
+    "name": "Agua mineral 1L",
+    "price": "$1.20",
+    "category": "bebidas",
+    "description": "Agua mineral para llevar.",
+    "image": "/images/placeholder.png",
+    "isFeatured": false
+  },
+  {
+    "id": "mo-jugo-naranja",
+    "name": "Jugo de naranja",
+    "price": "$2.50",
+    "category": "bebidas",
+    "description": "Jugo natural exprimido en el dia.",
+    "image": "/images/placeholder.png",
+    "isFeatured": true
+  },
+  {
+    "id": "mo-leche-entera",
+    "name": "Leche entera 1L",
+    "price": "$1.80",
+    "category": "lacteos",
+    "description": "Leche entera para consumo diario.",
+    "image": "/images/placeholder.png",
+    "isFeatured": false
+  },
+  {
+    "id": "mo-leche-deslactosada",
+    "name": "Leche deslactosada 1L",
+    "price": "$2.10",
+    "category": "lacteos",
+    "description": "Leche deslactosada ligera.",
+    "image": "/images/placeholder.png",
+    "isFeatured": false
+  },
+  {
+    "id": "mo-queso-fresco",
+    "name": "Queso fresco 250g",
+    "price": "$3.60",
+    "category": "lacteos",
+    "description": "Queso fresco para desayunos.",
+    "image": "/images/placeholder.png",
+    "isFeatured": true
+  },
+  {
+    "id": "mo-pan-integral",
+    "name": "Pan integral",
+    "price": "$2.20",
+    "category": "abarrotes",
+    "description": "Pan integral rebanado.",
+    "image": "/images/placeholder.png",
+    "isFeatured": false
+  },
+  {
+    "id": "mo-galletas-avena",
+    "name": "Galletas de avena",
+    "price": "$1.90",
+    "category": "snacks",
+    "description": "Galletas suaves con avena.",
+    "image": "/images/placeholder.png",
+    "isFeatured": false
+  },
+  {
+    "id": "mo-arroz-1kg",
+    "name": "Arroz 1kg",
+    "price": "$2.80",
+    "category": "abarrotes",
+    "description": "Arroz blanco de grano largo.",
+    "image": "/images/placeholder.png",
+    "isFeatured": false
+  },
+  {
+    "id": "mo-azucar-1kg",
+    "name": "Azucar 1kg",
+    "price": "$2.30",
+    "category": "abarrotes",
+    "description": "Azucar refinada para consumo diario.",
+    "image": "/images/placeholder.png",
+    "isFeatured": false
+  },
+  {
+    "id": "mo-atun-lata",
+    "name": "Atun en lata",
+    "price": "$2.40",
+    "category": "abarrotes",
+    "description": "Atun en agua listo para servir.",
+    "image": "/images/placeholder.png",
+    "isFeatured": true
+  },
+  {
+    "id": "mo-frijoles",
+    "name": "Frijoles rojos",
+    "price": "$2.60",
+    "category": "abarrotes",
+    "description": "Frijoles rojos para cocinar.",
+    "image": "/images/placeholder.png",
+    "isFeatured": false
+  },
+  {
+    "id": "mo-salsa-tomate",
+    "name": "Salsa de tomate",
+    "price": "$1.70",
+    "category": "abarrotes",
+    "description": "Salsa de tomate para cocina rapida.",
     "image": "/images/placeholder.png",
     "isFeatured": false
   }

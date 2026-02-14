@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import type { Product } from "../../lib/mo/types";
 import type { StockStatus } from "../../lib/mo/data/types";
@@ -37,6 +38,10 @@ export default function ProductCard({
   const promoLabel = getPromoLabel(product);
   const effectivePrice = getEffectivePrice(product);
   const resolvedStock = stockStatus ?? product.stockStatus ?? "disponible";
+  const imageSrc =
+    product.image && product.image.startsWith("/")
+      ? product.image
+      : "/images/placeholder.png";
 
   const handleAdd = () => {
     const safeQty = Number.isFinite(qty) && qty > 0 ? qty : 1;
@@ -47,7 +52,17 @@ export default function ProductCard({
 
   return (
     <article className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-      <div className="flex items-start justify-between gap-3">
+      <div className="relative overflow-hidden rounded-xl border border-slate-100 bg-slate-50">
+        <Image
+          src={imageSrc}
+          alt={product.name}
+          width={480}
+          height={320}
+          className="h-40 w-full object-cover"
+          sizes="(max-width: 640px) 100vw, 320px"
+        />
+      </div>
+      <div className="mt-4 flex items-start justify-between gap-3">
         <h3
           className={`font-semibold text-slate-900 ${
             isCompact ? "text-base" : "text-lg"
