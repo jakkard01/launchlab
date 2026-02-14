@@ -32,3 +32,25 @@
   - /demos y /demos/bot: no aparece intro video; simulador visible.
   - CTA WhatsApp del simulador genera link correcto.
   - No loops con localStorage welcomeVideoSeen.
+
+## 2026-02-14 — RYS Minisúper: limpieza media + confianza + UX carrito
+- Rama: feat/pagina-hermana-live
+- Objetivo: limpiar media pesada y mejorar percepcion de tienda real + UX movil.
+- Cambios clave:
+  - Se ignora media pesada y se elimina public/video/video.mp4 del repo.
+  - Product cards muestran imagen con placeholder robusto.
+  - Catalogo demo ampliado con productos coherentes (sin nuevas categorias).
+  - Bloque de confianza local en hero con horarios, retiro y pagos + CTA mapas.
+  - CTA carrito renombrado a \"Completar pedido\" + CTA WhatsApp en drawer.
+  - /mo ahora redirige server-side a /RYSminisuper (legacy).
+- Commits:
+  - df0d25a codex(chore): clean media artifacts + harden gitignore
+  - c648556 codex(rys): show product images + robust placeholder
+  - de9313f codex(rys): strengthen locality trust block + maps CTA
+  - ec580bd codex(ux): improve mobile cart sheet + safe-area + copy
+  - 2f0ef8b codex(routing): enforce /mo as legacy redirect + update shell
+- QA mobile:
+  - /RYSminisuper muestra imagen o placeholder sin 404.
+  - CTA mapas abre link correcto.
+  - Carrito movil no se corta y CTA WhatsApp es accesible.
+  - /mo redirige a /RYSminisuper (308) y admin sigue funcionando.
