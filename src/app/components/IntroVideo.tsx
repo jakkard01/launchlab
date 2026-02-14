@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 interface IntroVideoProps {
   onSkip: () => void;
@@ -8,36 +8,50 @@ interface IntroVideoProps {
 
 export default function IntroVideo({ onSkip, onFinish }: IntroVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [ready, setReady] = useState(false);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-      <div className="relative flex flex-col items-center w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl mx-4 p-0 bg-black/80 rounded-2xl shadow-2xl border border-cyan-700">
-        {/* Botón cerrar (X) en la esquina superior derecha del modal */}
-        <button
-          onClick={onFinish}
-          className="absolute top-3 right-3 bg-black/70 text-white rounded-full p-2 hover:bg-black/90 focus:outline-none focus:ring-2 focus:ring-cyan-400 z-10"
-          aria-label="Cerrar video"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-        </button>
-        <video
-          ref={videoRef}
-          src="/video/video.mp4"
-          autoPlay
-          muted
-          playsInline
-          controls
-          className="rounded-2xl w-full h-auto max-h-[60vh] mt-0 mb-4 border-0"
-          tabIndex={-1}
-        />
-        <button
-          onClick={onSkip}
-          className="mb-6 px-8 py-3 rounded-full bg-cyan-600 text-white font-bold text-lg shadow-lg hover:bg-cyan-400 transition focus:outline-none focus:ring-2 focus:ring-cyan-400"
-          aria-label="Saltar video"
-          type="button"
-        >
-          Saltar video
-        </button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4 pb-[calc(env(safe-area-inset-bottom)+16px)] pt-[calc(env(safe-area-inset-top)+16px)]">
+      <div className="relative flex w-full max-w-xs flex-col items-center rounded-2xl border border-cyan-700 bg-black/80 p-0 shadow-2xl sm:max-w-md md:max-w-lg lg:max-w-xl">
+        <div className="flex w-full items-center justify-between px-4 pb-2 pt-4">
+          <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">
+            Intro
+          </p>
+          <button
+            onClick={onFinish}
+            className="rounded-full border border-white/10 px-3 py-1 text-xs font-semibold text-white/80 transition hover:border-cyan-300/60 hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            aria-label="Cerrar video"
+          >
+            Cerrar
+          </button>
+        </div>
+        <div className="relative w-full px-4 pb-4">
+          {!ready && (
+            <div className="absolute inset-4 rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-white/0 animate-pulse" />
+          )}
+          <video
+            ref={videoRef}
+            src="/video/video.mp4"
+            autoPlay
+            muted
+            playsInline
+            controls
+            preload="metadata"
+            onCanPlay={() => setReady(true)}
+            className="relative rounded-2xl w-full h-auto max-h-[60vh] border-0"
+            tabIndex={-1}
+          />
+        </div>
+        <div className="w-full px-4 pb-6">
+          <button
+            onClick={onSkip}
+            className="w-full rounded-full bg-cyan-600 px-8 py-3 text-center text-sm font-semibold text-white shadow-lg transition hover:bg-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            aria-label="Saltar intro"
+            type="button"
+          >
+            Saltar intro
+          </button>
+        </div>
       </div>
     </div>
   );
