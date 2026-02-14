@@ -121,4 +121,4 @@
   - A11y: thumbnails con `alt={label}` y emojis decorativos con `aria-hidden`.
   - Scroll horizontal con `-webkit-overflow-scrolling: touch`.
 - Commit:
-  - TBD codex(rys-ui): polish category thumbnails (paths+a11y+iOS)
+  - 32fe0cb codex(rys-ui): polish category thumbnails (paths+a11y+iOS)
