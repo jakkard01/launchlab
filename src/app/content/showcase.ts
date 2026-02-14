@@ -19,16 +19,16 @@ export type ShowcaseItem = {
 export const showcase: ShowcaseItem[] = [
   {
     slug: "bot-whatsapp-demo",
-    title: "Bot WhatsApp (demo)",
+    title: "Bot WhatsApp (simulador)",
     type: "bot",
     status: "demo",
-    summary: "Atiende leads y soporte con respuestas guiadas por IA.",
+    summary: "Simulador guiado para calificar leads en WhatsApp.",
     detail:
-      "Demo funcional de WhatsApp con flujos comerciales y base de conocimiento inicial.",
-    tags: ["whatsapp", "flows", "knowledge-base"],
+      "Demo estilo WhatsApp con conversación guiada y CTA a contacto.",
+    tags: ["whatsapp", "simulador", "leads"],
     glyph: "messages",
-    ctaLabel: "Ver demo",
-    ctaHref: "/demos/bot-whatsapp-demo",
+    ctaLabel: "Ver simulador",
+    ctaHref: "/demos/whatsapp",
     relatedServices: ["chatbot-bot-ia", "automatizaciones"],
   },
   {
