@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { buildContactLink, buildWhatsappLink, siteUrl } from "../../lib/site";
+import { videoExamples } from "../content/videoPacks";
+import VideoGallery from "./VideoGallery";
 
 export const metadata: Metadata = {
   title: "Video Packs y Doblaje",
@@ -193,6 +195,19 @@ export default function VideoPage() {
             </Link>
           </div>
         </div>
+      </section>
+
+      <section className="mx-auto mt-12 w-full max-w-6xl">
+        <p className="text-xs uppercase tracking-[0.35em] text-cyan-200/80">
+          Ejemplos reales
+        </p>
+        <h2 className="mt-2 text-2xl font-semibold text-white md:text-3xl">
+          Galería de Video Packs
+        </h2>
+        <p className="mt-3 max-w-2xl text-sm text-slate-300">
+          Clips de referencia para mostrar estilo, ritmo y subtítulos.
+        </p>
+        <VideoGallery items={videoExamples} />
       </section>
 
       <section className="mx-auto mt-12 w-full max-w-6xl">

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import LandingLocal from './LandingLocal';
 import IntroVideo from './IntroVideo';
+import { getFeaturedVideo } from '../content/videoPacks';
 
 const allowIntroVideoRoutes = new Set(['/', '/web', '/pricing', '/services']);
 
@@ -42,6 +43,7 @@ export default function HomeClient() {
         <IntroVideo
           onFinish={handleVideoFinish}
           onSkip={handleVideoFinish}
+          video={getFeaturedVideo()}
         />
       )}
       <LandingLocal
