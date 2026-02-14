@@ -197,9 +197,9 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               className="mt-3 flex h-12 items-center justify-center rounded-full bg-emerald-600 px-5 text-center text-sm font-semibold text-white transition hover:bg-emerald-700"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Enviar pedido por WhatsApp"
+              aria-label="Completar pedido en WhatsApp"
             >
-              Enviar pedido por WhatsApp
+              Completar pedido en WhatsApp
             </a>
             <div className="flex items-center justify-between text-xs text-slate-500">
               <span>Retiro</span>

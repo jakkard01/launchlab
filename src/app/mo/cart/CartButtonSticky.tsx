@@ -52,9 +52,9 @@ export default function CartButtonSticky({ onOpen }: CartButtonStickyProps) {
           type="button"
           onClick={onOpen}
           className="h-12 rounded-full bg-emerald-600 px-5 text-sm font-semibold text-white transition hover:bg-emerald-700"
-          aria-label="Ver pedido"
+          aria-label="Completar pedido en WhatsApp"
         >
-          Ver pedido
+          Completar pedido
         </button>
       </div>
     </div>
