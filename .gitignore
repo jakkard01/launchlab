@@ -169,3 +169,4 @@ public/video/*.vtt
 !public/mo/
 !public/mo/products/
 !public/mo/products/*.svg
+public/mo/subs/
