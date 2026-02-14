@@ -61,7 +61,7 @@ export default function CatalogSection({
       </div>
 
       <div className="sticky top-16 z-30 -mx-4 border-y border-slate-200 bg-white/95 px-4 py-3 backdrop-blur sm:mx-0 sm:top-0 sm:rounded-2xl sm:border sm:px-6">
-        <div className="flex gap-2 overflow-x-auto">
+        <div className="no-scrollbar flex gap-2 overflow-x-auto">
           {TABS.map((tab) => {
             const isActive = tab.id === activeTab;
             return (
@@ -76,12 +76,31 @@ export default function CatalogSection({
                 }`}
                 aria-pressed={isActive}
               >
-                {tab.label}
+                <span className="flex items-center gap-2">
+                  {tab.image ? (
+                    <span className="h-5 w-5 overflow-hidden rounded-full border border-slate-200 bg-white">
+                      <img src={tab.image} alt={tab.label} className="h-5 w-5 object-cover" />
+                    </span>
+                  ) : tab.icon ? (
+                    <span aria-hidden="true">{tab.icon}</span>
+                  ) : null}
+                  <span>{tab.label}</span>
+                </span>
               </button>
             );
           })}
         </div>
       </div>
+
+      <style jsx>{`
+        .no-scrollbar {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
 
       <div className="space-y-8">
         {TABS.map((tab) => {
