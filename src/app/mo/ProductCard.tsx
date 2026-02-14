@@ -51,7 +51,7 @@ export default function ProductCard({
   };
 
   return (
-    <article className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+    <article className="flex h-full flex-col rounded-2xl border border-transparent bg-white p-4 shadow-[0_12px_30px_rgba(15,23,42,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(15,23,42,0.12)]">
       <div className="relative overflow-hidden rounded-xl border border-slate-100 bg-slate-50">
         <Image
           src={imageSrc}
@@ -77,16 +77,6 @@ export default function ProductCard({
         </span>
       </div>
       <div className="mt-2 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          {promoLabel ? (
-            <span className="text-xs text-slate-400 line-through">
-              {product.price}
-            </span>
-          ) : null}
-          <p className="text-base font-semibold text-emerald-700">
-            {effectivePrice}
-          </p>
-        </div>
         {promoLabel ? (
           <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-emerald-700">
             {promoLabel}
@@ -105,6 +95,18 @@ export default function ProductCard({
           {product.category}
         </span>
       </div>
+      <div className="mt-4 flex items-center justify-between">
+        <div>
+          {promoLabel ? (
+            <span className="text-xs text-slate-400 line-through">
+              {product.price}
+            </span>
+          ) : null}
+          <p className="text-lg font-semibold text-emerald-700">
+            {effectivePrice}
+          </p>
+        </div>
+      </div>
       <div className={`mt-4 flex flex-col gap-3 ${isCompact ? "hidden" : ""}`}>
         <div className="flex items-center justify-between">
           <span className="text-xs font-semibold text-slate-600">Cantidad</span>
@@ -113,7 +115,7 @@ export default function ProductCard({
         <button
           type="button"
           onClick={handleAdd}
-          className="h-11 rounded-full bg-emerald-600 px-5 text-center text-sm font-semibold text-white transition hover:bg-emerald-700"
+          className="h-12 rounded-full bg-emerald-600 px-5 text-center text-sm font-semibold text-white transition hover:bg-emerald-700"
           aria-label={`Agregar ${product.name} al pedido`}
         >
           {justAdded ? "Agregado ✓" : "Agregar"}
@@ -123,7 +125,7 @@ export default function ProductCard({
         <button
           type="button"
           onClick={handleAdd}
-          className="mt-4 h-10 rounded-full border border-emerald-200 px-4 text-xs font-semibold text-emerald-700 transition hover:border-emerald-300"
+          className="mt-4 h-11 rounded-full bg-emerald-600 px-4 text-xs font-semibold text-white transition hover:bg-emerald-700"
           aria-label={`Agregar ${product.name} al pedido`}
         >
           {justAdded ? "Agregado ✓" : "Agregar"}

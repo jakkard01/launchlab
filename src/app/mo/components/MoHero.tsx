@@ -14,12 +14,13 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
         </span>
       </div>
       <div
-        className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white px-6 py-6 shadow-sm sm:px-8"
+        className="relative overflow-hidden rounded-3xl border border-emerald-200/40 bg-emerald-50/30 px-6 py-6 shadow-sm sm:px-8"
         data-hero-bg="placeholder-gradient"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.18),_rgba(15,23,42,0.9))]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,_rgba(255,255,255,0.22),_transparent_45%),radial-gradient(circle_at_80%_30%,_rgba(16,185,129,0.18),_transparent_55%)]" />
-        <div className="absolute inset-0 bg-slate-950/25 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.22),_rgba(16,24,32,0.85))]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,_rgba(255,244,214,0.18),_transparent_45%),radial-gradient(circle_at_80%_30%,_rgba(16,185,129,0.22),_transparent_55%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_80%,_rgba(255,255,255,0.08),_transparent_60%)]" />
+        <div className="absolute inset-0 bg-slate-950/30 backdrop-blur-[2px]" />
         <div className="relative">
           <p className="text-xs font-semibold uppercase tracking-[0.35em] text-emerald-200">
             TIENDA EXPRESS

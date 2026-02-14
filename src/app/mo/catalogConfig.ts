@@ -4,14 +4,14 @@ export const HOT_IDS = ["mo-cafe-pack"];
 export const COMBO_IDS: string[] = [];
 
 export const TABS = [
-  { id: "hot", label: "Caliente hoy" },
-  { id: "antojitos", label: "Antojitos" },
-  { id: "combos", label: "Combos" },
-  { id: "lacteos", label: "Lácteos" },
-  { id: "bebidas", label: "Bebidas" },
-  { id: "abarrotes", label: "Abarrotes" },
-  { id: "snacks", label: "Snacks" },
-  { id: "ofertas", label: "Ofertas" },
+  { id: "hot", label: "🔥 Caliente hoy" },
+  { id: "antojitos", label: "🍽️ Antojitos" },
+  { id: "combos", label: "🥡 Combos" },
+  { id: "lacteos", label: "🥛 Lácteos" },
+  { id: "bebidas", label: "🥤 Bebidas" },
+  { id: "abarrotes", label: "🧺 Abarrotes" },
+  { id: "snacks", label: "🍬 Snacks" },
+  { id: "ofertas", label: "🏷️ Ofertas" },
 ] as const;
 
 export type TabId = (typeof TABS)[number]["id"];
