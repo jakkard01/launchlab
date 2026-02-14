@@ -96,6 +96,7 @@ export default function CatalogSection({
         .no-scrollbar {
           scrollbar-width: none;
           -ms-overflow-style: none;
+          -webkit-overflow-scrolling: touch;
         }
         .no-scrollbar::-webkit-scrollbar {
           display: none;

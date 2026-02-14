@@ -5,12 +5,12 @@ export const COMBO_IDS: string[] = [];
 
 export const TABS = [
   { id: "hot", label: "Caliente hoy", icon: "🔥" },
-  { id: "antojitos", label: "Antojitos", image: "/mo/products/antojitos.svg" },
+  { id: "antojitos", label: "Antojitos", image: "/mo/categories/antojitos.svg" },
   { id: "combos", label: "Combos", icon: "🥡" },
-  { id: "lacteos", label: "Lácteos", image: "/mo/products/lacteos.svg" },
-  { id: "bebidas", label: "Bebidas", image: "/mo/products/bebida.svg" },
-  { id: "abarrotes", label: "Abarrotes", image: "/mo/products/abarrotes.svg" },
-  { id: "snacks", label: "Snacks", image: "/mo/products/snacks.svg" },
+  { id: "lacteos", label: "Lácteos", image: "/mo/categories/lacteos.svg" },
+  { id: "bebidas", label: "Bebidas", image: "/mo/categories/bebida.svg" },
+  { id: "abarrotes", label: "Abarrotes", image: "/mo/categories/abarrotes.svg" },
+  { id: "snacks", label: "Snacks", image: "/mo/categories/snacks.svg" },
   { id: "ofertas", label: "Ofertas", icon: "🏷️" },
 ] as const;
 

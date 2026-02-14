@@ -78,7 +78,7 @@
   - Hero y cards con estilo mas calido (mercadito), sombras suaves y CTA mas jugoso.
   - Tabs con emoji para lectura rapida.
   - Sistema de imagenes:
-    - Archivos en `public/mo/products/`
+    - Archivos en `public/mo/categories/`
     - Mapping en `src/data/product_images.json` con `imageKey -> src/alt`
     - Productos con `imageKey` en `src/data/products.json`
     - Script `scripts/check_product_images.mjs` para detectar faltantes.
@@ -107,8 +107,18 @@
   - 2f0ca7f codex(rys-ui): hide category scrollbar + prep category thumbnails
 - Convenciones:
   - Agregar video: editar `src/app/content/videoPacks.ts` y añadir item con `platform` `local` (src `/video/...`) o `youtube` (videoId).
-  - Agregar thumbnail de categoria RYS: en `src/app/mo/catalogConfig.ts` usar `image: '/mo/products/<archivo>'` o `icon`.
+  - Agregar thumbnail de categoria RYS: en `src/app/mo/catalogConfig.ts` usar `image: '/mo/categories/<archivo>'` o `icon`.
 - QA rapido:
   - /video: cards y modal funcionan en mobile/desktop.
   - /demos y /demos/whatsapp: simuladores con typing + reset.
   - /RYSminisuper: tabs sin scrollbar visible y con icono/thumbnail.
+
+## 2026-02-14 — RYS tabs polish (paths + a11y + iOS scroll)
+- Rama: feat/pagina-hermana-live
+- Objetivo: mover thumbnails de categorias a carpeta dedicada, mejorar accesibilidad y feel iOS.
+- Cambios clave:
+  - Thumbnails ahora viven en `public/mo/categories/` (paths actualizados en config y mapping).
+  - A11y: thumbnails con `alt={label}` y emojis decorativos con `aria-hidden`.
+  - Scroll horizontal con `-webkit-overflow-scrolling: touch`.
+- Commit:
+  - TBD codex(rys-ui): polish category thumbnails (paths+a11y+iOS)
