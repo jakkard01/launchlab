@@ -1,4 +1,4 @@
-import { MO_STORE_HOURS_LABEL } from "../../../lib/mo/config";
+import { MO_STORE_HOURS_LABEL, MO_STORE_MAPS_URL } from "../../../lib/mo/config";
 
 type MoHeroProps = {
   ctaLink: string;
@@ -38,7 +38,7 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
               La Gloria
             </span>
           </div>
-          <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center">
+          <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
             <a
               href={ctaLink}
               className="h-12 rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold text-slate-900 transition hover:bg-emerald-300"
@@ -52,6 +52,14 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
               className="h-12 rounded-full border border-white/40 px-6 py-3 text-center text-sm font-semibold text-white transition hover:border-emerald-200 hover:text-emerald-100"
             >
               Ver catálogo
+            </a>
+            <a
+              href={MO_STORE_MAPS_URL}
+              className="h-12 rounded-full border border-emerald-200/40 px-6 py-3 text-center text-sm font-semibold text-emerald-50 transition hover:border-emerald-200 hover:text-emerald-100"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              ¿Dónde estamos?
             </a>
           </div>
           <div className="mt-5 grid gap-2 text-xs text-emerald-50 sm:grid-cols-3">

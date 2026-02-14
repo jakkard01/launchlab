@@ -50,8 +50,8 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-slate-900/40 px-4 pb-6 pt-10 sm:items-center">
-      <div className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl sm:p-8">
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-slate-900/40 px-4 pb-[calc(env(safe-area-inset-bottom)+16px)] pt-10 sm:items-center sm:pb-6">
+      <div className="w-full max-w-lg max-h-[calc(100dvh-24px)] overflow-y-auto rounded-t-3xl bg-white p-6 pb-[calc(env(safe-area-inset-bottom)+24px)] shadow-2xl sm:max-h-[calc(100dvh-80px)] sm:rounded-3xl sm:p-8">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-slate-900">Tu pedido</h2>
           <button
