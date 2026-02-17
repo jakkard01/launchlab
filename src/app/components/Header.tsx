@@ -284,7 +284,7 @@ export default function Header() {
           })}
           <a
             href={buildWhatsappLink("nav_cta")}
-            className="rounded-full bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-[var(--surface)] transition hover:opacity-90"
+            className="rounded-full border border-[var(--accent)] bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-[var(--surface)] transition hover:opacity-90"
             target="_blank"
             rel="noopener noreferrer"
             onClick={() =>
@@ -367,7 +367,7 @@ export default function Header() {
                     <a
                       href={buildWhatsappLink("nav_cta")}
                       onClick={() => setMenuOpen(false)}
-                      className="rounded-xl bg-[var(--accent)] px-4 py-3 text-center text-sm font-semibold text-[var(--surface)] transition hover:opacity-90"
+                      className="rounded-xl border border-[var(--accent)] bg-[var(--accent)] px-4 py-3 text-center text-sm font-semibold text-[var(--surface)] transition hover:opacity-90"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
