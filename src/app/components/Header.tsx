@@ -5,6 +5,7 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import {
   Bot,
+  ChevronDown,
   Globe,
   Home,
   Layers3,
@@ -17,8 +18,17 @@ import {
 } from "lucide-react";
 import { trackEvent } from "../../lib/analytics";
 import { buildWhatsappLink, getSocialLinks, siteConfig } from "../../lib/site";
+import ThemeToggle from "./ThemeToggle";
 
-const navItems = [
+type NavItem = {
+  label: string;
+  href: string;
+  icon: typeof Home;
+  tagline: string;
+  match?: string;
+};
+
+const navItems: NavItem[] = [
   { label: "Inicio", href: "/", icon: Home, tagline: "" },
   {
     label: "Demos",
@@ -31,6 +41,12 @@ const navItems = [
     href: "/portfolio",
     icon: LineChart,
     tagline: "casos reales",
+  },
+  {
+    label: "Inversión",
+    href: "/pricing",
+    icon: Rocket,
+    tagline: "paquetes claros",
   },
   {
     label: "Contacto",
@@ -49,10 +65,24 @@ const solutions = [
     tagline: "páginas web listas",
   },
   {
-    label: "Servicios",
-    href: "/services",
-    icon: Rocket,
-    tagline: "IA que vende",
+    label: "Video Packs",
+    href: "/video",
+    match: "/video",
+    icon: Video,
+    tagline: "packs mensuales",
+  },
+  {
+    label: "Doblaje",
+    href: "/video#doblaje",
+    icon: Video,
+    tagline: "voz y subtítulos",
+  },
+  {
+    label: "Ops",
+    href: "/ops",
+    match: "/ops",
+    icon: Settings,
+    tagline: "automatizaciones premium",
   },
   {
     label: "Bots",
@@ -62,18 +92,11 @@ const solutions = [
     tagline: "web + WhatsApp API",
   },
   {
-    label: "n8n Ops",
-    href: "/ops",
-    match: "/ops",
-    icon: Settings,
-    tagline: "automatizaciones premium",
-  },
-  {
-    label: "Video Packs",
-    href: "/video",
-    match: "/video",
-    icon: Video,
-    tagline: "packs mensuales",
+    label: "Paquetes",
+    href: "/pricing",
+    match: "/pricing",
+    icon: Rocket,
+    tagline: "planes claros",
   },
 ];
 
@@ -81,6 +104,7 @@ export default function Header() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
+  const [mobileSolutionsOpen, setMobileSolutionsOpen] = useState(false);
   const socialLinks = getSocialLinks("header");
   const menuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -143,6 +167,7 @@ export default function Header() {
 
   useEffect(() => {
     setSolutionsOpen(false);
+    setMobileSolutionsOpen(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -166,10 +191,14 @@ export default function Header() {
     };
   }, [solutionsOpen]);
 
+  useEffect(() => {
+    if (!menuOpen) setMobileSolutionsOpen(false);
+  }, [menuOpen]);
+
   return (
-    <header className="fixed top-0 inset-x-0 z-[10000] bg-black/70 backdrop-blur border-b border-white/10">
-      <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-4 md:px-6">
-        <Link href="/" className="font-semibold tracking-wide text-cyan-300">
+    <header className="fixed top-0 inset-x-0 z-[10000] border-b border-default bg-surface backdrop-blur">
+      <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-4 md:px-6">
+        <Link href="/" className="font-semibold tracking-wide text-main">
           {siteConfig.brand}
         </Link>
 
@@ -189,7 +218,7 @@ export default function Header() {
                     })
                   }
                   className={`text-sm font-medium transition ${
-                    isActive ? "text-white" : "text-slate-300 hover:text-white"
+                    isActive ? "text-main" : "text-muted hover:text-main"
                   }`}
                 >
                   {item.label}
@@ -202,14 +231,19 @@ export default function Header() {
                       aria-haspopup="true"
                       aria-expanded={solutionsOpen}
                       aria-controls="solutions-menu"
-                      className="text-sm font-medium text-slate-300 transition hover:text-white"
+                      className="flex items-center gap-2 text-sm font-medium text-muted transition hover:text-main"
                     >
                       Soluciones
+                      <ChevronDown
+                        className={`h-4 w-4 transition ${
+                          solutionsOpen ? "rotate-180" : ""
+                        }`}
+                      />
                     </button>
                     {solutionsOpen && (
                       <div
                         id="solutions-menu"
-                        className="absolute left-0 top-full mt-3 w-56 rounded-2xl border border-white/10 bg-black/85 p-2 shadow-2xl"
+                        className="absolute left-0 top-full mt-3 w-56 rounded-2xl border border-default bg-surface p-2 shadow-2xl"
                         role="menu"
                       >
                         {solutions.map((solution) => {
@@ -230,12 +264,12 @@ export default function Header() {
                               }}
                               className={`flex items-center justify-between rounded-xl px-3 py-2 text-sm transition ${
                                 isSolutionActive
-                                  ? "text-white"
-                                  : "text-slate-300 hover:bg-white/5 hover:text-white"
+                                  ? "text-main border border-[var(--accent)] bg-surface"
+                                  : "text-muted hover:bg-base hover:text-main border border-transparent"
                               }`}
                             >
                               <span>{solution.label}</span>
-                              <span className="text-[10px] uppercase tracking-[0.2em] text-slate-500">
+                              <span className="text-[10px] uppercase tracking-[0.2em] text-muted">
                                 {solution.tagline}
                               </span>
                             </Link>
@@ -250,7 +284,7 @@ export default function Header() {
           })}
           <a
             href={buildWhatsappLink("nav_cta")}
-            className="rounded-full bg-emerald-400 px-4 py-2 text-sm font-semibold text-black transition hover:bg-emerald-300"
+            className="rounded-full bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-[var(--surface)] transition hover:opacity-90"
             target="_blank"
             rel="noopener noreferrer"
             onClick={() =>
@@ -264,18 +298,22 @@ export default function Header() {
           </a>
         </nav>
 
+        <div className="hidden items-center gap-3 md:flex">
+          <ThemeToggle />
+        </div>
+
         <button
           onClick={() => setMenuOpen((open) => !open)}
-          className="relative z-[10000] flex items-center justify-center rounded-full border border-white/15 p-2 text-white md:hidden"
+          className="relative z-[10000] flex items-center justify-center rounded-full border border-default p-2 text-main md:hidden"
           aria-expanded={menuOpen}
           aria-controls="mobile-nav"
           aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
           ref={menuButtonRef}
         >
           <span className="flex flex-col gap-1.5">
-            <span className="h-0.5 w-6 rounded bg-white" />
-            <span className="h-0.5 w-6 rounded bg-white" />
-            <span className="h-0.5 w-6 rounded bg-white" />
+            <span className="h-0.5 w-6 rounded bg-[var(--text)]" />
+            <span className="h-0.5 w-6 rounded bg-[var(--text)]" />
+            <span className="h-0.5 w-6 rounded bg-[var(--text)]" />
           </span>
         </button>
       </div>
@@ -289,30 +327,33 @@ export default function Header() {
             aria-modal="true"
             onPointerDown={() => setMenuOpen(false)}
           >
-            <div className="absolute inset-0 bg-black/85 backdrop-blur-sm pointer-events-auto" />
+            <div className="absolute inset-0 bg-[rgba(11,18,32,0.85)] backdrop-blur-sm pointer-events-auto" />
             <div
               ref={menuRef}
               id="mobile-nav"
               className="absolute inset-x-0 top-0 mx-auto w-full max-w-md p-4 pt-[calc(env(safe-area-inset-top)+16px)]"
               onPointerDown={(event) => event.stopPropagation()}
             >
-              <div className="flex max-h-[calc(100dvh-24px)] flex-col overflow-hidden rounded-2xl border border-white/10 bg-black/70 shadow-2xl">
-                <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
+              <div className="flex max-h-[calc(100dvh-24px)] flex-col overflow-hidden rounded-2xl border border-default bg-surface shadow-2xl text-main">
+                <div className="flex items-center justify-between px-5 py-4 border-b border-default">
                   <div>
-                    <p className="text-xs uppercase tracking-[0.3em] text-cyan-300/80">
+                    <p className="text-xs uppercase tracking-[0.3em] text-muted">
                       Menú
                     </p>
-                    <p className="text-sm text-slate-300">
+                    <p className="text-sm text-muted">
                       IA para vender y escalar
                     </p>
                   </div>
-                  <button
-                    onPointerDown={() => setMenuOpen(false)}
-                    className="rounded-full border border-white/10 p-2 text-white hover:border-cyan-300/60 hover:text-cyan-200 transition"
-                    aria-label="Cerrar menú"
-                  >
-                    <X className="h-5 w-5" />
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <ThemeToggle />
+                    <button
+                      onPointerDown={() => setMenuOpen(false)}
+                      className="rounded-full border border-default p-2 text-main hover:border-[var(--accent)] hover:text-[var(--accent)] transition"
+                      aria-label="Cerrar menú"
+                    >
+                      <X className="h-5 w-5" />
+                    </button>
+                  </div>
                 </div>
 
                 <div
@@ -326,17 +367,33 @@ export default function Header() {
                     <a
                       href={buildWhatsappLink("nav_cta")}
                       onClick={() => setMenuOpen(false)}
-                      className="rounded-xl bg-emerald-400 px-4 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
+                      className="rounded-xl bg-[var(--accent)] px-4 py-3 text-center text-sm font-semibold text-[var(--surface)] transition hover:opacity-90"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
                       Hablar por WhatsApp
                     </a>
-                    <div className="rounded-2xl border border-white/10 bg-black/60 px-4 py-3">
-                      <p className="text-xs uppercase tracking-[0.3em] text-cyan-300/80">
+                    <div className="rounded-2xl border border-default bg-base px-4 py-3">
+                      <button
+                        type="button"
+                        onClick={() => setMobileSolutionsOpen((open) => !open)}
+                        className="flex w-full items-center justify-between text-xs uppercase tracking-[0.3em] text-muted"
+                        aria-expanded={mobileSolutionsOpen}
+                        aria-controls="mobile-solutions"
+                      >
                         Soluciones
-                      </p>
-                      <div className="mt-3 flex flex-col gap-2">
+                        <ChevronDown
+                          className={`h-4 w-4 transition ${
+                            mobileSolutionsOpen ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
+                      <div
+                        id="mobile-solutions"
+                        className={`mt-3 flex flex-col gap-2 ${
+                          mobileSolutionsOpen ? "" : "hidden"
+                        }`}
+                      >
                         {solutions.map((item) => {
                           const Icon = item.icon;
                           return (
@@ -350,13 +407,13 @@ export default function Header() {
                                 });
                                 setMenuOpen(false);
                               }}
-                              className="flex items-center justify-between rounded-xl border border-white/10 bg-black/50 px-3 py-2 text-sm text-white transition hover:border-cyan-300/50"
+                              className="flex items-center justify-between rounded-xl border border-default bg-surface px-3 py-2 text-sm text-main transition hover:border-[var(--accent)]"
                             >
                               <span className="flex items-center gap-2">
-                                <Icon className="h-4 w-4 text-cyan-200" />
+                                <Icon className="h-4 w-4 text-muted" />
                                 {item.label}
                               </span>
-                              <span className="text-[10px] uppercase tracking-[0.2em] text-slate-400">
+                              <span className="text-[10px] uppercase tracking-[0.2em] text-muted">
                                 {item.tagline}
                               </span>
                             </Link>
@@ -379,16 +436,16 @@ export default function Header() {
                             });
                             setMenuOpen(false);
                           }}
-                          className="group flex items-start gap-3 rounded-xl border border-white/10 bg-black/60 px-4 py-3 text-left transition hover:border-cyan-300/50 hover:bg-black/70"
+                          className="group flex items-start gap-3 rounded-xl border border-default bg-surface px-4 py-3 text-left transition hover:border-[var(--accent)] hover:bg-base"
                         >
-                          <span className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/70 text-cyan-200">
+                          <span className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-full border border-default bg-base text-muted">
                             <Icon className="h-5 w-5" />
                           </span>
                           <span className="flex flex-col">
-                            <span className="text-base font-semibold text-white">
+                            <span className="text-base font-semibold text-main">
                               {item.label}
                             </span>
-                            <span className="text-xs text-slate-300 hidden md:block">
+                            <span className="text-xs text-muted hidden md:block">
                               {item.tagline}
                             </span>
                           </span>
@@ -397,7 +454,7 @@ export default function Header() {
                     })}
                   </nav>
 
-                  <div className="mt-6 flex flex-col gap-3 border-t border-white/10 pt-4">
+                  <div className="mt-6 flex flex-col gap-3 border-t border-default pt-4">
                     {socialLinks.map((link) => {
                       const safeHref = link.href.startsWith("http")
                         ? link.href
@@ -407,7 +464,7 @@ export default function Header() {
                           key={link.label}
                           href={safeHref}
                           onClick={() => setMenuOpen(false)}
-                          className="rounded-full border border-white/10 px-4 py-2 text-center text-sm font-semibold text-slate-200 transition hover:border-cyan-300/60 hover:text-white"
+                          className="rounded-full border border-default px-4 py-2 text-center text-sm font-semibold text-muted transition hover:border-[var(--accent)] hover:text-main"
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={link.label}
