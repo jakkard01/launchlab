@@ -1,16 +1,7 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo } from "react";
-import {
-  Flame,
-  Package,
-  Milk,
-  Coffee,
-  ShoppingBasket,
-  Pizza,
-  Tag,
-  MessageCircle,
-} from "lucide-react";
 import type { Product } from "../../../lib/mo/types";
 import ProductCard from "../ProductCard";
 import { TABS, TabId } from "../catalogConfig";
@@ -21,6 +12,19 @@ type MoQuickShopProps = {
   onJumpToTab: (next: TabId) => void;
   onScrollToSpecial: () => void;
 };
+
+const CATEGORY_ICONS = {
+  "Caliente hoy": "/mo/icons/pasillos/comida_caliente.png",
+  Combos: "/mo/icons/pasillos/combos.png",
+  "Lácteos": "/mo/icons/pasillos/lacteos.png",
+  Bebidas: "/mo/icons/pasillos/bebidas.png",
+  Abarrotes: "/mo/icons/pasillos/abarrotes.png",
+  Snacks: "/mo/icons/pasillos/snacks.png",
+  Ofertas: "/mo/icons/pasillos/ofertas.png",
+  "Pedido especial": "/mo/icons/pasillos/pedido_especial.png",
+} as const;
+
+type CategoryLabel = keyof typeof CATEGORY_ICONS;
 
 export default function MoQuickShop({
   products,
@@ -52,44 +56,37 @@ export default function MoQuickShop({
   const aisles = [
     {
       id: "hot",
-      label: "Caliente hoy",
-      icon: Flame,
+      label: "Caliente hoy" as CategoryLabel,
       accent: "bg-rose-50 text-rose-600 border-rose-200",
     },
     {
       id: "combos",
-      label: "Combos",
-      icon: Package,
+      label: "Combos" as CategoryLabel,
       accent: "bg-amber-50 text-amber-700 border-amber-200",
     },
     {
       id: "lacteos",
-      label: "Lácteos",
-      icon: Milk,
+      label: "Lácteos" as CategoryLabel,
       accent: "bg-sky-50 text-sky-700 border-sky-200",
     },
     {
       id: "bebidas",
-      label: "Bebidas",
-      icon: Coffee,
+      label: "Bebidas" as CategoryLabel,
       accent: "bg-emerald-50 text-emerald-700 border-emerald-200",
     },
     {
       id: "abarrotes",
-      label: "Abarrotes",
-      icon: ShoppingBasket,
+      label: "Abarrotes" as CategoryLabel,
       accent: "bg-slate-50 text-slate-700 border-slate-200",
     },
     {
       id: "snacks",
-      label: "Snacks",
-      icon: Pizza,
+      label: "Snacks" as CategoryLabel,
       accent: "bg-orange-50 text-orange-700 border-orange-200",
     },
     {
       id: "ofertas",
-      label: "Ofertas",
-      icon: Tag,
+      label: "Ofertas" as CategoryLabel,
       accent: "bg-emerald-50 text-emerald-700 border-emerald-200",
     },
   ] as const;
@@ -107,7 +104,6 @@ export default function MoQuickShop({
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {aisles.map((aisle) => {
-          const Icon = aisle.icon;
           const isActive = aisle.id === activeTab;
           return (
             <button
@@ -121,7 +117,14 @@ export default function MoQuickShop({
               }`}
             >
               <span>{aisle.label}</span>
-              <Icon className="h-4 w-4" aria-hidden="true" />
+              <Image
+                src={CATEGORY_ICONS[aisle.label]}
+                alt=""
+                aria-hidden="true"
+                width={24}
+                height={24}
+                className="h-6 w-6 shrink-0 opacity-80"
+              />
             </button>
           );
         })}
@@ -131,7 +134,14 @@ export default function MoQuickShop({
           className="flex items-center justify-between gap-2 rounded-2xl border border-purple-200 bg-purple-50 px-3 py-3 text-left text-xs font-semibold text-purple-700 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
         >
           <span>Pedido especial</span>
-          <MessageCircle className="h-4 w-4" aria-hidden="true" />
+          <Image
+            src={CATEGORY_ICONS["Pedido especial"]}
+            alt=""
+            aria-hidden="true"
+            width={24}
+            height={24}
+            className="h-6 w-6 shrink-0 opacity-80"
+          />
         </button>
       </div>
 
