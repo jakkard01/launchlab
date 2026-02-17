@@ -7,42 +7,40 @@ type MoHeroProps = {
 export default function MoHero({ ctaLink }: MoHeroProps) {
   return (
     <section className="space-y-4">
-      <div className="flex h-10 items-center justify-center rounded-2xl bg-slate-900 px-4 text-center text-xs text-white sm:justify-between sm:text-sm">
-        <span>Pedís por WhatsApp y pasás a recoger. Sin vueltas.</span>
-        <span className="hidden text-white/80 sm:inline">
+      <div className="flex h-10 items-center justify-center rounded-2xl border border-default bg-surface px-4 text-center text-xs text-main sm:justify-between sm:text-sm">
+        <span className="text-main">Pedís por WhatsApp y pasás a recoger. Sin vueltas.</span>
+        <span className="hidden text-muted sm:inline">
           La Gloria • {MO_STORE_HOURS_LABEL}
         </span>
       </div>
       <div
-        className="relative overflow-hidden rounded-3xl border border-emerald-200/40 bg-emerald-50/30 px-6 py-6 shadow-sm sm:px-8"
+        className="relative overflow-hidden rounded-3xl border border-default bg-surface px-6 py-6 shadow-sm sm:px-8"
         data-hero-bg="placeholder-gradient"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.22),_rgba(16,24,32,0.85))]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,_rgba(255,244,214,0.18),_transparent_45%),radial-gradient(circle_at_80%_30%,_rgba(16,185,129,0.22),_transparent_55%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_80%,_rgba(255,255,255,0.08),_transparent_60%)]" />
-        <div className="absolute inset-0 bg-slate-950/30 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,color-mix(in_srgb,var(--accent)_20%,transparent),transparent_55%),radial-gradient(circle_at_85%_20%,color-mix(in_srgb,var(--accent)_12%,transparent),transparent_60%),linear-gradient(135deg,color-mix(in_srgb,var(--accent)_10%,transparent),transparent_70%)]" />
+        <div className="absolute inset-0 bg-[color-mix(in_srgb,var(--surface)_65%,transparent)] backdrop-blur-[2px]" />
         <div className="relative">
-          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-emerald-200">
+          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[var(--accent)]">
             TIENDA EXPRESS
           </p>
-          <h1 className="mt-3 text-3xl font-semibold text-white sm:text-4xl">
+          <h1 className="mt-3 text-3xl font-semibold text-main sm:text-4xl">
             RYS Minisúper
           </h1>
-          <p className="mt-2 text-sm text-emerald-50">
+          <p className="mt-2 text-sm text-muted">
             Retiro en La Gloria, San Salvador
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
-            <span className="rounded-full border border-emerald-200/40 bg-emerald-500/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-50">
+            <span className="rounded-full border border-[var(--accent)]/40 bg-[var(--accent)]/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-main">
               Retiro
             </span>
-            <span className="rounded-full border border-white/30 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80">
+            <span className="rounded-full border border-default px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted">
               La Gloria
             </span>
           </div>
           <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
             <a
               href={ctaLink}
-              className="h-12 rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold text-slate-900 transition hover:bg-emerald-300"
+              className="h-12 rounded-full bg-[var(--accent)] px-6 py-3 text-center text-sm font-semibold text-[var(--surface)] transition hover:opacity-90"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -50,28 +48,28 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
             </a>
             <a
               href="#catalogo"
-              className="h-12 rounded-full border border-white/40 px-6 py-3 text-center text-sm font-semibold text-white transition hover:border-emerald-200 hover:text-emerald-100"
+              className="h-12 rounded-full border border-default px-6 py-3 text-center text-sm font-semibold text-main transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
             >
               Ver catálogo
             </a>
             <a
               href={MO_STORE_MAPS_URL}
-              className="h-12 rounded-full border border-emerald-200/40 px-6 py-3 text-center text-sm font-semibold text-emerald-50 transition hover:border-emerald-200 hover:text-emerald-100"
+              className="h-12 rounded-full border border-[var(--accent)]/40 px-6 py-3 text-center text-sm font-semibold text-main transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
               target="_blank"
               rel="noopener noreferrer"
             >
               ¿Dónde estamos?
             </a>
           </div>
-          <div className="mt-5 rounded-2xl border border-emerald-200/30 bg-emerald-500/10 px-4 py-3 text-xs text-emerald-50 sm:text-sm">
-            <p className="text-xs uppercase tracking-[0.3em] text-emerald-200/80">
+          <div className="mt-5 rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-3 text-xs text-main sm:text-sm">
+            <p className="text-xs uppercase tracking-[0.3em] text-[var(--accent)]">
               Retiro local
             </p>
-            <p className="mt-2">Retiro en La Gloria, San Salvador.</p>
-            <p className="mt-1">Horario: {MO_STORE_HOURS_LABEL}</p>
-            <p className="mt-1">Pagos: efectivo, transferencia o Tigo Money.</p>
+            <p className="mt-2 text-main">Retiro en La Gloria, San Salvador.</p>
+            <p className="mt-1 text-main">Horario: {MO_STORE_HOURS_LABEL}</p>
+            <p className="mt-1 text-main">Pagos: efectivo, transferencia o Tigo Money.</p>
           </div>
-          <div className="mt-5 grid gap-2 text-xs text-emerald-50 sm:grid-cols-3">
+          <div className="mt-5 grid gap-2 text-xs text-main sm:grid-cols-3">
             <span>✅ Confirmamos disponibilidad</span>
             <span>✅ Pago al retirar</span>
             <span>✅ Listo para retiro</span>
