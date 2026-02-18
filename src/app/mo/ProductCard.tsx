@@ -26,6 +26,48 @@ const stockLabels: Record<StockStatus, string> = {
   agotado: "Agotado",
 };
 
+const TOP_IMAGES = {
+  frijoles: "/RYSminisuper/images/top/frijoles.webp",
+  sopa_frijoles: "/RYSminisuper/images/top/sopa_frijoles.webp",
+  fritos: "/RYSminisuper/images/top/fritos.webp",
+  platano_tajadas: "/RYSminisuper/images/top/platano_tajadas.webp",
+  pupusas: "/RYSminisuper/images/top/pupusas.webp",
+  "cafe-pack": "/RYSminisuper/images/top/cafe.webp",
+} as const;
+
+const normalizeText = (value: string) =>
+  value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+
+const resolveTopImage = (product: Product) => {
+  const key = product.imageKey ?? "";
+  if (key && key in TOP_IMAGES) {
+    return TOP_IMAGES[key as keyof typeof TOP_IMAGES];
+  }
+  const name = normalizeText(product.name);
+  if (name.includes("sopa") && name.includes("frijol")) {
+    return TOP_IMAGES.sopa_frijoles;
+  }
+  if (name.includes("frijol")) {
+    return TOP_IMAGES.frijoles;
+  }
+  if (name.includes("pupusa")) {
+    return TOP_IMAGES.pupusas;
+  }
+  if (name.includes("platano")) {
+    return TOP_IMAGES.platano_tajadas;
+  }
+  if (name.includes("frito")) {
+    return TOP_IMAGES.fritos;
+  }
+  if (name.includes("cafe")) {
+    return TOP_IMAGES["cafe-pack"];
+  }
+  return null;
+};
+
 const getInitials = (value: string) =>
   value
     .split(" ")
@@ -47,7 +89,7 @@ export default function ProductCard({
   const effectivePrice = getEffectivePrice(product);
   const resolvedStock = stockStatus ?? product.stockStatus ?? "disponible";
   const isOutOfStock = resolvedStock === "agotado";
-  const topImageSrc = null;
+  const topImageSrc = resolveTopImage(product);
   const imageAlt = product.name;
   const initials = getInitials(product.name);
 
