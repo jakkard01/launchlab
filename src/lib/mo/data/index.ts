@@ -2,16 +2,16 @@ import { localAdapter } from "./localAdapter";
 import type { MoDataAdapter } from "./types";
 
 export const getMoDataAdapter = async (): Promise<MoDataAdapter> => {
-  const backend = process.env.DATA_BACKEND ?? "local";
+  const backend = process.env.DATA_BACKEND ?? "supabase";
 
   if (backend === "sheets") {
-    const module = await import("./sheetsAdapter");
-    return module.sheetsAdapter;
+    const adapterModule = await import("./sheetsAdapter");
+    return adapterModule.sheetsAdapter;
   }
 
   if (backend === "supabase") {
-    const module = await import("./supabaseAdapter");
-    return module.supabaseAdapter;
+    const adapterModule = await import("./supabaseAdapter");
+    return adapterModule.supabaseAdapter;
   }
 
   return localAdapter;

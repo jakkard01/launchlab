@@ -1,7 +1,7 @@
-import './globals.css';
-import type { Metadata } from 'next';
-import AppShell from './components/AppShell';
-import { siteConfig, siteUrl } from '../lib/site';
+import "./globals.css";
+import type { Metadata } from "next";
+import AppShell from "./components/AppShell";
+import { siteConfig, siteUrl } from "../lib/site";
 
 // --- CONFIGURACIÓN SEO GLOBAL ---
 export const metadata: Metadata = {
@@ -52,6 +52,20 @@ export const metadata: Metadata = {
 };
 
 // --- LAYOUT PRINCIPAL ---
+const themeInitScript = `
+(function() {
+  try {
+    const stored = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = stored === 'light' || stored === 'dark' ? stored : (prefersDark ? 'dark' : 'light');
+    const root = document.documentElement;
+    root.classList.remove('light', 'dark');
+    root.classList.add(theme);
+    root.style.colorScheme = theme;
+  } catch (e) {}
+})();
+`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const organizationJsonLd = {
     "@context": "https://schema.org",
@@ -82,8 +96,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   };
 
   return (
-    <html lang="es">
-      <body className="relative min-h-screen">
+    <html lang="es" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: themeInitScript,
+          }}
+        />
+      </head>
+      <body className="relative min-h-screen bg-base text-main transition-colors">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}

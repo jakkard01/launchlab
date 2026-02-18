@@ -260,7 +260,7 @@ export default function MoAdminPage() {
   if (loading) {
     return (
       <main className="min-h-screen w-full px-4 pb-20 pt-10 sm:px-6 lg:px-8">
-        <p className="text-sm text-slate-500">Cargando panel...</p>
+        <p className="text-sm text-muted">Cargando panel...</p>
       </main>
     );
   }
@@ -268,7 +268,7 @@ export default function MoAdminPage() {
   if (!adapter) {
     return (
       <main className="min-h-screen w-full px-4 pb-20 pt-10 sm:px-6 lg:px-8">
-        <p className="text-sm text-slate-500">
+        <p className="text-sm text-muted">
           No se pudo cargar el panel. Revisa configuracion.
         </p>
       </main>
@@ -278,14 +278,14 @@ export default function MoAdminPage() {
   return (
     <main className="min-h-screen w-full px-4 pb-20 pt-10 sm:px-6 lg:px-8">
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-6">
-        <header className="rounded-3xl border border-slate-200 bg-white px-6 py-6 shadow-sm">
+        <header className="rounded-3xl border border-default bg-surface px-6 py-6 shadow-sm">
           <p className="text-xs uppercase tracking-[0.3em] text-emerald-600">
             Panel facil
           </p>
-          <h1 className="mt-2 text-3xl font-semibold text-slate-900">
+          <h1 className="mt-2 text-3xl font-semibold text-main">
             Control del minisuper
           </h1>
-          <p className="mt-2 text-sm text-slate-600">
+          <p className="mt-2 text-sm text-muted">
             Cambios rapidos, sin miedo. Se guarda en este dispositivo.
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
@@ -294,7 +294,7 @@ export default function MoAdminPage() {
             </span>
             <a
               href="/RYSminisuper"
-              className="rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:border-emerald-300 hover:text-emerald-700"
+              className="rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold text-muted transition hover:border-emerald-300 hover:text-emerald-700"
             >
               Volver al catalogo
             </a>
@@ -304,13 +304,13 @@ export default function MoAdminPage() {
           )}
         </header>
 
-        <section className="rounded-3xl border border-slate-200 bg-white px-6 py-6 shadow-sm">
+        <section className="rounded-3xl border border-default bg-surface px-6 py-6 shadow-sm">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-emerald-600">
                 Stock
               </p>
-              <h2 className="mt-2 text-lg font-semibold text-slate-900">
+              <h2 className="mt-2 text-lg font-semibold text-main">
                 Disponible, ultimas o agotado
               </h2>
             </div>
@@ -322,10 +322,10 @@ export default function MoAdminPage() {
                 className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 px-4 py-3"
               >
                 <div>
-                  <p className="text-sm font-semibold text-slate-900">
+                  <p className="text-sm font-semibold text-main">
                     {product.name}
                   </p>
-                  <p className="text-xs text-slate-500">{product.category}</p>
+                  <p className="text-xs text-muted">{product.category}</p>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {stockOptions.map((option) => {
@@ -334,10 +334,10 @@ export default function MoAdminPage() {
                       "rounded-full px-3 py-1 text-xs font-semibold transition";
                     const activeStyle =
                       option.value === "disponible"
-                        ? "bg-emerald-500 text-white"
+                        ? "bg-[var(--accent)] text-[var(--surface)]"
                         : option.value === "ultimas"
                         ? "bg-amber-400 text-amber-950"
-                        : "bg-rose-500 text-white";
+                        : "bg-rose-500 text-[var(--surface)]";
 
                     return (
                       <button
@@ -347,7 +347,7 @@ export default function MoAdminPage() {
                         className={`${base} ${
                           isActive
                             ? activeStyle
-                            : "border border-slate-200 text-slate-600 hover:border-emerald-300"
+                            : "border border-slate-200 text-muted hover:border-emerald-300"
                         }`}
                       >
                         {option.label}
@@ -360,12 +360,12 @@ export default function MoAdminPage() {
           </div>
         </section>
 
-        <section className="rounded-3xl border border-slate-200 bg-white px-6 py-6 shadow-sm">
+        <section className="rounded-3xl border border-default bg-surface px-6 py-6 shadow-sm">
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-emerald-600">
               Precios
             </p>
-            <h2 className="mt-2 text-lg font-semibold text-slate-900">
+            <h2 className="mt-2 text-lg font-semibold text-main">
               Solo precio visible
             </h2>
           </div>
@@ -375,7 +375,7 @@ export default function MoAdminPage() {
                 key={product.id}
                 className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 px-4 py-3"
               >
-                <span className="text-sm font-semibold text-slate-900">
+                <span className="text-sm font-semibold text-main">
                   {product.name}
                 </span>
                 <input
@@ -391,12 +391,12 @@ export default function MoAdminPage() {
           </div>
         </section>
 
-        <section className="rounded-3xl border border-slate-200 bg-white px-6 py-6 shadow-sm">
+        <section className="rounded-3xl border border-default bg-surface px-6 py-6 shadow-sm">
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-emerald-600">
               Ofertas
             </p>
-            <h2 className="mt-2 text-lg font-semibold text-slate-900">
+            <h2 className="mt-2 text-lg font-semibold text-main">
               Descuento controlado por producto
             </h2>
           </div>
@@ -423,10 +423,10 @@ export default function MoAdminPage() {
                   className="grid gap-3 rounded-2xl border border-slate-200 px-4 py-4 sm:grid-cols-[1.3fr_1.1fr_1.1fr]"
                 >
                   <div>
-                    <p className="text-sm font-semibold text-slate-900">
+                    <p className="text-sm font-semibold text-main">
                       {product.name}
                     </p>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-muted">
                       Base: {basePrice} · Final: {effectivePrice}
                       {savings !== null
                         ? ` · Ahorro: $${savings.toFixed(2)}`
@@ -434,7 +434,7 @@ export default function MoAdminPage() {
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <label className="flex items-center gap-2 text-xs text-slate-600">
+                    <label className="flex items-center gap-2 text-xs text-muted">
                       <input
                         type="checkbox"
                         checked={promoState.enabled}
@@ -483,13 +483,13 @@ export default function MoAdminPage() {
           </div>
         </section>
 
-        <section className="rounded-3xl border border-slate-200 bg-white px-6 py-6 shadow-sm">
+        <section className="rounded-3xl border border-default bg-surface px-6 py-6 shadow-sm">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-emerald-600">
                 Caliente hoy
               </p>
-              <h2 className="mt-2 text-lg font-semibold text-slate-900">
+              <h2 className="mt-2 text-lg font-semibold text-main">
                 Estado, ventana y nota por producto
               </h2>
             </div>
@@ -503,15 +503,15 @@ export default function MoAdminPage() {
                   className="grid gap-3 rounded-2xl border border-slate-200 px-4 py-3 sm:grid-cols-[1.1fr_0.9fr_1.2fr] sm:items-center"
                 >
                   <div>
-                    <p className="text-sm font-semibold text-slate-900">
+                    <p className="text-sm font-semibold text-main">
                       {product.name}
                     </p>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-muted">
                       {hotLabels[hot.status]}
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <label className="flex items-center gap-2 text-xs text-slate-600">
+                    <label className="flex items-center gap-2 text-xs text-muted">
                       <input
                         type="checkbox"
                         checked={hot.status !== "hoy_no_hicimos"}
@@ -542,7 +542,7 @@ export default function MoAdminPage() {
                       ))}
                     </select>
                   </div>
-                  <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600">
+                  <div className="flex flex-wrap items-center gap-2 text-xs text-muted">
                     <span className="rounded-full border border-slate-200 px-3 py-1">
                       Ventana
                     </span>
@@ -573,7 +573,7 @@ export default function MoAdminPage() {
                       updateHot(product.id, { note: event.target.value })
                     }
                     placeholder="Nota corta"
-                    className="w-full rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-600 sm:col-span-3"
+                    className="w-full rounded-full border border-slate-200 px-3 py-1 text-xs text-muted sm:col-span-3"
                   />
                 </div>
               );
@@ -581,17 +581,17 @@ export default function MoAdminPage() {
           </div>
         </section>
 
-        <section className="rounded-3xl border border-slate-200 bg-white px-6 py-6 shadow-sm">
+        <section className="rounded-3xl border border-default bg-surface px-6 py-6 shadow-sm">
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-emerald-600">
               Ventas del dia
             </p>
-            <h2 className="mt-2 text-lg font-semibold text-slate-900">
+            <h2 className="mt-2 text-lg font-semibold text-main">
               Registrar venta manual
             </h2>
           </div>
           <div className="mt-4 grid gap-3 rounded-2xl border border-slate-200 px-4 py-4 sm:grid-cols-[1.3fr_0.6fr_0.7fr_0.7fr_auto] sm:items-end">
-            <label className="flex flex-col gap-2 text-xs text-slate-600">
+            <label className="flex flex-col gap-2 text-xs text-muted">
               Producto
               <select
                 value={saleProductId}
@@ -605,7 +605,7 @@ export default function MoAdminPage() {
                 ))}
               </select>
             </label>
-            <label className="flex flex-col gap-2 text-xs text-slate-600">
+            <label className="flex flex-col gap-2 text-xs text-muted">
               Unidades
               <input
                 type="number"
@@ -615,7 +615,7 @@ export default function MoAdminPage() {
                 className="rounded-full border border-slate-200 px-3 py-2 text-sm text-slate-700"
               />
             </label>
-            <label className="flex flex-col gap-2 text-xs text-slate-600">
+            <label className="flex flex-col gap-2 text-xs text-muted">
               Precio unitario
               <input
                 type="number"
@@ -628,22 +628,22 @@ export default function MoAdminPage() {
                 className="rounded-full border border-slate-200 px-3 py-2 text-sm text-slate-700"
               />
             </label>
-            <div className="flex flex-col gap-2 text-xs text-slate-600">
+            <div className="flex flex-col gap-2 text-xs text-muted">
               Total
-              <div className="rounded-full border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-900">
+              <div className="rounded-full border border-slate-200 px-3 py-2 text-sm font-semibold text-main">
                 {formatMoney(saleTotal)}
               </div>
             </div>
             <button
               type="button"
               onClick={addSale}
-              className="h-11 rounded-full bg-emerald-500 px-5 text-sm font-semibold text-white transition hover:bg-emerald-400"
+              className="h-11 rounded-full bg-[var(--accent)] px-5 text-sm font-semibold text-[var(--surface)] transition hover:opacity-90"
             >
               Registrar
             </button>
           </div>
 
-          <div className="mt-4 flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-600">
+          <div className="mt-4 flex flex-wrap items-center gap-2 text-xs font-semibold text-muted">
             <span className="rounded-full border border-slate-200 px-3 py-1">
               Hoy: {todayTotals.quantity} unidades
             </span>
@@ -654,7 +654,7 @@ export default function MoAdminPage() {
 
           <div className="mt-4 grid gap-2">
             {todaySales.length === 0 ? (
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-muted">
                 Sin ventas registradas hoy.
               </p>
             ) : (
@@ -675,10 +675,10 @@ export default function MoAdminPage() {
                     className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 px-4 py-3"
                   >
                     <div>
-                      <p className="text-sm font-semibold text-slate-900">
+                      <p className="text-sm font-semibold text-main">
                         {name}
                       </p>
-                      <p className="text-xs text-slate-500">
+                      <p className="text-xs text-muted">
                         {time} · {qty} unidades · {formatMoney(sale.total)}
                       </p>
                     </div>
@@ -696,23 +696,23 @@ export default function MoAdminPage() {
           </div>
         </section>
 
-        <section className="rounded-3xl border border-slate-200 bg-white px-6 py-6 shadow-sm">
+        <section className="rounded-3xl border border-default bg-surface px-6 py-6 shadow-sm">
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-emerald-600">
               Resumen basico
             </p>
-            <h2 className="mt-2 text-lg font-semibold text-slate-900">
+            <h2 className="mt-2 text-lg font-semibold text-main">
               Mejores 7 y 30 dias
             </h2>
           </div>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <div className="rounded-2xl border border-slate-200 px-4 py-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
                 Ultimos 7 dias
               </p>
               <div className="mt-3 grid gap-2">
                 {top7.length === 0 ? (
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-muted">
                     Sin datos todavia.
                   </p>
                 ) : (
@@ -724,7 +724,7 @@ export default function MoAdminPage() {
                       <span>
                         {index + 1}. {productNameById.get(entry.productId) ?? "Producto"}
                       </span>
-                      <span className="text-xs text-slate-500">
+                      <span className="text-xs text-muted">
                         {entry.quantity} u
                       </span>
                     </div>
@@ -733,12 +733,12 @@ export default function MoAdminPage() {
               </div>
             </div>
             <div className="rounded-2xl border border-slate-200 px-4 py-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
                 Ultimos 30 dias
               </p>
               <div className="mt-3 grid gap-2">
                 {top30.length === 0 ? (
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-muted">
                     Sin datos todavia.
                   </p>
                 ) : (
@@ -750,7 +750,7 @@ export default function MoAdminPage() {
                       <span>
                         {index + 1}. {productNameById.get(entry.productId) ?? "Producto"}
                       </span>
-                      <span className="text-xs text-slate-500">
+                      <span className="text-xs text-muted">
                         {entry.quantity} u
                       </span>
                     </div>

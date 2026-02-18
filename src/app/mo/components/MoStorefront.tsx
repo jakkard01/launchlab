@@ -74,7 +74,7 @@ export default function MoStorefront({ products, ctaLink }: MoStorefrontProps) {
         </div>
       ) : null}
       {loading ? (
-        <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-500">
+        <div className="rounded-2xl border border-default bg-surface px-4 py-3 text-sm text-muted">
           Cargando catálogo...
         </div>
       ) : null}

@@ -12,13 +12,13 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     pathname?.startsWith("/RYSminisuper");
 
   if (isMo) {
-    return <div className="min-h-screen bg-slate-50 text-slate-900">{children}</div>;
+    return <div className="min-h-screen bg-base text-main">{children}</div>;
   }
 
   return (
     <>
       <div
-        className="fixed inset-0 -z-10 w-full h-full bg-galaxy bg-cover bg-center bg-no-repeat"
+        className="fixed inset-0 -z-10 w-full h-full bg-galaxy bg-cover bg-center bg-no-repeat opacity-90"
         aria-hidden="true"
       />
       <div

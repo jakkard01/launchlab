@@ -5,6 +5,14 @@ export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   if (pathname.startsWith("/mo")) {
+    if (pathname.startsWith("/mo/icons/")) {
+      const rewriteUrl = req.nextUrl.clone();
+      rewriteUrl.pathname = pathname.replace(
+        /^\/mo\/icons/,
+        "/RYSminisuper/icons"
+      );
+      return NextResponse.rewrite(rewriteUrl);
+    }
     const redirectUrl = req.nextUrl.clone();
     redirectUrl.pathname = pathname.replace(/^\/mo/, "/RYSminisuper");
     return NextResponse.redirect(redirectUrl, 308);

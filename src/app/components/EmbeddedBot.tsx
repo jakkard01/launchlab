@@ -1,39 +1,21 @@
 // src/app/components/EmbeddedBot.tsx
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { buildWhatsappLink } from '../../lib/site';
 
 export default function EmbeddedBot() {
   const whatsappLink = buildWhatsappLink('embedded_bot');
-  const [online, setOnline] = useState(true);
+  const [online] = useState(false);
   const [input, setInput] = useState('');
   const [response, setResponse] = useState('');
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    fetch('http://127.0.0.1:8000/ping')
-      .then((r) => r.json())
-      .then((j) => setOnline(j.status === 'ok'))
-      .catch(() => setOnline(false));
-  }, []);
-
   const send = async () => {
-    if (!input.trim() || !online) return;
+    if (!input.trim()) return;
     setLoading(true);
-    try {
-      const res = await fetch('http://127.0.0.1:8000/ask', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: input }),  // <— aquí debe ir "prompt"
-      });
-      const data = await res.json();
-      setResponse(data.response || 'Sin respuesta.');
-    } catch {
-      setResponse('❌ Error de conexión.');
-    } finally {
-      setLoading(false);
-    }
+    setResponse('Demo no disponible en esta versión. Solicita la demo por WhatsApp.');
+    setLoading(false);
   };
 
   const onKey = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {

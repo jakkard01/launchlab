@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import type { VideoExample } from '../app/content/videoPacks';
+import type { VideoExample } from '../content/videoPacks';
 
 const buildEmbedUrl = (videoId: string) =>
   `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`;

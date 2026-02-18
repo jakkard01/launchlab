@@ -94,5 +94,25 @@ export async function POST(request: Request) {
     messagePreview: truncateMessage(message),
   });
 
+  const webhookUrl = process.env.CONTACT_WEBHOOK_URL;
+  if (webhookUrl) {
+    try {
+      await fetch(webhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          message,
+          source,
+          requestId,
+        }),
+        cache: "no-store",
+      });
+    } catch (error) {
+      logger.warn("Contact webhook failed", { requestId, error });
+    }
+  }
+
   return NextResponse.json({ ok: true });
 }
