@@ -8,21 +8,21 @@
 }
 
 :root {
-  --bg: #F6F7F9;
-  --surface: #FFFFFF;
-  --text: #111827;
-  --muted: #6B7280;
-  --border: #E5E7EB;
+  --bg: #F4F0E9;
+  --surface: #FAF6F0;
+  --text: #1E242B;
+  --muted: #6E6A63;
+  --border: #E3DDD3;
   --accent: #22C55E;
   --fab-safe-padding: 140px;
 }
 
 .dark {
-  --bg: #0B1220;
-  --surface: #111C2E;
-  --text: #E5E7EB;
-  --muted: #9CA3AF;
-  --border: #1F2A44;
+  --bg: #0F1826;
+  --surface: #162234;
+  --text: #E7E2D7;
+  --muted: #A7A095;
+  --border: #243045;
   --accent: #22C55E;
 }
 
