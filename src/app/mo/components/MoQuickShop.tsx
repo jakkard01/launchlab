@@ -108,10 +108,10 @@ export default function MoQuickShop({
   return (
     <section className="space-y-6">
       <div>
-        <p className="text-xs uppercase tracking-[0.3em] text-emerald-600">
+        <p className="text-xs uppercase tracking-[0.3em] text-muted">
           Pasillos
         </p>
-        <h2 className="mt-2 text-lg font-semibold text-slate-900">
+        <h2 className="mt-2 text-lg font-semibold text-main">
           Elegi por categoría
         </h2>
       </div>
@@ -127,16 +127,16 @@ export default function MoQuickShop({
               onClick={() => onJumpToTab(aisle.id)}
               className={`flex items-center gap-2.5 rounded-2xl border px-3 py-2 text-left text-[12px] font-medium tracking-[0.08em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/30 active:translate-y-[1px] ${
                 isActive
-                  ? "border-[var(--accent)]/60 bg-[var(--accent)]/10 text-main shadow-[0_0_0_1px_rgba(34,197,94,0.12)]"
-                  : "border-default bg-surface text-main hover:border-[var(--accent)]/30 hover:bg-base"
+                  ? "border-[var(--accent)]/50 bg-[color-mix(in_srgb,var(--accent)_10%,transparent)] text-main shadow-[0_0_0_1px_rgba(34,197,94,0.08)]"
+                  : "border-default bg-surface text-main hover:border-[var(--accent)]/25 hover:bg-base"
               }`}
             >
               <span>{aisle.label}</span>
               {iconSrc ? (
                 <span
-                  className={`flex h-7 w-7 items-center justify-center rounded-full border bg-surface shadow-sm ${
+                  className={`flex h-7 w-7 items-center justify-center rounded-full border bg-[color-mix(in_srgb,var(--surface)_92%,transparent)] shadow-sm ${
                     isActive
-                      ? "border-[var(--accent)]/40 bg-[var(--accent)]/10"
+                      ? "border-[var(--accent)]/35 bg-[color-mix(in_srgb,var(--accent)_12%,transparent)]"
                       : "border-default"
                   }`}
                 >
@@ -156,11 +156,11 @@ export default function MoQuickShop({
         <button
           type="button"
           onClick={onScrollToSpecial}
-          className="flex items-center gap-2.5 rounded-2xl border border-[var(--accent)]/30 bg-surface px-3 py-2 text-left text-[12px] font-medium tracking-[0.08em] text-main transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/30 active:translate-y-[1px] hover:border-[var(--accent)]/40 hover:bg-base"
+          className="flex items-center gap-2.5 rounded-2xl border border-[var(--accent)]/30 bg-surface px-3 py-2 text-left text-[12px] font-medium tracking-[0.08em] text-main transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/30 active:translate-y-[1px] hover:border-[var(--accent)]/35 hover:bg-base"
         >
           <span>Pedido especial</span>
           {resolveCategoryIcon("pedido_especial") ? (
-            <span className="flex h-7 w-7 items-center justify-center rounded-full border border-[var(--accent)]/40 bg-[var(--accent)]/10 shadow-sm">
+            <span className="flex h-7 w-7 items-center justify-center rounded-full border border-[var(--accent)]/35 bg-[color-mix(in_srgb,var(--accent)_12%,transparent)] shadow-sm">
               <Image
                 src={resolveCategoryIcon("pedido_especial")}
                 alt=""
