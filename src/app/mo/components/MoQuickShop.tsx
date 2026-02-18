@@ -125,22 +125,30 @@ export default function MoQuickShop({
               key={aisle.id}
               type="button"
               onClick={() => onJumpToTab(aisle.id)}
-              className={`flex items-center justify-between gap-2 rounded-2xl border px-3 py-3 text-left text-xs font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 ${
+              className={`flex items-center gap-2.5 rounded-2xl border px-3 py-2 text-left text-[12px] font-medium tracking-[0.08em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/30 active:translate-y-[1px] ${
                 isActive
-                  ? "border-emerald-200 bg-emerald-50 text-emerald-700"
-                  : aisle.accent
+                  ? "border-[var(--accent)]/60 bg-[var(--accent)]/10 text-main shadow-[0_0_0_1px_rgba(34,197,94,0.12)]"
+                  : "border-default bg-surface text-main hover:border-[var(--accent)]/30 hover:bg-base"
               }`}
             >
               <span>{aisle.label}</span>
               {iconSrc ? (
-                <Image
-                  src={iconSrc}
-                  alt=""
-                  aria-hidden="true"
-                  width={22}
-                  height={22}
-                  className="shrink-0 opacity-90"
-                />
+                <span
+                  className={`flex h-7 w-7 items-center justify-center rounded-full border bg-surface shadow-sm ${
+                    isActive
+                      ? "border-[var(--accent)]/40 bg-[var(--accent)]/10"
+                      : "border-default"
+                  }`}
+                >
+                  <Image
+                    src={iconSrc}
+                    alt=""
+                    aria-hidden="true"
+                    width={18}
+                    height={18}
+                    className="h-[18px] w-[18px] object-contain opacity-90"
+                  />
+                </span>
               ) : null}
             </button>
           );
@@ -148,18 +156,20 @@ export default function MoQuickShop({
         <button
           type="button"
           onClick={onScrollToSpecial}
-          className="flex items-center justify-between gap-2 rounded-2xl border border-purple-200 bg-purple-50 px-3 py-3 text-left text-xs font-semibold text-purple-700 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
+          className="flex items-center gap-2.5 rounded-2xl border border-[var(--accent)]/30 bg-surface px-3 py-2 text-left text-[12px] font-medium tracking-[0.08em] text-main transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/30 active:translate-y-[1px] hover:border-[var(--accent)]/40 hover:bg-base"
         >
           <span>Pedido especial</span>
           {resolveCategoryIcon("pedido_especial") ? (
-            <Image
-              src={resolveCategoryIcon("pedido_especial")}
-              alt=""
-              aria-hidden="true"
-              width={22}
-              height={22}
-              className="shrink-0 opacity-90"
-            />
+            <span className="flex h-7 w-7 items-center justify-center rounded-full border border-[var(--accent)]/40 bg-[var(--accent)]/10 shadow-sm">
+              <Image
+                src={resolveCategoryIcon("pedido_especial")}
+                alt=""
+                aria-hidden="true"
+                width={18}
+                height={18}
+                className="h-[18px] w-[18px] object-contain opacity-90"
+              />
+            </span>
           ) : null}
         </button>
       </div>
