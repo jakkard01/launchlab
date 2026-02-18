@@ -134,19 +134,19 @@ export default function MoQuickShop({
               <span>{aisle.label}</span>
               {iconSrc ? (
                 <span
-                  className={`flex h-7 w-7 items-center justify-center rounded-full border bg-[color-mix(in_srgb,var(--surface)_92%,transparent)] shadow-sm ${
+                  className={`flex h-9 w-9 items-center justify-center rounded-xl border bg-[color-mix(in_srgb,var(--surface)_92%,transparent)] shadow-sm dark:bg-[color-mix(in_srgb,var(--surface)_75%,transparent)] ${
                     isActive
                       ? "border-[var(--accent)]/35 bg-[color-mix(in_srgb,var(--accent)_12%,transparent)]"
-                      : "border-default"
+                      : "border-[var(--border)]/60"
                   }`}
                 >
                   <Image
                     src={iconSrc}
                     alt=""
                     aria-hidden="true"
-                    width={18}
-                    height={18}
-                    className="h-[18px] w-[18px] object-contain opacity-90"
+                    width={26}
+                    height={26}
+                    className="h-[26px] w-[26px] object-contain"
                   />
                 </span>
               ) : null}
@@ -160,14 +160,14 @@ export default function MoQuickShop({
         >
           <span>Pedido especial</span>
           {resolveCategoryIcon("pedido_especial") ? (
-            <span className="flex h-7 w-7 items-center justify-center rounded-full border border-[var(--accent)]/35 bg-[color-mix(in_srgb,var(--accent)_12%,transparent)] shadow-sm">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-[var(--accent)]/35 bg-[color-mix(in_srgb,var(--accent)_12%,transparent)] shadow-sm dark:bg-[color-mix(in_srgb,var(--accent)_14%,transparent)]">
               <Image
                 src={resolveCategoryIcon("pedido_especial")}
                 alt=""
                 aria-hidden="true"
-                width={18}
-                height={18}
-                className="h-[18px] w-[18px] object-contain opacity-90"
+                width={26}
+                height={26}
+                className="h-[26px] w-[26px] object-contain"
               />
             </span>
           ) : null}
