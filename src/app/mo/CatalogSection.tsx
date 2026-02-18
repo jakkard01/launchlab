@@ -1,9 +1,23 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import type { Product } from "../../lib/mo/types";
 import ProductCard from "./ProductCard";
 import { matchesTab, TABS, type TabId } from "./catalogConfig";
+
+const CATEGORY_ICON_BY_ID = {
+  hot: "/mo/icons/pasillos/comida_caliente.png",
+  combos: "/mo/icons/pasillos/combos.png",
+  lacteos: "/mo/icons/pasillos/lacteos.png",
+  bebidas: "/mo/icons/pasillos/bebidas.png",
+  abarrotes: "/mo/icons/pasillos/abarrotes.png",
+  snacks: "/mo/icons/pasillos/snacks.png",
+  ofertas: "/mo/icons/pasillos/ofertas.png",
+} as const;
+
+const resolveCategoryIcon = (id: TabId) =>
+  CATEGORY_ICON_BY_ID[id as keyof typeof CATEGORY_ICON_BY_ID];
 
 type CatalogSectionProps = {
   products: Product[];
@@ -35,53 +49,61 @@ export default function CatalogSection({
   return (
     <section id="catalogo" className="space-y-6">
       <div className="flex flex-col gap-3">
-        <h2 className="text-lg font-semibold text-slate-900">
+        <h2 className="text-lg font-semibold text-main">
           Catálogo completo
         </h2>
-        <p className="text-sm text-slate-600">
+        <p className="text-sm text-muted">
           Catálogo mínimo con productos listos para retiro.
         </p>
-        <div className="flex flex-wrap gap-2 text-xs text-slate-500">
-          <span className="rounded-full border border-slate-200 px-3 py-1">
+        <div className="flex flex-wrap gap-2 text-xs text-muted">
+          <span className="rounded-full border border-default px-3 py-1">
             Categoría: {activeLabel}
           </span>
           {query.trim().length > 0 ? (
-            <span className="rounded-full border border-slate-200 px-3 py-1">
+            <span className="rounded-full border border-default px-3 py-1">
               Búsqueda: {query.trim()}
             </span>
           ) : null}
           <button
             type="button"
             onClick={() => onTabChange("hot")}
-            className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:border-emerald-200 hover:text-emerald-700"
+            className="rounded-full border border-default px-3 py-1 text-xs font-semibold text-main transition hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
           >
             Ver Caliente hoy
           </button>
         </div>
       </div>
 
-      <div className="sticky top-16 z-30 -mx-4 border-y border-slate-200 bg-white/95 px-4 py-3 backdrop-blur sm:mx-0 sm:top-0 sm:rounded-2xl sm:border sm:px-6">
+      <div className="sticky top-16 z-30 -mx-4 border-y border-default bg-[var(--surface)] bg-opacity-95 px-4 py-3 backdrop-blur sm:mx-0 sm:top-0 sm:rounded-2xl sm:border sm:px-6">
         <div className="no-scrollbar flex gap-2 overflow-x-auto">
           {TABS.map((tab) => {
             const isActive = tab.id === activeTab;
+            const iconSrc = resolveCategoryIcon(tab.id);
             return (
               <button
                 key={tab.id}
                 type="button"
                 onClick={() => onTabChange(tab.id)}
-                className={`whitespace-nowrap rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 ${
+                className={`whitespace-nowrap rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/50 ${
                   isActive
-                    ? "border-emerald-200 bg-emerald-600 text-white"
-                    : "border-slate-200 bg-white text-slate-600 hover:border-emerald-200 hover:text-emerald-700"
+                    ? "border-[var(--accent)]/60 bg-[var(--accent)] text-[var(--surface)]"
+                    : "border-default bg-[var(--surface)] text-main hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
                 }`}
                 aria-pressed={isActive}
               >
                 <span className="flex items-center gap-2">
-                  {tab.image ? (
-                    <span className="h-5 w-5 overflow-hidden rounded-full border border-slate-200 bg-white">
-                      <img src={tab.image} alt={tab.label} className="h-5 w-5 object-cover" />
+                  {iconSrc ? (
+                    <span className="flex h-5 w-5 items-center justify-center overflow-hidden rounded-full border border-default bg-[var(--surface)]">
+                      <Image
+                        src={iconSrc}
+                        alt=""
+                        aria-hidden="true"
+                        width={20}
+                        height={20}
+                        className="h-5 w-5 object-cover"
+                      />
                     </span>
-                  ) : tab.icon ? (
+                  ) : ("icon" in tab && tab.icon) ? (
                     <span aria-hidden="true">{tab.icon}</span>
                   ) : null}
                   <span>{tab.label}</span>
@@ -116,7 +138,7 @@ export default function CatalogSection({
               className="scroll-mt-28 space-y-3"
             >
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-semibold text-slate-900">
+                <h3 className="text-sm font-semibold text-main">
                   {tab.label}
                 </h3>
                 <button
@@ -124,19 +146,19 @@ export default function CatalogSection({
                   onClick={() =>
                     setExpandedTab(isExpanded ? null : tab.id)
                   }
-                  className="text-xs font-semibold text-emerald-600 transition hover:text-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
+                  className="text-xs font-semibold text-[var(--accent)] transition hover:text-[var(--accent)]/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/50"
                 >
                   {isExpanded ? "Ver menos" : "Ver todo"}
                 </button>
               </div>
               {items.length === 0 ? (
-                <div className="rounded-2xl border border-dashed border-slate-200 px-4 py-6 text-sm text-slate-500">
+                <div className="rounded-2xl border border-dashed border-default px-4 py-6 text-sm text-muted">
                   <p>Sin productos en esta categoría.</p>
                   {queryFilter ? (
                     <button
                       type="button"
                       onClick={onScrollToSpecial}
-                      className="mt-3 inline-flex items-center rounded-full border border-emerald-200 px-4 py-2 text-xs font-semibold text-emerald-700 transition hover:border-emerald-300 hover:text-emerald-800"
+                      className="mt-3 inline-flex items-center rounded-full border border-[var(--accent)]/40 px-4 py-2 text-xs font-semibold text-[var(--accent)] transition hover:border-[var(--accent)]/60 hover:text-[var(--accent)]/80"
                     >
                       No lo tenemos. Agrégalo a tu Pedido Especial.
                     </button>
