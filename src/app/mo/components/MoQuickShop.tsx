@@ -14,14 +14,14 @@ type MoQuickShopProps = {
 };
 
 const CATEGORY_ICON_BY_ID = {
-  caliente_hoy: "/mo/icons/pasillos/comida_caliente.png",
-  combos: "/mo/icons/pasillos/combos.png",
-  lacteos: "/mo/icons/pasillos/lacteos.png",
-  bebidas: "/mo/icons/pasillos/bebidas.png",
-  abarrotes: "/mo/icons/pasillos/abarrotes.png",
-  snacks: "/mo/icons/pasillos/snacks.png",
-  ofertas: "/mo/icons/pasillos/ofertas.png",
-  pedido_especial: "/mo/icons/pasillos/pedido_especial.png",
+  caliente_hoy: "/RYSminisuper/icons/pasillos/comida_caliente.webp",
+  combos: "/RYSminisuper/icons/pasillos/combos.webp",
+  lacteos: "/RYSminisuper/icons/pasillos/lacteos.webp",
+  bebidas: "/RYSminisuper/icons/pasillos/bebidas.webp",
+  abarrotes: "/RYSminisuper/icons/pasillos/abarrotes.webp",
+  snacks: "/RYSminisuper/icons/pasillos/snacks.webp",
+  ofertas: "/RYSminisuper/icons/pasillos/ofertas.webp",
+  pedido_especial: "/RYSminisuper/icons/pasillos/pedido_especial.webp",
 } as const;
 
 type CategoryIconId = keyof typeof CATEGORY_ICON_BY_ID;

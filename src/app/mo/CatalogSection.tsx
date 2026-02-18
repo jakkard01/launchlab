@@ -7,13 +7,13 @@ import ProductCard from "./ProductCard";
 import { matchesTab, TABS, type TabId } from "./catalogConfig";
 
 const CATEGORY_ICON_BY_ID = {
-  hot: "/mo/icons/pasillos/comida_caliente.png",
-  combos: "/mo/icons/pasillos/combos.png",
-  lacteos: "/mo/icons/pasillos/lacteos.png",
-  bebidas: "/mo/icons/pasillos/bebidas.png",
-  abarrotes: "/mo/icons/pasillos/abarrotes.png",
-  snacks: "/mo/icons/pasillos/snacks.png",
-  ofertas: "/mo/icons/pasillos/ofertas.png",
+  hot: "/RYSminisuper/icons/pasillos/comida_caliente.webp",
+  combos: "/RYSminisuper/icons/pasillos/combos.webp",
+  lacteos: "/RYSminisuper/icons/pasillos/lacteos.webp",
+  bebidas: "/RYSminisuper/icons/pasillos/bebidas.webp",
+  abarrotes: "/RYSminisuper/icons/pasillos/abarrotes.webp",
+  snacks: "/RYSminisuper/icons/pasillos/snacks.webp",
+  ofertas: "/RYSminisuper/icons/pasillos/ofertas.webp",
 } as const;
 
 const resolveCategoryIcon = (id: TabId) =>
