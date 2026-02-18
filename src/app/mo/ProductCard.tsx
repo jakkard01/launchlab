@@ -7,7 +7,6 @@ import type { StockStatus } from "../../lib/mo/data/types";
 import { getEffectivePrice, getPromoLabel } from "../../lib/mo/pricing";
 import QuantityStepper from "./cart/QuantityStepper";
 import { useCart } from "./cart/CartContext";
-import productImages from "../../data/product_images.json";
 
 type ProductCardProps = {
   product: Product;
@@ -27,6 +26,14 @@ const stockLabels: Record<StockStatus, string> = {
   agotado: "Agotado",
 };
 
+const getInitials = (value: string) =>
+  value
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((item) => item[0]?.toUpperCase())
+    .join("");
+
 export default function ProductCard({
   product,
   stockStatus,
@@ -40,12 +47,9 @@ export default function ProductCard({
   const effectivePrice = getEffectivePrice(product);
   const resolvedStock = stockStatus ?? product.stockStatus ?? "disponible";
   const isOutOfStock = resolvedStock === "agotado";
-  const imageEntry =
-    product.imageKey && productImages[product.imageKey as keyof typeof productImages]
-      ? productImages[product.imageKey as keyof typeof productImages]
-      : null;
-  const imageSrc = imageEntry?.src ?? "/images/placeholder.png";
-  const imageAlt = imageEntry?.alt ?? product.name;
+  const topImageSrc = null;
+  const imageAlt = product.name;
+  const initials = getInitials(product.name);
 
   const handleAdd = () => {
     if (isOutOfStock) return;
@@ -58,14 +62,23 @@ export default function ProductCard({
   return (
     <article className="surface-card flex h-full flex-col rounded-2xl p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
       <div className="relative overflow-hidden rounded-xl border border-default bg-base">
-        <Image
-          src={imageSrc}
-          alt={imageAlt}
-          width={480}
-          height={320}
-          className="h-40 w-full object-cover"
-          sizes="(max-width: 640px) 100vw, 320px"
-        />
+        {topImageSrc ? (
+          <Image
+            src={topImageSrc}
+            alt={imageAlt}
+            width={480}
+            height={320}
+            className="h-40 w-full object-cover"
+            sizes="(max-width: 480px) 45vw, 240px"
+            quality={55}
+          />
+        ) : (
+          <div className="flex h-40 w-full items-center justify-center bg-[linear-gradient(135deg,color-mix(in_srgb,var(--accent)_12%,transparent),color-mix(in_srgb,var(--surface)_92%,transparent))]">
+            <span className="rounded-full border border-default bg-surface px-3 py-1 text-[11px] uppercase tracking-[0.3em] text-muted">
+              {initials || "RYS"}
+            </span>
+          </div>
+        )}
       </div>
       <div className="mt-4 flex items-start justify-between gap-3">
         <h3
