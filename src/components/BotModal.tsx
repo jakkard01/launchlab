@@ -7,7 +7,13 @@ export default function BotModal({ isOpen, onClose }: { isOpen: boolean; onClose
   const [response, setResponse] = useState("");
 
   const handleSend = async () => {
-    setResponse("Demo offline. Pide la demo por WhatsApp.");
+    const res = await fetch("http://127.0.0.1:8000/ask", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message })
+    });
+    const data = await res.json();
+    setResponse(data.answer || "Sin respuesta");
   };
 
   if (!isOpen) return null;

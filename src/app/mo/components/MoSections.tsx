@@ -29,39 +29,39 @@ export default function MoSections({
         onScrollToSpecial={onScrollToSpecial}
       />
 
-      <section className="grid gap-4 rounded-3xl border border-default bg-surface px-6 py-8 shadow-sm sm:grid-cols-3 sm:px-8">
+      <section className="grid gap-4 rounded-3xl border border-slate-200 bg-white px-6 py-8 shadow-sm sm:grid-cols-3 sm:px-8">
         <div className="sm:col-span-3">
-          <p className="text-xs uppercase tracking-[0.3em] text-[var(--accent)]">
+          <p className="text-xs uppercase tracking-[0.3em] text-emerald-600">
             Cómo pedir
           </p>
-          <p className="mt-2 text-sm text-muted">
+          <p className="mt-2 text-sm text-slate-600">
             3 pasos para pedir y retirar.
           </p>
         </div>
-        <div className="rounded-2xl border border-default px-4 py-4">
-          <p className="text-xs font-semibold text-[var(--accent)]">Paso 1</p>
-          <p className="mt-1 text-sm font-semibold text-main">
+        <div className="rounded-2xl border border-slate-200 px-4 py-4">
+          <p className="text-xs font-semibold text-emerald-600">Paso 1</p>
+          <p className="mt-1 text-sm font-semibold text-slate-900">
             Elige del catálogo
           </p>
-          <p className="mt-1 text-xs text-muted">
+          <p className="mt-1 text-xs text-slate-500">
             Usa el buscador y categorías rápidas.
           </p>
         </div>
-        <div className="rounded-2xl border border-default px-4 py-4">
-          <p className="text-xs font-semibold text-[var(--accent)]">Paso 2</p>
-          <p className="mt-1 text-sm font-semibold text-main">
+        <div className="rounded-2xl border border-slate-200 px-4 py-4">
+          <p className="text-xs font-semibold text-emerald-600">Paso 2</p>
+          <p className="mt-1 text-sm font-semibold text-slate-900">
             Escribe por WhatsApp
           </p>
-          <p className="mt-1 text-xs text-muted">
+          <p className="mt-1 text-xs text-slate-500">
             Confirmamos tu pedido en minutos.
           </p>
         </div>
-        <div className="rounded-2xl border border-default px-4 py-4">
-          <p className="text-xs font-semibold text-[var(--accent)]">Paso 3</p>
-          <p className="mt-1 text-sm font-semibold text-main">
+        <div className="rounded-2xl border border-slate-200 px-4 py-4">
+          <p className="text-xs font-semibold text-emerald-600">Paso 3</p>
+          <p className="mt-1 text-sm font-semibold text-slate-900">
             Pasás a recoger
           </p>
-          <p className="mt-1 text-xs text-muted">
+          <p className="mt-1 text-xs text-slate-500">
             Listo para retirar.
           </p>
         </div>
@@ -71,23 +71,23 @@ export default function MoSections({
         <FreeTextOrder />
       </div>
 
-      <section className="rounded-3xl border border-default bg-surface px-6 py-8 shadow-sm sm:px-8">
+      <section className="rounded-3xl border border-slate-200 bg-white px-6 py-8 shadow-sm sm:px-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-[var(--accent)]">
+            <p className="text-xs uppercase tracking-[0.3em] text-emerald-600">
               Horario y ubicacion
             </p>
-            <p className="mt-2 text-sm text-muted">
+            <p className="mt-2 text-sm text-slate-600">
               {MO_STORE_HOURS_LABEL}
             </p>
-            <p className="mt-2 text-sm text-muted">
+            <p className="mt-2 text-sm text-slate-600">
               Si vas tarde, escribinos por WhatsApp y te confirmamos si seguimos
               atendiendo.
             </p>
           </div>
           <a
             href={MO_STORE_MAPS_URL}
-            className="h-11 rounded-full border border-default px-4 py-2 text-sm font-semibold text-main transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
+            className="h-11 rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-emerald-300 hover:text-emerald-700"
             target="_blank"
             rel="noopener noreferrer"
           >

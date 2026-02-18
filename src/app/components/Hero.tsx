@@ -6,10 +6,12 @@ import ProfileModal from './ProfileModal';
 import IntroOverlay from './IntroOverlay';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
+import EmbeddedBot from './EmbeddedBot';
 
 const Hero = forwardRef<HTMLImageElement>((props, ref) => {
   const [showProfile, setShowProfile] = useState(false);
   const [showIntro, setShowIntro] = useState(false);
+  const [showBot, setShowBot] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const menuBtnRef = useRef<HTMLButtonElement>(null);
@@ -57,6 +59,11 @@ const Hero = forwardRef<HTMLImageElement>((props, ref) => {
 
   const openProfile = useCallback(() => setShowProfile(true), []);
   const closeProfile = useCallback(() => setShowProfile(false), []);
+
+  const abrirModalBot = () => {
+    setMenuOpen(false);
+    setTimeout(() => setShowBot(true), 350);
+  };
 
   const handleFinish = () => {
     setShowIntro(false);
@@ -132,6 +139,14 @@ const Hero = forwardRef<HTMLImageElement>((props, ref) => {
                   Portfolio
                 </Link>
                 <button
+                  onClick={abrirModalBot}
+                  className="text-lg font-semibold hover:text-cyan-400 transition-colors w-full text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+                  role="menuitem"
+                  tabIndex={0}
+                >
+                  Bot
+                </button>
+                <button
                   onClick={() => setMenuOpen(false)}
                   className="mt-2 text-white text-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
                   aria-label="Cerrar menú"
@@ -188,6 +203,36 @@ const Hero = forwardRef<HTMLImageElement>((props, ref) => {
         </motion.div>
       )}
       {showProfile && <ProfileModal onClose={closeProfile} />}
+      <AnimatePresence>
+        {showBot && (
+          <motion.div
+            className="fixed inset-0 z-[70] bg-black/50 flex items-center justify-center backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            role="dialog"
+            aria-modal="true"
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="relative w-full max-w-2xl mx-auto bg-black/90 rounded-xl shadow-2xl p-6"
+            >
+              <EmbeddedBot />
+              <button
+                onClick={() => setShowBot(false)}
+                className="absolute top-2 right-2 bg-black/70 text-white rounded-full px-3 py-1 text-sm hover:bg-cyan-400 hover:text-black transition focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+                aria-label="Cerrar Bot"
+                tabIndex={0}
+              >
+                Cerrar
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 });

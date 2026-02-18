@@ -321,6 +321,14 @@ export default function LandingLocal({ heroRef, onScrollToHero }: LandingLocalPr
               >
                 Quiero una demo
               </a>
+              <Link
+                href={buildContactLink("home_hero", { utm_content: "reserve_call" })}
+                className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white/90 transition hover:border-cyan-300/60"
+                aria-label="Reservar llamada"
+                onClick={() => trackEvent("click_book_call", { source: "home_hero" })}
+              >
+                Reservar llamada
+              </Link>
             </div>
           </div>
           <div className="flex flex-col items-center gap-4">
@@ -895,19 +903,26 @@ export default function LandingLocal({ heroRef, onScrollToHero }: LandingLocalPr
             </button>
           ))}
         </div>
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row" data-fab-avoid>
-              <a
-                href={buildWhatsappLink("home_faq")}
-                className="rounded-full border border-emerald-300/60 md:bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-emerald-200 transition hover:bg-emerald-300 hover:text-black md:text-black"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() =>
-                  trackEvent("click_whatsapp_primary", { source: "home_faq" })
-                }
-              >
-                Hablar por WhatsApp
-              </a>
-            </div>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row" data-fab-avoid>
+            <a
+              href={buildWhatsappLink("home_faq")}
+              className="rounded-full border border-emerald-300/60 md:bg-emerald-400 px-5 py-2 text-center text-sm font-semibold text-emerald-200 transition hover:bg-emerald-300 hover:text-black md:text-black"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() =>
+                trackEvent("click_whatsapp_primary", { source: "home_faq" })
+              }
+            >
+            Hablar por WhatsApp
+            </a>
+            <Link
+              href={buildContactLink("home_faq")}
+              className="rounded-full border border-white/20 px-5 py-2 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
+              onClick={() => trackEvent("click_book_call", { source: "home_faq" })}
+            >
+            Solicitar propuesta
+            </Link>
+          </div>
       </section>
 
       <section id="equipo" className="mt-20 w-full max-w-5xl">
@@ -1005,6 +1020,14 @@ export default function LandingLocal({ heroRef, onScrollToHero }: LandingLocalPr
             >
               WhatsApp
             </a>
+            <Link
+              href={buildContactLink("sticky")}
+              className="flex-1 rounded-full bg-cyan-300 px-4 py-3 text-center text-sm font-semibold text-black transition hover:bg-cyan-200"
+              aria-label="Reservar llamada desde la barra inferior"
+              onClick={() => trackEvent("click_book_call", { source: "sticky" })}
+            >
+              Reservar
+            </Link>
           </div>
         </div>
       )}
