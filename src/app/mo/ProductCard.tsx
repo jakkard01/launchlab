@@ -115,8 +115,16 @@ export default function ProductCard({
             quality={55}
           />
         ) : (
-          <div className="flex h-40 w-full items-center justify-center bg-[linear-gradient(135deg,color-mix(in_srgb,var(--accent)_12%,transparent),color-mix(in_srgb,var(--surface)_92%,transparent))]">
-            <span className="rounded-full border border-default bg-surface px-3 py-1 text-[11px] uppercase tracking-[0.3em] text-muted">
+          <div className="relative flex h-40 w-full items-end justify-between overflow-hidden bg-[radial-gradient(circle_at_20%_15%,color-mix(in_srgb,var(--accent)_10%,transparent),transparent_55%),linear-gradient(135deg,color-mix(in_srgb,var(--surface)_92%,transparent),color-mix(in_srgb,var(--accent)_6%,transparent))] px-4 py-3">
+            <div className="flex flex-col gap-1">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted">
+                {product.category}
+              </span>
+              <span className="text-xs font-medium text-main">
+                Selección RYS
+              </span>
+            </div>
+            <span className="rounded-full border border-default bg-[color-mix(in_srgb,var(--surface)_90%,transparent)] px-3 py-1 text-[11px] uppercase tracking-[0.3em] text-muted">
               {initials || "RYS"}
             </span>
           </div>
