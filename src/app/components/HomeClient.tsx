@@ -24,7 +24,7 @@ export default function HomeClient() {
         setShowVideo(true);
       }
     }
-  }, []);
+  }, [pathname]);
 
   const handleVideoFinish = () => {
     setShowVideo(false);

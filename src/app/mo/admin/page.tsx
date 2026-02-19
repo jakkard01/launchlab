@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Product } from "../../../lib/mo/types";
 import { getMoDataAdapter } from "../../../lib/mo/data";
 import {
@@ -61,7 +61,7 @@ export default function MoAdminPage() {
   const [saleQuantity, setSaleQuantity] = useState(1);
   const [saleUnitPrice, setSaleUnitPrice] = useState(0);
 
-  const loadSnapshot = async (activeAdapter: MoDataAdapter) => {
+  const loadSnapshot = useCallback(async (activeAdapter: MoDataAdapter) => {
     const snapshot = await activeAdapter.getAdminSnapshot();
     setProducts(snapshot.products);
     setStock(snapshot.stock);
@@ -69,18 +69,21 @@ export default function MoAdminPage() {
     setPromo(snapshot.promo);
     setHotToday(snapshot.hotToday);
     setOrderLogs(snapshot.orderLogs);
-  };
+  }, []);
 
-  const loadStats = async (activeAdapter: MoDataAdapter) => {
+  const loadStats = useCallback(async (activeAdapter: MoDataAdapter) => {
     const nextStats = await activeAdapter.getStats();
     setStats(nextStats);
-  };
+  }, []);
 
-  const reloadAll = async (activeAdapter?: MoDataAdapter) => {
-    const current = activeAdapter ?? adapter;
-    if (!current) return;
-    await Promise.all([loadSnapshot(current), loadStats(current)]);
-  };
+  const reloadAll = useCallback(
+    async (activeAdapter?: MoDataAdapter) => {
+      const current = activeAdapter ?? adapter;
+      if (!current) return;
+      await Promise.all([loadSnapshot(current), loadStats(current)]);
+    },
+    [adapter, loadSnapshot, loadStats]
+  );
 
   useEffect(() => {
     let active = true;
@@ -107,7 +110,7 @@ export default function MoAdminPage() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [reloadAll]);
 
   useEffect(() => {
     if (!saleProductId && products.length > 0) {

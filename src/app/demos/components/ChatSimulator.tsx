@@ -52,7 +52,7 @@ export default function ChatSimulator({
   useEffect(() => {
     if (!currentStep) return;
     setMessages([{ id: buildId(), role: "bot", text: currentStep.prompt }]);
-  }, []);
+  }, [currentStep]);
 
   useEffect(() => {
     if (!chatRef.current) return;
