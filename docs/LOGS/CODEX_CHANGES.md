@@ -90,9 +90,10 @@
 
 
 - Fecha/Hora: 2026-02-20 00:16:26 CET
-- Commit: 1093c58
+- Commit: df39364
 - Autor: Codex
 - Scope: AUDIT_PACK.md, AUDIT_DATA.json, docs/LOGS/CODEX_CHANGES.md
 - Resumen: Se genero pack de auditoria pre-deploy (snippets, rutas, outputs de build) y dataset de RYS para revision externa.
 - Pruebas: pnpm lint (ok), pnpm build (ok), pnpm test (sin output; no hay script).
 - Notas/Riesgos: pnpm install reporto dependencias deprecated (eslint@8.57.1, next@13.4.0, subdeps).
+- Nota: hash final tras amend.
