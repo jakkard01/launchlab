@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Image from "next/image";
 import { buildWhatsappLink } from "../../lib/site";
 import type { VideoExample } from "../content/videoPacks";
 
@@ -24,12 +25,14 @@ export default function VideoGallery({ items }: { items: VideoExample[] }) {
             className="flex h-full flex-col rounded-3xl border border-white/10 bg-black/60 p-5 shadow-xl"
           >
             <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-black/70">
-              <div className="flex h-40 items-center justify-center bg-gradient-to-br from-black/40 to-black/80 text-xs text-slate-300">
+              <div className="relative flex h-40 items-center justify-center bg-gradient-to-br from-black/40 to-black/80 text-xs text-slate-300">
                 {item.poster ? (
-                  <img
+                  <Image
                     src={item.poster}
                     alt={item.title}
-                    className="h-40 w-full object-cover"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover"
                   />
                 ) : (
                   "Vista previa"
