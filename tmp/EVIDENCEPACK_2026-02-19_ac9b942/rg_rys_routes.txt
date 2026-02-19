@@ -1,0 +1,69 @@
+src/middleware.ts:7:  if (pathname.startsWith("/mo")) {
+src/middleware.ts:9:    redirectUrl.pathname = pathname.replace(/^\/mo/, "/RYSminisuper");
+src/middleware.ts:13:  if (pathname.startsWith("/RYSminisuper/admin")) {
+src/middleware.ts:41:      new URL("/RYSminisuper/admin/acceso", req.url)
+src/middleware.ts:53:  matcher: ["/prompts/:path*", "/mo/:path*", "/RYSminisuper/admin/:path*"],
+src/app/components/ProfileModal.tsx:78:        </motion.div>
+src/app/components/ProfileModal.tsx:79:      </motion.div>
+src/app/components/AppShell.tsx:11:    pathname?.startsWith("/mo") ||
+src/app/components/AppShell.tsx:12:    pathname?.startsWith("/RYSminisuper");
+src/app/components/IntroOverlay.tsx:50:    </motion.div>
+src/app/components/Hero.tsx:159:            </motion.div>
+src/app/components/Hero.tsx:203:        </motion.div>
+src/app/components/Hero.tsx:232:            </motion.div>
+src/app/components/Hero.tsx:233:          </motion.div>
+src/app/RYSminisuper/page.tsx:3:import type { Product } from "../../lib/mo/types";
+src/app/RYSminisuper/page.tsx:4:import { buildWhatsAppMessageLink } from "../../lib/mo/whatsapp";
+src/app/RYSminisuper/page.tsx:5:import { CartProvider } from "../mo/cart/CartContext";
+src/app/RYSminisuper/page.tsx:6:import CartUI from "../mo/cart/CartUI";
+src/app/RYSminisuper/page.tsx:7:import MoStorefront from "../mo/components/MoStorefront";
+src/app/RYSminisuper/admin/page.tsx:1:export { default } from "../../mo/admin/page";
+src/app/RYSminisuper/admin/acceso/page.tsx:1:export { default } from "../../../mo/admin/acceso/page";
+src/app/mo/FreeTextOrder.tsx:4:import { buildWhatsAppLinkFreeText } from "../../lib/mo/whatsapp";
+src/app/mo/CatalogSection.tsx:5:import type { Product } from "../../lib/mo/types";
+src/app/mo/CatalogSection.tsx:10:  hot: "/RYSminisuper/icons/pasillos/comida_caliente.webp",
+src/app/mo/CatalogSection.tsx:11:  combos: "/RYSminisuper/icons/pasillos/combos.webp",
+src/app/mo/CatalogSection.tsx:12:  lacteos: "/RYSminisuper/icons/pasillos/lacteos.webp",
+src/app/mo/CatalogSection.tsx:13:  bebidas: "/RYSminisuper/icons/pasillos/bebidas.webp",
+src/app/mo/CatalogSection.tsx:14:  abarrotes: "/RYSminisuper/icons/pasillos/abarrotes.webp",
+src/app/mo/CatalogSection.tsx:15:  snacks: "/RYSminisuper/icons/pasillos/snacks.webp",
+src/app/mo/CatalogSection.tsx:16:  ofertas: "/RYSminisuper/icons/pasillos/ofertas.webp",
+src/app/mo/admin/acceso/page.tsx:16:          href="/RYSminisuper"
+src/app/mo/cart/CartDrawer.tsx:4:import { buildOrderWhatsAppLink } from "../../../lib/mo/whatsapp";
+src/app/mo/cart/CartDrawer.tsx:57:      const res = await fetch("/api/mo/orders", {
+src/app/mo/catalogConfig.ts:1:import type { Product } from "../../lib/mo/types";
+src/app/mo/catalogConfig.ts:8:  { id: "antojitos", label: "Antojitos", image: "/mo/categories/antojitos.svg" },
+src/app/mo/catalogConfig.ts:10:  { id: "lacteos", label: "Lácteos", image: "/mo/categories/lacteos.svg" },
+src/app/mo/catalogConfig.ts:11:  { id: "bebidas", label: "Bebidas", image: "/mo/categories/bebida.svg" },
+src/app/mo/catalogConfig.ts:12:  { id: "abarrotes", label: "Abarrotes", image: "/mo/categories/abarrotes.svg" },
+src/app/mo/catalogConfig.ts:13:  { id: "snacks", label: "Snacks", image: "/mo/categories/snacks.svg" },
+src/app/mo/ProductCard.tsx:5:import type { Product } from "../../lib/mo/types";
+src/app/mo/ProductCard.tsx:6:import type { StockStatus } from "../../lib/mo/data/types";
+src/app/mo/ProductCard.tsx:7:import { getEffectivePrice, getPromoLabel } from "../../lib/mo/pricing";
+src/app/mo/ProductCard.tsx:30:  frijoles: "/RYSminisuper/images/top/frijoles.webp",
+src/app/mo/ProductCard.tsx:31:  sopa_frijoles: "/RYSminisuper/images/top/sopa_frijoles.webp",
+src/app/mo/ProductCard.tsx:32:  fritos: "/RYSminisuper/images/top/fritos.webp",
+src/app/mo/ProductCard.tsx:33:  platano_tajadas: "/RYSminisuper/images/top/platano_tajadas.webp",
+src/app/mo/ProductCard.tsx:34:  pupusas: "/RYSminisuper/images/top/pupusas.webp",
+src/app/mo/ProductCard.tsx:35:  "cafe-pack": "/RYSminisuper/images/top/cafe.webp",
+src/app/mo/admin/AdminClient.tsx:4:import type { Product } from "../../../lib/mo/types";
+src/app/mo/admin/AdminClient.tsx:5:import { getMoDataAdapter } from "../../../lib/mo/data";
+src/app/mo/admin/AdminClient.tsx:10:} from "../../../lib/mo/pricing";
+src/app/mo/admin/AdminClient.tsx:20:} from "../../../lib/mo/data/types";
+src/app/mo/StickyWhatsAppButton.tsx:1:import { buildWhatsAppMessageLink } from "../../lib/mo/whatsapp";
+src/app/mo/cart/CartContext.tsx:11:import type { Product } from "../../../lib/mo/types";
+src/app/mo/page.tsx:14:  redirect("/RYSminisuper");
+src/app/mo/components/MoStorefront.tsx:4:import type { Product } from "../../../lib/mo/types";
+src/app/mo/components/MoStorefront.tsx:5:import { getMoDataAdapter } from "../../../lib/mo/data";
+src/app/mo/components/MoHero.tsx:1:import { MO_STORE_HOURS_LABEL, MO_STORE_MAPS_URL } from "../../../lib/mo/config";
+src/app/mo/components/MoSections.tsx:1:import type { Product } from "../../../lib/mo/types";
+src/app/mo/components/MoSections.tsx:5:import { MO_STORE_HOURS_LABEL, MO_STORE_MAPS_URL } from "../../../lib/mo/config";
+src/app/mo/components/MoQuickShop.tsx:5:import type { Product } from "../../../lib/mo/types";
+src/app/mo/components/MoQuickShop.tsx:17:  caliente_hoy: "/RYSminisuper/icons/pasillos/comida_caliente.webp",
+src/app/mo/components/MoQuickShop.tsx:18:  combos: "/RYSminisuper/icons/pasillos/combos.webp",
+src/app/mo/components/MoQuickShop.tsx:19:  lacteos: "/RYSminisuper/icons/pasillos/lacteos.webp",
+src/app/mo/components/MoQuickShop.tsx:20:  bebidas: "/RYSminisuper/icons/pasillos/bebidas.webp",
+src/app/mo/components/MoQuickShop.tsx:21:  abarrotes: "/RYSminisuper/icons/pasillos/abarrotes.webp",
+src/app/mo/components/MoQuickShop.tsx:22:  snacks: "/RYSminisuper/icons/pasillos/snacks.webp",
+src/app/mo/components/MoQuickShop.tsx:23:  ofertas: "/RYSminisuper/icons/pasillos/ofertas.webp",
+src/app/mo/components/MoQuickShop.tsx:24:  pedido_especial: "/RYSminisuper/icons/pasillos/pedido_especial.webp",

@@ -1,0 +1,105 @@
+src/app/page.tsx:33:export default function HomePage() {
+src/app/alcance/page.tsx:11:export default function AlcancePage() {
+src/app/portfolio/page.tsx:25:export default function PortfolioPage() {
+src/app/robots.ts:4:export default function robots(): MetadataRoute.Robots {
+src/app/contact/page.tsx:31:export default function ContactPage({ searchParams }: ContactPageProps) {
+src/app/pricing/page.tsx:71:export default function PricingPage() {
+src/app/mo/cart/CartDrawer.tsx:19:export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
+src/app/courses/page.tsx:15:export default function CoursesRedirectPage() {
+src/app/layout.tsx:55:export default function RootLayout({ children }: { children: React.ReactNode }) {
+src/app/portfolio/[slug]/page.tsx:31:export default function PortfolioDetailPage({ params }: PageProps) {
+src/app/contact/ContactForm.tsx:17:export default function ContactForm({ source }: ContactFormProps) {
+src/app/components/GlyphBadge.tsx:87:export default function GlyphBadge({ glyph, className = "", title, label }: Props) {
+src/app/RYSminisuper/page.tsx:18:export default function RysMiniSuperPage() {
+src/app/portfolio/[slug]/loading.tsx:1:export default function PortfolioLoading() {
+src/app/portfolio/[slug]/not-found.tsx:4:export default function PortfolioNotFound() {
+src/app/error.tsx:6:export default function GlobalError({
+src/app/components/Header.tsx:34:    label: "Demos",
+src/app/components/Header.tsx:35:    href: "/demos",
+src/app/components/Header.tsx:103:export default function Header() {
+src/app/components/EmbeddedVideo.tsx:6:export default function EmbeddedVideo({
+src/app/not-found.tsx:4:export default function NotFound() {
+src/app/bots/page.tsx:103:export default function BotsPage() {
+src/app/components/ProfileModal.tsx:7:export default function ProfileModal({ onClose }: { onClose: () => void }) {
+src/app/components/CookieBanner.tsx:6:export default function CookieBanner() {
+src/app/sitemap.ts.save:4:export default function sitemap(): MetadataRoute.Sitemap {
+src/app/sitemap.ts.save:29:      url: `${baseUrl}/demos`,
+src/app/admin/page.tsx:16:export default function AdminPage() {
+src/app/sitemap.ts:4:export default function sitemap(): MetadataRoute.Sitemap {
+src/app/sitemap.ts:37:      url: `${baseUrl}/demos`,
+src/app/components/EmbeddedBot.tsx:7:export default function EmbeddedBot() {
+src/app/services/page.tsx:27:export default function ServicesPage() {
+src/app/content/showcase.ts:31:    ctaHref: "/demos/whatsapp",
+src/app/content/showcase.ts:45:    ctaHref: "/demos/bot",
+src/app/content/showcase.ts:59:    ctaHref: "/demos/bot-web-kb-demo",
+src/app/content/showcase.ts:73:    ctaHref: "/demos/landing-premium-demo",
+src/app/content/showcase.ts:101:    ctaHref: "/demos/business-os",
+src/app/cursos/page.tsx:12:export default function CursosPage() {
+src/app/services/[slug]/page.tsx:31:export default function ServiceDetailPage({ params }: PageProps) {
+src/app/components/RouteStepper.tsx:11:export default function RouteStepper() {
+src/app/services/[slug]/loading.tsx:1:export default function ServiceLoading() {
+src/app/ops/page.tsx:105:export default function OpsPage() {
+src/app/demos/ShowcaseGrid.tsx:37:export default function ShowcaseGrid({ items }: ShowcaseGridProps) {
+src/app/components/ComingSoon.tsx:3:export default function ComingSoon({
+src/app/components/ClientLayout.tsx:6:export default function ClientLayout({ children }: { children: ReactNode }) {
+src/app/video/VideoGallery.tsx:11:export default function VideoGallery({ items }: { items: VideoExample[] }) {
+src/app/demos/page.tsx:8:  title: "Demos | Powered by IA",
+src/app/demos/page.tsx:9:  description: "Demos reales de sistemas IA listos para vender y escalar.",
+src/app/demos/page.tsx:10:  alternates: { canonical: "/demos" },
+src/app/demos/page.tsx:12:    title: "Demos | Powered by IA",
+src/app/demos/page.tsx:14:      "Demos reales de sistemas IA listos para vender y escalar.",
+src/app/demos/page.tsx:19:    title: "Demos | Powered by IA",
+src/app/demos/page.tsx:21:      "Demos reales de sistemas IA listos para vender y escalar.",
+src/app/demos/page.tsx:26:export default function DemosPage() {
+src/app/demos/page.tsx:31:          Demos
+src/app/demos/page.tsx:34:          Demos Powered by IA para validar y vender
+src/app/components/AppShell.tsx:8:export default function AppShell({ children }: { children: React.ReactNode }) {
+src/app/services/[slug]/not-found.tsx:4:export default function ServiceNotFound() {
+src/app/demos/whatsapp/page.tsx:43:export default function DemoWhatsAppPage() {
+src/app/components/IntroOverlay.tsx:12:export default function IntroOverlay({ src, onClose, onEnded, children }: IntroOverlayProps) {
+src/app/demos/[slug]/page.tsx:27:      canonical: `${siteUrl}/demos/${params.slug}`,
+src/app/demos/[slug]/page.tsx:72:export default function DemoDetailPage({ params }: PageProps) {
+src/app/demos/[slug]/page.tsx:88:          href="/demos"
+src/app/components/SiteFooter.tsx:6:export default function SiteFooter() {
+src/app/video/page.tsx:162:export default function VideoPage() {
+src/app/video/page.tsx:337:            defecto. Idiomas extra disponibles como add-on. Demos EN + DE + ES.
+src/app/components/LandingLocal.tsx:43:    titulo: "Demos",
+src/app/components/LandingLocal.tsx:44:    descripcion: "Demos funcionales para validar rápido.",
+src/app/components/LandingLocal.tsx:62:const proofChips = ["Demos reales", "Casos", "7–14 días", "KPIs"];
+src/app/components/LandingLocal.tsx:83:    href: "/demos",
+src/app/components/LandingLocal.tsx:201:export default function LandingLocal({ heroRef, onScrollToHero }: LandingLocalProps) {
+src/app/components/LandingLocal.tsx:509:              <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">Demos</p>
+src/app/components/LandingLocal.tsx:513:              href="/demos"
+src/app/components/LandingLocal.tsx:866:              href="/demos/bot"
+src/app/components/SocialLinks.tsx:12:export default function SocialLinks({
+src/app/demos/bot/page.tsx:10:export default function DemoBotPage() {
+src/app/demos/business-os/page.tsx:100:export default function BusinessOSDemoPage() {
+src/app/demos/[slug]/loading.tsx:1:export default function DemoLoading() {
+src/app/components/VideoModal.tsx:9:export default function VideoModal({
+src/app/components/HomeClient.tsx:11:export default function HomeClient() {
+src/app/privacidad/page.tsx:12:export default function PrivacidadPage() {
+src/app/web/page.tsx:129:export default function WebPage() {
+src/app/mo/cart/CartButtonSticky.tsx:9:export default function CartButtonSticky({ onOpen }: CartButtonStickyProps) {
+src/app/demos/bot/BotSimulator.tsx:43:export default function BotSimulator() {
+src/app/components/IntroVideo.tsx:15:export default function IntroVideo({ onSkip, onFinish, video }: IntroVideoProps) {
+src/app/components/FAB.tsx:5:export default function FAB() {
+src/app/mo/cart/CartUI.tsx:7:export default function CartUI() {
+src/app/mo/components/MoSections.tsx:15:export default function MoSections({
+src/app/mo/admin/acceso/page.tsx:1:export default function MoAdminAccessPage() {
+src/app/mo/FreeTextOrder.tsx:6:export default function FreeTextOrder() {
+src/app/mo/components/MoStorefront.tsx:17:export default function MoStorefront({ products, ctaLink }: MoStorefrontProps) {
+src/app/mo/components/MoHero.tsx:7:export default function MoHero({ ctaLink }: MoHeroProps) {
+src/app/mo/admin/AdminClient.tsx:49:export default function AdminClient() {
+src/app/components/ThemeToggle.tsx:20:export default function ThemeToggle({
+src/app/mo/CatalogSection.tsx:30:export default function CatalogSection({
+src/app/mo/cart/QuantityStepper.tsx:9:export default function QuantityStepper({
+src/app/demos/bot/FaqChatDemo.tsx:104:export default function FaqChatDemo() {
+src/app/demos/[slug]/not-found.tsx:4:export default function DemoNotFound() {
+src/app/demos/[slug]/not-found.tsx:27:            href="/demos"
+src/app/demos/components/ChatSimulator.tsx:30:export default function ChatSimulator({
+src/app/mo/page.tsx:13:export default function MoPage() {
+src/app/mo/ProductCard.tsx:79:export default function ProductCard({
+src/app/mo/admin/page.tsx:3:export default function MoAdminPage() {
+src/app/mo/components/MoHeader.tsx:12:export default function MoHeader({
+src/app/mo/StickyWhatsAppButton.tsx:3:export default function StickyWhatsAppButton() {
+src/app/mo/components/MoQuickShop.tsx:43:export default function MoQuickShop({

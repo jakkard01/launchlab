@@ -1,0 +1,13 @@
+pwd:
+/home/hagga/work/launchlab__PROD
+git rev-parse --show-toplevel:
+/home/hagga/work/launchlab__PROD
+git status -sb:
+## feat/pagina-hermana-live
+?? tmp/
+git rev-parse --abbrev-ref HEAD:
+feat/pagina-hermana-live
+git rev-parse --short HEAD:
+ac9b942
+.vercel/project.json:
+{"projectId":"prj_fJJEUmsxHUMReDZyu3E2CsEkLayz","orgId":"team_jlx2bUxGqXrEz0J9N7EYcM9e","projectName":"launchlabv1"}

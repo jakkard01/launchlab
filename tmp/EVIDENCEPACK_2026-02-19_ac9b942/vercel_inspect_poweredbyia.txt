@@ -1,0 +1,34 @@
+Vercel CLI 50.10.0
+Fetching deployment "www.poweredbyia.com" in gerrys-projects-7c589fcf
+> Fetched deployment "launchlabv1-oui6g2jm9-gerrys-projects-7c589fcf.vercel.app" in gerrys-projects-7c589fcf [441ms]
+
+  General
+
+    id		dpl_7QvjJArmcCrNNR7cRM9bJf3iikS8
+    name	launchlabv1
+    target	production
+    status	● Ready
+    url		https://launchlabv1-oui6g2jm9-gerrys-projects-7c589fcf.vercel.app
+    created	Wed Feb 04 2026 21:11:58 GMT+0100 (Central European Standard Time) [14d ago]
+
+
+  Aliases
+
+    ╶ https://www.poweredbyia.com
+    ╶ https://launchlabv1.vercel.app
+    ╶ https://launchlabv1-gerrys-projects-7c589fcf.vercel.app
+    ╶ https://launchlabv1-jakkard01-gerrys-projects-7c589fcf.vercel.app
+    ╶ https://poweredbyia.com
+    
+
+  Builds
+
+    ┌ .        [0ms]
+    ├── λ _not-found (6.47MB) [iad1]
+    ├── λ _not-found.rsc (6.47MB) [iad1]
+    ├── λ contact (6.47MB) [iad1]
+    ├── λ contact.rsc (6.47MB) [iad1]
+    ├── λ demos/[slug] (6.47MB) [iad1]
+    └── 58 output items hidden
+    
+

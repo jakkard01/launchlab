@@ -1,0 +1,10 @@
+total 40
+drwxr-xr-x  7 hagga hagga 4096 Feb 14 05:39 .
+drwxr-xr-x 21 hagga hagga 4096 Feb 18 02:57 ..
+-rw-r--r--  1 hagga hagga 7325 Feb  9 03:41 ShowcaseGrid.tsx
+drwxr-xr-x  2 hagga hagga 4096 Feb  9 05:54 [slug]
+drwxr-xr-x  2 hagga hagga 4096 Feb 14 04:59 bot
+drwxr-xr-x  2 hagga hagga 4096 Feb  9 05:54 business-os
+drwxr-xr-x  2 hagga hagga 4096 Feb 14 05:39 components
+-rw-r--r--  1 hagga hagga 2628 Feb  9 05:54 page.tsx
+drwxr-xr-x  2 hagga hagga 4096 Feb 14 05:39 whatsapp
