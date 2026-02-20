@@ -137,3 +137,19 @@
 - Resumen: Validacion de precio, export JSON y control de visibilidad/status desde admin.
 - Pruebas: pnpm lint, pnpm build.
 - Notas/Riesgos: Adapters sheets/supabase siguen no configurados.
+
+- Fecha/Hora: 2026-02-20 04:33:12 CET
+- Commit: 9707b7d
+- Autor: Codex
+- Scope: src/app/content/showcase.ts, src/app/mo/admin/AdminClient.tsx, src/data/products.json, src/lib/mo/data/types.ts, src/lib/mo/data/localAdapter.ts, src/lib/mo/data/sheetsAdapter.ts, src/lib/mo/data/supabaseAdapter.ts
+- Resumen: Se agrego card RYS en /demos, se ajusto status de productos y se habilito import de backup JSON en admin.
+- Pruebas: pnpm lint, pnpm build.
+- Notas/Riesgos: Import requiere JSON valido con estructura de backup.
+
+- Fecha/Hora: 2026-02-20 04:34:37 CET
+- Commit: 5587da8
+- Autor: Codex
+- Scope: src/app/web/page.tsx, src/app/globals.css
+- Resumen: Se mejoro preview del video en /web y estilo de subtitulos.
+- Pruebas: pnpm lint, pnpm build.
+- Notas/Riesgos: Verificar poster y tracks en navegadores moviles.

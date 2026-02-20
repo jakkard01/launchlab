@@ -13,11 +13,11 @@
 /home/hagga/work/launchlab__PROD
 /mnt/c/Demonio_IA/06_Web/launchlab__PROD
 feat/pagina-hermana-live
-ac9b942 fix(admin): reduce csr deopt by splitting server/client 2026-02-18
-236e053 perf(next-image): replace raw img where needed 2026-02-18
-27b0cb0 fix(lint): resolve hook deps warnings 2026-02-18
-cd91411 fix(rys-ui): enlarge pasillos icons + premium badge for readability 2026-02-18
-4906c2c fix(rys-ui): improve product placeholder to feel intentional 2026-02-18
+5587da8 feat(video-poster-fallback): improve web video preview (2026-02-20)
+9707b7d fix(rys-ui-dark-icons): rys card + status + admin import (2026-02-20)
+1b432b4 docs(audit+log): finalize ticket3 hashes + build results (2026-02-20)
+21fcde5 fix(admin-anti-dedo): status + price validation + export (2026-02-20)
+0b4411a fix(rys-visual-dark): pasillos clarity + full-screen dark (2026-02-20)
 ```
 
 ## Rutas criticas a revisar (local)
@@ -99,8 +99,8 @@ export const metadata: Metadata = {
   title: "RYS Minisúper",
   description: "Retiro en La Gloria, San Salvador.",
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
 };
 
@@ -477,7 +477,66 @@ info  - Creating an optimized production build...
 info  - Compiled successfully
 info  - Linting and checking validity of types...
 info  - Collecting page data...
+info  - Generating static pages (0/33)
+info  - Generating static pages (8/33)
+info  - Generating static pages (16/33)
+info  - Generating static pages (24/33)
 info  - Generating static pages (33/33)
 info  - Finalizing page optimization...
-```
 
+Route (app)                                Size     First Load JS
+┌ ○ /                                      14.9 kB         102 kB
+├ ○ /_not-found                            0 B                0 B
+├ ○ /admin                                 2.48 kB        79.6 kB
+├ ○ /alcance                               210 B            83 kB
+├ λ /api/admin/login                       0 B                0 B
+├ λ /api/admin/logout                      0 B                0 B
+├ λ /api/admin/me                          0 B                0 B
+├ λ /api/contact                           0 B                0 B
+├ λ /api/health                            0 B                0 B
+├ λ /api/products                          0 B                0 B
+├ λ /api/products/[id]                     0 B                0 B
+├ ○ /bots                                  210 B            83 kB
+├ λ /contact                               2.02 kB        79.1 kB
+├ ○ /courses                               415 B          77.5 kB
+├ ○ /cursos                                1.04 kB        78.1 kB
+├ ○ /demos                                 2.72 kB        85.5 kB
+├ λ /demos/[slug]                          426 B          83.2 kB
+├ ○ /demos/bot                             3.31 kB        89.9 kB
+├ ○ /demos/business-os                     4.19 kB          87 kB
+├ ○ /demos/whatsapp                        1.02 kB          82 kB
+├ ○ /mo                                    415 B          77.5 kB
+├ ○ /mo/admin                              138 B          84.7 kB
+├ ○ /mo/admin/acceso                       161 B          77.3 kB
+├ ○ /ops                                   209 B            83 kB
+├ ○ /portfolio                             209 B            83 kB
+├ λ /portfolio/[slug]                      426 B          83.2 kB
+├ ○ /pricing                               179 B            82 kB
+├ ○ /privacidad                            161 B          77.3 kB
+├ ○ /robots.txt                            0 B                0 B
+├ ○ /RYSminisuper                          16.7 kB        98.5 kB
+├ ○ /RYSminisuper/admin                    138 B          84.7 kB
+├ ○ /RYSminisuper/admin/acceso             161 B          77.3 kB
+├ ○ /services                              209 B            83 kB
+├ λ /services/[slug]                       426 B          83.2 kB
+├ ○ /sitemap.xml                           0 B                0 B
+├ ○ /video                                 3.68 kB        91.2 kB
+└ ○ /web                                   209 B            83 kB
++ First Load JS shared by all              77.1 kB
+  ├ chunks/1cc521dd-ece28c48db255633.js    50.6 kB
+  ├ chunks/8762-763bc4126227a20a.js        24.5 kB
+  ├ chunks/main-app-34ed91a11b1cede5.js    219 B
+  └ chunks/webpack-7914d644fa314b09.js     1.82 kB
+
+Route (pages)                              Size     First Load JS
+─ ○ /404                                   180 B          83.4 kB
++ First Load JS shared by all              83.3 kB
+  ├ chunks/main-684529d58bad7113.js        81.2 kB
+  ├ chunks/pages/_app-b06f75afb3cf4c14.js  193 B
+  └ chunks/webpack-7914d644fa314b09.js     1.82 kB
+
+ƒ Middleware                               24.4 kB
+
+λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
+○  (Static)  automatically rendered as static HTML (uses no initial props)
+```
