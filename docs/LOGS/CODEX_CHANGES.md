@@ -113,3 +113,11 @@
 - Resumen: Se reemplazo placeholder por assets reales y se agrego status por producto (available/soon/hidden/out_of_stock) con CTA WhatsApp.
 - Pruebas: pnpm lint, pnpm build.
 - Notas/Riesgos: hidden filtra productos; soon/out_of_stock deshabilitan compra y muestran "Avisarme".
+
+- Fecha/Hora: 2026-02-20 04:13:49 CET
+- Commit: TBD_HASH
+- Autor: Codex
+- Scope: public/video/video-poster.png, src/app/web/page.tsx, src/app/components/Hero.tsx, src/app/components/IntroVideo.tsx, src/app/components/IntroOverlay.tsx, src/app/components/VideoModal.tsx, src/app/video/VideoGallery.tsx, docs/LOGS/CODEX_CHANGES.md
+- Resumen: Se agrego poster y subtitulos al video y fallback UI con CTA.
+- Pruebas: pnpm lint, pnpm build.
+- Notas/Riesgos: Fallback visible en /web si el video falla.

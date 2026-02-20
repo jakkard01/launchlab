@@ -10,6 +10,7 @@ const buildEmbedUrl = (videoId: string) =>
 
 export default function VideoGallery({ items }: { items: VideoExample[] }) {
   const [active, setActive] = useState<VideoExample | null>(null);
+  const [hasError, setHasError] = useState(false);
 
   const whatsappLink = useMemo(
     () => buildWhatsappLink("video_gallery", "Quiero info de Video Packs."),
@@ -99,7 +100,27 @@ export default function VideoGallery({ items }: { items: VideoExample[] }) {
               </button>
             </div>
             <div className="mt-4 overflow-hidden rounded-xl border border-white/10 bg-black">
-              {active.platform === "youtube" && active.videoId ? (
+              {hasError ? (
+                <div className="px-6 py-8 text-center text-sm text-white/80">
+                  <p>No se pudo cargar el video.</p>
+                  <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:justify-center">
+                    <a
+                      href="/demos"
+                      className="rounded-full border border-white/20 px-5 py-2 text-center text-xs font-semibold uppercase tracking-[0.2em] text-white/80 transition hover:border-cyan-300/60"
+                    >
+                      Ver ejemplos →
+                    </a>
+                    <a
+                      href={buildWhatsappLink("video_gallery_fallback", "Quiero ejemplos de video.")}
+                      className="rounded-full bg-emerald-400 px-5 py-2 text-center text-xs font-semibold uppercase tracking-[0.2em] text-black transition hover:bg-emerald-300"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Hablar por WhatsApp
+                    </a>
+                  </div>
+                </div>
+              ) : active.platform === "youtube" && active.videoId ? (
                 <iframe
                   src={buildEmbedUrl(active.videoId)}
                   title={active.title}
@@ -112,9 +133,18 @@ export default function VideoGallery({ items }: { items: VideoExample[] }) {
                   controls
                   playsInline
                   preload="metadata"
+                  poster="/video/video-poster.png"
+                  onError={() => setHasError(true)}
                   className="h-auto w-full"
                 >
                   <source src={active.src} type="video/mp4" />
+                  <track
+                    kind="subtitles"
+                    src="/video/subs.es.vtt"
+                    srcLang="es"
+                    label="Español"
+                    default
+                  />
                   Tu navegador no soporta la reproducción de video.
                 </video>
               )}

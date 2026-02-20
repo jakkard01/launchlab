@@ -15,6 +15,7 @@ const buildEmbedUrl = (videoId: string) =>
 export default function IntroVideo({ onSkip, onFinish, video }: IntroVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [ready, setReady] = useState(false);
+  const [hasError, setHasError] = useState(false);
   const whatsappLink = buildWhatsappLink(
     "intro_video",
     "Quiero info sobre Video Packs."
@@ -39,7 +40,27 @@ export default function IntroVideo({ onSkip, onFinish, video }: IntroVideoProps)
           {!ready && (
             <div className="absolute inset-4 rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-white/0 animate-pulse" />
           )}
-          {video.platform === "youtube" && video.videoId ? (
+          {hasError ? (
+            <div className="relative w-full rounded-2xl border border-white/10 bg-black/70 px-4 py-6 text-center text-sm text-white/80">
+              <p>No se pudo cargar el video.</p>
+              <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:justify-center">
+                <a
+                  href="/demos"
+                  className="rounded-full border border-white/20 px-5 py-2 text-center text-xs font-semibold uppercase tracking-[0.2em] text-white/80 transition hover:border-cyan-300/60"
+                >
+                  Ver ejemplos →
+                </a>
+                <a
+                  href={whatsappLink}
+                  className="rounded-full bg-emerald-400 px-5 py-2 text-center text-xs font-semibold uppercase tracking-[0.2em] text-black transition hover:bg-emerald-300"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Hablar por WhatsApp
+                </a>
+              </div>
+            </div>
+          ) : video.platform === "youtube" && video.videoId ? (
             <iframe
               src={buildEmbedUrl(video.videoId)}
               title={video.title}
@@ -57,10 +78,20 @@ export default function IntroVideo({ onSkip, onFinish, video }: IntroVideoProps)
               playsInline
               controls
               preload="metadata"
+              poster="/video/video-poster.png"
               onCanPlay={() => setReady(true)}
+              onError={() => setHasError(true)}
               className="relative rounded-2xl w-full h-auto max-h-[60vh] border-0"
               tabIndex={-1}
-            />
+            >
+              <track
+                kind="subtitles"
+                src="/video/subs.es.vtt"
+                srcLang="es"
+                label="Español"
+                default
+              />
+            </video>
           )}
         </div>
         <div className="w-full px-4 pb-6">

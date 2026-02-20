@@ -13,6 +13,7 @@ const Hero = forwardRef<HTMLImageElement>((props, ref) => {
   const [showIntro, setShowIntro] = useState(false);
   const [showBot, setShowBot] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [videoError, setVideoError] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const menuBtnRef = useRef<HTMLButtonElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
@@ -182,16 +183,47 @@ const Hero = forwardRef<HTMLImageElement>((props, ref) => {
           transition={{ duration: 0.4 }}
           className="w-full flex flex-col items-center my-8"
         >
-          <video
-            src="/video/video.mp4"
-            poster="/video/intro-thumb.jpg"
-            preload="metadata"
-            autoPlay
-            playsInline
-            controls
-            className="mx-auto block w-full max-w-xs sm:max-w-sm md:max-w-md rounded-2xl shadow-lg"
-            onEnded={handleFinish}
-          />
+          {videoError ? (
+            <div className="w-full max-w-xs sm:max-w-sm md:max-w-md rounded-2xl border border-white/10 bg-black/70 px-4 py-6 text-center text-sm text-white/80">
+              <p>No se pudo cargar el video.</p>
+              <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:justify-center">
+                <Link
+                  href="/demos"
+                  className="rounded-full border border-white/20 px-5 py-2 text-center text-xs font-semibold uppercase tracking-[0.2em] text-white/80 transition hover:border-cyan-300/60"
+                >
+                  Ver ejemplos →
+                </Link>
+                <a
+                  href="https://wa.me/34911528753?text=Quiero%20ejemplos%20de%20video."
+                  className="rounded-full bg-emerald-400 px-5 py-2 text-center text-xs font-semibold uppercase tracking-[0.2em] text-black transition hover:bg-emerald-300"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Hablar por WhatsApp
+                </a>
+              </div>
+            </div>
+          ) : (
+            <video
+              src="/video/video.mp4"
+              poster="/video/video-poster.png"
+              preload="metadata"
+              autoPlay
+              playsInline
+              controls
+              className="mx-auto block w-full max-w-xs sm:max-w-sm md:max-w-md rounded-2xl shadow-lg"
+              onEnded={handleFinish}
+              onError={() => setVideoError(true)}
+            >
+              <track
+                kind="subtitles"
+                src="/video/subs.es.vtt"
+                srcLang="es"
+                label="Español"
+                default
+              />
+            </video>
+          )}
           <div className="flex justify-between w-full max-w-xs sm:max-w-sm md:max-w-md mt-4">
             <button onClick={handleFinish} className="text-cyan-500 underline focus:ring-2 focus:ring-cyan-400 focus:outline-none">
               Volver al inicio
