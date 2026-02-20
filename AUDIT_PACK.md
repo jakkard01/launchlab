@@ -455,3 +455,29 @@ Route (app)                                Size     First Load JS
 (sin output; el repo no define script "test" en package.json)
 ```
 
+
+## Build Results (Ticket 3)
+
+### pnpm lint
+```
+> launchlab@1.0.0 lint /mnt/c/Demonio_IA/06_Web/launchlab__PROD
+> next lint
+
+info  - Loaded env from /mnt/c/Demonio_IA/06_Web/launchlab__PROD/.env.local
+✔ No ESLint warnings or errors
+```
+
+### pnpm build
+```
+> launchlab@1.0.0 build /mnt/c/Demonio_IA/06_Web/launchlab__PROD
+> next build
+
+info  - Loaded env from /mnt/c/Demonio_IA/06_Web/launchlab__PROD/.env.local
+info  - Creating an optimized production build...
+info  - Compiled successfully
+info  - Linting and checking validity of types...
+info  - Collecting page data...
+info  - Generating static pages (33/33)
+info  - Finalizing page optimization...
+```
+

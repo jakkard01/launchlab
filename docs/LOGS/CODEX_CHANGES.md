@@ -115,7 +115,7 @@
 - Notas/Riesgos: hidden filtra productos; soon/out_of_stock deshabilitan compra y muestran "Avisarme".
 
 - Fecha/Hora: 2026-02-20 04:13:49 CET
-- Commit: TBD_HASH
+- Commit: 8ec7660
 - Autor: Codex
 - Scope: public/video/video-poster.png, src/app/web/page.tsx, src/app/components/Hero.tsx, src/app/components/IntroVideo.tsx, src/app/components/IntroOverlay.tsx, src/app/components/VideoModal.tsx, src/app/video/VideoGallery.tsx, docs/LOGS/CODEX_CHANGES.md
 - Resumen: Se agrego poster y subtitulos al video y fallback UI con CTA.
@@ -123,7 +123,7 @@
 - Notas/Riesgos: Fallback visible en /web si el video falla.
 
 - Fecha/Hora: 2026-02-20 04:14:30 CET
-- Commit: TBD_HASH
+- Commit: 0b4411a
 - Autor: Codex
 - Scope: src/app/mo/components/MoQuickShop.tsx, src/app/globals.css, docs/LOGS/CODEX_CHANGES.md
 - Resumen: Se mejoro jerarquia visual de pasillos y se fijo fondo full-screen en dark mode.
@@ -131,7 +131,7 @@
 - Notas/Riesgos: Ninguno.
 
 - Fecha/Hora: 2026-02-20 04:19:01 CET
-- Commit: TBD_HASH
+- Commit: 21fcde5
 - Autor: Codex
 - Scope: src/app/mo/admin/AdminClient.tsx, src/lib/mo/types.ts, src/lib/mo/data/types.ts, src/lib/mo/data/localAdapter.ts, src/lib/mo/data/sheetsAdapter.ts, src/lib/mo/data/supabaseAdapter.ts, docs/LOGS/CODEX_CHANGES.md
 - Resumen: Validacion de precio, export JSON y control de visibilidad/status desde admin.
