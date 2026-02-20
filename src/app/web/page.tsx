@@ -215,7 +215,10 @@ export default function WebPage() {
               </Link>
             </div>
           </div>
-          <div className="rounded-2xl border border-white/10 bg-black/70 p-3">
+          <div className="relative rounded-2xl border border-white/10 bg-black/70 p-3">
+            <div className="absolute left-6 top-6 rounded-full border border-white/20 bg-black/60 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/80">
+              Video de venta (32s)
+            </div>
             <video
               controls
               playsInline
