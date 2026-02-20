@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 };
 
 export default function RysMiniSuperPage() {
-  const products: Product[] = productsData;
+  const products = productsData as Product[];
   const ctaLink = buildWhatsAppMessageLink(
     "Hola RYS Minisúper, quiero hacer un pedido para retiro."
   );

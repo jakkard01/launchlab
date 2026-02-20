@@ -14,10 +14,13 @@ type MoStorefrontProps = {
   ctaLink: string;
 };
 
+const filterHidden = (items: Product[]) =>
+  items.filter((product) => product.status !== "hidden");
+
 export default function MoStorefront({ products, ctaLink }: MoStorefrontProps) {
   const [activeTab, setActiveTab] = useState<TabId>("hot");
   const [query, setQuery] = useState("");
-  const [catalog, setCatalog] = useState<Product[]>(products);
+  const [catalog, setCatalog] = useState<Product[]>(filterHidden(products));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -29,7 +32,7 @@ export default function MoStorefront({ products, ctaLink }: MoStorefrontProps) {
         const adapter = await getMoDataAdapter();
         const data = await adapter.getProducts();
         if (!active) return;
-        setCatalog(data);
+        setCatalog(filterHidden(data));
         setError(null);
       } catch (err) {
         if (!active) return;

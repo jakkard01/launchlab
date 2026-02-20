@@ -105,3 +105,11 @@
 - Resumen: Se habilito index/follow en /RYSminisuper y se agrego auth admin por ADMIN_PIN/ADMIN_PASSWORD (compatibilidad MO_ADMIN_KEY) con cookie.
 - Pruebas: No probado.
 - Notas/Riesgos: Requiere MO_ADMIN_ENABLED=1 y env vars en Vercel.
+
+- Fecha/Hora: 2026-02-20 03:11:47 CET
+- Commit: TBD_HASH
+- Autor: Codex
+- Scope: src/data/products.json, src/lib/mo/types.ts, src/app/mo/ProductCard.tsx, src/app/mo/components/MoStorefront.tsx, docs/LOGS/CODEX_CHANGES.md
+- Resumen: Se reemplazo placeholder por assets reales y se agrego status por producto (available/soon/hidden/out_of_stock) con CTA WhatsApp.
+- Pruebas: pnpm lint, pnpm build.
+- Notas/Riesgos: hidden filtra productos; soon/out_of_stock deshabilitan compra y muestran "Avisarme".

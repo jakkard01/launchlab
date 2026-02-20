@@ -5,9 +5,10 @@
     "price": "$6.50",
     "category": "bebidas",
     "description": "Cafe molido para retiro con tueste medio.",
-    "image": "/images/placeholder.png",
+    "image": "/RYSminisuper/images/top/cafe.webp",
     "imageKey": "cafe-pack",
-    "isFeatured": true
+    "isFeatured": true,
+    "status": "available"
   },
   {
     "id": "mo-granola",
@@ -15,9 +16,10 @@
     "price": "$4.00",
     "category": "snacks",
     "description": "Granola con frutos secos y miel.",
-    "image": "/images/placeholder.png",
+    "image": "/mo/categories/snacks.svg",
     "imageKey": "granola",
-    "isFeatured": false
+    "isFeatured": false,
+    "status": "available"
   },
   {
     "id": "mo-cold-brew",
@@ -25,9 +27,10 @@
     "price": "$5.00",
     "category": "bebidas",
     "description": "Cold brew listo para retiro en frio.",
-    "image": "/images/placeholder.png",
+    "image": "/mo/categories/bebida.svg",
     "imageKey": "cold-brew",
-    "isFeatured": false
+    "isFeatured": false,
+    "status": "available"
   },
   {
     "id": "mo-agua-mineral",
@@ -35,9 +38,10 @@
     "price": "$1.20",
     "category": "bebidas",
     "description": "Agua mineral para llevar.",
-    "image": "/images/placeholder.png",
+    "image": "/mo/categories/bebida.svg",
     "imageKey": "agua-mineral",
-    "isFeatured": false
+    "isFeatured": false,
+    "status": "available"
   },
   {
     "id": "mo-jugo-naranja",
@@ -45,9 +49,10 @@
     "price": "$2.50",
     "category": "bebidas",
     "description": "Jugo natural exprimido en el dia.",
-    "image": "/images/placeholder.png",
+    "image": "/mo/categories/bebida.svg",
     "imageKey": "jugo-naranja",
-    "isFeatured": true
+    "isFeatured": true,
+    "status": "available"
   },
   {
     "id": "mo-leche-entera",
@@ -55,9 +60,10 @@
     "price": "$1.80",
     "category": "lacteos",
     "description": "Leche entera para consumo diario.",
-    "image": "/images/placeholder.png",
+    "image": "/mo/categories/lacteos.svg",
     "imageKey": "leche-entera",
-    "isFeatured": false
+    "isFeatured": false,
+    "status": "available"
   },
   {
     "id": "mo-leche-deslactosada",
@@ -65,9 +71,10 @@
     "price": "$2.10",
     "category": "lacteos",
     "description": "Leche deslactosada ligera.",
-    "image": "/images/placeholder.png",
+    "image": "/mo/categories/lacteos.svg",
     "imageKey": "leche-deslactosada",
-    "isFeatured": false
+    "isFeatured": false,
+    "status": "available"
   },
   {
     "id": "mo-queso-fresco",
@@ -75,9 +82,10 @@
     "price": "$3.60",
     "category": "lacteos",
     "description": "Queso fresco para desayunos.",
-    "image": "/images/placeholder.png",
+    "image": "/mo/categories/lacteos.svg",
     "imageKey": "queso-fresco",
-    "isFeatured": true
+    "isFeatured": true,
+    "status": "available"
   },
   {
     "id": "mo-pan-integral",
@@ -85,9 +93,10 @@
     "price": "$2.20",
     "category": "abarrotes",
     "description": "Pan integral rebanado.",
-    "image": "/images/placeholder.png",
+    "image": "/mo/categories/pan.svg",
     "imageKey": "pan-integral",
-    "isFeatured": false
+    "isFeatured": false,
+    "status": "available"
   },
   {
     "id": "mo-galletas-avena",
@@ -95,9 +104,10 @@
     "price": "$1.90",
     "category": "snacks",
     "description": "Galletas suaves con avena.",
-    "image": "/images/placeholder.png",
+    "image": "/mo/categories/snacks.svg",
     "imageKey": "galletas-avena",
-    "isFeatured": false
+    "isFeatured": false,
+    "status": "available"
   },
   {
     "id": "mo-arroz-1kg",
@@ -105,9 +115,10 @@
     "price": "$2.80",
     "category": "abarrotes",
     "description": "Arroz blanco de grano largo.",
-    "image": "/images/placeholder.png",
+    "image": "/mo/categories/abarrotes.svg",
     "imageKey": "arroz-1kg",
-    "isFeatured": false
+    "isFeatured": false,
+    "status": "available"
   },
   {
     "id": "mo-azucar-1kg",
@@ -115,9 +126,10 @@
     "price": "$2.30",
     "category": "abarrotes",
     "description": "Azucar refinada para consumo diario.",
-    "image": "/images/placeholder.png",
+    "image": "/mo/categories/abarrotes.svg",
     "imageKey": "azucar-1kg",
-    "isFeatured": false
+    "isFeatured": false,
+    "status": "available"
   },
   {
     "id": "mo-atun-lata",
@@ -125,9 +137,10 @@
     "price": "$2.40",
     "category": "abarrotes",
     "description": "Atun en agua listo para servir.",
-    "image": "/images/placeholder.png",
+    "image": "/mo/categories/abarrotes.svg",
     "imageKey": "atun-lata",
-    "isFeatured": true
+    "isFeatured": true,
+    "status": "available"
   },
   {
     "id": "mo-frijoles",
@@ -135,9 +148,10 @@
     "price": "$2.60",
     "category": "abarrotes",
     "description": "Frijoles rojos para cocinar.",
-    "image": "/images/placeholder.png",
+    "image": "/RYSminisuper/images/top/frijoles.webp",
     "imageKey": "frijoles",
-    "isFeatured": false
+    "isFeatured": false,
+    "status": "available"
   },
   {
     "id": "mo-salsa-tomate",
@@ -145,9 +159,10 @@
     "price": "$1.70",
     "category": "abarrotes",
     "description": "Salsa de tomate para cocina rapida.",
-    "image": "/images/placeholder.png",
+    "image": "/mo/categories/abarrotes.svg",
     "imageKey": "salsa-tomate",
-    "isFeatured": false
+    "isFeatured": false,
+    "status": "available"
   },
   {
     "id": "mo-empanadas",
@@ -155,9 +170,10 @@
     "price": "$2.90",
     "category": "antojitos",
     "description": "Empanadas listas para retirar.",
-    "image": "/images/placeholder.png",
+    "image": "/mo/categories/antojitos.svg",
     "imageKey": "empanadas",
-    "isFeatured": true
+    "isFeatured": true,
+    "status": "available"
   },
   {
     "id": "mo-tostadas",
@@ -165,9 +181,10 @@
     "price": "$2.50",
     "category": "antojitos",
     "description": "Tostadas caseras con frijol y queso.",
-    "image": "/images/placeholder.png",
+    "image": "/mo/categories/antojitos.svg",
     "imageKey": "tostadas",
-    "isFeatured": false
+    "isFeatured": false,
+    "status": "available"
   },
   {
     "id": "mo-pupusas",
@@ -175,9 +192,10 @@
     "price": "$3.50",
     "category": "antojitos",
     "description": "Orden de pupusas para retiro.",
-    "image": "/images/placeholder.png",
+    "image": "/RYSminisuper/images/top/pupusas.webp",
     "imageKey": "pupusas",
-    "isFeatured": true
+    "isFeatured": true,
+    "status": "available"
   },
   {
     "id": "mo-sandwich",
@@ -185,9 +203,10 @@
     "price": "$3.20",
     "category": "antojitos",
     "description": "Sandwich listo para llevar.",
-    "image": "/images/placeholder.png",
+    "image": "/mo/categories/antojitos.svg",
     "imageKey": "sandwich",
-    "isFeatured": false
+    "isFeatured": false,
+    "status": "available"
   },
   {
     "id": "mo-tamales",
@@ -195,9 +214,10 @@
     "price": "$3.80",
     "category": "antojitos",
     "description": "Tamales para retiro en tienda.",
-    "image": "/images/placeholder.png",
+    "image": "/mo/categories/antojitos.svg",
     "imageKey": "tamales",
-    "isFeatured": false
+    "isFeatured": false,
+    "status": "available"
   },
   {
     "id": "mo-ensalada-frutas",
@@ -205,8 +225,9 @@
     "price": "$2.70",
     "category": "antojitos",
     "description": "Ensalada fresca lista para hoy.",
-    "image": "/images/placeholder.png",
+    "image": "/mo/categories/antojitos.svg",
     "imageKey": "ensalada-frutas",
-    "isFeatured": true
+    "isFeatured": true,
+    "status": "available"
   }
 ]

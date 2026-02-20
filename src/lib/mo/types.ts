@@ -7,6 +7,7 @@ export type Product = {
   image: string;
   imageKey?: string;
   isFeatured: boolean;
+  status?: "available" | "soon" | "hidden" | "out_of_stock";
   promoEnabled?: boolean;
   promoPercent?: number;
   featuredRank?: number;

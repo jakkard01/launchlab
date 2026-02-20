@@ -5,6 +5,7 @@ import { useState } from "react";
 import type { Product } from "../../lib/mo/types";
 import type { StockStatus } from "../../lib/mo/data/types";
 import { getEffectivePrice, getPromoLabel } from "../../lib/mo/pricing";
+import { buildWhatsAppMessageLink } from "../../lib/mo/whatsapp";
 import QuantityStepper from "./cart/QuantityStepper";
 import { useCart } from "./cart/CartContext";
 
@@ -87,11 +88,21 @@ export default function ProductCard({
   const isCompact = variant === "compact";
   const promoLabel = getPromoLabel(product);
   const effectivePrice = getEffectivePrice(product);
-  const resolvedStock = stockStatus ?? product.stockStatus ?? "disponible";
-  const isOutOfStock = resolvedStock === "agotado";
+  const status = product.status ?? "available";
+  const isSoon = status === "soon";
+  const isHidden = status === "hidden";
+  const isOutOfStockStatus = status === "out_of_stock";
+  const resolvedStock =
+    isOutOfStockStatus ? "agotado" : stockStatus ?? product.stockStatus ?? "disponible";
+  const isOutOfStock = resolvedStock === "agotado" || isSoon || isOutOfStockStatus;
   const topImageSrc = resolveTopImage(product);
   const imageAlt = product.name;
   const initials = getInitials(product.name);
+  const notifyLink = buildWhatsAppMessageLink(
+    `Hola RYS Minisúper, avisame cuando esté disponible: ${product.name}.`
+  );
+  const statusBadge =
+    isSoon ? "Pronto" : isOutOfStockStatus ? "Agotado hoy" : stockLabels[resolvedStock];
 
   const handleAdd = () => {
     if (isOutOfStock) return;
@@ -100,6 +111,10 @@ export default function ProductCard({
     setJustAdded(true);
     window.setTimeout(() => setJustAdded(false), 1200);
   };
+
+  if (isHidden) {
+    return null;
+  }
 
   return (
     <article className="surface-card flex h-full flex-col rounded-2xl p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
@@ -139,7 +154,7 @@ export default function ProductCard({
         <span
           className={`rounded-full border px-2 py-1 text-[11px] uppercase tracking-[0.2em] ${stockStyles[resolvedStock]}`}
         >
-          {stockLabels[resolvedStock]}
+          {statusBadge}
         </span>
       </div>
       <div className="mt-2 flex items-center justify-between">
@@ -185,19 +200,41 @@ export default function ProductCard({
           className="h-12 rounded-2xl bg-[var(--accent)] px-6 text-center text-sm font-semibold text-[var(--surface)] shadow-sm transition hover:opacity-95 hover:shadow-md disabled:cursor-not-allowed disabled:bg-[var(--border)] disabled:text-muted"
           aria-label={`Agregar ${product.name} al pedido`}
         >
-          {isOutOfStock ? "Agotado" : justAdded ? "Agregado ✓" : "Agregar"}
+          {isOutOfStock ? "No disponible" : justAdded ? "Agregado ✓" : "Agregar"}
         </button>
+        {isOutOfStock ? (
+          <a
+            href={notifyLink}
+            className="h-11 rounded-2xl border border-[var(--accent)]/40 px-5 text-center text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)] transition hover:border-[var(--accent)]/60 hover:text-[var(--accent)]"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Avisarme
+          </a>
+        ) : null}
       </div>
       {isCompact ? (
-        <button
-          type="button"
-          onClick={handleAdd}
-          disabled={isOutOfStock}
-          className="mt-4 h-11 rounded-xl bg-[var(--accent)] px-4 text-xs font-semibold text-[var(--surface)] shadow-sm transition hover:opacity-95 hover:shadow-md disabled:cursor-not-allowed disabled:bg-[var(--border)] disabled:text-muted"
-          aria-label={`Agregar ${product.name} al pedido`}
-        >
-          {isOutOfStock ? "Agotado" : justAdded ? "Agregado ✓" : "Agregar"}
-        </button>
+        <>
+          <button
+            type="button"
+            onClick={handleAdd}
+            disabled={isOutOfStock}
+            className="mt-4 h-11 rounded-xl bg-[var(--accent)] px-4 text-xs font-semibold text-[var(--surface)] shadow-sm transition hover:opacity-95 hover:shadow-md disabled:cursor-not-allowed disabled:bg-[var(--border)] disabled:text-muted"
+            aria-label={`Agregar ${product.name} al pedido`}
+          >
+            {isOutOfStock ? "No disponible" : justAdded ? "Agregado ✓" : "Agregar"}
+          </button>
+          {isOutOfStock ? (
+            <a
+              href={notifyLink}
+              className="mt-3 h-10 rounded-xl border border-[var(--accent)]/40 px-4 text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--accent)] transition hover:border-[var(--accent)]/60 hover:text-[var(--accent)]"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Avisarme
+            </a>
+          ) : null}
+        </>
       ) : null}
     </article>
   );
