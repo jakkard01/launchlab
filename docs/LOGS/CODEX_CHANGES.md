@@ -129,3 +129,11 @@
 - Resumen: Se mejoro jerarquia visual de pasillos y se fijo fondo full-screen en dark mode.
 - Pruebas: pnpm lint, pnpm build.
 - Notas/Riesgos: Ninguno.
+
+- Fecha/Hora: 2026-02-20 04:19:01 CET
+- Commit: TBD_HASH
+- Autor: Codex
+- Scope: src/app/mo/admin/AdminClient.tsx, src/lib/mo/types.ts, src/lib/mo/data/types.ts, src/lib/mo/data/localAdapter.ts, src/lib/mo/data/sheetsAdapter.ts, src/lib/mo/data/supabaseAdapter.ts, docs/LOGS/CODEX_CHANGES.md
+- Resumen: Validacion de precio, export JSON y control de visibilidad/status desde admin.
+- Pruebas: pnpm lint, pnpm build.
+- Notas/Riesgos: Adapters sheets/supabase siguen no configurados.

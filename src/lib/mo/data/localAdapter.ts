@@ -1,5 +1,5 @@
 import productsData from "../../../data/products.json";
-import type { Product } from "../types";
+import type { Product, ProductStatus } from "../types";
 import type {
   AdminSnapshot,
   DailySalesEntry,
@@ -19,6 +19,7 @@ type LocalStore = {
   stock: Record<string, StockStatus>;
   prices: Record<string, string>;
   promo: Record<string, PromoState>;
+  status: Record<string, ProductStatus>;
   hotToday: Record<string, HotState>;
   orderLogs: OrderLogEntry[];
   dailySales: DailySalesEntry[];
@@ -36,6 +37,7 @@ const createDefaultStore = (products: Product[]): LocalStore => {
   const stock: Record<string, StockStatus> = {};
   const prices: Record<string, string> = {};
   const promo: Record<string, PromoState> = {};
+  const status: Record<string, ProductStatus> = {};
   const hotToday: Record<string, HotState> = {};
 
   products.forEach((product) => {
@@ -45,6 +47,7 @@ const createDefaultStore = (products: Product[]): LocalStore => {
       enabled: product.promoEnabled ?? false,
       percent: product.promoPercent ?? 0,
     };
+    status[product.id] = product.status ?? "available";
     hotToday[product.id] = emptyHotState();
   });
 
@@ -52,6 +55,7 @@ const createDefaultStore = (products: Product[]): LocalStore => {
     stock,
     prices,
     promo,
+    status,
     hotToday,
     orderLogs: [],
     dailySales: [],
@@ -67,6 +71,7 @@ const ensureStore = (incoming: Partial<LocalStore>, products: Product[]) => {
     stock: { ...base.stock, ...incoming.stock },
     prices: { ...base.prices, ...incoming.prices },
     promo: { ...base.promo, ...incoming.promo },
+    status: { ...base.status, ...incoming.status },
     hotToday: { ...base.hotToday, ...incoming.hotToday },
     orderLogs: Array.isArray(incoming.orderLogs) ? incoming.orderLogs : [],
     dailySales: Array.isArray(incoming.dailySales) ? incoming.dailySales : [],
@@ -151,6 +156,7 @@ const decorateProducts = (store: LocalStore) => {
     price: store.prices[product.id] ?? product.price,
     promoEnabled: store.promo[product.id]?.enabled ?? false,
     promoPercent: store.promo[product.id]?.percent ?? 0,
+    status: store.status[product.id] ?? product.status ?? "available",
     stockStatus: store.stock[product.id] ?? "disponible",
   }));
 };
@@ -167,6 +173,7 @@ export const localAdapter: MoDataAdapter = {
       stock: store.stock,
       prices: store.prices,
       promo: store.promo,
+      status: store.status,
       hotToday: store.hotToday,
       orderLogs: store.orderLogs,
       dailySales: store.dailySales,
@@ -198,6 +205,17 @@ export const localAdapter: MoDataAdapter = {
           enabled,
           percent,
         },
+      },
+    };
+    writeStore(next);
+  },
+  async updateStatus(id, nextStatus) {
+    const store = readStore();
+    const next = {
+      ...store,
+      status: {
+        ...store.status,
+        [id]: nextStatus,
       },
     };
     writeStore(next);

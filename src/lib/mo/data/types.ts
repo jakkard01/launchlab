@@ -1,4 +1,4 @@
-import type { Product } from "../types";
+import type { Product, ProductStatus } from "../types";
 
 export type StockStatus = "disponible" | "ultimas" | "agotado";
 
@@ -65,6 +65,7 @@ export type AdminSnapshot = {
   stock: Record<string, StockStatus>;
   prices: Record<string, string>;
   promo: Record<string, PromoState>;
+  status: Record<string, ProductStatus>;
   hotToday: Record<string, HotState>;
   orderLogs: OrderLogEntry[];
   dailySales: DailySalesEntry[];
@@ -76,6 +77,7 @@ export type MoDataAdapter = {
   updateStock: (id: string, status: StockStatus) => Promise<void>;
   updatePrice: (id: string, price: string) => Promise<void>;
   updatePromo: (id: string, enabled: boolean, percent: number) => Promise<void>;
+  updateStatus: (id: string, status: ProductStatus) => Promise<void>;
   updateHot: (id: string, next: Partial<HotState>) => Promise<void>;
   logOrder: (entry: OrderLogInput) => Promise<void>;
   removeOrder: (id: string) => Promise<void>;

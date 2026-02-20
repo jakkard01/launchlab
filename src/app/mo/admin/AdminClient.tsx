@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import type { Product } from "../../../lib/mo/types";
+import type { Product, ProductStatus } from "../../../lib/mo/types";
 import { getMoDataAdapter } from "../../../lib/mo/data";
 import {
   getEffectivePriceValue,
@@ -53,7 +53,11 @@ export default function AdminClient() {
   const [products, setProducts] = useState<Product[]>([]);
   const [stock, setStock] = useState<Record<string, StockStatus>>({});
   const [prices, setPrices] = useState<Record<string, string>>({});
+  const [baselinePrices, setBaselinePrices] = useState<Record<string, string>>(
+    {}
+  );
   const [promo, setPromo] = useState<Record<string, PromoState>>({});
+  const [status, setStatus] = useState<Record<string, ProductStatus>>({});
   const [hotToday, setHotToday] = useState<Record<string, HotState>>({});
   const [orderLogs, setOrderLogs] = useState<OrderLogEntry[]>([]);
   const [stats, setStats] = useState<MoStats | null>(null);
@@ -61,13 +65,35 @@ export default function AdminClient() {
   const [saleProductId, setSaleProductId] = useState("");
   const [saleQuantity, setSaleQuantity] = useState(1);
   const [saleUnitPrice, setSaleUnitPrice] = useState(0);
+  const handleExport = () => {
+    const payload = {
+      products,
+      stock,
+      prices,
+      promo,
+      status,
+      hotToday,
+      orderLogs,
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `rys-admin-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
 
   const loadSnapshot = useCallback(async (activeAdapter: MoDataAdapter) => {
     const snapshot = await activeAdapter.getAdminSnapshot();
     setProducts(snapshot.products);
     setStock(snapshot.stock);
     setPrices(snapshot.prices);
+    setBaselinePrices(snapshot.prices);
     setPromo(snapshot.promo);
+    setStatus(snapshot.status);
     setHotToday(snapshot.hotToday);
     setOrderLogs(snapshot.orderLogs);
   }, []);
@@ -179,6 +205,7 @@ export default function AdminClient() {
     setPrices((prev) => ({ ...prev, [id]: value }));
     try {
       await adapter.updatePrice(id, value);
+      setBaselinePrices((prev) => ({ ...prev, [id]: value }));
     } catch (err) {
       setError("No se pudo actualizar el precio.");
       await reloadAll(adapter);
@@ -203,6 +230,17 @@ export default function AdminClient() {
     }
   };
 
+  const updateStatus = async (id: string, nextStatus: ProductStatus) => {
+    if (!adapter) return;
+    setStatus((prev) => ({ ...prev, [id]: nextStatus }));
+    try {
+      await adapter.updateStatus(id, nextStatus);
+    } catch (err) {
+      setError("No se pudo actualizar la visibilidad.");
+      await reloadAll(adapter);
+    }
+  };
+
   const updateHot = async (id: string, state: HotState) => {
     if (!adapter) return;
     setHotToday((prev) => ({ ...prev, [id]: state }));
@@ -222,6 +260,30 @@ export default function AdminClient() {
       status,
       updatedAt: new Date().toISOString(),
     });
+  };
+
+  const handlePriceBlur = async (
+    id: string,
+    value: string,
+    fallback: string
+  ) => {
+    const parsed = parseMoney(value);
+    if (!parsed || parsed <= 0) {
+      setError("Precio invalido. Debe ser un numero mayor a 0.");
+      setPrices((prev) => ({ ...prev, [id]: fallback }));
+      return;
+    }
+    const baseline = parseMoney(fallback) ?? parsed;
+    if (baseline > 0 && parsed < baseline * 0.5) {
+      const ok = window.confirm(
+        "¿Seguro? Parece un precio muy bajo versus el anterior."
+      );
+      if (!ok) {
+        setPrices((prev) => ({ ...prev, [id]: fallback }));
+        return;
+      }
+    }
+    await updatePrice(id, value);
   };
 
   const updateHotWindow = async (
@@ -305,8 +367,17 @@ export default function AdminClient() {
             </p>
             <h1 className="text-3xl font-semibold">Resumen diario</h1>
           </div>
-          <div className="rounded-full border border-emerald-300/40 bg-emerald-400/10 px-4 py-2 text-xs uppercase tracking-[0.3em] text-emerald-200">
-            {hotCount} calientes activos
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={handleExport}
+              className="rounded-full border border-white/10 px-4 py-2 text-xs uppercase tracking-[0.2em] text-white/70"
+            >
+              Exportar backup
+            </button>
+            <div className="rounded-full border border-emerald-300/40 bg-emerald-400/10 px-4 py-2 text-xs uppercase tracking-[0.3em] text-emerald-200">
+              {hotCount} calientes activos
+            </div>
           </div>
         </header>
 
@@ -380,14 +451,16 @@ export default function AdminClient() {
             Control de pasillos
           </h2>
           <div className="grid gap-4 lg:grid-cols-2">
-            {products.map((product) => {
-              const stockStatus = stock[product.id] ?? "disponible";
-              const promoState = promo[product.id] ?? {
-                enabled: false,
-                percent: 0,
-              };
-              const hotState = hotToday[product.id] ?? defaultHotState();
-              const price = parseMoney(prices[product.id] ?? "");
+              {products.map((product) => {
+                const stockStatus = stock[product.id] ?? "disponible";
+                const promoState = promo[product.id] ?? {
+                  enabled: false,
+                  percent: 0,
+                };
+                const visibility = status[product.id] ?? product.status ?? "available";
+                const baselinePrice = baselinePrices[product.id] ?? product.price;
+                const hotState = hotToday[product.id] ?? defaultHotState();
+                const price = parseMoney(prices[product.id] ?? "");
               const pricingProduct = {
                 ...product,
                 price: prices[product.id] ?? product.price,
@@ -433,6 +506,31 @@ export default function AdminClient() {
 
                   <div className="mt-4 grid gap-3 md:grid-cols-2">
                     <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                      Visibilidad
+                      <select
+                        value={visibility}
+                        onChange={(event) =>
+                          (async () => {
+                            const nextStatus = event.target.value as ProductStatus;
+                            if (nextStatus === "hidden") {
+                              const ok = window.confirm(
+                                "¿Seguro? Este producto quedará oculto."
+                              );
+                              if (!ok) return;
+                            }
+                            await updateStatus(product.id, nextStatus);
+                          })()
+                        }
+                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                      >
+                        <option value="available">Disponible</option>
+                        <option value="soon">Pronto</option>
+                        <option value="out_of_stock">Agotado hoy</option>
+                        <option value="hidden">Oculto</option>
+                      </select>
+                    </label>
+
+                    <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
                       Stock
                       <select
                         value={stockStatus}
@@ -456,7 +554,17 @@ export default function AdminClient() {
                         type="text"
                         value={prices[product.id] ?? ""}
                         onChange={(event) =>
-                          updatePrice(product.id, event.target.value)
+                          setPrices((prev) => ({
+                            ...prev,
+                            [product.id]: event.target.value,
+                          }))
+                        }
+                        onBlur={(event) =>
+                          handlePriceBlur(
+                            product.id,
+                            event.target.value,
+                            baselinePrice
+                          )
                         }
                         className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
                       />

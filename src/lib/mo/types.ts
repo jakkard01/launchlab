@@ -1,3 +1,5 @@
+export type ProductStatus = "available" | "soon" | "hidden" | "out_of_stock";
+
 export type Product = {
   id: string;
   name: string;
@@ -7,7 +9,7 @@ export type Product = {
   image: string;
   imageKey?: string;
   isFeatured: boolean;
-  status?: "available" | "soon" | "hidden" | "out_of_stock";
+  status?: ProductStatus;
   promoEnabled?: boolean;
   promoPercent?: number;
   featuredRank?: number;
