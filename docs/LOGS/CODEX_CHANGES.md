@@ -107,7 +107,7 @@
 - Notas/Riesgos: Requiere MO_ADMIN_ENABLED=1 y env vars en Vercel.
 
 - Fecha/Hora: 2026-02-20 03:11:47 CET
-- Commit: TBD_HASH
+- Commit: 4156f8b
 - Autor: Codex
 - Scope: src/data/products.json, src/lib/mo/types.ts, src/app/mo/ProductCard.tsx, src/app/mo/components/MoStorefront.tsx, docs/LOGS/CODEX_CHANGES.md
 - Resumen: Se reemplazo placeholder por assets reales y se agrego status por producto (available/soon/hidden/out_of_stock) con CTA WhatsApp.
