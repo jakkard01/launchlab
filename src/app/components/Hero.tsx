@@ -209,6 +209,7 @@ const Hero = forwardRef<HTMLImageElement>((props, ref) => {
               poster="/video/video-poster.png"
               preload="metadata"
               autoPlay
+              muted
               playsInline
               controls
               className="mx-auto block w-full max-w-xs sm:max-w-sm md:max-w-md rounded-2xl shadow-lg"

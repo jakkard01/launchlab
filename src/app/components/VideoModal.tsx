@@ -71,6 +71,7 @@ export default function VideoModal({
             controls
             autoPlay
             playsInline
+            muted
             preload="metadata"
             poster="/video/video-poster.png"
             onError={() => setHasError(true)}

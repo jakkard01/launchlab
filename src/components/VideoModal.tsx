@@ -34,8 +34,18 @@ export default function VideoModal({
           controls
           autoPlay
           playsInline
+          muted
+          preload="metadata"
+          poster="/video/video-poster.png"
         >
           <source src="/video/video.mp4" type="video/mp4" />
+          <track
+            kind="subtitles"
+            src="/video/subs.es.vtt"
+            srcLang="es"
+            label="Español"
+            default
+          />
           Tu navegador no soporta la reproducción de video.
         </video>
       </div>

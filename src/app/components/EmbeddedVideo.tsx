@@ -32,8 +32,20 @@ export default function EmbeddedVideo({
           ref={videoRef}
           src="/video/video.mp4"
           controls
+          playsInline
+          muted
+          preload="metadata"
+          poster="/video/video-poster.png"
           className="absolute top-0 left-0 w-full h-full object-contain"
-        />
+        >
+          <track
+            kind="subtitles"
+            src="/video/subs.es.vtt"
+            srcLang="es"
+            label="Español"
+            default
+          />
+        </video>
       </div>
 
       {/* Botones de control */}

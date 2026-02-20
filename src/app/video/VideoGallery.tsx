@@ -132,6 +132,7 @@ export default function VideoGallery({ items }: { items: VideoExample[] }) {
                 <video
                   controls
                   playsInline
+                  muted
                   preload="metadata"
                   poster="/video/video-poster.png"
                   onError={() => setHasError(true)}

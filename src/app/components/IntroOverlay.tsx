@@ -47,6 +47,7 @@ export default function IntroOverlay({ src, onClose, onEnded, children }: IntroO
           ref={vidRef}
           src={src}
           autoPlay
+          muted
           playsInline
           controls
           preload="metadata"
