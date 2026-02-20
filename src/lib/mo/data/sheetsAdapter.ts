@@ -25,6 +25,9 @@ export const sheetsAdapter: MoDataAdapter = {
   async updateStatus() {
     return notConfigured();
   },
+  async importBackup() {
+    return notConfigured();
+  },
   async updateHot() {
     return notConfigured();
   },

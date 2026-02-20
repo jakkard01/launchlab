@@ -220,6 +220,11 @@ export const localAdapter: MoDataAdapter = {
     };
     writeStore(next);
   },
+  async importBackup(backup) {
+    const incoming = backup as Partial<LocalStore>;
+    const next = ensureStore(incoming, products);
+    writeStore(next);
+  },
   async updateHot(id, nextHot) {
     const store = readStore();
     const current = store.hotToday[id] ?? emptyHotState();

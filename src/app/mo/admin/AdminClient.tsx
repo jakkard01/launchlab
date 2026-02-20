@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Product, ProductStatus } from "../../../lib/mo/types";
 import { getMoDataAdapter } from "../../../lib/mo/data";
 import {
@@ -65,6 +65,7 @@ export default function AdminClient() {
   const [saleProductId, setSaleProductId] = useState("");
   const [saleQuantity, setSaleQuantity] = useState(1);
   const [saleUnitPrice, setSaleUnitPrice] = useState(0);
+  const importInputRef = useRef<HTMLInputElement>(null);
   const handleExport = () => {
     const payload = {
       products,
@@ -84,6 +85,31 @@ export default function AdminClient() {
     link.download = `rys-admin-backup-${new Date().toISOString().slice(0, 10)}.json`;
     link.click();
     URL.revokeObjectURL(url);
+  };
+
+  const handleImportClick = () => {
+    importInputRef.current?.click();
+  };
+
+  const handleImportFile = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file || !adapter) return;
+    try {
+      const raw = await file.text();
+      const parsed = JSON.parse(raw);
+      const ok = window.confirm(
+        "¿Seguro? Esto reemplaza el estado actual del catalogo."
+      );
+      if (!ok) return;
+      await adapter.importBackup(parsed);
+      await reloadAll(adapter);
+    } catch (err) {
+      setError("No se pudo importar el backup.");
+    } finally {
+      event.target.value = "";
+    }
   };
 
   const loadSnapshot = useCallback(async (activeAdapter: MoDataAdapter) => {
@@ -375,6 +401,20 @@ export default function AdminClient() {
             >
               Exportar backup
             </button>
+            <button
+              type="button"
+              onClick={handleImportClick}
+              className="rounded-full border border-white/10 px-4 py-2 text-xs uppercase tracking-[0.2em] text-white/70"
+            >
+              Importar backup
+            </button>
+            <input
+              ref={importInputRef}
+              type="file"
+              accept="application/json"
+              className="hidden"
+              onChange={handleImportFile}
+            />
             <div className="rounded-full border border-emerald-300/40 bg-emerald-400/10 px-4 py-2 text-xs uppercase tracking-[0.3em] text-emerald-200">
               {hotCount} calientes activos
             </div>

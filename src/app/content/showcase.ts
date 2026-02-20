@@ -18,6 +18,20 @@ export type ShowcaseItem = {
 
 export const showcase: ShowcaseItem[] = [
   {
+    slug: "rys-minisuper",
+    title: "RYS Minisúper (caso real)",
+    type: "system",
+    status: "live",
+    summary: "Tienda express con catálogo, estados y pedido por WhatsApp.",
+    detail:
+      "Mini tienda con control de stock y flujos claros para retiro en tienda.",
+    tags: ["retail", "catalogo", "whatsapp"],
+    glyph: "workflow",
+    ctaLabel: "Ver tienda",
+    ctaHref: "/RYSminisuper",
+    relatedServices: ["automatizaciones", "consultoria-implementacion"],
+  },
+  {
     slug: "bot-whatsapp-demo",
     title: "Bot WhatsApp (simulador)",
     type: "bot",

@@ -151,7 +151,7 @@
     "image": "/RYSminisuper/images/top/frijoles.webp",
     "imageKey": "frijoles",
     "isFeatured": false,
-    "status": "available"
+    "status": "soon"
   },
   {
     "id": "mo-salsa-tomate",
@@ -195,7 +195,7 @@
     "image": "/RYSminisuper/images/top/pupusas.webp",
     "imageKey": "pupusas",
     "isFeatured": true,
-    "status": "available"
+    "status": "soon"
   },
   {
     "id": "mo-sandwich",
