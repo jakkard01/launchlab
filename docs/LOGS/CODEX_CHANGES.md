@@ -99,7 +99,7 @@
 - Nota: hash final tras amend.
 
 - Fecha/Hora: 2026-02-20 02:54:29 CET
-- Commit: 86d7a7c
+- Commit: 64ec97f
 - Autor: Codex
 - Scope: src/middleware.ts, src/app/RYSminisuper/page.tsx, src/app/mo/admin/acceso/page.tsx, docs/LOGS/CODEX_CHANGES.md
 - Resumen: Se habilito index/follow en /RYSminisuper y se agrego auth admin por ADMIN_PIN/ADMIN_PASSWORD (compatibilidad MO_ADMIN_KEY) con cookie.
