@@ -24,6 +24,17 @@ const CATEGORY_ICON_BY_ID = {
   pedido_especial: "/RYSminisuper/icons/pasillos/pedido_especial.webp",
 } as const;
 
+const CATEGORY_HINT_BY_ID = {
+  caliente_hoy: "Pupusas y tostadas",
+  combos: "Arma tu combo",
+  lacteos: "Leche y queso",
+  bebidas: "Cafes y jugos",
+  abarrotes: "Basicos del dia",
+  snacks: "Dulce o salado",
+  ofertas: "Descuentos hoy",
+  pedido_especial: "Pedir algo extra",
+} as const;
+
 type CategoryIconId = keyof typeof CATEGORY_ICON_BY_ID;
 
 const normalizeCategoryId = (value: string) =>
@@ -120,21 +131,32 @@ export default function MoQuickShop({
         {aisles.map((aisle) => {
           const iconSrc = resolveCategoryIcon(aisle.id);
           const isActive = aisle.id === activeTab;
+          const hint =
+            CATEGORY_HINT_BY_ID[
+              (aisle.id === "hot" ? "caliente_hoy" : aisle.id) as CategoryIconId
+            ] ?? "";
           return (
             <button
               key={aisle.id}
               type="button"
               onClick={() => onJumpToTab(aisle.id)}
-              className={`flex items-center gap-2.5 rounded-2xl border px-3 py-2 text-left text-[12px] font-medium tracking-[0.08em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/30 active:translate-y-[1px] ${
+              className={`min-h-[88px] flex items-start justify-between gap-2.5 rounded-2xl border px-3 py-3 text-left text-[12px] font-medium tracking-[0.08em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/30 active:translate-y-[1px] ${
                 isActive
                   ? "border-[var(--accent)]/50 bg-[color-mix(in_srgb,var(--accent)_10%,transparent)] text-main shadow-[0_0_0_1px_rgba(34,197,94,0.08)]"
                   : "border-default bg-surface text-main hover:border-[var(--accent)]/25 hover:bg-base"
               }`}
             >
-              <span>{aisle.label}</span>
+              <span className="flex flex-col gap-1">
+                <span className="text-[13px] font-semibold tracking-[0.06em]">
+                  {aisle.label}
+                </span>
+                <span className="text-[10px] uppercase tracking-[0.2em] text-muted">
+                  {hint}
+                </span>
+              </span>
               {iconSrc ? (
                 <span
-                  className={`flex h-9 w-9 items-center justify-center rounded-xl border bg-[color-mix(in_srgb,var(--surface)_92%,transparent)] shadow-sm dark:bg-[color-mix(in_srgb,var(--surface)_75%,transparent)] ${
+                  className={`flex h-10 w-10 items-center justify-center rounded-xl border bg-[color-mix(in_srgb,var(--surface)_92%,transparent)] shadow-sm dark:bg-[color-mix(in_srgb,var(--surface)_75%,transparent)] ${
                     isActive
                       ? "border-[var(--accent)]/35 bg-[color-mix(in_srgb,var(--accent)_12%,transparent)]"
                       : "border-[var(--border)]/60"
@@ -144,9 +166,9 @@ export default function MoQuickShop({
                     src={iconSrc}
                     alt=""
                     aria-hidden="true"
-                    width={26}
-                    height={26}
-                    className="h-[26px] w-[26px] object-contain"
+                    width={30}
+                    height={30}
+                    className="h-[30px] w-[30px] object-contain"
                   />
                 </span>
               ) : null}
@@ -156,18 +178,25 @@ export default function MoQuickShop({
         <button
           type="button"
           onClick={onScrollToSpecial}
-          className="flex items-center gap-2.5 rounded-2xl border border-[var(--accent)]/30 bg-surface px-3 py-2 text-left text-[12px] font-medium tracking-[0.08em] text-main transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/30 active:translate-y-[1px] hover:border-[var(--accent)]/35 hover:bg-base"
+          className="min-h-[88px] flex items-start justify-between gap-2.5 rounded-2xl border border-[var(--accent)]/30 bg-surface px-3 py-3 text-left text-[12px] font-medium tracking-[0.08em] text-main transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/30 active:translate-y-[1px] hover:border-[var(--accent)]/35 hover:bg-base"
         >
-          <span>Pedido especial</span>
+          <span className="flex flex-col gap-1">
+            <span className="text-[13px] font-semibold tracking-[0.06em]">
+              Pedido especial
+            </span>
+            <span className="text-[10px] uppercase tracking-[0.2em] text-muted">
+              Pide lo que falte
+            </span>
+          </span>
           {resolveCategoryIcon("pedido_especial") ? (
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-[var(--accent)]/35 bg-[color-mix(in_srgb,var(--accent)_12%,transparent)] shadow-sm dark:bg-[color-mix(in_srgb,var(--accent)_14%,transparent)]">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--accent)]/35 bg-[color-mix(in_srgb,var(--accent)_12%,transparent)] shadow-sm dark:bg-[color-mix(in_srgb,var(--accent)_14%,transparent)]">
               <Image
                 src={resolveCategoryIcon("pedido_especial")}
                 alt=""
                 aria-hidden="true"
-                width={26}
-                height={26}
-                className="h-[26px] w-[26px] object-contain"
+                width={30}
+                height={30}
+                className="h-[30px] w-[30px] object-contain"
               />
             </span>
           ) : null}

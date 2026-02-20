@@ -7,6 +7,12 @@
   background-image: url('/imagenes/fondo/tu-fondo.png');
 }
 
+html,
+body {
+  min-height: 100%;
+  background-color: var(--bg);
+}
+
 :root {
   --bg: #F4F0E9;
   --surface: #FAF6F0;

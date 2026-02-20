@@ -121,3 +121,11 @@
 - Resumen: Se agrego poster y subtitulos al video y fallback UI con CTA.
 - Pruebas: pnpm lint, pnpm build.
 - Notas/Riesgos: Fallback visible en /web si el video falla.
+
+- Fecha/Hora: 2026-02-20 04:14:30 CET
+- Commit: TBD_HASH
+- Autor: Codex
+- Scope: src/app/mo/components/MoQuickShop.tsx, src/app/globals.css, docs/LOGS/CODEX_CHANGES.md
+- Resumen: Se mejoro jerarquia visual de pasillos y se fijo fondo full-screen en dark mode.
+- Pruebas: pnpm lint, pnpm build.
+- Notas/Riesgos: Ninguno.
