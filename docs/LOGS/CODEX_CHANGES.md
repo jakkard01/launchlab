@@ -153,3 +153,19 @@
 - Resumen: Se mejoro preview del video en /web y estilo de subtitulos.
 - Pruebas: pnpm lint, pnpm build.
 - Notas/Riesgos: Verificar poster y tracks en navegadores moviles.
+
+- Fecha/Hora: 2026-02-20 05:03:39 CET
+- Commit: ab55c0a
+- Autor: Codex
+- Scope: src/app/web/WebVideoCard.tsx, src/app/web/page.tsx, src/app/components/Hero.tsx, src/app/components/IntroOverlay.tsx, src/app/components/VideoModal.tsx, src/app/components/EmbeddedVideo.tsx, src/app/video/VideoGallery.tsx, src/components/VideoModal.tsx
+- Resumen: Se agrego poster consistente, subtitulos y fallback en /web, y se normalizo muted/track en videos locales.
+- Pruebas: pnpm lint, pnpm build.
+- Notas/Riesgos: Validar poster sin rostro en /web y modales.
+
+- Fecha/Hora: 2026-02-20 05:03:39 CET
+- Commit: 30820eb
+- Autor: Codex
+- Scope: src/app/mo/components/MoQuickShop.tsx, src/app/RYSminisuper/page.tsx
+- Resumen: Se ajustaron subtitulos de categorias y se fijo fondo global en RYS Minisuper.
+- Pruebas: pnpm lint, pnpm build.
+- Notas/Riesgos: Revisar contraste en dark mode mobile.
