@@ -23,7 +23,7 @@ export default function RysMiniSuperPage() {
 
   return (
     <CartProvider>
-      <main className="min-h-screen w-full px-4 pb-36 pt-10 sm:px-6 lg:px-8">
+      <main className="min-h-screen w-full bg-base px-4 pb-36 pt-10 text-main sm:px-6 lg:px-8">
         <MoStorefront products={products} ctaLink={ctaLink} />
         <CartUI />
       </main>

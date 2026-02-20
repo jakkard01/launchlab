@@ -25,14 +25,14 @@ const CATEGORY_ICON_BY_ID = {
 } as const;
 
 const CATEGORY_HINT_BY_ID = {
-  caliente_hoy: "Pupusas y tostadas",
-  combos: "Arma tu combo",
+  caliente_hoy: "Recien hecho",
+  combos: "Ahorra en packs",
   lacteos: "Leche y queso",
-  bebidas: "Cafes y jugos",
-  abarrotes: "Basicos del dia",
-  snacks: "Dulce o salado",
-  ofertas: "Descuentos hoy",
-  pedido_especial: "Pedir algo extra",
+  bebidas: "Frias y listas",
+  abarrotes: "Lo basico",
+  snacks: "Para picar",
+  ofertas: "Precio especial",
+  pedido_especial: "Te lo conseguimos",
 } as const;
 
 type CategoryIconId = keyof typeof CATEGORY_ICON_BY_ID;
