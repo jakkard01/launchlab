@@ -21,10 +21,21 @@ export function middleware(req: NextRequest) {
       return NextResponse.next();
     }
 
+    const pin = req.nextUrl.searchParams.get("pin");
+    const password = req.nextUrl.searchParams.get("password");
     const key = req.nextUrl.searchParams.get("key");
-    const expectedKey = process.env.MO_ADMIN_KEY ?? "";
-    if (key && expectedKey && key === expectedKey) {
+    const adminPin = process.env.ADMIN_PIN ?? "";
+    const adminPassword = process.env.ADMIN_PASSWORD ?? "";
+    const legacyKey = process.env.MO_ADMIN_KEY ?? "";
+    const isMatch =
+      (pin && adminPin && pin === adminPin) ||
+      (password && adminPassword && password === adminPassword) ||
+      (key && legacyKey && key === legacyKey);
+
+    if (isMatch) {
       const redirectUrl = req.nextUrl.clone();
+      redirectUrl.searchParams.delete("pin");
+      redirectUrl.searchParams.delete("password");
       redirectUrl.searchParams.delete("key");
 
       const res = NextResponse.redirect(redirectUrl);

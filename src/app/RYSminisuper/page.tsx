@@ -10,8 +10,8 @@ export const metadata: Metadata = {
   title: "RYS Minisúper",
   description: "Retiro en La Gloria, San Salvador.",
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
 };
 

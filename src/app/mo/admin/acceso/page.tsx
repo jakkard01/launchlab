@@ -12,6 +12,9 @@ export default function MoAdminAccessPage() {
           Este panel es solo para administracion. Si necesitas acceso, pedilo al
           responsable.
         </p>
+        <p className="mt-3 text-xs text-slate-500">
+          Acceso con PIN o password via URL (pin/password) y cookie segura.
+        </p>
         <a
           href="/RYSminisuper"
           className="mt-6 inline-flex h-11 items-center justify-center rounded-full border border-slate-200 px-5 text-sm font-semibold text-slate-600 transition hover:border-emerald-300 hover:text-emerald-700"
