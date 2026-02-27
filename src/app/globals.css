@@ -4,6 +4,14 @@
 
 /* Fondo galaxia global */
 .bg-galaxy {
+  position: relative;
+}
+
+body.bg-galaxy::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
   background-image:
     radial-gradient(circle at 20% 10%, rgba(14, 116, 144, 0.22), transparent 55%),
     radial-gradient(circle at 80% 20%, rgba(34, 211, 238, 0.18), transparent 60%),
