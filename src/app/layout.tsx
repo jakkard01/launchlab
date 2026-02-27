@@ -83,7 +83,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="es">
-      <body className="relative min-h-screen">
+      <body className="relative min-h-screen bg-galaxy">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
