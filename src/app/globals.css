@@ -3,8 +3,10 @@
 @tailwind utilities;
 
 /* Fondo galaxia global */
-.bg-galaxy {
+body.bg-galaxy {
   position: relative;
+  min-height: 100vh;
+  isolation: isolate;
 }
 
 body.bg-galaxy::before {
@@ -12,12 +14,9 @@ body.bg-galaxy::before {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background-image:
-    radial-gradient(circle at 20% 10%, rgba(14, 116, 144, 0.22), transparent 55%),
-    radial-gradient(circle at 80% 20%, rgba(34, 211, 238, 0.18), transparent 60%),
-    url('/imagenes/fondo/tu-fondo.png');
-  background-size: cover, cover, clamp(1200px, 120vw, 2200px);
-  background-position: center, center, center;
+  background-image: url('/imagenes/fondo/tu-fondo.png');
+  background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
 }
 
