@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { buildContactLink, buildWhatsappLink, siteUrl } from "../../lib/site";
+import { VIDEO_PACKS_PRICING } from "../content/pricing";
 import { videoExamples } from "../content/videoPacks";
 import VideoGallery from "./VideoGallery";
 
@@ -28,7 +29,7 @@ const videoPacks = [
   {
     name: "Pack Starter",
     cadence: "4 videos / mes",
-    price: "Inversión estimada: €450–€750 / mes",
+    price: VIDEO_PACKS_PRICING.starter.price,
     campaign: "starter",
     includes: [
       "Guion de retención (hooks + CTA)",
@@ -55,7 +56,7 @@ const videoPacks = [
   {
     name: "Pack Growth",
     cadence: "8 videos / mes",
-    price: "Inversión estimada: €950–€1,450 / mes",
+    price: VIDEO_PACKS_PRICING.growth.price,
     campaign: "growth",
     includes: [
       "Guion de retención (hooks + CTA)",
@@ -83,7 +84,7 @@ const videoPacks = [
   {
     name: "Pack Pro",
     cadence: "12-16 videos / mes",
-    price: "Inversión estimada: €1,750–€3,200 / mes",
+    price: VIDEO_PACKS_PRICING.pro.price,
     campaign: "pro",
     includes: [
       "Guion completo + storyboard simple",
