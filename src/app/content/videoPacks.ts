@@ -8,6 +8,7 @@ export type VideoExample = {
   platform: VideoPlatform;
   src: string;
   poster?: string;
+  captions?: string;
   videoId?: string;
   tags: string[];
   duration?: string;
@@ -17,37 +18,40 @@ export type VideoExample = {
 export const videoExamples: VideoExample[] = [
   {
     id: "web-conversion-hero",
-    title: "Web que convierte en 60s",
+    title: "Web que se paga sola",
     benefit: "Narrativa clara + CTA visible para cerrar leads.",
     category: "Web",
     platform: "local",
-    src: "/video/video.mp4",
-    poster: "/og.png",
+    src: "/media/galeria/v1.mp4",
+    poster: "/media/galeria/v1.jpg",
+    captions: "/media/galeria/v1.vtt",
     tags: ["conversion", "landing", "cta"],
-    duration: "0:58",
+    duration: "0:30",
     featured: true,
   },
   {
-    id: "pack-starter-placeholder",
-    title: "Pack Starter (placeholder)",
-    benefit: "Ejemplo de edición vertical con subtítulos.",
-    category: "Video Packs",
-    platform: "youtube",
-    src: "",
-    videoId: "",
-    poster: "/og.png",
-    tags: ["shorts", "subtitulos", "hooks"],
+    id: "audit-mobile",
+    title: "Auditoría móvil + performance",
+    benefit: "Detecta fugas y mejora velocidad en móvil.",
+    category: "Auditoría",
+    platform: "local",
+    src: "/media/galeria/v2.mp4",
+    poster: "/media/galeria/v2.jpg",
+    captions: "/media/galeria/v2.vtt",
+    tags: ["seo", "performance", "mobile"],
+    duration: "0:29",
   },
   {
-    id: "doblaje-placeholder",
-    title: "Doblaje multi-idioma (placeholder)",
-    benefit: "Ejemplo de doblaje con QA de timing.",
-    category: "Doblaje",
-    platform: "youtube",
-    src: "",
-    videoId: "",
-    poster: "/og.png",
-    tags: ["voiceover", "qa", "idiomas"],
+    id: "whatsapp-operator",
+    title: "WhatsApp 24/7 automatizado",
+    benefit: "Atiende, filtra y recupera clientes sin perder leads.",
+    category: "Automatización",
+    platform: "local",
+    src: "/media/galeria/v3.mp4",
+    poster: "/media/galeria/v3.jpg",
+    captions: "/media/galeria/v3.vtt",
+    tags: ["whatsapp", "bots", "automatizacion"],
+    duration: "0:26",
   },
 ];
 

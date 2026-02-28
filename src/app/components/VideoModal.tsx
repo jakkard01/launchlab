@@ -73,17 +73,18 @@ export default function VideoModal({
             playsInline
             muted
             preload="metadata"
-            poster="/video/video-poster.png"
+            poster={video.poster ?? "/video/video-poster.png"}
             onError={() => setHasError(true)}
           >
             <source src={video.src} type="video/mp4" />
-            <track
-              kind="subtitles"
-              src="/video/subs.es.vtt"
-              srcLang="es"
-              label="Español"
-              default
-            />
+            {video.captions ? (
+              <track
+                kind="subtitles"
+                src={video.captions}
+                srcLang="es"
+                label="Español"
+              />
+            ) : null}
             Tu navegador no soporta la reproducción de video.
           </video>
         )}

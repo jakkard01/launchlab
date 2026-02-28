@@ -134,18 +134,19 @@ export default function VideoGallery({ items }: { items: VideoExample[] }) {
                   playsInline
                   muted
                   preload="metadata"
-                  poster="/video/video-poster.png"
+                  poster={active.poster ?? "/video/video-poster.png"}
                   onError={() => setHasError(true)}
                   className="h-auto w-full"
                 >
                   <source src={active.src} type="video/mp4" />
-                  <track
-                    kind="subtitles"
-                    src="/video/subs.es.vtt"
-                    srcLang="es"
-                    label="Español"
-                    default
-                  />
+                  {active.captions ? (
+                    <track
+                      kind="subtitles"
+                      src={active.captions}
+                      srcLang="es"
+                      label="Español"
+                    />
+                  ) : null}
                   Tu navegador no soporta la reproducción de video.
                 </video>
               )}
