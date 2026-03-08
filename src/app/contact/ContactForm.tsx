@@ -12,6 +12,7 @@ type FormState = "idle" | "loading" | "success" | "error";
 type ApiResponse = {
   ok: boolean;
   message?: string;
+  leadId?: string;
 };
 
 export default function ContactForm({ source }: ContactFormProps) {
@@ -21,12 +22,14 @@ export default function ContactForm({ source }: ContactFormProps) {
   const [status, setStatus] = useState<FormState>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [leadId, setLeadId] = useState<string | null>(null);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus("loading");
     setErrorMessage(null);
     setSuccessMessage(null);
+    setLeadId(null);
 
     try {
       const response = await fetch("/api/contact", {
@@ -66,6 +69,7 @@ export default function ContactForm({ source }: ContactFormProps) {
         data.message ??
           "Solicitud registrada. Para atención directa, continúa por WhatsApp."
       );
+      setLeadId(data.leadId ?? null);
       setName("");
       setEmail("");
       setMessage("");
@@ -125,6 +129,11 @@ export default function ContactForm({ source }: ContactFormProps) {
         <div className="rounded-2xl border border-amber-400/40 bg-amber-400/10 px-4 py-3 text-sm text-amber-100">
           {successMessage ??
             "Solicitud registrada. Para asegurar atención, escríbenos por WhatsApp."}
+          {leadId ? (
+            <p className="mt-2 text-xs uppercase tracking-[0.2em] text-amber-200/80">
+              Ref: {leadId}
+            </p>
+          ) : null}
         </div>
       )}
       {status === "error" && (

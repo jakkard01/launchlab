@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { deliverContactLead } from "../../../lib/contact/delivery";
 import { logger } from "../../../lib/observability/logger";
 import { rateLimit } from "../../../lib/security/rateLimit";
 
@@ -94,9 +95,45 @@ export async function POST(request: Request) {
     messagePreview: truncateMessage(message),
   });
 
+  const leadId = `lead-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`;
+  const createdAt = new Date().toISOString();
+
+  try {
+    const delivered = await deliverContactLead({
+      leadId,
+      createdAt,
+      name,
+      email,
+      message,
+      source,
+      clientIp,
+    });
+
+    logger.info("Contact lead delivered", {
+      requestId,
+      leadId,
+      channel: delivered.channel,
+    });
+  } catch (error) {
+    logger.error("Contact lead delivery failed", {
+      requestId,
+      leadId,
+      message: error instanceof Error ? error.message : "Unknown error",
+    });
+    return NextResponse.json(
+      {
+        ok: false,
+        message:
+          "No pudimos registrar tu solicitud en este momento. Escríbenos por WhatsApp para atención inmediata.",
+      },
+      { status: 503 }
+    );
+  }
+
   return NextResponse.json({
     ok: true,
+    leadId,
     message:
-      "Solicitud registrada en el sistema. Para atención directa, usa también WhatsApp.",
+      "Solicitud recibida y registrada. Te responderemos por email; si urge, escríbenos por WhatsApp.",
   });
 }

@@ -40,8 +40,8 @@ export default function ContactPage({ searchParams }: ContactPageProps) {
           Conversemos sobre tu próximo sistema IA
         </h1>
         <p className="mt-4 text-base text-slate-300">
-          Respuesta en menos de 24 horas hábiles. Coordinamos una llamada breve
-          para entender objetivos y proponer un roadmap claro.
+          Recibimos tu solicitud en un canal real de leads y te respondemos por
+          email. Si necesitas respuesta inmediata, usa WhatsApp.
         </p>
 
         <ContactForm source={source} />
@@ -54,7 +54,7 @@ export default function ContactPage({ searchParams }: ContactPageProps) {
             rel="noopener noreferrer"
             aria-label="Abrir WhatsApp Business"
           >
-            WhatsApp Business (principal)
+            WhatsApp (respuesta rápida)
           </a>
           <a
             href={`mailto:${siteConfig.email}`}
