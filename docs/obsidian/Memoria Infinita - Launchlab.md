@@ -125,3 +125,29 @@
 
 ## 💰 Estrategia capital semilla (500€) — 80/20
 Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX_Vault/02_Documentacion/30_LOGS/decisiones-ia/DECISIONES_IA_2026-02.md
+
+## 2026-03-09 — Pre-deploy continuidad real (PBIA + RYS)
+- Rama: feat/pagina-hermana-live
+- Regla estratégica activa:
+  - La fuente de verdad es el repo canónico local.
+  - No usar deploy viejo para concluir estado actual.
+- PBIA (estado implementado):
+  - Intro automática de video eliminada en home (`HomeClient` ya no monta `IntroVideo` automático).
+  - Contacto ya no promete entrega confirmada; API responde como "solicitud registrada" y deriva a WhatsApp para atención directa.
+  - Pendiente conectar un destino real de leads (email/webhook/CRM) con evidencia de entrega.
+- RYS (estado implementado):
+  - Storefront y admin base funcionales.
+  - Auth por querystring eliminada.
+  - Acceso admin migrado a login server-side (`/api/mo/admin/login`) + cookie `mo_admin`.
+  - Fetch roto a `/api/mo/orders` eliminado del carrito.
+  - Enum de stock unificado a `disponible | ultimas | agotado`.
+  - Persistencia evolucionada: se retiró `localAdapter`/`supabaseAdapter`/`sheetsAdapter` y quedó un backend único por API (`apiAdapter`) con store en Google Sheets (`sheetsStore`).
+- Flujo operativo con Codex:
+  - Trabajar por bloques estables.
+  - Verificar `build` + `lint` antes de commit.
+  - Commits atómicos; no `push` automático.
+  - Registrar decisiones de continuidad en este Vault.
+- Punto de reanudación:
+  - No rehacer UI base de PBIA/RYS.
+  - Enfocar siguiente bloque en operación RYS: orden manual + imagen (cambio/subida simple) sobre backend ya consolidado.
+  - Cerrar en PBIA la integración real de destino de contactos.
