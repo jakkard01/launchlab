@@ -15,4 +15,5 @@ export type Product = {
   featuredRank?: number;
   imageUrl?: string;
   stockStatus?: "disponible" | "ultimas" | "agotado";
+  updatedAt?: string;
 };

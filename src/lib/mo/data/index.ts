@@ -1,18 +1,5 @@
-import { localAdapter } from "./localAdapter";
+import { apiAdapter } from "./apiAdapter";
 import type { MoDataAdapter } from "./types";
 
-export const getMoDataAdapter = async (): Promise<MoDataAdapter> => {
-  const backend = process.env.DATA_BACKEND ?? "local";
-
-  if (backend === "sheets") {
-    const adapterModule = await import("./sheetsAdapter");
-    return adapterModule.sheetsAdapter;
-  }
-
-  if (backend === "supabase") {
-    const adapterModule = await import("./supabaseAdapter");
-    return adapterModule.supabaseAdapter;
-  }
-
-  return localAdapter;
-};
+// Single backend path: MO client -> /api/mo/* -> Google Sheets store.
+export const getMoDataAdapter = async (): Promise<MoDataAdapter> => apiAdapter;

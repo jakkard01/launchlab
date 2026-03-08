@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import productsData from "../../data/products.json";
-import type { Product } from "../../lib/mo/types";
 import { buildWhatsAppMessageLink } from "../../lib/mo/whatsapp";
+import { getStoreProducts } from "../../lib/mo/data/sheetsStore";
 import { CartProvider } from "../mo/cart/CartContext";
 import CartUI from "../mo/cart/CartUI";
 import MoStorefront from "../mo/components/MoStorefront";
@@ -15,8 +14,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RysMiniSuperPage() {
-  const products = productsData as Product[];
+export const dynamic = "force-dynamic";
+
+export default async function RysMiniSuperPage() {
+  const products = await getStoreProducts();
   const ctaLink = buildWhatsAppMessageLink(
     "Hola RYS Minisúper, quiero hacer un pedido para retiro."
   );

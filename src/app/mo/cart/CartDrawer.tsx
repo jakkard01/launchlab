@@ -17,7 +17,6 @@ type CartDrawerProps = {
 };
 
 export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
-  const [submitting, setSubmitting] = useState(false);
   const [orderMessage, setOrderMessage] = useState<string | null>(null);
   const {
     items,
@@ -49,39 +48,10 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     [items, zone, note, paymentMethod, pickupWindow]
   );
 
-  const handleSubmit = async () => {
-    if (items.length === 0 || submitting) return;
-    setSubmitting(true);
-    setOrderMessage(null);
-    try {
-      const res = await fetch("/api/mo/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          items: items.map((item) => ({
-            id: item.id,
-            name: item.name,
-            qty: item.qty,
-            price: item.price,
-          })),
-          zone,
-          note,
-          paymentMethod,
-          pickupWindow,
-          totalEstimate: total,
-        }),
-      });
-      const data = (await res.json()) as { ok: boolean; orderId?: string; message?: string };
-      if (!res.ok || !data.ok) {
-        throw new Error(data.message ?? "No se pudo registrar el pedido");
-      }
-      setOrderMessage(`Pedido ${data.orderId} registrado`);
-      clearCart();
-    } catch (error) {
-      setOrderMessage((error as Error).message);
-    } finally {
-      setSubmitting(false);
-    }
+  const handleSubmit = () => {
+    if (items.length === 0) return;
+    setOrderMessage("Pedido preparado. Continúa la confirmación en WhatsApp.");
+    clearCart();
   };
 
   if (!isOpen) return null;
@@ -236,9 +206,8 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               rel="noopener noreferrer"
               aria-label="Completar pedido en WhatsApp"
               onClick={handleSubmit}
-              style={{ pointerEvents: submitting ? "none" : "auto", opacity: submitting ? 0.7 : 1 }}
             >
-              {submitting ? "Registrando..." : "Completar pedido en WhatsApp"}
+              Completar pedido en WhatsApp
             </a>
             {orderMessage ? (
               <p className="text-xs text-[var(--accent)]">{orderMessage}</p>

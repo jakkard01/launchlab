@@ -76,6 +76,7 @@ export type MoDataAdapter = {
   getAdminSnapshot: () => Promise<AdminSnapshot>;
   updateStock: (id: string, status: StockStatus) => Promise<void>;
   updatePrice: (id: string, price: string) => Promise<void>;
+  updateFeatured: (id: string, isFeatured: boolean) => Promise<void>;
   updatePromo: (id: string, enabled: boolean, percent: number) => Promise<void>;
   updateStatus: (id: string, status: ProductStatus) => Promise<void>;
   importBackup: (backup: Partial<AdminSnapshot>) => Promise<void>;

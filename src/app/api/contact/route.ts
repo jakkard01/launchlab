@@ -94,5 +94,9 @@ export async function POST(request: Request) {
     messagePreview: truncateMessage(message),
   });
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({
+    ok: true,
+    message:
+      "Solicitud registrada en el sistema. Para atención directa, usa también WhatsApp.",
+  });
 }

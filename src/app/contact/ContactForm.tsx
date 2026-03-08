@@ -20,11 +20,13 @@ export default function ContactForm({ source }: ContactFormProps) {
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<FormState>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus("loading");
     setErrorMessage(null);
+    setSuccessMessage(null);
 
     try {
       const response = await fetch("/api/contact", {
@@ -60,6 +62,10 @@ export default function ContactForm({ source }: ContactFormProps) {
 
       setStatus("success");
       trackEvent("contact_submit_ok", { source });
+      setSuccessMessage(
+        data.message ??
+          "Solicitud registrada. Para atención directa, continúa por WhatsApp."
+      );
       setName("");
       setEmail("");
       setMessage("");
@@ -116,8 +122,9 @@ export default function ContactForm({ source }: ContactFormProps) {
       </div>
 
       {status === "success" && (
-        <div className="rounded-2xl border border-emerald-400/40 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-200">
-          Mensaje enviado. Si no recibes respuesta en 24h hábiles, escríbenos por WhatsApp.
+        <div className="rounded-2xl border border-amber-400/40 bg-amber-400/10 px-4 py-3 text-sm text-amber-100">
+          {successMessage ??
+            "Solicitud registrada. Para asegurar atención, escríbenos por WhatsApp."}
         </div>
       )}
       {status === "error" && (

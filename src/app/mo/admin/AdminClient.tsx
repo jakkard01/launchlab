@@ -256,6 +256,21 @@ export default function AdminClient() {
     }
   };
 
+  const updateFeatured = async (id: string, isFeatured: boolean) => {
+    if (!adapter) return;
+    setProducts((prev) =>
+      prev.map((product) =>
+        product.id === id ? { ...product, isFeatured } : product
+      )
+    );
+    try {
+      await adapter.updateFeatured(id, isFeatured);
+    } catch (err) {
+      setError("No se pudo actualizar el destacado.");
+      await reloadAll(adapter);
+    }
+  };
+
   const updateStatus = async (id: string, nextStatus: ProductStatus) => {
     if (!adapter) return;
     setStatus((prev) => ({ ...prev, [id]: nextStatus }));
@@ -583,7 +598,7 @@ export default function AdminClient() {
                         className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
                       >
                         <option value="disponible">Disponible</option>
-                        <option value="limitado">Limitado</option>
+                        <option value="ultimas">Ultimas</option>
                         <option value="agotado">Agotado</option>
                       </select>
                     </label>
@@ -608,6 +623,23 @@ export default function AdminClient() {
                         }
                         className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
                       />
+                    </label>
+
+                    <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                      Destacado
+                      <select
+                        value={product.isFeatured ? "si" : "no"}
+                        onChange={(event) =>
+                          updateFeatured(
+                            product.id,
+                            event.target.value === "si"
+                          )
+                        }
+                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                      >
+                        <option value="no">No</option>
+                        <option value="si">Si</option>
+                      </select>
                     </label>
 
                     <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
