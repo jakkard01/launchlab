@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { buildContactLink, buildWhatsappLink, siteUrl } from "../../lib/site";
+import StickyMobileActionBar from "../components/StickyMobileActionBar";
 import WebVideoCard from "./WebVideoCard";
 
 export const metadata: Metadata = {
@@ -128,8 +129,17 @@ const ecommerceAddon = {
 };
 
 export default function WebPage() {
+  const stickyWhatsappLink = buildWhatsappUtmLink(
+    "web",
+    "sticky_mobile",
+    "Quiero una página web."
+  );
+  const stickyContactLink = buildContactLink("web", {
+    utm_campaign: "sticky_mobile",
+  });
+
   return (
-    <main className="min-h-screen w-full px-4 pb-20 pt-28 sm:px-6 lg:px-8">
+    <main className="min-h-screen w-full px-4 pb-36 pt-28 sm:px-6 lg:px-8">
       <section className="mx-auto w-full max-w-6xl">
         <div className="rounded-[32px] border border-white/10 bg-black/65 p-8 shadow-2xl">
           <p className="text-xs uppercase tracking-[0.4em] text-cyan-200/80">
@@ -493,6 +503,12 @@ export default function WebPage() {
           </div>
         </div>
       </section>
+      <StickyMobileActionBar
+        primaryHref={stickyWhatsappLink}
+        primaryLabel="WhatsApp"
+        secondaryHref={stickyContactLink}
+        secondaryLabel="Reservar"
+      />
     </main>
   );
 }

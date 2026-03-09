@@ -312,3 +312,56 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
 - Punto de reanudación:
   - corregir credenciales/permisos de Google service account en Vercel y en la hoja;
   - validar `GET /api/mo/products` y `GET /api/mo/admin` en `200` con cookie activa.
+
+## 2026-03-09 — Fix crítico post-deploy (Sheets + contacto + CTA móvil)
+- Rama: feat/pagina-hermana-live
+- Diagnóstico real confirmado con env de producción + prueba directa a Google OAuth:
+  - `GOOGLE_SERVICE_ACCOUNT_EMAIL` en producción estaba configurado como placeholder `launchlab...@tu-proyecto.iam.gserviceaccount.com`.
+  - Prueba contra `https://oauth2.googleapis.com/token` devolvió:
+    - `invalid_grant`
+    - `Invalid grant: account not found`
+  - Esto aísla la causa exacta:
+    - no era `spreadsheetId`;
+    - no era solo `\\n`;
+    - la cuenta de servicio configurada no existe o no coincide con la clave.
+- Fix aplicado en código:
+  - normalización unificada de `GOOGLE_SERVICE_ACCOUNT_EMAIL` y `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY`:
+    - quita comillas envolventes;
+    - convierte `\\n` a saltos reales;
+    - valida encabezado/cola PEM;
+    - detecta placeholder en email.
+  - APIs RYS ahora devuelven códigos diagnósticos más precisos:
+    - `SHEETS_SERVICE_ACCOUNT_PLACEHOLDER`
+    - `SHEETS_SERVICE_ACCOUNT_NOT_FOUND`
+    - `SHEETS_PRIVATE_KEY_FORMAT`
+    - `SHEETS_PRIVATE_KEY_INVALID`
+- Fix aplicado en contacto:
+  - formulario y backend separan:
+    - `CONTACT_RATE_LIMITED`
+    - `CONTACT_MESSAGE_TOO_SHORT`
+    - `CONTACT_SPAM_BLOCKED`
+    - `CONTACT_DELIVERY_FAILED`
+  - se eliminó el mensaje genérico que mezclaba cualquier fallo con anti-spam/rate limit.
+  - heurística anti-spam quedó más conservadora:
+    - honeypot;
+    - 2+ enlaces;
+    - texto claramente repetitivo;
+    - pitch sospechoso con enlaces.
+  - mensaje humano corto normal tipo `hola, soy Gerry y quiero una web` queda permitido.
+- Fix aplicado en mobile CTA:
+  - nueva barra sticky móvil dual (`WhatsApp` + `Reservar`) en:
+    - `/video`
+    - `/web`
+    - `/bots`
+    - `/ops`
+  - `pb` ampliado para no tapar contenido final.
+- Acción operativa pendiente fuera del repo:
+  1. Reemplazar en Vercel `GOOGLE_SERVICE_ACCOUNT_EMAIL` por el `client_email` real.
+  2. Reemplazar `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` por la `private_key` de esa misma cuenta.
+  3. Verificar hoja compartida con esa service account.
+- Verificación objetivo después del redeploy:
+  - `GET /api/mo/products` -> `200`
+  - `/RYSminisuper` sin banner fallback
+  - `/RYSminisuper/admin/acceso` + snapshot admin -> `200`
+  - `POST /api/contact` con lead humano -> `200` + `leadId`
+  - CTAs móviles visibles en `/video` y páginas comerciales largas

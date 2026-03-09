@@ -1,5 +1,30 @@
 # Deploy Tonight — PBIA + RYS (Google Sheets)
 
+## 0) Diagnóstico real detectado el 2026-03-09
+
+### Causa exacta del `invalid_grant` en producción
+- `GET https://oauth2.googleapis.com/token` responde:
+  - `invalid_grant`
+  - `error_description=Invalid grant: account not found`
+- La variable `GOOGLE_SERVICE_ACCOUNT_EMAIL` en producción estaba apuntando a un placeholder (`launchlab...@tu-proyecto.iam.gserviceaccount.com`), no a una service account real.
+- Consecuencia:
+  - falla `GET /api/mo/products`
+  - falla snapshot/admin de `/RYSminisuper/admin`
+  - también queda roto el delivery a Google Sheets del formulario si intenta usar la misma credencial
+
+### Fix mínimo correcto
+1. Sustituir en Vercel `GOOGLE_SERVICE_ACCOUNT_EMAIL` por el `client_email` real del JSON de la service account activa.
+2. Sustituir `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` por la `private_key` de esa misma cuenta.
+3. Mantener la clave con `\\n` escapados si se pega en una sola línea; el runtime ya la normaliza.
+4. Confirmar que la hoja RYS está compartida con ese `client_email`.
+5. Confirmar que `RYS_SHEETS_SPREADSHEET_ID` y `PBIA_LEADS_SHEETS_SPREADSHEET_ID` siguen apuntando a hojas válidas.
+
+### Verificación mínima tras corregir Vercel
+- `GET /api/mo/products` -> `200`
+- `/RYSminisuper` sin banner de respaldo
+- login en `/RYSminisuper/admin/acceso` + `GET /api/mo/admin` -> `200`
+- `POST /api/contact` con mensaje humano normal -> `200` + `leadId`
+
 ## 1) PBIA Leads (formulario)
 
 ### Endpoint
@@ -103,6 +128,18 @@ pnpm -s build || npm run build
 npm run lint
 ```
 
+## 4.1) Qué diagnostica ahora el backend
+- `SHEETS_SERVICE_ACCOUNT_PLACEHOLDER`
+  - `GOOGLE_SERVICE_ACCOUNT_EMAIL` sigue con placeholder o valor no real.
+- `SHEETS_SERVICE_ACCOUNT_NOT_FOUND`
+  - Google no encuentra la cuenta (`invalid_grant: account not found`).
+- `SHEETS_PRIVATE_KEY_FORMAT`
+  - la PEM no empieza/termina correctamente.
+- `SHEETS_PRIVATE_KEY_INVALID`
+  - la PEM no se puede decodificar o no coincide con la cuenta.
+- `SHEETS_INVALID_GRANT`
+  - credencial inválida/revocada sin detalle adicional.
+
 ## 5) Checklist post-deploy (mínimo)
 1. Homepage PBIA carga sin errores.
 2. Formulario PBIA devuelve `200` y `leadId`.
@@ -140,6 +177,9 @@ npm run lint
   - `503`: faltan credenciales admin (`ADMIN_PASSWORD` / `ADMIN_PIN` / `MO_ADMIN_KEY`).
 - Paso 2: carga de snapshot (`GET /api/mo/admin`) con cookie `mo_admin`
   - `401/403`: cookie inválida o sin sesión activa.
+  - `500` + `code=SHEETS_SERVICE_ACCOUNT_PLACEHOLDER`: email configurado como placeholder.
+  - `500` + `code=SHEETS_SERVICE_ACCOUNT_NOT_FOUND`: Google no encuentra la service account configurada.
+  - `500` + `code=SHEETS_PRIVATE_KEY_FORMAT` o `SHEETS_PRIVATE_KEY_INVALID`: PEM mal formateada o desalineada.
   - `500` + `code=SHEETS_INVALID_GRANT`: credenciales de Google inválidas/permisos rotos.
   - `500` + `code=SHEETS_NOT_CONFIGURED`: faltan variables de Sheets.
   - `500` + `code=SHEETS_SCHEMA_INVALID`: columnas/pestañas no coinciden.
@@ -147,3 +187,24 @@ npm run lint
   - `POST /api/mo/admin/login`
   - `GET /api/mo/admin`
   - `GET /api/mo/products`
+
+## 9) Contacto y anti-spam
+- Validaciones diferenciadas:
+  - `CONTACT_RATE_LIMITED`
+  - `CONTACT_MESSAGE_TOO_SHORT`
+  - `CONTACT_SPAM_BLOCKED`
+  - `CONTACT_DELIVERY_FAILED`
+- El formulario ya no muestra “spam/rate limit” como cajón desastre cuando falla la entrega real del lead.
+- Mensaje humano normal esperado para prueba:
+  - `hola, soy Gerry y quiero una web`
+
+## 10) CTA móvil
+- Rutas con barra sticky móvil dual (`WhatsApp` + `Reservar`):
+  - `/video`
+  - `/web`
+  - `/bots`
+  - `/ops`
+- Validación móvil:
+  - los CTAs siguen visibles al hacer scroll largo
+  - no tapan contenido final
+  - respetan safe-area y no pelean con el FAB
