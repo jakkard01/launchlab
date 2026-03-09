@@ -1,4 +1,8 @@
 import { createSign } from "crypto";
+import {
+  formatGoogleTokenError,
+  getGoogleServiceAccountConfig,
+} from "../google/serviceAccount";
 
 export type ContactLead = {
   leadId: string;
@@ -32,18 +36,11 @@ const base64Url = (value: string | Buffer) =>
     .replace(/=+$/g, "");
 
 const getSheetsConfig = () => {
-  const spreadsheetId = process.env.PBIA_LEADS_SHEETS_SPREADSHEET_ID ?? "";
-  const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL ?? "";
-  const privateKey = (process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY ?? "").replace(
-    /\\n/g,
-    "\n"
-  );
-
-  if (!spreadsheetId || !clientEmail || !privateKey) {
-    return null;
-  }
-
-  return { spreadsheetId, clientEmail, privateKey };
+  return getGoogleServiceAccountConfig({
+    spreadsheetIdEnv: "PBIA_LEADS_SHEETS_SPREADSHEET_ID",
+    spreadsheetLabel: "PBIA leads",
+    allowMissing: true,
+  });
 };
 
 const createSignedJwt = (clientEmail: string, privateKey: string) => {
@@ -77,12 +74,14 @@ const getAccessToken = async (clientEmail: string, privateKey: string) => {
     }),
     cache: "no-store",
   });
-  const data = (await response.json()) as { access_token?: string; error?: string };
+  const data = (await response.json()) as {
+    access_token?: string;
+    error?: string;
+    error_description?: string;
+  };
 
   if (!response.ok || !data.access_token) {
-    throw new Error(
-      `No se pudo obtener token de Google Sheets${data.error ? `: ${data.error}` : "."}`
-    );
+    throw new Error(formatGoogleTokenError(data.error ?? "", data.error_description));
   }
 
   return data.access_token;

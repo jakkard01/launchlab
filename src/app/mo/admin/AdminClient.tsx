@@ -52,6 +52,15 @@ const describePanelLoadError = (error: unknown) => {
     if (error.status === 401 || error.status === 403) {
       return "Sesión inválida o acceso denegado. Vuelve a iniciar sesión en /RYSminisuper/admin/acceso.";
     }
+    if (error.code === "SHEETS_SERVICE_ACCOUNT_PLACEHOLDER") {
+      return "GOOGLE_SERVICE_ACCOUNT_EMAIL sigue con un placeholder en producción. Sustitúyelo por el client_email real del JSON de Google Cloud.";
+    }
+    if (error.code === "SHEETS_PRIVATE_KEY_FORMAT" || error.code === "SHEETS_PRIVATE_KEY_INVALID") {
+      return "La clave privada de Google Sheets está mal formateada. Revisa comillas envolventes, saltos de línea \\n y que la clave pertenezca a la misma service account.";
+    }
+    if (error.code === "SHEETS_SERVICE_ACCOUNT_NOT_FOUND") {
+      return "Google responde 'account not found': la cuenta de servicio configurada no existe o no coincide con la clave privada. Corrige GOOGLE_SERVICE_ACCOUNT_EMAIL/PRIVATE_KEY en producción.";
+    }
     if (error.code === "SHEETS_INVALID_GRANT" || error.code === "SHEETS_AUTH_FAILED") {
       return "No se pudo autenticar con Google Sheets (credenciales inválidas o permiso faltante). Revisa GOOGLE_SERVICE_ACCOUNT_* y comparte la hoja con la cuenta de servicio.";
     }

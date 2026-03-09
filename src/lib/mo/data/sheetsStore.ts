@@ -1,5 +1,9 @@
 import { createSign } from "crypto";
 import productsSeed from "../../../data/products.json";
+import {
+  formatGoogleTokenError,
+  getGoogleServiceAccountConfig,
+} from "../../google/serviceAccount";
 import type { Product, ProductStatus } from "../types";
 import type {
   AdminSnapshot,
@@ -84,20 +88,10 @@ const base64Url = (value: string | Buffer) =>
     .replace(/=+$/g, "");
 
 const getSheetsConfig = () => {
-  const spreadsheetId = process.env.RYS_SHEETS_SPREADSHEET_ID ?? "";
-  const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL ?? "";
-  const privateKey = (process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY ?? "").replace(
-    /\\n/g,
-    "\n"
-  );
-
-  if (!spreadsheetId || !clientEmail || !privateKey) {
-    throw new Error(
-      "Google Sheets no configurado. Define RYS_SHEETS_SPREADSHEET_ID, GOOGLE_SERVICE_ACCOUNT_EMAIL y GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY."
-    );
-  }
-
-  return { spreadsheetId, clientEmail, privateKey };
+  return getGoogleServiceAccountConfig({
+    spreadsheetIdEnv: "RYS_SHEETS_SPREADSHEET_ID",
+    spreadsheetLabel: "RYS",
+  });
 };
 
 const createSignedJwt = () => {
@@ -137,12 +131,14 @@ const getAccessToken = async () => {
     cache: "no-store",
   });
 
-  const data = (await response.json()) as { access_token?: string; error?: string };
+  const data = (await response.json()) as {
+    access_token?: string;
+    error?: string;
+    error_description?: string;
+  };
 
   if (!response.ok || !data.access_token) {
-    throw new Error(
-      `No se pudo obtener token de Google Sheets${data.error ? `: ${data.error}` : "."}`
-    );
+    throw new Error(formatGoogleTokenError(data.error ?? "", data.error_description));
   }
 
   return data.access_token;
