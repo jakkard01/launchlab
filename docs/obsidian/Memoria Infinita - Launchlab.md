@@ -151,3 +151,48 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
   - No rehacer UI base de PBIA/RYS.
   - Enfocar siguiente bloque en operación RYS: orden manual + imagen (cambio/subida simple) sobre backend ya consolidado.
   - Cerrar en PBIA la integración real de destino de contactos.
+
+## 2026-03-09 — PBIA leads reales + RYS Sheets operativo (bloque siguiente)
+- Rama: feat/pagina-hermana-live
+- Commits:
+  - `226aa8e` feat(pbia): deliver contact leads to webhook/sheets and tighten contact trust copy
+  - `8470d66` feat(rys): add sheets sort/image controls and expand editable seed catalog
+
+### PBIA estado nuevo
+- `/api/contact` ahora intenta entrega real del lead con prioridad:
+  1) `CONTACT_WEBHOOK_URL` (opcional `CONTACT_WEBHOOK_TOKEN`)
+  2) Google Sheets (`pbia_leads`) usando service account
+- Si no existe destino configurado, la API devuelve error (ya no finge entrega).
+- El formulario muestra referencia `leadId` cuando el registro se entrega.
+- Copy de contacto ajustado a expectativa real (email + WhatsApp urgente).
+
+### RYS estado nuevo
+- Backend único activo: Google Sheets via `sheetsStore` + `/api/mo/*`.
+- Esquema `products` ahora soporta y usa:
+  - `id`, `name`, `category`, `sortOrder`, `price`, `description`, `image`, `isFeatured`, `status`, `stockStatus`, `updatedAt`
+  - (se mantiene `imageKey` por compatibilidad visual)
+- Storefront:
+  - filtra ocultos (`status=hidden`)
+  - ordena por `sortOrder` y luego nombre
+- Admin:
+  - edición real de `Estado` (incluye ocultar/mostrar),
+  - `Stock`,
+  - `Precio`,
+  - `Destacado`,
+  - `Orden catálogo` (`sortOrder`),
+  - `Imagen URL` (`image`)
+
+### Catálogo semilla
+- `src/data/products.json` ampliado a base amplia de minisúper de barrio.
+- Incluye `sortOrder` y `stockStatus` desde semilla.
+- Precios declarados como base editable (no definitivos del negocio).
+
+### Reglas operativas para la hermana
+- Para ocultar producto: en admin, `Estado -> Oculto`.
+- Para reordenar: ajustar `Orden catálogo` (número menor sale antes).
+- Para cambiar imagen: editar `Imagen URL` (ruta local o URL externa).
+- Para precio/stock/destacado: usar campos directos y verificar en storefront tras guardar.
+
+### Punto de reanudación
+- PBIA: validar credenciales reales del destino de leads en entorno y probar flujo end-to-end.
+- RYS: siguiente bloque en orden manual más fino y flujo de imagen (subida simple + fallback de URL).

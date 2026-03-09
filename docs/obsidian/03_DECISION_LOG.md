@@ -9,3 +9,7 @@
 - 2026-03-09: Flujo de ejecución con Codex: bloques estables, `build`/`lint` antes de commit, commit atómico, sin `push` automático.
 - 2026-03-09: RYS queda en backend único por API (`apiAdapter`) con store de Google Sheets (`sheetsStore`); se retiran adapters legacy ambiguos.
 - 2026-03-09: PBIA contacto ajustado a "solicitud registrada" mientras no exista evidencia de delivery real de leads.
+- 2026-03-09: PBIA contacto con delivery real configurable (webhook o Google Sheets `pbia_leads`); si no hay destino configurado, falla explícitamente.
+- 2026-03-09: RYS `products` incorpora `sortOrder` editable + orden estable en storefront/admin.
+- 2026-03-09: RYS admin incorpora edición de `image` por URL y mantiene ocultar/mostrar con `status`.
+- 2026-03-09: Catálogo semilla RYS se amplía como base editable (precios iniciales no definitivos).
