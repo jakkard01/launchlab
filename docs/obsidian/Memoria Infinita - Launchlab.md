@@ -297,3 +297,18 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
     - detección explícita de fallback vs datos en vivo.
 - Punto de reanudación:
   - con credenciales Sheets reales cargadas, ejecutar prueba admin completa y validar persistencia cross-sesión sin banner de respaldo.
+
+## 2026-03-09 — Post-deploy admin RYS (login + errores claros + móvil)
+- Diagnóstico real en producción:
+  - `POST /api/mo/admin/login` con clave incorrecta responde `401` y `Clave incorrecta.`.
+  - `GET /api/mo/products` responde `500` con `No se pudo obtener token de Google Sheets: invalid_grant`.
+  - Causa operativa actual: backend Sheets en producción falla autenticación de service account (`invalid_grant`), y eso afecta carga de snapshot/admin.
+- Ajustes implementados:
+  - Login admin: mostrar/ocultar clave + estado `Validando acceso...` + mensajes claros por `401/403`.
+  - API login admin: respuestas explícitas para `403` (admin deshabilitado) y `503` (sin credenciales admin).
+  - API admin: incluye `code` en errores (`SHEETS_INVALID_GRANT`, `SHEETS_NOT_CONFIGURED`, `SHEETS_SCHEMA_INVALID`, etc.).
+  - UI admin: mensaje de carga fallida ahora es accionable y distingue auth/sheets/schema.
+  - Modal/video móvil: bloqueo de scroll de fondo + botón `Cerrar` siempre visible + cierre por tap fuera.
+- Punto de reanudación:
+  - corregir credenciales/permisos de Google service account en Vercel y en la hoja;
+  - validar `GET /api/mo/products` y `GET /api/mo/admin` en `200` con cookie activa.

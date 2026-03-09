@@ -30,6 +30,25 @@ export const runtime = "nodejs";
 
 const isMoAdmin = () => cookies().get("mo_admin")?.value === "1";
 
+const toApiError = (error: unknown, fallbackMessage: string) => {
+  const message = error instanceof Error ? error.message : fallbackMessage;
+  let code = "ADMIN_BACKEND_ERROR";
+
+  if (message.includes("Google Sheets no configurado")) {
+    code = "SHEETS_NOT_CONFIGURED";
+  } else if (message.includes("invalid_grant")) {
+    code = "SHEETS_INVALID_GRANT";
+  } else if (message.includes("No se pudo obtener token de Google Sheets")) {
+    code = "SHEETS_AUTH_FAILED";
+  } else if (message.includes("Unable to parse range") || message.includes("Range")) {
+    code = "SHEETS_SCHEMA_RANGE_ERROR";
+  } else if (message.includes("Esquema inválido")) {
+    code = "SHEETS_SCHEMA_INVALID";
+  }
+
+  return { message, code };
+};
+
 type AdminAction =
   | { action: "updateStock"; id: string; status: StockStatus }
   | { action: "updatePrice"; id: string; price: string }
@@ -62,11 +81,9 @@ export async function GET(request: Request) {
     const snapshot = await getAdminSnapshot();
     return NextResponse.json(snapshot);
   } catch (error) {
+    const apiError = toApiError(error, "No se pudo leer Google Sheets.");
     return NextResponse.json(
-      {
-        message:
-          error instanceof Error ? error.message : "No se pudo leer Google Sheets.",
-      },
+      apiError,
       { status: 500 }
     );
   }
@@ -129,11 +146,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ ok: true });
   } catch (error) {
+    const apiError = toApiError(error, "No se pudo escribir Google Sheets.");
     return NextResponse.json(
-      {
-        message:
-          error instanceof Error ? error.message : "No se pudo escribir Google Sheets.",
-      },
+      apiError,
       { status: 500 }
     );
   }

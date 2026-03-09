@@ -21,6 +21,15 @@ export default function VideoModal({
   const whatsappLink = buildWhatsappLink('video_modal', 'Quiero ejemplos de video.');
 
   useEffect(() => {
+    if (!isOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
     if (!isOpen || !videoRef.current) return;
     videoRef.current.play().catch(() => {
       console.warn('Autoplay bloqueado');
@@ -34,8 +43,23 @@ export default function VideoModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black bg-opacity-80 backdrop-blur-md flex items-center justify-center">
-      <div className="w-full max-w-2xl p-4 bg-gray-900 rounded-2xl shadow-2xl">
+    <div
+      className="fixed inset-0 z-50 bg-black bg-opacity-80 backdrop-blur-md flex items-center justify-center"
+      onClick={onClose}
+      role="presentation"
+    >
+      <div
+        className="relative w-full max-w-2xl p-4 bg-gray-900 rounded-2xl shadow-2xl"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute right-3 top-3 z-10 rounded-full border border-white/25 bg-black/60 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-white"
+          aria-label="Cerrar video"
+        >
+          Cerrar
+        </button>
         {hasError ? (
           <div className="rounded-xl border border-white/10 bg-black/70 px-6 py-8 text-center text-sm text-white/80">
             <p>No se pudo cargar el video.</p>

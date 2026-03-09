@@ -1,10 +1,24 @@
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
+  if (process.env.MO_ADMIN_ENABLED !== "1") {
+    return NextResponse.json(
+      { ok: false, message: "Acceso denegado. Admin deshabilitado." },
+      { status: 403 }
+    );
+  }
+
   const { password } = (await request.json()) as { password?: string };
   const adminPassword = process.env.ADMIN_PASSWORD ?? "";
   const adminPin = process.env.ADMIN_PIN ?? "";
   const legacyKey = process.env.MO_ADMIN_KEY ?? "";
+
+  if (!adminPassword && !adminPin && !legacyKey) {
+    return NextResponse.json(
+      { ok: false, message: "Admin sin credenciales configuradas." },
+      { status: 503 }
+    );
+  }
 
   const isValid =
     (adminPassword.length > 0 && password === adminPassword) ||

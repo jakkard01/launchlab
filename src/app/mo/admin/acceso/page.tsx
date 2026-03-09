@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 export default function MoAdminAccessPage() {
   const router = useRouter();
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -26,7 +27,13 @@ export default function MoAdminAccessPage() {
       const data = (await response.json()) as { ok?: boolean; message?: string };
 
       if (!response.ok || !data.ok) {
-        setError(data.message ?? "No se pudo iniciar sesión.");
+        if (response.status === 401) {
+          setError("Clave incorrecta. Verifica la clave admin e intenta de nuevo.");
+        } else if (response.status === 403) {
+          setError("Acceso denegado. El panel admin no está habilitado.");
+        } else {
+          setError(data.message ?? "No se pudo iniciar sesión.");
+        }
         return;
       }
 
@@ -57,15 +64,28 @@ export default function MoAdminAccessPage() {
           <label className="block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
             Clave admin
           </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            className="h-12 w-full rounded-2xl border border-slate-200 px-4 text-sm text-slate-900 outline-none focus:border-emerald-400"
-            placeholder="Ingresa la clave"
-            autoComplete="current-password"
-            required
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              className="h-12 w-full rounded-2xl border border-slate-200 px-4 pr-24 text-sm text-slate-900 outline-none focus:border-emerald-400"
+              placeholder="Ingresa la clave"
+              autoComplete="current-password"
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((value) => !value)}
+              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:border-emerald-300 hover:text-emerald-700"
+              aria-label={showPassword ? "Ocultar clave" : "Mostrar clave"}
+            >
+              {showPassword ? "Ocultar" : "Mostrar"}
+            </button>
+          </div>
+          {submitting ? (
+            <p className="text-xs text-slate-500">Validando acceso...</p>
+          ) : null}
           {error ? (
             <p className="text-sm text-rose-600">{error}</p>
           ) : null}

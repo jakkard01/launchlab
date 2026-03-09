@@ -23,6 +23,18 @@ type AdminAction =
   | { action: "removeOrder"; id: string }
   | { action: "logDailySales"; entry: DailySalesInput };
 
+export class MoApiError extends Error {
+  status: number;
+  code?: string;
+
+  constructor(message: string, status: number, code?: string) {
+    super(message);
+    this.name = "MoApiError";
+    this.status = status;
+    this.code = code;
+  }
+}
+
 const fetchJson = async <T>(input: RequestInfo, init?: RequestInit): Promise<T> => {
   const response = await fetch(input, {
     ...init,
@@ -33,10 +45,14 @@ const fetchJson = async <T>(input: RequestInfo, init?: RequestInit): Promise<T> 
     },
   });
 
-  const data = (await response.json()) as T & { message?: string };
+  const data = (await response.json()) as T & { message?: string; code?: string };
 
   if (!response.ok) {
-    throw new Error(data.message ?? "No se pudo completar la operación.");
+    throw new MoApiError(
+      data.message ?? "No se pudo completar la operación.",
+      response.status,
+      data.code
+    );
   }
 
   return data;

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Product, ProductStatus } from "../../../lib/mo/types";
 import { getMoDataAdapter } from "../../../lib/mo/data";
+import { MoApiError } from "../../../lib/mo/data/apiAdapter";
 import {
   getEffectivePriceValue,
   getPromoLabel,
@@ -44,6 +45,33 @@ const hotLabels: Record<HotStatus, string> = {
   listo: "Listo",
   se_acabo: "Se acabo",
   hoy_no_hicimos: "Hoy no hicimos",
+};
+
+const describePanelLoadError = (error: unknown) => {
+  if (error instanceof MoApiError) {
+    if (error.status === 401 || error.status === 403) {
+      return "Sesión inválida o acceso denegado. Vuelve a iniciar sesión en /RYSminisuper/admin/acceso.";
+    }
+    if (error.code === "SHEETS_INVALID_GRANT" || error.code === "SHEETS_AUTH_FAILED") {
+      return "No se pudo autenticar con Google Sheets (credenciales inválidas o permiso faltante). Revisa GOOGLE_SERVICE_ACCOUNT_* y comparte la hoja con la cuenta de servicio.";
+    }
+    if (error.code === "SHEETS_NOT_CONFIGURED") {
+      return "Google Sheets no está configurado en producción. Define RYS_SHEETS_SPREADSHEET_ID, GOOGLE_SERVICE_ACCOUNT_EMAIL y GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY.";
+    }
+    if (error.code === "SHEETS_SCHEMA_INVALID" || error.code === "SHEETS_SCHEMA_RANGE_ERROR") {
+      return `El esquema de Google Sheets no coincide con lo esperado. Detalle: ${error.message}`;
+    }
+    return error.message || "No se pudo cargar el panel.";
+  }
+
+  if (error instanceof Error) {
+    if (error.message.includes("Unauthorized")) {
+      return "Sesión inválida o acceso denegado. Vuelve a iniciar sesión en /RYSminisuper/admin/acceso.";
+    }
+    return `No se pudo cargar el panel. Detalle: ${error.message}`;
+  }
+
+  return "No se pudo cargar el panel.";
 };
 
 export default function AdminClient() {
@@ -152,7 +180,8 @@ export default function AdminClient() {
         setError(null);
       } catch (err) {
         if (!active) return;
-        setError("No se pudo cargar el panel.");
+        console.error("RYS admin load error", err);
+        setError(describePanelLoadError(err));
       } finally {
         if (active) setLoading(false);
       }
@@ -464,10 +493,28 @@ export default function AdminClient() {
 
   if (error) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-black">
-        <p className="text-sm uppercase tracking-[0.4em] text-rose-300">
-          {error}
-        </p>
+      <div className="flex min-h-screen items-center justify-center bg-black px-4">
+        <div className="max-w-xl rounded-2xl border border-rose-300/30 bg-rose-950/30 p-5 text-rose-100">
+          <p className="text-xs uppercase tracking-[0.3em] text-rose-200/80">
+            No se pudo cargar el panel
+          </p>
+          <p className="mt-3 text-sm leading-relaxed">{error}</p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={() => window.location.reload()}
+              className="rounded-full border border-rose-200/40 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-rose-100"
+            >
+              Reintentar
+            </button>
+            <a
+              href="/RYSminisuper/admin/acceso"
+              className="rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/90"
+            >
+              Volver a acceso
+            </a>
+          </div>
+        </div>
       </div>
     );
   }

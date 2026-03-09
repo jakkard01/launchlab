@@ -245,12 +245,26 @@ const seedProducts = (): Product[] =>
     }))
     .sort((a, b) => (a.sortOrder ?? 9999) - (b.sortOrder ?? 9999));
 
+const ensureRequiredHeaders = (
+  sheetName: string,
+  headers: string[],
+  required: readonly string[]
+) => {
+  const missing = required.filter((header) => !headers.includes(header));
+  if (missing.length > 0) {
+    throw new Error(
+      `Esquema inválido en ${sheetName}. Faltan columnas: ${missing.join(", ")}.`
+    );
+  }
+};
+
 const parseProducts = (rows: string[][]): Product[] => {
   if (rows.length <= 1) {
     return [];
   }
 
   const headers = rows[0];
+  ensureRequiredHeaders(PRODUCTS_SHEET, headers, PRODUCT_HEADERS);
   return rows
     .slice(1)
     .filter((row) => row[0])
@@ -334,8 +348,15 @@ const parseHotToday = (rows: string[][]) => {
 const parseOrders = (rows: string[][]): OrderLogEntry[] => {
   if (rows.length <= 1) return [];
   const headers = rows[0];
+  ensureRequiredHeaders(ORDERS_SHEET, headers, ORDER_HEADERS);
   return rows.slice(1).filter((row) => row[0]).map((row) => {
     const record = Object.fromEntries(headers.map((key, index) => [key, row[index] ?? ""]));
+    let items: OrderLogEntry["items"] = [];
+    try {
+      items = JSON.parse(String(record.itemsJson ?? "[]"));
+    } catch {
+      throw new Error(`Esquema inválido en ${ORDERS_SHEET}. itemsJson no es JSON válido.`);
+    }
     return {
       id: String(record.id),
       createdAt: String(record.createdAt),
@@ -345,7 +366,7 @@ const parseOrders = (rows: string[][]): OrderLogEntry[] => {
           ? record.channel
           : "manual",
       note: String(record.note ?? ""),
-      items: JSON.parse(String(record.itemsJson ?? "[]")),
+      items,
     };
   });
 };
@@ -363,14 +384,23 @@ const serializeOrders = (orders: OrderLogEntry[]) =>
 const parseDailySales = (rows: string[][]): DailySalesEntry[] => {
   if (rows.length <= 1) return [];
   const headers = rows[0];
+  ensureRequiredHeaders(DAILY_SALES_SHEET, headers, DAILY_SALES_HEADERS);
   return rows.slice(1).filter((row) => row[0]).map((row) => {
     const record = Object.fromEntries(headers.map((key, index) => [key, row[index] ?? ""]));
+    let topItems: DailySalesEntry["topItems"] = [];
+    try {
+      topItems = JSON.parse(String(record.topItemsJson ?? "[]"));
+    } catch {
+      throw new Error(
+        `Esquema inválido en ${DAILY_SALES_SHEET}. topItemsJson no es JSON válido.`
+      );
+    }
     return {
       id: String(record.id),
       createdAt: String(record.createdAt),
       total: parseNumber(record.total),
       note: String(record.note ?? ""),
-      topItems: JSON.parse(String(record.topItemsJson ?? "[]")),
+      topItems,
     };
   });
 };

@@ -44,7 +44,10 @@ export default async function RysMiniSuperPage() {
       <main className="min-h-screen w-full bg-base px-4 pb-36 pt-10 text-main sm:px-6 lg:px-8">
         {fallbackWarning ? (
           <div className="mx-auto mb-4 w-full max-w-5xl rounded-2xl border border-amber-300/50 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-            {fallbackWarning}
+            <p>{fallbackWarning}</p>
+            <p className="mt-1 text-xs text-amber-900/80">
+              Si persiste, revisa /api/mo/products y la configuración de Google Sheets.
+            </p>
           </div>
         ) : null}
         <MoStorefront products={products} ctaLink={ctaLink} />

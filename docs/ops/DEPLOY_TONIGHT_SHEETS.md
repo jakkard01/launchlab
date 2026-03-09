@@ -132,3 +132,18 @@ npm run lint
   - sin banner de respaldo
   - `GET /api/mo/products` devuelve `200`
   - cambios guardados en admin aparecen tras recarga en otra sesión.
+
+## 8) Diagnóstico rápido de admin (`/RYSminisuper/admin`)
+- Paso 1: login en `/RYSminisuper/admin/acceso`
+  - `401`: clave incorrecta (no entra al panel).
+  - `403`: admin deshabilitado (`MO_ADMIN_ENABLED`).
+  - `503`: faltan credenciales admin (`ADMIN_PASSWORD` / `ADMIN_PIN` / `MO_ADMIN_KEY`).
+- Paso 2: carga de snapshot (`GET /api/mo/admin`) con cookie `mo_admin`
+  - `401/403`: cookie inválida o sin sesión activa.
+  - `500` + `code=SHEETS_INVALID_GRANT`: credenciales de Google inválidas/permisos rotos.
+  - `500` + `code=SHEETS_NOT_CONFIGURED`: faltan variables de Sheets.
+  - `500` + `code=SHEETS_SCHEMA_INVALID`: columnas/pestañas no coinciden.
+- Verificación mínima en producción:
+  - `POST /api/mo/admin/login`
+  - `GET /api/mo/admin`
+  - `GET /api/mo/products`
