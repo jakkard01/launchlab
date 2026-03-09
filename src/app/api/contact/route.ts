@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { deliverContactLead } from "../../../lib/contact/delivery";
+import { validateContactPayload } from "../../../lib/contact/validation";
 import { logger } from "../../../lib/observability/logger";
 import { rateLimit } from "../../../lib/security/rateLimit";
 
@@ -10,11 +11,8 @@ type ContactPayload = {
   email: string;
   message: string;
   source?: string;
+  companyWebsite?: string;
 };
-
-function isValidEmail(email: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
 
 function truncateMessage(message: string, maxLength = 200) {
   if (message.length <= maxLength) {
@@ -39,7 +37,10 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         ok: false,
+        code: "CONTACT_RATE_LIMITED",
         message: "Demasiadas solicitudes. Intenta de nuevo en breve.",
+        hint: "Espera un minuto antes de reenviar o usa WhatsApp si es urgente.",
+        retryAfterSeconds: Math.ceil(limitResult.resetMs / 1000),
       },
       { status: 429 }
     );
@@ -63,24 +64,21 @@ export async function POST(request: Request) {
     typeof payload.message === "string" ? payload.message.trim() : "";
   const source =
     typeof payload.source === "string" ? payload.source.trim() : undefined;
+  const companyWebsite =
+    typeof payload.companyWebsite === "string"
+      ? payload.companyWebsite.trim()
+      : "";
 
-  if (name.length < 2) {
-    return NextResponse.json(
-      { ok: false, message: "Nombre demasiado corto." },
-      { status: 400 }
-    );
-  }
+  const validationError = validateContactPayload({
+    name,
+    email,
+    message,
+    companyWebsite,
+  });
 
-  if (!isValidEmail(email)) {
+  if (validationError) {
     return NextResponse.json(
-      { ok: false, message: "Email invalido." },
-      { status: 400 }
-    );
-  }
-
-  if (message.length < 10) {
-    return NextResponse.json(
-      { ok: false, message: "Mensaje demasiado corto." },
+      { ok: false, ...validationError },
       { status: 400 }
     );
   }
@@ -123,8 +121,11 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         ok: false,
+        code: "CONTACT_DELIVERY_FAILED",
         message:
           "No pudimos registrar tu solicitud en este momento. Escríbenos por WhatsApp para atención inmediata.",
+        hint:
+          "Tu mensaje no fue bloqueado por spam; falló el canal de entrega. Reintenta o usa WhatsApp.",
       },
       { status: 503 }
     );
@@ -133,6 +134,7 @@ export async function POST(request: Request) {
   return NextResponse.json({
     ok: true,
     leadId,
+    code: "CONTACT_OK",
     message:
       "Solicitud recibida y registrada. Te responderemos por email; si urge, escríbenos por WhatsApp.",
   });

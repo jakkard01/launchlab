@@ -11,16 +11,21 @@ type FormState = "idle" | "loading" | "success" | "error";
 
 type ApiResponse = {
   ok: boolean;
+  code?: string;
   message?: string;
+  hint?: string;
   leadId?: string;
+  retryAfterSeconds?: number;
 };
 
 export default function ContactForm({ source }: ContactFormProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [companyWebsite, setCompanyWebsite] = useState("");
   const [status, setStatus] = useState<FormState>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [errorHint, setErrorHint] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [leadId, setLeadId] = useState<string | null>(null);
 
@@ -28,6 +33,7 @@ export default function ContactForm({ source }: ContactFormProps) {
     event.preventDefault();
     setStatus("loading");
     setErrorMessage(null);
+    setErrorHint(null);
     setSuccessMessage(null);
     setLeadId(null);
 
@@ -42,6 +48,7 @@ export default function ContactForm({ source }: ContactFormProps) {
           email,
           message,
           source,
+          companyWebsite,
         }),
       });
 
@@ -49,8 +56,12 @@ export default function ContactForm({ source }: ContactFormProps) {
 
       if (response.status === 429) {
         setStatus("error");
-        setErrorMessage(
-          "Demasiadas solicitudes. Intenta en unos minutos o usa WhatsApp."
+        setErrorMessage(data.message ?? "Demasiadas solicitudes.");
+        setErrorHint(
+          data.hint ??
+            (data.retryAfterSeconds
+              ? `Espera ${data.retryAfterSeconds}s antes de reenviar.`
+              : "Espera un momento antes de reenviar.")
         );
         trackEvent("contact_submit_429", { source });
         return;
@@ -59,6 +70,7 @@ export default function ContactForm({ source }: ContactFormProps) {
       if (!response.ok || !data.ok) {
         setStatus("error");
         setErrorMessage(data.message ?? "No pudimos enviar el mensaje.");
+        setErrorHint(data.hint ?? null);
         trackEvent("contact_submit_error", { source });
         return;
       }
@@ -73,9 +85,11 @@ export default function ContactForm({ source }: ContactFormProps) {
       setName("");
       setEmail("");
       setMessage("");
+      setCompanyWebsite("");
     } catch (error) {
       setStatus("error");
       setErrorMessage("No pudimos enviar el mensaje.");
+      setErrorHint("Parece un problema técnico temporal. Reintenta o usa WhatsApp.");
       trackEvent("contact_submit_error", { source });
     }
   }
@@ -118,10 +132,25 @@ export default function ContactForm({ source }: ContactFormProps) {
           value={message}
           onChange={(event) => setMessage(event.target.value)}
           required
-          minLength={10}
+          minLength={8}
           rows={5}
           placeholder="Cuentanos que necesitas y objetivos principales"
           className="rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white outline-none focus:border-cyan-300"
+        />
+        <p className="text-xs text-slate-400">
+          Un mensaje humano normal como “hola, soy Gerry y quiero una web” ya debería pasar.
+        </p>
+      </div>
+
+      <div className="hidden" aria-hidden="true">
+        <label htmlFor="company-website">Website</label>
+        <input
+          id="company-website"
+          name="companyWebsite"
+          tabIndex={-1}
+          autoComplete="off"
+          value={companyWebsite}
+          onChange={(event) => setCompanyWebsite(event.target.value)}
         />
       </div>
 
@@ -138,8 +167,8 @@ export default function ContactForm({ source }: ContactFormProps) {
       )}
       {status === "error" && (
         <div className="rounded-2xl border border-red-400/40 bg-red-400/10 px-4 py-3 text-sm text-red-200">
-          {errorMessage ?? "No pudimos enviar el mensaje."}{" "}
-          Si alcanzaste el límite de envíos, espera unos minutos o usa WhatsApp.
+          <p>{errorMessage ?? "No pudimos enviar el mensaje."}</p>
+          {errorHint ? <p className="mt-2 text-red-100/80">{errorHint}</p> : null}
         </div>
       )}
 
@@ -151,7 +180,7 @@ export default function ContactForm({ source }: ContactFormProps) {
         {status === "loading" ? "Enviando..." : "Enviar mensaje"}
       </button>
       <p className="text-xs text-slate-400">
-        Protegido con rate limit para evitar spam.
+        Protección activa: rate limit suave + heurística básica anti-spam. Si falla la entrega, te lo mostraremos aparte.
       </p>
     </form>
   );
