@@ -24,6 +24,7 @@ const filterHidden = (items: Product[]) =>
     });
 
 export default function MoStorefront({ products, ctaLink }: MoStorefrontProps) {
+  const hasInitialCatalog = products.length > 0;
   const [activeTab, setActiveTab] = useState<TabId>("hot");
   const [query, setQuery] = useState("");
   const [catalog, setCatalog] = useState<Product[]>(filterHidden(products));
@@ -42,7 +43,7 @@ export default function MoStorefront({ products, ctaLink }: MoStorefrontProps) {
         setError(null);
       } catch (err) {
         if (!active) return;
-        setError("No se pudo cargar el catálogo.");
+        setError(hasInitialCatalog ? null : "No se pudo cargar el catálogo.");
       } finally {
         if (active) setLoading(false);
       }
@@ -53,7 +54,7 @@ export default function MoStorefront({ products, ctaLink }: MoStorefrontProps) {
     return () => {
       active = false;
     };
-  }, []);
+  }, [hasInitialCatalog]);
 
   const scrollToId = useCallback((id: string) => {
     const target = document.getElementById(id);

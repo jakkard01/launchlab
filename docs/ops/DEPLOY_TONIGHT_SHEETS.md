@@ -111,3 +111,24 @@ npm run lint
 5. Login admin funciona.
 6. Cambio real (`sortOrder` o `image` o `stock`) persiste y se refleja en storefront.
 7. Pedido por WhatsApp abre mensaje correcto.
+
+## 6) Prueba admin operativa (rápida)
+1. Abrir `/RYSminisuper/admin/acceso` y hacer login.
+2. Cambiar un producto en admin:
+   - `price`
+   - `stockStatus`
+   - `status` (active/hidden)
+   - `sortOrder`
+   - `image` (URL)
+3. Guardar y verificar respuesta exitosa del endpoint (`POST /api/mo/admin` en `200`).
+4. Recargar `/RYSminisuper` y confirmar reflejo visual de los cambios.
+5. Abrir otra sesión/navegador y confirmar que los cambios persisten.
+
+## 7) Detectar fallback vs datos en vivo
+- Storefront en fallback:
+  - banner visible: `Catálogo temporal en modo respaldo...`
+  - suele coincidir con error `500` en `GET /api/mo/products`.
+- Datos en vivo activos:
+  - sin banner de respaldo
+  - `GET /api/mo/products` devuelve `200`
+  - cambios guardados en admin aparecen tras recarga en otra sesión.

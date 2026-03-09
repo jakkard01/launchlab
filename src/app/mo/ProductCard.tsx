@@ -91,6 +91,7 @@ export default function ProductCard({
   const { addItem } = useCart();
   const [qty, setQty] = useState(1);
   const [justAdded, setJustAdded] = useState(false);
+  const [imageFailed, setImageFailed] = useState(false);
   const isCompact = variant === "compact";
   const promoLabel = getPromoLabel(product);
   const effectivePrice = getEffectivePrice(product);
@@ -125,19 +126,19 @@ export default function ProductCard({
   return (
     <article className="surface-card flex h-full flex-col rounded-2xl p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
       <div className="relative overflow-hidden rounded-xl border border-default bg-base">
-        {topImageSrc ? (
+        {topImageSrc && !imageFailed ? (
           <Image
             src={topImageSrc}
             alt={imageAlt}
-            width={480}
-            height={320}
-            className="h-40 w-full object-cover"
+            fill
+            className="object-cover object-center"
             sizes="(max-width: 480px) 45vw, 240px"
             quality={55}
             unoptimized={isExternalUrl(topImageSrc)}
+            onError={() => setImageFailed(true)}
           />
         ) : (
-          <div className="relative flex h-40 w-full items-end justify-between overflow-hidden bg-[radial-gradient(circle_at_20%_15%,color-mix(in_srgb,var(--accent)_10%,transparent),transparent_55%),linear-gradient(135deg,color-mix(in_srgb,var(--surface)_92%,transparent),color-mix(in_srgb,var(--accent)_6%,transparent))] px-4 py-3">
+          <div className="absolute inset-0 flex items-end justify-between overflow-hidden bg-[radial-gradient(circle_at_20%_15%,color-mix(in_srgb,var(--accent)_10%,transparent),transparent_55%),linear-gradient(135deg,color-mix(in_srgb,var(--surface)_92%,transparent),color-mix(in_srgb,var(--accent)_6%,transparent))] px-4 py-3">
             <div className="flex flex-col gap-1">
               <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted">
                 {product.category}
@@ -151,6 +152,7 @@ export default function ProductCard({
             </span>
           </div>
         )}
+        <div className="pointer-events-none w-full pt-[75%]" />
       </div>
       <div className="mt-4 flex items-start justify-between gap-3">
         <h3

@@ -280,3 +280,20 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
   - Mapping en `src/app/content/videoPacks.ts` (`poster` de cada demo).
 - Punto de reanudación:
   - Cargar credenciales reales y quitar dependencia del respaldo local en `/RYSminisuper` validando lectura en vivo de Sheets.
+
+## 2026-03-09 — Fix final RYS (imágenes + prueba admin operativa)
+- Causa de inconsistencia visual en cards:
+  - render de imagen sin manejo explícito de error y sin fallback visual dedicado por card.
+- Ajuste aplicado en `src/app/mo/ProductCard.tsx`:
+  - contenedor estable con proporción fija (`pt-[75%]`);
+  - imagen con `object-cover object-center`;
+  - fallback limpio cuando `image` no existe o falla carga (`onError`).
+- Ajuste aplicado en `src/app/mo/components/MoStorefront.tsx`:
+  - si ya existe catálogo inicial en servidor, un fallo de refresco cliente no muestra banner rojo innecesario.
+  - el banner `No se pudo cargar el catálogo` queda reservado para casos sin catálogo inicial.
+- Documentación operativa actualizada:
+  - `docs/ops/DEPLOY_TONIGHT_SHEETS.md` ahora incluye:
+    - prueba admin rápida de punta a punta,
+    - detección explícita de fallback vs datos en vivo.
+- Punto de reanudación:
+  - con credenciales Sheets reales cargadas, ejecutar prueba admin completa y validar persistencia cross-sesión sin banner de respaldo.
