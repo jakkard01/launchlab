@@ -15,3 +15,5 @@
 - 2026-03-09: Catálogo semilla RYS se amplía como base editable (precios iniciales no definitivos).
 - 2026-03-09: Predeploy final: se agregan scripts reproducibles de readiness y smoke (`scripts/predeploy/check-env-readiness.sh`, `scripts/predeploy/smoke-local.sh`).
 - 2026-03-09: Política operativa confirmada: sin variables de destino (PBIA) o Sheets (RYS), las APIs fallan explícitamente (`503`/`500`) para evitar falso positivo.
+- 2026-03-09: PBIA leads por Sheets usa variable dedicada `PBIA_LEADS_SHEETS_SPREADSHEET_ID` para evitar mezclar hoja de leads con hoja de catálogo RYS por fallback implícito.
+- 2026-03-09: Se publica guía breve `docs/ops/DEPLOY_TONIGHT_SHEETS.md` como referencia canónica de activación esta noche.

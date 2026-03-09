@@ -253,3 +253,13 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
 - Checklist de salida creado en Vault:
   - `docs/obsidian/CHECKLIST_SALIDA_PREDEPLOY.md`
 - Uso objetivo: ejecutar hoy sin abrir nuevos cambios de alcance.
+
+## 2026-03-09 — Cierre deploy tonight (PBIA leads + RYS Sheets + docs)
+- PBIA contacto en Sheets queda explícito a variable dedicada:
+  - `PBIA_LEADS_SHEETS_SPREADSHEET_ID` (sin fallback implícito a hoja de RYS).
+- Error de destino actualizado para indicar variables exactas de activación.
+- Guía operativa corta creada en repo:
+  - `docs/ops/DEPLOY_TONIGHT_SHEETS.md`
+  - Incluye: estructura de pestañas/columnas, variables de Vercel, checklist local y post-deploy, y rutas de miniaturas/imágenes.
+- Punto de reanudación siguiente:
+  - Cargar credenciales reales en Vercel y ejecutar checklist post-deploy con evidencia.

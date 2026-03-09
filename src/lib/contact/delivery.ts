@@ -32,10 +32,7 @@ const base64Url = (value: string | Buffer) =>
     .replace(/=+$/g, "");
 
 const getSheetsConfig = () => {
-  const spreadsheetId =
-    process.env.PBIA_LEADS_SHEETS_SPREADSHEET_ID ??
-    process.env.RYS_SHEETS_SPREADSHEET_ID ??
-    "";
+  const spreadsheetId = process.env.PBIA_LEADS_SHEETS_SPREADSHEET_ID ?? "";
   const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL ?? "";
   const privateKey = (process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY ?? "").replace(
     /\\n/g,
@@ -257,6 +254,6 @@ export const deliverContactLead = async (lead: ContactLead) => {
   }
 
   throw new Error(
-    "No hay destino de contacto configurado. Define CONTACT_WEBHOOK_URL o credenciales de Google Sheets."
+    "No hay destino de contacto configurado. Define CONTACT_WEBHOOK_URL o PBIA_LEADS_SHEETS_SPREADSHEET_ID con credenciales de Google Sheets."
   );
 };
