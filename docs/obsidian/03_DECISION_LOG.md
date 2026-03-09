@@ -13,3 +13,5 @@
 - 2026-03-09: RYS `products` incorpora `sortOrder` editable + orden estable en storefront/admin.
 - 2026-03-09: RYS admin incorpora edición de `image` por URL y mantiene ocultar/mostrar con `status`.
 - 2026-03-09: Catálogo semilla RYS se amplía como base editable (precios iniciales no definitivos).
+- 2026-03-09: Predeploy final: se agregan scripts reproducibles de readiness y smoke (`scripts/predeploy/check-env-readiness.sh`, `scripts/predeploy/smoke-local.sh`).
+- 2026-03-09: Política operativa confirmada: sin variables de destino (PBIA) o Sheets (RYS), las APIs fallan explícitamente (`503`/`500`) para evitar falso positivo.

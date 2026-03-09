@@ -11,6 +11,8 @@
     "doctor": "bash scripts/doctor.sh",
     "ops:parity:prod": "bash scripts/parity-prod.sh",
     "preflight": "bash scripts/preflight.sh",
+    "predeploy:env": "bash scripts/predeploy/check-env-readiness.sh .env.local",
+    "predeploy:smoke": "bash scripts/predeploy/smoke-local.sh http://127.0.0.1:3011",
     "resume": "bash scripts/handoff/obsidian_sync.sh && bash scripts/handoff/refresh-start-here.sh && bash scripts/handoff/resume_contextpack.sh",
     "scope:check": "bash scripts/scope-check.sh",
     "dev:safe": "bash scripts/dev_safe.sh"

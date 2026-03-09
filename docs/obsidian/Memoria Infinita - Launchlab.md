@@ -196,3 +196,53 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
 ### Punto de reanudación
 - PBIA: validar credenciales reales del destino de leads en entorno y probar flujo end-to-end.
 - RYS: siguiente bloque en orden manual más fino y flujo de imagen (subida simple + fallback de URL).
+
+## 2026-03-09 — Pre-deploy final A (configuración real + pruebas operativas)
+- Rama: feat/pagina-hermana-live
+- Objetivo del bloque: dejar activación de esta noche sin ambigüedad.
+
+### Estado verificado en entorno local actual
+- `.env.local`:
+  - `MO_ADMIN_ENABLED` y `MO_ADMIN_KEY` definidos.
+  - Faltan variables de activación real para PBIA leads y RYS Sheets.
+- Smoke local ejecutado contra `http://127.0.0.1:3011`:
+  - `POST /api/contact` -> `503` cuando no hay destino de leads configurado (comportamiento correcto, no finge éxito).
+  - `GET /api/mo/products` -> `500` por falta de credenciales Sheets (comportamiento esperado).
+  - `GET /api/mo/admin` sin cookie -> `401` (auth funcionando).
+  - `POST /api/mo/admin/login` -> `200` + cookie `mo_admin`.
+  - `GET/POST /api/mo/admin` con cookie -> `500` por falta de Sheets (auth y wiring OK).
+
+### Configuración exacta para activar PBIA contacto hoy
+1. Opción webhook (prioridad):
+   - `CONTACT_WEBHOOK_URL`
+   - opcional `CONTACT_WEBHOOK_TOKEN`
+2. Opción Google Sheets leads:
+   - `PBIA_LEADS_SHEETS_SPREADSHEET_ID`
+   - `GOOGLE_SERVICE_ACCOUNT_EMAIL`
+   - `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY`
+3. Verificación mínima:
+   - `POST /api/contact` debe devolver `200` con `leadId`.
+
+### Configuración exacta para activar RYS Sheets hoy
+- Variables obligatorias:
+  - `RYS_SHEETS_SPREADSHEET_ID`
+  - `GOOGLE_SERVICE_ACCOUNT_EMAIL`
+  - `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY`
+- Variables admin:
+  - `MO_ADMIN_ENABLED=1`
+  - `ADMIN_PASSWORD` o `ADMIN_PIN` o `MO_ADMIN_KEY`
+- Verificación mínima:
+  - `GET /api/mo/products` -> `200` con `products`.
+  - login admin -> cookie `mo_admin`.
+  - `POST /api/mo/admin` (`updateSortOrder` o `updateImage`) -> `200`.
+
+### Scripts operativos añadidos
+- `bash scripts/predeploy/check-env-readiness.sh .env.local`
+- `bash scripts/predeploy/smoke-local.sh http://127.0.0.1:3011 .env.local`
+
+### Smoke tests post-deploy obligatorios (esta noche)
+1. `POST /api/contact` con payload real -> status `200` + `leadId`.
+2. Verificar llegada del lead en webhook o hoja `pbia_leads`.
+3. `GET /api/mo/products` -> `200` y catálogo visible.
+4. Login admin y cambio real de `sortOrder` o `image`.
+5. Recargar storefront y confirmar reflejo del cambio desde otra sesión.
