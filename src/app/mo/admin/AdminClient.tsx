@@ -213,6 +213,13 @@ export default function AdminClient() {
 
   const top7 = useMemo(() => stats?.top7 ?? [], [stats]);
   const top30 = useMemo(() => stats?.top30 ?? [], [stats]);
+  const sortedProducts = useMemo(
+    () =>
+      products
+        .slice()
+        .sort((a, b) => (a.sortOrder ?? 9999) - (b.sortOrder ?? 9999)),
+    [products]
+  );
 
   const updateStock = async (id: string, status: StockStatus) => {
     if (!adapter) return;
@@ -270,6 +277,37 @@ export default function AdminClient() {
       await adapter.updateSortOrder(id, safeSortOrder);
     } catch (err) {
       setError("No se pudo actualizar el orden.");
+      await reloadAll(adapter);
+    }
+  };
+
+  const moveProduct = async (id: string, direction: "up" | "down") => {
+    if (!adapter) return;
+    const currentIndex = sortedProducts.findIndex((product) => product.id === id);
+    if (currentIndex === -1) return;
+    const targetIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
+    if (targetIndex < 0 || targetIndex >= sortedProducts.length) return;
+
+    const current = sortedProducts[currentIndex];
+    const target = sortedProducts[targetIndex];
+    const currentOrder = current.sortOrder ?? currentIndex + 1;
+    const targetOrder = target.sortOrder ?? targetIndex + 1;
+
+    setProducts((prev) =>
+      prev
+        .map((product) => {
+          if (product.id === current.id) return { ...product, sortOrder: targetOrder };
+          if (product.id === target.id) return { ...product, sortOrder: currentOrder };
+          return product;
+        })
+        .sort((a, b) => (a.sortOrder ?? 9999) - (b.sortOrder ?? 9999))
+    );
+
+    try {
+      await adapter.updateSortOrder(current.id, targetOrder);
+      await adapter.updateSortOrder(target.id, currentOrder);
+    } catch (err) {
+      setError("No se pudo mover el producto en el orden.");
       await reloadAll(adapter);
     }
   };
@@ -542,10 +580,7 @@ export default function AdminClient() {
             Control de pasillos
           </h2>
           <div className="grid gap-4 lg:grid-cols-2">
-              {products
-                .slice()
-                .sort((a, b) => (a.sortOrder ?? 9999) - (b.sortOrder ?? 9999))
-                .map((product) => {
+              {sortedProducts.map((product) => {
                 const stockStatus = stock[product.id] ?? "disponible";
                 const promoState = promo[product.id] ?? {
                   enabled: false,
@@ -600,7 +635,7 @@ export default function AdminClient() {
 
                   <div className="mt-4 grid gap-3 md:grid-cols-2">
                     <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
-                      Estado
+                      Estado (visible/oculto)
                       <select
                         value={visibility}
                         onChange={(event) =>
@@ -622,6 +657,9 @@ export default function AdminClient() {
                         <option value="out_of_stock">Agotado hoy</option>
                         <option value="hidden">Oculto</option>
                       </select>
+                      <span className="text-[11px] normal-case tracking-normal text-white/50">
+                        Usa &quot;Oculto&quot; para quitarlo de la tienda sin borrarlo.
+                      </span>
                     </label>
 
                     <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
@@ -666,30 +704,53 @@ export default function AdminClient() {
 
                     <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
                       Orden catálogo
-                      <input
-                        type="number"
-                        min={1}
-                        value={product.sortOrder ?? 9999}
-                        onChange={(event) => {
-                          const nextValue = Number(event.target.value);
-                          setProducts((prev) =>
-                            prev.map((current) =>
-                              current.id === product.id
-                                ? {
-                                    ...current,
-                                    sortOrder: Number.isFinite(nextValue)
-                                      ? nextValue
-                                      : 9999,
-                                  }
-                                : current
-                            )
-                          );
-                        }}
-                        onBlur={(event) =>
-                          updateSortOrder(product.id, Number(event.target.value))
-                        }
-                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
-                      />
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="number"
+                          min={1}
+                          value={product.sortOrder ?? 9999}
+                          onChange={(event) => {
+                            const nextValue = Number(event.target.value);
+                            setProducts((prev) =>
+                              prev.map((current) =>
+                                current.id === product.id
+                                  ? {
+                                      ...current,
+                                      sortOrder: Number.isFinite(nextValue)
+                                        ? nextValue
+                                        : 9999,
+                                    }
+                                  : current
+                              )
+                            );
+                          }}
+                          onBlur={(event) =>
+                            updateSortOrder(product.id, Number(event.target.value))
+                          }
+                          className="w-full rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => moveProduct(product.id, "up")}
+                          className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                          aria-label={`Subir ${product.name}`}
+                          title="Subir"
+                        >
+                          ↑
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => moveProduct(product.id, "down")}
+                          className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                          aria-label={`Bajar ${product.name}`}
+                          title="Bajar"
+                        >
+                          ↓
+                        </button>
+                      </div>
+                      <span className="text-[11px] normal-case tracking-normal text-white/50">
+                        También puedes escribir el número exacto.
+                      </span>
                     </label>
 
                     <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60 md:col-span-2">
@@ -712,6 +773,9 @@ export default function AdminClient() {
                         className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
                         placeholder="/RYSminisuper/images/... o https://..."
                       />
+                      <span className="text-[11px] normal-case tracking-normal text-white/50">
+                        Pega una ruta local del proyecto o una URL pública.
+                      </span>
                     </label>
 
                     <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">

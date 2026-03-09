@@ -246,3 +246,10 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
 3. `GET /api/mo/products` -> `200` y catálogo visible.
 4. Login admin y cambio real de `sortOrder` o `image`.
 5. Recargar storefront y confirmar reflejo del cambio desde otra sesión.
+
+## 2026-03-09 — Pre-deploy final B (pulido operativo + salida)
+- Admin RYS: orden rápido con botones `↑`/`↓` sin romper edición manual de `sortOrder`.
+- Admin RYS: microcopy aclarado en `Estado (visible/oculto)` y `Imagen URL`.
+- Checklist de salida creado en Vault:
+  - `docs/obsidian/CHECKLIST_SALIDA_PREDEPLOY.md`
+- Uso objetivo: ejecutar hoy sin abrir nuevos cambios de alcance.
