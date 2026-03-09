@@ -238,6 +238,42 @@ export default function AdminClient() {
     }
   };
 
+  const updateImage = async (id: string, image: string) => {
+    if (!adapter) return;
+    const nextImage = image.trim();
+    setProducts((prev) =>
+      prev.map((product) =>
+        product.id === id ? { ...product, image: nextImage } : product
+      )
+    );
+    try {
+      await adapter.updateImage(id, nextImage);
+    } catch (err) {
+      setError("No se pudo actualizar la imagen.");
+      await reloadAll(adapter);
+    }
+  };
+
+  const updateSortOrder = async (id: string, sortOrder: number) => {
+    if (!adapter) return;
+    const safeSortOrder = Number.isFinite(sortOrder)
+      ? Math.max(1, Math.round(sortOrder))
+      : 9999;
+    setProducts((prev) =>
+      prev
+        .map((product) =>
+          product.id === id ? { ...product, sortOrder: safeSortOrder } : product
+        )
+        .sort((a, b) => (a.sortOrder ?? 9999) - (b.sortOrder ?? 9999))
+    );
+    try {
+      await adapter.updateSortOrder(id, safeSortOrder);
+    } catch (err) {
+      setError("No se pudo actualizar el orden.");
+      await reloadAll(adapter);
+    }
+  };
+
   const updatePromo = async (
     id: string,
     enabled: boolean,
@@ -506,7 +542,10 @@ export default function AdminClient() {
             Control de pasillos
           </h2>
           <div className="grid gap-4 lg:grid-cols-2">
-              {products.map((product) => {
+              {products
+                .slice()
+                .sort((a, b) => (a.sortOrder ?? 9999) - (b.sortOrder ?? 9999))
+                .map((product) => {
                 const stockStatus = stock[product.id] ?? "disponible";
                 const promoState = promo[product.id] ?? {
                   enabled: false,
@@ -561,7 +600,7 @@ export default function AdminClient() {
 
                   <div className="mt-4 grid gap-3 md:grid-cols-2">
                     <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
-                      Visibilidad
+                      Estado
                       <select
                         value={visibility}
                         onChange={(event) =>
@@ -578,7 +617,7 @@ export default function AdminClient() {
                         }
                         className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
                       >
-                        <option value="available">Disponible</option>
+                        <option value="available">Visible</option>
                         <option value="soon">Pronto</option>
                         <option value="out_of_stock">Agotado hoy</option>
                         <option value="hidden">Oculto</option>
@@ -622,6 +661,56 @@ export default function AdminClient() {
                           )
                         }
                         className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                      />
+                    </label>
+
+                    <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                      Orden catálogo
+                      <input
+                        type="number"
+                        min={1}
+                        value={product.sortOrder ?? 9999}
+                        onChange={(event) => {
+                          const nextValue = Number(event.target.value);
+                          setProducts((prev) =>
+                            prev.map((current) =>
+                              current.id === product.id
+                                ? {
+                                    ...current,
+                                    sortOrder: Number.isFinite(nextValue)
+                                      ? nextValue
+                                      : 9999,
+                                  }
+                                : current
+                            )
+                          );
+                        }}
+                        onBlur={(event) =>
+                          updateSortOrder(product.id, Number(event.target.value))
+                        }
+                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                      />
+                    </label>
+
+                    <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60 md:col-span-2">
+                      Imagen URL
+                      <input
+                        type="text"
+                        value={product.image ?? ""}
+                        onChange={(event) =>
+                          setProducts((prev) =>
+                            prev.map((current) =>
+                              current.id === product.id
+                                ? { ...current, image: event.target.value }
+                                : current
+                            )
+                          )
+                        }
+                        onBlur={(event) =>
+                          updateImage(product.id, event.target.value)
+                        }
+                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                        placeholder="/RYSminisuper/images/... o https://..."
                       />
                     </label>
 

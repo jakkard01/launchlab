@@ -25,6 +25,7 @@ const PRODUCT_HEADERS = [
   "id",
   "name",
   "category",
+  "sortOrder",
   "price",
   "description",
   "image",
@@ -233,13 +234,16 @@ const writeSheet = async (
 };
 
 const seedProducts = (): Product[] =>
-  (productsSeed as Product[]).map((product) => ({
-    ...product,
-    stockStatus: product.stockStatus ?? "disponible",
-    promoEnabled: product.promoEnabled ?? false,
-    promoPercent: product.promoPercent ?? 0,
-    updatedAt: product.updatedAt ?? "",
-  }));
+  (productsSeed as Product[])
+    .map((product, index) => ({
+      ...product,
+      sortOrder: product.sortOrder ?? index + 1,
+      stockStatus: product.stockStatus ?? "disponible",
+      promoEnabled: product.promoEnabled ?? false,
+      promoPercent: product.promoPercent ?? 0,
+      updatedAt: product.updatedAt ?? "",
+    }))
+    .sort((a, b) => (a.sortOrder ?? 9999) - (b.sortOrder ?? 9999));
 
 const parseProducts = (rows: string[][]): Product[] => {
   if (rows.length <= 1) {
@@ -247,24 +251,35 @@ const parseProducts = (rows: string[][]): Product[] => {
   }
 
   const headers = rows[0];
-  return rows.slice(1).filter((row) => row[0]).map((row) => {
-    const record = Object.fromEntries(headers.map((key, index) => [key, row[index] ?? ""]));
-    return {
-      id: String(record.id),
-      name: String(record.name),
-      category: String(record.category),
-      price: String(record.price),
-      description: String(record.description ?? ""),
-      image: String(record.image ?? ""),
-      imageKey: String(record.imageKey ?? "") || undefined,
-      isFeatured: parseBoolean(record.isFeatured),
-      status: (record.status as ProductStatus) || "available",
-      stockStatus: (record.stockStatus as StockStatus) || "disponible",
-      promoEnabled: parseBoolean(record.promoEnabled),
-      promoPercent: parseNumber(record.promoPercent),
-      updatedAt: String(record.updatedAt ?? ""),
-    };
-  });
+  return rows
+    .slice(1)
+    .filter((row) => row[0])
+    .map((row, index) => {
+      const record = Object.fromEntries(
+        headers.map((key, headerIndex) => [key, row[headerIndex] ?? ""])
+      );
+      return {
+        id: String(record.id),
+        name: String(record.name),
+        category: String(record.category),
+        sortOrder: parseNumber(record.sortOrder, index + 1),
+        price: String(record.price),
+        description: String(record.description ?? ""),
+        image: String(record.image ?? ""),
+        imageKey: String(record.imageKey ?? "") || undefined,
+        isFeatured: parseBoolean(record.isFeatured),
+        status: (record.status as ProductStatus) || "available",
+        stockStatus: (record.stockStatus as StockStatus) || "disponible",
+        promoEnabled: parseBoolean(record.promoEnabled),
+        promoPercent: parseNumber(record.promoPercent),
+        updatedAt: String(record.updatedAt ?? ""),
+      };
+    })
+    .sort((a, b) => {
+      const byOrder = (a.sortOrder ?? 9999) - (b.sortOrder ?? 9999);
+      if (byOrder !== 0) return byOrder;
+      return a.name.localeCompare(b.name, "es");
+    });
 };
 
 const serializeProducts = (
@@ -277,6 +292,7 @@ const serializeProducts = (
       product.id,
       product.name,
       product.category,
+      String(product.sortOrder ?? 9999),
       product.price,
       product.description,
       product.image,
@@ -431,7 +447,16 @@ const saveProducts = async (
   products: Product[],
   hotToday: Record<string, HotState>
 ) => {
-  await writeSheet(PRODUCTS_SHEET, PRODUCT_HEADERS, serializeProducts(products, hotToday));
+  const ordered = [...products].sort((a, b) => {
+    const byOrder = (a.sortOrder ?? 9999) - (b.sortOrder ?? 9999);
+    if (byOrder !== 0) return byOrder;
+    return a.name.localeCompare(b.name, "es");
+  });
+  await writeSheet(
+    PRODUCTS_SHEET,
+    PRODUCT_HEADERS,
+    serializeProducts(ordered, hotToday)
+  );
 };
 
 const updateProduct = async (
@@ -480,6 +505,20 @@ export const updatePrice = async (id: string, price: string) => {
   await updateProduct(id, (product) => ({ ...product, price }));
 };
 
+export const updateImage = async (id: string, image: string) => {
+  await updateProduct(id, (product) => ({ ...product, image }));
+};
+
+export const updateSortOrder = async (id: string, sortOrder: number) => {
+  const safeSortOrder = Number.isFinite(sortOrder)
+    ? Math.max(1, Math.round(sortOrder))
+    : 9999;
+  await updateProduct(id, (product) => ({
+    ...product,
+    sortOrder: safeSortOrder,
+  }));
+};
+
 export const updateFeatured = async (id: string, isFeatured: boolean) => {
   await updateProduct(id, (product) => ({ ...product, isFeatured }));
 };
@@ -515,8 +554,9 @@ export const updateHot = async (id: string, next: Partial<HotState>) => {
 
 export const importBackup = async (backup: Partial<AdminSnapshot>) => {
   const products = Array.isArray(backup.products) ? backup.products : seedProducts();
-  const nextProducts = products.map((product) => ({
+  const nextProducts = products.map((product, index) => ({
     ...product,
+    sortOrder: product.sortOrder ?? index + 1,
     price: backup.prices?.[product.id] ?? product.price,
     stockStatus: backup.stock?.[product.id] ?? product.stockStatus ?? "disponible",
     promoEnabled: backup.promo?.[product.id]?.enabled ?? product.promoEnabled ?? false,

@@ -17,8 +17,10 @@ import {
   removeOrder,
   updateFeatured,
   updateHot,
+  updateImage,
   updatePrice,
   updatePromo,
+  updateSortOrder,
   updateStatus,
   updateStock,
 } from "../../../../lib/mo/data/sheetsStore";
@@ -31,6 +33,8 @@ const isMoAdmin = () => cookies().get("mo_admin")?.value === "1";
 type AdminAction =
   | { action: "updateStock"; id: string; status: StockStatus }
   | { action: "updatePrice"; id: string; price: string }
+  | { action: "updateImage"; id: string; image: string }
+  | { action: "updateSortOrder"; id: string; sortOrder: number }
   | { action: "updateFeatured"; id: string; isFeatured: boolean }
   | { action: "updatePromo"; id: string; enabled: boolean; percent: number }
   | { action: "updateStatus"; id: string; status: Product["status"] }
@@ -85,6 +89,12 @@ export async function POST(request: Request) {
         break;
       case "updatePrice":
         await updatePrice(payload.id, payload.price);
+        break;
+      case "updateImage":
+        await updateImage(payload.id, payload.image);
+        break;
+      case "updateSortOrder":
+        await updateSortOrder(payload.id, payload.sortOrder);
         break;
       case "updateFeatured":
         await updateFeatured(payload.id, payload.isFeatured);

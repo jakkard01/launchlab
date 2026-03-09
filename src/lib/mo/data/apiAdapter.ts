@@ -12,6 +12,8 @@ import type {
 type AdminAction =
   | { action: "updateStock"; id: string; status: StockStatus }
   | { action: "updatePrice"; id: string; price: string }
+  | { action: "updateImage"; id: string; image: string }
+  | { action: "updateSortOrder"; id: string; sortOrder: number }
   | { action: "updateFeatured"; id: string; isFeatured: boolean }
   | { action: "updatePromo"; id: string; enabled: boolean; percent: number }
   | { action: "updateStatus"; id: string; status: Product["status"] }
@@ -62,6 +64,12 @@ export const apiAdapter: MoDataAdapter = {
   },
   async updatePrice(id, price) {
     await runAdminAction({ action: "updatePrice", id, price });
+  },
+  async updateImage(id, image) {
+    await runAdminAction({ action: "updateImage", id, image });
+  },
+  async updateSortOrder(id, sortOrder) {
+    await runAdminAction({ action: "updateSortOrder", id, sortOrder });
   },
   async updateFeatured(id, isFeatured) {
     await runAdminAction({ action: "updateFeatured", id, isFeatured });

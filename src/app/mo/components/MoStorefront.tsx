@@ -15,7 +15,13 @@ type MoStorefrontProps = {
 };
 
 const filterHidden = (items: Product[]) =>
-  items.filter((product) => product.status !== "hidden");
+  items
+    .filter((product) => product.status !== "hidden")
+    .sort((a, b) => {
+      const byOrder = (a.sortOrder ?? 9999) - (b.sortOrder ?? 9999);
+      if (byOrder !== 0) return byOrder;
+      return a.name.localeCompare(b.name, "es");
+    });
 
 export default function MoStorefront({ products, ctaLink }: MoStorefrontProps) {
   const [activeTab, setActiveTab] = useState<TabId>("hot");

@@ -43,6 +43,9 @@ const normalizeText = (value: string) =>
     .toLowerCase();
 
 const resolveTopImage = (product: Product) => {
+  if (product.image) {
+    return product.image;
+  }
   const key = product.imageKey ?? "";
   if (key && key in TOP_IMAGES) {
     return TOP_IMAGES[key as keyof typeof TOP_IMAGES];
@@ -76,6 +79,9 @@ const getInitials = (value: string) =>
     .slice(0, 2)
     .map((item) => item[0]?.toUpperCase())
     .join("");
+
+const isExternalUrl = (value: string) =>
+  value.startsWith("http://") || value.startsWith("https://");
 
 export default function ProductCard({
   product,
@@ -128,6 +134,7 @@ export default function ProductCard({
             className="h-40 w-full object-cover"
             sizes="(max-width: 480px) 45vw, 240px"
             quality={55}
+            unoptimized={isExternalUrl(topImageSrc)}
           />
         ) : (
           <div className="relative flex h-40 w-full items-end justify-between overflow-hidden bg-[radial-gradient(circle_at_20%_15%,color-mix(in_srgb,var(--accent)_10%,transparent),transparent_55%),linear-gradient(135deg,color-mix(in_srgb,var(--surface)_92%,transparent),color-mix(in_srgb,var(--accent)_6%,transparent))] px-4 py-3">
