@@ -263,3 +263,20 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
   - Incluye: estructura de pestañas/columnas, variables de Vercel, checklist local y post-deploy, y rutas de miniaturas/imágenes.
 - Punto de reanudación siguiente:
   - Cargar credenciales reales en Vercel y ejecutar checklist post-deploy con evidencia.
+
+## 2026-03-09 — Fix inmediato error de carga + miniaturas reales
+- Causa detectada del fallback `app/error.tsx`:
+  - Ruta `/RYSminisuper` ejecutaba `getStoreProducts()` en servidor.
+  - Si faltan credenciales o falla Sheets, lanzaba excepción en render server-side y caía en “No pudimos cargar esta página”.
+- Solución aplicada:
+  - `/RYSminisuper` ahora captura error de Sheets y usa catálogo semilla local como respaldo temporal.
+  - Se muestra aviso claro de “modo respaldo” sin romper toda la experiencia.
+  - APIs de Sheets siguen fallando explícitamente (`500`) para no ocultar problemas de configuración.
+- Miniaturas de demos/videos conectadas de forma explícita (sin random):
+  - Carpeta: `public/imagenes/fondo/`
+  - `web_que_se_paga_sola.jpeg`
+  - `auditoria_movil.jpeg`
+  - `whatsapp.jpeg`
+  - Mapping en `src/app/content/videoPacks.ts` (`poster` de cada demo).
+- Punto de reanudación:
+  - Cargar credenciales reales y quitar dependencia del respaldo local en `/RYSminisuper` validando lectura en vivo de Sheets.

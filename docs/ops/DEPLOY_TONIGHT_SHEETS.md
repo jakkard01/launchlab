@@ -82,10 +82,17 @@ Admin y storefront leen/escriben la misma fuente (`sheetsStore`).
 - Iconos de categorías: `public/mo/categories/`
 - Iconos de pasillos RYS: `public/RYSminisuper/icons/pasillos/`
 - Imágenes top productos RYS: `public/RYSminisuper/images/top/`
+- Miniaturas demos/video: `public/imagenes/fondo/`
 
 ### Regla práctica
 - No usar imágenes random.
 - Si agregas miniaturas nuevas, colócalas en esas carpetas y usa rutas absolutas desde `/` en `image` o `imageKey`.
+
+### Convención actual de miniaturas de demos
+- `web_que_se_paga_sola.jpeg` -> demo `web-conversion-hero`
+- `auditoria_movil.jpeg` -> demo `audit-mobile`
+- `whatsapp.jpeg` -> demo `whatsapp-operator`
+- Configuración en `src/app/content/videoPacks.ts` (campo `poster`).
 
 ## 4) Comandos de validación local
 

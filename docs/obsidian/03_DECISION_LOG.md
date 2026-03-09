@@ -17,3 +17,5 @@
 - 2026-03-09: Política operativa confirmada: sin variables de destino (PBIA) o Sheets (RYS), las APIs fallan explícitamente (`503`/`500`) para evitar falso positivo.
 - 2026-03-09: PBIA leads por Sheets usa variable dedicada `PBIA_LEADS_SHEETS_SPREADSHEET_ID` para evitar mezclar hoja de leads con hoja de catálogo RYS por fallback implícito.
 - 2026-03-09: Se publica guía breve `docs/ops/DEPLOY_TONIGHT_SHEETS.md` como referencia canónica de activación esta noche.
+- 2026-03-09: `/RYSminisuper` aplica fallback server-side a semilla local cuando falla Sheets para evitar pantalla global de error durante ventanas de configuración.
+- 2026-03-09: Miniaturas de demos de video quedan fijadas a archivos reales en `public/imagenes/fondo` (sin selección aleatoria).
