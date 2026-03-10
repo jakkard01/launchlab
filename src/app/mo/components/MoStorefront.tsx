@@ -71,6 +71,8 @@ export default function MoStorefront({ products, ctaLink }: MoStorefrontProps) {
     [scrollToId]
   );
 
+  const readyProducts = catalog.length;
+
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 pb-10">
       <MoHeader
@@ -89,6 +91,33 @@ export default function MoStorefront({ products, ctaLink }: MoStorefrontProps) {
         </div>
       ) : null}
       <MoHero ctaLink={ctaLink} />
+      <section className="grid gap-3 rounded-3xl border border-slate-200 bg-white px-4 py-4 shadow-sm sm:grid-cols-[1.2fr,1fr,1fr] sm:px-6">
+        <div>
+          <p className="text-xs uppercase tracking-[0.24em] text-emerald-600">
+            Resumen rápido
+          </p>
+          <p className="mt-2 text-sm font-semibold text-slate-900">
+            {readyProducts} productos visibles para retiro
+          </p>
+          <p className="mt-1 text-xs text-slate-500">
+            Catálogo simple, pedido por WhatsApp y retiro local.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => handleJumpToTab("hot")}
+          className="rounded-2xl border border-slate-200 px-4 py-3 text-left text-sm font-semibold text-slate-800 transition hover:border-emerald-300 hover:text-emerald-700"
+        >
+          Ver caliente hoy
+        </button>
+        <button
+          type="button"
+          onClick={() => scrollToId("pedido-especial")}
+          className="rounded-2xl border border-slate-200 px-4 py-3 text-left text-sm font-semibold text-slate-800 transition hover:border-emerald-300 hover:text-emerald-700"
+        >
+          Pedir algo que no ves
+        </button>
+      </section>
       <MoQuickShop
         products={catalog}
         activeTab={activeTab}

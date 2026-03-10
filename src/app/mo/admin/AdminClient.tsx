@@ -55,6 +55,8 @@ export default function AdminClient() {
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<MoBackendErrorInfo | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
+  const [actionSuccess, setActionSuccess] = useState<string | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [stock, setStock] = useState<Record<string, StockStatus>>({});
   const [prices, setPrices] = useState<Record<string, string>>({});
@@ -71,6 +73,23 @@ export default function AdminClient() {
   const [saleQuantity, setSaleQuantity] = useState(1);
   const [saleUnitPrice, setSaleUnitPrice] = useState(0);
   const importInputRef = useRef<HTMLInputElement>(null);
+
+  const showActionError = useCallback((message: string) => {
+    setActionSuccess(null);
+    setActionError(message);
+  }, []);
+
+  const showActionSuccess = useCallback((message: string) => {
+    setActionError(null);
+    setActionSuccess(message);
+  }, []);
+
+  useEffect(() => {
+    if (!actionSuccess) return;
+    const timeoutId = window.setTimeout(() => setActionSuccess(null), 2600);
+    return () => window.clearTimeout(timeoutId);
+  }, [actionSuccess]);
+
   const handleExport = () => {
     const payload = {
       products,
@@ -110,9 +129,9 @@ export default function AdminClient() {
       if (!ok) return;
       await adapter.importBackup(parsed);
       await reloadAll(adapter);
-      setActionError(null);
+      showActionSuccess("Backup importado.");
     } catch {
-      setActionError("No se pudo importar el backup.");
+      showActionError("No se pudo importar el backup.");
     } finally {
       event.target.value = "";
     }
@@ -157,6 +176,7 @@ export default function AdminClient() {
         await reloadAll(dataAdapter);
         if (!active) return;
         setActionError(null);
+        setActionSuccess(null);
       } catch (err) {
         if (!active) return;
         console.error("RYS admin load error", err);
@@ -221,6 +241,27 @@ export default function AdminClient() {
 
   const top7 = useMemo(() => stats?.top7 ?? [], [stats]);
   const top30 = useMemo(() => stats?.top30 ?? [], [stats]);
+  const visibleCount = useMemo(
+    () =>
+      products.filter(
+        (product) => (status[product.id] ?? product.status) !== "hidden"
+      ).length,
+    [products, status]
+  );
+  const hiddenCount = useMemo(
+    () =>
+      products.filter(
+        (product) => (status[product.id] ?? product.status) === "hidden"
+      ).length,
+    [products, status]
+  );
+  const soldOutCount = useMemo(
+    () =>
+      products.filter(
+        (product) => (stock[product.id] ?? product.stockStatus) === "agotado"
+      ).length,
+    [products, stock]
+  );
   const sortedProducts = useMemo(
     () =>
       products
@@ -235,9 +276,9 @@ export default function AdminClient() {
     try {
       await adapter.updateStock(id, status);
       await loadStats(adapter);
-      setActionError(null);
+      showActionSuccess("Stock actualizado.");
     } catch {
-      setActionError("No se pudo actualizar el stock.");
+      showActionError("No se pudo actualizar el stock.");
       await reloadAll(adapter);
     }
   };
@@ -248,9 +289,9 @@ export default function AdminClient() {
     try {
       await adapter.updatePrice(id, value);
       setBaselinePrices((prev) => ({ ...prev, [id]: value }));
-      setActionError(null);
+      showActionSuccess("Precio guardado.");
     } catch {
-      setActionError("No se pudo actualizar el precio.");
+      showActionError("No se pudo actualizar el precio.");
       await reloadAll(adapter);
     }
   };
@@ -265,9 +306,9 @@ export default function AdminClient() {
     );
     try {
       await adapter.updateImage(id, nextImage);
-      setActionError(null);
+      showActionSuccess("Imagen actualizada.");
     } catch {
-      setActionError("No se pudo actualizar la imagen.");
+      showActionError("No se pudo actualizar la imagen.");
       await reloadAll(adapter);
     }
   };
@@ -286,9 +327,9 @@ export default function AdminClient() {
     );
     try {
       await adapter.updateSortOrder(id, safeSortOrder);
-      setActionError(null);
+      showActionSuccess("Orden actualizado.");
     } catch {
-      setActionError("No se pudo actualizar el orden.");
+      showActionError("No se pudo actualizar el orden.");
       await reloadAll(adapter);
     }
   };
@@ -318,9 +359,9 @@ export default function AdminClient() {
     try {
       await adapter.updateSortOrder(current.id, targetOrder);
       await adapter.updateSortOrder(target.id, currentOrder);
-      setActionError(null);
+      showActionSuccess("Orden actualizado.");
     } catch {
-      setActionError("No se pudo mover el producto en el orden.");
+      showActionError("No se pudo mover el producto en el orden.");
       await reloadAll(adapter);
     }
   };
@@ -337,9 +378,9 @@ export default function AdminClient() {
     }));
     try {
       await adapter.updatePromo(id, enabled, percent);
-      setActionError(null);
+      showActionSuccess("Oferta actualizada.");
     } catch {
-      setActionError("No se pudo actualizar la oferta.");
+      showActionError("No se pudo actualizar la oferta.");
       await reloadAll(adapter);
     }
   };
@@ -353,9 +394,9 @@ export default function AdminClient() {
     );
     try {
       await adapter.updateFeatured(id, isFeatured);
-      setActionError(null);
+      showActionSuccess("Destacado actualizado.");
     } catch {
-      setActionError("No se pudo actualizar el destacado.");
+      showActionError("No se pudo actualizar el destacado.");
       await reloadAll(adapter);
     }
   };
@@ -365,9 +406,9 @@ export default function AdminClient() {
     setStatus((prev) => ({ ...prev, [id]: nextStatus }));
     try {
       await adapter.updateStatus(id, nextStatus);
-      setActionError(null);
+      showActionSuccess("Visibilidad actualizada.");
     } catch {
-      setActionError("No se pudo actualizar la visibilidad.");
+      showActionError("No se pudo actualizar la visibilidad.");
       await reloadAll(adapter);
     }
   };
@@ -378,9 +419,9 @@ export default function AdminClient() {
     try {
       await adapter.updateHot(id, state);
       await loadStats(adapter);
-      setActionError(null);
+      showActionSuccess("Estado caliente actualizado.");
     } catch {
-      setActionError("No se pudo actualizar el estado.");
+      showActionError("No se pudo actualizar el estado.");
       await reloadAll(adapter);
     }
   };
@@ -401,7 +442,7 @@ export default function AdminClient() {
   ) => {
     const parsed = parseMoney(value);
     if (!parsed || parsed <= 0) {
-      setActionError("Precio inválido. Debe ser un número mayor a 0.");
+      showActionError("Precio inválido. Debe ser un número mayor a 0.");
       setPrices((prev) => ({ ...prev, [id]: fallback }));
       return;
     }
@@ -463,10 +504,23 @@ export default function AdminClient() {
     try {
       await adapter.logOrder(saleEntry);
       await reloadAll(adapter);
-      setActionError(null);
+      showActionSuccess("Venta registrada.");
     } catch {
-      setActionError("No se pudo registrar la venta.");
+      showActionError("No se pudo registrar la venta.");
       await reloadAll(adapter);
+    }
+  };
+
+  const handleManualReload = async () => {
+    if (!adapter) return;
+    setRefreshing(true);
+    try {
+      await reloadAll(adapter);
+      showActionSuccess("Panel recargado.");
+    } catch {
+      showActionError("No se pudo recargar el panel.");
+    } finally {
+      setRefreshing(false);
     }
   };
 
@@ -534,8 +588,19 @@ export default function AdminClient() {
               RYS minisuper admin
             </p>
             <h1 className="text-3xl font-semibold">Resumen diario</h1>
+            <p className="mt-2 text-sm text-white/60">
+              Panel simple para revisar productos, stock, precios y ventas del día.
+            </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={handleManualReload}
+              disabled={refreshing}
+              className="rounded-full border border-white/10 px-4 py-2 text-xs uppercase tracking-[0.2em] text-white/70 disabled:opacity-60"
+            >
+              {refreshing ? "Recargando..." : "Recargar panel"}
+            </button>
             <button
               type="button"
               onClick={handleExport}
@@ -577,6 +642,33 @@ export default function AdminClient() {
             </div>
           </div>
         ) : null}
+
+        {actionSuccess ? (
+          <div className="rounded-2xl border border-emerald-300/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100">
+            <p>{actionSuccess}</p>
+          </div>
+        ) : null}
+
+        <section className="grid gap-4 sm:grid-cols-3">
+          <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
+            <p className="text-xs uppercase tracking-[0.25em] text-white/60">
+              Productos visibles
+            </p>
+            <p className="mt-2 text-3xl font-semibold">{visibleCount}</p>
+          </div>
+          <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
+            <p className="text-xs uppercase tracking-[0.25em] text-white/60">
+              Ocultos
+            </p>
+            <p className="mt-2 text-3xl font-semibold">{hiddenCount}</p>
+          </div>
+          <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
+            <p className="text-xs uppercase tracking-[0.25em] text-white/60">
+              Agotados
+            </p>
+            <p className="mt-2 text-3xl font-semibold">{soldOutCount}</p>
+          </div>
+        </section>
 
         <section className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6">
           <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-white/80">

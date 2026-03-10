@@ -125,6 +125,9 @@ export default function MoSections({
             <p className="mt-2 text-sm text-slate-600">
               Pagos: efectivo, transferencia o Tigo Money.
             </p>
+            <p className="mt-2 text-sm text-slate-600">
+              Si necesitas varias cosas juntas, manda la lista por WhatsApp y te la dejamos preparada.
+            </p>
           </div>
           <a
             href={MO_STORE_MAPS_URL}

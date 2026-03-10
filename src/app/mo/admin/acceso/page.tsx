@@ -104,6 +104,14 @@ export default function MoAdminAccessPage() {
           </button>
         </form>
 
+        <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-600">
+          <p className="font-semibold text-slate-800">Qué deberías ver</p>
+          <p className="mt-1">
+            Si la clave está bien, entras al panel. Si luego falla la carga, el
+            panel te dirá si falta configuración o si la sesión no quedó activa.
+          </p>
+        </div>
+
         <a
           href="/RYSminisuper"
           className="mt-6 inline-flex h-11 items-center justify-center rounded-full border border-slate-200 px-5 text-sm font-semibold text-slate-600 transition hover:border-emerald-300 hover:text-emerald-700"
