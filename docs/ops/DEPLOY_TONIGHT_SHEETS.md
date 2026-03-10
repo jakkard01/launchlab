@@ -1,16 +1,22 @@
 # Deploy Tonight — PBIA + RYS (Google Sheets)
 
-## 0) Diagnóstico real detectado el 2026-03-09
+## 0) Diagnóstico real detectado el 2026-03-10
 
 ### Causa exacta del `invalid_grant` en producción
-- `GET https://oauth2.googleapis.com/token` responde:
-  - `invalid_grant`
-  - `error_description=Invalid grant: account not found`
-- La variable `GOOGLE_SERVICE_ACCOUNT_EMAIL` en producción estaba apuntando a un placeholder (`launchlab...@tu-proyecto.iam.gserviceaccount.com`), no a una service account real.
+- Evidencia live el 2026-03-10:
+  - `GET https://www.poweredbyia.com/api/mo/products` responde `500` con `No se pudo obtener token de Google Sheets: invalid_grant`.
+  - `vercel env pull --environment=production` muestra:
+    - `RYS_SHEETS_SPREADSHEET_ID` sí existe.
+    - `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` sí existe y conserva formato PEM con `\n` escapados.
+    - `GOOGLE_SERVICE_ACCOUNT_EMAIL="launchlab-sheets-bot@tu-proyecto.iam.gserviceaccount.com"`.
+- Causa exacta actual:
+  - la variable `GOOGLE_SERVICE_ACCOUNT_EMAIL` en producción sigue apuntando a un placeholder (`...@tu-proyecto.iam.gserviceaccount.com`), no a una service account real.
+  - mientras eso siga así, RYS no llega siquiera a la etapa de validar pestañas/columnas; el bloqueo es de autenticación previa contra Google OAuth.
 - Consecuencia:
   - falla `GET /api/mo/products`
   - falla snapshot/admin de `/RYSminisuper/admin`
-  - también queda roto el delivery a Google Sheets del formulario si intenta usar la misma credencial
+  - el storefront entra en fallback server-side
+  - el admin puede abrir acceso, pero no puede cargar datos vivos
 
 ### Fix mínimo correcto
 1. Sustituir en Vercel `GOOGLE_SERVICE_ACCOUNT_EMAIL` por el `client_email` real del JSON de la service account activa.
@@ -18,11 +24,20 @@
 3. Mantener la clave con `\\n` escapados si se pega en una sola línea; el runtime ya la normaliza.
 4. Confirmar que la hoja RYS está compartida con ese `client_email`.
 5. Confirmar que `RYS_SHEETS_SPREADSHEET_ID` y `PBIA_LEADS_SHEETS_SPREADSHEET_ID` siguen apuntando a hojas válidas.
+6. Tras corregir el email, volver a probar esquema:
+   - pestañas: `products`, `orders`, `daily_sales`
+   - columnas `products`: `id`, `name`, `category`, `sortOrder`, `price`, `description`, `image`, `imageKey`, `isFeatured`, `status`, `stockStatus`, `promoEnabled`, `promoPercent`, `hotStatus`, `hotWindowStart`, `hotWindowEnd`, `hotNote`, `hotUpdatedAt`, `updatedAt`
 
 ### Verificación mínima tras corregir Vercel
 - `GET /api/mo/products` -> `200`
 - `/RYSminisuper` sin banner de respaldo
 - login en `/RYSminisuper/admin/acceso` + `GET /api/mo/admin` -> `200`
+- `POST /api/mo/admin` -> `200` para:
+  - `updatePrice`
+  - `updateStock`
+  - `updateStatus`
+  - `updateSortOrder`
+  - `updateImage`
 - `POST /api/contact` con mensaje humano normal -> `200` + `leadId`
 
 ## 1) PBIA Leads (formulario)
@@ -187,6 +202,24 @@ npm run lint
   - `POST /api/mo/admin/login`
   - `GET /api/mo/admin`
   - `GET /api/mo/products`
+
+## 8.1) Estado del repo tras este bloque
+- Login admin:
+  - mostrar/ocultar clave
+  - estado `Validando acceso...`
+  - error claro para `401`, `403`, `503`, `400`
+- Panel admin:
+  - separa error fatal de carga vs error de guardado
+  - no cae a pantalla negra por un fallo puntual al editar
+  - muestra ayuda accionable cuando falla Sheets/auth
+- Storefront:
+  - banner fallback ahora muestra causa útil y no solo mensaje genérico
+- Home RYS:
+  - más clara en 5 segundos: qué es, dónde está, cómo pedir y por qué ahorra tiempo
+- Modal/video móvil:
+  - bloquea scroll del body
+  - permite cerrar con tap fuera y `Esc`
+  - mantiene botón cerrar visible arriba
 
 ## 9) Contacto y anti-spam
 - Validaciones diferenciadas:

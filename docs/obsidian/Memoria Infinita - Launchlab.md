@@ -298,6 +298,72 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
 - Punto de reanudación:
   - con credenciales Sheets reales cargadas, ejecutar prueba admin completa y validar persistencia cross-sesión sin banner de respaldo.
 
+## 2026-03-10 — RYS next block (diagnóstico real + home comercial + admin operativo)
+- Rama de trabajo confirmada:
+  - `feat/pagina-hermana-live`
+- Estado real confirmado antes de tocar:
+  - storefront live responde y sigue entrando en fallback;
+  - `GET https://www.poweredbyia.com/api/mo/products` responde `500` con `No se pudo obtener token de Google Sheets: invalid_grant`;
+  - deployment productivo activo: `launchlabv1-l95uatbvt-gerrys-projects-7c589fcf.vercel.app` (creado el 2026-03-09, alias `www.poweredbyia.com`);
+  - local `.env.local` no trae variables de Sheets, solo admin local mínimo;
+  - existe un archivo no trackeado ajeno al bloque: `public/imagenes/perfil/rysminisuper.jpeg`.
+- Causa exacta del fallo real de Sheets/admin:
+  - se hizo `vercel env pull /tmp/rys-prod.env --environment=production`;
+  - resultado:
+    - `RYS_SHEETS_SPREADSHEET_ID` sí está configurado;
+    - `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` sí está configurada y mantiene formato PEM;
+    - `GOOGLE_SERVICE_ACCOUNT_EMAIL="launchlab-sheets-bot@tu-proyecto.iam.gserviceaccount.com"`;
+  - conclusión:
+    - el bloqueo actual es credencial/config externa;
+    - no es un problema primario de pestañas o columnas porque la autenticación falla antes de leer la hoja;
+    - storefront y admin siguen cayendo porque ambos dependen de la misma fuente (`sheetsStore`).
+- Fixes aplicados en repo:
+  - helper nuevo `src/lib/mo/data/errorInfo.ts` para clasificar errores reales de auth/config/schema/red;
+  - `/RYSminisuper` ahora muestra fallback con causa y ayuda accionable, no solo mensaje genérico;
+  - `/api/mo/admin/login` devuelve `400` claro si el body no llega como JSON válido;
+  - `/RYSminisuper/admin/acceso` mantiene loading, mostrar/ocultar clave y mensajes más claros;
+  - `/RYSminisuper/admin` separa:
+    - error fatal de carga inicial;
+    - error puntual al guardar cambios;
+    - así evita “NO SE PUDO CARGAR EL PANEL” como pantalla negra por cualquier fallo menor.
+- Home comercial RYS:
+  - se quitó fricción visual de “demo” en el header RYS (sin toggle, CTA directo a WhatsApp);
+  - hero ahora explica en 5 segundos:
+    - qué es;
+    - dónde está;
+    - cómo pedir;
+    - por qué ahorra tiempo;
+  - quick shop y bloques de apoyo ahora priorizan:
+    - categorías útiles;
+    - combos/packs;
+    - antojitos;
+    - ofertas;
+    - señales de confianza local;
+    - horario/ubicación/pagos claros.
+- Modal / video móvil:
+  - body scroll lock;
+  - `touch-action: none` mientras el modal está abierto;
+  - cierre por tap fuera;
+  - cierre por `Escape`;
+  - botón cerrar fijo/visible arriba.
+- Prueba manual recomendada al retomar:
+  1. Corregir en Vercel `GOOGLE_SERVICE_ACCOUNT_EMAIL` con el `client_email` real.
+  2. Verificar que la hoja esté compartida con esa service account.
+  3. Revisar `GET /api/mo/products` => `200`.
+  4. Abrir `/RYSminisuper` y confirmar que desaparece el fallback.
+  5. Entrar a `/RYSminisuper/admin/acceso`.
+  6. Probar cambios reales en admin:
+     - `price`
+     - `stockStatus`
+     - `status`
+     - `sortOrder`
+     - `image`
+  7. Recargar storefront y confirmar persistencia.
+- Punto de reanudación siguiente:
+  - corregir env productivo de Google service account;
+  - validar lectura viva;
+  - recién entonces revisar nombres de pestañas/columnas si apareciera un error `SHEETS_SCHEMA_*`.
+
 ## 2026-03-09 — Post-deploy admin RYS (login + errores claros + móvil)
 - Diagnóstico real en producción:
   - `POST /api/mo/admin/login` con clave incorrecta responde `401` y `Clave incorrecta.`.

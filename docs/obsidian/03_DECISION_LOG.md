@@ -19,3 +19,7 @@
 - 2026-03-09: Se publica guía breve `docs/ops/DEPLOY_TONIGHT_SHEETS.md` como referencia canónica de activación esta noche.
 - 2026-03-09: `/RYSminisuper` aplica fallback server-side a semilla local cuando falla Sheets para evitar pantalla global de error durante ventanas de configuración.
 - 2026-03-09: Miniaturas de demos de video quedan fijadas a archivos reales en `public/imagenes/fondo` (sin selección aleatoria).
+- 2026-03-10: Diagnóstico live confirmado con `vercel env pull`: el bloqueo real de RYS no está en pestañas/columnas sino en `GOOGLE_SERVICE_ACCOUNT_EMAIL` de producción, que sigue como placeholder `...@tu-proyecto.iam.gserviceaccount.com`.
+- 2026-03-10: Admin RYS separa error fatal de carga vs error de guardado para evitar pantalla negra ambigua ante un fallo puntual de Sheets.
+- 2026-03-10: Home RYS se ajusta con criterio comercial práctico: tienda local, pedido por WhatsApp, retiro claro, menos tono de demo.
+- 2026-03-10: Overlay/modal de video endurecido para móvil con lock de scroll, cierre siempre visible, cierre por tap fuera y `Escape`.
