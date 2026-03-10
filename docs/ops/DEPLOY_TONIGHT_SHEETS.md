@@ -221,6 +221,18 @@ npm run lint
   - permite cerrar con tap fuera y `Esc`
   - mantiene botón cerrar visible arriba
 
+## 8.2) Mejoras locales listas aunque Sheets siga bloqueado
+- Home:
+  - resumen rápido con atajos móviles al catálogo y pedido especial;
+  - copy más útil para compras rápidas y retiro local.
+- Admin:
+  - feedback positivo visible al guardar;
+  - botón de recarga manual;
+  - resumen operativo diario (`visibles`, `ocultos`, `agotados`).
+- Regla operativa:
+  - estas mejoras no dependen de arreglar producción;
+  - pueden desplegarse en cuanto el usuario decida, pero la lectura viva de Sheets seguirá bloqueada hasta corregir `GOOGLE_SERVICE_ACCOUNT_EMAIL`.
+
 ## 9) Contacto y anti-spam
 - Validaciones diferenciadas:
   - `CONTACT_RATE_LIMITED`

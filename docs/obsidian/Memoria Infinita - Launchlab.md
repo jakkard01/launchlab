@@ -364,6 +364,32 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
   - validar lectura viva;
   - recién entonces revisar nombres de pestañas/columnas si apareciera un error `SHEETS_SCHEMA_*`.
 
+## 2026-03-10 — RYS bloque local (UX + home + admin + video)
+- Criterio operativo de este bloque:
+  - no tocar más producción;
+  - asumir que el bloqueo live de Sheets sigue siendo externo/config;
+  - avanzar solo mejoras locales útiles para el próximo deploy.
+- Mejoras locales aplicadas:
+  - home:
+    - nuevo bloque de resumen rápido con conteo visible y atajos móviles;
+    - mensaje final de ubicación/pago reforzado para compras en lista;
+    - menos sensación de prototipo y mejor entrada al catálogo en móvil.
+  - admin:
+    - mensajes de éxito visibles para acciones comunes;
+    - botón de recarga explícito;
+    - tarjetas resumen de operación (`visibles`, `ocultos`, `agotados`);
+    - acceso con explicación más clara de qué esperar si la clave entra pero la carga falla después.
+  - video/modal:
+    - sin cambio extra de arquitectura en este bloque;
+    - se mantiene la base ya endurecida con lock de scroll, cierre visible y cierre por tap fuera/`Escape`.
+- Resultado práctico:
+  - aunque Sheets live siga caído, el siguiente deploy ya tendría una experiencia más clara y más vendible.
+- Punto de reanudación siguiente:
+  1. Esperar corrección externa de credenciales.
+  2. Desplegar este bloque local.
+  3. Validar storefront/admin con datos vivos.
+  4. Si Sheets responde, pasar a prueba operativa real de edición persistente.
+
 ## 2026-03-09 — Post-deploy admin RYS (login + errores claros + móvil)
 - Diagnóstico real en producción:
   - `POST /api/mo/admin/login` con clave incorrecta responde `401` y `Clave incorrecta.`.

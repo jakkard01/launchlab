@@ -23,3 +23,6 @@
 - 2026-03-10: Admin RYS separa error fatal de carga vs error de guardado para evitar pantalla negra ambigua ante un fallo puntual de Sheets.
 - 2026-03-10: Home RYS se ajusta con criterio comercial práctico: tienda local, pedido por WhatsApp, retiro claro, menos tono de demo.
 - 2026-03-10: Overlay/modal de video endurecido para móvil con lock de scroll, cierre siempre visible, cierre por tap fuera y `Escape`.
+- 2026-03-10: Mientras el bloqueo live de Sheets siga externo/config, RYS puede seguir mejorándose localmente en home/admin/video sin esperar a producción.
+- 2026-03-10: Admin RYS añade feedback positivo visible (`guardado`, `recargado`, `venta registrada`) y resumen operativo simple (`visibles`, `ocultos`, `agotados`) para uso diario.
+- 2026-03-10: Home RYS añade resumen rápido con atajos móviles (`Ver caliente hoy`, `Pedir algo que no ves`) para bajar fricción sin rediseño.
