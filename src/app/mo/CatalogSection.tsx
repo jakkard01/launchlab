@@ -53,7 +53,7 @@ export default function CatalogSection({
           Catálogo completo
         </h2>
         <p className="text-sm text-muted">
-          Catálogo mínimo con productos listos para retiro.
+          Revisa disponibilidad y arma tu pedido para retiro.
         </p>
         <div className="flex flex-wrap gap-2 text-xs text-muted">
           <span className="rounded-full border border-default px-3 py-1">

@@ -56,8 +56,8 @@ export default function MoAdminAccessPage() {
           Panel restringido
         </h1>
         <p className="mt-2 text-sm text-slate-600">
-          Este panel es solo para administracion. Ingresa la clave del admin para
-          continuar.
+          Este panel es solo para administracion. Ingresa la clave para abrir el
+          panel operativo de la tienda.
         </p>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
@@ -69,6 +69,7 @@ export default function MoAdminAccessPage() {
               type={showPassword ? "text" : "password"}
               value={password}
               onChange={(event) => setPassword(event.target.value)}
+              disabled={submitting}
               className="h-12 w-full rounded-2xl border border-slate-200 px-4 pr-24 text-sm text-slate-900 outline-none focus:border-emerald-400"
               placeholder="Ingresa la clave"
               autoComplete="current-password"
@@ -77,17 +78,22 @@ export default function MoAdminAccessPage() {
             <button
               type="button"
               onClick={() => setShowPassword((value) => !value)}
+              disabled={submitting}
               className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:border-emerald-300 hover:text-emerald-700"
               aria-label={showPassword ? "Ocultar clave" : "Mostrar clave"}
             >
               {showPassword ? "Ocultar" : "Mostrar"}
             </button>
           </div>
-          {submitting ? (
-            <p className="text-xs text-slate-500">Validando acceso...</p>
-          ) : null}
+          <p aria-live="polite" className="text-xs text-slate-500">
+            {submitting
+              ? "Validando acceso..."
+              : "Si la clave está bien, entrarás directo al panel."}
+          </p>
           {error ? (
-            <p className="text-sm text-rose-600">{error}</p>
+            <p aria-live="assertive" className="text-sm text-rose-600">
+              {error}
+            </p>
           ) : null}
           <button
             type="submit"

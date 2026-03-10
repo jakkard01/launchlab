@@ -21,6 +21,42 @@ export default function MoSections({
 }: MoSectionsProps) {
   return (
     <section className="space-y-10">
+      <section className="grid gap-4 rounded-3xl border border-slate-200 bg-white px-6 py-6 shadow-sm sm:grid-cols-3 sm:px-8">
+        <div className="rounded-2xl border border-slate-200 px-4 py-4">
+          <p className="text-xs uppercase tracking-[0.24em] text-emerald-600">
+            Tienda real
+          </p>
+          <p className="mt-2 text-sm font-semibold text-slate-900">
+            Local de barrio en La Gloria
+          </p>
+          <p className="mt-1 text-xs text-slate-500">
+            No es envío masivo ni ecommerce complicado. Pides directo y retiras.
+          </p>
+        </div>
+        <div className="rounded-2xl border border-slate-200 px-4 py-4">
+          <p className="text-xs uppercase tracking-[0.24em] text-emerald-600">
+            Pedido fácil
+          </p>
+          <p className="mt-2 text-sm font-semibold text-slate-900">
+            Confirmación por WhatsApp
+          </p>
+          <p className="mt-1 text-xs text-slate-500">
+            Te decimos si está disponible antes de que salgas.
+          </p>
+        </div>
+        <div className="rounded-2xl border border-slate-200 px-4 py-4">
+          <p className="text-xs uppercase tracking-[0.24em] text-emerald-600">
+            Pago simple
+          </p>
+          <p className="mt-2 text-sm font-semibold text-slate-900">
+            Pagas al retirar
+          </p>
+          <p className="mt-1 text-xs text-slate-500">
+            Efectivo, transferencia o Tigo Money.
+          </p>
+        </div>
+      </section>
+
       <CatalogSection
         products={products}
         activeTab={activeTab}
@@ -35,7 +71,7 @@ export default function MoSections({
             Cómo pedir
           </p>
           <p className="mt-2 text-sm text-slate-600">
-            3 pasos para pedir y retirar.
+            Lo resolvés en tres pasos cortos.
           </p>
         </div>
         <div className="rounded-2xl border border-slate-200 px-4 py-4">
@@ -44,7 +80,7 @@ export default function MoSections({
             Elige del catálogo
           </p>
           <p className="mt-1 text-xs text-slate-500">
-            Usa el buscador y categorías rápidas.
+            Usa el buscador, los pasillos y el pedido especial si te falta algo.
           </p>
         </div>
         <div className="rounded-2xl border border-slate-200 px-4 py-4">
@@ -53,7 +89,7 @@ export default function MoSections({
             Escribe por WhatsApp
           </p>
           <p className="mt-1 text-xs text-slate-500">
-            Confirmamos tu pedido en minutos.
+            Te confirmamos disponibilidad, total y tiempo de retiro.
           </p>
         </div>
         <div className="rounded-2xl border border-slate-200 px-4 py-4">
@@ -62,7 +98,7 @@ export default function MoSections({
             Pasás a recoger
           </p>
           <p className="mt-1 text-xs text-slate-500">
-            Listo para retirar.
+            Pasás cuando esté listo y pagas al retirar.
           </p>
         </div>
       </section>
@@ -75,14 +111,19 @@ export default function MoSections({
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-emerald-600">
-              Horario y ubicacion
+              Ubicación, horario y pago
+            </p>
+            <p className="mt-2 text-sm font-semibold text-slate-900">
+              Retiro en La Gloria, San Salvador
             </p>
             <p className="mt-2 text-sm text-slate-600">
               {MO_STORE_HOURS_LABEL}
             </p>
             <p className="mt-2 text-sm text-slate-600">
-              Si vas tarde, escribinos por WhatsApp y te confirmamos si seguimos
-              atendiendo.
+              Si vas tarde, escríbenos y te confirmamos si seguimos atendiendo.
+            </p>
+            <p className="mt-2 text-sm text-slate-600">
+              Pagos: efectivo, transferencia o Tigo Money.
             </p>
           </div>
           <a

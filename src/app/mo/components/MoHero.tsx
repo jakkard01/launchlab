@@ -7,8 +7,10 @@ type MoHeroProps = {
 export default function MoHero({ ctaLink }: MoHeroProps) {
   return (
     <section className="space-y-4">
-      <div className="flex h-10 items-center justify-center rounded-2xl border border-default bg-surface px-4 text-center text-xs text-main sm:justify-between sm:text-sm">
-        <span className="text-main">Pedís por WhatsApp y pasás a recoger. Sin vueltas.</span>
+      <div className="flex min-h-[44px] items-center justify-center rounded-2xl border border-default bg-surface px-4 py-2 text-center text-xs text-main sm:justify-between sm:text-sm">
+        <span className="text-main">
+          Pedís por WhatsApp, te confirmamos y pasás a retirar. Sin vuelta extra.
+        </span>
         <span className="hidden text-muted sm:inline">
           La Gloria • {MO_STORE_HOURS_LABEL}
         </span>
@@ -21,21 +23,46 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
         <div className="absolute inset-0 bg-[color-mix(in_srgb,var(--surface)_65%,transparent)] backdrop-blur-[2px]" />
         <div className="relative">
           <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[var(--accent)]">
-            TIENDA EXPRESS
+            TIENDA LOCAL
           </p>
           <h1 className="mt-3 text-3xl font-semibold text-main sm:text-4xl">
-            RYS Minisúper
+            RYS Minisúper La Gloria
           </h1>
-          <p className="mt-2 text-sm text-muted">
-            Retiro en La Gloria, San Salvador
+          <p className="mt-3 max-w-2xl text-sm text-muted sm:text-base">
+            Abarrotes, antojitos y pedidos rápidos para retiro en La Gloria,
+            San Salvador. Más cómodo que salir a buscar todo y con confirmación
+            por WhatsApp antes de que salgas.
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
             <span className="rounded-full border border-[var(--accent)]/40 bg-[var(--accent)]/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-main">
-              Retiro
+              Retiro local
             </span>
             <span className="rounded-full border border-default px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted">
               La Gloria
             </span>
+            <span className="rounded-full border border-default px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted">
+              Pago al retirar
+            </span>
+          </div>
+          <div className="mt-5 grid gap-3 text-sm text-main sm:grid-cols-3">
+            <div className="rounded-2xl border border-default bg-[color-mix(in_srgb,var(--surface)_88%,transparent)] px-4 py-3">
+              <p className="text-xs uppercase tracking-[0.22em] text-[var(--accent)]">
+                Qué es
+              </p>
+              <p className="mt-1">Minisúper de barrio con catálogo rápido para pedir.</p>
+            </div>
+            <div className="rounded-2xl border border-default bg-[color-mix(in_srgb,var(--surface)_88%,transparent)] px-4 py-3">
+              <p className="text-xs uppercase tracking-[0.22em] text-[var(--accent)]">
+                Cómo funciona
+              </p>
+              <p className="mt-1">Armas el pedido, confirmamos disponibilidad y lo dejas listo.</p>
+            </div>
+            <div className="rounded-2xl border border-default bg-[color-mix(in_srgb,var(--surface)_88%,transparent)] px-4 py-3">
+              <p className="text-xs uppercase tracking-[0.22em] text-[var(--accent)]">
+                Por qué conviene
+              </p>
+              <p className="mt-1">Te ahorra tiempo y evita salir a dar la vuelta sin saber si hay.</p>
+            </div>
           </div>
           <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
             <a
@@ -44,7 +71,7 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Escribir por WhatsApp
+              Pedir por WhatsApp
             </a>
             <a
               href="#catalogo"
@@ -63,16 +90,17 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
           </div>
           <div className="mt-5 rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-4 py-3 text-xs text-main sm:text-sm">
             <p className="text-xs uppercase tracking-[0.3em] text-[var(--accent)]">
-              Retiro local
+              Información útil
             </p>
             <p className="mt-2 text-main">Retiro en La Gloria, San Salvador.</p>
             <p className="mt-1 text-main">Horario: {MO_STORE_HOURS_LABEL}</p>
             <p className="mt-1 text-main">Pagos: efectivo, transferencia o Tigo Money.</p>
+            <p className="mt-1 text-main">Si algo no aparece en catálogo, lo pedís por WhatsApp y te confirmamos.</p>
           </div>
           <div className="mt-5 grid gap-2 text-xs text-main sm:grid-cols-3">
-            <span>✅ Confirmamos disponibilidad</span>
+            <span>✅ Confirmamos antes de que salgas</span>
             <span>✅ Pago al retirar</span>
-            <span>✅ Listo para retiro</span>
+            <span>✅ Tienda real y cercana</span>
           </div>
         </div>
       </div>

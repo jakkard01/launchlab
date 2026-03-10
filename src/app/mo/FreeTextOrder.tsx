@@ -23,10 +23,10 @@ export default function FreeTextOrder() {
           Pedido especial
         </p>
         <h2 className="text-lg font-semibold text-slate-900">
-          Pedir algo que no está en el catálogo
+          ¿No ves algo en catálogo?
         </h2>
         <p className="text-sm text-slate-600">
-          Escríbenos y lo buscamos para retiro.
+          Escríbenos qué necesitas y te confirmamos si lo tenemos o si lo podemos conseguir para retiro.
         </p>
       </div>
       <div className="mt-5 grid gap-3">
@@ -73,7 +73,7 @@ export default function FreeTextOrder() {
           Enviar pedido por WhatsApp
         </a>
         <p className="text-xs text-emerald-700">
-          Te confirmamos disponibilidad y tiempo de retiro.
+          Te respondemos por WhatsApp con disponibilidad y tiempo de retiro.
         </p>
       </div>
     </div>

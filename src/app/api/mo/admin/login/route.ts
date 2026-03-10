@@ -8,7 +8,17 @@ export async function POST(request: Request) {
     );
   }
 
-  const { password } = (await request.json()) as { password?: string };
+  let password = "";
+  try {
+    const payload = (await request.json()) as { password?: string };
+    password = payload.password ?? "";
+  } catch {
+    return NextResponse.json(
+      { ok: false, message: "Solicitud inválida. Envía la clave en formato JSON." },
+      { status: 400 }
+    );
+  }
+
   const adminPassword = process.env.ADMIN_PASSWORD ?? "";
   const adminPin = process.env.ADMIN_PIN ?? "";
   const legacyKey = process.env.MO_ADMIN_KEY ?? "";

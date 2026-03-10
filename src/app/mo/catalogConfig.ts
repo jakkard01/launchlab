@@ -1,7 +1,7 @@
 import type { Product } from "../../lib/mo/types";
 
 export const HOT_IDS = ["mo-cafe-pack"];
-export const COMBO_IDS: string[] = [];
+export const COMBO_IDS: string[] = ["mo-cafe-pack"];
 
 export const TABS = [
   { id: "hot", label: "Caliente hoy", icon: "🔥" },
@@ -23,7 +23,11 @@ export const matchesTab = (product: Product, tabId: TabId) => {
     case "antojitos":
       return product.category === "antojitos";
     case "combos":
-      return COMBO_IDS.includes(product.id);
+      return (
+        COMBO_IDS.includes(product.id) ||
+        /combo|pack/i.test(product.name) ||
+        /combo|pack/i.test(product.description ?? "")
+      );
     case "lacteos":
       return product.category === "lacteos";
     case "bebidas":

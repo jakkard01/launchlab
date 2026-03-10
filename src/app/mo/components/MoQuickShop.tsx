@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useMemo } from "react";
 import type { Product } from "../../../lib/mo/types";
 import ProductCard from "../ProductCard";
-import { TABS, TabId } from "../catalogConfig";
+import { matchesTab, TABS, TabId } from "../catalogConfig";
 
 type MoQuickShopProps = {
   products: Product[];
@@ -59,6 +59,11 @@ export default function MoQuickShop({
 }: MoQuickShopProps) {
   const featured = useMemo(
     () => products.filter((product) => product.isFeatured).slice(0, 6),
+    [products]
+  );
+
+  const combos = useMemo(
+    () => products.filter((product) => matchesTab(product, "combos")).slice(0, 6),
     [products]
   );
 
@@ -120,10 +125,10 @@ export default function MoQuickShop({
     <section className="space-y-6">
       <div>
         <p className="text-xs uppercase tracking-[0.3em] text-muted">
-          Pasillos
+          Pedido rápido
         </p>
         <h2 className="mt-2 text-lg font-semibold text-main">
-          Elegi por categoría
+          Entra por categoría y resuelve más rápido
         </h2>
       </div>
 
@@ -206,6 +211,28 @@ export default function MoQuickShop({
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-semibold text-slate-900">
+            Combos y packs
+          </h3>
+          <span className="text-xs text-slate-500">Para salir del paso</span>
+        </div>
+        {combos.length > 0 ? (
+          <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
+            {combos.map((product) => (
+              <div key={product.id} className="min-w-[240px] sm:min-w-0">
+                <ProductCard product={product} variant="compact" />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="rounded-2xl border border-dashed border-slate-200 px-4 py-5 text-sm text-slate-500">
+            Aún no hay combos cargados.
+          </div>
+        )}
+      </div>
+
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-semibold text-slate-900">
             Antojitos de hoy
           </h3>
           <span className="text-xs text-emerald-600">Pide hoy</span>
@@ -230,9 +257,7 @@ export default function MoQuickShop({
           <h3 className="text-sm font-semibold text-slate-900">
             Ofertas rápidas
           </h3>
-          <span className="text-xs text-slate-500">
-            Descuentos del día
-          </span>
+          <span className="text-xs text-slate-500">Descuentos del día</span>
         </div>
         {promoProducts.length > 0 ? (
           <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
@@ -252,9 +277,9 @@ export default function MoQuickShop({
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-semibold text-slate-900">
-            Lo más pedido hoy
+            Lo más pedido para resolver rápido
           </h3>
-          <span className="text-xs text-slate-500">Top picks</span>
+          <span className="text-xs text-slate-500">Lo que más sale</span>
         </div>
         <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
           {featured.length > 0 ? (

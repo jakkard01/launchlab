@@ -3,7 +3,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Product, ProductStatus } from "../../../lib/mo/types";
 import { getMoDataAdapter } from "../../../lib/mo/data";
-import { MoApiError } from "../../../lib/mo/data/apiAdapter";
+import {
+  getMoBackendErrorInfo,
+  type MoBackendErrorInfo,
+} from "../../../lib/mo/data/errorInfo";
 import {
   getEffectivePriceValue,
   getPromoLabel,
@@ -47,46 +50,11 @@ const hotLabels: Record<HotStatus, string> = {
   hoy_no_hicimos: "Hoy no hicimos",
 };
 
-const describePanelLoadError = (error: unknown) => {
-  if (error instanceof MoApiError) {
-    if (error.status === 401 || error.status === 403) {
-      return "Sesión inválida o acceso denegado. Vuelve a iniciar sesión en /RYSminisuper/admin/acceso.";
-    }
-    if (error.code === "SHEETS_SERVICE_ACCOUNT_PLACEHOLDER") {
-      return "GOOGLE_SERVICE_ACCOUNT_EMAIL sigue con un placeholder en producción. Sustitúyelo por el client_email real del JSON de Google Cloud.";
-    }
-    if (error.code === "SHEETS_PRIVATE_KEY_FORMAT" || error.code === "SHEETS_PRIVATE_KEY_INVALID") {
-      return "La clave privada de Google Sheets está mal formateada. Revisa comillas envolventes, saltos de línea \\n y que la clave pertenezca a la misma service account.";
-    }
-    if (error.code === "SHEETS_SERVICE_ACCOUNT_NOT_FOUND") {
-      return "Google responde 'account not found': la cuenta de servicio configurada no existe o no coincide con la clave privada. Corrige GOOGLE_SERVICE_ACCOUNT_EMAIL/PRIVATE_KEY en producción.";
-    }
-    if (error.code === "SHEETS_INVALID_GRANT" || error.code === "SHEETS_AUTH_FAILED") {
-      return "No se pudo autenticar con Google Sheets (credenciales inválidas o permiso faltante). Revisa GOOGLE_SERVICE_ACCOUNT_* y comparte la hoja con la cuenta de servicio.";
-    }
-    if (error.code === "SHEETS_NOT_CONFIGURED") {
-      return "Google Sheets no está configurado en producción. Define RYS_SHEETS_SPREADSHEET_ID, GOOGLE_SERVICE_ACCOUNT_EMAIL y GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY.";
-    }
-    if (error.code === "SHEETS_SCHEMA_INVALID" || error.code === "SHEETS_SCHEMA_RANGE_ERROR") {
-      return `El esquema de Google Sheets no coincide con lo esperado. Detalle: ${error.message}`;
-    }
-    return error.message || "No se pudo cargar el panel.";
-  }
-
-  if (error instanceof Error) {
-    if (error.message.includes("Unauthorized")) {
-      return "Sesión inválida o acceso denegado. Vuelve a iniciar sesión en /RYSminisuper/admin/acceso.";
-    }
-    return `No se pudo cargar el panel. Detalle: ${error.message}`;
-  }
-
-  return "No se pudo cargar el panel.";
-};
-
 export default function AdminClient() {
   const [adapter, setAdapter] = useState<MoDataAdapter | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [loadError, setLoadError] = useState<MoBackendErrorInfo | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [stock, setStock] = useState<Record<string, StockStatus>>({});
   const [prices, setPrices] = useState<Record<string, string>>({});
@@ -142,8 +110,9 @@ export default function AdminClient() {
       if (!ok) return;
       await adapter.importBackup(parsed);
       await reloadAll(adapter);
-    } catch (err) {
-      setError("No se pudo importar el backup.");
+      setActionError(null);
+    } catch {
+      setActionError("No se pudo importar el backup.");
     } finally {
       event.target.value = "";
     }
@@ -180,17 +149,18 @@ export default function AdminClient() {
 
     const init = async () => {
       setLoading(true);
+      setLoadError(null);
       try {
         const dataAdapter = await getMoDataAdapter();
         if (!active) return;
         setAdapter(dataAdapter);
         await reloadAll(dataAdapter);
         if (!active) return;
-        setError(null);
+        setActionError(null);
       } catch (err) {
         if (!active) return;
         console.error("RYS admin load error", err);
-        setError(describePanelLoadError(err));
+        setLoadError(getMoBackendErrorInfo(err));
       } finally {
         if (active) setLoading(false);
       }
@@ -265,8 +235,9 @@ export default function AdminClient() {
     try {
       await adapter.updateStock(id, status);
       await loadStats(adapter);
-    } catch (err) {
-      setError("No se pudo actualizar el stock.");
+      setActionError(null);
+    } catch {
+      setActionError("No se pudo actualizar el stock.");
       await reloadAll(adapter);
     }
   };
@@ -277,8 +248,9 @@ export default function AdminClient() {
     try {
       await adapter.updatePrice(id, value);
       setBaselinePrices((prev) => ({ ...prev, [id]: value }));
-    } catch (err) {
-      setError("No se pudo actualizar el precio.");
+      setActionError(null);
+    } catch {
+      setActionError("No se pudo actualizar el precio.");
       await reloadAll(adapter);
     }
   };
@@ -293,8 +265,9 @@ export default function AdminClient() {
     );
     try {
       await adapter.updateImage(id, nextImage);
-    } catch (err) {
-      setError("No se pudo actualizar la imagen.");
+      setActionError(null);
+    } catch {
+      setActionError("No se pudo actualizar la imagen.");
       await reloadAll(adapter);
     }
   };
@@ -313,8 +286,9 @@ export default function AdminClient() {
     );
     try {
       await adapter.updateSortOrder(id, safeSortOrder);
-    } catch (err) {
-      setError("No se pudo actualizar el orden.");
+      setActionError(null);
+    } catch {
+      setActionError("No se pudo actualizar el orden.");
       await reloadAll(adapter);
     }
   };
@@ -344,8 +318,9 @@ export default function AdminClient() {
     try {
       await adapter.updateSortOrder(current.id, targetOrder);
       await adapter.updateSortOrder(target.id, currentOrder);
-    } catch (err) {
-      setError("No se pudo mover el producto en el orden.");
+      setActionError(null);
+    } catch {
+      setActionError("No se pudo mover el producto en el orden.");
       await reloadAll(adapter);
     }
   };
@@ -362,8 +337,9 @@ export default function AdminClient() {
     }));
     try {
       await adapter.updatePromo(id, enabled, percent);
-    } catch (err) {
-      setError("No se pudo actualizar la oferta.");
+      setActionError(null);
+    } catch {
+      setActionError("No se pudo actualizar la oferta.");
       await reloadAll(adapter);
     }
   };
@@ -377,8 +353,9 @@ export default function AdminClient() {
     );
     try {
       await adapter.updateFeatured(id, isFeatured);
-    } catch (err) {
-      setError("No se pudo actualizar el destacado.");
+      setActionError(null);
+    } catch {
+      setActionError("No se pudo actualizar el destacado.");
       await reloadAll(adapter);
     }
   };
@@ -388,8 +365,9 @@ export default function AdminClient() {
     setStatus((prev) => ({ ...prev, [id]: nextStatus }));
     try {
       await adapter.updateStatus(id, nextStatus);
-    } catch (err) {
-      setError("No se pudo actualizar la visibilidad.");
+      setActionError(null);
+    } catch {
+      setActionError("No se pudo actualizar la visibilidad.");
       await reloadAll(adapter);
     }
   };
@@ -400,8 +378,9 @@ export default function AdminClient() {
     try {
       await adapter.updateHot(id, state);
       await loadStats(adapter);
-    } catch (err) {
-      setError("No se pudo actualizar el estado.");
+      setActionError(null);
+    } catch {
+      setActionError("No se pudo actualizar el estado.");
       await reloadAll(adapter);
     }
   };
@@ -422,7 +401,7 @@ export default function AdminClient() {
   ) => {
     const parsed = parseMoney(value);
     if (!parsed || parsed <= 0) {
-      setError("Precio invalido. Debe ser un numero mayor a 0.");
+      setActionError("Precio inválido. Debe ser un número mayor a 0.");
       setPrices((prev) => ({ ...prev, [id]: fallback }));
       return;
     }
@@ -484,8 +463,9 @@ export default function AdminClient() {
     try {
       await adapter.logOrder(saleEntry);
       await reloadAll(adapter);
-    } catch (err) {
-      setError("No se pudo registrar la venta.");
+      setActionError(null);
+    } catch {
+      setActionError("No se pudo registrar la venta.");
       await reloadAll(adapter);
     }
   };
@@ -500,14 +480,25 @@ export default function AdminClient() {
     );
   }
 
-  if (error) {
+  if (loadError) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-black px-4">
-        <div className="max-w-xl rounded-2xl border border-rose-300/30 bg-rose-950/30 p-5 text-rose-100">
-          <p className="text-xs uppercase tracking-[0.3em] text-rose-200/80">
-            No se pudo cargar el panel
+      <div className="flex min-h-screen items-center justify-center bg-slate-950 px-4">
+        <div className="max-w-2xl rounded-3xl border border-amber-200/20 bg-slate-900 p-6 text-slate-100 shadow-2xl">
+          <p className="text-xs uppercase tracking-[0.3em] text-amber-300">
+            Estado del panel
           </p>
-          <p className="mt-3 text-sm leading-relaxed">{error}</p>
+          <h1 className="mt-3 text-2xl font-semibold">{loadError.title}</h1>
+          <p className="mt-3 text-sm leading-relaxed text-slate-200">
+            {loadError.message}
+          </p>
+          <p className="mt-2 text-sm leading-relaxed text-slate-400">
+            {loadError.help}
+          </p>
+          <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-300">
+            {loadError.kind === "auth"
+              ? "El login no quedó activo o la sesión venció."
+              : "La pantalla de acceso puede funcionar, pero el panel no puede leer la hoja en este momento."}
+          </div>
           <div className="mt-5 flex flex-wrap gap-3">
             <button
               type="button"
@@ -521,6 +512,12 @@ export default function AdminClient() {
               className="rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/90"
             >
               Volver a acceso
+            </a>
+            <a
+              href="/api/mo/products"
+              className="rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/90"
+            >
+              Ver API products
             </a>
           </div>
         </div>
@@ -565,6 +562,21 @@ export default function AdminClient() {
             </div>
           </div>
         </header>
+
+        {actionError ? (
+          <div className="rounded-2xl border border-amber-300/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <p>{actionError}</p>
+              <button
+                type="button"
+                onClick={() => setActionError(null)}
+                className="rounded-full border border-white/20 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-white/90"
+              >
+                Cerrar aviso
+              </button>
+            </div>
+          </div>
+        ) : null}
 
         <section className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6">
           <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-white/80">
