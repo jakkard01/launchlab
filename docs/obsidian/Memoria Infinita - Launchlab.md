@@ -413,6 +413,56 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
 - Punto de continuidad siguiente:
   - QA visual final en móvil real sobre dos o tres teléfonos si el usuario quiere cerrar detalle fino de spacing/tap targets;
   - luego ya no abrir otro bloque de arquitectura: solo operación normal y mejoras pequeñas por uso real.
+
+## 2026-03-11 — QA móvil real + remates finos de conversión en RYS y PBIA
+- Estado confirmado antes de tocar:
+  - RYS live ya estaba estable y sin fallback;
+  - admin funcional;
+  - PBIA estable sin necesidad de tocar backend;
+  - objetivo de este bloque: remates finos, no rediseño ni features nuevas.
+- Hallazgos reales:
+  - RYS storefront:
+    - el bloque de pedido especial aún podía ser más rápido y más claro en móvil;
+    - la barra sticky inferior se entendía, pero el CTA podía ser más directo;
+  - RYS admin:
+    - faltaban pequeños detalles de teclado móvil para cantidad, precio y orden;
+    - la pantalla de acceso ganaba claridad con una instrucción muy corta arriba;
+  - PBIA:
+    - el hero principal seguía con un matiz algo abstracto;
+    - en móvil convenía empujar más rápido a dos decisiones: WhatsApp o ver demos;
+    - el menú móvil ganaba si ofrecía también reserva de llamada sin pasos extra;
+  - video/modal:
+    - sin hallazgos nuevos suficientes para justificar más cambios.
+- Cambios aplicados:
+  - `src/app/mo/FreeTextOrder.tsx`
+    - bloque más directo;
+    - pistas visuales rápidas;
+    - CTA y texto final más claros;
+  - `src/app/mo/cart/CartButtonSticky.tsx`
+    - copy más directo en estado vacío y CTA `Abrir pedido`;
+  - `src/app/mo/admin/acceso/page.tsx`
+    - instrucción corta orientada a móvil;
+    - botón principal a ancho completo;
+  - `src/app/mo/admin/AdminClient.tsx`
+    - `inputMode` móvil para cantidad, precio y orden;
+  - `src/app/components/Header.tsx`
+    - menú móvil PBIA añade acceso directo a `Reservar llamada`;
+  - `src/app/components/LandingLocal.tsx`
+    - hero más claro y menos abstracto;
+    - CTA secundaria cambia a `Ver demos`;
+    - contacto remata mejor la intención comercial;
+    - sticky CTA móvil queda más explícita.
+- Lo que quedó mejor en móvil:
+  - menos pasos para salir del home a una acción útil;
+  - más claridad entre hablar por WhatsApp, ver demos y reservar llamada;
+  - mejor teclado en admin RYS para tareas operativas rápidas;
+  - pedido especial de RYS más fácil de interpretar y usar.
+- Pendiente real:
+  - validar visualmente en dispositivos físicos concretos si el usuario quiere un último bloque ultra fino de spacing;
+  - no hay pendiente estructural nuevo detectado.
+- Punto de continuidad siguiente:
+  - solo microajustes basados en uso real o feedback humano;
+  - evitar abrir bloques grandes sobre RYS/PBIA mientras no aparezca una fricción nueva confirmada.
     - acceso con explicación más clara de qué esperar si la clave entra pero la carga falla después.
   - video/modal:
     - sin cambio extra de arquitectura en este bloque;

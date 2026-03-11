@@ -30,3 +30,7 @@
 - 2026-03-11: Header RYS añade microcopy de retiro/localidad, limpiar búsqueda y acceso directo a pedido especial para reducir fricción móvil.
 - 2026-03-11: Admin RYS añade guía rápida de uso y etiquetas explícitas en "Registrar venta manual" para que un operador no técnico no se pierda.
 - 2026-03-11: Archivo suelto no usado `public/imagenes/perfil/rysminisuper.jpeg` se elimina para mantener el repo limpio.
+- 2026-03-11: QA móvil siguiente bloque se mantiene corto y táctico: sin tocar backend/Sheets/Vercel, solo fricciones reales de conversión y uso.
+- 2026-03-11: RYS móvil prioriza salida rápida a pedido especial, CTA inferior más clara y teclado móvil correcto en admin (`numeric`/`decimal`).
+- 2026-03-11: PBIA home prioriza CTA más directas en móvil (`WhatsApp`, `Ver demos`, `Reservar llamada`) y microcopy menos abstracto en hero/contacto.
+- 2026-03-11: Modal/video no se retoca si ya está cómodo; regla confirmada de no tocar por tocar en flujos ya estables.
