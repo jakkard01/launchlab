@@ -670,6 +670,19 @@ export default function AdminClient() {
           </div>
         </section>
 
+        <section className="rounded-3xl border border-emerald-300/20 bg-emerald-400/10 p-5 text-sm text-emerald-50">
+          <p className="text-xs uppercase tracking-[0.25em] text-emerald-200/80">
+            Guía rápida
+          </p>
+          <p className="mt-2 font-semibold">
+            Lo que cambias aquí se guarda al mover el selector o salir del campo.
+          </p>
+          <p className="mt-2 text-emerald-100/85">
+            Para comprobarlo, recarga la tienda en otro celular o en otra pestaña.
+            Si solo quieres esconder un producto, usa &quot;Oculto&quot; y no lo borres.
+          </p>
+        </section>
+
         <section className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6">
           <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-white/80">
             Ventas de hoy
@@ -698,41 +711,56 @@ export default function AdminClient() {
           <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-white/80">
             Registrar venta manual
           </h2>
+          <p className="text-sm text-white/60">
+            Úsalo solo si la venta se hizo fuera del flujo normal y quieres reflejarla en el resumen del día.
+          </p>
           <div className="grid gap-4 lg:grid-cols-[2fr,1fr,1fr,1fr]">
-            <select
-              value={saleProductId}
-              onChange={(event) => setSaleProductId(event.target.value)}
-              className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
-            >
-              {products.map((product) => (
-                <option key={product.id} value={product.id}>
-                  {product.name}
-                </option>
-              ))}
-            </select>
-            <input
-              type="number"
-              min={1}
-              value={saleQuantity}
-              onChange={(event) => setSaleQuantity(Number(event.target.value))}
-              className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
-            />
-            <input
-              type="number"
-              min={0}
-              step={0.5}
-              value={saleUnitPrice}
-              onChange={(event) => setSaleUnitPrice(Number(event.target.value))}
-              className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
-            />
+            <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+              Producto
+              <select
+                value={saleProductId}
+                onChange={(event) => setSaleProductId(event.target.value)}
+                className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
+              >
+                {products.map((product) => (
+                  <option key={product.id} value={product.id}>
+                    {product.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+              Cantidad
+              <input
+                type="number"
+                min={1}
+                value={saleQuantity}
+                onChange={(event) => setSaleQuantity(Number(event.target.value))}
+                className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
+              />
+            </label>
+            <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+              Precio unitario
+              <input
+                type="number"
+                min={0}
+                step={0.5}
+                value={saleUnitPrice}
+                onChange={(event) => setSaleUnitPrice(Number(event.target.value))}
+                className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
+              />
+            </label>
             <button
               type="button"
               onClick={registerSale}
-              className="rounded-2xl border border-emerald-200/40 bg-emerald-400/20 px-4 py-3 text-sm uppercase tracking-[0.2em] text-emerald-100"
+              className="self-end rounded-2xl border border-emerald-200/40 bg-emerald-400/20 px-4 py-3 text-sm uppercase tracking-[0.2em] text-emerald-100"
             >
               Guardar
             </button>
           </div>
+          <p className="text-xs text-white/45">
+            Total estimado de esta venta: {formatMoney(saleTotal)}
+          </p>
         </section>
 
         <section className="grid gap-6 rounded-3xl border border-white/10 bg-white/5 p-6">
