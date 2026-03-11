@@ -542,3 +542,45 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
   - `/RYSminisuper/admin/acceso` + snapshot admin -> `200`
   - `POST /api/contact` con lead humano -> `200` + `leadId`
   - CTAs móviles visibles en `/video` y páginas comerciales largas
+
+## 2026-03-11 — RYS final page fix (catálogo primero + foto local + dark toggle)
+- Rama: `feat/pagina-hermana-live`
+- Causa exacta del bug de catálogo:
+  - `Caliente hoy` no leía `hotStatus` real de Sheets/admin.
+  - La storefront usaba `HOT_IDS = ["mo-cafe-pack"]` hardcodeado en `src/app/mo/catalogConfig.ts`, por eso el bloque/tab mostraba café aunque no fuera comida caliente.
+  - `Combos` también dependía de heurística por nombre (`combo|pack`) sin categoría real, así que el catálogo quedaba mezclado y frágil.
+  - `Ofertas` estaba leyendo `isFeatured` en vez de promos reales.
+- Corrección aplicada:
+  - `Product` ahora carga `hotStatus`, ventanas y nota desde `products`/Sheets.
+  - `Caliente hoy` se construye solo con `hotStatus = preparando|listo`.
+  - `Combos` se construye por `category === "combos"` o fallback textual.
+  - `Ofertas` usa promo real (`promoEnabled` + `promoPercent > 0`).
+  - `Destacados` se deja como selección editorial visible (`isFeatured`) excluyendo calientes y combos para evitar duplicados raros.
+- Ajuste de datos semilla/precios:
+  - `mo-cafe-pack` pasó de `Pack cafe molido` a `Combo cafe + pan dulce` (`$2.25`) para que el fallback no se sienta ajeno a una tienda de barrio.
+  - `mo-sandwich` y `mo-pan-con-pollo` se reclasificaron como `combos`.
+  - `mo-pupusas` y `mo-empanadas` quedaron marcados con `hotStatus` activo y ventanas reales de retiro.
+  - Se retocaron precios puntuales (`jugo`, `cold brew/cafe frio`, `yuca`, `ensalada`) para mayor credibilidad comercial local.
+- Causa de que no se viera la imagen del local:
+  - La ruta pedida para perfil no existía.
+  - Solo estaba el asset en `public/imagenes/fondo/rysminisuper.jpeg`, pero no había ningún bloque de RYS renderizando una foto del local.
+- Fix de imagen:
+  - se creó `public/imagenes/perfil/rysminisuper.jpeg` reutilizando el asset real existente;
+  - se integró en el hero con `next/image`, copy de confianza y layout móvil.
+- Causa de que no se viera el toggle oscuro:
+  - `/RYSminisuper` usa header propio (`MoHeader`) y no el header global donde vive `ThemeToggle`;
+  - además `AppShell` para rutas RYS fijaba `bg-slate-50 text-slate-900`, dejando el contenedor principal en claro aunque el tema cambiara.
+- Fix de dark mode:
+  - `ThemeToggle` se montó dentro de `MoHeader` con etiqueta visible;
+  - `AppShell` pasó a usar tokens `bg-base text-main`;
+  - se añadió script inicial en `layout.tsx` para restaurar tema desde `localStorage` o preferencia del sistema.
+- Verificación local ejecutada:
+  - `pnpm -s build || npm run build` OK
+  - `npm run lint` OK
+  - `curl` al dev server confirmó presencia de:
+    - botón `Modo oscuro`
+    - imagen `/_next/image?url=%2Fimagenes%2Fperfil%2Frysminisuper.jpeg`
+    - bloque `Caliente hoy`
+    - bloque `Combos`
+- Pendiente real:
+  - si producción sigue sin credenciales válidas de Sheets, RYS continuará mostrando banner de fallback aunque la UX ya quede coherente con la semilla.

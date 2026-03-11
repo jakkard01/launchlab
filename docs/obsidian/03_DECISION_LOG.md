@@ -34,3 +34,7 @@
 - 2026-03-11: RYS móvil prioriza salida rápida a pedido especial, CTA inferior más clara y teclado móvil correcto en admin (`numeric`/`decimal`).
 - 2026-03-11: PBIA home prioriza CTA más directas en móvil (`WhatsApp`, `Ver demos`, `Reservar llamada`) y microcopy menos abstracto en hero/contacto.
 - 2026-03-11: Modal/video no se retoca si ya está cómodo; regla confirmada de no tocar por tocar en flujos ya estables.
+- 2026-03-11: `Caliente hoy` en RYS deja de depender de IDs hardcodeados y pasa a construirse desde `hotStatus` real (`preparando|listo`); `Combos` se soporta con categoría explícita `combos`.
+- 2026-03-11: `Ofertas` en RYS se separa de `isFeatured`; promos visibles solo salen de `promoEnabled` + `promoPercent`.
+- 2026-03-11: `ThemeToggle` se monta dentro del header propio de RYS y `AppShell` de rutas RYS deja de fijar colores claros hardcodeados.
+- 2026-03-11: La foto local de RYS se normaliza en `public/imagenes/perfil/rysminisuper.jpeg` y se usa como asset de confianza en el hero.
