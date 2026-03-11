@@ -40,3 +40,5 @@
 - 2026-03-11: La foto local de RYS se normaliza en `public/imagenes/perfil/rysminisuper.jpeg` y se usa como asset de confianza en el hero.
 - 2026-03-11: Acceso admin RYS debe explicar claramente la diferencia entre clave incorrecta, admin no configurado y fallo posterior de carga; la UI no debe tratar todo como "no se pudo iniciar sesión".
 - 2026-03-11: Admin RYS prioriza operatividad sobre sofisticación: feedback contextual por acción, búsqueda/filtro del catálogo y validaciones básicas de venta manual antes que rediseño visual grande.
+- 2026-03-11: QA final local confirma que auth admin sí funciona (`401` con clave mala, `200` + cookie con clave correcta), pero lectura y escritura reales siguen bloqueadas por `SHEETS_NOT_CONFIGURED`; el siguiente smoke debe hacerse en un entorno con Sheets activo.
+- 2026-03-11: Se elimina el duplicado no trackeado `public/imagenes/fondo/rysminisuper.jpeg`; la única ruta vigente para la foto local de RYS queda en `public/imagenes/perfil/rysminisuper.jpeg`.

@@ -643,3 +643,55 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
   2. editar precio/stock/imagen/orden con credenciales activas;
   3. validar venta manual reflejada en resumen;
   4. solo después, si no hay fricción nueva, pasar a PBIA sin reabrir home RYS.
+
+## 2026-03-11 — RYS final QA (login real + panel real + persistencia)
+- Estado confirmado antes de tocar:
+  - branch activa: `feat/pagina-hermana-live`;
+  - home/catálogo no se reabrieron;
+  - el único residuo local era `public/imagenes/fondo/rysminisuper.jpeg` no trackeado.
+- Resultado del login real:
+  - `POST /api/mo/admin/login` con clave incorrecta devolvió `401` + `Clave incorrecta.`
+  - `POST /api/mo/admin/login` con clave correcta devolvió `200` + cookie `mo_admin=1`.
+  - la diferencia entre clave mala y acceso correcto quedó validada a nivel de backend real.
+  - la pantalla de acceso servida en local ya expone el microcopy nuevo sobre:
+    - clave incorrecta;
+    - error posterior de carga;
+    - flujo esperado en móvil.
+- Resultado del panel real:
+  - con cookie válida, `GET /api/mo/admin` devolvió `500` con código `SHEETS_NOT_CONFIGURED`.
+  - con cookie válida, `GET /api/mo/admin?view=stats` devolvió el mismo bloqueo `SHEETS_NOT_CONFIGURED`.
+  - con cookie válida, pruebas reales de escritura:
+    - `updatePrice`
+    - `logOrder`
+    devolvieron `500` con el mismo código `SHEETS_NOT_CONFIGURED`.
+  - conclusión: el login local sí funciona; la carga y persistencia del panel local quedan bloqueadas por configuración ausente de Sheets, no por la UI ni por auth.
+- Resultado de persistencia:
+  - no se pudo validar persistencia real en local porque no hay lectura viva de Sheets;
+  - tampoco puede confirmarse reflejo en storefront local por la misma causa: `GET /api/mo/products` devuelve `SHEETS_READ_FAILED` / `Google Sheets no configurado`, y la storefront cae a semilla/fallback.
+  - bloqueo exacto y verificable:
+    - faltan `RYS_SHEETS_SPREADSHEET_ID`, `GOOGLE_SERVICE_ACCOUNT_EMAIL` y `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` en `.env.local`.
+- Decisión sobre archivo no trackeado:
+  - `public/imagenes/fondo/rysminisuper.jpeg` se eliminó.
+  - no tenía referencias activas en código;
+  - la ruta vigente y usada por RYS quedó en `public/imagenes/perfil/rysminisuper.jpeg`.
+- Qué sí quedó validado:
+  - auth local real;
+  - distinción backend entre clave incorrecta y acceso correcto;
+  - bloqueo posterior de carga/escritura con código backend exacto;
+  - limpieza del repo respecto al duplicado de imagen.
+- Qué no se pudo validar y por qué:
+  - edición persistente real en panel;
+  - reflejo en storefront;
+  - reflejo en datos/Sheets vivos;
+  - causa: entorno local sin variables activas de Sheets.
+- Punto de continuidad siguiente:
+  1. cargar envs reales de Sheets en el entorno de QA que se vaya a usar;
+  2. repetir smoke real con cookie activa:
+     - `updatePrice`,
+     - `updateStock`,
+     - `updateStatus`,
+     - `updateSortOrder`,
+     - `updateImage`,
+     - `logOrder`;
+  3. comprobar reflejo en `/RYSminisuper` y en la hoja;
+  4. si eso pasa, RYS queda operativo y cerrado.
