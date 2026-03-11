@@ -1,6 +1,7 @@
 "use client";
 
 import { ChangeEvent } from "react";
+import ThemeToggle from "../../components/ThemeToggle";
 
 type MoHeaderProps = {
   query: string;
@@ -33,6 +34,7 @@ export default function MoHeader({
             </p>
           </div>
           <div className="flex items-center gap-3">
+            <ThemeToggle showLabel className="shrink-0" />
             <a
               href={whatsappLink}
               className="rounded-full border border-[var(--accent)] bg-[var(--accent)] px-3 py-2 text-xs font-semibold text-[var(--surface)] transition hover:opacity-90"

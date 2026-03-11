@@ -4,7 +4,14 @@ import Image from "next/image";
 import { useMemo } from "react";
 import type { Product } from "../../../lib/mo/types";
 import ProductCard from "../ProductCard";
-import { matchesTab, TABS, TabId } from "../catalogConfig";
+import {
+  isComboProduct,
+  isFeaturedProduct,
+  isHotProduct,
+  isPromoProduct,
+  sortCatalogProducts,
+  TabId,
+} from "../catalogConfig";
 
 type MoQuickShopProps = {
   products: Product[];
@@ -57,30 +64,44 @@ export default function MoQuickShop({
   onJumpToTab,
   onScrollToSpecial,
 }: MoQuickShopProps) {
+  const hotToday = useMemo(
+    () => sortCatalogProducts(products.filter((product) => isHotProduct(product))).slice(0, 6),
+    [products]
+  );
+
   const featured = useMemo(
-    () => products.filter((product) => product.isFeatured).slice(0, 6),
+    () =>
+      sortCatalogProducts(
+        products.filter(
+          (product) =>
+            isFeaturedProduct(product) &&
+            !isHotProduct(product) &&
+            !isComboProduct(product)
+        )
+      ).slice(0, 6),
     [products]
   );
 
   const combos = useMemo(
-    () => products.filter((product) => matchesTab(product, "combos")).slice(0, 6),
+    () => sortCatalogProducts(products.filter((product) => isComboProduct(product))).slice(0, 6),
     [products]
   );
 
   const promoProducts = useMemo(() => {
-    return products
-      .filter((product) => product.promoEnabled && (product.promoPercent ?? 0) > 0)
+    return sortCatalogProducts(products.filter((product) => isPromoProduct(product)))
       .sort((a, b) => {
         const byPercent =
           (b.promoPercent ?? 0) - (a.promoPercent ?? 0);
         if (byPercent !== 0) return byPercent;
-        return a.name.localeCompare(b.name);
+        return (a.sortOrder ?? 9999) - (b.sortOrder ?? 9999);
       })
       .slice(0, 6);
   }, [products]);
 
   const antojitos = useMemo(() => {
-    return products.filter((product) => product.category === "antojitos").slice(0, 8);
+    return sortCatalogProducts(
+      products.filter((product) => product.category === "antojitos")
+    ).slice(0, 8);
   }, [products]);
 
   const aisles = [
@@ -211,6 +232,28 @@ export default function MoQuickShop({
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-semibold text-slate-900">
+            Caliente hoy
+          </h3>
+          <span className="text-xs text-rose-600">Hecho para hoy</span>
+        </div>
+        {hotToday.length > 0 ? (
+          <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
+            {hotToday.map((product) => (
+              <div key={product.id} className="min-w-[240px] sm:min-w-0">
+                <ProductCard product={product} variant="compact" />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="rounded-2xl border border-dashed border-slate-200 px-4 py-5 text-sm text-slate-500">
+            Hoy no hay calientes confirmados. Escríbenos por WhatsApp si quieres consultar antojitos.
+          </div>
+        )}
+      </div>
+
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-semibold text-slate-900">
             Combos y packs
           </h3>
           <span className="text-xs text-slate-500">Para salir del paso</span>
@@ -277,9 +320,9 @@ export default function MoQuickShop({
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-semibold text-slate-900">
-            Lo más pedido para resolver rápido
+            Destacados del local
           </h3>
-          <span className="text-xs text-slate-500">Lo que más sale</span>
+          <span className="text-xs text-slate-500">Selección visible y confiable</span>
         </div>
         <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
           {featured.length > 0 ? (

@@ -237,6 +237,10 @@ const seedProducts = (): Product[] =>
       stockStatus: product.stockStatus ?? "disponible",
       promoEnabled: product.promoEnabled ?? false,
       promoPercent: product.promoPercent ?? 0,
+      hotStatus: product.hotStatus ?? "hoy_no_hicimos",
+      hotWindowStart: product.hotWindowStart ?? "",
+      hotWindowEnd: product.hotWindowEnd ?? "",
+      hotNote: product.hotNote ?? "",
       updatedAt: product.updatedAt ?? "",
     }))
     .sort((a, b) => (a.sortOrder ?? 9999) - (b.sortOrder ?? 9999));
@@ -282,6 +286,10 @@ const parseProducts = (rows: string[][]): Product[] => {
         stockStatus: (record.stockStatus as StockStatus) || "disponible",
         promoEnabled: parseBoolean(record.promoEnabled),
         promoPercent: parseNumber(record.promoPercent),
+        hotStatus: (record.hotStatus as Product["hotStatus"]) || "hoy_no_hicimos",
+        hotWindowStart: String(record.hotWindowStart ?? ""),
+        hotWindowEnd: String(record.hotWindowEnd ?? ""),
+        hotNote: String(record.hotNote ?? ""),
         updatedAt: String(record.updatedAt ?? ""),
       };
     })

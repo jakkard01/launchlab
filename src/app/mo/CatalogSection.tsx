@@ -4,7 +4,13 @@ import Image from "next/image";
 import { useState } from "react";
 import type { Product } from "../../lib/mo/types";
 import ProductCard from "./ProductCard";
-import { matchesTab, TABS, type TabId } from "./catalogConfig";
+import {
+  isAvailableForCatalog,
+  matchesTab,
+  sortCatalogProducts,
+  TABS,
+  type TabId,
+} from "./catalogConfig";
 
 const CATEGORY_ICON_BY_ID = {
   hot: "/RYSminisuper/icons/pasillos/comida_caliente.webp",
@@ -39,10 +45,15 @@ export default function CatalogSection({
 
   const queryFilter = query.trim().toLowerCase();
   const productsForTab = (tabId: TabId) => {
-    const base = products.filter((product) => matchesTab(product, tabId));
+    const base = sortCatalogProducts(
+      products.filter(
+        (product) => isAvailableForCatalog(product) && matchesTab(product, tabId)
+      )
+    );
     if (!queryFilter) return base;
     return base.filter((product) =>
-      product.name.toLowerCase().includes(queryFilter)
+      product.name.toLowerCase().includes(queryFilter) ||
+      product.description.toLowerCase().includes(queryFilter)
     );
   };
 

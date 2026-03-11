@@ -16,5 +16,9 @@ export type Product = {
   imageUrl?: string;
   stockStatus?: "disponible" | "ultimas" | "agotado";
   sortOrder?: number;
+  hotStatus?: "preparando" | "listo" | "se_acabo" | "hoy_no_hicimos";
+  hotWindowStart?: string;
+  hotWindowEnd?: string;
+  hotNote?: string;
   updatedAt?: string;
 };

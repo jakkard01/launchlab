@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { MO_STORE_HOURS_LABEL, MO_STORE_MAPS_URL } from "../../../lib/mo/config";
 
 type MoHeroProps = {
@@ -21,7 +22,8 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,color-mix(in_srgb,var(--accent)_20%,transparent),transparent_55%),radial-gradient(circle_at_85%_20%,color-mix(in_srgb,var(--accent)_12%,transparent),transparent_60%),linear-gradient(135deg,color-mix(in_srgb,var(--accent)_10%,transparent),transparent_70%)]" />
         <div className="absolute inset-0 bg-[color-mix(in_srgb,var(--surface)_65%,transparent)] backdrop-blur-[2px]" />
-        <div className="relative">
+        <div className="relative grid gap-6 lg:grid-cols-[minmax(0,1.4fr)_320px] lg:items-start">
+          <div>
           <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[var(--accent)]">
             TIENDA LOCAL
           </p>
@@ -102,6 +104,27 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
             <span>✅ Confirmamos antes de que salgas</span>
             <span>✅ Pago al retirar</span>
             <span>✅ Tienda real y cercana</span>
+          </div>
+          </div>
+          <div className="mx-auto w-full max-w-[320px]">
+            <div className="overflow-hidden rounded-[28px] border border-default bg-[color-mix(in_srgb,var(--surface)_92%,transparent)] shadow-[0_24px_60px_rgba(15,24,38,0.14)]">
+              <div className="relative aspect-[4/5] w-full">
+                <Image
+                  src="/imagenes/perfil/rysminisuper.jpeg"
+                  alt="Fachada del local RYS Minisúper en La Gloria"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 320px"
+                  className="object-cover"
+                  priority
+                />
+              </div>
+              <div className="space-y-1 border-t border-default px-4 py-4 text-sm">
+                <p className="font-semibold text-main">RYS Minisúper, La Gloria</p>
+                <p className="text-muted">
+                  Foto real del local para ubicarlo mejor antes de pasar a retirar.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -1,8 +1,5 @@
 import type { Product } from "../../lib/mo/types";
 
-export const HOT_IDS = ["mo-cafe-pack"];
-export const COMBO_IDS: string[] = ["mo-cafe-pack"];
-
 export const TABS = [
   { id: "hot", label: "Caliente hoy", icon: "🔥" },
   { id: "antojitos", label: "Antojitos", image: "/mo/categories/antojitos.svg" },
@@ -16,18 +13,40 @@ export const TABS = [
 
 export type TabId = (typeof TABS)[number]["id"];
 
+const ACTIVE_HOT_STATUSES = new Set(["preparando", "listo"]);
+
+export const sortCatalogProducts = (items: Product[]) =>
+  [...items].sort((a, b) => {
+    const byOrder = (a.sortOrder ?? 9999) - (b.sortOrder ?? 9999);
+    if (byOrder !== 0) return byOrder;
+    return a.name.localeCompare(b.name, "es");
+  });
+
+export const isAvailableForCatalog = (product: Product) =>
+  product.status !== "hidden";
+
+export const isHotProduct = (product: Product) =>
+  ACTIVE_HOT_STATUSES.has(product.hotStatus ?? "hoy_no_hicimos");
+
+export const isComboProduct = (product: Product) =>
+  product.category === "combos" ||
+  /combo|pack/i.test(product.name) ||
+  /combo|pack/i.test(product.description ?? "");
+
+export const isFeaturedProduct = (product: Product) =>
+  product.isFeatured && product.status === "available";
+
+export const isPromoProduct = (product: Product) =>
+  Boolean(product.promoEnabled) && (product.promoPercent ?? 0) > 0;
+
 export const matchesTab = (product: Product, tabId: TabId) => {
   switch (tabId) {
     case "hot":
-      return HOT_IDS.includes(product.id);
+      return isHotProduct(product);
     case "antojitos":
       return product.category === "antojitos";
     case "combos":
-      return (
-        COMBO_IDS.includes(product.id) ||
-        /combo|pack/i.test(product.name) ||
-        /combo|pack/i.test(product.description ?? "")
-      );
+      return isComboProduct(product);
     case "lacteos":
       return product.category === "lacteos";
     case "bebidas":
@@ -37,7 +56,7 @@ export const matchesTab = (product: Product, tabId: TabId) => {
     case "snacks":
       return product.category === "snacks";
     case "ofertas":
-      return product.isFeatured;
+      return isPromoProduct(product);
     default:
       return true;
   }
