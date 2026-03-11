@@ -373,6 +373,13 @@ export default function Header() {
                     >
                       Hablar por WhatsApp
                     </a>
+                    <Link
+                      href="/contact?source=mobile_nav"
+                      onClick={() => setMenuOpen(false)}
+                      className="rounded-xl border border-default bg-surface px-4 py-3 text-center text-sm font-semibold text-main transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                    >
+                      Reservar llamada
+                    </Link>
                     <div className="rounded-2xl border border-default bg-base px-4 py-3">
                       <button
                         type="button"

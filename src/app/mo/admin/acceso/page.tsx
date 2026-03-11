@@ -59,6 +59,10 @@ export default function MoAdminAccessPage() {
           Este panel es solo para administracion. Ingresa la clave para abrir el
           panel operativo de la tienda.
         </p>
+        <div className="mt-4 rounded-2xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-xs text-emerald-900">
+          En móvil: escribe la clave, toca entrar y espera unos segundos. Si falla,
+          el mensaje aparece aquí mismo.
+        </div>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <label className="block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
@@ -98,7 +102,7 @@ export default function MoAdminAccessPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="inline-flex h-11 items-center justify-center rounded-full bg-emerald-600 px-5 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-70"
+            className="inline-flex h-12 w-full items-center justify-center rounded-full bg-emerald-600 px-5 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-70"
           >
             {submitting ? "Entrando..." : "Entrar al admin"}
           </button>

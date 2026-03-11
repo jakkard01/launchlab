@@ -30,8 +30,8 @@ export default function CartButtonSticky({ onOpen }: CartButtonStickyProps) {
   if (totalItems === 0) {
     return (
       <div className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] left-0 right-0 z-50 flex justify-center px-4">
-        <div className="flex w-full max-w-sm items-center justify-center rounded-full border border-slate-200 bg-white px-5 py-3 text-xs font-semibold text-slate-600 shadow-md">
-          Agrega productos para armar tu pedido
+        <div className="flex w-full max-w-sm items-center justify-center rounded-full border border-slate-200 bg-white px-5 py-3 text-center text-xs font-semibold text-slate-600 shadow-md">
+          Agrega productos y arma tu pedido para retiro
         </div>
       </div>
     );
@@ -51,10 +51,10 @@ export default function CartButtonSticky({ onOpen }: CartButtonStickyProps) {
         <button
           type="button"
           onClick={onOpen}
-          className="h-12 rounded-full bg-emerald-600 px-5 text-sm font-semibold text-white transition hover:bg-emerald-700"
+          className="min-h-[48px] rounded-full bg-emerald-600 px-5 text-sm font-semibold text-white transition hover:bg-emerald-700"
           aria-label="Completar pedido en WhatsApp"
         >
-          Completar pedido
+          Abrir pedido
         </button>
       </div>
     </div>

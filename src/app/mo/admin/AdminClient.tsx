@@ -736,6 +736,7 @@ export default function AdminClient() {
                 min={1}
                 value={saleQuantity}
                 onChange={(event) => setSaleQuantity(Number(event.target.value))}
+                inputMode="numeric"
                 className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
               />
             </label>
@@ -747,6 +748,7 @@ export default function AdminClient() {
                 step={0.5}
                 value={saleUnitPrice}
                 onChange={(event) => setSaleUnitPrice(Number(event.target.value))}
+                inputMode="decimal"
                 className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
               />
             </label>
@@ -870,18 +872,19 @@ export default function AdminClient() {
 
                     <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
                       Precio unitario
-                      <input
-                        type="text"
-                        value={prices[product.id] ?? ""}
-                        onChange={(event) =>
-                          setPrices((prev) => ({
-                            ...prev,
-                            [product.id]: event.target.value,
-                          }))
-                        }
-                        onBlur={(event) =>
-                          handlePriceBlur(
-                            product.id,
+                        <input
+                          type="text"
+                          value={prices[product.id] ?? ""}
+                          onChange={(event) =>
+                            setPrices((prev) => ({
+                              ...prev,
+                              [product.id]: event.target.value,
+                            }))
+                          }
+                          inputMode="decimal"
+                          onBlur={(event) =>
+                            handlePriceBlur(
+                              product.id,
                             event.target.value,
                             baselinePrice
                           )
@@ -897,6 +900,7 @@ export default function AdminClient() {
                           type="number"
                           min={1}
                           value={product.sortOrder ?? 9999}
+                          inputMode="numeric"
                           onChange={(event) => {
                             const nextValue = Number(event.target.value);
                             setProducts((prev) =>

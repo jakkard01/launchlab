@@ -262,18 +262,22 @@ export default function LandingLocal({ heroRef, onScrollToHero }: LandingLocalPr
       <section
         id="inicio"
         ref={heroRef}
-        className="w-full max-w-5xl mx-auto rounded-3xl border border-white/10 bg-black/75 px-6 py-10 shadow-2xl backdrop-blur"
+        className="w-full max-w-5xl mx-auto rounded-3xl border border-white/10 bg-black/75 px-5 py-8 shadow-2xl backdrop-blur sm:px-6 sm:py-10"
       >
         <div className="grid gap-10 md:grid-cols-[1.1fr_0.9fr] md:items-center">
           <div>
             <p className="text-xs uppercase tracking-[0.4em] text-cyan-300/80">
               Sistemas IA aplicados
             </p>
-            <h1 className="mt-4 text-4xl font-semibold leading-tight text-white md:text-5xl">
-              Sistemas de IA listos para vender y escalar.
+            <h1 className="mt-4 text-3xl font-semibold leading-tight text-white sm:text-4xl md:text-5xl">
+              Sistemas de IA listos para captar, vender y escalar.
             </h1>
-            <p className="mt-4 text-base text-slate-100 md:text-lg">
-              En 7–14 días implementamos captación, seguimiento y soporte. Con demos y casos.
+            <p className="mt-4 max-w-xl text-sm text-slate-100 sm:text-base md:text-lg">
+              En 7–14 días montamos una base clara para captar, responder y dar
+              seguimiento con demos funcionales y alcance definido.
+            </p>
+            <p className="mt-3 text-xs font-semibold uppercase tracking-[0.24em] text-cyan-100/80">
+              Sin humo: demo funcional + alcance claro + handoff
             </p>
             <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
               <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">
@@ -319,15 +323,20 @@ export default function LandingLocal({ heroRef, onScrollToHero }: LandingLocalPr
                   trackEvent("click_whatsapp_primary", { source: "home_hero" })
                 }
               >
-                Quiero una demo
+                Hablar por WhatsApp
               </a>
               <Link
-                href={buildContactLink("home_hero", { utm_content: "reserve_call" })}
+                href="/demos"
                 className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white/90 transition hover:border-cyan-300/60"
-                aria-label="Reservar llamada"
-                onClick={() => trackEvent("click_book_call", { source: "home_hero" })}
+                aria-label="Ver demos"
+                onClick={() =>
+                  trackEvent("click_view_details", {
+                    source: "home_hero",
+                    item: "demos_index",
+                  })
+                }
               >
-                Reservar llamada
+                Ver demos
               </Link>
             </div>
           </div>
@@ -967,11 +976,19 @@ export default function LandingLocal({ heroRef, onScrollToHero }: LandingLocalPr
         <div className="rounded-3xl border border-cyan-400/30 bg-black/70 p-8 shadow-lg">
           <p className="text-xs uppercase tracking-[0.4em] text-cyan-200">Contacto</p>
           <h2 className="mt-3 text-3xl font-semibold text-white">
-            ¿Listo para lanzar tu próximo sistema IA?
+            ¿Quieres ver si encaja para tu negocio?
           </h2>
           <p className="mt-4 text-sm text-slate-300">
-            Agenda una llamada o escribe por WhatsApp Business. Respuesta en menos de 24 horas hábiles.
+            Escríbenos por WhatsApp o agenda una llamada breve. Te respondemos con el siguiente paso, sin vueltas innecesarias.
           </p>
+          <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-cyan-100">
+            <span className="rounded-full border border-white/10 bg-black/40 px-3 py-1">
+              Respuesta en menos de 24h hábiles
+            </span>
+            <span className="rounded-full border border-white/10 bg-black/40 px-3 py-1">
+              Alcance y siguiente paso claros
+            </span>
+          </div>
           <div className="mt-6 flex flex-col gap-4 md:flex-row">
             <a
               href={buildWhatsappLink("home_contact")}
@@ -983,14 +1000,21 @@ export default function LandingLocal({ heroRef, onScrollToHero }: LandingLocalPr
                 trackEvent("click_whatsapp_primary", { source: "home_contact" })
               }
             >
-              WhatsApp Business: {siteConfig.whatsapp.phone}
+              Hablar por WhatsApp
             </a>
+            <Link
+              href={buildContactLink("home_contact", { utm_content: "reserve_call" })}
+              className="rounded-full border border-cyan-300/50 px-6 py-3 text-center text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300 hover:text-black"
+              onClick={() => trackEvent("click_book_call", { source: "home_contact" })}
+            >
+              Reservar llamada
+            </Link>
             <a
               href={`mailto:${siteConfig.email}`}
               className="rounded-full border border-white/20 px-6 py-3 text-center text-sm font-semibold text-white/80 transition hover:border-cyan-300/60"
               aria-label="Enviar email"
             >
-              {siteConfig.email}
+              Email
             </a>
           </div>
           <button
@@ -1018,7 +1042,7 @@ export default function LandingLocal({ heroRef, onScrollToHero }: LandingLocalPr
                 trackEvent("click_whatsapp_sticky", { source: "sticky" })
               }
             >
-              WhatsApp
+              WhatsApp ahora
             </a>
             <Link
               href={buildContactLink("sticky")}
@@ -1026,7 +1050,7 @@ export default function LandingLocal({ heroRef, onScrollToHero }: LandingLocalPr
               aria-label="Reservar llamada desde la barra inferior"
               onClick={() => trackEvent("click_book_call", { source: "sticky" })}
             >
-              Reservar
+              Llamada
             </Link>
           </div>
         </div>
