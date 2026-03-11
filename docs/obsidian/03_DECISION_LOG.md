@@ -38,3 +38,5 @@
 - 2026-03-11: `Ofertas` en RYS se separa de `isFeatured`; promos visibles solo salen de `promoEnabled` + `promoPercent`.
 - 2026-03-11: `ThemeToggle` se monta dentro del header propio de RYS y `AppShell` de rutas RYS deja de fijar colores claros hardcodeados.
 - 2026-03-11: La foto local de RYS se normaliza en `public/imagenes/perfil/rysminisuper.jpeg` y se usa como asset de confianza en el hero.
+- 2026-03-11: Acceso admin RYS debe explicar claramente la diferencia entre clave incorrecta, admin no configurado y fallo posterior de carga; la UI no debe tratar todo como "no se pudo iniciar sesión".
+- 2026-03-11: Admin RYS prioriza operatividad sobre sofisticación: feedback contextual por acción, búsqueda/filtro del catálogo y validaciones básicas de venta manual antes que rediseño visual grande.

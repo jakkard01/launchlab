@@ -584,3 +584,62 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
     - bloque `Combos`
 - Pendiente real:
   - si producción sigue sin credenciales válidas de Sheets, RYS continuará mostrando banner de fallback aunque la UX ya quede coherente con la semilla.
+
+## 2026-03-11 — RYS next block (acceso + flujo admin)
+- Estado confirmado antes de tocar:
+  - home/catálogo RYS no se reabrieron;
+  - branch activa: `feat/pagina-hermana-live`;
+  - persistía un archivo no trackeado previo: `public/imagenes/fondo/rysminisuper.jpeg`;
+  - en local el bloqueo de Sheets seguía visible en fallback, pero no era el foco de este bloque.
+- Hallazgos reales del flujo de acceso/admin:
+  - `/RYSminisuper/admin/acceso` ya aceptaba clave, mostrar/ocultar y loading, pero seguía explicando poco la diferencia entre:
+    - clave incorrecta;
+    - admin deshabilitado/sin credenciales;
+    - acceso correcto con fallo posterior de carga.
+  - `AdminClient` ya permitía operar, pero el feedback era demasiado genérico (`Precio guardado`, `No se pudo...`) y no ayudaba a una usuaria no técnica a saber qué pasó.
+  - el catálogo operativo del admin no tenía búsqueda ni filtro, lo que volvía lento revisar precio, stock, orden o imagen en móvil.
+  - registrar venta manual no validaba casos básicos como producto ausente o total/precio `<= 0`.
+- Mejoras aplicadas en acceso:
+  - estado explicativo en vivo (`statusNote`) durante validación;
+  - microcopy más claro sobre qué significa cada fallo;
+  - mensaje explícito para `503` cuando el entorno no tiene credenciales admin;
+  - error visual más claro dentro de tarjeta, sin mezclarlo con fallo posterior del panel.
+- Mejoras aplicadas en admin:
+  - banner de acción separado por tono:
+    - éxito con título + detalle;
+    - error con título + detalle;
+    - estado temporal de guardado/acción en curso.
+  - feedback más específico por operación:
+    - stock,
+    - precio,
+    - visibilidad,
+    - orden,
+    - imagen,
+    - oferta,
+    - destacado,
+    - caliente del día,
+    - venta manual,
+    - importación y recarga.
+  - búsqueda y filtro operativo en `Control de catálogo`:
+    - texto libre;
+    - `Todos / Solo visibles / Solo ocultos / Agotados`.
+  - validaciones nuevas en venta manual:
+    - producto requerido;
+    - cantidad > 0;
+    - precio/total > 0.
+  - microcopy extra para precio, venta manual y relación entre acceso correcto vs fallo de lectura posterior.
+- QA fino aplicado:
+  - tap targets y botones críticos mantienen altura cómoda;
+  - filtros y buscador quedan visibles arriba del listado para uso móvil;
+  - el botón de venta manual muestra `Guardando...` mientras persiste.
+- Verificación ejecutada:
+  - `pnpm -s build || npm run build` OK
+  - `npm run lint` OK
+- Pendiente real:
+  - no se cerró un smoke interactivo completo con login real + edición persistente porque el foco local sigue condicionado por env/Sheets según entorno;
+  - sigue pendiente una validación operativa manual completa en entorno con credenciales reales y cookie activa.
+- Punto de continuidad siguiente:
+  1. smoke manual real de login admin;
+  2. editar precio/stock/imagen/orden con credenciales activas;
+  3. validar venta manual reflejada en resumen;
+  4. solo después, si no hay fricción nueva, pasar a PBIA sin reabrir home RYS.
