@@ -378,6 +378,41 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
     - mensajes de éxito visibles para acciones comunes;
     - botón de recarga explícito;
     - tarjetas resumen de operación (`visibles`, `ocultos`, `agotados`);
+
+## 2026-03-11 — RYS cierre live OK + pulido comercial final + QA
+- Estado live confirmado:
+  - `GET /api/mo/products` en `200`;
+  - `/RYSminisuper` sin fallback;
+  - login/admin live funcional;
+  - `POST /api/contact` funcional sobre `pbia_leads`.
+- QA real ejecutada en este bloque:
+  - revisión de storefront y admin sobre componentes activos + revalidación live de endpoints;
+  - hallazgo principal de storefront:
+    - faltaba bajar fricción en búsqueda móvil y acceso a "pedido especial";
+    - el hero aún sonaba un poco a demo y no remataba suficiente la promesa local;
+  - hallazgo principal de admin:
+    - "Registrar venta manual" no tenía etiquetas claras y podía confundir a una operadora no técnica;
+    - faltaba una guía visible recordando que los cambios guardan al salir del campo.
+- Ajustes aplicados:
+  - `src/app/mo/components/MoHeader.tsx`
+    - microcopy más local y más claro;
+    - botón `Limpiar` en búsqueda;
+    - acceso directo a "No veo lo que busco";
+  - `src/app/mo/components/MoHero.tsx`
+    - copy más comercial y menos tono demo;
+    - promesa más explícita de confirmación por WhatsApp antes de salir;
+  - `src/app/mo/components/MoStorefront.tsx`
+    - conecta el acceso rápido del header al bloque de pedido especial;
+  - `src/app/mo/admin/AdminClient.tsx`
+    - guía rápida visible para uso diario;
+    - etiquetas explícitas en registro manual de venta;
+    - total estimado visible antes de guardar.
+- Limpieza:
+  - `public/imagenes/perfil/rysminisuper.jpeg` no estaba referenciado en código ni docs operativas;
+  - se elimina para dejar el repo limpio.
+- Punto de continuidad siguiente:
+  - QA visual final en móvil real sobre dos o tres teléfonos si el usuario quiere cerrar detalle fino de spacing/tap targets;
+  - luego ya no abrir otro bloque de arquitectura: solo operación normal y mejoras pequeñas por uso real.
     - acceso con explicación más clara de qué esperar si la clave entra pero la carga falla después.
   - video/modal:
     - sin cambio extra de arquitectura en este bloque;

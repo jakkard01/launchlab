@@ -26,3 +26,7 @@
 - 2026-03-10: Mientras el bloqueo live de Sheets siga externo/config, RYS puede seguir mejorándose localmente en home/admin/video sin esperar a producción.
 - 2026-03-10: Admin RYS añade feedback positivo visible (`guardado`, `recargado`, `venta registrada`) y resumen operativo simple (`visibles`, `ocultos`, `agotados`) para uso diario.
 - 2026-03-10: Home RYS añade resumen rápido con atajos móviles (`Ver caliente hoy`, `Pedir algo que no ves`) para bajar fricción sin rediseño.
+- 2026-03-11: RYS queda live OK en producción con Sheets operativo; el foco deja de ser Vercel/auth y pasa a pulido comercial + QA funcional.
+- 2026-03-11: Header RYS añade microcopy de retiro/localidad, limpiar búsqueda y acceso directo a pedido especial para reducir fricción móvil.
+- 2026-03-11: Admin RYS añade guía rápida de uso y etiquetas explícitas en "Registrar venta manual" para que un operador no técnico no se pierda.
+- 2026-03-11: Archivo suelto no usado `public/imagenes/perfil/rysminisuper.jpeg` se elimina para mantener el repo limpio.
