@@ -9,11 +9,15 @@ export default function MoAdminAccessPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [statusNote, setStatusNote] = useState(
+    "Escribe la clave y toca entrar. Si la clave es correcta, pasarás al panel."
+  );
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSubmitting(true);
     setError(null);
+    setStatusNote("Validando clave admin...");
 
     try {
       const response = await fetch("/api/mo/admin/login", {
@@ -29,18 +33,32 @@ export default function MoAdminAccessPage() {
       if (!response.ok || !data.ok) {
         if (response.status === 401) {
           setError("Clave incorrecta. Verifica la clave admin e intenta de nuevo.");
+          setStatusNote("La clave no fue aceptada. Corrígela e intenta de nuevo.");
         } else if (response.status === 403) {
           setError("Acceso denegado. El panel admin no está habilitado.");
+          setStatusNote("El acceso está bloqueado porque el admin está deshabilitado.");
+        } else if (response.status === 503) {
+          setError("El admin no tiene credenciales configuradas en este entorno.");
+          setStatusNote(
+            "La pantalla de acceso responde, pero este entorno no tiene la clave configurada."
+          );
         } else {
           setError(data.message ?? "No se pudo iniciar sesión.");
+          setStatusNote(
+            "La clave pudo enviarse, pero el acceso no se completó. Revisa el mensaje."
+          );
         }
         return;
       }
 
+      setStatusNote("Clave correcta. Abriendo el panel...");
       router.push("/RYSminisuper/admin");
       router.refresh();
     } catch {
       setError("No se pudo iniciar sesión.");
+      setStatusNote(
+        "Falló la conexión al validar la clave. Esto es distinto a una clave incorrecta."
+      );
     } finally {
       setSubmitting(false);
     }
@@ -60,14 +78,20 @@ export default function MoAdminAccessPage() {
           panel operativo de la tienda.
         </p>
         <div className="mt-4 rounded-2xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-xs text-emerald-900">
-          En móvil: escribe la clave, toca entrar y espera unos segundos. Si falla,
-          el mensaje aparece aquí mismo.
+          En móvil: escribe la clave, toca entrar y espera unos segundos. Si la
+          clave falla, verás el error aquí mismo. Si la clave entra pero luego no
+          carga la hoja, el siguiente paso te lo dirá dentro del panel.
         </div>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-          <label className="block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-            Clave admin
-          </label>
+          <div className="space-y-2">
+            <label className="block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+              Clave admin
+            </label>
+            <p className="text-xs text-slate-500">
+              Usa la misma clave corta que se utiliza para abrir el panel de operación.
+            </p>
+          </div>
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
@@ -89,13 +113,24 @@ export default function MoAdminAccessPage() {
               {showPassword ? "Ocultar" : "Mostrar"}
             </button>
           </div>
-          <p aria-live="polite" className="text-xs text-slate-500">
-            {submitting
-              ? "Validando acceso..."
-              : "Si la clave está bien, entrarás directo al panel."}
-          </p>
+          <div
+            aria-live="polite"
+            className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-xs text-slate-600"
+          >
+            {statusNote}
+          </div>
+          <div className="grid gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-4 text-xs text-slate-600">
+            <p className="font-semibold text-slate-800">Qué significa cada caso</p>
+            <p>Clave incorrecta: la clave no fue aceptada.</p>
+            <p>
+              Error de carga después: la clave sí entró, pero el panel no pudo leer datos o la sesión no quedó activa.
+            </p>
+          </div>
           {error ? (
-            <p aria-live="assertive" className="text-sm text-rose-600">
+            <p
+              aria-live="assertive"
+              className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700"
+            >
               {error}
             </p>
           ) : null}
@@ -112,7 +147,8 @@ export default function MoAdminAccessPage() {
           <p className="font-semibold text-slate-800">Qué deberías ver</p>
           <p className="mt-1">
             Si la clave está bien, entras al panel. Si luego falla la carga, el
-            panel te dirá si falta configuración o si la sesión no quedó activa.
+            panel te dirá si faltan datos de la hoja, si la sesión no quedó activa
+            o si hay un problema de conexión.
           </p>
         </div>
 

@@ -50,13 +50,21 @@ const hotLabels: Record<HotStatus, string> = {
   hoy_no_hicimos: "Hoy no hicimos",
 };
 
+type ActionNoticeTone = "error" | "success";
+
+type ActionNotice = {
+  tone: ActionNoticeTone;
+  title: string;
+  message: string;
+};
+
 export default function AdminClient() {
   const [adapter, setAdapter] = useState<MoDataAdapter | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<MoBackendErrorInfo | null>(null);
-  const [actionError, setActionError] = useState<string | null>(null);
-  const [actionSuccess, setActionSuccess] = useState<string | null>(null);
+  const [actionNotice, setActionNotice] = useState<ActionNotice | null>(null);
   const [refreshing, setRefreshing] = useState(false);
+  const [pendingActionLabel, setPendingActionLabel] = useState<string | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [stock, setStock] = useState<Record<string, StockStatus>>({});
   const [prices, setPrices] = useState<Record<string, string>>({});
@@ -72,23 +80,25 @@ export default function AdminClient() {
   const [saleProductId, setSaleProductId] = useState("");
   const [saleQuantity, setSaleQuantity] = useState(1);
   const [saleUnitPrice, setSaleUnitPrice] = useState(0);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [visibilityFilter, setVisibilityFilter] = useState<
+    "all" | "visible" | "hidden" | "sold_out"
+  >("all");
   const importInputRef = useRef<HTMLInputElement>(null);
 
-  const showActionError = useCallback((message: string) => {
-    setActionSuccess(null);
-    setActionError(message);
+  const showActionError = useCallback((title: string, message: string) => {
+    setActionNotice({ tone: "error", title, message });
   }, []);
 
-  const showActionSuccess = useCallback((message: string) => {
-    setActionError(null);
-    setActionSuccess(message);
+  const showActionSuccess = useCallback((title: string, message: string) => {
+    setActionNotice({ tone: "success", title, message });
   }, []);
 
   useEffect(() => {
-    if (!actionSuccess) return;
-    const timeoutId = window.setTimeout(() => setActionSuccess(null), 2600);
+    if (!actionNotice || actionNotice.tone !== "success") return;
+    const timeoutId = window.setTimeout(() => setActionNotice(null), 2600);
     return () => window.clearTimeout(timeoutId);
-  }, [actionSuccess]);
+  }, [actionNotice]);
 
   const handleExport = () => {
     const payload = {
@@ -127,12 +137,17 @@ export default function AdminClient() {
         "¿Seguro? Esto reemplaza el estado actual del catalogo."
       );
       if (!ok) return;
+      setPendingActionLabel("Importando backup...");
       await adapter.importBackup(parsed);
       await reloadAll(adapter);
-      showActionSuccess("Backup importado.");
+      showActionSuccess("Backup importado", "El panel ya recargó el estado actual.");
     } catch {
-      showActionError("No se pudo importar el backup.");
+      showActionError(
+        "No se pudo importar el backup",
+        "Revisa que el archivo sea un JSON válido exportado desde este panel."
+      );
     } finally {
+      setPendingActionLabel(null);
       event.target.value = "";
     }
   };
@@ -175,8 +190,7 @@ export default function AdminClient() {
         setAdapter(dataAdapter);
         await reloadAll(dataAdapter);
         if (!active) return;
-        setActionError(null);
-        setActionSuccess(null);
+        setActionNotice(null);
       } catch (err) {
         if (!active) return;
         console.error("RYS admin load error", err);
@@ -270,35 +284,73 @@ export default function AdminClient() {
     [products]
   );
 
+  const filteredProducts = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    return sortedProducts.filter((product) => {
+      const currentStatus = status[product.id] ?? product.status ?? "available";
+      const currentStock = stock[product.id] ?? product.stockStatus ?? "disponible";
+      const matchesVisibility =
+        visibilityFilter === "all" ||
+        (visibilityFilter === "visible" && currentStatus !== "hidden") ||
+        (visibilityFilter === "hidden" && currentStatus === "hidden") ||
+        (visibilityFilter === "sold_out" &&
+          (currentStatus === "out_of_stock" || currentStock === "agotado"));
+      if (!matchesVisibility) return false;
+      if (!query) return true;
+      const haystack = [
+        product.name,
+        product.category,
+        product.description,
+        prices[product.id] ?? product.price,
+      ]
+        .join(" ")
+        .toLowerCase();
+      return haystack.includes(query);
+    });
+  }, [prices, searchQuery, sortedProducts, status, stock, visibilityFilter]);
+
   const updateStock = async (id: string, status: StockStatus) => {
     if (!adapter) return;
+    setPendingActionLabel("Guardando stock...");
     setStock((prev) => ({ ...prev, [id]: status }));
     try {
       await adapter.updateStock(id, status);
       await loadStats(adapter);
-      showActionSuccess("Stock actualizado.");
+      showActionSuccess("Stock actualizado", "El estado de stock ya quedó guardado.");
     } catch {
-      showActionError("No se pudo actualizar el stock.");
+      showActionError(
+        "No se pudo actualizar el stock",
+        "La selección volvió a su estado anterior después del error."
+      );
       await reloadAll(adapter);
+    } finally {
+      setPendingActionLabel(null);
     }
   };
 
   const updatePrice = async (id: string, value: string) => {
     if (!adapter) return;
+    setPendingActionLabel("Guardando precio...");
     setPrices((prev) => ({ ...prev, [id]: value }));
     try {
       await adapter.updatePrice(id, value);
       setBaselinePrices((prev) => ({ ...prev, [id]: value }));
-      showActionSuccess("Precio guardado.");
+      showActionSuccess("Precio guardado", "El precio quedó actualizado en el panel.");
     } catch {
-      showActionError("No se pudo actualizar el precio.");
+      showActionError(
+        "No se pudo actualizar el precio",
+        "El panel recargó el valor anterior para evitar dudas."
+      );
       await reloadAll(adapter);
+    } finally {
+      setPendingActionLabel(null);
     }
   };
 
   const updateImage = async (id: string, image: string) => {
     if (!adapter) return;
     const nextImage = image.trim();
+    setPendingActionLabel("Guardando imagen...");
     setProducts((prev) =>
       prev.map((product) =>
         product.id === id ? { ...product, image: nextImage } : product
@@ -306,10 +358,15 @@ export default function AdminClient() {
     );
     try {
       await adapter.updateImage(id, nextImage);
-      showActionSuccess("Imagen actualizada.");
+      showActionSuccess("Imagen actualizada", "La nueva ruta quedó guardada.");
     } catch {
-      showActionError("No se pudo actualizar la imagen.");
+      showActionError(
+        "No se pudo actualizar la imagen",
+        "Comprueba que la ruta local o la URL pública sea válida."
+      );
       await reloadAll(adapter);
+    } finally {
+      setPendingActionLabel(null);
     }
   };
 
@@ -318,6 +375,7 @@ export default function AdminClient() {
     const safeSortOrder = Number.isFinite(sortOrder)
       ? Math.max(1, Math.round(sortOrder))
       : 9999;
+    setPendingActionLabel("Guardando orden...");
     setProducts((prev) =>
       prev
         .map((product) =>
@@ -327,10 +385,15 @@ export default function AdminClient() {
     );
     try {
       await adapter.updateSortOrder(id, safeSortOrder);
-      showActionSuccess("Orden actualizado.");
+      showActionSuccess("Orden actualizado", "La posición del catálogo ya quedó guardada.");
     } catch {
-      showActionError("No se pudo actualizar el orden.");
+      showActionError(
+        "No se pudo actualizar el orden",
+        "El panel recargó el orden anterior para evitar confusión."
+      );
       await reloadAll(adapter);
+    } finally {
+      setPendingActionLabel(null);
     }
   };
 
@@ -345,6 +408,7 @@ export default function AdminClient() {
     const target = sortedProducts[targetIndex];
     const currentOrder = current.sortOrder ?? currentIndex + 1;
     const targetOrder = target.sortOrder ?? targetIndex + 1;
+    setPendingActionLabel("Moviendo producto...");
 
     setProducts((prev) =>
       prev
@@ -359,10 +423,15 @@ export default function AdminClient() {
     try {
       await adapter.updateSortOrder(current.id, targetOrder);
       await adapter.updateSortOrder(target.id, currentOrder);
-      showActionSuccess("Orden actualizado.");
+      showActionSuccess("Orden actualizado", "El producto cambió de posición.");
     } catch {
-      showActionError("No se pudo mover el producto en el orden.");
+      showActionError(
+        "No se pudo mover el producto",
+        "El panel volvió a cargar el orden guardado para evitar desajustes."
+      );
       await reloadAll(adapter);
+    } finally {
+      setPendingActionLabel(null);
     }
   };
 
@@ -372,21 +441,28 @@ export default function AdminClient() {
     percent: number
   ) => {
     if (!adapter) return;
+    setPendingActionLabel("Guardando oferta...");
     setPromo((prev) => ({
       ...prev,
       [id]: { enabled, percent },
     }));
     try {
       await adapter.updatePromo(id, enabled, percent);
-      showActionSuccess("Oferta actualizada.");
+      showActionSuccess("Oferta actualizada", "La promo quedó guardada.");
     } catch {
-      showActionError("No se pudo actualizar la oferta.");
+      showActionError(
+        "No se pudo actualizar la oferta",
+        "Revisa el porcentaje e intenta de nuevo."
+      );
       await reloadAll(adapter);
+    } finally {
+      setPendingActionLabel(null);
     }
   };
 
   const updateFeatured = async (id: string, isFeatured: boolean) => {
     if (!adapter) return;
+    setPendingActionLabel("Guardando destacado...");
     setProducts((prev) =>
       prev.map((product) =>
         product.id === id ? { ...product, isFeatured } : product
@@ -394,35 +470,55 @@ export default function AdminClient() {
     );
     try {
       await adapter.updateFeatured(id, isFeatured);
-      showActionSuccess("Destacado actualizado.");
+      showActionSuccess("Destacado actualizado", "La selección destacada quedó guardada.");
     } catch {
-      showActionError("No se pudo actualizar el destacado.");
+      showActionError(
+        "No se pudo actualizar el destacado",
+        "El panel restauró el estado anterior después del error."
+      );
       await reloadAll(adapter);
+    } finally {
+      setPendingActionLabel(null);
     }
   };
 
   const updateStatus = async (id: string, nextStatus: ProductStatus) => {
     if (!adapter) return;
+    setPendingActionLabel("Guardando visibilidad...");
     setStatus((prev) => ({ ...prev, [id]: nextStatus }));
     try {
       await adapter.updateStatus(id, nextStatus);
-      showActionSuccess("Visibilidad actualizada.");
+      showActionSuccess("Visibilidad actualizada", "El producto ya quedó visible u oculto.");
     } catch {
-      showActionError("No se pudo actualizar la visibilidad.");
+      showActionError(
+        "No se pudo actualizar la visibilidad",
+        "El panel volvió a cargar el estado anterior."
+      );
       await reloadAll(adapter);
+    } finally {
+      setPendingActionLabel(null);
     }
   };
 
   const updateHot = async (id: string, state: HotState) => {
     if (!adapter) return;
+    setPendingActionLabel("Guardando caliente del día...");
     setHotToday((prev) => ({ ...prev, [id]: state }));
     try {
       await adapter.updateHot(id, state);
       await loadStats(adapter);
-      showActionSuccess("Estado caliente actualizado.");
+      showActionSuccess(
+        "Caliente del día actualizado",
+        "El estado y horario del producto ya quedaron guardados."
+      );
     } catch {
-      showActionError("No se pudo actualizar el estado.");
+      showActionError(
+        "No se pudo actualizar el caliente del día",
+        "El panel recargó el estado anterior después del error."
+      );
       await reloadAll(adapter);
+    } finally {
+      setPendingActionLabel(null);
     }
   };
 
@@ -442,7 +538,10 @@ export default function AdminClient() {
   ) => {
     const parsed = parseMoney(value);
     if (!parsed || parsed <= 0) {
-      showActionError("Precio inválido. Debe ser un número mayor a 0.");
+      showActionError(
+        "Precio inválido",
+        "Debe ser un número mayor a 0. Se restauró el valor anterior."
+      );
       setPrices((prev) => ({ ...prev, [id]: fallback }));
       return;
     }
@@ -484,10 +583,33 @@ export default function AdminClient() {
 
   const registerSale = async () => {
     if (!adapter) return;
-    if (!saleProductId) return;
+    if (!saleProductId) {
+      showActionError(
+        "Falta elegir producto",
+        "Selecciona un producto antes de registrar la venta manual."
+      );
+      return;
+    }
 
     const product = products.find((item) => item.id === saleProductId);
-    if (!product) return;
+    if (!product) {
+      showActionError(
+        "Producto no encontrado",
+        "Vuelve a elegir el producto e intenta de nuevo."
+      );
+      return;
+    }
+    if (!Number.isFinite(safeQuantity) || safeQuantity <= 0) {
+      showActionError("Cantidad inválida", "La cantidad debe ser mayor a 0.");
+      return;
+    }
+    if (!Number.isFinite(saleTotal) || saleTotal <= 0) {
+      showActionError(
+        "Precio inválido",
+        "El precio unitario debe ser mayor a 0 para registrar la venta."
+      );
+      return;
+    }
 
     const saleEntry: OrderLogInput = {
       items: [
@@ -502,12 +624,21 @@ export default function AdminClient() {
     };
 
     try {
+      setPendingActionLabel("Registrando venta manual...");
       await adapter.logOrder(saleEntry);
       await reloadAll(adapter);
-      showActionSuccess("Venta registrada.");
+      showActionSuccess(
+        "Venta registrada",
+        `${product.name} x${safeQuantity} quedó sumado al resumen del día.`
+      );
     } catch {
-      showActionError("No se pudo registrar la venta.");
+      showActionError(
+        "No se pudo registrar la venta",
+        "Intenta de nuevo y comprueba que la sesión siga activa."
+      );
       await reloadAll(adapter);
+    } finally {
+      setPendingActionLabel(null);
     }
   };
 
@@ -516,9 +647,12 @@ export default function AdminClient() {
     setRefreshing(true);
     try {
       await reloadAll(adapter);
-      showActionSuccess("Panel recargado.");
+      showActionSuccess("Panel recargado", "Se volvió a leer el estado actual de la hoja.");
     } catch {
-      showActionError("No se pudo recargar el panel.");
+      showActionError(
+        "No se pudo recargar el panel",
+        "Puede ser sesión vencida o un problema temporal de lectura."
+      );
     } finally {
       setRefreshing(false);
     }
@@ -628,13 +762,22 @@ export default function AdminClient() {
           </div>
         </header>
 
-        {actionError ? (
+        {pendingActionLabel ? (
+          <div className="rounded-2xl border border-sky-300/30 bg-sky-500/10 px-4 py-3 text-sm text-sky-100">
+            <p>{pendingActionLabel}</p>
+          </div>
+        ) : null}
+
+        {actionNotice?.tone === "error" ? (
           <div className="rounded-2xl border border-amber-300/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <p>{actionError}</p>
+              <div>
+                <p className="font-semibold">{actionNotice.title}</p>
+                <p className="mt-1 text-amber-50/90">{actionNotice.message}</p>
+              </div>
               <button
                 type="button"
-                onClick={() => setActionError(null)}
+                onClick={() => setActionNotice(null)}
                 className="rounded-full border border-white/20 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-white/90"
               >
                 Cerrar aviso
@@ -643,9 +786,10 @@ export default function AdminClient() {
           </div>
         ) : null}
 
-        {actionSuccess ? (
+        {actionNotice?.tone === "success" ? (
           <div className="rounded-2xl border border-emerald-300/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100">
-            <p>{actionSuccess}</p>
+            <p className="font-semibold">{actionNotice.title}</p>
+            <p className="mt-1 text-emerald-50/90">{actionNotice.message}</p>
           </div>
         ) : null}
 
@@ -680,6 +824,9 @@ export default function AdminClient() {
           <p className="mt-2 text-emerald-100/85">
             Para comprobarlo, recarga la tienda en otro celular o en otra pestaña.
             Si solo quieres esconder un producto, usa &quot;Oculto&quot; y no lo borres.
+          </p>
+          <p className="mt-2 text-emerald-100/85">
+            Si el acceso entró pero esta pantalla no carga, el problema ya no es la clave: suele ser sesión o lectura de Sheets.
           </p>
         </section>
 
@@ -755,22 +902,71 @@ export default function AdminClient() {
             <button
               type="button"
               onClick={registerSale}
-              className="self-end rounded-2xl border border-emerald-200/40 bg-emerald-400/20 px-4 py-3 text-sm uppercase tracking-[0.2em] text-emerald-100"
+              disabled={pendingActionLabel === "Registrando venta manual..."}
+              className="self-end rounded-2xl border border-emerald-200/40 bg-emerald-400/20 px-4 py-3 text-sm uppercase tracking-[0.2em] text-emerald-100 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Guardar
+              {pendingActionLabel === "Registrando venta manual..."
+                ? "Guardando..."
+                : "Guardar"}
             </button>
           </div>
           <p className="text-xs text-white/45">
             Total estimado de esta venta: {formatMoney(saleTotal)}
           </p>
+          <p className="text-xs text-white/45">
+            Sugerencia: si cambiaste el precio en el catálogo, revisa aquí el precio unitario antes de guardar.
+          </p>
         </section>
 
         <section className="grid gap-6 rounded-3xl border border-white/10 bg-white/5 p-6">
-          <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-white/80">
-            Control de pasillos
-          </h2>
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-white/80">
+                Control de catálogo
+              </h2>
+              <p className="mt-2 text-sm text-white/60">
+                Busca un producto y ajusta precio, stock, visibilidad, orden o imagen sin perderte en toda la lista.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-xs text-white/65">
+              Mostrando {filteredProducts.length} de {sortedProducts.length} productos
+            </div>
+          </div>
+          <div className="grid gap-4 lg:grid-cols-[2fr,1fr]">
+            <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+              Buscar producto
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder="Ej. leche, pupusas, combo..."
+                className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
+              />
+            </label>
+            <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+              Filtrar lista
+              <select
+                value={visibilityFilter}
+                onChange={(event) =>
+                  setVisibilityFilter(
+                    event.target.value as "all" | "visible" | "hidden" | "sold_out"
+                  )
+                }
+                className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
+              >
+                <option value="all">Todos</option>
+                <option value="visible">Solo visibles</option>
+                <option value="hidden">Solo ocultos</option>
+                <option value="sold_out">Agotados</option>
+              </select>
+            </label>
+          </div>
           <div className="grid gap-4 lg:grid-cols-2">
-              {sortedProducts.map((product) => {
+              {filteredProducts.length === 0 ? (
+                <div className="rounded-2xl border border-dashed border-white/15 bg-black/20 p-5 text-sm text-white/60 lg:col-span-2">
+                  No hay productos que coincidan con la búsqueda o el filtro actual.
+                </div>
+              ) : filteredProducts.map((product) => {
                 const stockStatus = stock[product.id] ?? "disponible";
                 const promoState = promo[product.id] ?? {
                   enabled: false,
@@ -872,6 +1068,9 @@ export default function AdminClient() {
 
                     <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
                       Precio unitario
+                      <span className="text-[11px] normal-case tracking-normal text-white/45">
+                        Se guarda al salir del campo. Formato sugerido: $2.50
+                      </span>
                         <input
                           type="text"
                           value={prices[product.id] ?? ""}
@@ -1091,7 +1290,7 @@ export default function AdminClient() {
                       Ultima actualizacion
                       <div className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white/70">
                         {hotState.updatedAt
-                          ? new Date(hotState.updatedAt).toLocaleTimeString()
+                          ? new Date(hotState.updatedAt).toLocaleString()
                           : "-"}
                       </div>
                     </div>
