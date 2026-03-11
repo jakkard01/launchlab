@@ -2,6 +2,16 @@
 
 ## 0) Diagnóstico real detectado el 2026-03-10
 
+### Actualización 2026-03-11
+- `GOOGLE_SERVICE_ACCOUNT_EMAIL` en Vercel `production` ya quedó corregido al `client_email` real de la service account.
+- Resultado live tras redeploy:
+  - `GET /api/mo/products` ya devuelve `200`.
+  - `POST /api/contact` ya devuelve `200` y registra lead.
+- Siguiente causa exacta detectada:
+  - `/RYSminisuper` seguía mostrando fallback porque la página server-side no tenía `runtime = "nodejs"` aunque la API sí lo tenía.
+  - `getStoreProducts()` usa `crypto.createSign`; en API funcionaba porque `src/app/api/mo/products/route.ts` ya fijaba `runtime = "nodejs"`.
+  - Fix mínimo aplicado: `export const runtime = "nodejs";` en `src/app/RYSminisuper/page.tsx`.
+
 ### Causa exacta del `invalid_grant` en producción
 - Evidencia live el 2026-03-10:
   - `GET https://www.poweredbyia.com/api/mo/products` responde `500` con `No se pudo obtener token de Google Sheets: invalid_grant`.
