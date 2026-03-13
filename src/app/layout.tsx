@@ -83,7 +83,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="es">
-      <body className="relative min-h-screen bg-galaxy">
+      <body className="relative min-h-screen">
         <script
           dangerouslySetInnerHTML={{
             __html: `(() => {

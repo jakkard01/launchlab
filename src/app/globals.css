@@ -2,14 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Fondo galaxia global */
-body.bg-galaxy {
+/* Fondo galaxia PBIA */
+.bg-galaxy-shell {
   position: relative;
   min-height: 100vh;
   isolation: isolate;
 }
 
-body.bg-galaxy::before {
+.bg-galaxy-shell::before {
   content: "";
   position: fixed;
   inset: 0;
@@ -72,6 +72,16 @@ body {
   font-family: "Inter", "Manrope", "Space Grotesk", "Sora", "Montserrat", "Helvetica Neue", Arial, sans-serif;
   padding-bottom: calc(env(safe-area-inset-bottom) + var(--fab-safe-padding, 140px));
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.rys-shell {
+  position: relative;
+  min-height: 100vh;
+  isolation: isolate;
+  overflow-x: clip;
+  background:
+    radial-gradient(circle at top, rgba(34, 197, 94, 0.08), transparent 38%),
+    linear-gradient(180deg, color-mix(in srgb, var(--bg) 96%, white 4%), var(--bg));
 }
 
 a, button, input, textarea, select {

@@ -17,7 +17,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <ClientLayout>{children}</ClientLayout>
+      <div className="relative min-h-screen bg-galaxy-shell">
+        <ClientLayout>{children}</ClientLayout>
+      </div>
       <FAB />
       <CookieBanner />
     </>

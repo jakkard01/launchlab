@@ -14,6 +14,7 @@ import MoSections from "./MoSections";
 type MoStorefrontProps = {
   products: Product[];
   ctaLink: string;
+  hasAdminSession: boolean;
 };
 
 const filterHidden = (items: Product[]) =>
@@ -25,7 +26,11 @@ const filterHidden = (items: Product[]) =>
       return a.name.localeCompare(b.name, "es");
     });
 
-export default function MoStorefront({ products, ctaLink }: MoStorefrontProps) {
+export default function MoStorefront({
+  products,
+  ctaLink,
+  hasAdminSession,
+}: MoStorefrontProps) {
   const hasInitialCatalog = products.length > 0;
   const [activeTab, setActiveTab] = useState<TabId>("hot");
   const [query, setQuery] = useState("");
@@ -83,6 +88,7 @@ export default function MoStorefront({ products, ctaLink }: MoStorefrontProps) {
         query={query}
         onQueryChange={setQuery}
         whatsappLink={ctaLink}
+        hasAdminSession={hasAdminSession}
         onScrollToSpecial={() => scrollToId("pedido-especial")}
       />
       {error ? (
