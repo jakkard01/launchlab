@@ -85,7 +85,7 @@ export default function CatalogSection({
         </div>
       </div>
 
-      <div className="sticky top-16 z-30 -mx-4 border-y border-default bg-[var(--surface)] bg-opacity-95 px-4 py-3 backdrop-blur sm:mx-0 sm:top-0 sm:rounded-2xl sm:border sm:px-6">
+      <div className="sticky top-28 z-30 -mx-4 border-y border-default bg-[var(--surface)] bg-opacity-95 px-4 py-3 backdrop-blur sm:mx-0 sm:top-24 sm:rounded-2xl sm:border sm:px-6">
         <div className="no-scrollbar flex gap-2 overflow-x-auto">
           {TABS.map((tab) => {
             const isActive = tab.id === activeTab;

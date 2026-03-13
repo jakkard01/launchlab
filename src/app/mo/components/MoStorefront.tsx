@@ -59,7 +59,9 @@ export default function MoStorefront({ products, ctaLink }: MoStorefrontProps) {
   const scrollToId = useCallback((id: string) => {
     const target = document.getElementById(id);
     if (!target) return;
-    const top = target.getBoundingClientRect().top + window.scrollY - 96;
+    // Keep anchor targets visible below the sticky RYS header (mobile is taller).
+    const headerOffset = window.innerWidth < 640 ? 176 : 128;
+    const top = target.getBoundingClientRect().top + window.scrollY - headerOffset;
     window.scrollTo({ top, behavior: "smooth" });
   }, []);
 

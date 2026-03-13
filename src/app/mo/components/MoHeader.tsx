@@ -21,7 +21,7 @@ export default function MoHeader({
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-default bg-[color-mix(in_srgb,var(--surface)_92%,transparent)] backdrop-blur-md shadow-sm shadow-slate-950/5 sm:static sm:border-none sm:bg-transparent sm:shadow-none">
+    <header className="sticky top-0 z-40 border-b border-default bg-[color-mix(in_srgb,var(--surface)_92%,transparent)] backdrop-blur-md shadow-sm shadow-slate-950/5">
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-3 rounded-3xl border border-default bg-surface px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8 dark:bg-[var(--surface-2)] dark:shadow-[0_14px_40px_rgba(3,8,16,0.2)]">
         <div className="flex items-center justify-between gap-3">
           <div>
