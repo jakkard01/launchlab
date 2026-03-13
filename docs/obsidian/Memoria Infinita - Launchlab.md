@@ -719,3 +719,31 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
   - Probar "Agregar combo" y confirmar que el carrito lista los items individuales.
   - Forzar fallback (sin envs) y validar el banner "modo respaldo" en dark.
   - Confirmar "Pedir por WhatsApp" y "Agregar" siguen destacando.
+
+## 2026-03-13 — RYS final isolation + mobile P0 + admin entry
+- Rama: `feat/pagina-hermana-live`
+- Objetivo:
+  - dejar `/RYSminisuper` listo para test real con cliente sin contaminación visual de PBIA;
+  - corregir el bug P0 de móvil sin parche ciego;
+  - mantener el acceso admin disponible pero no protagonista para público normal.
+- Causa exacta del bug:
+  - el fondo galaxia de PBIA estaba montado globalmente en `body.bg-galaxy::before`;
+  - `AppShell` ya evitaba `ClientLayout` para rutas RYS, pero eso no quitaba el pseudo-elemento fijo del `body`;
+  - en móvil, además, `MoHeader` forzaba demasiado ancho por meter branding + `ThemeToggle` ancho + CTA WhatsApp en una sola fila, y el sticky del catálogo expandía lateralmente con `-mx-4`.
+- Fix aplicado:
+  - `src/app/layout.tsx`: el `body` deja de cargar la galaxia por defecto.
+  - `src/app/components/AppShell.tsx` + `src/app/globals.css`: la galaxia pasa a un wrapper exclusivo de PBIA (`.bg-galaxy-shell`).
+  - `src/app/RYSminisuper/layout.tsx`: RYS recibe shell propio (`.rys-shell`) con fondo limpio y `overflow-x: clip`.
+  - `src/app/mo/components/MoHeader.tsx`: el header se reorganiza para móvil; toggle compacto en móvil, toggle con label en `sm+`, CTA WhatsApp centrada y botón `Admin` visible solo con sesión.
+  - `src/app/mo/CatalogSection.tsx`: el sticky de tabs deja de usar expansión lateral negativa y queda contenido dentro de un wrapper propio.
+  - `src/app/RYSminisuper/page.tsx` + `src/app/mo/components/MoStorefront.tsx`: la cookie `mo_admin` se lee server-side para mostrar acceso rápido a admin solo cuando ya hay sesión activa.
+- Estado verificado:
+  - `npm run lint` OK.
+  - `npm run build` OK.
+  - la ruta `/RYSminisuper/admin/acceso` sigue compilando; Next marca deopt a CSR, pero no error de build.
+- Estado operativo:
+  - experiencia pública entra por `/RYSminisuper` sin CTA admin visible si no hay sesión;
+  - si existe cookie `mo_admin`, aparece acceso rápido `Admin` dentro del header de RYS;
+  - `/RYSminisuper/admin` y `/RYSminisuper/admin/acceso` quedan cubiertas por el shell aislado de RYS, no por el fondo PBIA.
+- Pendiente de cierre:
+  - smoke visual real en preview/dominio para confirmar en pantalla que no queda scroll horizontal residual en 360–430 px.

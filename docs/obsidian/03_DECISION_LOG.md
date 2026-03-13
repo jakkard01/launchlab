@@ -45,3 +45,7 @@
 - 2026-03-13: Header de RYS se mantiene sticky en scroll también en desktop; tabs sticky del catálogo se posicionan debajo para evitar solape.
 - 2026-03-13: Dark mode reduce flash inicial aplicando tokens por `prefers-color-scheme` cuando no hay override explícito (`.light`), y los banners críticos se hacen legibles con `dark:*`.
 - 2026-03-13: Combos y promos se agregan como capas operables por config (referencias por `productId`) para ventas/operación, sin rehacer el catálogo base ni crear integraciones falsas.
+- 2026-03-13: La mezcla visual PBIA/RYS venía de un error de aislamiento: la galaxia estaba aplicada en `body.bg-galaxy::before`, así que `/RYSminisuper` evitaba el layout de PBIA pero seguía heredando el fondo global del `body`.
+- 2026-03-13: El fix de aislamiento mueve la galaxia a un wrapper exclusivo de PBIA (`.bg-galaxy-shell`) y crea un shell propio para `/RYSminisuper` (`.rys-shell`), evitando herencia visual accidental en tienda, admin y acceso admin.
+- 2026-03-13: El P0 móvil de RYS se corrige atacando causa real de ancho: header superior con CTAs demasiado anchos en una sola fila y barra sticky de tabs con expansión lateral; se reordena el header para móvil y el sticky del catálogo deja de usar expansión lateral negativa.
+- 2026-03-13: La UI pública de RYS no muestra CTA admin por defecto; el acceso visible a `Admin` solo aparece si existe sesión `mo_admin` ya autenticada.
