@@ -231,10 +231,10 @@ export default function MoQuickShop({
 
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-slate-900">
+          <h3 className="text-sm font-semibold text-main">
             Caliente hoy
           </h3>
-          <span className="text-xs text-rose-600">Hecho para hoy</span>
+          <span className="text-xs text-[var(--accent)]">Hecho para hoy</span>
         </div>
         {hotToday.length > 0 ? (
           <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
@@ -245,7 +245,7 @@ export default function MoQuickShop({
             ))}
           </div>
         ) : (
-          <div className="rounded-2xl border border-dashed border-slate-200 px-4 py-5 text-sm text-slate-500">
+          <div className="rounded-2xl border border-dashed border-default bg-surface px-4 py-5 text-sm text-muted-strong">
             Hoy no hay calientes confirmados. Escríbenos por WhatsApp si quieres consultar antojitos.
           </div>
         )}
@@ -253,10 +253,10 @@ export default function MoQuickShop({
 
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-slate-900">
+          <h3 className="text-sm font-semibold text-main">
             Combos y packs
           </h3>
-          <span className="text-xs text-slate-500">Para salir del paso</span>
+          <span className="text-xs text-muted-strong">Para salir del paso</span>
         </div>
         {combos.length > 0 ? (
           <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
@@ -267,7 +267,7 @@ export default function MoQuickShop({
             ))}
           </div>
         ) : (
-          <div className="rounded-2xl border border-dashed border-slate-200 px-4 py-5 text-sm text-slate-500">
+          <div className="rounded-2xl border border-dashed border-default bg-surface px-4 py-5 text-sm text-muted-strong">
             Aún no hay combos cargados.
           </div>
         )}
@@ -275,10 +275,10 @@ export default function MoQuickShop({
 
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-slate-900">
+          <h3 className="text-sm font-semibold text-main">
             Antojitos de hoy
           </h3>
-          <span className="text-xs text-emerald-600">Pide hoy</span>
+          <span className="text-xs text-[var(--accent)]">Pide hoy</span>
         </div>
         {antojitos.length > 0 ? (
           <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
@@ -289,7 +289,7 @@ export default function MoQuickShop({
             ))}
           </div>
         ) : (
-          <div className="rounded-2xl border border-dashed border-slate-200 px-4 py-5 text-sm text-slate-500">
+          <div className="rounded-2xl border border-dashed border-default bg-surface px-4 py-5 text-sm text-muted-strong">
             No hay antojitos cargados por ahora.
           </div>
         )}
@@ -297,10 +297,10 @@ export default function MoQuickShop({
 
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-slate-900">
+          <h3 className="text-sm font-semibold text-main">
             Ofertas rápidas
           </h3>
-          <span className="text-xs text-slate-500">Descuentos del día</span>
+          <span className="text-xs text-muted-strong">Descuentos del día</span>
         </div>
         {promoProducts.length > 0 ? (
           <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
@@ -311,7 +311,7 @@ export default function MoQuickShop({
             ))}
           </div>
         ) : (
-          <div className="rounded-2xl border border-dashed border-slate-200 px-4 py-5 text-sm text-slate-500">
+          <div className="rounded-2xl border border-dashed border-default bg-surface px-4 py-5 text-sm text-muted-strong">
             Aún no hay ofertas activas.
           </div>
         )}
@@ -319,10 +319,10 @@ export default function MoQuickShop({
 
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-slate-900">
+          <h3 className="text-sm font-semibold text-main">
             Destacados del local
           </h3>
-          <span className="text-xs text-slate-500">Selección visible y confiable</span>
+          <span className="text-xs text-muted-strong">Selección visible y confiable</span>
         </div>
         <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
           {featured.length > 0 ? (
@@ -332,7 +332,7 @@ export default function MoQuickShop({
               </div>
             ))
           ) : (
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-muted-strong">
               Aún no hay destacados cargados.
             </p>
           )}

@@ -21,14 +21,14 @@ export default function MoHeader({
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-default bg-surface backdrop-blur sm:static sm:border-none">
-      <div className="mx-auto flex w-full max-w-5xl flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-40 border-b border-default bg-[color-mix(in_srgb,var(--surface)_92%,transparent)] backdrop-blur-md shadow-sm shadow-slate-950/5 sm:static sm:border-none sm:bg-transparent sm:shadow-none">
+      <div className="mx-auto flex w-full max-w-5xl flex-col gap-3 rounded-3xl border border-default bg-surface px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8 dark:bg-[var(--surface-2)] dark:shadow-[0_14px_40px_rgba(3,8,16,0.2)]">
         <div className="flex items-center justify-between gap-3">
           <div>
             <div className="text-base font-semibold tracking-[0.08em] text-main">
               RYS Minisúper
             </div>
-            <p className="text-xs text-muted">La Gloria, San Salvador</p>
+            <p className="text-xs text-muted-strong">La Gloria, San Salvador</p>
             <p className="mt-1 text-[11px] text-muted">
               Retiro local con confirmación por WhatsApp antes de salir.
             </p>
@@ -37,7 +37,7 @@ export default function MoHeader({
             <ThemeToggle showLabel className="shrink-0" />
             <a
               href={whatsappLink}
-              className="rounded-full border border-[var(--accent)] bg-[var(--accent)] px-3 py-2 text-xs font-semibold text-[var(--surface)] transition hover:opacity-90"
+              className="rounded-full border border-[var(--accent)] bg-[var(--accent)] px-3 py-2 text-xs font-semibold text-[#07130c] shadow-[0_10px_24px_rgba(34,197,94,0.2)] transition hover:opacity-90"
               target="_blank"
               rel="noopener noreferrer"
               style={{ minHeight: 44 }}
@@ -53,27 +53,27 @@ export default function MoHeader({
             value={query}
             onChange={handleChange}
             placeholder="Busca pan, leche, pupusas..."
-            className="h-11 w-full rounded-full border border-default bg-surface px-4 text-sm text-main focus:border-[var(--accent)] focus:outline-none"
+            className="h-11 w-full rounded-full border border-default bg-surface-3 px-4 text-sm text-main placeholder:text-muted focus:border-[var(--accent)] focus:outline-none"
             aria-label="Buscar producto"
           />
             {query.trim().length > 0 ? (
               <button
                 type="button"
                 onClick={() => onQueryChange("")}
-                className="rounded-full border border-default px-3 py-2 text-xs font-semibold text-main transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                className="rounded-full border border-default bg-surface-3 px-3 py-2 text-xs font-semibold text-main transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
               >
                 Limpiar
               </button>
             ) : null}
           </div>
           <div className="flex flex-wrap gap-2 text-[11px] text-muted">
-            <span className="rounded-full border border-default px-3 py-1">
+            <span className="rounded-full border border-default bg-[color-mix(in_srgb,var(--surface-2)_55%,transparent)] px-3 py-1 text-muted-strong">
               Retiro en La Gloria
             </span>
             <button
               type="button"
               onClick={onScrollToSpecial}
-              className="rounded-full border border-default px-3 py-1 font-semibold text-main transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
+              className="rounded-full border border-default bg-[color-mix(in_srgb,var(--surface-2)_55%,transparent)] px-3 py-1 font-semibold text-main transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
             >
               No veo lo que busco
             </button>

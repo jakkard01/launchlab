@@ -17,22 +17,22 @@ export default function FreeTextOrder() {
   }, [item, note, zone]);
 
   return (
-    <div className="rounded-3xl border border-emerald-200 bg-emerald-50/50 px-6 py-6 shadow-sm sm:px-8">
+    <div className="rounded-3xl border border-[var(--accent)]/25 bg-[color-mix(in_srgb,var(--accent)_10%,var(--surface))] px-6 py-6 shadow-sm dark:bg-[color-mix(in_srgb,var(--accent)_8%,var(--surface-2))] dark:shadow-[0_18px_40px_rgba(3,8,16,0.24)] sm:px-8">
       <div className="flex flex-col gap-2">
-        <p className="text-xs uppercase tracking-[0.3em] text-emerald-700">
+        <p className="text-xs uppercase tracking-[0.3em] text-[var(--accent)]">
           Pedido especial
         </p>
-        <h2 className="text-lg font-semibold text-slate-900">
+        <h2 className="text-lg font-semibold text-main">
           ¿No ves algo en catálogo?
         </h2>
-        <p className="text-sm text-slate-600">
+        <p className="text-sm text-muted-strong">
           Escríbenos qué necesitas y te confirmamos si lo tenemos o si lo podemos conseguir para retiro.
         </p>
-        <div className="mt-1 flex flex-wrap gap-2 text-[11px] text-emerald-800">
+        <div className="mt-1 flex flex-wrap gap-2 text-[11px] text-main">
           {["Canasta básica", "Bebidas", "Algo que no viste"].map((hint) => (
             <span
               key={hint}
-              className="rounded-full border border-emerald-200 bg-white/80 px-3 py-1 font-semibold"
+              className="rounded-full border border-[var(--accent)]/20 bg-surface-3 px-3 py-1 font-semibold"
             >
               {hint}
             </span>
@@ -40,7 +40,7 @@ export default function FreeTextOrder() {
         </div>
       </div>
       <div className="mt-5 grid gap-3">
-        <label className="text-xs font-semibold text-slate-600" htmlFor="free-item">
+        <label className="text-xs font-semibold text-muted-strong" htmlFor="free-item">
           Qué necesitas
         </label>
         <input
@@ -49,9 +49,9 @@ export default function FreeTextOrder() {
           value={item}
           onChange={(event) => setItem(event.target.value)}
           placeholder="Ej: pan integral, leche deslactosada"
-          className="h-12 rounded-2xl border border-emerald-200 bg-white px-4 text-sm text-slate-700 focus:border-emerald-400 focus:outline-none"
+          className="h-12 rounded-2xl border border-default bg-surface-3 px-4 text-sm text-main placeholder:text-muted focus:border-[var(--accent)] focus:outline-none"
         />
-        <label className="text-xs font-semibold text-slate-600" htmlFor="free-note">
+        <label className="text-xs font-semibold text-muted-strong" htmlFor="free-note">
           Nota (opcional)
         </label>
         <input
@@ -60,9 +60,9 @@ export default function FreeTextOrder() {
           value={note}
           onChange={(event) => setNote(event.target.value)}
           placeholder="Marca, tamaño o detalle importante"
-          className="h-12 rounded-2xl border border-emerald-200 bg-white px-4 text-sm text-slate-700 focus:border-emerald-400 focus:outline-none"
+          className="h-12 rounded-2xl border border-default bg-surface-3 px-4 text-sm text-main placeholder:text-muted focus:border-[var(--accent)] focus:outline-none"
         />
-        <label className="text-xs font-semibold text-slate-600" htmlFor="free-zone">
+        <label className="text-xs font-semibold text-muted-strong" htmlFor="free-zone">
           Estoy cerca de (opcional)
         </label>
         <input
@@ -71,18 +71,18 @@ export default function FreeTextOrder() {
           value={zone}
           onChange={(event) => setZone(event.target.value)}
           placeholder="Colonia, referencia"
-          className="h-12 rounded-2xl border border-emerald-200 bg-white px-4 text-sm text-slate-700 focus:border-emerald-400 focus:outline-none"
+          className="h-12 rounded-2xl border border-default bg-surface-3 px-4 text-sm text-main placeholder:text-muted focus:border-[var(--accent)] focus:outline-none"
         />
         <a
           href={whatsappLink}
-          className="flex min-h-[48px] items-center justify-center rounded-full bg-emerald-600 px-5 py-3 text-center text-sm font-semibold text-white transition hover:bg-emerald-700"
+          className="flex min-h-[48px] items-center justify-center rounded-full bg-[var(--accent)] px-5 py-3 text-center text-sm font-semibold text-[#07130c] transition hover:opacity-90"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Pedir algo que no está en el catálogo por WhatsApp"
         >
           Pedir esto por WhatsApp
         </a>
-        <p className="text-xs text-emerald-700">
+        <p className="text-xs text-muted-strong">
           Te respondemos con disponibilidad, total estimado y tiempo de retiro.
         </p>
       </div>

@@ -21,37 +21,37 @@ export default function MoSections({
 }: MoSectionsProps) {
   return (
     <section className="space-y-10">
-      <section className="grid gap-4 rounded-3xl border border-slate-200 bg-white px-6 py-6 shadow-sm sm:grid-cols-3 sm:px-8">
-        <div className="rounded-2xl border border-slate-200 px-4 py-4">
-          <p className="text-xs uppercase tracking-[0.24em] text-emerald-600">
+      <section className="grid gap-4 rounded-3xl border border-default bg-surface px-6 py-6 shadow-sm dark:bg-[var(--surface-2)] dark:shadow-[0_18px_40px_rgba(3,8,16,0.2)] sm:grid-cols-3 sm:px-8">
+        <div className="rounded-2xl border border-default bg-surface-3 px-4 py-4">
+          <p className="text-xs uppercase tracking-[0.24em] text-[var(--accent)]">
             Tienda real
           </p>
-          <p className="mt-2 text-sm font-semibold text-slate-900">
+          <p className="mt-2 text-sm font-semibold text-main">
             Local de barrio en La Gloria
           </p>
-          <p className="mt-1 text-xs text-slate-500">
+          <p className="mt-1 text-xs text-muted-strong">
             No es envío masivo ni ecommerce complicado. Pides directo y retiras.
           </p>
         </div>
-        <div className="rounded-2xl border border-slate-200 px-4 py-4">
-          <p className="text-xs uppercase tracking-[0.24em] text-emerald-600">
+        <div className="rounded-2xl border border-default bg-surface-3 px-4 py-4">
+          <p className="text-xs uppercase tracking-[0.24em] text-[var(--accent)]">
             Pedido fácil
           </p>
-          <p className="mt-2 text-sm font-semibold text-slate-900">
+          <p className="mt-2 text-sm font-semibold text-main">
             Confirmación por WhatsApp
           </p>
-          <p className="mt-1 text-xs text-slate-500">
+          <p className="mt-1 text-xs text-muted-strong">
             Te decimos si está disponible antes de que salgas.
           </p>
         </div>
-        <div className="rounded-2xl border border-slate-200 px-4 py-4">
-          <p className="text-xs uppercase tracking-[0.24em] text-emerald-600">
+        <div className="rounded-2xl border border-default bg-surface-3 px-4 py-4">
+          <p className="text-xs uppercase tracking-[0.24em] text-[var(--accent)]">
             Pago simple
           </p>
-          <p className="mt-2 text-sm font-semibold text-slate-900">
+          <p className="mt-2 text-sm font-semibold text-main">
             Pagas al retirar
           </p>
-          <p className="mt-1 text-xs text-slate-500">
+          <p className="mt-1 text-xs text-muted-strong">
             Efectivo, transferencia o Tigo Money.
           </p>
         </div>
@@ -65,39 +65,39 @@ export default function MoSections({
         onScrollToSpecial={onScrollToSpecial}
       />
 
-      <section className="grid gap-4 rounded-3xl border border-slate-200 bg-white px-6 py-8 shadow-sm sm:grid-cols-3 sm:px-8">
+      <section className="grid gap-4 rounded-3xl border border-default bg-surface px-6 py-8 shadow-sm dark:bg-[var(--surface-2)] dark:shadow-[0_18px_40px_rgba(3,8,16,0.2)] sm:grid-cols-3 sm:px-8">
         <div className="sm:col-span-3">
-          <p className="text-xs uppercase tracking-[0.3em] text-emerald-600">
+          <p className="text-xs uppercase tracking-[0.3em] text-[var(--accent)]">
             Cómo pedir
           </p>
-          <p className="mt-2 text-sm text-slate-600">
+          <p className="mt-2 text-sm text-muted-strong">
             Lo resolvés en tres pasos cortos.
           </p>
         </div>
-        <div className="rounded-2xl border border-slate-200 px-4 py-4">
-          <p className="text-xs font-semibold text-emerald-600">Paso 1</p>
-          <p className="mt-1 text-sm font-semibold text-slate-900">
+        <div className="rounded-2xl border border-default bg-surface-3 px-4 py-4">
+          <p className="text-xs font-semibold text-[var(--accent)]">Paso 1</p>
+          <p className="mt-1 text-sm font-semibold text-main">
             Elige del catálogo
           </p>
-          <p className="mt-1 text-xs text-slate-500">
+          <p className="mt-1 text-xs text-muted-strong">
             Usa el buscador, los pasillos y el pedido especial si te falta algo.
           </p>
         </div>
-        <div className="rounded-2xl border border-slate-200 px-4 py-4">
-          <p className="text-xs font-semibold text-emerald-600">Paso 2</p>
-          <p className="mt-1 text-sm font-semibold text-slate-900">
+        <div className="rounded-2xl border border-default bg-surface-3 px-4 py-4">
+          <p className="text-xs font-semibold text-[var(--accent)]">Paso 2</p>
+          <p className="mt-1 text-sm font-semibold text-main">
             Escribe por WhatsApp
           </p>
-          <p className="mt-1 text-xs text-slate-500">
+          <p className="mt-1 text-xs text-muted-strong">
             Te confirmamos disponibilidad, total y tiempo de retiro.
           </p>
         </div>
-        <div className="rounded-2xl border border-slate-200 px-4 py-4">
-          <p className="text-xs font-semibold text-emerald-600">Paso 3</p>
-          <p className="mt-1 text-sm font-semibold text-slate-900">
+        <div className="rounded-2xl border border-default bg-surface-3 px-4 py-4">
+          <p className="text-xs font-semibold text-[var(--accent)]">Paso 3</p>
+          <p className="mt-1 text-sm font-semibold text-main">
             Pasás a recoger
           </p>
-          <p className="mt-1 text-xs text-slate-500">
+          <p className="mt-1 text-xs text-muted-strong">
             Pasás cuando esté listo y pagas al retirar.
           </p>
         </div>
@@ -107,31 +107,31 @@ export default function MoSections({
         <FreeTextOrder />
       </div>
 
-      <section className="rounded-3xl border border-slate-200 bg-white px-6 py-8 shadow-sm sm:px-8">
+      <section className="rounded-3xl border border-default bg-surface px-6 py-8 shadow-sm dark:bg-[var(--surface-2)] dark:shadow-[0_18px_40px_rgba(3,8,16,0.2)] sm:px-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-emerald-600">
+            <p className="text-xs uppercase tracking-[0.3em] text-[var(--accent)]">
               Ubicación, horario y pago
             </p>
-            <p className="mt-2 text-sm font-semibold text-slate-900">
+            <p className="mt-2 text-sm font-semibold text-main">
               Retiro en La Gloria, San Salvador
             </p>
-            <p className="mt-2 text-sm text-slate-600">
+            <p className="mt-2 text-sm text-muted-strong">
               {MO_STORE_HOURS_LABEL}
             </p>
-            <p className="mt-2 text-sm text-slate-600">
+            <p className="mt-2 text-sm text-muted-strong">
               Si vas tarde, escríbenos y te confirmamos si seguimos atendiendo.
             </p>
-            <p className="mt-2 text-sm text-slate-600">
+            <p className="mt-2 text-sm text-muted-strong">
               Pagos: efectivo, transferencia o Tigo Money.
             </p>
-            <p className="mt-2 text-sm text-slate-600">
+            <p className="mt-2 text-sm text-muted-strong">
               Si necesitas varias cosas juntas, manda la lista por WhatsApp y te la dejamos preparada.
             </p>
           </div>
           <a
             href={MO_STORE_MAPS_URL}
-            className="h-11 rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-emerald-300 hover:text-emerald-700"
+            className="h-11 rounded-full border border-default bg-surface-3 px-4 py-2 text-sm font-semibold text-main transition hover:border-[var(--accent)]/45 hover:text-[var(--accent)]"
             target="_blank"
             rel="noopener noreferrer"
           >

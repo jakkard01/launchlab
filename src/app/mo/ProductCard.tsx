@@ -124,8 +124,8 @@ export default function ProductCard({
   }
 
   return (
-    <article className="surface-card flex h-full flex-col rounded-2xl p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
-      <div className="relative overflow-hidden rounded-xl border border-default bg-base">
+    <article className="surface-card flex h-full flex-col rounded-2xl p-4 transition hover:-translate-y-0.5 hover:shadow-md dark:bg-[var(--surface-2)]">
+      <div className="relative overflow-hidden rounded-xl border border-default bg-surface-3">
         {topImageSrc && !imageFailed ? (
           <Image
             src={topImageSrc}
@@ -138,7 +138,7 @@ export default function ProductCard({
             onError={() => setImageFailed(true)}
           />
         ) : (
-          <div className="absolute inset-0 flex items-end justify-between overflow-hidden bg-[radial-gradient(circle_at_20%_15%,color-mix(in_srgb,var(--accent)_10%,transparent),transparent_55%),linear-gradient(135deg,color-mix(in_srgb,var(--surface)_92%,transparent),color-mix(in_srgb,var(--accent)_6%,transparent))] px-4 py-3">
+          <div className="absolute inset-0 flex items-end justify-between overflow-hidden bg-[radial-gradient(circle_at_20%_15%,color-mix(in_srgb,var(--accent)_10%,transparent),transparent_55%),linear-gradient(135deg,color-mix(in_srgb,var(--surface-3)_92%,transparent),color-mix(in_srgb,var(--accent)_6%,transparent))] px-4 py-3">
             <div className="flex flex-col gap-1">
               <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted">
                 {product.category}
@@ -147,7 +147,7 @@ export default function ProductCard({
                 Selección RYS
               </span>
             </div>
-            <span className="rounded-full border border-default bg-[color-mix(in_srgb,var(--surface)_90%,transparent)] px-3 py-1 text-[11px] uppercase tracking-[0.3em] text-muted">
+            <span className="rounded-full border border-default bg-[color-mix(in_srgb,var(--surface-3)_90%,transparent)] px-3 py-1 text-[11px] uppercase tracking-[0.3em] text-muted-strong">
               {initials || "RYS"}
             </span>
           </div>
@@ -168,27 +168,27 @@ export default function ProductCard({
       </div>
       <div className="mt-2 flex items-center justify-between">
         {promoLabel ? (
-          <span className="rounded-full border border-default bg-base px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-muted">
+          <span className="rounded-full border border-default bg-surface-3 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-muted-strong">
             {promoLabel}
           </span>
         ) : product.isFeatured ? (
-          <span className="rounded-full border border-default px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-muted">
+          <span className="rounded-full border border-default bg-surface-3 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-muted-strong">
             Destacado
           </span>
         ) : null}
       </div>
-      <p className="mt-2 text-sm text-muted truncate">
+      <p className="mt-2 text-sm text-muted-strong truncate">
         {product.description}
       </p>
       <div className="mt-3">
-        <span className="rounded-full border border-default px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-muted">
+        <span className="rounded-full border border-default bg-[color-mix(in_srgb,var(--surface-3)_80%,transparent)] px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-muted-strong">
           {product.category}
         </span>
       </div>
       <div className="mt-4 flex items-center justify-between">
         <div>
           {promoLabel ? (
-            <span className="text-xs text-muted line-through">
+            <span className="text-xs text-muted-strong line-through">
               {product.price}
             </span>
           ) : null}
@@ -206,7 +206,7 @@ export default function ProductCard({
           type="button"
           onClick={handleAdd}
           disabled={isOutOfStock}
-          className="h-12 rounded-2xl bg-[var(--accent)] px-6 text-center text-sm font-semibold text-[var(--surface)] shadow-sm transition hover:opacity-95 hover:shadow-md disabled:cursor-not-allowed disabled:bg-[var(--border)] disabled:text-muted"
+          className="h-12 rounded-2xl bg-[var(--accent)] px-6 text-center text-sm font-semibold text-[#07130c] shadow-sm transition hover:opacity-95 hover:shadow-md disabled:cursor-not-allowed disabled:bg-[var(--border)] disabled:text-muted"
           aria-label={`Agregar ${product.name} al pedido`}
         >
           {isOutOfStock ? "No disponible" : justAdded ? "Agregado ✓" : "Agregar"}
@@ -228,7 +228,7 @@ export default function ProductCard({
             type="button"
             onClick={handleAdd}
             disabled={isOutOfStock}
-            className="mt-4 h-11 rounded-xl bg-[var(--accent)] px-4 text-xs font-semibold text-[var(--surface)] shadow-sm transition hover:opacity-95 hover:shadow-md disabled:cursor-not-allowed disabled:bg-[var(--border)] disabled:text-muted"
+            className="mt-4 h-11 rounded-xl bg-[var(--accent)] px-4 text-xs font-semibold text-[#07130c] shadow-sm transition hover:opacity-95 hover:shadow-md disabled:cursor-not-allowed disabled:bg-[var(--border)] disabled:text-muted"
             aria-label={`Agregar ${product.name} al pedido`}
           >
             {isOutOfStock ? "No disponible" : justAdded ? "Agregado ✓" : "Agregar"}

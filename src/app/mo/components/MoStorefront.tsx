@@ -87,34 +87,34 @@ export default function MoStorefront({ products, ctaLink }: MoStorefrontProps) {
         </div>
       ) : null}
       {loading ? (
-        <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-500">
+        <div className="rounded-2xl border border-default bg-surface px-4 py-3 text-sm text-muted-strong">
           Cargando catálogo...
         </div>
       ) : null}
       <MoHero ctaLink={ctaLink} />
-      <section className="grid gap-3 rounded-3xl border border-slate-200 bg-white px-4 py-4 shadow-sm sm:grid-cols-[1.2fr,1fr,1fr] sm:px-6">
+      <section className="grid gap-3 rounded-3xl border border-default bg-surface px-4 py-4 shadow-sm dark:bg-[var(--surface-2)] dark:shadow-[0_18px_40px_rgba(3,8,16,0.22)] sm:grid-cols-[1.2fr,1fr,1fr] sm:px-6">
         <div>
-          <p className="text-xs uppercase tracking-[0.24em] text-emerald-600">
+          <p className="text-xs uppercase tracking-[0.24em] text-[var(--accent)]">
             Resumen rápido
           </p>
-          <p className="mt-2 text-sm font-semibold text-slate-900">
+          <p className="mt-2 text-sm font-semibold text-main">
             {readyProducts} productos visibles para retiro
           </p>
-          <p className="mt-1 text-xs text-slate-500">
+          <p className="mt-1 text-xs text-muted-strong">
             Catálogo simple, pedido por WhatsApp y retiro local.
           </p>
         </div>
         <button
           type="button"
           onClick={() => handleJumpToTab("hot")}
-          className="rounded-2xl border border-slate-200 px-4 py-3 text-left text-sm font-semibold text-slate-800 transition hover:border-emerald-300 hover:text-emerald-700"
+          className="rounded-2xl border border-default bg-surface-3 px-4 py-3 text-left text-sm font-semibold text-main transition hover:border-[var(--accent)]/45 hover:text-[var(--accent)]"
         >
           Ver caliente hoy
         </button>
         <button
           type="button"
           onClick={() => scrollToId("pedido-especial")}
-          className="rounded-2xl border border-slate-200 px-4 py-3 text-left text-sm font-semibold text-slate-800 transition hover:border-emerald-300 hover:text-emerald-700"
+          className="rounded-2xl border border-default bg-surface-3 px-4 py-3 text-left text-sm font-semibold text-main transition hover:border-[var(--accent)]/45 hover:text-[var(--accent)]"
         >
           Pedir algo que no ves
         </button>

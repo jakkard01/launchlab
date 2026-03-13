@@ -25,18 +25,18 @@ export default function QuantityStepper({
       <button
         type="button"
         onClick={handleDecrease}
-        className="h-11 w-11 rounded-full border border-slate-200 text-lg font-semibold text-slate-700 transition hover:border-emerald-200 hover:text-emerald-700"
+        className="h-11 w-11 rounded-full border border-default bg-surface-3 text-lg font-semibold text-main transition hover:border-[var(--accent)]/35 hover:text-[var(--accent)]"
         aria-label="Disminuir cantidad"
       >
         -
       </button>
-      <span className="min-w-[2.5rem] text-center text-sm font-semibold text-slate-900">
+      <span className="min-w-[2.5rem] text-center text-sm font-semibold text-main">
         {value}
       </span>
       <button
         type="button"
         onClick={handleIncrease}
-        className="h-11 w-11 rounded-full border border-slate-200 text-lg font-semibold text-slate-700 transition hover:border-emerald-200 hover:text-emerald-700"
+        className="h-11 w-11 rounded-full border border-default bg-surface-3 text-lg font-semibold text-main transition hover:border-[var(--accent)]/35 hover:text-[var(--accent)]"
         aria-label="Aumentar cantidad"
       >
         +
