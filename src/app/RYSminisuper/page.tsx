@@ -48,10 +48,10 @@ export default async function RysMiniSuperPage() {
     <CartProvider>
       <main className="min-h-screen w-full bg-base px-4 pb-36 pt-10 text-main sm:px-6 lg:px-8">
         {fallbackWarning ? (
-          <div className="mx-auto mb-4 w-full max-w-5xl rounded-2xl border border-amber-300/50 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+          <div className="mx-auto mb-4 w-full max-w-5xl rounded-2xl border border-amber-300/50 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-300/25 dark:bg-amber-500/10 dark:text-amber-100">
             <p className="font-semibold">{fallbackWarning.title}</p>
             <p className="mt-1">{fallbackWarning.message}</p>
-            <p className="mt-1 text-xs text-amber-900/80">
+            <p className="mt-1 text-xs text-amber-900/80 dark:text-amber-100/80">
               {fallbackWarning.help}
             </p>
           </div>

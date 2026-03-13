@@ -51,6 +51,21 @@ body {
   --accent: #22C55E;
 }
 
+/* Reduce theme flash: if the user prefers dark and hasn't forced light yet, pre-apply dark tokens. */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --bg: #0B1420;
+    --surface: #162438;
+    --surface-2: #1A2A3F;
+    --surface-3: #21344D;
+    --text: #F3EFE6;
+    --muted: #B8C3D2;
+    --muted-strong: #D3DCEA;
+    --border: #324860;
+    --accent: #22C55E;
+  }
+}
+
 body {
   background-color: var(--bg);
   color: var(--text);
