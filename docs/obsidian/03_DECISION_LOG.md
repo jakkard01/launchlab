@@ -42,3 +42,6 @@
 - 2026-03-11: Admin RYS prioriza operatividad sobre sofisticación: feedback contextual por acción, búsqueda/filtro del catálogo y validaciones básicas de venta manual antes que rediseño visual grande.
 - 2026-03-11: QA final local confirma que auth admin sí funciona (`401` con clave mala, `200` + cookie con clave correcta), pero lectura y escritura reales siguen bloqueadas por `SHEETS_NOT_CONFIGURED`; el siguiente smoke debe hacerse en un entorno con Sheets activo.
 - 2026-03-11: Se elimina el duplicado no trackeado `public/imagenes/fondo/rysminisuper.jpeg`; la única ruta vigente para la foto local de RYS queda en `public/imagenes/perfil/rysminisuper.jpeg`.
+- 2026-03-13: Header de RYS se mantiene sticky en scroll también en desktop; tabs sticky del catálogo se posicionan debajo para evitar solape.
+- 2026-03-13: Dark mode reduce flash inicial aplicando tokens por `prefers-color-scheme` cuando no hay override explícito (`.light`), y los banners críticos se hacen legibles con `dark:*`.
+- 2026-03-13: Combos y promos se agregan como capas operables por config (referencias por `productId`) para ventas/operación, sin rehacer el catálogo base ni crear integraciones falsas.

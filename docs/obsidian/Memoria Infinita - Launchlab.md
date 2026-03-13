@@ -695,3 +695,27 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
      - `logOrder`;
   3. comprobar reflejo en `/RYSminisuper` y en la hoja;
   4. si eso pasa, RYS queda operativo y cerrado.
+
+## 2026-03-13 — RYS QA ready (sticky + dark estable + combos/promos)
+- Rama: `feat/pagina-hermana-live`
+- Objetivo: preparar QA real en deploy (Vercel) sin reabrir home/catálogo base.
+- Cambios clave (solo fricción real):
+  - Header/menu RYS sticky también en desktop, y tabs del catálogo se anclan debajo del header (evita tapar contenido al hacer scroll).
+  - Dark mode más estable: reduce flash inicial usando `prefers-color-scheme` cuando no hay override explícito, y banner de fallback legible en oscuro.
+  - Capas operables para ventas:
+    - Combos: sección "Combos útiles" con "Agregar combo" que añade varios items al carrito (sin crear productos falsos).
+    - Promos: sección "Promos de hoy" con 2 promos manuales (sampling premium + hoy/por salir) sin posicionarnos como "los más baratos".
+- Commits:
+  - `dd5e7a9` feat(rys): sticky header/menu on scroll
+  - `e165976` fix(rys): dark mode stability/contrast
+  - `540fc7a` feat(rys): combos model + rendering
+  - `353f036` feat(rys): promos model + rendering
+- Operación (editar sin romper):
+  - Editar combos: `src/lib/mo/combos.ts` (IDs + qty + textos).
+  - Editar promos: `src/lib/mo/promos.ts` (IDs + mensajes).
+  - Importante: los `productId` deben existir en el catálogo (Sheets o fallback semilla).
+- QA manual sugerido (antes de dar por cerrado):
+  - `/RYSminisuper`: sticky + scroll + contraste OK en claro/oscuro.
+  - Probar "Agregar combo" y confirmar que el carrito lista los items individuales.
+  - Forzar fallback (sin envs) y validar el banner "modo respaldo" en dark.
+  - Confirmar "Pedir por WhatsApp" y "Agregar" siguen destacando.
