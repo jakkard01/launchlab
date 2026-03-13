@@ -7,6 +7,7 @@ import type { TabId } from "../catalogConfig";
 import MoHeader from "./MoHeader";
 import MoHero from "./MoHero";
 import MoCombos from "./MoCombos";
+import MoPromos from "./MoPromos";
 import MoQuickShop from "./MoQuickShop";
 import MoSections from "./MoSections";
 
@@ -123,6 +124,7 @@ export default function MoStorefront({ products, ctaLink }: MoStorefrontProps) {
         </button>
       </section>
       <MoCombos products={catalog} />
+      <MoPromos products={catalog} />
       <MoQuickShop
         products={catalog}
         activeTab={activeTab}
