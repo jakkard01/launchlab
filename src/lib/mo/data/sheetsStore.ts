@@ -483,6 +483,25 @@ const ensureProductsSeeded = async () => {
   return readSheet(PRODUCTS_SHEET);
 };
 
+const mergeMissingSeedProducts = async (rows: string[][]) => {
+  const products = parseProducts(rows);
+  const seed = seedProducts();
+  const currentIds = new Set(products.map((product) => product.id));
+  const missingSeedProducts = seed.filter((product) => !currentIds.has(product.id));
+
+  if (missingSeedProducts.length === 0) {
+    return rows;
+  }
+
+  const hotToday = {
+    ...Object.fromEntries(seed.map((product) => [product.id, defaultHotState()])),
+    ...parseHotToday(rows),
+  };
+
+  await saveProducts([...products, ...missingSeedProducts], hotToday);
+  return readSheet(PRODUCTS_SHEET);
+};
+
 const ensureSupportSheets = async () => {
   const orders = await readSheet(ORDERS_SHEET);
   if (orders.length === 0) {
@@ -501,7 +520,8 @@ const ensureSupportSheets = async () => {
 };
 
 const loadState = async () => {
-  const productRows = await ensureProductsSeeded();
+  const seededProductRows = await ensureProductsSeeded();
+  const productRows = await mergeMissingSeedProducts(seededProductRows);
   await ensureSupportSheets();
   const orderRows = await readSheet(ORDERS_SHEET);
   const dailyRows = await readSheet(DAILY_SALES_SHEET);

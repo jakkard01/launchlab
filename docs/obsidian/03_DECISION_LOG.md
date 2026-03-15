@@ -58,3 +58,5 @@
 - 2026-03-13: El fix de aislamiento mueve la galaxia a un wrapper exclusivo de PBIA (`.bg-galaxy-shell`) y crea un shell propio para `/RYSminisuper` (`.rys-shell`), evitando herencia visual accidental en tienda, admin y acceso admin.
 - 2026-03-13: El P0 móvil de RYS se corrige atacando causa real de ancho: header superior con CTAs demasiado anchos en una sola fila y barra sticky de tabs con expansión lateral; se reordena el header para móvil y el sticky del catálogo deja de usar expansión lateral negativa.
 - 2026-03-13: La UI pública de RYS no muestra CTA admin por defecto; el acceso visible a `Admin` solo aparece si existe sesión `mo_admin` ya autenticada.
+- 2026-03-15: El catálogo live de RYS usa Google Sheets como fuente efectiva; ampliar `src/data/products.json` no basta cuando la hoja ya existe.
+- 2026-03-15: `sheetsStore` pasa a fusionar automáticamente productos seed faltantes dentro de la hoja `products` sin sobrescribir precios, stock o estados ya operados; esto permite agregar SKUs/combo refs nuevas sin reimport manual completa.

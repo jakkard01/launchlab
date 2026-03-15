@@ -882,3 +882,15 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
   - `/RYSminisuper/admin` y `/RYSminisuper/admin/acceso` quedan cubiertas por el shell aislado de RYS, no por el fondo PBIA.
 - Pendiente de cierre:
   - smoke visual real en preview/dominio para confirmar en pantalla que no queda scroll horizontal residual en 360–430 px.
+
+## 2026-03-15 — RYS bloque comercial realista: ajuste de fuente live
+- Regresión detectada durante verificación del bloque comercial:
+  - los combos nuevos (`Pupusas + Coca-Cola`, `Café + pan dulce`, `Snack + Coca-Cola`) sí se publicaban, pero varias referencias de producto salían como "No se encontró en el catálogo".
+  - causa exacta: producción estaba leyendo la hoja `products` de Google Sheets; los nuevos SKUs se agregaron al seed local `src/data/products.json`, pero no existían todavía en la hoja live.
+- Fix aplicado:
+  - `src/lib/mo/data/sheetsStore.ts` ahora fusiona automáticamente los productos seed faltantes dentro de la hoja `products` cada vez que carga estado.
+  - la fusión preserva operación actual: no pisa precios, stock, promos ni estados de SKUs ya existentes; solo agrega IDs nuevos ausentes.
+- Impacto operativo:
+  - los productos comerciales nuevos quedan disponibles en storefront/admin sin reimport manual completa;
+  - sigue siendo editable en admin todo lo ya existente en la hoja;
+  - los combos manuales continúan duros en `src/lib/mo/combos.ts`, pero ahora pueden referenciar nuevos SKUs del seed sin romper el live.
