@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { MO_STORE_HOURS_LABEL, MO_STORE_MAPS_URL } from "../../../lib/mo/config";
-import { trackMoEvent } from "../../../lib/mo/marketing";
 
 type MoHeroProps = {
   ctaLink: string;
@@ -72,12 +71,6 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
           <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
             <a
               href={ctaLink}
-              onClick={() =>
-                trackMoEvent("whatsapp_cta", {
-                  context: "hero_primary",
-                  label: "Pedir por WhatsApp",
-                })
-              }
               className="h-12 rounded-full bg-[var(--accent)] px-6 py-3 text-center text-sm font-semibold text-[#07130c] shadow-[0_10px_24px_rgba(34,197,94,0.24)] transition hover:opacity-90"
               target="_blank"
               rel="noopener noreferrer"

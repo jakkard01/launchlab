@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { trackMoEvent } from "../../lib/mo/marketing";
 import { buildWhatsAppLinkFreeText } from "../../lib/mo/whatsapp";
 
 export default function FreeTextOrder() {
@@ -76,13 +75,6 @@ export default function FreeTextOrder() {
         />
         <a
           href={whatsappLink}
-          onClick={() =>
-            trackMoEvent("whatsapp_cta", {
-              context: "free_text_order",
-              label: item.trim() || "pedido_especial",
-              query: item.trim(),
-            })
-          }
           className="flex min-h-[48px] items-center justify-center rounded-full bg-[var(--accent)] px-5 py-3 text-center text-sm font-semibold text-[#07130c] transition hover:opacity-90"
           target="_blank"
           rel="noopener noreferrer"

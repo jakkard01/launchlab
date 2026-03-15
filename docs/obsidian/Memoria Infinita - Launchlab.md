@@ -1,3 +1,34 @@
+## 2026-03-15 — RYS hotfix urgente: regresión funcional en CTAs / combos
+- Rama: feat/pagina-hermana-live
+- Objetivo: restaurar comportamiento confiable del storefront, sin abrir mejoras nuevas.
+
+### Regresión detectada
+- `Ver caliente` y `Pedir algo que no veo` habían quedado dependiendo solo de handlers JS.
+- `Agregar combo` y el add-to-cart individual dependían del mismo subtree interactivo endurecido en el bloque anterior.
+- En práctica, la UI podía seguir viéndose bien pero sentirse “visual” si esa hidratación no montaba limpia.
+
+### Causa exacta registrada
+- El bloque reciente añadió más acoplamiento cliente en el storefront crítico (tracking y drawer extendido) sobre el mismo árbol que monta scroll handlers y cart actions.
+- Los CTAs de scroll no tenían fallback nativo; eran botones puramente JS.
+- Resultado: ante fallo o montaje incompleto del subtree, los handlers críticos no quedaban disponibles.
+
+### Fix aplicado
+- Se quitó el acoplamiento adicional del flujo crítico de storefront/cart para volver al camino estable.
+- `Ver caliente` y `Pedir algo que no veo` vuelven a tener fallback real por `href` a anclas, manteniendo mejora por scroll suave cuando hay JS.
+- `Agregar combo`, `Agregar` de producto y drawer/cart path volvieron a la versión operativa simple sin la capa extra reciente.
+
+### Verificación hecha
+- `npm run lint` OK
+- `npm run build` OK
+- Verificación funcional final prevista sobre deploy del hotfix:
+  - `Ver caliente`
+  - `Pedir algo que no veo`
+  - `Agregar combo`
+  - `Agregar` individual
+  - abrir carrito
+  - continuar a WhatsApp
+  - búsqueda operativa
+
 ## 2026-03-15 — RYS next block: conversion + operator ease + marketing hooks
 - Rama: feat/pagina-hermana-live
 - Objetivo: bajar fricción operativa real, subir conversión storefront y empezar a capturar señales mínimas de interés/uso.

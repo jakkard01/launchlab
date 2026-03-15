@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { MouseEvent, useCallback, useEffect, useState } from "react";
 import type { Product } from "../../../lib/mo/types";
 import { getMoDataAdapter } from "../../../lib/mo/data";
 import type { TabId } from "../catalogConfig";
@@ -10,8 +10,6 @@ import MoCombos from "./MoCombos";
 import MoPromos from "./MoPromos";
 import MoQuickShop from "./MoQuickShop";
 import MoSections from "./MoSections";
-import { trackMoEvent } from "../../../lib/mo/marketing";
-import { rankProductsByQuery } from "../../../lib/mo/search";
 
 type MoStorefrontProps = {
   products: Product[];
@@ -39,7 +37,6 @@ export default function MoStorefront({
   const [catalog, setCatalog] = useState<Product[]>(filterHidden(products));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [lastTrackedZeroQuery, setLastTrackedZeroQuery] = useState("");
 
   useEffect(() => {
     let active = true;
@@ -84,20 +81,14 @@ export default function MoStorefront({
   );
 
   const readyProducts = catalog.length;
-  const queryResults = rankProductsByQuery(catalog, query);
 
-  useEffect(() => {
-    const trimmed = query.trim();
-    if (!trimmed || loading) return;
-    if (queryResults.length > 0) return;
-    if (lastTrackedZeroQuery === trimmed.toLowerCase()) return;
-    trackMoEvent("search_zero_results", {
-      query: trimmed,
-      context: "storefront_search",
-      label: "sin_resultados",
-    });
-    setLastTrackedZeroQuery(trimmed.toLowerCase());
-  }, [lastTrackedZeroQuery, loading, query, queryResults]);
+  const handleAnchorScroll = useCallback(
+    (event: MouseEvent<HTMLAnchorElement>, id: string) => {
+      event.preventDefault();
+      scrollToId(id);
+    },
+    [scrollToId]
+  );
 
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 pb-10">
@@ -131,20 +122,23 @@ export default function MoStorefront({
             Catálogo rápido, confirmación por WhatsApp y retiro local.
           </p>
         </div>
-        <button
-          type="button"
-          onClick={() => handleJumpToTab("hot")}
+        <a
+          href="#catalogo-hot"
+          onClick={(event) => {
+            handleJumpToTab("hot");
+            handleAnchorScroll(event, "catalogo-hot");
+          }}
           className="rounded-2xl border border-default bg-surface-3 px-4 py-3 text-left text-sm font-semibold text-main transition hover:border-[var(--accent)]/45 hover:text-[var(--accent)]"
         >
           Ver caliente hoy
-        </button>
-        <button
-          type="button"
-          onClick={() => scrollToId("pedido-especial")}
+        </a>
+        <a
+          href="#pedido-especial"
+          onClick={(event) => handleAnchorScroll(event, "pedido-especial")}
           className="rounded-2xl border border-default bg-surface-3 px-4 py-3 text-left text-sm font-semibold text-main transition hover:border-[var(--accent)]/45 hover:text-[var(--accent)]"
         >
           Pedir algo que no veo
-        </button>
+        </a>
       </section>
       <MoCombos products={catalog} />
       <MoPromos products={catalog} />

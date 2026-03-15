@@ -63,7 +63,7 @@ export default async function RysMiniSuperPage() {
           ctaLink={ctaLink}
           hasAdminSession={hasAdminSession}
         />
-        <CartUI products={products} />
+        <CartUI />
       </main>
     </CartProvider>
   );

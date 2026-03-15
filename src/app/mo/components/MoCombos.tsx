@@ -3,7 +3,6 @@
 import { useMemo, useState } from "react";
 import type { Product } from "../../../lib/mo/types";
 import { MO_COMBOS } from "../../../lib/mo/combos";
-import { trackMoEvent } from "../../../lib/mo/marketing";
 import { useCart } from "../cart/CartContext";
 
 const parsePrice = (price?: string) => {
@@ -52,17 +51,6 @@ export default function MoCombos({ products }: MoCombosProps) {
         : skipped > 0
           ? "Agregado con ajustes (algunos items no estaban disponibles)."
           : "Combo agregado.";
-
-    if (added > 0) {
-      trackMoEvent("combo_used", {
-        context: "combo_section",
-        label: combo.title,
-        meta: {
-          added,
-          skipped,
-        },
-      });
-    }
 
     setNoticeById((prev) => ({ ...prev, [comboId]: message }));
     window.setTimeout(() => {

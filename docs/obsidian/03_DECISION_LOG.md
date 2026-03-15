@@ -1,5 +1,6 @@
 # 03_DECISION_LOG
 
+- 2026-03-15: Hotfix RYS storefront. La regresión vino de dejar CTAs críticos dependientes solo de handlers JS dentro del mismo subtree que se volvió más frágil tras instrumentación/upsell reciente; el HTML seguía pintando, pero si la hidratación fallaba o no montaba limpia, `Ver caliente`, `Pedir algo que no veo` y add-to-cart quedaban “visuales”. El fix reduce acoplamiento en el storefront crítico, devuelve fallback nativo por ancla a los CTAs de scroll y restaura el drawer/cart path estable.
 - 2026-03-15: RYS mantiene carrito local persistente, pero se endurece para operación real: sincroniza entre pestañas y ya no se vacía automáticamente al abrir WhatsApp para evitar pérdida silenciosa de pedidos.
 - 2026-03-15: La búsqueda pública de RYS deja de actuar por secciones decorativas y pasa a un flujo único con coincidencia parcial por nombre/categoría, ranking simple y captura de búsquedas sin resultado.
 - 2026-03-15: Se agrega una capa mínima de eventos (`events` en Sheets + `/api/mo/events`) para registrar clics de producto, búsquedas sin resultado, uso de combos/promos y CTA a WhatsApp sin meter analítica enterprise.
