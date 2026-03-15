@@ -5,6 +5,7 @@ import type {
   AdminSnapshot,
   DailySalesInput,
   HotState,
+  MarketingEventInput,
   OrderLogInput,
   StockStatus,
 } from "../../../../lib/mo/data/types";
@@ -13,6 +14,7 @@ import {
   getStats,
   importBackup,
   logDailySales,
+  logMarketingEvent,
   logOrder,
   removeOrder,
   updateFeatured,
@@ -69,7 +71,8 @@ type AdminAction =
   | { action: "updateHot"; id: string; next: Partial<HotState> }
   | { action: "logOrder"; entry: OrderLogInput }
   | { action: "removeOrder"; id: string }
-  | { action: "logDailySales"; entry: DailySalesInput };
+  | { action: "logDailySales"; entry: DailySalesInput }
+  | { action: "logMarketingEvent"; entry: MarketingEventInput };
 
 export async function GET(request: Request) {
   if (!isMoAdmin()) {
@@ -144,6 +147,9 @@ export async function POST(request: Request) {
         break;
       case "logDailySales":
         await logDailySales(payload.entry);
+        break;
+      case "logMarketingEvent":
+        await logMarketingEvent(payload.entry);
         break;
       default:
         return NextResponse.json(

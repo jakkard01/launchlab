@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import type { Product } from "../../../lib/mo/types";
+import { trackMoEvent } from "../../../lib/mo/marketing";
 import { buildOrderWhatsAppLink } from "../../../lib/mo/whatsapp";
 import QuantityStepper from "./QuantityStepper";
 import { useCart } from "./CartContext";
@@ -12,14 +14,24 @@ const parsePrice = (price?: string) => {
 };
 
 type CartDrawerProps = {
+  products: Product[];
   isOpen: boolean;
   onClose: () => void;
 };
 
-export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
+const isSuggestionAvailable = (product: Product) =>
+  product.status === "available" &&
+  (product.stockStatus ?? "disponible") !== "agotado";
+
+export default function CartDrawer({
+  products,
+  isOpen,
+  onClose,
+}: CartDrawerProps) {
   const [orderMessage, setOrderMessage] = useState<string | null>(null);
   const {
     items,
+    addItem,
     updateItemQty,
     zone,
     note,
@@ -30,6 +42,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     setPaymentMethod,
     setPickupWindow,
     clearCart,
+    resetCart,
   } = useCart();
   const total = useMemo(() => {
     if (items.length === 0) return null;
@@ -48,10 +61,53 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     [items, zone, note, paymentMethod, pickupWindow]
   );
 
+  const suggestions = useMemo(() => {
+    if (items.length === 0) return [];
+
+    const inCart = new Set(items.map((item) => item.id));
+    const categories = new Set(
+      products
+        .filter((product) => inCart.has(product.id))
+        .map((product) => product.category)
+    );
+
+    return products
+      .filter((product) => !inCart.has(product.id))
+      .filter(isSuggestionAvailable)
+      .filter(
+        (product) =>
+          categories.has(product.category) ||
+          product.isFeatured ||
+          Boolean(product.promoEnabled)
+      )
+      .sort((a, b) => {
+        const score = (product: Product) => {
+          let totalScore = 0;
+          if (categories.has(product.category)) totalScore += 5;
+          if (product.promoEnabled) totalScore += 3;
+          if (product.isFeatured) totalScore += 2;
+          return totalScore;
+        };
+        const diff = score(b) - score(a);
+        if (diff !== 0) return diff;
+        const byOrder = (a.sortOrder ?? 9999) - (b.sortOrder ?? 9999);
+        if (byOrder !== 0) return byOrder;
+        return a.name.localeCompare(b.name, "es");
+      })
+      .slice(0, 3);
+  }, [items, products]);
+
   const handleSubmit = () => {
     if (items.length === 0) return;
-    setOrderMessage("Pedido preparado. Continúa la confirmación en WhatsApp.");
-    clearCart();
+    trackMoEvent("whatsapp_cta", {
+      context: "cart_checkout",
+      label: "Completar pedido en WhatsApp",
+      meta: {
+        items: items.length,
+        paymentMethod,
+      },
+    });
+    setOrderMessage("Tu pedido se abrió en WhatsApp. Vacíalo solo cuando ya lo hayas enviado.");
   };
 
   if (!isOpen) return null;
@@ -199,6 +255,55 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               </div>
             </div>
 
+            {suggestions.length > 0 ? (
+              <div className="rounded-2xl border border-default bg-base px-4 py-4">
+                <p className="text-xs uppercase tracking-[0.22em] text-[var(--accent)]">
+                  Completa tu pedido
+                </p>
+                <p className="mt-2 text-sm font-semibold text-main">
+                  Te puede faltar esto
+                </p>
+                <div className="mt-3 grid gap-2">
+                  {suggestions.map((product) => (
+                    <div
+                      key={product.id}
+                      className="flex items-center justify-between gap-3 rounded-2xl border border-default bg-surface px-3 py-3"
+                    >
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-semibold text-main">
+                          {product.name}
+                        </p>
+                        <p className="text-xs text-muted-strong">
+                          {product.price} · {product.category}
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          addItem(product, 1);
+                          trackMoEvent("product_click", {
+                            productId: product.id,
+                            context: "cart_upsell",
+                            label: product.name,
+                          });
+                          if (product.promoEnabled) {
+                            trackMoEvent("promo_used", {
+                              productId: product.id,
+                              context: "cart_upsell",
+                              label: product.name,
+                            });
+                          }
+                        }}
+                        className="shrink-0 rounded-full border border-[var(--accent)]/35 px-3 py-2 text-xs font-semibold text-[var(--accent)] transition hover:border-[var(--accent)]/55"
+                      >
+                        Agregar
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+
             <a
               href={whatsappLink}
               className="mt-3 flex h-12 items-center justify-center rounded-full bg-[var(--accent)] px-5 text-center text-sm font-semibold text-[var(--surface)] transition hover:opacity-90"
@@ -214,13 +319,22 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             ) : null}
             <div className="flex items-center justify-between text-xs text-muted">
               <span>Retiro</span>
-              <button
-                type="button"
-                onClick={clearCart}
-                className="text-xs font-semibold text-muted transition hover:text-rose-500"
-              >
-                Vaciar pedido
-              </button>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={clearCart}
+                  className="text-xs font-semibold text-muted transition hover:text-rose-500"
+                >
+                  Vaciar productos
+                </button>
+                <button
+                  type="button"
+                  onClick={resetCart}
+                  className="text-xs font-semibold text-muted transition hover:text-rose-500"
+                >
+                  Reiniciar todo
+                </button>
+              </div>
             </div>
           </div>
         )}

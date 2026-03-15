@@ -11,6 +11,7 @@ import {
   TABS,
   type TabId,
 } from "./catalogConfig";
+import { rankProductsByQuery } from "../../lib/mo/search";
 
 const CATEGORY_ICON_BY_ID = {
   hot: "/RYSminisuper/icons/pasillos/comida_caliente.webp",
@@ -43,7 +44,12 @@ export default function CatalogSection({
   const activeLabel = TABS.find((tab) => tab.id === activeTab)?.label ?? "Todo";
   const [expandedTab, setExpandedTab] = useState<TabId | null>(null);
 
-  const queryFilter = query.trim().toLowerCase();
+  const queryFilter = query.trim();
+  const searchResults = rankProductsByQuery(
+    products.filter(isAvailableForCatalog),
+    queryFilter
+  );
+
   const productsForTab = (tabId: TabId) => {
     const base = sortCatalogProducts(
       products.filter(
@@ -51,10 +57,7 @@ export default function CatalogSection({
       )
     );
     if (!queryFilter) return base;
-    return base.filter((product) =>
-      product.name.toLowerCase().includes(queryFilter) ||
-      product.description.toLowerCase().includes(queryFilter)
-    );
+    return searchResults.filter((product) => matchesTab(product, tabId));
   };
 
   return (
@@ -136,7 +139,44 @@ export default function CatalogSection({
         }
       `}</style>
 
-      <div className="space-y-8">
+      {queryFilter ? (
+        <section className="space-y-4">
+          <div className="flex items-center justify-between gap-3">
+            <h3 className="text-sm font-semibold text-main">
+              Resultados para &quot;{queryFilter}&quot;
+            </h3>
+            <span className="text-xs text-muted-strong">
+              {searchResults.length} encontrados
+            </span>
+          </div>
+          {searchResults.length > 0 ? (
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {searchResults.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-3xl border border-dashed border-default bg-surface px-5 py-6">
+              <p className="text-sm font-semibold text-main">
+                No encontramos eso en catálogo ahora mismo.
+              </p>
+              <p className="mt-2 text-sm text-muted-strong">
+                Prueba con otra palabra, revisa por categoría o pídelo directo por WhatsApp.
+              </p>
+              <button
+                type="button"
+                onClick={onScrollToSpecial}
+                className="mt-4 inline-flex items-center rounded-full border border-[var(--accent)]/40 px-4 py-2 text-xs font-semibold text-[var(--accent)] transition hover:border-[var(--accent)]/60 hover:text-[var(--accent)]/80"
+              >
+                No lo ves aquí? Pídelo por WhatsApp
+              </button>
+            </div>
+          )}
+        </section>
+      ) : null}
+
+      {!queryFilter ? (
+        <div className="space-y-8">
         {TABS.map((tab) => {
           const items = productsForTab(tab.id);
           const isExpanded = expandedTab === tab.id;
@@ -185,7 +225,8 @@ export default function CatalogSection({
             </section>
           );
         })}
-      </div>
+        </div>
+      ) : null}
     </section>
   );
 }

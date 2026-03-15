@@ -5,6 +5,7 @@ import { useState } from "react";
 import type { Product } from "../../lib/mo/types";
 import type { StockStatus } from "../../lib/mo/data/types";
 import { getEffectivePrice, getPromoLabel } from "../../lib/mo/pricing";
+import { trackMoEvent } from "../../lib/mo/marketing";
 import { buildWhatsAppMessageLink } from "../../lib/mo/whatsapp";
 import QuantityStepper from "./cart/QuantityStepper";
 import { useCart } from "./cart/CartContext";
@@ -115,6 +116,22 @@ export default function ProductCard({
     if (isOutOfStock) return;
     const safeQty = Number.isFinite(qty) && qty > 0 ? qty : 1;
     addItem({ ...product, price: effectivePrice }, safeQty);
+    trackMoEvent("product_click", {
+      productId: product.id,
+      context: isCompact ? "product_card_compact" : "product_card",
+      label: product.name,
+      meta: {
+        qty: safeQty,
+        category: product.category,
+      },
+    });
+    if (product.promoEnabled) {
+      trackMoEvent("promo_used", {
+        productId: product.id,
+        context: isCompact ? "product_card_compact" : "product_card",
+        label: product.name,
+      });
+    }
     setJustAdded(true);
     window.setTimeout(() => setJustAdded(false), 1200);
   };
@@ -214,6 +231,13 @@ export default function ProductCard({
         {isOutOfStock ? (
           <a
             href={notifyLink}
+            onClick={() =>
+              trackMoEvent("whatsapp_cta", {
+                productId: product.id,
+                context: "product_notify",
+                label: product.name,
+              })
+            }
             className="h-11 rounded-2xl border border-[var(--accent)]/40 px-5 text-center text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)] transition hover:border-[var(--accent)]/60 hover:text-[var(--accent)]"
             target="_blank"
             rel="noopener noreferrer"
@@ -236,6 +260,13 @@ export default function ProductCard({
           {isOutOfStock ? (
             <a
               href={notifyLink}
+              onClick={() =>
+                trackMoEvent("whatsapp_cta", {
+                  productId: product.id,
+                  context: "product_notify_compact",
+                  label: product.name,
+                })
+              }
               className="mt-3 h-10 rounded-xl border border-[var(--accent)]/40 px-4 text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--accent)] transition hover:border-[var(--accent)]/60 hover:text-[var(--accent)]"
               target="_blank"
               rel="noopener noreferrer"

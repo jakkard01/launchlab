@@ -49,15 +49,30 @@ export type StatEntry = {
   quantity: number;
 };
 
-export type MoStats = {
-  top7: StatEntry[];
-  top30: StatEntry[];
-  mostRequestedSoldOut: StatEntry[];
-};
-
 export type PromoState = {
   enabled: boolean;
   percent: number;
+};
+
+export type MarketingEventName =
+  | "product_click"
+  | "search_zero_results"
+  | "combo_used"
+  | "promo_used"
+  | "whatsapp_cta";
+
+export type MarketingEventInput = {
+  name: MarketingEventName;
+  productId?: string;
+  query?: string;
+  context?: string;
+  label?: string;
+  meta?: Record<string, string | number | boolean | null>;
+};
+
+export type MarketingEventEntry = MarketingEventInput & {
+  id: string;
+  createdAt: string;
 };
 
 export type AdminSnapshot = {
@@ -69,6 +84,7 @@ export type AdminSnapshot = {
   hotToday: Record<string, HotState>;
   orderLogs: OrderLogEntry[];
   dailySales: DailySalesEntry[];
+  marketingEvents: MarketingEventEntry[];
 };
 
 export type MoDataAdapter = {
@@ -86,5 +102,32 @@ export type MoDataAdapter = {
   logOrder: (entry: OrderLogInput) => Promise<void>;
   removeOrder: (id: string) => Promise<void>;
   logDailySales: (entry: DailySalesInput) => Promise<void>;
+  logMarketingEvent: (entry: MarketingEventInput) => Promise<void>;
   getStats: () => Promise<MoStats>;
+};
+
+export type QueryStatEntry = {
+  query: string;
+  count: number;
+};
+
+export type LabelStatEntry = {
+  label: string;
+  count: number;
+};
+
+export type ContextStatEntry = {
+  context: string;
+  count: number;
+};
+
+export type MoStats = {
+  top7: StatEntry[];
+  top30: StatEntry[];
+  mostRequestedSoldOut: StatEntry[];
+  topProductClicks: StatEntry[];
+  zeroResultSearches: QueryStatEntry[];
+  comboUsage: LabelStatEntry[];
+  promoUsage: StatEntry[];
+  whatsappClicks: ContextStatEntry[];
 };

@@ -1,6 +1,7 @@
 "use client";
 
 import { ChangeEvent } from "react";
+import { trackMoEvent } from "../../../lib/mo/marketing";
 import ThemeToggle from "../../components/ThemeToggle";
 
 type MoHeaderProps = {
@@ -40,6 +41,12 @@ export default function MoHeader({
             <ThemeToggle showLabel className="hidden shrink-0 sm:flex" />
             <a
               href={whatsappLink}
+              onClick={() =>
+                trackMoEvent("whatsapp_cta", {
+                  context: "storefront_header",
+                  label: "Pedir por WhatsApp",
+                })
+              }
               className="inline-flex min-h-11 items-center justify-center rounded-full border border-[var(--accent)] bg-[var(--accent)] px-3 py-2 text-center text-xs font-semibold text-[#07130c] shadow-[0_10px_24px_rgba(34,197,94,0.2)] transition hover:opacity-90 sm:min-w-[170px]"
               target="_blank"
               rel="noopener noreferrer"

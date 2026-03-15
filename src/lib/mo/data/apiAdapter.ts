@@ -3,6 +3,7 @@ import type {
   AdminSnapshot,
   DailySalesInput,
   HotState,
+  MarketingEventInput,
   MoDataAdapter,
   MoStats,
   OrderLogInput,
@@ -21,7 +22,8 @@ type AdminAction =
   | { action: "updateHot"; id: string; next: Partial<HotState> }
   | { action: "logOrder"; entry: OrderLogInput }
   | { action: "removeOrder"; id: string }
-  | { action: "logDailySales"; entry: DailySalesInput };
+  | { action: "logDailySales"; entry: DailySalesInput }
+  | { action: "logMarketingEvent"; entry: MarketingEventInput };
 
 export class MoApiError extends Error {
   status: number;
@@ -110,6 +112,9 @@ export const apiAdapter: MoDataAdapter = {
   },
   async logDailySales(entry) {
     await runAdminAction({ action: "logDailySales", entry });
+  },
+  async logMarketingEvent(entry) {
+    await runAdminAction({ action: "logMarketingEvent", entry });
   },
   async getStats() {
     const data = await fetchJson<{ stats: MoStats }>("/api/mo/admin?view=stats");

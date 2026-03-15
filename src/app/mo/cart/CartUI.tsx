@@ -1,16 +1,25 @@
 "use client";
 
 import { useState } from "react";
+import type { Product } from "../../../lib/mo/types";
 import CartButtonSticky from "./CartButtonSticky";
 import CartDrawer from "./CartDrawer";
 
-export default function CartUI() {
+type CartUIProps = {
+  products: Product[];
+};
+
+export default function CartUI({ products }: CartUIProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
       <CartButtonSticky onOpen={() => setIsOpen(true)} />
-      <CartDrawer isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <CartDrawer
+        products={products}
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      />
     </>
   );
 }

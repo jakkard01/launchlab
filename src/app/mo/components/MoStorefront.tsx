@@ -10,6 +10,8 @@ import MoCombos from "./MoCombos";
 import MoPromos from "./MoPromos";
 import MoQuickShop from "./MoQuickShop";
 import MoSections from "./MoSections";
+import { trackMoEvent } from "../../../lib/mo/marketing";
+import { rankProductsByQuery } from "../../../lib/mo/search";
 
 type MoStorefrontProps = {
   products: Product[];
@@ -37,6 +39,7 @@ export default function MoStorefront({
   const [catalog, setCatalog] = useState<Product[]>(filterHidden(products));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [lastTrackedZeroQuery, setLastTrackedZeroQuery] = useState("");
 
   useEffect(() => {
     let active = true;
@@ -81,6 +84,20 @@ export default function MoStorefront({
   );
 
   const readyProducts = catalog.length;
+  const queryResults = rankProductsByQuery(catalog, query);
+
+  useEffect(() => {
+    const trimmed = query.trim();
+    if (!trimmed || loading) return;
+    if (queryResults.length > 0) return;
+    if (lastTrackedZeroQuery === trimmed.toLowerCase()) return;
+    trackMoEvent("search_zero_results", {
+      query: trimmed,
+      context: "storefront_search",
+      label: "sin_resultados",
+    });
+    setLastTrackedZeroQuery(trimmed.toLowerCase());
+  }, [lastTrackedZeroQuery, loading, query, queryResults]);
 
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 pb-10">
@@ -111,7 +128,7 @@ export default function MoStorefront({
             {readyProducts} productos visibles para retiro
           </p>
           <p className="mt-1 text-xs text-muted-strong">
-            Catálogo simple, pedido por WhatsApp y retiro local.
+            Catálogo rápido, confirmación por WhatsApp y retiro local.
           </p>
         </div>
         <button
@@ -126,7 +143,7 @@ export default function MoStorefront({
           onClick={() => scrollToId("pedido-especial")}
           className="rounded-2xl border border-default bg-surface-3 px-4 py-3 text-left text-sm font-semibold text-main transition hover:border-[var(--accent)]/45 hover:text-[var(--accent)]"
         >
-          Pedir algo que no ves
+          Pedir algo que no veo
         </button>
       </section>
       <MoCombos products={catalog} />

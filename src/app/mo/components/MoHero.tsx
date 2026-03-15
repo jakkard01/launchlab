@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import { MO_STORE_HOURS_LABEL, MO_STORE_MAPS_URL } from "../../../lib/mo/config";
+import { trackMoEvent } from "../../../lib/mo/marketing";
 
 type MoHeroProps = {
   ctaLink: string;
@@ -69,6 +72,12 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
           <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
             <a
               href={ctaLink}
+              onClick={() =>
+                trackMoEvent("whatsapp_cta", {
+                  context: "hero_primary",
+                  label: "Pedir por WhatsApp",
+                })
+              }
               className="h-12 rounded-full bg-[var(--accent)] px-6 py-3 text-center text-sm font-semibold text-[#07130c] shadow-[0_10px_24px_rgba(34,197,94,0.24)] transition hover:opacity-90"
               target="_blank"
               rel="noopener noreferrer"
@@ -97,8 +106,8 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
             <p className="mt-2 text-muted-strong">Retiro en La Gloria, San Salvador.</p>
             <p className="mt-1 text-muted-strong">Horario: {MO_STORE_HOURS_LABEL}</p>
             <p className="mt-1 text-muted-strong">Pagos: efectivo, transferencia o Tigo Money.</p>
-            <p className="mt-1 text-muted-strong">Si algo no aparece en catálogo, pídelo por WhatsApp y te confirmamos.</p>
-            <p className="mt-1 text-muted-strong">Ideal para resolver la compra rápida del día sin perder tiempo.</p>
+            <p className="mt-1 text-muted-strong">Si algo no aparece en catálogo, pídelo por WhatsApp y te confirmamos si lo tenemos hoy.</p>
+            <p className="mt-1 text-muted-strong">Ideal para resolver la compra del día sin salir a probar suerte.</p>
           </div>
           <div className="mt-5 grid gap-2 text-xs text-muted-strong sm:grid-cols-3">
             <span>✅ Confirmamos antes de que salgas</span>

@@ -10,6 +10,8 @@ import type {
   DailySalesEntry,
   DailySalesInput,
   HotState,
+  MarketingEventEntry,
+  MarketingEventInput,
   MoStats,
   OrderLogEntry,
   OrderLogInput,
@@ -24,6 +26,7 @@ const GOOGLE_SHEETS_API = "https://sheets.googleapis.com/v4/spreadsheets";
 const PRODUCTS_SHEET = "products";
 const ORDERS_SHEET = "orders";
 const DAILY_SALES_SHEET = "daily_sales";
+const EVENTS_SHEET = "events";
 
 const PRODUCT_HEADERS = [
   "id",
@@ -62,6 +65,17 @@ const DAILY_SALES_HEADERS = [
   "total",
   "note",
   "topItemsJson",
+] as const;
+
+const EVENT_HEADERS = [
+  "id",
+  "createdAt",
+  "name",
+  "productId",
+  "query",
+  "context",
+  "label",
+  "metaJson",
 ] as const;
 
 const defaultHotState = (): HotState => ({
@@ -418,6 +432,43 @@ const serializeDailySales = (entries: DailySalesEntry[]) =>
     JSON.stringify(entry.topItems),
   ]);
 
+const parseEvents = (rows: string[][]): MarketingEventEntry[] => {
+  if (rows.length <= 1) return [];
+  const headers = rows[0];
+  ensureRequiredHeaders(EVENTS_SHEET, headers, EVENT_HEADERS);
+  return rows.slice(1).filter((row) => row[0]).map((row) => {
+    const record = Object.fromEntries(headers.map((key, index) => [key, row[index] ?? ""]));
+    let meta: MarketingEventEntry["meta"] = {};
+    try {
+      meta = JSON.parse(String(record.metaJson ?? "{}"));
+    } catch {
+      meta = {};
+    }
+    return {
+      id: String(record.id),
+      createdAt: String(record.createdAt),
+      name: record.name as MarketingEventEntry["name"],
+      productId: String(record.productId ?? ""),
+      query: String(record.query ?? ""),
+      context: String(record.context ?? ""),
+      label: String(record.label ?? ""),
+      meta,
+    };
+  });
+};
+
+const serializeEvents = (entries: MarketingEventEntry[]) =>
+  entries.map((entry) => [
+    entry.id,
+    entry.createdAt,
+    entry.name,
+    entry.productId ?? "",
+    entry.query ?? "",
+    entry.context ?? "",
+    entry.label ?? "",
+    JSON.stringify(entry.meta ?? {}),
+  ]);
+
 const ensureProductsSeeded = async () => {
   const rows = await readSheet(PRODUCTS_SHEET);
   if (rows.length > 1) {
@@ -442,6 +493,11 @@ const ensureSupportSheets = async () => {
   if (dailySales.length === 0) {
     await writeSheet(DAILY_SALES_SHEET, DAILY_SALES_HEADERS, []);
   }
+
+  const events = await readSheet(EVENTS_SHEET);
+  if (events.length === 0) {
+    await writeSheet(EVENTS_SHEET, EVENT_HEADERS, []);
+  }
 };
 
 const loadState = async () => {
@@ -449,13 +505,15 @@ const loadState = async () => {
   await ensureSupportSheets();
   const orderRows = await readSheet(ORDERS_SHEET);
   const dailyRows = await readSheet(DAILY_SALES_SHEET);
+  const eventRows = await readSheet(EVENTS_SHEET);
 
   const products = parseProducts(productRows);
   const hotToday = parseHotToday(productRows);
   const orderLogs = parseOrders(orderRows);
   const dailySales = parseDailySales(dailyRows);
+  const marketingEvents = parseEvents(eventRows);
 
-  return { products, hotToday, orderLogs, dailySales };
+  return { products, hotToday, orderLogs, dailySales, marketingEvents };
 };
 
 const toMaps = (products: Product[]) => {
@@ -528,6 +586,7 @@ export const getAdminSnapshot = async (): Promise<AdminSnapshot> => {
     hotToday: state.hotToday,
     orderLogs: state.orderLogs,
     dailySales: state.dailySales,
+    marketingEvents: state.marketingEvents,
   };
 };
 
@@ -610,6 +669,11 @@ export const importBackup = async (backup: Partial<AdminSnapshot>) => {
     DAILY_SALES_HEADERS,
     serializeDailySales((backup.dailySales ?? []) as DailySalesEntry[])
   );
+  await writeSheet(
+    EVENTS_SHEET,
+    EVENT_HEADERS,
+    serializeEvents((backup.marketingEvents ?? []) as MarketingEventEntry[])
+  );
 };
 
 export const logOrder = async (entry: OrderLogInput) => {
@@ -649,12 +713,32 @@ export const logDailySales = async (entry: DailySalesInput) => {
   );
 };
 
+export const logMarketingEvent = async (entry: MarketingEventInput) => {
+  const state = await loadState();
+  const record: MarketingEventEntry = {
+    ...entry,
+    id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+    createdAt: new Date().toISOString(),
+  };
+
+  await writeSheet(
+    EVENTS_SHEET,
+    EVENT_HEADERS,
+    serializeEvents([record, ...state.marketingEvents].slice(0, 500))
+  );
+};
+
 export const getStats = async (): Promise<MoStats> => {
   const state = await loadState();
   const now = new Date();
   const top7: Record<string, number> = {};
   const top30: Record<string, number> = {};
   const soldOutRequests: Record<string, number> = {};
+  const topProductClicks: Record<string, number> = {};
+  const zeroResultSearches: Record<string, number> = {};
+  const comboUsage: Record<string, number> = {};
+  const promoUsage: Record<string, number> = {};
+  const whatsappClicks: Record<string, number> = {};
 
   state.orderLogs.forEach((order) => {
     const createdAt = new Date(order.createdAt);
@@ -683,9 +767,47 @@ export const getStats = async (): Promise<MoStats> => {
       .map(([productId, quantity]) => ({ productId, quantity }))
       .sort((a, b) => b.quantity - a.quantity);
 
+  state.marketingEvents.forEach((event) => {
+    if (event.name === "product_click" && event.productId) {
+      topProductClicks[event.productId] = (topProductClicks[event.productId] ?? 0) + 1;
+    }
+    if (event.name === "search_zero_results" && event.query) {
+      zeroResultSearches[event.query] = (zeroResultSearches[event.query] ?? 0) + 1;
+    }
+    if (event.name === "combo_used" && event.label) {
+      comboUsage[event.label] = (comboUsage[event.label] ?? 0) + 1;
+    }
+    if (event.name === "promo_used" && event.productId) {
+      promoUsage[event.productId] = (promoUsage[event.productId] ?? 0) + 1;
+    }
+    if (event.name === "whatsapp_cta" && event.context) {
+      whatsappClicks[event.context] = (whatsappClicks[event.context] ?? 0) + 1;
+    }
+  });
+
+  const toLabelEntries = (bucket: Record<string, number>) =>
+    Object.entries(bucket)
+      .map(([label, count]) => ({ label, count }))
+      .sort((a, b) => b.count - a.count);
+
+  const toQueryEntries = (bucket: Record<string, number>) =>
+    Object.entries(bucket)
+      .map(([query, count]) => ({ query, count }))
+      .sort((a, b) => b.count - a.count);
+
+  const toContextEntries = (bucket: Record<string, number>) =>
+    Object.entries(bucket)
+      .map(([context, count]) => ({ context, count }))
+      .sort((a, b) => b.count - a.count);
+
   return {
     top7: toEntries(top7).slice(0, 7),
     top30: toEntries(top30).slice(0, 7),
     mostRequestedSoldOut: toEntries(soldOutRequests).slice(0, 5),
+    topProductClicks: toEntries(topProductClicks).slice(0, 7),
+    zeroResultSearches: toQueryEntries(zeroResultSearches).slice(0, 7),
+    comboUsage: toLabelEntries(comboUsage).slice(0, 7),
+    promoUsage: toEntries(promoUsage).slice(0, 7),
+    whatsappClicks: toContextEntries(whatsappClicks).slice(0, 7),
   };
 };

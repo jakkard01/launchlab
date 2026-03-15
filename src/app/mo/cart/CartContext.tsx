@@ -29,6 +29,7 @@ type CartContextValue = CartState & {
   addItem: (product: Product, qty: number) => void;
   updateItemQty: (id: string, qty: number) => void;
   clearCart: () => void;
+  resetCart: () => void;
   setZone: (value: string) => void;
   setNote: (value: string) => void;
   setPaymentMethod: (value: CartState["paymentMethod"]) => void;
@@ -99,6 +100,22 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(payload));
   }, [items, zone, note, paymentMethod, pickupWindow, hydrated]);
 
+  useEffect(() => {
+    const handleStorage = (event: StorageEvent) => {
+      if (event.key !== CART_STORAGE_KEY) return;
+      const next = safeParse(event.newValue);
+      if (!next) return;
+      setItems(next.items);
+      setZone(next.zone);
+      setNote(next.note);
+      setPaymentMethod(next.paymentMethod);
+      setPickupWindow(next.pickupWindow);
+    };
+
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, []);
+
   const addItem = useCallback((product: Product, qty: number) => {
     const safeQty = Number.isFinite(qty) && qty > 0 ? qty : 1;
     setItems((prev) => {
@@ -136,6 +153,14 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     setItems([]);
   }, []);
 
+  const resetCart = useCallback(() => {
+    setItems([]);
+    setZone("");
+    setNote("");
+    setPaymentMethod("efectivo");
+    setPickupWindow("");
+  }, []);
+
   const totalItems = useMemo(
     () => items.reduce((sum, item) => sum + item.qty, 0),
     [items]
@@ -151,6 +176,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       addItem,
       updateItemQty,
       clearCart,
+      resetCart,
       setZone,
       setNote,
       setPaymentMethod,
@@ -166,6 +192,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       addItem,
       updateItemQty,
       clearCart,
+      resetCart,
       totalItems,
     ]
   );
