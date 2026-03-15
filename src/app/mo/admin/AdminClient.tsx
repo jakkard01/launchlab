@@ -12,9 +12,11 @@ import {
   getPromoLabel,
   getPromoSavings,
 } from "../../../lib/mo/pricing";
+import { matchesProductQuery } from "../../../lib/mo/search";
 import type {
   HotState,
   HotStatus,
+  MarketingEventEntry,
   MoDataAdapter,
   MoStats,
   OrderLogInput,
@@ -59,6 +61,15 @@ type ActionNotice = {
 };
 
 export default function AdminClient() {
+  type VisibilityFilter =
+    | "all"
+    | "visible"
+    | "hidden"
+    | "sold_out"
+    | "featured"
+    | "promo"
+    | "hot";
+
   const [adapter, setAdapter] = useState<MoDataAdapter | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<MoBackendErrorInfo | null>(null);
@@ -75,15 +86,14 @@ export default function AdminClient() {
   const [status, setStatus] = useState<Record<string, ProductStatus>>({});
   const [hotToday, setHotToday] = useState<Record<string, HotState>>({});
   const [orderLogs, setOrderLogs] = useState<OrderLogEntry[]>([]);
+  const [marketingEvents, setMarketingEvents] = useState<MarketingEventEntry[]>([]);
   const [stats, setStats] = useState<MoStats | null>(null);
 
   const [saleProductId, setSaleProductId] = useState("");
   const [saleQuantity, setSaleQuantity] = useState(1);
   const [saleUnitPrice, setSaleUnitPrice] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
-  const [visibilityFilter, setVisibilityFilter] = useState<
-    "all" | "visible" | "hidden" | "sold_out"
-  >("all");
+  const [visibilityFilter, setVisibilityFilter] = useState<VisibilityFilter>("all");
   const importInputRef = useRef<HTMLInputElement>(null);
 
   const showActionError = useCallback((title: string, message: string) => {
@@ -109,6 +119,7 @@ export default function AdminClient() {
       status,
       hotToday,
       orderLogs,
+      marketingEvents,
     };
     const blob = new Blob([JSON.stringify(payload, null, 2)], {
       type: "application/json",
@@ -162,6 +173,7 @@ export default function AdminClient() {
     setStatus(snapshot.status);
     setHotToday(snapshot.hotToday);
     setOrderLogs(snapshot.orderLogs);
+    setMarketingEvents(snapshot.marketingEvents);
   }, []);
 
   const loadStats = useCallback(async (activeAdapter: MoDataAdapter) => {
@@ -255,6 +267,11 @@ export default function AdminClient() {
 
   const top7 = useMemo(() => stats?.top7 ?? [], [stats]);
   const top30 = useMemo(() => stats?.top30 ?? [], [stats]);
+  const topProductClicks = useMemo(() => stats?.topProductClicks ?? [], [stats]);
+  const zeroResultSearches = useMemo(() => stats?.zeroResultSearches ?? [], [stats]);
+  const comboUsage = useMemo(() => stats?.comboUsage ?? [], [stats]);
+  const promoUsage = useMemo(() => stats?.promoUsage ?? [], [stats]);
+  const whatsappClicks = useMemo(() => stats?.whatsappClicks ?? [], [stats]);
   const visibleCount = useMemo(
     () =>
       products.filter(
@@ -285,29 +302,55 @@ export default function AdminClient() {
   );
 
   const filteredProducts = useMemo(() => {
-    const query = searchQuery.trim().toLowerCase();
+    const query = searchQuery.trim();
     return sortedProducts.filter((product) => {
       const currentStatus = status[product.id] ?? product.status ?? "available";
       const currentStock = stock[product.id] ?? product.stockStatus ?? "disponible";
+      const currentPromo = promo[product.id] ?? {
+        enabled: product.promoEnabled ?? false,
+        percent: product.promoPercent ?? 0,
+      };
+      const currentHot = hotToday[product.id] ?? defaultHotState();
       const matchesVisibility =
         visibilityFilter === "all" ||
         (visibilityFilter === "visible" && currentStatus !== "hidden") ||
         (visibilityFilter === "hidden" && currentStatus === "hidden") ||
         (visibilityFilter === "sold_out" &&
-          (currentStatus === "out_of_stock" || currentStock === "agotado"));
+          (currentStatus === "out_of_stock" || currentStock === "agotado")) ||
+        (visibilityFilter === "featured" && product.isFeatured) ||
+        (visibilityFilter === "promo" && currentPromo.enabled && currentPromo.percent > 0) ||
+        (visibilityFilter === "hot" && currentHot.status !== "hoy_no_hicimos");
       if (!matchesVisibility) return false;
       if (!query) return true;
-      const haystack = [
-        product.name,
-        product.category,
-        product.description,
-        prices[product.id] ?? product.price,
-      ]
-        .join(" ")
-        .toLowerCase();
-      return haystack.includes(query);
+      return matchesProductQuery(
+        {
+          ...product,
+          price: prices[product.id] ?? product.price,
+        },
+        query
+      );
     });
-  }, [prices, searchQuery, sortedProducts, status, stock, visibilityFilter]);
+  }, [hotToday, prices, promo, searchQuery, sortedProducts, status, stock, visibilityFilter]);
+
+  const runQuickAction = async (
+    actionLabel: string,
+    runner: (activeAdapter: MoDataAdapter) => Promise<void>
+  ) => {
+    if (!adapter) return;
+    setPendingActionLabel(actionLabel);
+    try {
+      await runner(adapter);
+      await reloadAll(adapter);
+    } catch {
+      showActionError(
+        "No se pudo completar la acción rápida",
+        "El panel recargó el estado actual para evitar confusión."
+      );
+      await reloadAll(adapter);
+    } finally {
+      setPendingActionLabel(null);
+    }
+  };
 
   const updateStock = async (id: string, status: StockStatus) => {
     if (!adapter) return;
@@ -658,6 +701,64 @@ export default function AdminClient() {
     }
   };
 
+  const markReadyToday = async (id: string) => {
+    await runQuickAction("Marcando producto listo para hoy...", async (activeAdapter) => {
+      await activeAdapter.updateStatus(id, "available");
+      await activeAdapter.updateStock(id, "disponible");
+      await activeAdapter.updateHot(id, {
+        status: "listo",
+        updatedAt: new Date().toISOString(),
+      });
+      showActionSuccess(
+        "Producto listo para hoy",
+        "Quedó visible, disponible y marcado en Caliente hoy."
+      );
+    });
+  };
+
+  const markSoldOutNow = async (id: string) => {
+    await runQuickAction("Marcando agotado...", async (activeAdapter) => {
+      await activeAdapter.updateStatus(id, "out_of_stock");
+      await activeAdapter.updateStock(id, "agotado");
+      await activeAdapter.updateHot(id, {
+        status: "se_acabo",
+        updatedAt: new Date().toISOString(),
+      });
+      showActionSuccess(
+        "Producto marcado como agotado",
+        "Ya quedó reflejado como agotado para evitar pedidos equivocados."
+      );
+    });
+  };
+
+  const toggleQuickFeatured = async (id: string, nextValue: boolean) => {
+    await runQuickAction("Guardando destacado...", async (activeAdapter) => {
+      await activeAdapter.updateFeatured(id, nextValue);
+      showActionSuccess(
+        "Destacado actualizado",
+        nextValue ? "El producto quedó como destacado." : "El producto salió de destacados."
+      );
+    });
+  };
+
+  const toggleQuickPromo = async (
+    id: string,
+    enabled: boolean,
+    percent: number
+  ) => {
+    const nextEnabled = !enabled;
+    const nextPercent = nextEnabled ? percent || 10 : percent;
+    await runQuickAction("Guardando promo rápida...", async (activeAdapter) => {
+      await activeAdapter.updatePromo(id, nextEnabled, nextPercent);
+      showActionSuccess(
+        "Promo actualizada",
+        nextEnabled
+          ? `La promo quedó activa con ${nextPercent}% de descuento.`
+          : "La promo quedó desactivada."
+      );
+    });
+  };
+
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-black">
@@ -948,9 +1049,7 @@ export default function AdminClient() {
               <select
                 value={visibilityFilter}
                 onChange={(event) =>
-                  setVisibilityFilter(
-                    event.target.value as "all" | "visible" | "hidden" | "sold_out"
-                  )
+                  setVisibilityFilter(event.target.value as VisibilityFilter)
                 }
                 className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
               >
@@ -958,6 +1057,9 @@ export default function AdminClient() {
                 <option value="visible">Solo visibles</option>
                 <option value="hidden">Solo ocultos</option>
                 <option value="sold_out">Agotados</option>
+                <option value="featured">Destacados</option>
+                <option value="promo">Promos</option>
+                <option value="hot">Hoy</option>
               </select>
             </label>
           </div>
@@ -1020,6 +1122,50 @@ export default function AdminClient() {
                   </div>
 
                   <div className="mt-4 grid gap-3 md:grid-cols-2">
+                    <div className="md:col-span-2 rounded-2xl border border-emerald-300/15 bg-emerald-400/10 p-3">
+                      <p className="text-[11px] uppercase tracking-[0.22em] text-emerald-200/80">
+                        Atajos rápidos
+                      </p>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        <button
+                          type="button"
+                          onClick={() => markReadyToday(product.id)}
+                          className="rounded-full border border-emerald-300/30 px-3 py-2 text-xs font-semibold text-emerald-100"
+                        >
+                          Marcar hoy
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => markSoldOutNow(product.id)}
+                          className="rounded-full border border-amber-300/30 px-3 py-2 text-xs font-semibold text-amber-100"
+                        >
+                          Marcar agotado
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            toggleQuickFeatured(product.id, !product.isFeatured)
+                          }
+                          className="rounded-full border border-sky-300/30 px-3 py-2 text-xs font-semibold text-sky-100"
+                        >
+                          {product.isFeatured ? "Quitar destacado" : "Destacar"}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            toggleQuickPromo(
+                              product.id,
+                              promoState.enabled,
+                              promoState.percent
+                            )
+                          }
+                          className="rounded-full border border-fuchsia-300/30 px-3 py-2 text-xs font-semibold text-fuchsia-100"
+                        >
+                          {promoState.enabled ? "Quitar promo" : "Promo 10%"}
+                        </button>
+                      </div>
+                    </div>
+
                     <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
                       Estado (visible/oculto)
                       <select
@@ -1298,6 +1444,117 @@ export default function AdminClient() {
                 </div>
               );
             })}
+          </div>
+        </section>
+
+        <section className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-white/80">
+                Señales de marketing
+              </h2>
+              <p className="mt-2 text-sm text-white/60">
+                Lectura mínima de interés real: clics, búsquedas perdidas, combos y CTA a WhatsApp.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-xs text-white/65">
+              Se guarda en la hoja `events`
+            </div>
+          </div>
+          <div className="grid gap-4 lg:grid-cols-2">
+            <div className="rounded-2xl border border-white/10 bg-black/30 p-4">
+              <p className="text-xs uppercase tracking-[0.22em] text-white/50">
+                Productos con más clic
+              </p>
+              <div className="mt-3 grid gap-2">
+                {topProductClicks.length > 0 ? topProductClicks.map((entry) => (
+                  <div
+                    key={entry.productId}
+                    className="flex items-center justify-between rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm"
+                  >
+                    <span>{productNameById.get(entry.productId) ?? entry.productId}</span>
+                    <span className="text-white/70">{entry.quantity}</span>
+                  </div>
+                )) : (
+                  <p className="text-sm text-white/55">Aún no hay clics registrados.</p>
+                )}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-black/30 p-4">
+              <p className="text-xs uppercase tracking-[0.22em] text-white/50">
+                Búsquedas sin resultado
+              </p>
+              <div className="mt-3 grid gap-2">
+                {zeroResultSearches.length > 0 ? zeroResultSearches.map((entry) => (
+                  <div
+                    key={entry.query}
+                    className="flex items-center justify-between rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm"
+                  >
+                    <span>{entry.query}</span>
+                    <span className="text-white/70">{entry.count}</span>
+                  </div>
+                )) : (
+                  <p className="text-sm text-white/55">Aún no hay búsquedas perdidas.</p>
+                )}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-black/30 p-4">
+              <p className="text-xs uppercase tracking-[0.22em] text-white/50">
+                Combos más usados
+              </p>
+              <div className="mt-3 grid gap-2">
+                {comboUsage.length > 0 ? comboUsage.map((entry) => (
+                  <div
+                    key={entry.label}
+                    className="flex items-center justify-between rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm"
+                  >
+                    <span>{entry.label}</span>
+                    <span className="text-white/70">{entry.count}</span>
+                  </div>
+                )) : (
+                  <p className="text-sm text-white/55">Aún no hay combos usados.</p>
+                )}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-black/30 p-4">
+              <p className="text-xs uppercase tracking-[0.22em] text-white/50">
+                CTA WhatsApp
+              </p>
+              <div className="mt-3 grid gap-2">
+                {whatsappClicks.length > 0 ? whatsappClicks.map((entry) => (
+                  <div
+                    key={entry.context}
+                    className="flex items-center justify-between rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm"
+                  >
+                    <span>{entry.context}</span>
+                    <span className="text-white/70">{entry.count}</span>
+                  </div>
+                )) : (
+                  <p className="text-sm text-white/55">Aún no hay clics a WhatsApp.</p>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-black/30 p-4">
+            <p className="text-xs uppercase tracking-[0.22em] text-white/50">
+              Promos con más uso
+            </p>
+            <div className="mt-3 grid gap-2 md:grid-cols-2">
+              {promoUsage.length > 0 ? promoUsage.map((entry) => (
+                <div
+                  key={entry.productId}
+                  className="flex items-center justify-between rounded-xl border border-white/10 bg-black/40 px-3 py-2 text-sm"
+                >
+                  <span>{productNameById.get(entry.productId) ?? entry.productId}</span>
+                  <span className="text-white/70">{entry.quantity}</span>
+                </div>
+              )) : (
+                <p className="text-sm text-white/55">Aún no hay promos usadas.</p>
+              )}
+            </div>
+          </div>
+          <div className="rounded-2xl border border-amber-300/20 bg-amber-400/10 px-4 py-3 text-sm text-amber-50/90">
+            Los combos siguen siendo manuales por ahora. Si hace falta mover un combo útil sin tocar el panel, la edición sigue concentrada en `src/lib/mo/combos.ts`.
           </div>
         </section>
 
