@@ -2,13 +2,26 @@ import type { Product } from "./types";
 
 const CATEGORY_SYNONYMS: Record<string, string[]> = {
   hot: ["caliente", "comida caliente", "hoy", "listo", "antojitos"],
-  antojitos: ["antojitos", "pupusas", "fritos", "comida"],
+  antojitos: ["antojitos", "pupusas", "fritos", "comida", "pan dulce", "antojos"],
   combos: ["combo", "combos", "pack", "packs"],
   lacteos: ["lacteos", "lacteo", "leche", "queso"],
-  bebidas: ["bebidas", "bebida", "refresco", "gaseosa", "jugo", "cafe"],
+  bebidas: ["bebidas", "bebida", "refresco", "gaseosa", "jugo", "cafe", "coca", "coca cola", "soda"],
   abarrotes: ["abarrotes", "basicos", "casa", "arroz", "frijoles"],
-  snacks: ["snacks", "galletas", "boquitas"],
+  snacks: ["snacks", "galletas", "boquitas", "boquita", "platanitos", "tortillitas", "mani", "mani con chile"],
   ofertas: ["ofertas", "oferta", "promo", "promos", "descuento"],
+};
+
+const PRODUCT_ALIASES: Record<string, string[]> = {
+  "mo-coca-cola-600ml": ["coca", "coca cola", "coke", "soda personal"],
+  "mo-gaseosa-cola-2l": ["coca", "coca cola", "coke", "soda", "cola"],
+  "mo-cafe-pack": ["cafe", "café", "desayuno", "pan dulce"],
+  "mo-cafe-servido": ["cafe", "café", "cafe caliente"],
+  "mo-cafe-instantaneo": ["cafe", "café", "instantaneo", "instantáneo"],
+  "mo-cafe-molido": ["cafe", "café", "molido", "para preparar"],
+  "mo-mani-salado": ["mani", "maní", "boquita"],
+  "mo-mani-limon-chile": ["mani", "maní", "limon", "limón", "chile", "boquita"],
+  "mo-tortillitas-limon": ["tortillitas", "limon", "limón", "boquita", "snack"],
+  "mo-platanitos": ["platanitos", "platano", "plátano", "boquita", "snack"],
 };
 
 export const normalizeSearchText = (value: string) =>
@@ -29,12 +42,16 @@ const getCategoryTerms = (product: Product) => {
   return [category, ...base].filter(Boolean);
 };
 
+const getAliasTerms = (product: Product) =>
+  PRODUCT_ALIASES[product.id] ?? [];
+
 export const getProductSearchHaystack = (product: Product) => {
   const parts = [
     product.name,
     product.description,
     product.category,
     ...getCategoryTerms(product),
+    ...getAliasTerms(product),
   ];
 
   return normalizeSearchText(parts.join(" "));

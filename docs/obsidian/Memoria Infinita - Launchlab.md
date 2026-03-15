@@ -1,3 +1,62 @@
+## 2026-03-15 — RYS bloque comercial realista: snacks locales + café + combos
+- Rama: feat/pagina-hermana-live
+- Objetivo: representar mejor el consumo real de minisúper local y subir ticket promedio sin tocar diseño ni abrir features nuevas.
+
+### Vacíos reales detectados
+- `café` existía, pero demasiado concentrado en un combo; faltaba presencia clara como producto servido, molido e instantáneo.
+- `coca` no estaba bien encontrada porque el naming era genérico (`gaseosa cola 2L`).
+- Snacks locales de antojo rápido estaban flojos: faltaban `tortillitas con limón`, `maní con limón y chile` y `platanitos`.
+- Faltaban combos más obvios de movimiento rápido: `pupusas + Coca-Cola`, `snack + Coca-Cola`, `antojito + bebida`.
+
+### Productos añadidos o corregidos
+- Nuevos:
+  - `Coca-Cola 600ml`
+  - `Café servido vaso`
+  - `Café instantáneo 50g`
+  - `Café molido 340g`
+  - `Pan dulce surtido`
+  - `Tortillitas con limón`
+  - `Maní con limón y chile`
+  - `Platanitos crujientes`
+  - `Combo pupusas + Coca-Cola`
+  - `Combo boquita + Coca-Cola`
+- Corregidos:
+  - `Gaseosa cola 2L` -> `Coca-Cola 2L`
+  - `Cafe frio botella` -> `Café frío botella`
+  - `Combo cafe + pan dulce` -> `Combo café + pan dulce`
+  - combos producto existentes ahora nombran explícitamente `Coca-Cola` donde aplica
+  - `Mani salado 100g` -> `Maní salado 100g`
+
+### Lógica comercial aplicada
+- Antojo:
+  - boquitas saladas, platanitos, maní con limón/chile, pan dulce, pupusas.
+- Salida rápida:
+  - Coca-Cola personal, café servido, combos listos de una decisión.
+- Desayuno / merienda:
+  - café servido, café instantáneo, café molido, pan dulce, combo café + pan dulce.
+- Margen / ticket:
+  - combos de bebida + snack/antojito y café + pan dulce para subir promedio sin complicar operación.
+- Consumo local real:
+  - naming y productos más cercanos a cómo la gente realmente busca y compra: `coca`, `café`, `maní`, `boquita`.
+
+### Editabilidad / operación
+- Editable vía fuente de datos/admin:
+  - todos los productos en `src/data/products.json` y luego en Sheets/admin (`precio`, `visible`, `stock`, `destacado`, etc.).
+- Duro en código:
+  - combos rápidos de la sección `Combos útiles` en `src/lib/mo/combos.ts`.
+- Razón:
+  - productos/combo-productos deben seguir siendo operables por la clienta; bundles rápidos manuales siguen simples y centralizados en un archivo.
+
+### Verificación realizada
+- Búsquedas útiles por dataset y normalización:
+  - `cafe` / `café` -> combo + café frío + café servido + instantáneo + molido
+  - `coca` -> Coca-Cola 2L + Coca-Cola 600ml + combos con Coca-Cola
+  - `mani` / `maní` -> maní salado + maní con limón y chile
+  - `pupusas` -> pupusas + combo pupusas + Coca-Cola
+- Lint/build:
+  - `npm run lint` OK
+  - `npm run build` OK
+
 ## 2026-03-15 — RYS hotfix urgente: regresión funcional en CTAs / combos
 - Rama: feat/pagina-hermana-live
 - Objetivo: restaurar comportamiento confiable del storefront, sin abrir mejoras nuevas.

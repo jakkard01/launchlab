@@ -1,5 +1,8 @@
 # 03_DECISION_LOG
 
+- 2026-03-15: RYS suma una capa comercial más realista sin tocar UI: café visible por producto + bebida + preparación, Coca-Cola nombrada de forma encontrable, snacks/boquitas locales (`tortillitas`, `maní con limón y chile`, `platanitos`) y combos de consumo real (`pupusas + Coca-Cola`, `café + pan dulce`, `snack + Coca-Cola`, `antojito + bebida`).
+- 2026-03-15: Para RYS comercial, conviene separar dos capas: productos/combos-producto editables vía fuente de datos/admin (`products`) y combos rápidos hardcodeados en `src/lib/mo/combos.ts` para operar bundles de alto movimiento sin rehacer backend.
+- 2026-03-15: Búsqueda RYS refuerza aliases comerciales reales (`coca`, `coca cola`, `café`, `maní`, `boquita`, `platanitos`, `tortillitas`) para que la encontrabilidad siga la lógica de compra local y no nombres internos.
 - 2026-03-15: Hotfix RYS storefront. La regresión vino de dejar CTAs críticos dependientes solo de handlers JS dentro del mismo subtree que se volvió más frágil tras instrumentación/upsell reciente; el HTML seguía pintando, pero si la hidratación fallaba o no montaba limpia, `Ver caliente`, `Pedir algo que no veo` y add-to-cart quedaban “visuales”. El fix reduce acoplamiento en el storefront crítico, devuelve fallback nativo por ancla a los CTAs de scroll y restaura el drawer/cart path estable.
 - 2026-03-15: RYS mantiene carrito local persistente, pero se endurece para operación real: sincroniza entre pestañas y ya no se vacía automáticamente al abrir WhatsApp para evitar pérdida silenciosa de pedidos.
 - 2026-03-15: La búsqueda pública de RYS deja de actuar por secciones decorativas y pasa a un flujo único con coincidencia parcial por nombre/categoría, ranking simple y captura de búsquedas sin resultado.
