@@ -894,3 +894,19 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
   - los productos comerciales nuevos quedan disponibles en storefront/admin sin reimport manual completa;
   - sigue siendo editable en admin todo lo ya existente en la hoja;
   - los combos manuales continúan duros en `src/lib/mo/combos.ts`, pero ahora pueden referenciar nuevos SKUs del seed sin romper el live.
+
+## 2026-03-15 — RYS storefront stabilization (deduplicación de CTAs/estados)
+- Regresión visible confirmada en live:
+  - productos como `Queso fresco 250g`, `Ensalada de frutas`, `Pan blanco grande`, `Pupusas mixtas (3 unid)` y combos comerciales estaban apareciendo con sensación de CTA/estado duplicado.
+- Causa exacta:
+  - el mismo `ProductCard` accionable se estaba reutilizando en `MoQuickShop`, `MoPromos` y `CatalogSection`;
+  - además `ProductCard` conservaba dos árboles de acciones (`default` y `compact`) dentro del mismo componente, dejando la deduplicación apoyada en CSS en vez de en una sola rama real de render.
+- Fix aplicado:
+  - `ProductCard` ahora renderiza una sola rama de acciones por variante y soporta modo resumen (`showActions={false}`, `showStatusBadge={false}`).
+  - `MoQuickShop` y `MoPromos` pasan a usar el card en modo resumen, sin botones `Agregar`, sin `No disponible` y sin `Avisarme`.
+  - la acción operativa queda concentrada en el catálogo completo y en la sección manual de combos (`Agregar combo`).
+- Criterio de render final:
+  - teaser/promos/quickshop: resumen visual sin CTA operativa duplicada;
+  - producto normal en catálogo: una sola acción principal `Agregar`;
+  - producto no disponible/pronto en catálogo: un solo estado + un solo `Avisarme`;
+  - combo manual: una sola acción `Agregar combo`.

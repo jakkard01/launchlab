@@ -240,7 +240,12 @@ export default function MoQuickShop({
           <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
             {hotToday.map((product) => (
               <div key={product.id} className="min-w-[240px] sm:min-w-0">
-                <ProductCard product={product} variant="compact" />
+                <ProductCard
+                  product={product}
+                  variant="compact"
+                  showActions={false}
+                  showStatusBadge={false}
+                />
               </div>
             ))}
           </div>
@@ -262,7 +267,12 @@ export default function MoQuickShop({
           <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
             {combos.map((product) => (
               <div key={product.id} className="min-w-[240px] sm:min-w-0">
-                <ProductCard product={product} variant="compact" />
+                <ProductCard
+                  product={product}
+                  variant="compact"
+                  showActions={false}
+                  showStatusBadge={false}
+                />
               </div>
             ))}
           </div>
@@ -284,7 +294,12 @@ export default function MoQuickShop({
           <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
             {antojitos.map((product) => (
               <div key={product.id} className="min-w-[240px] sm:min-w-0">
-                <ProductCard product={product} variant="compact" />
+                <ProductCard
+                  product={product}
+                  variant="compact"
+                  showActions={false}
+                  showStatusBadge={false}
+                />
               </div>
             ))}
           </div>
@@ -306,7 +321,12 @@ export default function MoQuickShop({
           <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
             {promoProducts.map((product) => (
               <div key={product.id} className="min-w-[240px] sm:min-w-0">
-                <ProductCard product={product} variant="compact" />
+                <ProductCard
+                  product={product}
+                  variant="compact"
+                  showActions={false}
+                  showStatusBadge={false}
+                />
               </div>
             ))}
           </div>
@@ -328,7 +348,12 @@ export default function MoQuickShop({
           {featured.length > 0 ? (
             featured.map((product) => (
               <div key={product.id} className="min-w-[240px] sm:min-w-0">
-                <ProductCard product={product} variant="compact" />
+                <ProductCard
+                  product={product}
+                  variant="compact"
+                  showActions={false}
+                  showStatusBadge={false}
+                />
               </div>
             ))
           ) : (

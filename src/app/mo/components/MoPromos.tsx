@@ -61,7 +61,12 @@ export default function MoPromos({ products }: MoPromosProps) {
             <div className="mt-4 flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-1 sm:overflow-visible">
               {items.map((product) => (
                 <div key={product.id} className="min-w-[240px] sm:min-w-0">
-                  <ProductCard product={product} variant="compact" />
+                  <ProductCard
+                    product={product}
+                    variant="compact"
+                    showActions={false}
+                    showStatusBadge={false}
+                  />
                 </div>
               ))}
             </div>
@@ -71,4 +76,3 @@ export default function MoPromos({ products }: MoPromosProps) {
     </section>
   );
 }
-

@@ -13,6 +13,8 @@ type ProductCardProps = {
   product: Product;
   stockStatus?: StockStatus;
   variant?: "default" | "compact";
+  showActions?: boolean;
+  showStatusBadge?: boolean;
 };
 
 const stockStyles: Record<StockStatus, string> = {
@@ -87,6 +89,8 @@ export default function ProductCard({
   product,
   stockStatus,
   variant = "default",
+  showActions = true,
+  showStatusBadge = true,
 }: ProductCardProps) {
   const { addItem } = useCart();
   const [qty, setQty] = useState(1);
@@ -110,6 +114,11 @@ export default function ProductCard({
   );
   const statusBadge =
     isSoon ? "Pronto" : isOutOfStockStatus ? "Agotado hoy" : stockLabels[resolvedStock];
+  const addButtonLabel = isOutOfStock
+    ? "No disponible"
+    : justAdded
+      ? "Agregado ✓"
+      : "Agregar";
 
   const handleAdd = () => {
     if (isOutOfStock) return;
@@ -160,11 +169,13 @@ export default function ProductCard({
         >
           {product.name}
         </h3>
-        <span
-          className={`rounded-full border px-2 py-1 text-[11px] uppercase tracking-[0.2em] ${stockStyles[resolvedStock]}`}
-        >
-          {statusBadge}
-        </span>
+        {showStatusBadge ? (
+          <span
+            className={`rounded-full border px-2 py-1 text-[11px] uppercase tracking-[0.2em] ${stockStyles[resolvedStock]}`}
+          >
+            {statusBadge}
+          </span>
+        ) : null}
       </div>
       <div className="mt-2 flex items-center justify-between">
         {promoLabel ? (
@@ -197,53 +208,56 @@ export default function ProductCard({
           </p>
         </div>
       </div>
-      <div className={`mt-4 flex flex-col gap-3 ${isCompact ? "hidden" : ""}`}>
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold text-main">Cantidad</span>
-          <QuantityStepper value={qty} onChange={setQty} />
-        </div>
-        <button
-          type="button"
-          onClick={handleAdd}
-          disabled={isOutOfStock}
-          className="h-12 rounded-2xl bg-[var(--accent)] px-6 text-center text-sm font-semibold text-[#07130c] shadow-sm transition hover:opacity-95 hover:shadow-md disabled:cursor-not-allowed disabled:bg-[var(--border)] disabled:text-muted"
-          aria-label={`Agregar ${product.name} al pedido`}
-        >
-          {isOutOfStock ? "No disponible" : justAdded ? "Agregado ✓" : "Agregar"}
-        </button>
-        {isOutOfStock ? (
-          <a
-            href={notifyLink}
-            className="h-11 rounded-2xl border border-[var(--accent)]/40 px-5 text-center text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)] transition hover:border-[var(--accent)]/60 hover:text-[var(--accent)]"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Avisarme
-          </a>
-        ) : null}
-      </div>
-      {isCompact ? (
-        <>
-          <button
-            type="button"
-            onClick={handleAdd}
-            disabled={isOutOfStock}
-            className="mt-4 h-11 rounded-xl bg-[var(--accent)] px-4 text-xs font-semibold text-[#07130c] shadow-sm transition hover:opacity-95 hover:shadow-md disabled:cursor-not-allowed disabled:bg-[var(--border)] disabled:text-muted"
-            aria-label={`Agregar ${product.name} al pedido`}
-          >
-            {isOutOfStock ? "No disponible" : justAdded ? "Agregado ✓" : "Agregar"}
-          </button>
-          {isOutOfStock ? (
-            <a
-              href={notifyLink}
-              className="mt-3 h-10 rounded-xl border border-[var(--accent)]/40 px-4 text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--accent)] transition hover:border-[var(--accent)]/60 hover:text-[var(--accent)]"
-              target="_blank"
-              rel="noopener noreferrer"
+      {showActions ? (
+        isCompact ? (
+          <>
+            <button
+              type="button"
+              onClick={handleAdd}
+              disabled={isOutOfStock}
+              className="mt-4 h-11 rounded-xl bg-[var(--accent)] px-4 text-xs font-semibold text-[#07130c] shadow-sm transition hover:opacity-95 hover:shadow-md disabled:cursor-not-allowed disabled:bg-[var(--border)] disabled:text-muted"
+              aria-label={`Agregar ${product.name} al pedido`}
             >
-              Avisarme
-            </a>
-          ) : null}
-        </>
+              {addButtonLabel}
+            </button>
+            {isOutOfStock ? (
+              <a
+                href={notifyLink}
+                className="mt-3 h-10 rounded-xl border border-[var(--accent)]/40 px-4 text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--accent)] transition hover:border-[var(--accent)]/60 hover:text-[var(--accent)]"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Avisarme
+              </a>
+            ) : null}
+          </>
+        ) : (
+          <div className="mt-4 flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold text-main">Cantidad</span>
+              <QuantityStepper value={qty} onChange={setQty} />
+            </div>
+            <button
+              type="button"
+              onClick={handleAdd}
+              disabled={isOutOfStock}
+              className="h-12 rounded-2xl bg-[var(--accent)] px-6 text-center text-sm font-semibold text-[#07130c] shadow-sm transition hover:opacity-95 hover:shadow-md disabled:cursor-not-allowed disabled:bg-[var(--border)] disabled:text-muted"
+              aria-label={`Agregar ${product.name} al pedido`}
+            >
+              {addButtonLabel}
+            </button>
+            {isOutOfStock ? (
+              <a
+                href={notifyLink}
+                className="h-11 rounded-2xl border border-[var(--accent)]/40 px-5 text-center text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)] transition hover:border-[var(--accent)]/60 hover:text-[var(--accent)]"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Avisarme
+              </a>
+            ) : null}
+          </div>
+        )
       ) : null}
     </article>
   );

@@ -60,3 +60,5 @@
 - 2026-03-13: La UI pública de RYS no muestra CTA admin por defecto; el acceso visible a `Admin` solo aparece si existe sesión `mo_admin` ya autenticada.
 - 2026-03-15: El catálogo live de RYS usa Google Sheets como fuente efectiva; ampliar `src/data/products.json` no basta cuando la hoja ya existe.
 - 2026-03-15: `sheetsStore` pasa a fusionar automáticamente productos seed faltantes dentro de la hoja `products` sin sobrescribir precios, stock o estados ya operados; esto permite agregar SKUs/combo refs nuevas sin reimport manual completa.
+- 2026-03-15: La duplicación visible de CTAs/estados en RYS no venía del carrito sino de reutilizar `ProductCard` accionable como teaser en `MoQuickShop` y `MoPromos`, además de volver a mostrar esos mismos SKUs en el catálogo completo.
+- 2026-03-15: `ProductCard` queda con una sola rama real de acciones por variante; los bloques de teaser (`MoQuickShop`/`MoPromos`) pasan a mostrar cards resumen sin `Agregar`, `No disponible` ni `Avisarme`, dejando la acción operativa en el catálogo y combos manuales.
