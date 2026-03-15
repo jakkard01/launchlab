@@ -1,3 +1,48 @@
+## 2026-03-15 — RYS next block: conversion + operator ease + marketing hooks
+- Rama: feat/pagina-hermana-live
+- Objetivo: bajar fricción operativa real, subir conversión storefront y empezar a capturar señales mínimas de interés/uso.
+
+### Qué se mejoró
+- Carrito:
+  - persistencia local mantenida y endurecida con sincronización entre pestañas.
+  - checkout a WhatsApp deja de vaciar el carrito automáticamente; ahora evita pérdida de pedidos si la app se cierra o el envío no se completa.
+  - upsell ligero en drawer con sugerencias por categoría/promos/destacados para subir ticket sin meter recomendador complejo.
+- Búsqueda:
+  - ahora resuelve por nombre, categoría y coincidencia parcial.
+  - cuando hay query, muestra resultados globales claros en lugar de esconderse por secciones.
+  - estado vacío útil con salida a pedido especial/WhatsApp.
+- Operación admin:
+  - filtros nuevos para `Destacados`, `Promos`, `Hoy`.
+  - atajos por producto para marcar `hoy`, `agotado`, `destacado` y `promo 10%` sin recorrer todos los selects.
+  - módulo visual de señales de marketing dentro del panel para lectura rápida.
+
+### Qué quedó más fácil para la clienta
+- Marcar rápido un producto como disponible hoy o agotado.
+- Encender/apagar destacados y promos sin bajar por todos los campos.
+- Encontrar productos operativos relevantes con filtros de `Hoy`, `Promos` y `Destacados`.
+- Evitar que un pedido se pierda por tocar WhatsApp antes de enviarlo.
+
+### Señales de marketing capturadas
+- productos más clicados (`product_click`)
+- búsquedas sin resultado (`search_zero_results`)
+- combos más usados (`combo_used`)
+- promos usadas (`promo_used`)
+- clicks en CTA WhatsApp (`whatsapp_cta`)
+- Persistencia:
+  - se guardan localmente como buffer de respaldo
+  - se envían a `/api/mo/events`
+  - backend las registra en la hoja `events` para crecer después sin rehacer el storefront
+
+### Aprendizaje útil para luego pulir PBIA
+- El patrón correcto no es “meter analytics”, sino registrar 4-5 eventos comerciales con intención clara y lectura operativa simple.
+- Los atajos de operación valen más que rediseñar paneles enteros cuando la clienta necesita moverse rápido en el día.
+- La búsqueda comercial útil en móvil requiere ranking simple + salida clara cuando no encuentra nada.
+
+### Siguiente bloque recomendado
+- Antes de pasar de lleno a PBIA, queda un último ajuste crítico razonable en RYS:
+  - volver editable la capa de combos/promos “manuales” sin tocar código, pero solo si la clienta realmente la va a mover con frecuencia.
+- Si en la siguiente ronda ya no hay dolor real con combos, entonces sí: el siguiente bloque debería ir a PBIA usando esta misma lógica de señales mínimas + copy/CTA accionables.
+
 ## 2026-02-09 — launchlab tienda hermana (YRS)
 - Rama: feat/pagina-hermana-live
 - Objetivo: tienda pickup + WhatsApp

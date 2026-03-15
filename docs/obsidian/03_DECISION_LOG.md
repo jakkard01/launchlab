@@ -1,5 +1,10 @@
 # 03_DECISION_LOG
 
+- 2026-03-15: RYS mantiene carrito local persistente, pero se endurece para operación real: sincroniza entre pestañas y ya no se vacía automáticamente al abrir WhatsApp para evitar pérdida silenciosa de pedidos.
+- 2026-03-15: La búsqueda pública de RYS deja de actuar por secciones decorativas y pasa a un flujo único con coincidencia parcial por nombre/categoría, ranking simple y captura de búsquedas sin resultado.
+- 2026-03-15: Se agrega una capa mínima de eventos (`events` en Sheets + `/api/mo/events`) para registrar clics de producto, búsquedas sin resultado, uso de combos/promos y CTA a WhatsApp sin meter analítica enterprise.
+- 2026-03-15: Admin RYS sigue siendo simple pero gana atajos operativos por producto (`Marcar hoy`, `Marcar agotado`, `Destacar`, `Promo 10%`) y filtros útiles (`Destacados`, `Promos`, `Hoy`) para reducir fricción diaria.
+- 2026-03-15: Los combos de RYS siguen manuales a propósito; si no se mueven hoy a backend editable, la edición se concentra en un solo archivo (`src/lib/mo/combos.ts`) y se deja documentado, evitando medio sistema difícil de operar.
 - 2026-01-29: Smart FAB para evitar solapes con CTAs y footer (mejora UX mobile y accesibilidad).
 - 2026-01-29: FAQ demo inline con scroll suave para mantener contexto en móvil.
 - 2026-01-29: Copy profesional con límites claros (sin lenguaje defensivo).
