@@ -2,6 +2,44 @@
 - Rama: feat/pagina-hermana-live
 - Objetivo: cerrar las últimas fricciones reales sin mezclar “buscador roto” con “producto no cargado”, y dejar el admin más cómodo para operar desde móvil.
 
+## 2026-03-16 — RYS QA hotfix final: venta manual visible + scroll horizontal móvil confiable
+- Rama: feat/pagina-hermana-live
+- Objetivo: cerrar dos bugs reales de interacción móvil antes de considerar a RYS release candidate final.
+
+### Bugs reales detectados
+- `Registrar venta manual` parecía no hacer nada en móvil:
+  - la ruta backend ya existía y persistía en Sheets;
+  - el problema real era de confianza/UX: faltaba feedback inline claro de éxito o error justo donde la operadora toca.
+- Los rieles horizontales del storefront (`Boquita o café para hoy`, promos, combos, calientes) podían sentirse bloqueados o torpes al arrastrar:
+  - faltaba endurecimiento táctil específico para gesto lateral;
+  - `overflow-x-auto` solo no bastaba para una experiencia móvil consistente.
+
+### Fix aplicado
+- Venta manual:
+  - el bloque ahora muestra aviso inline de validación/error/éxito;
+  - al registrar una venta válida, se limpia la cantidad, se recompone el precio base y queda mensaje visible con producto, cantidad y total.
+- Scroll horizontal:
+  - los rieles pasan a usar `snap-x`, `touch-action: pan-x`, `overscroll-behavior-x: contain` y scrollbar oculta;
+  - cada card horizontal queda como item `snap-start` con ancho mínimo consistente para arrastrar con dedo sin cortar desktop.
+
+### Qué se verifica para cerrar este bloque
+- `Registrar venta manual` debe dejar feedback visible y no parecer “botón muerto”.
+- Los bloques laterales/horizontales deben desplazarse de forma natural en móvil.
+- No se debe romper:
+  - carrito/sticky
+  - búsqueda
+  - WhatsApp
+  - login admin
+  - `/api/mo/health`
+  - `/api/mo/products`
+
+### Estado esperado tras este bloque
+- RYS queda lista como release candidate final si:
+  - la venta manual ya comunica claramente éxito/error;
+  - el scroll horizontal móvil deja de atascarse;
+  - lint/build siguen sanos;
+  - producción mantiene salud operativa contra Sheets.
+
 ### Lo que seguía fallando o incomodando
 - Admin:
   - el guardado explícito ya existía, pero el card seguía demasiado denso para móvil.

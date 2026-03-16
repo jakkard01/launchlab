@@ -1,5 +1,9 @@
 # 03_DECISION_LOG
 
+- 2026-03-16: QA hotfix final de RYS. `Registrar venta manual` no estaba roto por backend sino por falta de feedback visible en el panel; se añade aviso inline de error/éxito y el formulario deja claro cuándo sí registró una venta.
+- 2026-03-16: Los rieles horizontales de RYS (`Caliente hoy`, `Combos`, `Antojitos`, `Promos`) se endurecen para móvil con `overflow-x-auto` táctil, `touch-action: pan-x`, `overscroll-behavior-x: contain`, `snap-x` y scrollbar oculta; el objetivo es que el gesto lateral funcione de forma natural sin romper desktop.
+- 2026-03-16: Criterio de cierre de release candidate RYS: no abrir features nuevas; solo cerrar interacciones reales de uso móvil, mantener Sheets/admin/storefront sanos y dejar trazabilidad de causa/fix en memoria.
+
 - 2026-03-16: Se refuerza el cierre VIP de RYS separando explícitamente dos problemas distintos: la búsqueda pública funciona sobre lo cargado en catálogo, y la deuda restante es de surtido incompleto en ciertos básicos no publicados aún.
 - 2026-03-16: El admin móvil de RYS se simplifica otra vez: atajos diarios pasan a grid táctil más claro, el bloque de guardado explica qué se guarda al tocar y qué requiere `Guardar cambios`, y `Promo rápida` queda visible sin bajar a ajustes largos.
 - 2026-03-16: En catálogo/search se endurece el empty state para no sugerir “buscador roto”; ahora deja claro que si algo no aparece puede ser producto no cargado hoy y empuja a pedido por WhatsApp.
