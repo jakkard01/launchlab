@@ -1501,7 +1501,7 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
 
 ### Validación real del bloque
 - `npm run lint` OK.
-- `next build` compila y pasa lint/typecheck interno, pero en este entorno local está saliendo con código `1` sin mensaje final; queda registrado como anomalía de build local a revisar si vuelve a aparecer.
+- `pnpm -s build` OK después de corregir un error real de TypeScript en `AdminClient` (`availableSections` se usaba antes de su declaración).
 - El bloque no tocó backend de storefront ni Sheets.
 
 ### Qué queda para la Parte 3
