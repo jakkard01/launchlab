@@ -32,10 +32,10 @@ export default function MoPromos({ products }: MoPromosProps) {
           Promos de hoy
         </p>
         <h2 className="mt-2 text-lg font-semibold text-main">
-          Para antojar y mover pedido rápido
+          Para vender por antojo, hambre o conveniencia
         </h2>
         <p className="mt-2 text-sm text-muted-strong">
-          Usa estas promos para salir con café, boquitas o básicos ya confirmados.
+          Usa estas promos para salir con café caliente, antojo o algo resuelto sin perder tiempo.
         </p>
       </div>
 

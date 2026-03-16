@@ -13,22 +13,30 @@ export type MoPromo = {
 // The idea is operational: update a couple of IDs and message based on today's reality.
 export const MO_PROMOS: MoPromo[] = [
   {
-    id: "probar_premium",
-    type: "sampling",
-    title: "Para probar (premium)",
+    id: "desayuno_resuelto",
+    type: "todaySpecial",
+    title: "Desayuno resuelto",
     description:
-      "Una opción buena para que la gente lo pruebe sin prometer “lo más barato”.",
-    badge: "Probar",
-    productIds: ["mo-queso-fresco"],
+      "Café caliente y pan dulce para salir sin hacer cola ni dar la vuelta en vano.",
+    badge: "Temprano",
+    productIds: ["mo-cafe-servido", "mo-pan-dulce"],
   },
   {
-    id: "hoy_por_salir",
+    id: "antojito_sin_vuelta",
     type: "todaySpecial",
-    title: "Hoy / por salir",
+    title: "Antojito sin vuelta",
     description:
-      "Stock alto o producto del día. Se confirma disponibilidad antes de que salgas.",
+      "Pupusas, empanadas y bebida para resolver antojo caliente sin salir a probar suerte.",
     badge: "Hoy",
-    productIds: ["mo-ensalada-frutas", "mo-pan-blanco"],
+    productIds: ["mo-pupusas", "mo-empanadas", "mo-coca-cola-600ml"],
+  },
+  {
+    id: "algo_rapido_para_hoy",
+    type: "sampling",
+    title: "Algo rápido para hoy",
+    description:
+      "Boquita, café o bebida fría para resolver merienda, visita o salida corta.",
+    badge: "Sin vueltas",
+    productIds: ["mo-cafe-servido", "mo-tortillitas-limon", "mo-mani-limon-chile"],
   },
 ];
-

@@ -18,6 +18,9 @@ const PRODUCT_ALIASES: Record<string, string[]> = {
   "mo-cafe-servido": ["cafe", "café", "cafe caliente"],
   "mo-cafe-instantaneo": ["cafe", "café", "instantaneo", "instantáneo"],
   "mo-cafe-molido": ["cafe", "café", "molido", "para preparar"],
+  "mo-pupusas": ["pupusas", "antojo caliente", "caliente", "almuerzo rapido"],
+  "mo-empanadas": ["empanadas", "antojito", "antojo caliente", "rapido"],
+  "mo-pan-dulce": ["pan dulce", "desayuno", "merienda", "cafe con pan"],
   "mo-mani-salado": ["mani", "maní", "boquita"],
   "mo-mani-limon-chile": ["mani", "maní", "limon", "limón", "chile", "boquita"],
   "mo-tortillitas-limon": ["tortillitas", "limon", "limón", "boquita", "snack"],
@@ -82,22 +85,35 @@ export const rankProductsByQuery = (products: Product[], query: string) => {
       const nameB = normalizeSearchText(b.name);
       const categoryA = normalizeSearchText(a.category);
       const categoryB = normalizeSearchText(b.category);
+      const aliasA = normalizeSearchText(getAliasTerms(a).join(" "));
+      const aliasB = normalizeSearchText(getAliasTerms(b).join(" "));
 
-      const score = (name: string, category: string, haystack: string) => {
+      const score = (
+        product: Product,
+        name: string,
+        category: string,
+        haystack: string,
+        alias: string
+      ) => {
         let total = 0;
         if (name === normalizedQuery) total += 140;
         if (name.startsWith(normalizedQuery)) total += 90;
         if (name.includes(normalizedQuery)) total += 55;
+        if (alias === normalizedQuery) total += 80;
+        if (alias.includes(normalizedQuery)) total += 35;
         if (category.includes(normalizedQuery)) total += 40;
         if (haystack.includes(normalizedQuery)) total += 20;
         total += tokens.filter((token) => name.startsWith(token)).length * 16;
+        total += tokens.filter((token) => alias.includes(token)).length * 10;
         total += tokens.filter((token) => category.includes(token)).length * 8;
         total += tokens.filter((token) => haystack.includes(token)).length * 4;
+        if (product.isFeatured) total += 6;
+        if ((product.hotStatus ?? "hoy_no_hicimos") !== "hoy_no_hicimos") total += 8;
         return total;
       };
 
-      const scoreA = score(nameA, categoryA, haystackA);
-      const scoreB = score(nameB, categoryB, haystackB);
+      const scoreA = score(a, nameA, categoryA, haystackA, aliasA);
+      const scoreB = score(b, nameB, categoryB, haystackB, aliasB);
 
       if (scoreA !== scoreB) return scoreB - scoreA;
       const byOrder = (a.sortOrder ?? 9999) - (b.sortOrder ?? 9999);

@@ -149,7 +149,7 @@ export default function MoQuickShop({
           Pedido rápido
         </p>
         <h2 className="mt-2 text-lg font-semibold text-main">
-          Entra por categoría y resuelve en segundos
+          Entra por categoría y resuelve sin tanta vuelta
         </h2>
       </div>
 
@@ -261,7 +261,7 @@ export default function MoQuickShop({
           <h3 className="text-sm font-semibold text-main">
             Combos y packs
           </h3>
-          <span className="text-xs text-muted-strong">Para resolver rápido</span>
+          <span className="text-xs text-muted-strong">Para no salir dos veces</span>
         </div>
         {combos.length > 0 ? (
           <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
@@ -288,7 +288,7 @@ export default function MoQuickShop({
           <h3 className="text-sm font-semibold text-main">
             Antojitos y boquitas
           </h3>
-          <span className="text-xs text-[var(--accent)]">Café, pan dulce y antojo</span>
+          <span className="text-xs text-[var(--accent)]">Café caliente, pan dulce y antojo</span>
         </div>
         {antojitos.length > 0 ? (
           <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
@@ -315,7 +315,7 @@ export default function MoQuickShop({
           <h3 className="text-sm font-semibold text-main">
             Promos de hoy
           </h3>
-          <span className="text-xs text-muted-strong">Descuentos para mover rápido</span>
+          <span className="text-xs text-muted-strong">Para resolver hoy sin cola</span>
         </div>
         {promoProducts.length > 0 ? (
           <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">

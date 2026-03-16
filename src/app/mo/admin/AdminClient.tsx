@@ -759,6 +759,58 @@ export default function AdminClient() {
     });
   };
 
+  const setQuickPromoPercent = async (id: string, percent: number) => {
+    await runQuickAction("Guardando promo rápida...", async (activeAdapter) => {
+      await activeAdapter.updatePromo(id, true, percent);
+      showActionSuccess(
+        "Promo actualizada",
+        `La promo quedó activa con ${percent}% de descuento.`
+      );
+    });
+  };
+
+  const clearHotState = async (id: string) => {
+    await runQuickAction("Quitando caliente del día...", async (activeAdapter) => {
+      await activeAdapter.updateHot(id, {
+        status: "hoy_no_hicimos",
+        windowStart: "",
+        windowEnd: "",
+        note: "",
+        updatedAt: new Date().toISOString(),
+      });
+      showActionSuccess(
+        "Caliente del día limpiado",
+        "El producto quedó fuera de la sección de calientes."
+      );
+    });
+  };
+
+  const hideProductQuick = async (id: string) => {
+    await runQuickAction("Ocultando producto...", async (activeAdapter) => {
+      await activeAdapter.updateStatus(id, "hidden");
+      showActionSuccess(
+        "Producto oculto",
+        "Ya no aparece en tienda, pero sigue guardado para volverlo a activar luego."
+      );
+    });
+  };
+
+  const markFeaturedHot = async (id: string) => {
+    await runQuickAction("Dejando producto listo para empujar hoy...", async (activeAdapter) => {
+      await activeAdapter.updateStatus(id, "available");
+      await activeAdapter.updateStock(id, "disponible");
+      await activeAdapter.updateFeatured(id, true);
+      await activeAdapter.updateHot(id, {
+        status: "listo",
+        updatedAt: new Date().toISOString(),
+      });
+      showActionSuccess(
+        "Producto listo para empujar hoy",
+        "Quedó visible, disponible, destacado y marcado para hoy."
+      );
+    });
+  };
+
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-black">
@@ -824,7 +876,7 @@ export default function AdminClient() {
             </p>
             <h1 className="text-3xl font-semibold">Resumen diario</h1>
             <p className="mt-2 text-sm text-white/60">
-              Panel simple para revisar productos, stock, precios y ventas del día.
+              Panel rápido para dejar lista la tienda de hoy sin pensar demasiado.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
@@ -920,14 +972,13 @@ export default function AdminClient() {
             Guía rápida
           </p>
           <p className="mt-2 font-semibold">
-            Lo que cambias aquí se guarda al mover el selector o salir del campo.
+            Lo más usado debe resolverse con atajos: listo hoy, agotado, promo y destacado.
           </p>
           <p className="mt-2 text-emerald-100/85">
-            Para comprobarlo, recarga la tienda en otro celular o en otra pestaña.
-            Si solo quieres esconder un producto, usa &quot;Oculto&quot; y no lo borres.
+            Para comprobarlo, recarga la tienda en otro celular o en otra pestaña. Si solo quieres quitar algo del storefront, usa &quot;Oculto&quot; y no lo borres.
           </p>
           <p className="mt-2 text-emerald-100/85">
-            Si el acceso entró pero esta pantalla no carga, el problema ya no es la clave: suele ser sesión o lectura de Sheets.
+            Deja los campos largos para casos puntuales. Lo diario debería salir con los botones rápidos.
           </p>
         </section>
 
@@ -1026,21 +1077,21 @@ export default function AdminClient() {
                 Control de catálogo
               </h2>
               <p className="mt-2 text-sm text-white/60">
-                Busca un producto y ajusta precio, stock, visibilidad, orden o imagen sin perderte en toda la lista.
+                Busca un producto y déjalo listo para hoy con la menor cantidad posible de pasos.
               </p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-xs text-white/65">
               Mostrando {filteredProducts.length} de {sortedProducts.length} productos
             </div>
           </div>
-          <div className="grid gap-4 lg:grid-cols-[2fr,1fr]">
+          <div className="grid gap-4 lg:grid-cols-[2fr,1fr,auto]">
             <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
               Buscar producto
               <input
                 type="search"
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
-                placeholder="Ej. leche, pupusas, combo..."
+                placeholder="Ej. pupusas, café, empanadas..."
                 className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
               />
             </label>
@@ -1062,6 +1113,18 @@ export default function AdminClient() {
                 <option value="hot">Hoy</option>
               </select>
             </label>
+            <div className="flex items-end">
+              <button
+                type="button"
+                onClick={() => {
+                  setSearchQuery("");
+                  setVisibilityFilter("all");
+                }}
+                className="w-full rounded-2xl border border-white/10 px-4 py-3 text-xs uppercase tracking-[0.2em] text-white/70"
+              >
+                Limpiar
+              </button>
+            </div>
           </div>
           <div className="grid gap-4 lg:grid-cols-2">
               {filteredProducts.length === 0 ? (
@@ -1124,7 +1187,7 @@ export default function AdminClient() {
                   <div className="mt-4 grid gap-3 md:grid-cols-2">
                     <div className="md:col-span-2 rounded-2xl border border-emerald-300/15 bg-emerald-400/10 p-3">
                       <p className="text-[11px] uppercase tracking-[0.22em] text-emerald-200/80">
-                        Atajos rápidos
+                        Atajos de hoy
                       </p>
                       <div className="mt-3 flex flex-wrap gap-2">
                         <button
@@ -1132,7 +1195,14 @@ export default function AdminClient() {
                           onClick={() => markReadyToday(product.id)}
                           className="rounded-full border border-emerald-300/30 px-3 py-2 text-xs font-semibold text-emerald-100"
                         >
-                          Marcar hoy
+                          Listo hoy
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => markFeaturedHot(product.id)}
+                          className="rounded-full border border-teal-300/30 px-3 py-2 text-xs font-semibold text-teal-100"
+                        >
+                          Empujar hoy
                         </button>
                         <button
                           type="button"
@@ -1163,11 +1233,35 @@ export default function AdminClient() {
                         >
                           {promoState.enabled ? "Quitar promo" : "Promo 10%"}
                         </button>
+                        <button
+                          type="button"
+                          onClick={() => setQuickPromoPercent(product.id, 15)}
+                          className="rounded-full border border-pink-300/30 px-3 py-2 text-xs font-semibold text-pink-100"
+                        >
+                          Promo 15%
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => clearHotState(product.id)}
+                          className="rounded-full border border-white/15 px-3 py-2 text-xs font-semibold text-white/80"
+                        >
+                          Quitar caliente
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => hideProductQuick(product.id)}
+                          className="rounded-full border border-white/15 px-3 py-2 text-xs font-semibold text-white/80"
+                        >
+                          Ocultar
+                        </button>
                       </div>
+                      <p className="mt-3 text-[11px] text-emerald-100/75">
+                        Usa estos botones para lo diario. Abre &quot;Más ajustes&quot; solo si necesitas afinar algo puntual.
+                      </p>
                     </div>
 
                     <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
-                      Estado (visible/oculto)
+                      Visibilidad
                       <select
                         value={visibility}
                         onChange={(event) =>
@@ -1238,209 +1332,209 @@ export default function AdminClient() {
                       />
                     </label>
 
-                    <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
-                      Orden catálogo
-                      <div className="flex items-center gap-2">
+                  </div>
+
+                  <details className="mt-4 rounded-2xl border border-white/10 bg-black/20 p-4">
+                    <summary className="cursor-pointer list-none text-sm font-semibold text-white">
+                      Más ajustes
+                    </summary>
+                    <div className="mt-4 grid gap-3 md:grid-cols-2">
+                      <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                        Orden catálogo
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="number"
+                            min={1}
+                            value={product.sortOrder ?? 9999}
+                            inputMode="numeric"
+                            onChange={(event) => {
+                              const nextValue = Number(event.target.value);
+                              setProducts((prev) =>
+                                prev.map((current) =>
+                                  current.id === product.id
+                                    ? {
+                                        ...current,
+                                        sortOrder: Number.isFinite(nextValue)
+                                          ? nextValue
+                                          : 9999,
+                                      }
+                                    : current
+                                )
+                              );
+                            }}
+                            onBlur={(event) =>
+                              updateSortOrder(product.id, Number(event.target.value))
+                            }
+                            className="w-full rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => moveProduct(product.id, "up")}
+                            className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                            aria-label={`Subir ${product.name}`}
+                            title="Subir"
+                          >
+                            ↑
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => moveProduct(product.id, "down")}
+                            className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                            aria-label={`Bajar ${product.name}`}
+                            title="Bajar"
+                          >
+                            ↓
+                          </button>
+                        </div>
+                      </label>
+
+                      <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                        Destacado
+                        <select
+                          value={product.isFeatured ? "si" : "no"}
+                          onChange={(event) =>
+                            updateFeatured(
+                              product.id,
+                              event.target.value === "si"
+                            )
+                          }
+                          className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                        >
+                          <option value="no">No</option>
+                          <option value="si">Si</option>
+                        </select>
+                      </label>
+
+                      <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                        Oferta
+                        <select
+                          value={promoState.enabled ? "activa" : "inactiva"}
+                          onChange={(event) =>
+                            updatePromo(
+                              product.id,
+                              event.target.value === "activa",
+                              promoState.percent
+                            )
+                          }
+                          className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                        >
+                          <option value="inactiva">Inactiva</option>
+                          <option value="activa">Activa</option>
+                        </select>
+                      </label>
+
+                      <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                        Descuento
                         <input
                           type="number"
-                          min={1}
-                          value={product.sortOrder ?? 9999}
-                          inputMode="numeric"
-                          onChange={(event) => {
-                            const nextValue = Number(event.target.value);
+                          min={0}
+                          max={90}
+                          value={promoState.percent}
+                          onChange={(event) =>
+                            updatePromo(
+                              product.id,
+                              promoState.enabled,
+                              Number(event.target.value)
+                            )
+                          }
+                          className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                        />
+                      </label>
+
+                      <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                        Estado calientes
+                        <select
+                          value={hotState.status}
+                          onChange={(event) =>
+                            updateHotStatus(
+                              product.id,
+                              event.target.value as HotStatus
+                            )
+                          }
+                          className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                        >
+                          {Object.entries(hotLabels).map(([value, label]) => (
+                            <option key={value} value={value}>
+                              {label}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+
+                      <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                        Horario
+                        <div className="flex gap-2">
+                          <input
+                            type="time"
+                            value={hotState.windowStart}
+                            onChange={(event) =>
+                              updateHotWindow(
+                                product.id,
+                                event.target.value,
+                                hotState.windowEnd
+                              )
+                            }
+                            className="w-full rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                          />
+                          <input
+                            type="time"
+                            value={hotState.windowEnd}
+                            onChange={(event) =>
+                              updateHotWindow(
+                                product.id,
+                                hotState.windowStart,
+                                event.target.value
+                              )
+                            }
+                            className="w-full rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                          />
+                        </div>
+                      </label>
+
+                      <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                        Nota del día
+                        <input
+                          type="text"
+                          value={hotState.note}
+                          onChange={(event) =>
+                            updateHotNote(product.id, event.target.value)
+                          }
+                          className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                        />
+                      </label>
+
+                      <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60 md:col-span-2">
+                        Imagen URL
+                        <input
+                          type="text"
+                          value={product.image ?? ""}
+                          onChange={(event) =>
                             setProducts((prev) =>
                               prev.map((current) =>
                                 current.id === product.id
-                                  ? {
-                                      ...current,
-                                      sortOrder: Number.isFinite(nextValue)
-                                        ? nextValue
-                                        : 9999,
-                                    }
+                                  ? { ...current, image: event.target.value }
                                   : current
                               )
-                            );
-                          }}
+                            )
+                          }
                           onBlur={(event) =>
-                            updateSortOrder(product.id, Number(event.target.value))
+                            updateImage(product.id, event.target.value)
                           }
-                          className="w-full rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => moveProduct(product.id, "up")}
                           className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
-                          aria-label={`Subir ${product.name}`}
-                          title="Subir"
-                        >
-                          ↑
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => moveProduct(product.id, "down")}
-                          className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
-                          aria-label={`Bajar ${product.name}`}
-                          title="Bajar"
-                        >
-                          ↓
-                        </button>
-                      </div>
-                      <span className="text-[11px] normal-case tracking-normal text-white/50">
-                        También puedes escribir el número exacto.
-                      </span>
-                    </label>
-
-                    <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60 md:col-span-2">
-                      Imagen URL
-                      <input
-                        type="text"
-                        value={product.image ?? ""}
-                        onChange={(event) =>
-                          setProducts((prev) =>
-                            prev.map((current) =>
-                              current.id === product.id
-                                ? { ...current, image: event.target.value }
-                                : current
-                            )
-                          )
-                        }
-                        onBlur={(event) =>
-                          updateImage(product.id, event.target.value)
-                        }
-                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
-                        placeholder="/RYSminisuper/images/... o https://..."
-                      />
-                      <span className="text-[11px] normal-case tracking-normal text-white/50">
-                        Pega una ruta local del proyecto o una URL pública.
-                      </span>
-                    </label>
-
-                    <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
-                      Destacado
-                      <select
-                        value={product.isFeatured ? "si" : "no"}
-                        onChange={(event) =>
-                          updateFeatured(
-                            product.id,
-                            event.target.value === "si"
-                          )
-                        }
-                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
-                      >
-                        <option value="no">No</option>
-                        <option value="si">Si</option>
-                      </select>
-                    </label>
-
-                    <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
-                      Oferta
-                      <select
-                        value={promoState.enabled ? "activa" : "inactiva"}
-                        onChange={(event) =>
-                          updatePromo(
-                            product.id,
-                            event.target.value === "activa",
-                            promoState.percent
-                          )
-                        }
-                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
-                      >
-                        <option value="inactiva">Inactiva</option>
-                        <option value="activa">Activa</option>
-                      </select>
-                    </label>
-
-                    <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
-                      Descuento
-                      <input
-                        type="number"
-                        min={0}
-                        max={90}
-                        value={promoState.percent}
-                        onChange={(event) =>
-                          updatePromo(
-                            product.id,
-                            promoState.enabled,
-                            Number(event.target.value)
-                          )
-                        }
-                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
-                      />
-                    </label>
-                  </div>
-
-                  <div className="mt-4 grid gap-3 md:grid-cols-2">
-                    <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
-                      Estado calientes
-                      <select
-                        value={hotState.status}
-                        onChange={(event) =>
-                          updateHotStatus(
-                            product.id,
-                            event.target.value as HotStatus
-                          )
-                        }
-                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
-                      >
-                        {Object.entries(hotLabels).map(([value, label]) => (
-                          <option key={value} value={value}>
-                            {label}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-
-                    <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
-                      Horario
-                      <div className="flex gap-2">
-                        <input
-                          type="time"
-                          value={hotState.windowStart}
-                          onChange={(event) =>
-                            updateHotWindow(
-                              product.id,
-                              event.target.value,
-                              hotState.windowEnd
-                            )
-                          }
-                          className="w-full rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                          placeholder="/RYSminisuper/images/... o https://..."
                         />
-                        <input
-                          type="time"
-                          value={hotState.windowEnd}
-                          onChange={(event) =>
-                            updateHotWindow(
-                              product.id,
-                              hotState.windowStart,
-                              event.target.value
-                            )
-                          }
-                          className="w-full rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
-                        />
-                      </div>
-                    </label>
+                      </label>
 
-                    <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
-                      Nota del dia
-                      <input
-                        type="text"
-                        value={hotState.note}
-                        onChange={(event) =>
-                          updateHotNote(product.id, event.target.value)
-                        }
-                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
-                      />
-                    </label>
-
-                    <div className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
-                      Ultima actualizacion
-                      <div className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white/70">
-                        {hotState.updatedAt
-                          ? new Date(hotState.updatedAt).toLocaleString()
-                          : "-"}
+                      <div className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                        Última actualización
+                        <div className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white/70">
+                          {hotState.updatedAt
+                            ? new Date(hotState.updatedAt).toLocaleString()
+                            : "-"}
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </details>
                 </div>
               );
             })}

@@ -17,9 +17,9 @@ export type MoCombo = {
 export const MO_COMBOS: MoCombo[] = [
   {
     id: "pupusas_coca",
-    title: "Pupusas + Coca-Cola",
-    description: "El combo más obvio para salida rápida y antojo local.",
-    badge: "Alta salida",
+    title: "Antojo caliente",
+    description: "Pupusas con Coca-Cola para quitarte el antojo sin hacer otra vuelta.",
+    badge: "Sale rápido",
     items: [
       { productId: "mo-pupusas", qty: 1 },
       { productId: "mo-coca-cola-600ml", qty: 1 },
@@ -27,8 +27,8 @@ export const MO_COMBOS: MoCombo[] = [
   },
   {
     id: "cafe_pan_dulce",
-    title: "Café + pan dulce",
-    description: "Desayuno o merienda rápida, simple y con buena salida.",
+    title: "Café y pan",
+    description: "Desayuno resuelto o merienda rápida para pasar retirando sin cola.",
     badge: "Desayuno",
     items: [
       { productId: "mo-cafe-servido", qty: 1 },
@@ -37,8 +37,8 @@ export const MO_COMBOS: MoCombo[] = [
   },
   {
     id: "snack_coca",
-    title: "Snack + Coca-Cola",
-    description: "Boquita rápida para antojo, visita o salida corta.",
+    title: "Merienda sin vueltas",
+    description: "Boquita con Coca-Cola para visita, tarde larga o salida rápida.",
     badge: "Boquita",
     items: [
       { productId: "mo-tortillitas-limon", qty: 1 },
@@ -47,9 +47,9 @@ export const MO_COMBOS: MoCombo[] = [
   },
   {
     id: "antojito_bebida",
-    title: "Antojito + bebida",
-    description: "Empanadas y Coca-Cola personal para resolver sin pensarlo mucho.",
-    badge: "Rápido",
+    title: "Algo rápido para hoy",
+    description: "Empanadas con bebida para resolver antojo y seguir el día sin complicarte.",
+    badge: "Hoy",
     items: [
       { productId: "mo-empanadas", qty: 1 },
       { productId: "mo-coca-cola-600ml", qty: 1 },
@@ -57,9 +57,9 @@ export const MO_COMBOS: MoCombo[] = [
   },
   {
     id: "basico_casa",
-    title: "Básico casa",
-    description: "Lo esencial para la casa, sin pensar mucho.",
-    badge: "Hogar",
+    title: "Para no salir dos veces",
+    description: "Arroz, frijoles, aceite y sal para resolver lo básico de la casa de una vez.",
+    badge: "Casa",
     items: [
       { productId: "mo-arroz-1kg", qty: 1 },
       { productId: "mo-frijoles", qty: 1 },

@@ -10,6 +10,7 @@ type MoSectionsProps = {
   onTabChange: (next: TabId) => void;
   query: string;
   onScrollToSpecial: () => void;
+  onClearQuery: () => void;
 };
 
 export default function MoSections({
@@ -18,6 +19,7 @@ export default function MoSections({
   onTabChange,
   query,
   onScrollToSpecial,
+  onClearQuery,
 }: MoSectionsProps) {
   return (
     <section className="space-y-10">
@@ -63,6 +65,7 @@ export default function MoSections({
         onTabChange={onTabChange}
         query={query}
         onScrollToSpecial={onScrollToSpecial}
+        onClearQuery={onClearQuery}
       />
 
       <section className="grid gap-4 rounded-3xl border border-default bg-surface px-6 py-8 shadow-sm dark:bg-[var(--surface-2)] dark:shadow-[0_18px_40px_rgba(3,8,16,0.2)] sm:grid-cols-3 sm:px-8">

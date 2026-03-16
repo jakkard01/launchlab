@@ -81,6 +81,7 @@ export default function MoStorefront({
   );
 
   const readyProducts = catalog.length;
+  const isSearchMode = query.trim().length > 0;
 
   const handleAnchorScroll = useCallback(
     (event: MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -109,51 +110,86 @@ export default function MoStorefront({
           Cargando catálogo...
         </div>
       ) : null}
-      <MoHero ctaLink={ctaLink} />
-      <section className="grid gap-3 rounded-3xl border border-default bg-surface px-4 py-4 shadow-sm dark:bg-[var(--surface-2)] dark:shadow-[0_18px_40px_rgba(3,8,16,0.22)] sm:grid-cols-[1.2fr,1fr,1fr] sm:px-6">
-        <div>
-          <p className="text-xs uppercase tracking-[0.24em] text-[var(--accent)]">
-            Resumen rápido
-          </p>
-          <p className="mt-2 text-sm font-semibold text-main">
-            {readyProducts} productos visibles para retiro
-          </p>
-          <p className="mt-1 text-xs text-muted-strong">
-            Compra rápida, confirmación por WhatsApp y retiro local.
-          </p>
-        </div>
-        <a
-          href="#catalogo-hot"
-          onClick={(event) => {
-            handleJumpToTab("hot");
-            handleAnchorScroll(event, "catalogo-hot");
-          }}
-          className="rounded-2xl border border-default bg-surface-3 px-4 py-3 text-left text-sm font-semibold text-main transition hover:border-[var(--accent)]/45 hover:text-[var(--accent)]"
-        >
-          Ver lo que más sale hoy
-        </a>
-        <a
-          href="#pedido-especial"
-          onClick={(event) => handleAnchorScroll(event, "pedido-especial")}
-          className="rounded-2xl border border-default bg-surface-3 px-4 py-3 text-left text-sm font-semibold text-main transition hover:border-[var(--accent)]/45 hover:text-[var(--accent)]"
-        >
-          Pedir algo que no veo
-        </a>
-      </section>
-      <MoCombos products={catalog} />
-      <MoPromos products={catalog} />
-      <MoQuickShop
-        products={catalog}
-        activeTab={activeTab}
-        onJumpToTab={handleJumpToTab}
-        onScrollToSpecial={() => scrollToId("pedido-especial")}
-      />
+      {isSearchMode ? (
+        <section className="grid gap-3 rounded-3xl border border-[var(--accent)]/25 bg-[color-mix(in_srgb,var(--accent)_8%,var(--surface))] px-4 py-4 shadow-sm dark:bg-[color-mix(in_srgb,var(--accent)_8%,var(--surface-2))] sm:grid-cols-[1.4fr,1fr] sm:px-6">
+          <div>
+            <p className="text-xs uppercase tracking-[0.24em] text-[var(--accent)]">
+              Modo búsqueda
+            </p>
+            <p className="mt-2 text-sm font-semibold text-main">
+              Resultados para &quot;{query.trim()}&quot;
+            </p>
+            <p className="mt-1 text-xs text-muted-strong">
+              Te mostramos solo lo que coincide para que encuentres rápido si hay pupusas, café, empanadas u otro básico.
+            </p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <button
+              type="button"
+              onClick={() => setQuery("")}
+              className="rounded-2xl border border-default bg-surface-3 px-4 py-3 text-left text-sm font-semibold text-main transition hover:border-[var(--accent)]/45 hover:text-[var(--accent)]"
+            >
+              Limpiar y volver
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollToId("pedido-especial")}
+              className="rounded-2xl border border-default bg-surface-3 px-4 py-3 text-left text-sm font-semibold text-main transition hover:border-[var(--accent)]/45 hover:text-[var(--accent)]"
+            >
+              Si no lo ves, pídelo
+            </button>
+          </div>
+        </section>
+      ) : (
+        <>
+          <MoHero ctaLink={ctaLink} />
+          <section className="grid gap-3 rounded-3xl border border-default bg-surface px-4 py-4 shadow-sm dark:bg-[var(--surface-2)] dark:shadow-[0_18px_40px_rgba(3,8,16,0.22)] sm:grid-cols-[1.2fr,1fr,1fr] sm:px-6">
+            <div>
+              <p className="text-xs uppercase tracking-[0.24em] text-[var(--accent)]">
+                Resumen rápido
+              </p>
+              <p className="mt-2 text-sm font-semibold text-main">
+                {readyProducts} productos visibles para retiro
+              </p>
+              <p className="mt-1 text-xs text-muted-strong">
+                Compra rápida, confirmación por WhatsApp y retiro local.
+              </p>
+            </div>
+            <a
+              href="#catalogo-hot"
+              onClick={(event) => {
+                handleJumpToTab("hot");
+                handleAnchorScroll(event, "catalogo-hot");
+              }}
+              className="rounded-2xl border border-default bg-surface-3 px-4 py-3 text-left text-sm font-semibold text-main transition hover:border-[var(--accent)]/45 hover:text-[var(--accent)]"
+            >
+              Ver lo que más sale hoy
+            </a>
+            <a
+              href="#pedido-especial"
+              onClick={(event) => handleAnchorScroll(event, "pedido-especial")}
+              className="rounded-2xl border border-default bg-surface-3 px-4 py-3 text-left text-sm font-semibold text-main transition hover:border-[var(--accent)]/45 hover:text-[var(--accent)]"
+            >
+              Pedir algo que no veo
+            </a>
+          </section>
+          <MoCombos products={catalog} />
+          <MoPromos products={catalog} />
+          <MoQuickShop
+            products={catalog}
+            activeTab={activeTab}
+            onJumpToTab={handleJumpToTab}
+            onScrollToSpecial={() => scrollToId("pedido-especial")}
+          />
+        </>
+      )}
       <MoSections
         products={catalog}
         activeTab={activeTab}
         onTabChange={handleJumpToTab}
         query={query}
         onScrollToSpecial={() => scrollToId("pedido-especial")}
+        onClearQuery={() => setQuery("")}
       />
     </div>
   );

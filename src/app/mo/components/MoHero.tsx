@@ -12,7 +12,7 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
     <section className="space-y-4">
       <div className="flex min-h-[44px] items-center justify-center rounded-2xl border border-default bg-surface-2 px-4 py-2 text-center text-xs text-main shadow-sm sm:justify-between sm:text-sm">
         <span className="text-main">
-          Desayuno, boquita o compra rápida: pides por WhatsApp, te confirmamos y pasas a retirar.
+          Café caliente, antojo o compra rápida: pides por WhatsApp, te confirmamos y pasas a retirar.
         </span>
         <span className="hidden text-muted-strong sm:inline">
           La Gloria • {MO_STORE_HOURS_LABEL}
@@ -53,7 +53,7 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
               <p className="text-xs uppercase tracking-[0.22em] text-[var(--accent)]">
                 Compra rápida
               </p>
-              <p className="mt-1 text-muted-strong">Pan dulce, café, boquitas y básicos de casa listos para resolverte el día.</p>
+              <p className="mt-1 text-muted-strong">Pan dulce, café caliente, boquitas y básicos de casa listos para sacarte del apuro.</p>
             </div>
             <div className="rounded-2xl border border-default bg-surface-3 px-4 py-3 shadow-sm dark:shadow-[0_10px_30px_rgba(3,8,16,0.18)]">
               <p className="text-xs uppercase tracking-[0.22em] text-[var(--accent)]">
@@ -65,7 +65,7 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
               <p className="text-xs uppercase tracking-[0.22em] text-[var(--accent)]">
                 Ideal para hoy
               </p>
-              <p className="mt-1 text-muted-strong">Perfecto para desayuno, merienda, cena rápida o reponer lo básico sin perder tiempo.</p>
+              <p className="mt-1 text-muted-strong">Perfecto para desayuno, merienda, antojo caliente o para evitar la cola del súper.</p>
             </div>
           </div>
           <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -100,7 +100,7 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
             <p className="mt-1 text-muted-strong">Horario: {MO_STORE_HOURS_LABEL}</p>
             <p className="mt-1 text-muted-strong">Pagos: efectivo, transferencia o Tigo Money.</p>
             <p className="mt-1 text-muted-strong">Si algo no aparece en catálogo, pídelo por WhatsApp y te confirmamos si lo tenemos hoy.</p>
-            <p className="mt-1 text-muted-strong">Ideal para resolver antojo, básicos de casa o un combo rápido antes de pasar.</p>
+            <p className="mt-1 text-muted-strong">Ideal para resolver antojo, café caliente, básicos de casa o un combo rápido sin hacer cola.</p>
           </div>
           <div className="mt-5 grid gap-2 text-xs text-muted-strong sm:grid-cols-3">
             <span>✅ Confirmamos antes de que salgas</span>

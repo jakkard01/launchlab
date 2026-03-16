@@ -32,6 +32,7 @@ type CatalogSectionProps = {
   onTabChange: (next: TabId) => void;
   query: string;
   onScrollToSpecial?: () => void;
+  onClearQuery?: () => void;
 };
 
 export default function CatalogSection({
@@ -40,6 +41,7 @@ export default function CatalogSection({
   onTabChange,
   query,
   onScrollToSpecial,
+  onClearQuery,
 }: CatalogSectionProps) {
   const activeLabel = TABS.find((tab) => tab.id === activeTab)?.label ?? "Todo";
   const [expandedTab, setExpandedTab] = useState<TabId | null>(null);
@@ -64,69 +66,85 @@ export default function CatalogSection({
     <section id="catalogo" className="space-y-6">
       <div className="flex flex-col gap-3">
         <h2 className="text-lg font-semibold text-main">
-          Catálogo completo
+          {queryFilter ? "Resultados de búsqueda" : "Catálogo completo"}
         </h2>
         <p className="text-sm text-muted">
-          Revisa qué hay hoy, arma tu pedido y confirma por WhatsApp antes de pasar.
+          {queryFilter
+            ? "Aquí solo ves coincidencias para comprar más rápido. Si no aparece, pídelo por WhatsApp."
+            : "Revisa qué hay hoy, arma tu pedido y confirma por WhatsApp antes de pasar."}
         </p>
         <div className="flex flex-wrap gap-2 text-xs text-muted">
-          <span className="rounded-full border border-default px-3 py-1">
-            Categoría: {activeLabel}
-          </span>
-          {query.trim().length > 0 ? (
+          {!queryFilter ? (
             <span className="rounded-full border border-default px-3 py-1">
-              Búsqueda: {query.trim()}
+              Categoría: {activeLabel}
             </span>
           ) : null}
-          <button
-            type="button"
-            onClick={() => onTabChange("hot")}
-            className="rounded-full border border-default px-3 py-1 text-xs font-semibold text-main transition hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
-          >
-            Ver caliente hoy
-          </button>
+          {query.trim().length > 0 ? (
+            <span className="rounded-full border border-default px-3 py-1">
+              Buscando: {query.trim()}
+            </span>
+          ) : null}
+          {queryFilter ? (
+            <button
+              type="button"
+              onClick={onClearQuery}
+              className="rounded-full border border-default px-3 py-1 text-xs font-semibold text-main transition hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
+            >
+              Limpiar búsqueda
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => onTabChange("hot")}
+              className="rounded-full border border-default px-3 py-1 text-xs font-semibold text-main transition hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
+            >
+              Ver caliente hoy
+            </button>
+          )}
         </div>
       </div>
 
-      <div className="sticky top-28 z-30 overflow-hidden rounded-2xl border border-default bg-[color-mix(in_srgb,var(--surface)_96%,transparent)] px-4 py-3 backdrop-blur sm:top-24 sm:px-6">
-        <div className="no-scrollbar flex gap-2 overflow-x-auto">
-          {TABS.map((tab) => {
-            const isActive = tab.id === activeTab;
-            const iconSrc = resolveCategoryIcon(tab.id);
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => onTabChange(tab.id)}
-                className={`whitespace-nowrap rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/50 ${
-                  isActive
-                    ? "border-[var(--accent)]/60 bg-[var(--accent)] text-[var(--surface)]"
-                    : "border-default bg-[var(--surface)] text-main hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
-                }`}
-                aria-pressed={isActive}
-              >
-                <span className="flex items-center gap-2">
-                  {iconSrc ? (
-                    <span className="flex h-5 w-5 items-center justify-center overflow-hidden rounded-full border border-default bg-[var(--surface)]">
-                      <Image
-                        src={iconSrc}
-                        alt=""
-                        aria-hidden="true"
-                        width={20}
-                        height={20}
-                        className="h-5 w-5 object-cover"
-                      />
-                    </span>
-                  ) : ("icon" in tab && tab.icon) ? (
-                    <span aria-hidden="true">{tab.icon}</span>
-                  ) : null}
-                  <span>{tab.label}</span>
-                </span>
-              </button>
-            );
-          })}
+      {!queryFilter ? (
+        <div className="sticky top-28 z-30 overflow-hidden rounded-2xl border border-default bg-[color-mix(in_srgb,var(--surface)_96%,transparent)] px-4 py-3 backdrop-blur sm:top-24 sm:px-6">
+          <div className="no-scrollbar flex gap-2 overflow-x-auto">
+            {TABS.map((tab) => {
+              const isActive = tab.id === activeTab;
+              const iconSrc = resolveCategoryIcon(tab.id);
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => onTabChange(tab.id)}
+                  className={`whitespace-nowrap rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/50 ${
+                    isActive
+                      ? "border-[var(--accent)]/60 bg-[var(--accent)] text-[var(--surface)]"
+                      : "border-default bg-[var(--surface)] text-main hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
+                  }`}
+                  aria-pressed={isActive}
+                >
+                  <span className="flex items-center gap-2">
+                    {iconSrc ? (
+                      <span className="flex h-5 w-5 items-center justify-center overflow-hidden rounded-full border border-default bg-[var(--surface)]">
+                        <Image
+                          src={iconSrc}
+                          alt=""
+                          aria-hidden="true"
+                          width={20}
+                          height={20}
+                          className="h-5 w-5 object-cover"
+                        />
+                      </span>
+                    ) : ("icon" in tab && tab.icon) ? (
+                      <span aria-hidden="true">{tab.icon}</span>
+                    ) : null}
+                    <span>{tab.label}</span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      ) : null}
 
       <style jsx>{`
         .no-scrollbar {
@@ -141,13 +159,33 @@ export default function CatalogSection({
 
       {queryFilter ? (
         <section className="space-y-4">
-          <div className="flex items-center justify-between gap-3">
-            <h3 className="text-sm font-semibold text-main">
-              Resultados para &quot;{queryFilter}&quot;
-            </h3>
-            <span className="text-xs text-muted-strong">
-              {searchResults.length} encontrados
-            </span>
+          <div className="grid gap-3 rounded-3xl border border-default bg-surface px-4 py-4 shadow-sm sm:grid-cols-[1.3fr,1fr]">
+            <div>
+              <h3 className="text-sm font-semibold text-main">
+                Resultados para &quot;{queryFilter}&quot;
+              </h3>
+              <p className="mt-1 text-sm text-muted-strong">
+                {searchResults.length > 0
+                  ? `Encontramos ${searchResults.length} producto${searchResults.length === 1 ? "" : "s"} para ayudarte a comprar más rápido.`
+                  : "No encontramos coincidencias directas en catálogo ahora mismo."}
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2 sm:justify-end">
+              <button
+                type="button"
+                onClick={onClearQuery}
+                className="rounded-full border border-default px-4 py-2 text-xs font-semibold text-main transition hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
+              >
+                Volver al catálogo
+              </button>
+              <button
+                type="button"
+                onClick={onScrollToSpecial}
+                className="rounded-full border border-[var(--accent)]/40 px-4 py-2 text-xs font-semibold text-[var(--accent)] transition hover:border-[var(--accent)]/60 hover:text-[var(--accent)]/80"
+              >
+                Si no lo ves, pídelo
+              </button>
+            </div>
           </div>
           {searchResults.length > 0 ? (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -161,7 +199,7 @@ export default function CatalogSection({
                 No encontramos eso en catálogo ahora mismo.
               </p>
               <p className="mt-2 text-sm text-muted-strong">
-                Prueba con otra palabra, revisa por categoría o pídelo directo por WhatsApp.
+                Prueba con otra palabra, vuelve al catálogo o pídelo directo por WhatsApp y te confirmamos antes de salir.
               </p>
               <button
                 type="button"
