@@ -1440,3 +1440,72 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
 - browser QA automatizado real de búsqueda/admin móvil para validar taps/teclado/transiciones visuales;
 - upgrade visual de fotos prioritarias ya identificado en la nota anterior;
 - si en producción aparece una fricción real nueva de operadora, el siguiente microbloque debería salir del uso diario, no de intuición estética.
+
+## 2026-03-16 - RYS Parte 2 de 3: admin móvil-first por bloques
+
+### Qué problema real se atacó
+- El admin ya tenía auth/roles/guardrails, pero seguía sintiéndose como una sábana larga:
+  - demasiados controles juntos;
+  - poca jerarquía;
+  - poca separación entre lo diario, lo comercial y lo fino;
+  - operator/viewer seguían heredando demasiada complejidad visual.
+
+### Qué se cambió
+- `AdminClient` se reestructura en navegación por bloques:
+  - `Resumen`
+  - `Operación`
+  - `Catálogo`
+  - `Promos`
+  - `Más ajustes`
+- La ficha de producto deja más clara la lectura rápida:
+  - categoría;
+  - precio final;
+  - resumen de estado;
+  - guardado;
+  - bloques separados por intención.
+- Se separa visualmente:
+  - `Hoy` = atajos diarios;
+  - `Datos básicos` = visibilidad, stock, precio, promo rápida;
+  - `Marketing` = etiquetas/impulso;
+  - `Más ajustes` = categoría, orden, imagen, horarios y campos menos usados.
+- La búsqueda admin ahora rankea mejor cuando hay query y se mantiene útil por:
+  - nombre;
+  - categoría;
+  - etiquetas;
+  - aliases ya existentes.
+- La venta manual deja de sentirse como botón ambiguo:
+  - añade método de pago;
+  - añade nota corta;
+  - mantiene feedback visible.
+
+### Qué se escondió por rol
+- `viewer`:
+  - lectura del estado, precio final y señales del producto;
+  - sin edición.
+- `operator`:
+  - foco en operación diaria, promos rápidas y cambios básicos;
+  - sin export/import ni bloque avanzado.
+- `admin` / `owner`:
+  - acceso a `Más ajustes`;
+  - backup y controles más finos.
+- `owner`:
+  - acceso visible a `Seguridad`.
+
+### Principios UX aplicados
+- primero operación diaria;
+- luego marketing rápido;
+- luego ajustes finos;
+- menos scroll percibido;
+- menos carga mental por producto;
+- si no es tarea de hoy, va a `Más ajustes`.
+
+### Validación real del bloque
+- `npm run lint` OK.
+- `next build` compila y pasa lint/typecheck interno, pero en este entorno local está saliendo con código `1` sin mensaje final; queda registrado como anomalía de build local a revisar si vuelve a aparecer.
+- El bloque no tocó backend de storefront ni Sheets.
+
+### Qué queda para la Parte 3
+- polish premium final del admin/storefront público;
+- mejoras visuales/comerciales finales;
+- food porn / catálogo más vendible;
+- validación táctil real más profunda en móvil si aparece una fricción nueva de uso.
