@@ -32,8 +32,11 @@ export default function MoPromos({ products }: MoPromosProps) {
           Promos de hoy
         </p>
         <h2 className="mt-2 text-lg font-semibold text-main">
-          Para probar y para resolver hoy
+          Para antojar y mover pedido rápido
         </h2>
+        <p className="mt-2 text-sm text-muted-strong">
+          Usa estas promos para salir con café, boquitas o básicos ya confirmados.
+        </p>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">

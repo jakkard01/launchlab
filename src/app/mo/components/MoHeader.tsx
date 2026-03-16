@@ -32,7 +32,7 @@ export default function MoHeader({
             </div>
             <p className="text-xs text-muted-strong">La Gloria, San Salvador</p>
             <p className="mt-1 text-[11px] text-muted">
-              Retiro local con confirmación por WhatsApp antes de salir.
+              Compra rápida para retiro fácil, con confirmación antes de salir.
             </p>
           </div>
           <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center sm:justify-end">
@@ -44,7 +44,7 @@ export default function MoHeader({
               target="_blank"
               rel="noopener noreferrer"
             >
-              Pedir por WhatsApp
+              Pedir y confirmar
             </a>
             {hasAdminSession ? (
               <a
@@ -80,12 +80,15 @@ export default function MoHeader({
             <span className="rounded-full border border-default bg-[color-mix(in_srgb,var(--surface-2)_55%,transparent)] px-3 py-1 text-muted-strong">
               Retiro en La Gloria
             </span>
+            <span className="rounded-full border border-default bg-[color-mix(in_srgb,var(--surface-2)_55%,transparent)] px-3 py-1 text-muted-strong">
+              Te confirmamos antes de salir
+            </span>
             <button
               type="button"
               onClick={onScrollToSpecial}
               className="rounded-full border border-default bg-[color-mix(in_srgb,var(--surface-2)_55%,transparent)] px-3 py-1 font-semibold text-main transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
             >
-              No veo lo que busco
+              Si no lo ves, pídelo
             </button>
           </div>
         </div>

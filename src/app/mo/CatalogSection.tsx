@@ -67,7 +67,7 @@ export default function CatalogSection({
           Catálogo completo
         </h2>
         <p className="text-sm text-muted">
-          Revisa disponibilidad y arma tu pedido para retiro.
+          Revisa qué hay hoy, arma tu pedido y confirma por WhatsApp antes de pasar.
         </p>
         <div className="flex flex-wrap gap-2 text-xs text-muted">
           <span className="rounded-full border border-default px-3 py-1">
@@ -83,7 +83,7 @@ export default function CatalogSection({
             onClick={() => onTabChange("hot")}
             className="rounded-full border border-default px-3 py-1 text-xs font-semibold text-main transition hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
           >
-            Ver Caliente hoy
+            Ver caliente hoy
           </button>
         </div>
       </div>
@@ -199,7 +199,7 @@ export default function CatalogSection({
                   }
                   className="text-xs font-semibold text-[var(--accent)] transition hover:text-[var(--accent)]/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/50"
                 >
-                  {isExpanded ? "Ver menos" : "Ver todo"}
+                  {isExpanded ? "Ver menos" : "Ver más"}
                 </button>
               </div>
               {items.length === 0 ? (

@@ -32,14 +32,14 @@ const CATEGORY_ICON_BY_ID = {
 } as const;
 
 const CATEGORY_HINT_BY_ID = {
-  caliente_hoy: "Recien hecho",
-  combos: "Ahorra en packs",
+  caliente_hoy: "Listo para hoy",
+  combos: "Resuelve en 1 click",
   lacteos: "Leche y queso",
-  bebidas: "Frias y listas",
-  abarrotes: "Lo basico",
-  snacks: "Para picar",
+  bebidas: "Frías y listas",
+  abarrotes: "Lo básico",
+  snacks: "Boquitas y antojo",
   ofertas: "Precio especial",
-  pedido_especial: "Te lo conseguimos",
+  pedido_especial: "Si no lo ves, pídelo",
 } as const;
 
 type CategoryIconId = keyof typeof CATEGORY_ICON_BY_ID;
@@ -149,7 +149,7 @@ export default function MoQuickShop({
           Pedido rápido
         </p>
         <h2 className="mt-2 text-lg font-semibold text-main">
-          Entra por categoría y resuelve más rápido
+          Entra por categoría y resuelve en segundos
         </h2>
       </div>
 
@@ -251,7 +251,7 @@ export default function MoQuickShop({
           </div>
         ) : (
           <div className="rounded-2xl border border-dashed border-default bg-surface px-4 py-5 text-sm text-muted-strong">
-            Hoy no hay calientes confirmados. Escríbenos por WhatsApp si quieres consultar antojitos.
+            Hoy no hay calientes confirmados. Escríbenos por WhatsApp si quieres consultar qué salió fresco.
           </div>
         )}
       </div>
@@ -261,7 +261,7 @@ export default function MoQuickShop({
           <h3 className="text-sm font-semibold text-main">
             Combos y packs
           </h3>
-          <span className="text-xs text-muted-strong">Para salir del paso</span>
+          <span className="text-xs text-muted-strong">Para resolver rápido</span>
         </div>
         {combos.length > 0 ? (
           <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
@@ -286,9 +286,9 @@ export default function MoQuickShop({
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-semibold text-main">
-            Antojitos de hoy
+            Antojitos y boquitas
           </h3>
-          <span className="text-xs text-[var(--accent)]">Pide hoy</span>
+          <span className="text-xs text-[var(--accent)]">Café, pan dulce y antojo</span>
         </div>
         {antojitos.length > 0 ? (
           <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
@@ -313,9 +313,9 @@ export default function MoQuickShop({
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-semibold text-main">
-            Ofertas rápidas
+            Promos de hoy
           </h3>
-          <span className="text-xs text-muted-strong">Descuentos del día</span>
+          <span className="text-xs text-muted-strong">Descuentos para mover rápido</span>
         </div>
         {promoProducts.length > 0 ? (
           <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
@@ -342,7 +342,7 @@ export default function MoQuickShop({
           <h3 className="text-sm font-semibold text-main">
             Destacados del local
           </h3>
-          <span className="text-xs text-muted-strong">Selección visible y confiable</span>
+          <span className="text-xs text-muted-strong">Lo que más ayuda a resolver la compra</span>
         </div>
         <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
           {featured.length > 0 ? (

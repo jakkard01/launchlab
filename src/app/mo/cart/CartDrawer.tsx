@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { buildOrderWhatsAppLink } from "../../../lib/mo/whatsapp";
+import { formatPriceLabel } from "../../../lib/mo/pricing";
 import QuantityStepper from "./QuantityStepper";
 import { useCart } from "./CartContext";
 
@@ -62,7 +63,7 @@ export default function CartDrawer({
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-[rgba(11,18,32,0.55)] px-0 pb-[calc(env(safe-area-inset-bottom)+16px)] pt-6 backdrop-blur-sm sm:items-center sm:px-4 sm:pb-6 sm:pt-10">
       <div className="w-full max-h-[calc(100dvh-16px)] overflow-y-auto rounded-t-3xl border border-default bg-surface p-6 pb-[calc(env(safe-area-inset-bottom)+24px)] text-main shadow-2xl motion-safe:animate-[sheet-up_240ms_ease-out] sm:max-h-[calc(100dvh-80px)] sm:max-w-lg sm:rounded-3xl sm:p-8">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-main">Tu pedido</h2>
+          <h2 className="text-lg font-semibold text-main">Tu pedido para retiro</h2>
           <button
             type="button"
             onClick={onClose}
@@ -75,7 +76,7 @@ export default function CartDrawer({
 
         {items.length === 0 ? (
           <p className="mt-6 text-sm text-muted">
-            Aún no agregas nada. Toca &quot;Agregar&quot; para armar tu pedido.
+            Aún no agregas nada. Agrega productos y te confirmamos antes de que salgas.
           </p>
         ) : (
           <div className="mt-6 space-y-4">
@@ -91,7 +92,7 @@ export default function CartDrawer({
                     </p>
                     {item.price ? (
                       <p className="mt-1 text-xs text-main">
-                        {item.price}
+                        {formatPriceLabel(item.price)}
                       </p>
                     ) : null}
                   </div>
@@ -180,7 +181,7 @@ export default function CartDrawer({
                   className="text-xs font-semibold text-main"
                   htmlFor="pickup-window"
                 >
-                  Ventana de retiro (Caliente hoy)
+                  Ventana de retiro si pides caliente hoy
                 </label>
                 <select
                   id="pickup-window"
@@ -209,13 +210,13 @@ export default function CartDrawer({
               aria-label="Completar pedido en WhatsApp"
               onClick={handleSubmit}
             >
-              Completar pedido en WhatsApp
+              Confirmar pedido por WhatsApp
             </a>
             {orderMessage ? (
               <p className="text-xs text-[var(--accent)]">{orderMessage}</p>
             ) : null}
             <div className="flex items-center justify-between text-xs text-muted">
-              <span>Retiro</span>
+              <span>Te confirmamos total y retiro antes de salir</span>
               <button
                 type="button"
                 onClick={clearCart}

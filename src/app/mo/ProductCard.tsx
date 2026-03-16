@@ -4,7 +4,11 @@ import Image from "next/image";
 import { useState } from "react";
 import type { Product } from "../../lib/mo/types";
 import type { StockStatus } from "../../lib/mo/data/types";
-import { getEffectivePrice, getPromoLabel } from "../../lib/mo/pricing";
+import {
+  formatPriceLabel,
+  getEffectivePrice,
+  getPromoLabel,
+} from "../../lib/mo/pricing";
 import { buildWhatsAppMessageLink } from "../../lib/mo/whatsapp";
 import QuantityStepper from "./cart/QuantityStepper";
 import { useCart } from "./cart/CartContext";
@@ -119,6 +123,7 @@ export default function ProductCard({
     : justAdded
       ? "Agregado ✓"
       : "Agregar";
+  const displayPrice = formatPriceLabel(product.price);
 
   const handleAdd = () => {
     if (isOutOfStock) return;
@@ -179,16 +184,16 @@ export default function ProductCard({
       </div>
       <div className="mt-2 flex items-center justify-between">
         {promoLabel ? (
-          <span className="rounded-full border border-default bg-surface-3 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-muted-strong">
+          <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-emerald-700">
             {promoLabel}
           </span>
         ) : product.isFeatured ? (
           <span className="rounded-full border border-default bg-surface-3 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-muted-strong">
-            Destacado
+            Sale rápido
           </span>
         ) : null}
       </div>
-      <p className="mt-2 text-sm text-muted-strong truncate">
+      <p className="mt-2 text-sm text-muted-strong">
         {product.description}
       </p>
       <div className="mt-3">
@@ -200,7 +205,7 @@ export default function ProductCard({
         <div>
           {promoLabel ? (
             <span className="text-xs text-muted-strong line-through">
-              {product.price}
+              {displayPrice}
             </span>
           ) : null}
           <p className="text-xl font-semibold text-main">

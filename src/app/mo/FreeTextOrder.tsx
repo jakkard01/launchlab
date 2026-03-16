@@ -23,13 +23,13 @@ export default function FreeTextOrder() {
           Pedido especial
         </p>
         <h2 className="text-lg font-semibold text-main">
-          ¿No ves algo en catálogo?
+          Si no lo ves, pídelo aquí
         </h2>
         <p className="text-sm text-muted-strong">
-          Escríbenos qué necesitas y te confirmamos si lo tenemos o si lo podemos conseguir para retiro.
+          Escríbenos qué necesitas y te confirmamos si lo tenemos hoy o si lo podemos preparar para retiro.
         </p>
         <div className="mt-1 flex flex-wrap gap-2 text-[11px] text-main">
-          {["Canasta básica", "Bebidas", "Algo que no viste"].map((hint) => (
+          {["Canasta básica", "Bebidas frías", "Algo que no viste"].map((hint) => (
             <span
               key={hint}
               className="rounded-full border border-[var(--accent)]/20 bg-surface-3 px-3 py-1 font-semibold"
@@ -80,7 +80,7 @@ export default function FreeTextOrder() {
           rel="noopener noreferrer"
           aria-label="Pedir algo que no está en el catálogo por WhatsApp"
         >
-          Pedir esto por WhatsApp
+          Consultar esto por WhatsApp
         </a>
         <p className="text-xs text-muted-strong">
           Te respondemos con disponibilidad, total estimado y tiempo de retiro.

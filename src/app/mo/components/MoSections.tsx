@@ -30,7 +30,7 @@ export default function MoSections({
             Local de barrio en La Gloria
           </p>
           <p className="mt-1 text-xs text-muted-strong">
-            No es envío masivo ni ecommerce complicado. Pides directo y retiras.
+            Compra directa, retiro fácil y trato real por WhatsApp.
           </p>
         </div>
         <div className="rounded-2xl border border-default bg-surface-3 px-4 py-4">
@@ -41,7 +41,7 @@ export default function MoSections({
             Confirmación por WhatsApp
           </p>
           <p className="mt-1 text-xs text-muted-strong">
-            Te decimos si está disponible antes de que salgas.
+            Te confirmamos disponibilidad, total y retiro antes de que salgas.
           </p>
         </div>
         <div className="rounded-2xl border border-default bg-surface-3 px-4 py-4">
@@ -71,7 +71,7 @@ export default function MoSections({
             Cómo pedir
           </p>
           <p className="mt-2 text-sm text-muted-strong">
-            Lo resolvés en tres pasos cortos.
+            Lo resuelves en tres pasos cortos.
           </p>
         </div>
         <div className="rounded-2xl border border-default bg-surface-3 px-4 py-4">
@@ -98,7 +98,7 @@ export default function MoSections({
             Pasás a recoger
           </p>
           <p className="mt-1 text-xs text-muted-strong">
-            Pasás cuando esté listo y pagas al retirar.
+            Pasas cuando esté listo y pagas al retirar.
           </p>
         </div>
       </section>

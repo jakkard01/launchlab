@@ -88,8 +88,11 @@ export default function MoCombos({ products }: MoCombosProps) {
             Combos útiles
           </p>
           <h2 className="mt-2 text-lg font-semibold text-main">
-            Resuelve en 1 click (y te confirmamos por WhatsApp)
+            Combos para desayuno, boquita o compra rápida
           </h2>
+          <p className="mt-2 text-sm text-muted-strong">
+            Agrega un combo, confirma por WhatsApp y pasa a retirar sin dar vueltas.
+          </p>
         </div>
       </div>
 
@@ -160,7 +163,7 @@ export default function MoCombos({ products }: MoCombosProps) {
                 onClick={() => addCombo(combo.id)}
                 className="h-11 rounded-full bg-[var(--accent)] px-5 text-sm font-semibold text-[#07130c] transition hover:opacity-90"
               >
-                Agregar combo
+                Agregar combo al pedido
               </button>
             </div>
 

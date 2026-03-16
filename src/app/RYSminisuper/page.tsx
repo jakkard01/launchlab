@@ -10,8 +10,35 @@ import CartUI from "../mo/cart/CartUI";
 import MoStorefront from "../mo/components/MoStorefront";
 
 export const metadata: Metadata = {
-  title: "RYS Minisúper",
-  description: "Retiro en La Gloria, San Salvador.",
+  title: "RYS Minisúper | Retiro fácil en La Gloria",
+  description:
+    "Abarrotes, café, antojitos y combos para retiro en La Gloria, San Salvador. Pide por WhatsApp, te confirmamos y pasas a retirar.",
+  alternates: {
+    canonical: "/RYSminisuper",
+  },
+  openGraph: {
+    title: "RYS Minisúper | Compra rápida para retiro en La Gloria",
+    description:
+      "Pide por WhatsApp, recibe confirmación real y pasa a retirar café, antojitos, básicos y combos en La Gloria, San Salvador.",
+    url: "https://www.poweredbyia.com/RYSminisuper",
+    siteName: "RYS Minisúper",
+    type: "website",
+    images: [
+      {
+        url: "https://www.poweredbyia.com/imagenes/perfil/rysminisuper.jpeg",
+        width: 1200,
+        height: 1200,
+        alt: "RYS Minisúper en La Gloria, San Salvador",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "RYS Minisúper | Compra rápida para retiro en La Gloria",
+    description:
+      "Abarrotes, café, antojitos y combos con confirmación por WhatsApp antes de salir.",
+    images: ["https://www.poweredbyia.com/imagenes/perfil/rysminisuper.jpeg"],
+  },
   robots: {
     index: true,
     follow: true,

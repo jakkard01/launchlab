@@ -6,6 +6,12 @@ const parsePriceValue = (price?: string) => {
   return Number.isFinite(numeric) ? numeric : null;
 };
 
+export const formatPriceLabel = (price?: string | null) => {
+  const numeric = parsePriceValue(price ?? undefined);
+  if (numeric === null) return price ?? "";
+  return `$${numeric.toFixed(2)}`;
+};
+
 export const getEffectivePriceValue = (product: Product) => {
   const base = parsePriceValue(product.price);
   if (base === null) return null;
@@ -17,7 +23,7 @@ export const getEffectivePriceValue = (product: Product) => {
 
 export const getEffectivePrice = (product: Product) => {
   const effective = getEffectivePriceValue(product);
-  if (effective === null) return product.price;
+  if (effective === null) return formatPriceLabel(product.price);
   return `$${effective.toFixed(2)}`;
 };
 

@@ -119,7 +119,7 @@ export default function MoStorefront({
             {readyProducts} productos visibles para retiro
           </p>
           <p className="mt-1 text-xs text-muted-strong">
-            Catálogo rápido, confirmación por WhatsApp y retiro local.
+            Compra rápida, confirmación por WhatsApp y retiro local.
           </p>
         </div>
         <a
@@ -130,7 +130,7 @@ export default function MoStorefront({
           }}
           className="rounded-2xl border border-default bg-surface-3 px-4 py-3 text-left text-sm font-semibold text-main transition hover:border-[var(--accent)]/45 hover:text-[var(--accent)]"
         >
-          Ver caliente hoy
+          Ver lo que más sale hoy
         </a>
         <a
           href="#pedido-especial"
