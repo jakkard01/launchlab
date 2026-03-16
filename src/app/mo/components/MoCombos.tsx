@@ -87,13 +87,13 @@ export default function MoCombos({ products }: MoCombosProps) {
           <p className="text-xs uppercase tracking-[0.3em] text-muted">
             Combos útiles
           </p>
-          <h2 className="mt-2 text-lg font-semibold text-main">
-            Combos para desayuno, antojo o compra rápida
-          </h2>
-          <p className="mt-2 text-sm text-muted-strong">
-            Agrega un combo, confirma por WhatsApp y evita otra vuelta o la cola del súper.
-          </p>
-        </div>
+        <h2 className="mt-2 text-lg font-semibold text-main">
+          Combos para desayuno, antojo o resolver sin otra vuelta
+        </h2>
+        <p className="mt-2 text-sm text-muted-strong">
+          Agrega un combo, confirma por WhatsApp y resuelve comida, merienda o básicos sin salir dos veces.
+        </p>
+      </div>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">

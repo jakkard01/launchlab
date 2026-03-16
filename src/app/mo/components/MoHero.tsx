@@ -12,7 +12,7 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
     <section className="space-y-4">
       <div className="flex min-h-[44px] items-center justify-center rounded-2xl border border-default bg-surface-2 px-4 py-2 text-center text-xs text-main shadow-sm sm:justify-between sm:text-sm">
         <span className="text-main">
-          Café caliente, antojo o compra rápida: pides por WhatsApp, te confirmamos y pasas a retirar.
+          Café caliente, antojo o compra rápida: escribes, te confirmamos y sales solo cuando ya vale la pena pasar.
         </span>
         <span className="hidden text-muted-strong sm:inline">
           La Gloria • {MO_STORE_HOURS_LABEL}
@@ -30,12 +30,12 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
             TIENDA LOCAL LISTA PARA PEDIR
           </p>
           <h1 className="mt-3 text-3xl font-bold text-main sm:text-4xl">
-            Resuelve tu compra del día sin tráfico, sin vueltas y con retiro fácil
+            Resuelve antojo, café o básicos del día sin otra cola y con retiro fácil
           </h1>
           <p className="mt-3 max-w-2xl text-sm text-muted-strong sm:text-base">
             Abarrotes, antojitos, café y combos para retiro en La Gloria,
-            San Salvador. Pides rápido, te confirmamos por WhatsApp y sales
-            solo cuando ya sabes qué hay, cuánto pagar y cuándo pasar, sin comerte la cola del súper.
+            San Salvador. Pides rápido, te confirmamos por WhatsApp y pasas
+            solo cuando ya sabes qué hay, cuánto pagar y cuándo retirar, sin comerte la cola del súper.
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
             <span className="rounded-full border border-[var(--accent)]/40 bg-[var(--accent)]/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-main dark:border-[var(--accent)]/45 dark:bg-[color-mix(in_srgb,var(--accent)_20%,transparent)]">
@@ -65,7 +65,7 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
               <p className="text-xs uppercase tracking-[0.22em] text-[var(--accent)]">
                 Ideal para hoy
               </p>
-              <p className="mt-1 text-muted-strong">Perfecto para desayuno, merienda, antojo caliente o para evitar la cola del súper.</p>
+              <p className="mt-1 text-muted-strong">Perfecto para desayuno, merienda, antojo caliente o para no salir a probar suerte.</p>
             </div>
           </div>
           <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -100,7 +100,7 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
             <p className="mt-1 text-muted-strong">Horario: {MO_STORE_HOURS_LABEL}</p>
             <p className="mt-1 text-muted-strong">Pagos: efectivo, transferencia o Tigo Money.</p>
             <p className="mt-1 text-muted-strong">Si algo no aparece en catálogo, pídelo por WhatsApp y te confirmamos si lo tenemos hoy.</p>
-            <p className="mt-1 text-muted-strong">Ideal para resolver antojo, café caliente, básicos de casa o un combo rápido sin hacer cola ni dar la vuelta dos veces.</p>
+            <p className="mt-1 text-muted-strong">Ideal para resolver antojo, café caliente, básicos de casa o una boquita rápida sin hacer cola ni dar otra vuelta.</p>
           </div>
           <div className="mt-5 grid gap-2 text-xs text-muted-strong sm:grid-cols-3">
             <span>✅ Confirmamos antes de que salgas</span>

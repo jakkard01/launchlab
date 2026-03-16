@@ -121,7 +121,7 @@ export default function MoStorefront({
               Resultados para &quot;{query.trim()}&quot;
             </p>
             <p className="mt-1 text-xs text-muted-strong">
-              Te mostramos solo lo que coincide para que encuentres rápido si hay pupusas, café, empanadas u otro básico.
+              Te mostramos solo coincidencias reales del catálogo para que sepas rápido si sí está o si toca pedirlo por WhatsApp.
             </p>
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
@@ -153,7 +153,7 @@ export default function MoStorefront({
                 {readyProducts} productos visibles para retiro
               </p>
               <p className="mt-1 text-xs text-muted-strong">
-                Compra rápida, confirmación por WhatsApp y retiro local.
+                Compra rápida, confirmación por WhatsApp y retiro sin otra vuelta innecesaria.
               </p>
             </div>
             <a

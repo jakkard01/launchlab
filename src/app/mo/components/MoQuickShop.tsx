@@ -151,6 +151,9 @@ export default function MoQuickShop({
         <h2 className="mt-2 text-lg font-semibold text-main">
           Entra por categoría y resuelve sin tanta vuelta
         </h2>
+        <p className="mt-2 text-sm text-muted-strong">
+          Si no sale lo que buscas, eso es surtido pendiente o producto no cargado hoy, no un buscador roto.
+        </p>
       </div>
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">

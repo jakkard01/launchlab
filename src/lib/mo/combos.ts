@@ -17,8 +17,8 @@ export type MoCombo = {
 export const MO_COMBOS: MoCombo[] = [
   {
     id: "pupusas_coca",
-    title: "Antojo caliente",
-    description: "Pupusas con Coca-Cola para quitarte el antojo sin hacer otra vuelta.",
+    title: "Pupusas y Coca-Cola",
+    description: "Combo directo para resolver comida rápida, antojo caliente y salida corta.",
     badge: "Sale rápido",
     items: [
       { productId: "mo-pupusas", qty: 1 },
@@ -27,8 +27,8 @@ export const MO_COMBOS: MoCombo[] = [
   },
   {
     id: "cafe_pan_dulce",
-    title: "Café y pan",
-    description: "Desayuno resuelto o merienda rápida para pasar retirando sin cola.",
+    title: "Café caliente y pan dulce",
+    description: "Desayuno o merienda listos para pasar retirando sin otra cola.",
     badge: "Desayuno",
     items: [
       { productId: "mo-cafe-servido", qty: 1 },
@@ -37,8 +37,8 @@ export const MO_COMBOS: MoCombo[] = [
   },
   {
     id: "snack_coca",
-    title: "Merienda sin vueltas",
-    description: "Boquita con Coca-Cola para visita, tarde larga o salida rápida.",
+    title: "Boquita y Coca-Cola",
+    description: "Para visita, tarde larga o antojo rápido sin salir dos veces.",
     badge: "Boquita",
     items: [
       { productId: "mo-tortillitas-limon", qty: 1 },
@@ -47,8 +47,8 @@ export const MO_COMBOS: MoCombo[] = [
   },
   {
     id: "antojito_bebida",
-    title: "Algo rápido para hoy",
-    description: "Empanadas con bebida para resolver antojo y seguir el día sin complicarte.",
+    title: "Empanadas y Coca-Cola",
+    description: "Antojo rápido para hoy, con bebida lista para salir y seguir el día.",
     badge: "Hoy",
     items: [
       { productId: "mo-empanadas", qty: 1 },
@@ -57,8 +57,8 @@ export const MO_COMBOS: MoCombo[] = [
   },
   {
     id: "basico_casa",
-    title: "Para no salir dos veces",
-    description: "Arroz, frijoles, aceite y sal para resolver lo básico de la casa de una vez.",
+    title: "Básicos para hoy",
+    description: "Arroz, frijoles, aceite y sal para resolver la casa en una sola pasada.",
     badge: "Casa",
     items: [
       { productId: "mo-arroz-1kg", qty: 1 },

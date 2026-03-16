@@ -1307,7 +1307,7 @@ export default function AdminClient() {
                 Control de catálogo
               </h2>
               <p className="mt-2 text-sm text-white/60">
-                Busca un producto y déjalo listo para hoy con la menor cantidad posible de pasos.
+                Busca un producto, usa atajos si quieres resolver rápido y guarda cambios solo cuando termines de ajustarlo.
               </p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-xs text-white/65">
@@ -1359,7 +1359,7 @@ export default function AdminClient() {
           <div className="grid gap-4 lg:grid-cols-2">
               {filteredProducts.length === 0 ? (
                 <div className="rounded-2xl border border-dashed border-white/15 bg-black/20 p-5 text-sm text-white/60 lg:col-span-2">
-                  No hay productos que coincidan con la búsqueda o el filtro actual.
+                  No hay productos que coincidan con la búsqueda o el filtro actual. Si buscabas algo del surtido y no sale aquí, no significa que el buscador esté roto: puede que ese producto no esté cargado hoy.
                 </div>
               ) : filteredProducts.map((product) => {
                 const stockStatus = stock[product.id] ?? "disponible";
@@ -1405,7 +1405,7 @@ export default function AdminClient() {
               return (
                 <div
                   key={product.id}
-                  className="rounded-2xl border border-white/10 bg-black/40 p-4"
+                  className="rounded-3xl border border-white/10 bg-black/40 p-4 shadow-[0_14px_38px_rgba(0,0,0,0.16)]"
                 >
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
@@ -1421,7 +1421,7 @@ export default function AdminClient() {
                           : "Sin etiquetas comerciales"}
                       </p>
                     </div>
-                    <div className="text-right">
+                    <div className="min-w-[136px] text-right">
                       <p className="text-xs uppercase tracking-[0.3em] text-white/60">
                         Precio final
                       </p>
@@ -1450,12 +1450,36 @@ export default function AdminClient() {
                     </div>
                   </div>
 
-                  <div className="mt-4 flex flex-wrap gap-2">
+                  <div className="mt-4 rounded-2xl border border-emerald-300/20 bg-emerald-400/10 p-3">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <div>
+                        <p className="text-[11px] uppercase tracking-[0.22em] text-emerald-200/80">
+                          Guardado del producto
+                        </p>
+                        <p className="mt-1 text-xs text-emerald-50/85">
+                          Los atajos de hoy se guardan al tocar. Lo demás se confirma con Guardar cambios.
+                        </p>
+                      </div>
+                      <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1 text-[11px] font-semibold text-white/85">
+                        {saveState === "saving"
+                          ? "Guardando"
+                          : saveState === "saved"
+                            ? "Guardado"
+                            : saveState === "error"
+                              ? "Revisar"
+                              : isDirty
+                                ? "Pendiente"
+                                : "Al día"}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 grid gap-2 sm:grid-cols-2">
                     <button
                       type="button"
                       onClick={() => saveProductChanges(product)}
                       disabled={!isDirty || saveState === "saving"}
-                      className="rounded-full bg-emerald-300 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#07130c] disabled:cursor-not-allowed disabled:opacity-45"
+                      className="min-h-[46px] rounded-2xl bg-emerald-300 px-4 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-[#07130c] disabled:cursor-not-allowed disabled:opacity-45"
                     >
                       {saveState === "saving" ? "Guardando..." : "Guardar cambios"}
                     </button>
@@ -1463,7 +1487,7 @@ export default function AdminClient() {
                       type="button"
                       onClick={() => resetDraft(product)}
                       disabled={!isDirty || saveState === "saving"}
-                      className="rounded-full border border-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white/75 disabled:cursor-not-allowed disabled:opacity-45"
+                      className="min-h-[46px] rounded-2xl border border-white/15 px-4 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-white/75 disabled:cursor-not-allowed disabled:opacity-45"
                     >
                       Descartar
                     </button>
@@ -1474,34 +1498,34 @@ export default function AdminClient() {
                       <p className="text-[11px] uppercase tracking-[0.22em] text-emerald-200/80">
                         Atajos de hoy
                       </p>
-                      <div className="mt-3 flex flex-wrap gap-2">
+                      <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
                         <button
                           type="button"
                           onClick={() => markReadyToday(product.id)}
-                          className="rounded-full border border-emerald-300/30 px-3 py-2 text-xs font-semibold text-emerald-100"
+                          className="min-h-[44px] rounded-2xl border border-emerald-300/30 px-3 py-2 text-xs font-semibold text-emerald-100"
                         >
                           Listo hoy
                         </button>
                         <button
                           type="button"
                           onClick={() => markFeaturedHot(product.id)}
-                          className="rounded-full border border-teal-300/30 px-3 py-2 text-xs font-semibold text-teal-100"
+                          className="min-h-[44px] rounded-2xl border border-teal-300/30 px-3 py-2 text-xs font-semibold text-teal-100"
                         >
                           Empujar hoy
                         </button>
                         <button
                           type="button"
                           onClick={() => markSoldOutNow(product.id)}
-                          className="rounded-full border border-amber-300/30 px-3 py-2 text-xs font-semibold text-amber-100"
+                          className="min-h-[44px] rounded-2xl border border-amber-300/30 px-3 py-2 text-xs font-semibold text-amber-100"
                         >
-                          Marcar agotado
+                          Agotado
                         </button>
                         <button
                           type="button"
                           onClick={() =>
                             toggleQuickFeatured(product.id, !product.isFeatured)
                           }
-                          className="rounded-full border border-sky-300/30 px-3 py-2 text-xs font-semibold text-sky-100"
+                          className="min-h-[44px] rounded-2xl border border-sky-300/30 px-3 py-2 text-xs font-semibold text-sky-100"
                         >
                           {product.isFeatured ? "Quitar destacado" : "Destacar"}
                         </button>
@@ -1514,34 +1538,34 @@ export default function AdminClient() {
                               promoState.percent
                             )
                           }
-                          className="rounded-full border border-fuchsia-300/30 px-3 py-2 text-xs font-semibold text-fuchsia-100"
+                          className="min-h-[44px] rounded-2xl border border-fuchsia-300/30 px-3 py-2 text-xs font-semibold text-fuchsia-100"
                         >
                           {promoState.enabled ? "Quitar promo" : "Promo 10%"}
                         </button>
                         <button
                           type="button"
                           onClick={() => setQuickPromoPercent(product.id, 15)}
-                          className="rounded-full border border-pink-300/30 px-3 py-2 text-xs font-semibold text-pink-100"
+                          className="min-h-[44px] rounded-2xl border border-pink-300/30 px-3 py-2 text-xs font-semibold text-pink-100"
                         >
                           Promo 15%
                         </button>
                         <button
                           type="button"
                           onClick={() => clearHotState(product.id)}
-                          className="rounded-full border border-white/15 px-3 py-2 text-xs font-semibold text-white/80"
+                          className="min-h-[44px] rounded-2xl border border-white/15 px-3 py-2 text-xs font-semibold text-white/80"
                         >
                           Quitar caliente
                         </button>
                         <button
                           type="button"
                           onClick={() => hideProductQuick(product.id)}
-                          className="rounded-full border border-white/15 px-3 py-2 text-xs font-semibold text-white/80"
+                          className="min-h-[44px] rounded-2xl border border-white/15 px-3 py-2 text-xs font-semibold text-white/80"
                         >
                           Ocultar
                         </button>
                       </div>
                       <p className="mt-3 text-[11px] text-emerald-100/75">
-                        Usa estos botones para lo diario. Abre &quot;Más ajustes&quot; solo si necesitas afinar algo puntual.
+                        Esto es lo diario: tocar y seguir. Abre &quot;Más ajustes&quot; solo si vas a cambiar algo más fino.
                       </p>
                     </div>
 
@@ -1604,29 +1628,44 @@ export default function AdminClient() {
                       />
                     </label>
 
-                    <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
-                      Categoría
-                      <select
-                        value={draft.category}
-                        onChange={(event) =>
-                          updateDraft(product.id, (current) => ({
-                            ...current,
-                            category: event.target.value,
-                          }))
-                        }
-                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
-                      >
-                        {categoryOptions.map((option) => (
-                          <option key={option} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
+                    <div className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                      <p>Promo rápida</p>
+                      <div className="grid grid-cols-3 gap-2">
+                        {[
+                          { label: "Sin promo", enabled: false, percent: 0 },
+                          { label: "10%", enabled: true, percent: 10 },
+                          { label: "15%", enabled: true, percent: 15 },
+                        ].map((option) => {
+                          const isActive =
+                            draft.promoEnabled === option.enabled &&
+                            draft.promoPercent === option.percent;
+                          return (
+                            <button
+                              key={option.label}
+                              type="button"
+                              onClick={() =>
+                                updateDraft(product.id, (current) => ({
+                                  ...current,
+                                  promoEnabled: option.enabled,
+                                  promoPercent: option.percent,
+                                }))
+                              }
+                              className={`min-h-[44px] rounded-2xl border px-3 py-2 text-[11px] font-semibold ${
+                                isActive
+                                  ? "border-emerald-300/40 bg-emerald-400/15 text-emerald-100"
+                                  : "border-white/15 text-white/80"
+                              }`}
+                            >
+                              {option.label}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
 
                     <div className="md:col-span-2 grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
                       <p>Etiquetas</p>
-                      <div className="flex flex-wrap gap-2">
+                      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                         {ADMIN_TAG_OPTIONS.map((tag) => {
                           const isActive = normalizeTags(draft.tagsInput).includes(tag);
                           return (
@@ -1634,7 +1673,7 @@ export default function AdminClient() {
                               key={tag}
                               type="button"
                               onClick={() => toggleDraftTag(product.id, tag)}
-                              className={`rounded-full border px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] ${
+                              className={`min-h-[42px] rounded-2xl border px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.08em] ${
                                 isActive
                                   ? "border-emerald-300/40 bg-emerald-400/15 text-emerald-100"
                                   : "border-white/15 text-white/75"
@@ -1669,6 +1708,26 @@ export default function AdminClient() {
                       Más ajustes
                     </summary>
                     <div className="mt-4 grid gap-3 md:grid-cols-2">
+                      <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                        Categoría
+                        <select
+                          value={draft.category}
+                          onChange={(event) =>
+                            updateDraft(product.id, (current) => ({
+                              ...current,
+                              category: event.target.value,
+                            }))
+                          }
+                          className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                        >
+                          {categoryOptions.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+
                       <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
                         Orden catálogo
                         <div className="flex items-center gap-2">

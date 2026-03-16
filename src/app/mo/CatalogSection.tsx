@@ -70,7 +70,7 @@ export default function CatalogSection({
         </h2>
         <p className="text-sm text-muted">
           {queryFilter
-            ? "Aquí solo ves coincidencias para comprar más rápido. Si no aparece, pídelo por WhatsApp."
+            ? "Aquí solo ves coincidencias reales del catálogo. Si no aparece, no significa que el buscador falle: puede que hoy no esté cargado o que toque pedirlo directo."
             : "Revisa qué hay hoy, arma tu pedido y confirma por WhatsApp antes de pasar."}
         </p>
         <div className="flex flex-wrap gap-2 text-xs text-muted">
@@ -166,7 +166,7 @@ export default function CatalogSection({
               </h3>
               <p className="mt-1 text-sm text-muted-strong">
                 {searchResults.length > 0
-                  ? `Encontramos ${searchResults.length} producto${searchResults.length === 1 ? "" : "s"} para ayudarte a comprar más rápido.`
+                  ? `Encontramos ${searchResults.length} producto${searchResults.length === 1 ? "" : "s"} para ayudarte a comprar rápido sin dar la vuelta en vano.`
                   : "No encontramos coincidencias directas en catálogo ahora mismo."}
               </p>
             </div>
@@ -199,14 +199,17 @@ export default function CatalogSection({
                 No encontramos eso en catálogo ahora mismo.
               </p>
               <p className="mt-2 text-sm text-muted-strong">
-                Prueba con otra palabra, vuelve al catálogo o pídelo directo por WhatsApp y te confirmamos antes de salir.
+                La búsqueda sí está funcionando con lo que está cargado hoy. Si no sale aquí, puede ser que ese producto no esté en surtido o todavía no esté publicado.
+              </p>
+              <p className="mt-2 text-sm text-muted-strong">
+                Prueba con otra palabra, vuelve al catálogo o pídelo por WhatsApp y te confirmamos antes de salir para que no salgas a probar suerte.
               </p>
               <button
                 type="button"
                 onClick={onScrollToSpecial}
                 className="mt-4 inline-flex items-center rounded-full border border-[var(--accent)]/40 px-4 py-2 text-xs font-semibold text-[var(--accent)] transition hover:border-[var(--accent)]/60 hover:text-[var(--accent)]/80"
               >
-                No lo ves aquí? Pídelo por WhatsApp
+                Si no sale aquí, pídelo por WhatsApp
               </button>
             </div>
           )}

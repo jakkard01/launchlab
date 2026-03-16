@@ -15,28 +15,28 @@ export const MO_PROMOS: MoPromo[] = [
   {
     id: "desayuno_resuelto",
     type: "todaySpecial",
-    title: "Desayuno resuelto",
+    title: "Café caliente y pan dulce",
     description:
-      "Café caliente y pan dulce para salir sin hacer cola ni dar la vuelta en vano.",
+      "Para arrancar la mañana o resolver merienda sin cola, sin tráfico y sin salir a probar suerte.",
     badge: "Temprano",
     productIds: ["mo-cafe-servido", "mo-pan-dulce"],
   },
   {
     id: "antojito_sin_vuelta",
     type: "todaySpecial",
-    title: "Antojito sin vuelta",
+    title: "Antojo caliente con bebida",
     description:
-      "Pupusas, empanadas y bebida para resolver antojo caliente sin salir a probar suerte.",
+      "Pupusas, empanadas y bebida para quitarte el antojo caliente y salir de una vez.",
     badge: "Hoy",
     productIds: ["mo-pupusas", "mo-empanadas", "mo-coca-cola-600ml"],
   },
   {
     id: "algo_rapido_para_hoy",
     type: "sampling",
-    title: "Algo rápido para hoy",
+    title: "Boquita o café para hoy",
     description:
-      "Boquita, café o bebida fría para resolver merienda, visita o salida corta.",
-    badge: "Sin vueltas",
+      "Para visita, merienda o salida corta sin meterte otra cola innecesaria.",
+    badge: "Sale rápido",
     productIds: ["mo-cafe-servido", "mo-tortillitas-limon", "mo-mani-limon-chile"],
   },
 ];
