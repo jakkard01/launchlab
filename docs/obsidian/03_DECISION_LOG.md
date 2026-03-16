@@ -102,3 +102,6 @@
 - 2026-03-16: La búsqueda interna del admin se endurece con ranking para nombre/categoría/etiquetas/aliases; si la operadora escribe `pupusa`, `café` o `promo`, el panel debe ayudar a encontrar, no a recorrer una lista infinita.
 - 2026-03-16: El bloqueo de build de la Parte 2 no venía de Vercel ni de Sheets; era un error real de TypeScript en `AdminClient` (`availableSections` usado antes de declararse). Corregido, `pnpm -s build` vuelve a pasar y el deploy de producción se destraba.
 - 2026-03-16: Revalidación posterior confirma que la Parte 1 de migración seria del admin ya está implementada en esta branch; no se repite la migración de auth/roles/sesión/auditoría, se reutiliza esa base y se evita deuda por duplicación.
+- 2026-03-16: Hotfix móvil de RYS enfoca viewport real, no “embellecer”: header más corto, hero menos alto, `ThemeToggle` compacto, enlace admin relegado y barra inferior del pedido más pequeña.
+- 2026-03-16: El clipping horizontal de RYS venía sobre todo de rieles con márgenes negativos y cards mínimas demasiado anchas (`MoQuickShop`, `MoPromos`) combinados con sticky tabs altos; se corrige priorizando contención y legibilidad sobre efecto carrusel.
+- 2026-03-16: La home pública de RYS no debe contaminarse con el estado del admin; aunque exista sesión, el acceso admin queda secundario y no roba jerarquía comercial al storefront móvil.

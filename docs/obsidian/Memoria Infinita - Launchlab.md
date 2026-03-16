@@ -1532,3 +1532,48 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
 - Eso no invalida la implementación; solo deja abierta una de dos posibilidades:
   - producción ya usa otra clave legacy;
   - o ya existen usuarios reales y la clave local no coincide con el entorno productivo actual.
+
+## 2026-03-16 — RYS Parte 2 móvil: compactación + clipping + aislamiento admin
+
+### Problema real atacado
+- El storefront público seguía perdiendo demasiado viewport en móvil por:
+  - header superior demasiado alto;
+  - hero demasiado largo;
+  - CTA/admin inflando la franja superior;
+  - barra inferior de pedido demasiado grande;
+  - rieles horizontales con overflow/clipping visible.
+
+### Qué se corrigió
+- Header móvil:
+  - menos padding y menos gaps;
+  - `ThemeToggle` más pequeño e icon-only;
+  - CTA principal más corta (`Pedir`);
+  - enlace `Admin` mucho más discreto y solo si hay sesión.
+- Hero:
+  - menos padding;
+  - copy superior más compacta;
+  - bloques secundarios ocultos en móvil;
+  - imagen lateral solo en `lg`;
+  - CTA secundarias menos invasivas.
+- Layout/clipping:
+  - `overflow-x-clip` en wrappers principales;
+  - rieles de `Promos` y `QuickShop` sin márgenes negativos;
+  - cards horizontales más estrechas y mejor contenidas;
+  - sticky tabs del catálogo más bajos y compactos.
+- Barra inferior:
+  - menos alto;
+  - menos padding;
+  - CTA y copy más cortos.
+
+### Aislamiento de admin respecto a home pública
+- La home pública ya no hace protagonista el acceso admin.
+- Si hay sesión, el acceso existe pero como control secundario pequeño.
+- Un fallo de admin no debe contaminar la lectura principal de tienda/antojo/CTA.
+
+### Validación real del bloque
+- `npm run lint` OK.
+- `pnpm -s build` OK.
+- Validación técnica seria:
+  - se revisó render SSR/build completo;
+  - se redujo el alto efectivo del header/hero por clases y estructura;
+  - se eliminaron los patrones más probables de clipping horizontal (`-mx-*`, cards muy anchas, sticky demasiado alto).
