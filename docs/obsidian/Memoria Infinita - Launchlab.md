@@ -2,6 +2,46 @@
 - Rama: feat/pagina-hermana-live
 - Objetivo: cerrar las últimas fricciones reales sin mezclar “buscador roto” con “producto no cargado”, y dejar el admin más cómodo para operar desde móvil.
 
+## 2026-03-16 — RYS hotfix crítico: quota exceeded de Google Sheets + reducción de lecturas
+- Rama: feat/pagina-hermana-live
+- Objetivo: evitar que RYS caiga a fallback/admin roto por exceso de lecturas por minuto en Google Sheets.
+
+### Causa exacta detectada
+- Storefront:
+  - `/RYSminisuper` ya leía catálogo server-side, pero `MoStorefront` volvía a pedir `/api/mo/products` al montar en cliente.
+  - Resultado: una visita pública podía duplicar lecturas del catálogo sin necesidad.
+- Admin:
+  - el panel inicializa con `reloadAll()` y este hace `snapshot + stats` por separado.
+  - además, varias acciones terminaban forzando más recargas completas del panel.
+- Backend Sheets:
+  - `sheetsStore` pedía token OAuth, metadata y estado vivo demasiadas veces.
+  - no había caché compartida ni deduplicación de requests en vuelo para `loadState` ni para readiness.
+
+### Estrategia aplicada
+- Caché corta en servidor:
+  - token OAuth reutilizado por ~55 min;
+  - metadata de spreadsheet reutilizada por ~60 s;
+  - estado operativo (`products`, `orders`, `daily_sales`, `events`) cacheado ~15 s;
+  - readiness cacheado ~30 s.
+- Deduplicación:
+  - si varias lecturas llegan al mismo tiempo, comparten la misma promesa en vuelo en vez de golpear Sheets varias veces.
+- Invalidación:
+  - cada escritura invalida caché de estado/readiness para que el siguiente read vuelva a salir de la hoja y no de un snapshot viejo.
+- Storefront:
+  - deja de refetchear catálogo al montar si ya recibió catálogo del server.
+- Respuesta pública:
+  - `/api/mo/products` y `/api/mo/health` ahora salen con `Cache-Control` corto + `stale-while-revalidate`.
+
+### Límite conocido que sigue existiendo
+- Google Sheets sigue siendo una base frágil para picos o demasiados operadores/monitoreos concurrentes.
+- Este hotfix reduce presión y estabiliza mucho mejor el sistema, pero no convierte Sheets en backend de alto throughput.
+
+### Qué monitorear después
+- frecuencia de fallback en `/RYSminisuper`
+- errores 500/503 o mensajes de cuota en `/api/mo/products`, `/api/mo/admin`, `/api/mo/health`
+- si el admin vuelve a sentirse lento al recargar manualmente
+- si `/api/mo/health` queda estable con `mode=fully_operational` sin cambios bruscos por minutos
+
 ## 2026-03-16 — RYS QA hotfix final: venta manual visible + scroll horizontal móvil confiable
 - Rama: feat/pagina-hermana-live
 - Objetivo: cerrar dos bugs reales de interacción móvil antes de considerar a RYS release candidate final.

@@ -1,5 +1,8 @@
 # 03_DECISION_LOG
 
+- 2026-03-16: Hotfix crítico de resiliencia Sheets en RYS. La causa real del `quota exceeded` fue combinada: storefront leyendo en SSR y otra vez al montar en cliente, admin recargando `snapshot + stats` con demasiada frecuencia, y `sheetsStore` sin caché compartida de token/estado/readiness.
+- 2026-03-16: `sheetsStore` ahora reutiliza token OAuth, metadata de spreadsheet, estado operativo (`products/orders/daily_sales/events`) y readiness con TTL corto + deduplicación de requests en vuelo; al escribir, invalida caché para no mentir con datos viejos.
+- 2026-03-16: `/api/mo/products` y `/api/mo/health` pasan a exponer `Cache-Control` con `stale-while-revalidate`, y el storefront deja de reconsultar `/api/mo/products` al montar cuando ya recibió catálogo server-side.
 - 2026-03-16: QA hotfix final de RYS. `Registrar venta manual` no estaba roto por backend sino por falta de feedback visible en el panel; se añade aviso inline de error/éxito y el formulario deja claro cuándo sí registró una venta.
 - 2026-03-16: Los rieles horizontales de RYS (`Caliente hoy`, `Combos`, `Antojitos`, `Promos`) se endurecen para móvil con `overflow-x-auto` táctil, `touch-action: pan-x`, `overscroll-behavior-x: contain`, `snap-x` y scrollbar oculta; el objetivo es que el gesto lateral funcione de forma natural sin romper desktop.
 - 2026-03-16: Criterio de cierre de release candidate RYS: no abrir features nuevas; solo cerrar interacciones reales de uso móvil, mantener Sheets/admin/storefront sanos y dejar trazabilidad de causa/fix en memoria.
