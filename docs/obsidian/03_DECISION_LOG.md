@@ -1,5 +1,10 @@
 # 03_DECISION_LOG
 
+- 2026-03-16: RYS cierra polish comercial/UX de entrega VIP sin tocar arquitectura ni backend: hero, header, sticky/cart y pedido especial pasan a hablar de compra rápida, confirmación real y retiro fácil, reduciendo tono de demo y subiendo claridad de acción.
+- 2026-03-16: RYS corrige metadata propia de la ruta `/RYSminisuper` (`title`, `description`, canonical, Open Graph, Twitter) para dejar de heredar señales de PBIA y quedar listo para campañas, compartidos y tráfico móvil con identidad propia.
+- 2026-03-16: La presentación comercial del catálogo prioriza más claramente `caliente hoy`, combos, promos y antojitos/boquitas; no se rehacen las secciones, pero sí se ordena el lenguaje hacia resolución rápida y antojo útil.
+- 2026-03-16: Los precios visibles de RYS se normalizan en UI para evitar etiquetas tipo `$$4.90`; el problema no bloqueaba operación, pero sí bajaba confianza y percepción premium.
+- 2026-03-16: Queda definida la siguiente mejora visual real de catálogo: sustituir primero imágenes débiles/placeholder de `empanadas`, `pan dulce`, `tortillitas`, `maní con limón y chile`, `platanitos` y combos con bebida, manteniendo fotos reales o muy cercanas al producto operado.
 - 2026-03-16: RYS añade `GET /api/mo/health` como verificación read-only y honesta de operación real; ya no hace falta inferir salud solo desde el banner de fallback o desde un `500` aislado en `products/admin`.
 - 2026-03-16: RYS unifica el mapeo de errores backend (`products`, `admin`, `health`) para que la operación hable con los mismos códigos (`SHEETS_NOT_CONFIGURED`, `SHEETS_INVALID_GRANT`, `SHEETS_SCHEMA_INVALID`, etc.).
 - 2026-03-15: RYS suma una capa comercial más realista sin tocar UI: café visible por producto + bebida + preparación, Coca-Cola nombrada de forma encontrable, snacks/boquitas locales (`tortillitas`, `maní con limón y chile`, `platanitos`) y combos de consumo real (`pupusas + Coca-Cola`, `café + pan dulce`, `snack + Coca-Cola`, `antojito + bebida`).

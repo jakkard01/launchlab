@@ -994,3 +994,98 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
 
 ### Pendiente real
 - Hacer smoke live post-deploy en un entorno con credenciales válidas de Sheets.
+
+## 2026-03-16 - RYS polish final VIP: compra rápida + catálogo más vendible + marketing readiness
+
+### Autor/agente
+- Codex GPT-5
+
+### Problema real
+- RYS ya estaba operativo, pero seguía arrastrando señales de "demo funcional":
+  - metadata/compartidos heredando identidad de PBIA;
+  - copy demasiado explicativo y poco vendedor;
+  - precios visibles con formatos inconsistentes (`$$`);
+  - catálogo útil pero no suficientemente orientado a antojo, compra rápida y campañas.
+
+### Qué se cambió
+- Storefront:
+  - hero y header más directos sobre compra rápida, confirmación antes de salir y retiro fácil;
+  - sticky del pedido y drawer de carrito con CTA más clara a confirmación por WhatsApp;
+  - pedido especial reforzado como salida simple cuando algo no aparece en catálogo;
+  - secciones rápidas/combos/promos/antojitos con lenguaje más comercial y menos interno.
+- Marketing readiness:
+  - metadata propia en `/RYSminisuper`:
+    - `title`
+    - `description`
+    - canonical
+    - Open Graph
+    - Twitter card
+  - la ruta deja de compartir señal comercial genérica de PBIA al abrirse en WhatsApp/redes.
+- Confianza visual:
+  - precios visibles normalizados para no mostrar dobles signos `$`;
+  - cards resumen más limpias y más coherentes con una tienda lista para cliente.
+
+### Qué mejora percepción premium
+- Menos tono de "catálogo técnico" y más tono de tienda real que resuelve rápido.
+- CTA principales ahora empujan mejor la acción correcta:
+  - pedir y confirmar;
+  - ver qué hay hoy;
+  - si no lo ves, pídelo.
+- La ruta ya tiene metadata propia para compartirse como activo comercial y no como página accidental dentro de PBIA.
+
+### Qué mejora rapidez de compra
+- Header con microcopy más claro y chips útiles.
+- Hero más corto y orientado a acción/beneficio real.
+- Sticky/cart refuerza confirmación antes de salir en lugar de solo "abrir pedido".
+- Pedido especial sigue siendo simple y no obliga a navegar todo el catálogo si falta algo.
+
+### Qué mejora antojo / catálogo
+- Jerarquía más clara para:
+  - caliente hoy;
+  - combos;
+  - promos;
+  - antojitos y boquitas;
+  - destacados del local.
+- El lenguaje comercial ahora empuja:
+  - desayuno;
+  - merienda;
+  - boquita;
+  - compra rápida;
+  - básicos de casa.
+
+### Verificación local real
+- `npm run lint` OK.
+- `pnpm -s build` OK.
+- Smoke local:
+  - `/RYSminisuper` renderiza con el polish nuevo y metadata propia;
+  - `/RYSminisuper/admin/acceso` -> `200`;
+  - `/api/mo/health` -> `fallback_only` en local por falta de credenciales Sheets;
+  - `/api/mo/products` -> `SHEETS_NOT_CONFIGURED` en local.
+- Interpretación correcta:
+  - storefront/admin no se rompieron;
+  - la separación entre UI viva y operación real sigue siendo honesta.
+
+### Cómo verificar que quedó sano tras deploy
+1. Abrir `/RYSminisuper` en móvil y desktop.
+2. Confirmar hero/header nuevos y metadata propia en la ruta.
+3. Confirmar `GET /api/mo/health` -> `200` y `mode=fully_operational` en producción.
+4. Confirmar `GET /api/mo/products` -> `200`.
+5. Confirmar acceso admin y flujo de pedido por WhatsApp sin regresión.
+
+### Último estado bueno de este bloque
+- Último estado bueno antes de este polish:
+  - `1d81588` `20260316-02__rys__ops-checklist-smoke-memory-and-deploy`
+- Este bloque VIP queda como nueva referencia de pulido comercial una vez deployado y verificado.
+
+### Pendiente real
+- La siguiente mejora visual útil no es rehacer la web: es reemplazar imágenes débiles/placeholder prioritarias en:
+  - empanadas;
+  - pan dulce;
+  - tortillitas con limón;
+  - maní con limón y chile;
+  - platanitos;
+  - combos con bebida.
+- Criterio:
+  - fotos reales o muy cercanas al producto real;
+  - luz clara, encuadre corto, comida servida/lista;
+  - evitar stock genérico que rompa confianza local.
