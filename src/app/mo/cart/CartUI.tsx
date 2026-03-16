@@ -4,12 +4,19 @@ import { useState } from "react";
 import CartButtonSticky from "./CartButtonSticky";
 import CartDrawer from "./CartDrawer";
 
-export default function CartUI() {
+type CartUIProps = {
+  isSearchMode?: boolean;
+};
+
+export default function CartUI({ isSearchMode = false }: CartUIProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      <CartButtonSticky onOpen={() => setIsOpen(true)} />
+      <CartButtonSticky
+        onOpen={() => setIsOpen(true)}
+        isSearchMode={isSearchMode}
+      />
       <CartDrawer isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </>
   );

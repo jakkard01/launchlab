@@ -6,7 +6,6 @@ import { getMoBackendErrorInfo } from "../../lib/mo/data/errorInfo";
 import productsSeed from "../../data/products.json";
 import type { Product } from "../../lib/mo/types";
 import { CartProvider } from "../mo/cart/CartContext";
-import CartUI from "../mo/cart/CartUI";
 import MoStorefront from "../mo/components/MoStorefront";
 
 export const metadata: Metadata = {
@@ -90,7 +89,6 @@ export default async function RysMiniSuperPage() {
           ctaLink={ctaLink}
           hasAdminSession={hasAdminSession}
         />
-        <CartUI />
       </main>
     </CartProvider>
   );

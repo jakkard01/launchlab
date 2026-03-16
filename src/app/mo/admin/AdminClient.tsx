@@ -693,8 +693,8 @@ export default function AdminClient() {
       showActionSuccess("Panel recargado", "Se volvió a leer el estado actual de la hoja.");
     } catch {
       showActionError(
-        "No se pudo recargar el panel",
-        "Puede ser sesión vencida o un problema temporal de lectura."
+        "No se pudo actualizar el panel en este momento",
+        "Si todavía ves productos y atajos, puedes seguir operando y volver a probar en unos segundos. Si la lista desapareció, recarga la página."
       );
     } finally {
       setRefreshing(false);
@@ -1006,14 +1006,14 @@ export default function AdminClient() {
           </div>
         </section>
 
-        <section className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6">
-          <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-white/80">
+        <details className="rounded-3xl border border-white/10 bg-white/5 p-6">
+          <summary className="cursor-pointer list-none text-sm font-semibold uppercase tracking-[0.25em] text-white/80">
             Registrar venta manual
-          </h2>
-          <p className="text-sm text-white/60">
+          </summary>
+          <p className="mt-4 text-sm text-white/60">
             Úsalo solo si la venta se hizo fuera del flujo normal y quieres reflejarla en el resumen del día.
           </p>
-          <div className="grid gap-4 lg:grid-cols-[2fr,1fr,1fr,1fr]">
+          <div className="mt-4 grid gap-4 lg:grid-cols-[2fr,1fr,1fr,1fr]">
             <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
               Producto
               <select
@@ -1062,13 +1062,13 @@ export default function AdminClient() {
                 : "Guardar"}
             </button>
           </div>
-          <p className="text-xs text-white/45">
+          <p className="mt-3 text-xs text-white/45">
             Total estimado de esta venta: {formatMoney(saleTotal)}
           </p>
           <p className="text-xs text-white/45">
             Sugerencia: si cambiaste el precio en el catálogo, revisa aquí el precio unitario antes de guardar.
           </p>
-        </section>
+        </details>
 
         <section className="grid gap-6 rounded-3xl border border-white/10 bg-white/5 p-6">
           <div className="flex flex-wrap items-start justify-between gap-4">

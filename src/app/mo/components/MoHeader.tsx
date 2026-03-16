@@ -32,7 +32,7 @@ export default function MoHeader({
             </div>
             <p className="text-xs text-muted-strong">La Gloria, San Salvador</p>
             <p className="mt-1 text-[11px] text-muted">
-              Compra rápida para retiro fácil, con confirmación antes de salir.
+              Compra rápida para retiro. Confirmamos antes de salir para que no vayas en vano.
             </p>
           </div>
           <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center sm:justify-end">
@@ -62,7 +62,7 @@ export default function MoHeader({
             type="search"
             value={query}
             onChange={handleChange}
-            placeholder="Busca pan, leche, pupusas..."
+            placeholder="Busca pupusas, café, empanadas..."
             className="h-11 w-full rounded-full border border-default bg-surface-3 px-4 text-sm text-main placeholder:text-muted focus:border-[var(--accent)] focus:outline-none"
             aria-label="Buscar producto"
           />
@@ -78,7 +78,7 @@ export default function MoHeader({
           </div>
           <div className="flex flex-wrap gap-2 text-[11px] text-muted">
             <span className="rounded-full border border-default bg-[color-mix(in_srgb,var(--surface-2)_55%,transparent)] px-3 py-1 text-muted-strong">
-              Retiro en La Gloria
+              Retiro fácil en La Gloria
             </span>
             <span className="rounded-full border border-default bg-[color-mix(in_srgb,var(--surface-2)_55%,transparent)] px-3 py-1 text-muted-strong">
               Te confirmamos antes de salir

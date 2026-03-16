@@ -35,7 +35,7 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
           <p className="mt-3 max-w-2xl text-sm text-muted-strong sm:text-base">
             Abarrotes, antojitos, café y combos para retiro en La Gloria,
             San Salvador. Pides rápido, te confirmamos por WhatsApp y sales
-            solo cuando ya sabes qué hay, cuánto pagar y cuándo pasar.
+            solo cuando ya sabes qué hay, cuánto pagar y cuándo pasar, sin comerte la cola del súper.
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
             <span className="rounded-full border border-[var(--accent)]/40 bg-[var(--accent)]/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-main dark:border-[var(--accent)]/45 dark:bg-[color-mix(in_srgb,var(--accent)_20%,transparent)]">
@@ -100,7 +100,7 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
             <p className="mt-1 text-muted-strong">Horario: {MO_STORE_HOURS_LABEL}</p>
             <p className="mt-1 text-muted-strong">Pagos: efectivo, transferencia o Tigo Money.</p>
             <p className="mt-1 text-muted-strong">Si algo no aparece en catálogo, pídelo por WhatsApp y te confirmamos si lo tenemos hoy.</p>
-            <p className="mt-1 text-muted-strong">Ideal para resolver antojo, café caliente, básicos de casa o un combo rápido sin hacer cola.</p>
+            <p className="mt-1 text-muted-strong">Ideal para resolver antojo, café caliente, básicos de casa o un combo rápido sin hacer cola ni dar la vuelta dos veces.</p>
           </div>
           <div className="mt-5 grid gap-2 text-xs text-muted-strong sm:grid-cols-3">
             <span>✅ Confirmamos antes de que salgas</span>

@@ -10,6 +10,7 @@ import MoCombos from "./MoCombos";
 import MoPromos from "./MoPromos";
 import MoQuickShop from "./MoQuickShop";
 import MoSections from "./MoSections";
+import CartUI from "../cart/CartUI";
 
 type MoStorefrontProps = {
   products: Product[];
@@ -191,6 +192,7 @@ export default function MoStorefront({
         onScrollToSpecial={() => scrollToId("pedido-especial")}
         onClearQuery={() => setQuery("")}
       />
+      <CartUI isSearchMode={isSearchMode} />
     </div>
   );
 }
