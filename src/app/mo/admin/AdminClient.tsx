@@ -222,11 +222,6 @@ export default function AdminClient() {
     return () => window.clearTimeout(timeoutId);
   }, [manualSaleNotice]);
 
-  useEffect(() => {
-    if (availableSections.some((section) => section.id === activeSection)) return;
-    setActiveSection("resumen");
-  }, [activeSection, availableSections]);
-
   const handleExport = () => {
     const payload = {
       products,
@@ -577,6 +572,11 @@ export default function AdminClient() {
 
     return filteredProducts;
   }, [activeSection, filteredProducts, hotToday, promo, searchQuery, stock, visibilityFilter]);
+
+  useEffect(() => {
+    if (availableSections.some((section) => section.id === activeSection)) return;
+    setActiveSection("resumen");
+  }, [activeSection, availableSections]);
 
   const runQuickAction = async (
     actionLabel: string,
