@@ -143,6 +143,11 @@ type ActionNotice = {
   message: string;
 };
 
+type InlineNotice = {
+  tone: ActionNoticeTone;
+  message: string;
+};
+
 export default function AdminClient() {
   type VisibilityFilter =
     | "all"
@@ -177,6 +182,7 @@ export default function AdminClient() {
   const [saleProductId, setSaleProductId] = useState("");
   const [saleQuantity, setSaleQuantity] = useState(1);
   const [saleUnitPrice, setSaleUnitPrice] = useState(0);
+  const [manualSaleNotice, setManualSaleNotice] = useState<InlineNotice | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [visibilityFilter, setVisibilityFilter] = useState<VisibilityFilter>("all");
   const importInputRef = useRef<HTMLInputElement>(null);
@@ -194,6 +200,12 @@ export default function AdminClient() {
     const timeoutId = window.setTimeout(() => setActionNotice(null), 2600);
     return () => window.clearTimeout(timeoutId);
   }, [actionNotice]);
+
+  useEffect(() => {
+    if (!manualSaleNotice || manualSaleNotice.tone !== "success") return;
+    const timeoutId = window.setTimeout(() => setManualSaleNotice(null), 3200);
+    return () => window.clearTimeout(timeoutId);
+  }, [manualSaleNotice]);
 
   const handleExport = () => {
     const payload = {
@@ -857,6 +869,10 @@ export default function AdminClient() {
   const registerSale = async () => {
     if (!adapter) return;
     if (!saleProductId) {
+      setManualSaleNotice({
+        tone: "error",
+        message: "Elige un producto antes de guardar la venta manual.",
+      });
       showActionError(
         "Falta elegir producto",
         "Selecciona un producto antes de registrar la venta manual."
@@ -866,6 +882,10 @@ export default function AdminClient() {
 
     const product = products.find((item) => item.id === saleProductId);
     if (!product) {
+      setManualSaleNotice({
+        tone: "error",
+        message: "El producto seleccionado ya no está disponible en el panel.",
+      });
       showActionError(
         "Producto no encontrado",
         "Vuelve a elegir el producto e intenta de nuevo."
@@ -873,10 +893,18 @@ export default function AdminClient() {
       return;
     }
     if (!Number.isFinite(safeQuantity) || safeQuantity <= 0) {
+      setManualSaleNotice({
+        tone: "error",
+        message: "La cantidad debe ser mayor a 0.",
+      });
       showActionError("Cantidad inválida", "La cantidad debe ser mayor a 0.");
       return;
     }
     if (!Number.isFinite(saleTotal) || saleTotal <= 0) {
+      setManualSaleNotice({
+        tone: "error",
+        message: "Revisa el precio unitario antes de guardar.",
+      });
       showActionError(
         "Precio inválido",
         "El precio unitario debe ser mayor a 0 para registrar la venta."
@@ -900,11 +928,23 @@ export default function AdminClient() {
       setPendingActionLabel("Registrando venta manual...");
       await adapter.logOrder(saleEntry);
       await reloadAll(adapter);
+      setSaleQuantity(1);
+      setSaleUnitPrice(parseMoney(prices[saleProductId] ?? product.price));
+      setManualSaleNotice({
+        tone: "success",
+        message: `${product.name} x${safeQuantity} se sumó al resumen de hoy por ${formatMoney(
+          saleTotal
+        )}.`,
+      });
       showActionSuccess(
         "Venta registrada",
         `${product.name} x${safeQuantity} quedó sumado al resumen del día.`
       );
     } catch {
+      setManualSaleNotice({
+        tone: "error",
+        message: "No se pudo guardar la venta manual. Revisa la sesión e inténtalo de nuevo.",
+      });
       showActionError(
         "No se pudo registrar la venta",
         "Intenta de nuevo y comprueba que la sesión siga activa."
@@ -1243,6 +1283,9 @@ export default function AdminClient() {
           <p className="mt-4 text-sm text-white/60">
             Úsalo solo si la venta se hizo fuera del flujo normal y quieres reflejarla en el resumen del día.
           </p>
+          <div className="mt-4 rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-xs text-white/70">
+            Aquí debería pasar algo visible: o se suma al resumen de hoy, o ves el error aquí mismo.
+          </div>
           <div className="mt-4 grid gap-4 lg:grid-cols-[2fr,1fr,1fr,1fr]">
             <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
               Producto
@@ -1285,13 +1328,24 @@ export default function AdminClient() {
               type="button"
               onClick={registerSale}
               disabled={pendingActionLabel === "Registrando venta manual..."}
-              className="self-end rounded-2xl border border-emerald-200/40 bg-emerald-400/20 px-4 py-3 text-sm uppercase tracking-[0.2em] text-emerald-100 disabled:cursor-not-allowed disabled:opacity-60"
+              className="w-full self-end rounded-2xl border border-emerald-200/40 bg-emerald-400/20 px-4 py-3 text-sm uppercase tracking-[0.2em] text-emerald-100 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {pendingActionLabel === "Registrando venta manual..."
                 ? "Guardando..."
-                : "Guardar"}
+                : "Agregar venta manual"}
             </button>
           </div>
+          {manualSaleNotice ? (
+            <div
+              className={`mt-4 rounded-2xl border px-4 py-3 text-sm ${
+                manualSaleNotice.tone === "success"
+                  ? "border-emerald-300/30 bg-emerald-500/10 text-emerald-100"
+                  : "border-amber-300/30 bg-amber-500/10 text-amber-100"
+              }`}
+            >
+              {manualSaleNotice.message}
+            </div>
+          ) : null}
           <p className="mt-3 text-xs text-white/45">
             Total estimado de esta venta: {formatMoney(saleTotal)}
           </p>

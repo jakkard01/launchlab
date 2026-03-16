@@ -58,6 +58,11 @@ const resolveCategoryIcon = (id: string) => {
   return CATEGORY_ICON_BY_ID[key];
 };
 
+const horizontalRailClass =
+  "no-scrollbar -mx-1 flex snap-x snap-mandatory gap-3 overflow-x-auto px-1 pb-2 [scrollbar-width:none] [overscroll-behavior-x:contain] [touch-action:pan-x] sm:mx-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible sm:px-0";
+
+const horizontalCardClass = "min-w-[240px] shrink-0 snap-start sm:min-w-0";
+
 export default function MoQuickShop({
   products,
   activeTab,
@@ -240,9 +245,9 @@ export default function MoQuickShop({
           <span className="text-xs text-[var(--accent)]">Hecho para hoy</span>
         </div>
         {hotToday.length > 0 ? (
-          <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
+          <div className={horizontalRailClass}>
             {hotToday.map((product) => (
-              <div key={product.id} className="min-w-[240px] sm:min-w-0">
+              <div key={product.id} className={horizontalCardClass}>
                 <ProductCard
                   product={product}
                   variant="compact"
@@ -267,9 +272,9 @@ export default function MoQuickShop({
           <span className="text-xs text-muted-strong">Para no salir dos veces</span>
         </div>
         {combos.length > 0 ? (
-          <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
+          <div className={horizontalRailClass}>
             {combos.map((product) => (
-              <div key={product.id} className="min-w-[240px] sm:min-w-0">
+              <div key={product.id} className={horizontalCardClass}>
                 <ProductCard
                   product={product}
                   variant="compact"
@@ -294,9 +299,9 @@ export default function MoQuickShop({
           <span className="text-xs text-[var(--accent)]">Café caliente, pan dulce y antojo</span>
         </div>
         {antojitos.length > 0 ? (
-          <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
+          <div className={horizontalRailClass}>
             {antojitos.map((product) => (
-              <div key={product.id} className="min-w-[240px] sm:min-w-0">
+              <div key={product.id} className={horizontalCardClass}>
                 <ProductCard
                   product={product}
                   variant="compact"
@@ -321,9 +326,9 @@ export default function MoQuickShop({
           <span className="text-xs text-muted-strong">Para resolver hoy sin cola</span>
         </div>
         {promoProducts.length > 0 ? (
-          <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
+          <div className={horizontalRailClass}>
             {promoProducts.map((product) => (
-              <div key={product.id} className="min-w-[240px] sm:min-w-0">
+              <div key={product.id} className={horizontalCardClass}>
                 <ProductCard
                   product={product}
                   variant="compact"
@@ -347,10 +352,10 @@ export default function MoQuickShop({
           </h3>
           <span className="text-xs text-muted-strong">Lo que más ayuda a resolver la compra</span>
         </div>
-        <div className="flex gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
+        <div className={horizontalRailClass}>
           {featured.length > 0 ? (
             featured.map((product) => (
-              <div key={product.id} className="min-w-[240px] sm:min-w-0">
+              <div key={product.id} className={horizontalCardClass}>
                 <ProductCard
                   product={product}
                   variant="compact"
@@ -366,6 +371,11 @@ export default function MoQuickShop({
           )}
         </div>
       </div>
+      <style jsx>{`
+        .no-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </section>
   );
 }
