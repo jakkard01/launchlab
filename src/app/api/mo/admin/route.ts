@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import {
+  getMoBackendErrorCode,
+  getMoBackendErrorMessage,
+} from "../../../../lib/mo/data/backendError";
 import type { Product } from "../../../../lib/mo/types";
 import type {
   AdminSnapshot,
@@ -33,28 +37,8 @@ export const runtime = "nodejs";
 const isMoAdmin = () => cookies().get("mo_admin")?.value === "1";
 
 const toApiError = (error: unknown, fallbackMessage: string) => {
-  const message = error instanceof Error ? error.message : fallbackMessage;
-  let code = "ADMIN_BACKEND_ERROR";
-
-  if (message.includes("Google Sheets no configurado")) {
-    code = "SHEETS_NOT_CONFIGURED";
-  } else if (message.includes("GOOGLE_SERVICE_ACCOUNT_EMAIL no apunta")) {
-    code = "SHEETS_SERVICE_ACCOUNT_PLACEHOLDER";
-  } else if (message.includes("PRIVATE_KEY no tiene formato PEM válido")) {
-    code = "SHEETS_PRIVATE_KEY_FORMAT";
-  } else if (message.includes("PRIVATE_KEY no se pudo decodificar")) {
-    code = "SHEETS_PRIVATE_KEY_INVALID";
-  } else if (message.includes("account not found")) {
-    code = "SHEETS_SERVICE_ACCOUNT_NOT_FOUND";
-  } else if (message.includes("invalid_grant")) {
-    code = "SHEETS_INVALID_GRANT";
-  } else if (message.includes("No se pudo obtener token de Google Sheets")) {
-    code = "SHEETS_AUTH_FAILED";
-  } else if (message.includes("Unable to parse range") || message.includes("Range")) {
-    code = "SHEETS_SCHEMA_RANGE_ERROR";
-  } else if (message.includes("Esquema inválido")) {
-    code = "SHEETS_SCHEMA_INVALID";
-  }
+  const message = getMoBackendErrorMessage(error, fallbackMessage);
+  const code = getMoBackendErrorCode(error, "ADMIN_BACKEND_ERROR");
 
   return { message, code };
 };

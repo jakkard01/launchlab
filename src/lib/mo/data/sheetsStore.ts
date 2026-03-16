@@ -27,6 +27,12 @@ const PRODUCTS_SHEET = "products";
 const ORDERS_SHEET = "orders";
 const DAILY_SALES_SHEET = "daily_sales";
 const EVENTS_SHEET = "events";
+const CORE_READINESS_SHEETS = [
+  PRODUCTS_SHEET,
+  ORDERS_SHEET,
+  DAILY_SALES_SHEET,
+  EVENTS_SHEET,
+] as const;
 
 const PRODUCT_HEADERS = [
   "id",
@@ -220,6 +226,15 @@ const readSheet = async (sheetName: string) => {
   )) as { values?: string[][] };
 
   return Array.isArray(data.values) ? data.values : [];
+};
+
+const readHeaderRow = async (sheetName: string) => {
+  const encodedRange = encodeURIComponent(`${sheetName}!1:1`);
+  const data = (await sheetsFetch(
+    getSpreadsheetUrl(`/values/${encodedRange}`)
+  )) as { values?: string[][] };
+
+  return Array.isArray(data.values?.[0]) ? data.values[0] : [];
 };
 
 const writeSheet = async (
@@ -482,6 +497,290 @@ const ensureProductsSeeded = async () => {
   await writeSheet(PRODUCTS_SHEET, PRODUCT_HEADERS, serializeProducts(products, hotToday));
   return readSheet(PRODUCTS_SHEET);
 };
+
+type ReadinessCheck = {
+  ok: boolean;
+  code: string;
+  message: string;
+};
+
+type SchemaCheck = ReadinessCheck & {
+  sheets: Record<string, ReadinessCheck>;
+};
+
+export type StoreOperationalReadiness = {
+  checkedAt: string;
+  ok: boolean;
+  mode: "fully_operational" | "storefront_live_admin_blocked" | "fallback_only";
+  summary: string;
+  checks: {
+    adminAccess: ReadinessCheck;
+    sheetsConfig: ReadinessCheck;
+    sheetsAuth: ReadinessCheck;
+    sheetsSchema: SchemaCheck;
+    storefrontLive: ReadinessCheck;
+    adminWriteLive: ReadinessCheck;
+    eventsLive: ReadinessCheck;
+  };
+};
+
+const okCheck = (code: string, message: string): ReadinessCheck => ({
+  ok: true,
+  code,
+  message,
+});
+
+const failCheck = (code: string, message: string): ReadinessCheck => ({
+  ok: false,
+  code,
+  message,
+});
+
+const getAdminAccessCheck = (): ReadinessCheck => {
+  if (process.env.MO_ADMIN_ENABLED !== "1") {
+    return failCheck(
+      "ADMIN_DISABLED",
+      "MO_ADMIN_ENABLED no está en 1; el acceso admin no está habilitado."
+    );
+  }
+
+  const hasSecret = Boolean(
+    (process.env.ADMIN_PASSWORD ?? "").trim() ||
+      (process.env.ADMIN_PIN ?? "").trim() ||
+      (process.env.MO_ADMIN_KEY ?? "").trim()
+  );
+
+  if (!hasSecret) {
+    return failCheck(
+      "ADMIN_SECRET_MISSING",
+      "El admin está habilitado, pero no existe ADMIN_PASSWORD, ADMIN_PIN o MO_ADMIN_KEY."
+    );
+  }
+
+  return okCheck(
+    "ADMIN_ACCESS_READY",
+    "El acceso admin tiene flag habilitada y al menos una credencial configurada."
+  );
+};
+
+const getSchemaCheck = async (): Promise<SchemaCheck> => {
+  const meta = (await getSpreadsheetMeta()) as {
+    sheets?: Array<{ properties?: { title?: string } }>;
+  };
+  const titles = new Set(
+    (meta.sheets ?? []).map((sheet) => sheet.properties?.title ?? "").filter(Boolean)
+  );
+  const checks: Record<string, ReadinessCheck> = {};
+
+  for (const sheetName of CORE_READINESS_SHEETS) {
+    if (!titles.has(sheetName)) {
+      checks[sheetName] = failCheck(
+        "SHEET_MISSING",
+        `Falta la pestaña ${sheetName}.`
+      );
+      continue;
+    }
+
+    try {
+      const headers = await readHeaderRow(sheetName);
+      const required =
+        sheetName === PRODUCTS_SHEET
+          ? PRODUCT_HEADERS
+          : sheetName === ORDERS_SHEET
+            ? ORDER_HEADERS
+            : sheetName === DAILY_SALES_SHEET
+              ? DAILY_SALES_HEADERS
+              : EVENT_HEADERS;
+
+      if (headers.length === 0) {
+        checks[sheetName] = failCheck(
+          "SHEET_EMPTY",
+          `La pestaña ${sheetName} existe pero no tiene encabezados.`
+        );
+        continue;
+      }
+
+      const missing = required.filter((header) => !headers.includes(header));
+      checks[sheetName] =
+        missing.length === 0
+          ? okCheck("SCHEMA_OK", `La pestaña ${sheetName} tiene el esquema esperado.`)
+          : failCheck(
+              "SHEET_HEADERS_MISSING",
+              `La pestaña ${sheetName} no tiene todas las columnas requeridas: ${missing.join(", ")}.`
+            );
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : `No se pudo leer encabezados de ${sheetName}.`;
+      checks[sheetName] = failCheck("SHEET_READ_FAILED", message);
+    }
+  }
+
+  const firstFailure = Object.entries(checks).find(([, check]) => !check.ok);
+  if (firstFailure) {
+    const [sheetName, check] = firstFailure;
+    return {
+      ok: false,
+      code: check.code,
+      message: `El esquema operativo de Sheets no está listo. Primera falla: ${sheetName}. ${check.message}`,
+      sheets: checks,
+    };
+  }
+
+  return {
+    ok: true,
+    code: "SCHEMA_READY",
+    message:
+      "Las pestañas y encabezados críticos (`products`, `orders`, `daily_sales`, `events`) están listos.",
+    sheets: checks,
+  };
+};
+
+export const getStoreOperationalReadiness =
+  async (): Promise<StoreOperationalReadiness> => {
+    const checkedAt = new Date().toISOString();
+    const adminAccess = getAdminAccessCheck();
+    let sheetsConfig = okCheck(
+      "SHEETS_CONFIG_READY",
+      "Las variables críticas de RYS/Google Sheets están presentes y con formato válido."
+    );
+    let sheetsAuth = failCheck(
+      "SHEETS_AUTH_PENDING",
+      "La autenticación contra Google Sheets aún no fue verificada."
+    );
+    let sheetsSchema: SchemaCheck = {
+      ...failCheck(
+        "SHEETS_SCHEMA_PENDING",
+        "El esquema de la hoja aún no fue verificado."
+      ),
+      sheets: {},
+    };
+
+    try {
+      getSheetsConfig();
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "No se pudo validar configuración de Google Sheets.";
+      sheetsConfig = failCheck("SHEETS_CONFIG_INVALID", message);
+
+      return {
+        checkedAt,
+        ok: false,
+        mode: "fallback_only",
+        summary:
+          "RYS puede renderizar la UI con semilla/fallback, pero no está operando contra Google Sheets.",
+        checks: {
+          adminAccess,
+          sheetsConfig,
+          sheetsAuth,
+          sheetsSchema,
+          storefrontLive: failCheck(
+            "STOREFRONT_FALLBACK_ACTIVE",
+            "El storefront no puede confirmar lectura viva de Sheets."
+          ),
+          adminWriteLive: failCheck(
+            "ADMIN_WRITE_BLOCKED",
+            "El admin no puede operar sobre Sheets mientras la configuración siga inválida."
+          ),
+          eventsLive: failCheck(
+            "EVENTS_BLOCKED",
+            "El registro remoto de eventos depende de la misma configuración de Sheets."
+          ),
+        },
+      };
+    }
+
+    try {
+      await getAccessToken();
+      sheetsAuth = okCheck(
+        "SHEETS_AUTH_READY",
+        "Google aceptó la service account y emitió token."
+      );
+      sheetsSchema = await getSchemaCheck();
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "No se pudo autenticar o leer esquema de Google Sheets.";
+      const authLikeError =
+        message.includes("No se pudo obtener token de Google Sheets") ||
+        message.includes("GOOGLE_SERVICE_ACCOUNT_EMAIL no apunta") ||
+        message.includes("PRIVATE_KEY");
+
+      if (authLikeError) {
+        sheetsAuth = failCheck("SHEETS_AUTH_FAILED", message);
+      } else {
+        sheetsAuth = okCheck(
+          "SHEETS_AUTH_READY",
+          "Google aceptó la service account y emitió token."
+        );
+        sheetsSchema = {
+          ...failCheck("SHEETS_SCHEMA_INVALID", message),
+          sheets: {},
+        };
+      }
+    }
+
+    const storefrontLive = sheetsConfig.ok && sheetsAuth.ok && sheetsSchema.ok;
+    const adminWriteLive = storefrontLive && adminAccess.ok;
+    const eventsLive =
+      sheetsConfig.ok &&
+      sheetsAuth.ok &&
+      (sheetsSchema.sheets[EVENTS_SHEET]?.ok ?? false);
+
+    return {
+      checkedAt,
+      ok: storefrontLive && adminWriteLive,
+      mode: storefrontLive
+        ? adminWriteLive
+          ? "fully_operational"
+          : "storefront_live_admin_blocked"
+        : "fallback_only",
+      summary: storefrontLive
+        ? adminWriteLive
+          ? "RYS está operando de verdad contra Google Sheets en storefront, admin y eventos."
+          : "RYS puede leer Sheets y servir catálogo vivo, pero el acceso admin sigue bloqueado por configuración de login."
+        : "RYS puede mantener la UI viva con fallback, pero no hay garantía de operación real contra Sheets.",
+      checks: {
+        adminAccess,
+        sheetsConfig,
+        sheetsAuth,
+        sheetsSchema,
+        storefrontLive: storefrontLive
+          ? okCheck(
+              "STOREFRONT_LIVE",
+              "El catálogo puede leerse de Google Sheets sin fallback."
+            )
+          : failCheck(
+              "STOREFRONT_FALLBACK_ACTIVE",
+              "El storefront no puede confirmar lectura viva de Sheets."
+            ),
+        adminWriteLive: adminWriteLive
+          ? okCheck(
+              "ADMIN_WRITE_LIVE",
+              "El admin puede autenticarse y operar sobre la misma fuente viva."
+            )
+          : failCheck(
+              "ADMIN_WRITE_BLOCKED",
+              adminAccess.ok
+                ? "La autenticación o el esquema de Sheets sigue bloqueando la operación admin."
+                : adminAccess.message
+            ),
+        eventsLive: eventsLive
+          ? okCheck(
+              "EVENTS_LIVE",
+              "La pestaña de eventos existe y el backend puede registrar señales en Sheets."
+            )
+          : failCheck(
+              "EVENTS_BLOCKED",
+              "El registro remoto de eventos no puede confirmarse sobre Sheets."
+            ),
+      },
+    };
+  };
 
 const mergeMissingSeedProducts = async (rows: string[][]) => {
   const products = parseProducts(rows);
