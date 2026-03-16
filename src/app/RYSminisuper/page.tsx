@@ -63,7 +63,10 @@ export default async function RysMiniSuperPage() {
     }));
     fallbackWarning = {
       title: "Catálogo temporal en modo respaldo",
-      message: issue.message,
+      message:
+        issue.kind === "quota"
+          ? "Estamos mostrando el catálogo de respaldo mientras bajan las lecturas contra la hoja."
+          : issue.message,
       help: issue.help,
     };
   }

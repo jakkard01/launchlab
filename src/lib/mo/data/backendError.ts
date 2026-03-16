@@ -1,5 +1,6 @@
 export type MoBackendErrorCode =
   | "SHEETS_NOT_CONFIGURED"
+  | "SHEETS_QUOTA_EXCEEDED"
   | "SHEETS_SERVICE_ACCOUNT_PLACEHOLDER"
   | "SHEETS_PRIVATE_KEY_FORMAT"
   | "SHEETS_PRIVATE_KEY_INVALID"
@@ -24,6 +25,14 @@ export const getMoBackendErrorCode = (
 
   if (message.includes("Google Sheets no configurado")) {
     return "SHEETS_NOT_CONFIGURED";
+  }
+
+  if (
+    message.includes("quota exceeded") ||
+    message.includes("Read requests per minute per user") ||
+    message.includes("Too many requests")
+  ) {
+    return "SHEETS_QUOTA_EXCEEDED";
   }
 
   if (message.includes("GOOGLE_SERVICE_ACCOUNT_EMAIL no apunta")) {

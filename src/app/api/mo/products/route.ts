@@ -11,7 +11,14 @@ export const runtime = "nodejs";
 export async function GET() {
   try {
     const products = await getStoreProducts();
-    return NextResponse.json({ products });
+    return NextResponse.json(
+      { products },
+      {
+        headers: {
+          "Cache-Control": "s-maxage=15, stale-while-revalidate=60",
+        },
+      }
+    );
   } catch (error) {
     const message = getMoBackendErrorMessage(
       error,

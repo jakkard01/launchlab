@@ -23,6 +23,10 @@ import type {
 const GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token";
 const GOOGLE_SHEETS_SCOPE = "https://www.googleapis.com/auth/spreadsheets";
 const GOOGLE_SHEETS_API = "https://sheets.googleapis.com/v4/spreadsheets";
+const ACCESS_TOKEN_TTL_MS = 55 * 60 * 1000;
+const SPREADSHEET_META_TTL_MS = 60 * 1000;
+const STORE_STATE_TTL_MS = 15 * 1000;
+const READINESS_TTL_MS = 30 * 1000;
 
 const PRODUCTS_SHEET = "products";
 const ORDERS_SHEET = "orders";
@@ -116,6 +120,42 @@ const getSheetsConfig = () => {
   });
 };
 
+type CachedValue<T> = {
+  expiresAt: number;
+  value: T;
+};
+
+type StoreState = {
+  products: Product[];
+  hotToday: Record<string, HotState>;
+  orderLogs: OrderLogEntry[];
+  dailySales: DailySalesEntry[];
+  marketingEvents: MarketingEventEntry[];
+};
+
+let accessTokenCache: CachedValue<string> | null = null;
+let accessTokenInFlight: Promise<string> | null = null;
+let spreadsheetMetaCache: CachedValue<Record<string, unknown>> | null = null;
+let spreadsheetMetaInFlight: Promise<Record<string, unknown>> | null = null;
+let supportSheetsReady = false;
+let supportSheetsInFlight: Promise<void> | null = null;
+let storeStateCache: CachedValue<StoreState> | null = null;
+let storeStateInFlight: Promise<StoreState> | null = null;
+let readinessCache: CachedValue<StoreOperationalReadiness> | null = null;
+let readinessInFlight: Promise<StoreOperationalReadiness> | null = null;
+
+const now = () => Date.now();
+
+const isFresh = <T>(entry: CachedValue<T> | null) =>
+  Boolean(entry && entry.expiresAt > now());
+
+const invalidateStoreCaches = () => {
+  storeStateCache = null;
+  storeStateInFlight = null;
+  readinessCache = null;
+  readinessInFlight = null;
+};
+
 const createSignedJwt = () => {
   const { clientEmail, privateKey } = getSheetsConfig();
   const now = Math.floor(Date.now() / 1000);
@@ -140,6 +180,15 @@ const createSignedJwt = () => {
 };
 
 const getAccessToken = async () => {
+  if (isFresh(accessTokenCache)) {
+    return accessTokenCache!.value;
+  }
+
+  if (accessTokenInFlight) {
+    return accessTokenInFlight;
+  }
+
+  accessTokenInFlight = (async () => {
   const assertion = createSignedJwt();
   const response = await fetch(GOOGLE_TOKEN_URL, {
     method: "POST",
@@ -163,7 +212,19 @@ const getAccessToken = async () => {
     throw new Error(formatGoogleTokenError(data.error ?? "", data.error_description));
   }
 
-  return data.access_token;
+    accessTokenCache = {
+      value: data.access_token,
+      expiresAt: now() + ACCESS_TOKEN_TTL_MS,
+    };
+
+    return data.access_token;
+  })();
+
+  try {
+    return await accessTokenInFlight;
+  } finally {
+    accessTokenInFlight = null;
+  }
 };
 
 const sheetsFetch = async (
@@ -201,7 +262,28 @@ const getSpreadsheetUrl = (suffix: string) => {
 };
 
 const getSpreadsheetMeta = async () => {
-  return sheetsFetch(getSpreadsheetUrl(""));
+  if (isFresh(spreadsheetMetaCache)) {
+    return spreadsheetMetaCache!.value;
+  }
+
+  if (spreadsheetMetaInFlight) {
+    return spreadsheetMetaInFlight;
+  }
+
+  spreadsheetMetaInFlight = (async () => {
+    const meta = await sheetsFetch(getSpreadsheetUrl(""));
+    spreadsheetMetaCache = {
+      value: meta,
+      expiresAt: now() + SPREADSHEET_META_TTL_MS,
+    };
+    return meta;
+  })();
+
+  try {
+    return await spreadsheetMetaInFlight;
+  } finally {
+    spreadsheetMetaInFlight = null;
+  }
 };
 
 const ensureSheet = async (title: string) => {
@@ -218,6 +300,7 @@ const ensureSheet = async (title: string) => {
       requests: [{ addSheet: { properties: { title } } }],
     }),
   });
+  spreadsheetMetaCache = null;
 };
 
 const readSheet = async (sheetName: string) => {
@@ -258,6 +341,7 @@ const writeSheet = async (
       }),
     }
   );
+  invalidateStoreCaches();
 };
 
 const seedProducts = (): Product[] =>
@@ -680,6 +764,15 @@ const getSchemaCheck = async (): Promise<SchemaCheck> => {
 
 export const getStoreOperationalReadiness =
   async (): Promise<StoreOperationalReadiness> => {
+    if (isFresh(readinessCache)) {
+      return readinessCache!.value;
+    }
+
+    if (readinessInFlight) {
+      return readinessInFlight;
+    }
+
+    readinessInFlight = (async () => {
     const checkedAt = new Date().toISOString();
     const adminAccess = getAdminAccessCheck();
     let sheetsConfig = okCheck(
@@ -707,7 +800,7 @@ export const getStoreOperationalReadiness =
           : "No se pudo validar configuración de Google Sheets.";
       sheetsConfig = failCheck("SHEETS_CONFIG_INVALID", message);
 
-      return {
+      const result: StoreOperationalReadiness = {
         checkedAt,
         ok: false,
         mode: "fallback_only",
@@ -732,6 +825,11 @@ export const getStoreOperationalReadiness =
           ),
         },
       };
+      readinessCache = {
+        value: result,
+        expiresAt: now() + READINESS_TTL_MS,
+      };
+      return result;
     }
 
     try {
@@ -772,7 +870,7 @@ export const getStoreOperationalReadiness =
       sheetsAuth.ok &&
       (sheetsSchema.sheets[EVENTS_SHEET]?.ok ?? false);
 
-    return {
+    const result: StoreOperationalReadiness = {
       checkedAt,
       ok: storefrontLive && adminWriteLive,
       mode: storefrontLive
@@ -818,9 +916,21 @@ export const getStoreOperationalReadiness =
           : failCheck(
               "EVENTS_BLOCKED",
               "El registro remoto de eventos no puede confirmarse sobre Sheets."
-            ),
+        ),
       },
     };
+    readinessCache = {
+      value: result,
+      expiresAt: now() + READINESS_TTL_MS,
+    };
+    return result;
+    })();
+
+    try {
+      return await readinessInFlight;
+    } finally {
+      readinessInFlight = null;
+    }
   };
 
 const mergeMissingSeedProducts = async (rows: string[][]) => {
@@ -843,6 +953,10 @@ const mergeMissingSeedProducts = async (rows: string[][]) => {
 };
 
 const ensureSupportSheets = async () => {
+  if (supportSheetsReady) return;
+  if (supportSheetsInFlight) return supportSheetsInFlight;
+
+  supportSheetsInFlight = (async () => {
   const orders = await readSheet(ORDERS_SHEET);
   if (orders.length === 0) {
     await writeSheet(ORDERS_SHEET, ORDER_HEADERS, []);
@@ -857,23 +971,54 @@ const ensureSupportSheets = async () => {
   if (events.length === 0) {
     await writeSheet(EVENTS_SHEET, EVENT_HEADERS, []);
   }
+    supportSheetsReady = true;
+  })();
+
+  try {
+    await supportSheetsInFlight;
+  } finally {
+    supportSheetsInFlight = null;
+  }
 };
 
-const loadState = async () => {
-  const seededProductRows = await ensureProductsSeeded();
-  const productRows = await mergeMissingSeedProducts(seededProductRows);
-  await ensureSupportSheets();
-  const orderRows = await readSheet(ORDERS_SHEET);
-  const dailyRows = await readSheet(DAILY_SALES_SHEET);
-  const eventRows = await readSheet(EVENTS_SHEET);
+const loadState = async ({ forceRefresh = false }: { forceRefresh?: boolean } = {}) => {
+  if (!forceRefresh && isFresh(storeStateCache)) {
+    return storeStateCache!.value;
+  }
 
-  const products = parseProducts(productRows);
-  const hotToday = parseHotToday(productRows);
-  const orderLogs = parseOrders(orderRows);
-  const dailySales = parseDailySales(dailyRows);
-  const marketingEvents = parseEvents(eventRows);
+  if (!forceRefresh && storeStateInFlight) {
+    return storeStateInFlight;
+  }
 
-  return { products, hotToday, orderLogs, dailySales, marketingEvents };
+  storeStateInFlight = (async () => {
+    const seededProductRows = await ensureProductsSeeded();
+    const productRows = await mergeMissingSeedProducts(seededProductRows);
+    await ensureSupportSheets();
+    const orderRows = await readSheet(ORDERS_SHEET);
+    const dailyRows = await readSheet(DAILY_SALES_SHEET);
+    const eventRows = await readSheet(EVENTS_SHEET);
+
+    const nextState: StoreState = {
+      products: parseProducts(productRows),
+      hotToday: parseHotToday(productRows),
+      orderLogs: parseOrders(orderRows),
+      dailySales: parseDailySales(dailyRows),
+      marketingEvents: parseEvents(eventRows),
+    };
+
+    storeStateCache = {
+      value: nextState,
+      expiresAt: now() + STORE_STATE_TTL_MS,
+    };
+
+    return nextState;
+  })();
+
+  try {
+    return await storeStateInFlight;
+  } finally {
+    storeStateInFlight = null;
+  }
 };
 
 const toMaps = (products: Product[]) => {
@@ -915,7 +1060,7 @@ const updateProduct = async (
   id: string,
   updater: (product: Product) => Product
 ) => {
-  const state = await loadState();
+  const state = await loadState({ forceRefresh: true });
   const products = state.products.map((product) =>
     product.id === id
       ? {
@@ -951,7 +1096,7 @@ export const getAdminSnapshot = async (): Promise<AdminSnapshot> => {
 };
 
 export const saveProductDraft = async (input: ProductAdminSaveInput) => {
-  const state = await loadState();
+  const state = await loadState({ forceRefresh: true });
   const nextHot = {
     ...state.hotToday,
     [input.id]: {
@@ -1026,7 +1171,7 @@ export const updateStatus = async (id: string, status: ProductStatus) => {
 };
 
 export const updateHot = async (id: string, next: Partial<HotState>) => {
-  const state = await loadState();
+  const state = await loadState({ forceRefresh: true });
   const current = state.hotToday[id] ?? defaultHotState();
   await saveProducts(state.products, {
     ...state.hotToday,
@@ -1070,7 +1215,7 @@ export const importBackup = async (backup: Partial<AdminSnapshot>) => {
 };
 
 export const logOrder = async (entry: OrderLogInput) => {
-  const state = await loadState();
+  const state = await loadState({ forceRefresh: true });
   const record: OrderLogEntry = {
     ...entry,
     id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
@@ -1084,7 +1229,7 @@ export const logOrder = async (entry: OrderLogInput) => {
 };
 
 export const removeOrder = async (id: string) => {
-  const state = await loadState();
+  const state = await loadState({ forceRefresh: true });
   await writeSheet(
     ORDERS_SHEET,
     ORDER_HEADERS,
@@ -1093,7 +1238,7 @@ export const removeOrder = async (id: string) => {
 };
 
 export const logDailySales = async (entry: DailySalesInput) => {
-  const state = await loadState();
+  const state = await loadState({ forceRefresh: true });
   const record: DailySalesEntry = {
     ...entry,
     id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
@@ -1107,7 +1252,7 @@ export const logDailySales = async (entry: DailySalesInput) => {
 };
 
 export const logMarketingEvent = async (entry: MarketingEventInput) => {
-  const state = await loadState();
+  const state = await loadState({ forceRefresh: true });
   const record: MarketingEventEntry = {
     ...entry,
     id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,

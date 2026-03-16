@@ -3,6 +3,7 @@ import { MoApiError } from "./apiAdapter";
 export type MoBackendErrorKind =
   | "auth"
   | "not_configured"
+  | "quota"
   | "placeholder"
   | "private_key"
   | "invalid_grant"
@@ -64,6 +65,19 @@ export const getMoBackendErrorInfo = (error: unknown): MoBackendErrorInfo => {
       "Falta configuración de Google Sheets",
       "El runtime no tiene todas las variables requeridas para RYS.",
       "Define RYS_SHEETS_SPREADSHEET_ID, GOOGLE_SERVICE_ACCOUNT_EMAIL y GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY."
+    );
+  }
+
+  if (
+    message.includes("quota exceeded") ||
+    message.includes("Read requests per minute per user") ||
+    message.includes("Too many requests")
+  ) {
+    return buildInfo(
+      "quota",
+      "Google Sheets está saturado por demasiadas lecturas",
+      "La tienda sigue viva, pero el runtime alcanzó la cuota de lecturas por minuto de Sheets.",
+      "Espera unos segundos y vuelve a probar. El hotfix ahora reutiliza caché para bajar presión sobre la hoja."
     );
   }
 
