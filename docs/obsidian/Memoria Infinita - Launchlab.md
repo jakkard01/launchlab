@@ -1509,3 +1509,26 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
 - mejoras visuales/comerciales finales;
 - food porn / catálogo más vendible;
 - validación táctil real más profunda en móvil si aparece una fricción nueva de uso.
+
+## 2026-03-16 — Revalidación Parte 1: no rehacer migración base
+
+### Estado revalidado
+- La Parte 1 de auth/admin ya está presente en esta branch y no conviene rehacerla:
+  - `adminAuth.ts` ya maneja sesión firmada, roles, rate limit y compat legacy;
+  - `securityStore.ts` ya maneja `users` y `audit_log` en Sheets;
+  - existen `/api/mo/admin/login`, `/logout`, `/me`, `/users`, `/audit`;
+  - existe pantalla owner-first en `/RYSminisuper/admin/seguridad`.
+
+### Qué se confirmó de nuevo
+- producción sin sesión:
+  - `/api/mo/admin/me` -> `401`
+  - `/api/mo/admin/users` -> `401`
+  - `/api/mo/admin/audit` -> `401`
+- `pnpm -s build` y `npm run lint` ya pasan en la branch actual;
+- la base técnica ya está lista para seguir con UX/operación en Parte 2 y premium/comercial en Parte 3.
+
+### Qué no se pudo reconfirmar aquí
+- El intento de login legacy con la clave disponible localmente no fue aceptado en producción.
+- Eso no invalida la implementación; solo deja abierta una de dos posibilidades:
+  - producción ya usa otra clave legacy;
+  - o ya existen usuarios reales y la clave local no coincide con el entorno productivo actual.
