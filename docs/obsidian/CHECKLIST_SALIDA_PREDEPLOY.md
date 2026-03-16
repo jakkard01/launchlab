@@ -19,11 +19,12 @@ Branch: feat/pagina-hermana-live
 1. Abrir homepage PBIA (`/`) y confirmar carga normal.
 2. Probar `POST /api/contact` desde formulario y confirmar respuesta exitosa con `leadId`.
 3. Verificar llegada real del lead en webhook o hoja `pbia_leads`.
-4. Abrir `/RYSminisuper` y confirmar lectura de catálogo (`200` en `/api/mo/products`).
-5. Login admin en `/RYSminisuper/admin/acceso`.
-6. Cambiar un producto real (ej. `sortOrder`, `stock`, `image`) y guardar.
-7. Recargar storefront y confirmar reflejo del cambio.
-8. Probar CTA de WhatsApp de carrito y validar formato del mensaje.
+4. Consultar `GET /api/mo/health` y exigir `200` + `mode=fully_operational`.
+5. Abrir `/RYSminisuper` y confirmar lectura de catálogo (`200` en `/api/mo/products`).
+6. Login admin en `/RYSminisuper/admin/acceso`.
+7. Cambiar un producto real (ej. `sortOrder`, `stock`, `image`) y guardar.
+8. Recargar storefront y confirmar reflejo del cambio.
+9. Probar CTA de WhatsApp de carrito y validar formato del mensaje.
 
 ## Punto de reanudación siguiente
 1. Subida simple de imagen (sin panel complejo), manteniendo URL manual como fallback.

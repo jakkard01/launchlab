@@ -14,22 +14,26 @@ read_env_value() {
 echo "Smoke tests against: $BASE_URL"
 
 echo ""
-echo "1) PBIA contact POST"
+echo "1) RYS operational health"
+curl -sS -i "$BASE_URL/api/mo/health" | sed -n '1,40p'
+
+echo ""
+echo "2) PBIA contact POST"
 curl -sS -i -X POST "$BASE_URL/api/contact" \
   -H 'Content-Type: application/json' \
   --data '{"name":"Test Operativo","email":"ops@example.com","message":"Mensaje de prueba operativa para validar wiring real.","source":"predeploy-smoke"}' \
   | sed -n '1,20p'
 
 echo ""
-echo "2) RYS products GET"
+echo "3) RYS products GET"
 curl -sS -i "$BASE_URL/api/mo/products" | sed -n '1,20p'
 
 echo ""
-echo "3) RYS admin GET (sin cookie)"
+echo "4) RYS admin GET (sin cookie)"
 curl -sS -i "$BASE_URL/api/mo/admin" | sed -n '1,20p'
 
 echo ""
-echo "4) RYS admin login + stats + write"
+echo "5) RYS admin login + stats + write"
 secret="${ADMIN_PASSWORD:-${ADMIN_PIN:-${MO_ADMIN_KEY:-}}}"
 if [[ -z "$secret" ]]; then
   secret="$(read_env_value ADMIN_PASSWORD "$ENV_FILE")"

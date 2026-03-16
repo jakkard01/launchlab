@@ -1,5 +1,7 @@
 # 03_DECISION_LOG
 
+- 2026-03-16: RYS añade `GET /api/mo/health` como verificación read-only y honesta de operación real; ya no hace falta inferir salud solo desde el banner de fallback o desde un `500` aislado en `products/admin`.
+- 2026-03-16: RYS unifica el mapeo de errores backend (`products`, `admin`, `health`) para que la operación hable con los mismos códigos (`SHEETS_NOT_CONFIGURED`, `SHEETS_INVALID_GRANT`, `SHEETS_SCHEMA_INVALID`, etc.).
 - 2026-03-15: RYS suma una capa comercial más realista sin tocar UI: café visible por producto + bebida + preparación, Coca-Cola nombrada de forma encontrable, snacks/boquitas locales (`tortillitas`, `maní con limón y chile`, `platanitos`) y combos de consumo real (`pupusas + Coca-Cola`, `café + pan dulce`, `snack + Coca-Cola`, `antojito + bebida`).
 - 2026-03-15: Para RYS comercial, conviene separar dos capas: productos/combos-producto editables vía fuente de datos/admin (`products`) y combos rápidos hardcodeados en `src/lib/mo/combos.ts` para operar bundles de alto movimiento sin rehacer backend.
 - 2026-03-15: Búsqueda RYS refuerza aliases comerciales reales (`coca`, `coca cola`, `café`, `maní`, `boquita`, `platanitos`, `tortillitas`) para que la encontrabilidad siga la lógica de compra local y no nombres internos.

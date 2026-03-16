@@ -2,6 +2,25 @@
 
 ## 0) Diagnóstico real detectado el 2026-03-10
 
+### Actualización 2026-03-16
+- Se agrega `GET /api/mo/health` como chequeo read-only para distinguir UI estable vs operación real contra Sheets.
+- El endpoint responde con:
+  - `fully_operational`
+  - `storefront_live_admin_blocked`
+  - `fallback_only`
+- También expone checks separados para:
+  - `adminAccess`
+  - `sheetsConfig`
+  - `sheetsAuth`
+  - `sheetsSchema`
+  - `storefrontLive`
+  - `adminWriteLive`
+  - `eventsLive`
+- Último estado bueno validado localmente para este endurecimiento:
+  - commit `a6122e2`
+  - rama `feat/pagina-hermana-live`
+  - verificado con `lint`, `build` y smoke local.
+
 ### Actualización 2026-03-11
 - `GOOGLE_SERVICE_ACCOUNT_EMAIL` en Vercel `production` ya quedó corregido al `client_email` real de la service account.
 - Resultado live tras redeploy:
@@ -153,6 +172,14 @@ pnpm -s build || npm run build
 npm run lint
 ```
 
+### Lectura rápida del health endpoint
+- `GET /api/mo/health` -> `200` + `mode=fully_operational`
+  - storefront, admin y eventos están operando de verdad contra Sheets.
+- `GET /api/mo/health` -> `503` + `mode=storefront_live_admin_blocked`
+  - catálogo vivo, pero el admin sigue bloqueado por configuración/login.
+- `GET /api/mo/health` -> `503` + `mode=fallback_only`
+  - la UI puede seguir viva con fallback, pero no hay operación real contra Sheets.
+
 ## 4.1) Qué diagnostica ahora el backend
 - `SHEETS_SERVICE_ACCOUNT_PLACEHOLDER`
   - `GOOGLE_SERVICE_ACCOUNT_EMAIL` sigue con placeholder o valor no real.
@@ -169,10 +196,11 @@ npm run lint
 1. Homepage PBIA carga sin errores.
 2. Formulario PBIA devuelve `200` y `leadId`.
 3. Lead aparece en webhook o hoja `pbia_leads`.
-4. `/RYSminisuper` carga catálogo (`/api/mo/products` en `200`).
-5. Login admin funciona.
-6. Cambio real (`sortOrder` o `image` o `stock`) persiste y se refleja en storefront.
-7. Pedido por WhatsApp abre mensaje correcto.
+4. `GET /api/mo/health` devuelve `200` y `mode=fully_operational`.
+5. `/RYSminisuper` carga catálogo (`/api/mo/products` en `200`).
+6. Login admin funciona.
+7. Cambio real (`sortOrder` o `image` o `stock`) persiste y se refleja en storefront.
+8. Pedido por WhatsApp abre mensaje correcto.
 
 ## 6) Prueba admin operativa (rápida)
 1. Abrir `/RYSminisuper/admin/acceso` y hacer login.

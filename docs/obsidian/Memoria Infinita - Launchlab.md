@@ -910,3 +910,87 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
   - producto normal en catálogo: una sola acción principal `Agregar`;
   - producto no disponible/pronto en catálogo: un solo estado + un solo `Avisarme`;
   - combo manual: una sola acción `Agregar combo`.
+
+## 2026-03-16 — RYS hardening operativo: health real vs fallback visual
+- Rama: `feat/pagina-hermana-live`
+- Objetivo: separar con evidencia técnica "la UI sigue viva" de "RYS está operando de verdad contra Sheets".
+
+### Problema real
+- El repo ya tenía:
+  - fallback server-side en storefront;
+  - códigos backend útiles en `products/admin`;
+  - smoke local reproducible.
+- Pero faltaba un chequeo único, read-only y operativo que permitiera responder sin ambigüedad:
+  - si el storefront estaba leyendo Sheets de verdad;
+  - si el admin podía escribir sobre la misma fuente viva;
+  - si `/api/mo/events` seguía bloqueado o listo.
+
+### Qué se cambió
+- Nuevo endpoint: `GET /api/mo/health`
+  - runtime `nodejs`;
+  - lectura read-only;
+  - no depende del banner visual para declarar salud.
+- `sheetsStore` ahora expone un readiness operativo con tres modos:
+  - `fully_operational`
+  - `storefront_live_admin_blocked`
+  - `fallback_only`
+- El readiness revisa:
+  - `MO_ADMIN_ENABLED` + secreto admin;
+  - configuración de variables Sheets;
+  - autenticación real contra Google;
+  - pestañas y headers críticos:
+    - `products`
+    - `orders`
+    - `daily_sales`
+    - `events`
+  - capacidad efectiva de storefront/admin/eventos.
+- `src/app/api/mo/products/route.ts` y `src/app/api/mo/admin/route.ts` pasan a usar el mismo mapeo de códigos backend.
+- `scripts/predeploy/smoke-local.sh` ahora consulta primero `/api/mo/health`.
+
+### Verificación local real
+- `npm run lint` OK.
+- `npm run build` OK.
+- `bash scripts/predeploy/check-env-readiness.sh .env.local`
+  - RYS sin variables de Sheets en local;
+  - admin access sí configurado.
+- Smoke local contra dev server en `3011`:
+  - `GET /api/mo/health` -> `503`
+  - `mode=fallback_only`
+  - `checks.adminAccess.ok=true`
+  - `checks.sheetsConfig.ok=false`
+  - `checks.storefrontLive.ok=false`
+  - `checks.adminWriteLive.ok=false`
+  - `checks.eventsLive.ok=false`
+  - `GET /api/mo/products` -> `500` + `SHEETS_NOT_CONFIGURED`
+  - `GET /api/mo/admin` sin cookie -> `401`
+  - `POST /api/mo/admin/login` -> `200` + cookie `mo_admin`
+  - `GET /api/mo/admin?view=stats` con cookie -> `500` + `SHEETS_NOT_CONFIGURED`
+  - `POST /api/mo/admin` con cookie -> `500` + `SHEETS_NOT_CONFIGURED`
+- Verificación funcional mínima:
+  - `/RYSminisuper` sigue renderizando con banner de fallback;
+  - `/RYSminisuper/admin/acceso` sigue cargando correctamente.
+
+### Conclusión operativa
+- Con este bloque, el sistema deja de esconderse detrás del fallback.
+- En el estado local actual:
+  - la UI puede sobrevivir;
+  - el login admin funciona;
+  - pero RYS no está operando de verdad contra Sheets.
+
+### Último estado bueno de este bloque
+- Commit técnico validado localmente: `a6122e2`
+- Significado:
+  - readiness honesto activo;
+  - build/lint OK;
+  - smoke local coherente con el entorno real.
+
+### Cómo verificar que RYS está sano de verdad
+1. `GET /api/mo/health` debe devolver `200` y `mode=fully_operational`.
+2. `GET /api/mo/products` debe devolver `200`.
+3. Login admin debe devolver cookie `mo_admin`.
+4. `GET /api/mo/admin?view=stats` con cookie debe devolver `200`.
+5. `POST /api/mo/admin` con una escritura mínima debe devolver `200`.
+6. El cambio debe reflejarse en storefront tras recarga.
+
+### Pendiente real
+- Hacer smoke live post-deploy en un entorno con credenciales válidas de Sheets.
