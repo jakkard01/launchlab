@@ -1,5 +1,9 @@
 # 03_DECISION_LOG
 
+- 2026-03-16: RYS cierra otro ajuste de entrega VIP orientado a uso real: header/hero empujan mejor `evitar la cola del súper`, `no ir en vano`, `café caliente`, retiro fácil y confirmación antes de salir, sin meter localismos caricaturescos.
+- 2026-03-16: El sticky de pedido deja de ocupar espacio cuando el carrito está vacío y se compacta al hacer scroll o cuando la tienda entra en modo búsqueda; se mantiene conversión sin tapar tanto contenido móvil.
+- 2026-03-16: El admin de RYS reduce carga mental adicional: el mensaje de recarga fallida deja de sonar alarmista y `Registrar venta manual` pasa a bloque colapsable para no competir con las acciones diarias.
+- 2026-03-16: Para food porn útil sin abrir un bloque riesgoso, queda priorizada la mejora visual de `pupusas`, `empanadas`, `café servido`, `pan dulce`, `platanitos/maní/tortillitas` y combos calientes con bebida; no conviene meter imágenes random solo para “llenar”.
 - 2026-03-16: RYS cierra una pasada extra de localización/comercial real: el lenguaje empuja mejor café caliente, antojo, compra rápida, confirmación antes de salir, evitar la vuelta en vano y evitar la cola del súper sin caer en caricatura.
 - 2026-03-16: La búsqueda pública de RYS deja de convivir con el storefront completo cuando hay query; entra en un modo búsqueda más limpio con resultados aislados, CTA de salida clara y empty state útil.
 - 2026-03-16: El ranking de búsqueda se ajusta para favorecer mejor productos comercialmente relevantes en queries cortas; por ejemplo, `café` prioriza mejor el café servido/caliente.

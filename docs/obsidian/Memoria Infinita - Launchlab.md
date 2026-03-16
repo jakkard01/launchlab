@@ -1,3 +1,42 @@
+## 2026-03-16 — RYS cierre VIP real: copy local, sticky más inteligente y admin menos pesado
+- Rama: feat/pagina-hermana-live
+- Objetivo: cerrar las últimas fricciones reales detectadas en móvil y admin sin reabrir arquitectura ni diseño.
+
+### Problemas reales detectados
+- El copy seguía algo genérico en puntos clave del header/hero y no apretaba suficiente el dolor real: evitar la cola del súper, no salir en vano, resolver antojo/café para retiro.
+- La búsqueda ya estaba más limpia que antes, pero el sticky de pedido seguía compitiendo visualmente cuando el usuario estaba filtrando.
+- El admin seguía mostrando demasiada superficie inicial para una operadora que solo quiere empujar hoy, marcar agotado o revisar rápido.
+- El mensaje `No se pudo recargar el panel` sonaba más grave de lo necesario cuando todavía había contexto suficiente para seguir operando.
+
+### Cambios aplicados
+- Copy local/comercial:
+  - header y hero ahora empujan mejor `confirmamos antes de salir`, `retiro`, `café caliente`, `evitar la cola del súper` y `no dar la vuelta dos veces`.
+  - placeholder de búsqueda queda más útil para consumo real (`pupusas`, `café`, `empanadas`).
+- Sticky:
+  - deja de renderizarse con carrito vacío.
+  - se compacta en scroll y también cuando la tienda entra en modo búsqueda.
+  - conserva CTA operativa, pero deja de tapar tanto contenido móvil.
+- Admin:
+  - `Registrar venta manual` pasa a bloque plegable para quitar ruido diario.
+  - el error de recarga se reescribe para distinguir entre “puedes seguir operando” y “mejor recarga la página”.
+
+### Cómo verificarlo
+- Storefront:
+  - revisar `/RYSminisuper` en móvil.
+  - confirmar copy local en hero/header.
+  - escribir `pupusas`, `café`, `empanadas` y comprobar que el modo búsqueda se vea limpio.
+  - con items en carrito, verificar sticky expandido al inicio y compacto tras scroll o búsqueda.
+- Admin:
+  - entrar a `/RYSminisuper/admin`.
+  - confirmar que el panel carga.
+  - revisar que `Registrar venta manual` no compita visualmente con atajos.
+  - si falla recarga manual, validar que el mensaje no fuerce una falsa alarma.
+
+### Pendiente opcional, no bloqueo
+- Siguiente mejora puramente comercial/visual si se decide abrir otro bloque:
+  - mejorar primero imágenes de `pupusas`, `empanadas`, `café servido`, `pan dulce`, `platanitos`, `maní con limón y chile`, `tortillitas` y combos calientes con bebida.
+  - criterio: fotos reales o muy cercanas al producto local; no stock genérico que baje confianza.
+
 ## 2026-03-15 — RYS bloque comercial realista: snacks locales + café + combos
 - Rama: feat/pagina-hermana-live
 - Objetivo: representar mejor el consumo real de minisúper local y subir ticket promedio sin tocar diseño ni abrir features nuevas.
