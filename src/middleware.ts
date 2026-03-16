@@ -16,8 +16,9 @@ export function middleware(req: NextRequest) {
       return new Response("Not Found", { status: 404 });
     }
 
-    const cookie = req.cookies.get("mo_admin")?.value;
-    if (cookie) {
+    const legacyCookie = req.cookies.get("mo_admin")?.value;
+    const sessionCookie = req.cookies.get("mo_admin_session")?.value;
+    if (legacyCookie || sessionCookie) {
       return NextResponse.next();
     }
 

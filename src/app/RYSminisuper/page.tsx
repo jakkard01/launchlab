@@ -48,7 +48,9 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export default async function RysMiniSuperPage() {
-  const hasAdminSession = cookies().get("mo_admin")?.value === "1";
+  const hasAdminSession =
+    cookies().get("mo_admin")?.value === "1" ||
+    Boolean(cookies().get("mo_admin_session")?.value);
   let products: Product[] = [];
   let fallbackWarning: { title: string; message: string; help: string } | null = null;
 

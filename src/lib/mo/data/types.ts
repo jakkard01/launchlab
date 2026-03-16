@@ -146,3 +146,82 @@ export type MoStats = {
   promoUsage: StatEntry[];
   whatsappClicks: ContextStatEntry[];
 };
+
+export type AdminRole = "owner" | "admin" | "operator" | "viewer";
+
+export type AdminUserRecord = {
+  id: string;
+  name: string;
+  username: string;
+  email: string;
+  passwordHash: string;
+  role: AdminRole;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+  lastLoginAt?: string;
+};
+
+export type AdminUserSafe = Omit<AdminUserRecord, "passwordHash">;
+
+export type AdminUserCreateInput = {
+  name: string;
+  username?: string;
+  email?: string;
+  password: string;
+  role: AdminRole;
+  isActive?: boolean;
+};
+
+export type AdminUserUpdateInput = {
+  id: string;
+  name?: string;
+  username?: string;
+  email?: string;
+  password?: string;
+  role?: AdminRole;
+  isActive?: boolean;
+};
+
+export type AuditEntityType =
+  | "auth"
+  | "user"
+  | "product"
+  | "promo"
+  | "stock"
+  | "manual_sale";
+
+export type AuditAction =
+  | "login_success"
+  | "login_failed"
+  | "logout"
+  | "user_created"
+  | "user_deactivated"
+  | "role_changed"
+  | "product_updated"
+  | "price_changed"
+  | "stock_changed"
+  | "promo_changed"
+  | "visibility_changed"
+  | "manual_sale_logged";
+
+export type AdminAuditEntry = {
+  id: string;
+  actorUserId: string;
+  action: AuditAction;
+  entityType: AuditEntityType;
+  entityId: string;
+  before?: string;
+  after?: string;
+  createdAt: string;
+};
+
+export type AdminSessionUser = {
+  id: string;
+  name: string;
+  username: string;
+  email: string;
+  role: AdminRole;
+  isActive: boolean;
+  isLegacy?: boolean;
+};

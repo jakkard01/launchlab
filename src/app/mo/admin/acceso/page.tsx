@@ -5,12 +5,13 @@ import { useRouter } from "next/navigation";
 
 export default function MoAdminAccessPage() {
   const router = useRouter();
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [statusNote, setStatusNote] = useState(
-    "Escribe la clave y toca entrar. Si la clave es correcta, pasarás al panel."
+    "Usa usuario/email + contraseña. Si todavía no existe usuario migrado, la clave compartida legacy sigue funcionando temporalmente."
   );
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -25,22 +26,25 @@ export default function MoAdminAccessPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ identifier, password }),
       });
 
       const data = (await response.json()) as { ok?: boolean; message?: string };
 
       if (!response.ok || !data.ok) {
         if (response.status === 401) {
-          setError("Clave incorrecta. Verifica la clave admin e intenta de nuevo.");
-          setStatusNote("La clave no fue aceptada. Corrígela e intenta de nuevo.");
+          setError("Credenciales incorrectas. Revisa usuario/email y contraseña.");
+          setStatusNote("Las credenciales no fueron aceptadas. Corrígelas e intenta de nuevo.");
+        } else if (response.status === 429) {
+          setError("Demasiados intentos. Espera unos minutos antes de volver a probar.");
+          setStatusNote("El acceso se bloqueó temporalmente por demasiados intentos fallidos.");
         } else if (response.status === 403) {
           setError("Acceso denegado. El panel admin no está habilitado.");
           setStatusNote("El acceso está bloqueado porque el admin está deshabilitado.");
         } else if (response.status === 503) {
-          setError("El admin no tiene credenciales configuradas en este entorno.");
+          setError("El admin no tiene credenciales válidas configuradas en este entorno.");
           setStatusNote(
-            "La pantalla de acceso responde, pero este entorno no tiene la clave configurada."
+            "La pantalla responde, pero este entorno aún no tiene sesión/usuarios listos."
           );
         } else {
           setError(data.message ?? "No se pudo iniciar sesión.");
@@ -74,22 +78,36 @@ export default function MoAdminAccessPage() {
           Panel restringido
         </h1>
         <p className="mt-2 text-sm text-slate-600">
-          Este panel es solo para administracion. Ingresa la clave para abrir el
-          panel operativo de la tienda.
+          Este panel es solo para administracion. La migración ya está preparada para usuarios reales, roles y sesiones seguras.
         </p>
         <div className="mt-4 rounded-2xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-xs text-emerald-900">
-          En móvil: escribe la clave, toca entrar y espera unos segundos. Si la
-          clave falla, verás el error aquí mismo. Si la clave entra pero luego no
-          carga la hoja, el siguiente paso te lo dirá dentro del panel.
+          En móvil: escribe usuario/email y contraseña. Si todavía no existe usuario migrado, la clave compartida legacy sigue entrando de forma temporal mientras se completa la transición.
         </div>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <div className="space-y-2">
             <label className="block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-              Clave admin
+              Usuario o email
+            </label>
+            <input
+              type="text"
+              value={identifier}
+              onChange={(event) => setIdentifier(event.target.value)}
+              disabled={submitting}
+              className="h-12 w-full rounded-2xl border border-slate-200 px-4 text-sm text-slate-900 outline-none focus:border-emerald-400"
+              placeholder="usuario o correo"
+              autoComplete="username"
+            />
+            <p className="text-xs text-slate-500">
+              Si sigues en modo legacy, puedes dejar este campo vacío y usar la clave compartida temporal.
+            </p>
+          </div>
+          <div className="space-y-2">
+            <label className="block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+              Contraseña
             </label>
             <p className="text-xs text-slate-500">
-              Usa la misma clave corta que se utiliza para abrir el panel de operación.
+              Usa la contraseña del usuario migrado o la clave legacy temporal mientras se completa la migración.
             </p>
           </div>
           <div className="relative">
@@ -121,9 +139,9 @@ export default function MoAdminAccessPage() {
           </div>
           <div className="grid gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-4 text-xs text-slate-600">
             <p className="font-semibold text-slate-800">Qué significa cada caso</p>
-            <p>Clave incorrecta: la clave no fue aceptada.</p>
+            <p>Credenciales incorrectas: el usuario/email o la contraseña no fueron aceptados.</p>
             <p>
-              Error de carga después: la clave sí entró, pero el panel no pudo leer datos o la sesión no quedó activa.
+              Error de carga después: la sesión sí entró, pero el panel no pudo leer datos o quedó un bloqueo posterior.
             </p>
           </div>
           {error ? (
