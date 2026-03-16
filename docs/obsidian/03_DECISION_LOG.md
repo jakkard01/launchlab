@@ -1,5 +1,8 @@
 # 03_DECISION_LOG
 
+- 2026-03-16: El admin de RYS deja de depender de `blur` como única señal de guardado para edición de producto; ahora trabaja con borrador por producto + `Guardar cambios`/`Descartar`, manteniendo autos operativos solo en atajos rápidos.
+- 2026-03-16: RYS añade `tags` de producto persistidos en Google Sheets y editables desde admin. Se usan como etiquetas comerciales/operativas (`caliente hoy`, `antojo`, `combo`, `desayuno`, etc.) y también alimentan búsqueda.
+- 2026-03-16: El flujo operativo del admin se separa más claramente en dos capas: `Atajos de hoy` para tareas inmediatas y `Guardar cambios` para ajustes manuales con control y confianza.
 - 2026-03-16: RYS cierra otro ajuste de entrega VIP orientado a uso real: header/hero empujan mejor `evitar la cola del súper`, `no ir en vano`, `café caliente`, retiro fácil y confirmación antes de salir, sin meter localismos caricaturescos.
 - 2026-03-16: El sticky de pedido deja de ocupar espacio cuando el carrito está vacío y se compacta al hacer scroll o cuando la tienda entra en modo búsqueda; se mantiene conversión sin tapar tanto contenido móvil.
 - 2026-03-16: El admin de RYS reduce carga mental adicional: el mensaje de recarga fallida deja de sonar alarmista y `Registrar venta manual` pasa a bloque colapsable para no competir con las acciones diarias.

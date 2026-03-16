@@ -1,3 +1,40 @@
+## 2026-03-16 — RYS admin hardening final: guardado explícito + tags operables
+- Rama: feat/pagina-hermana-live
+- Objetivo: dejar el panel admin realmente usable para operadora no técnica, sin depender de autosave implícito y sin abrir arquitectura nueva.
+
+### Qué estaba mal
+- Demasiados cambios se disparaban al salir del campo o al tocar un select; eso hacía sentir que el panel “guardaba solo” pero sin dar confianza.
+- No había una forma práctica de manejar etiquetas comerciales/operativas.
+- El flujo mezclaba tareas rápidas del día con edición manual más fina, obligando a pensar demasiado desde móvil.
+
+### Qué se cambió
+- Guardado explícito:
+  - cada producto ahora tiene borrador local.
+  - el panel muestra `Guardar cambios` y `Descartar`.
+  - el estado visible por producto distingue `Guardando`, `Guardado`, `Hay cambios sin guardar` y `Revisa y vuelve a guardar`.
+- Tags / opciones:
+  - se añade `tags` al modelo de producto y a la hoja `products`.
+  - el admin permite activar etiquetas comunes por chips y también escribir etiquetas manuales separadas por coma.
+  - estas etiquetas también entran al haystack de búsqueda.
+- Flujo práctico:
+  - `Atajos de hoy` sigue resolviendo lo urgente (listo, agotado, empujar, promo, ocultar).
+  - los ajustes manuales dejan de grabarse por accidente; ahora se acumulan en el borrador del producto hasta pulsar guardar.
+  - `Más ajustes` mantiene lo menos frecuente (`orden`, `destacado`, `promo`, `caliente`, `imagen`) sin recargar la parte principal.
+
+### Cómo operar ahora
+1. Usa `Atajos de hoy` si solo quieres resolver visibilidad/promoción rápida.
+2. Si cambias precio, stock, visibilidad, categoría, tags, promo, horario o imagen, termina con `Guardar cambios`.
+3. Si te equivocas, usa `Descartar`.
+4. Si quieres mejorar encontrabilidad/marketing, añade etiquetas útiles como `desayuno`, `antojo`, `combo`, `cafe caliente`, `oferta`.
+
+### Impacto técnico
+- La hoja `products` ahora incluye columna `tags`.
+- El backend migra el encabezado si falta esa columna para no romper operación al desplegar.
+- La búsqueda pública ya puede encontrar productos también por estas etiquetas.
+
+### Pendiente opcional
+- Si luego se quiere ir más lejos, el siguiente paso sería mostrar algunas etiquetas en storefront solo donde sumen conversión. No es necesario para operación VIP actual.
+
 ## 2026-03-16 — RYS cierre VIP real: copy local, sticky más inteligente y admin menos pesado
 - Rama: feat/pagina-hermana-live
 - Objetivo: cerrar las últimas fricciones reales detectadas en móvil y admin sin reabrir arquitectura ni diseño.
