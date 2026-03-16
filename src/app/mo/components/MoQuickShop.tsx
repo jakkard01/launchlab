@@ -59,9 +59,9 @@ const resolveCategoryIcon = (id: string) => {
 };
 
 const horizontalRailClass =
-  "no-scrollbar -mx-1 flex snap-x snap-mandatory gap-3 overflow-x-auto px-1 pb-2 [scrollbar-width:none] [overscroll-behavior-x:contain] [touch-action:pan-x] sm:mx-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible sm:px-0";
+  "no-scrollbar flex max-w-full snap-x snap-mandatory gap-3 overflow-x-auto pb-2 pr-1 [scrollbar-width:none] [overscroll-behavior-x:contain] [touch-action:pan-x] sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible sm:pr-0";
 
-const horizontalCardClass = "min-w-[240px] shrink-0 snap-start sm:min-w-0";
+const horizontalCardClass = "min-w-[220px] max-w-[220px] shrink-0 snap-start sm:min-w-0 sm:max-w-none";
 
 export default function MoQuickShop({
   products,
@@ -148,7 +148,7 @@ export default function MoQuickShop({
   ] as const;
 
   return (
-    <section className="space-y-6">
+    <section className="space-y-6 overflow-x-clip">
       <div>
         <p className="text-xs uppercase tracking-[0.3em] text-muted">
           Pedido rápido

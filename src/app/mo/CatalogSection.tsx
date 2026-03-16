@@ -105,17 +105,17 @@ export default function CatalogSection({
       </div>
 
       {!queryFilter ? (
-        <div className="sticky top-28 z-30 overflow-hidden rounded-2xl border border-default bg-[color-mix(in_srgb,var(--surface)_96%,transparent)] px-4 py-3 backdrop-blur sm:top-24 sm:px-6">
-          <div className="no-scrollbar flex gap-2 overflow-x-auto">
+        <div className="sticky top-[72px] z-30 overflow-x-clip rounded-2xl border border-default bg-[color-mix(in_srgb,var(--surface)_96%,transparent)] px-3 py-2.5 backdrop-blur sm:top-24 sm:px-6 sm:py-3">
+          <div className="no-scrollbar flex max-w-full gap-2 overflow-x-auto pb-1 [overscroll-behavior-x:contain] [touch-action:pan-x]">
             {TABS.map((tab) => {
               const isActive = tab.id === activeTab;
               const iconSrc = resolveCategoryIcon(tab.id);
               return (
                 <button
-                  key={tab.id}
+              key={tab.id}
                   type="button"
                   onClick={() => onTabChange(tab.id)}
-                  className={`whitespace-nowrap rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/50 ${
+                  className={`whitespace-nowrap rounded-full border px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/50 sm:px-4 sm:text-xs sm:tracking-[0.18em] ${
                     isActive
                       ? "border-[var(--accent)]/60 bg-[var(--accent)] text-[var(--surface)]"
                       : "border-default bg-[var(--surface)] text-main hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
@@ -227,7 +227,7 @@ export default function CatalogSection({
             <section
               key={tab.id}
               id={`catalogo-${tab.id}`}
-              className="scroll-mt-28 space-y-3"
+              className="scroll-mt-24 space-y-3 sm:scroll-mt-28"
             >
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-semibold text-main">

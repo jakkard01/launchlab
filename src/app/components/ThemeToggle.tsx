@@ -20,9 +20,11 @@ const applyTheme = (next: Theme) => {
 export default function ThemeToggle({
   className = "",
   showLabel = false,
+  compact = false,
 }: {
   className?: string;
   showLabel?: boolean;
+  compact?: boolean;
 }) {
   const [theme, setTheme] = useState<Theme>("light");
 
@@ -49,10 +51,15 @@ export default function ThemeToggle({
       onClick={toggle}
       aria-label={label}
       title={label}
-      className={`flex min-h-11 items-center justify-center gap-2 rounded-full border border-default bg-surface px-3 text-main shadow-sm transition hover:border-[var(--accent)] hover:text-[var(--accent)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] ${showLabel ? "min-w-[150px]" : "h-11 w-11"} ${className}`}
-      style={{ minWidth: showLabel ? 150 : 44, minHeight: 44 }}
+      className={`flex items-center justify-center gap-2 rounded-full border border-default bg-surface text-main shadow-sm transition hover:border-[var(--accent)] hover:text-[var(--accent)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] ${
+        showLabel
+          ? "min-h-10 min-w-[148px] px-3"
+          : compact
+            ? "h-9 w-9"
+            : "h-11 w-11"
+      } ${className}`}
     >
-      <span aria-hidden="true" className="text-lg">
+      <span aria-hidden="true" className={compact ? "text-base" : "text-lg"}>
         {icon}
       </span>
       {showLabel ? (

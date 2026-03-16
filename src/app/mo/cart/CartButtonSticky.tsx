@@ -47,14 +47,14 @@ export default function CartButtonSticky({
   }
 
   return (
-    <div className="fixed bottom-[max(0.65rem,env(safe-area-inset-bottom))] left-0 right-0 z-50 flex justify-center px-4">
+    <div className="fixed bottom-[max(0.45rem,env(safe-area-inset-bottom))] left-0 right-0 z-50 flex justify-center px-3 sm:px-4">
       <div
-        className={`flex w-full max-w-sm items-center justify-between gap-3 border border-[var(--accent)]/28 bg-[color-mix(in_srgb,var(--surface)_92%,transparent)] shadow-lg backdrop-blur-md transition-all dark:bg-[color-mix(in_srgb,var(--surface-2)_92%,transparent)] dark:shadow-[0_22px_44px_rgba(3,8,16,0.34)] ${
-          isCompact ? "rounded-full px-3 py-2.5" : "rounded-2xl px-4 py-3"
+        className={`flex w-full max-w-sm items-center justify-between gap-2.5 border border-[var(--accent)]/28 bg-[color-mix(in_srgb,var(--surface)_94%,transparent)] shadow-lg backdrop-blur-md transition-all dark:bg-[color-mix(in_srgb,var(--surface-2)_94%,transparent)] dark:shadow-[0_22px_44px_rgba(3,8,16,0.34)] ${
+          isCompact ? "rounded-full px-3 py-2" : "rounded-2xl px-3.5 py-2.5"
         }`}
       >
         <div className="flex min-w-0 flex-col">
-          <span className="truncate text-xs font-semibold text-main">
+          <span className="truncate text-[11px] font-semibold text-main sm:text-xs">
             {totalItems} items · {totalLabel}
           </span>
           {!isCompact ? (
@@ -67,11 +67,11 @@ export default function CartButtonSticky({
           type="button"
           onClick={onOpen}
           className={`rounded-full bg-[var(--accent)] font-semibold text-[#07130c] transition hover:opacity-90 ${
-            isCompact ? "min-h-[40px] px-4 text-xs" : "min-h-[48px] px-5 text-sm"
+            isCompact ? "min-h-[36px] px-3.5 text-[11px]" : "min-h-[40px] px-4 text-xs"
           }`}
           aria-label="Completar pedido en WhatsApp"
         >
-          {isCompact ? "Ver pedido" : "Confirmar pedido"}
+          {isCompact ? "Pedido" : "Ver pedido"}
         </button>
       </div>
     </div>

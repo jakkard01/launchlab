@@ -79,7 +79,7 @@ export default async function RysMiniSuperPage() {
 
   return (
     <CartProvider>
-      <main className="min-h-screen w-full bg-base px-4 pb-36 pt-10 text-main sm:px-6 lg:px-8">
+      <main className="min-h-screen w-full overflow-x-clip bg-base px-3 pb-28 pt-3 text-main sm:px-6 sm:pb-36 sm:pt-10 lg:px-8">
         {fallbackWarning ? (
           <div className="mx-auto mb-4 w-full max-w-5xl rounded-2xl border border-amber-300/50 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-300/25 dark:bg-amber-500/10 dark:text-amber-100">
             <p className="font-semibold">{fallbackWarning.title}</p>

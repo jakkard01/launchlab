@@ -26,7 +26,7 @@ export default function MoPromos({ products }: MoPromosProps) {
   if (promos.length === 0) return null;
 
   return (
-    <section className="space-y-4">
+    <section className="space-y-4 overflow-x-clip">
       <div>
         <p className="text-xs uppercase tracking-[0.3em] text-muted">
           Promos de hoy
@@ -61,9 +61,9 @@ export default function MoPromos({ products }: MoPromosProps) {
               ) : null}
             </div>
 
-            <div className="no-scrollbar -mx-1 mt-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-1 pb-2 [scrollbar-width:none] [overscroll-behavior-x:contain] [touch-action:pan-x] sm:mx-0 sm:grid sm:grid-cols-1 sm:overflow-visible sm:px-0">
+            <div className="no-scrollbar mt-4 flex max-w-full snap-x snap-mandatory gap-3 overflow-x-auto pb-2 pr-1 [scrollbar-width:none] [overscroll-behavior-x:contain] [touch-action:pan-x] sm:grid sm:grid-cols-1 sm:overflow-visible sm:pr-0">
               {items.map((product) => (
-                <div key={product.id} className="min-w-[240px] shrink-0 snap-start sm:min-w-0">
+                <div key={product.id} className="min-w-[220px] max-w-[220px] shrink-0 snap-start sm:min-w-0 sm:max-w-none">
                   <ProductCard
                     product={product}
                     variant="compact"
