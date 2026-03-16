@@ -15,6 +15,7 @@ import type {
   MoStats,
   OrderLogEntry,
   OrderLogInput,
+  ProductAdminSaveInput,
   PromoState,
   StockStatus,
 } from "./types";
@@ -38,6 +39,7 @@ const PRODUCT_HEADERS = [
   "id",
   "name",
   "category",
+  "tags",
   "sortOrder",
   "price",
   "description",
@@ -262,6 +264,7 @@ const seedProducts = (): Product[] =>
   (productsSeed as Product[])
     .map((product, index) => ({
       ...product,
+      tags: product.tags ?? [],
       sortOrder: product.sortOrder ?? index + 1,
       stockStatus: product.stockStatus ?? "disponible",
       promoEnabled: product.promoEnabled ?? false,
@@ -273,6 +276,38 @@ const seedProducts = (): Product[] =>
       updatedAt: product.updatedAt ?? "",
     }))
     .sort((a, b) => (a.sortOrder ?? 9999) - (b.sortOrder ?? 9999));
+
+const parseTags = (value: string | undefined) =>
+  String(value ?? "")
+    .split(",")
+    .map((entry) => entry.trim())
+    .filter(Boolean);
+
+const serializeTags = (tags: string[] | undefined) =>
+  (tags ?? []).map((tag) => tag.trim()).filter(Boolean).join(", ");
+
+const ensureProductSheetHeaders = async (rows: string[][]) => {
+  if (rows.length === 0) {
+    return rows;
+  }
+
+  const headers = rows[0];
+  const missing = PRODUCT_HEADERS.filter((header) => !headers.includes(header));
+  if (missing.length === 0) {
+    return rows;
+  }
+
+  const migratedRows = rows.slice(1).map((row) => {
+    const record = Object.fromEntries(
+      headers.map((key, headerIndex) => [key, row[headerIndex] ?? ""])
+    );
+
+    return PRODUCT_HEADERS.map((header) => String(record[header] ?? ""));
+  });
+
+  await writeSheet(PRODUCTS_SHEET, PRODUCT_HEADERS, migratedRows);
+  return readSheet(PRODUCTS_SHEET);
+};
 
 const ensureRequiredHeaders = (
   sheetName: string,
@@ -305,6 +340,7 @@ const parseProducts = (rows: string[][]): Product[] => {
         id: String(record.id),
         name: String(record.name),
         category: String(record.category),
+        tags: parseTags(record.tags),
         sortOrder: parseNumber(record.sortOrder, index + 1),
         price: String(record.price),
         description: String(record.description ?? ""),
@@ -339,6 +375,7 @@ const serializeProducts = (
       product.id,
       product.name,
       product.category,
+      serializeTags(product.tags),
       String(product.sortOrder ?? 9999),
       product.price,
       product.description,
@@ -487,7 +524,7 @@ const serializeEvents = (entries: MarketingEventEntry[]) =>
 const ensureProductsSeeded = async () => {
   const rows = await readSheet(PRODUCTS_SHEET);
   if (rows.length > 1) {
-    return rows;
+    return ensureProductSheetHeaders(rows);
   }
 
   const products = seedProducts();
@@ -495,7 +532,7 @@ const ensureProductsSeeded = async () => {
     products.map((product) => [product.id, defaultHotState()])
   );
   await writeSheet(PRODUCTS_SHEET, PRODUCT_HEADERS, serializeProducts(products, hotToday));
-  return readSheet(PRODUCTS_SHEET);
+  return ensureProductSheetHeaders(await readSheet(PRODUCTS_SHEET));
 };
 
 type ReadinessCheck = {
@@ -582,6 +619,10 @@ const getSchemaCheck = async (): Promise<SchemaCheck> => {
     }
 
     try {
+      if (sheetName === PRODUCTS_SHEET) {
+        await ensureProductSheetHeaders(await readSheet(PRODUCTS_SHEET));
+      }
+
       const headers = await readHeaderRow(sheetName);
       const required =
         sheetName === PRODUCTS_SHEET
@@ -907,6 +948,39 @@ export const getAdminSnapshot = async (): Promise<AdminSnapshot> => {
     dailySales: state.dailySales,
     marketingEvents: state.marketingEvents,
   };
+};
+
+export const saveProductDraft = async (input: ProductAdminSaveInput) => {
+  const state = await loadState();
+  const nextHot = {
+    ...state.hotToday,
+    [input.id]: {
+      ...defaultHotState(),
+      ...input.hot,
+      updatedAt: new Date().toISOString(),
+    },
+  };
+
+  const products = state.products.map((product) =>
+    product.id === input.id
+      ? {
+          ...product,
+          category: input.category,
+          tags: input.tags,
+          price: input.price,
+          image: input.image,
+          sortOrder: input.sortOrder,
+          isFeatured: input.isFeatured,
+          status: input.status,
+          stockStatus: input.stockStatus,
+          promoEnabled: input.promo.enabled,
+          promoPercent: input.promo.percent,
+          updatedAt: new Date().toISOString(),
+        }
+      : product
+  );
+
+  await saveProducts(products, nextHot);
 };
 
 export const updateStock = async (id: string, stockStatus: StockStatus) => {

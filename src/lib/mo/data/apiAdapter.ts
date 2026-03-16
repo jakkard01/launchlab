@@ -7,10 +7,12 @@ import type {
   MoDataAdapter,
   MoStats,
   OrderLogInput,
+  ProductAdminSaveInput,
   StockStatus,
 } from "./types";
 
 type AdminAction =
+  | { action: "saveProductDraft"; input: ProductAdminSaveInput }
   | { action: "updateStock"; id: string; status: StockStatus }
   | { action: "updatePrice"; id: string; price: string }
   | { action: "updateImage"; id: string; image: string }
@@ -76,6 +78,9 @@ export const apiAdapter: MoDataAdapter = {
     return fetchJson<AdminSnapshot>("/api/mo/admin", {
       method: "GET",
     });
+  },
+  async saveProductDraft(input) {
+    await runAdminAction({ action: "saveProductDraft", input });
   },
   async updateStock(id, status) {
     await runAdminAction({ action: "updateStock", id, status });

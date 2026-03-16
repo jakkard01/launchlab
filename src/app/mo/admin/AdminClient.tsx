@@ -21,6 +21,7 @@ import type {
   MoStats,
   OrderLogInput,
   OrderLogEntry,
+  ProductAdminSaveInput,
   PromoState,
   StockStatus,
 } from "../../../lib/mo/data/types";
@@ -51,6 +52,88 @@ const hotLabels: Record<HotStatus, string> = {
   se_acabo: "Se acabo",
   hoy_no_hicimos: "Hoy no hicimos",
 };
+
+const ADMIN_TAG_OPTIONS = [
+  "caliente hoy",
+  "antojo",
+  "combo",
+  "oferta",
+  "destacado",
+  "desayuno",
+  "merienda",
+  "cena",
+  "basico",
+  "cafe caliente",
+] as const;
+
+type ProductDraft = {
+  category: string;
+  tagsInput: string;
+  price: string;
+  image: string;
+  sortOrder: number;
+  isFeatured: boolean;
+  status: ProductStatus;
+  stockStatus: StockStatus;
+  promoEnabled: boolean;
+  promoPercent: number;
+  hotStatus: HotStatus;
+  hotWindowStart: string;
+  hotWindowEnd: string;
+  hotNote: string;
+};
+
+type SaveState = "idle" | "dirty" | "saving" | "saved" | "error";
+
+const normalizeTags = (value: string) =>
+  Array.from(
+    new Set(
+      value
+        .split(",")
+        .map((tag) => tag.trim().replace(/\s+/g, " ").toLowerCase())
+        .filter(Boolean)
+    )
+  );
+
+const buildProductDraft = (
+  product: Product,
+  price: string,
+  stockStatus: StockStatus,
+  productStatus: ProductStatus,
+  promoState: PromoState,
+  hotState: HotState
+): ProductDraft => ({
+  category: product.category,
+  tagsInput: (product.tags ?? []).join(", "),
+  price,
+  image: product.image ?? "",
+  sortOrder: product.sortOrder ?? 9999,
+  isFeatured: product.isFeatured,
+  status: productStatus,
+  stockStatus,
+  promoEnabled: promoState.enabled,
+  promoPercent: promoState.percent,
+  hotStatus: hotState.status,
+  hotWindowStart: hotState.windowStart,
+  hotWindowEnd: hotState.windowEnd,
+  hotNote: hotState.note,
+});
+
+const areDraftsEqual = (left: ProductDraft, right: ProductDraft) =>
+  left.category.trim() === right.category.trim() &&
+  left.price.trim() === right.price.trim() &&
+  left.image.trim() === right.image.trim() &&
+  left.sortOrder === right.sortOrder &&
+  left.isFeatured === right.isFeatured &&
+  left.status === right.status &&
+  left.stockStatus === right.stockStatus &&
+  left.promoEnabled === right.promoEnabled &&
+  left.promoPercent === right.promoPercent &&
+  left.hotStatus === right.hotStatus &&
+  left.hotWindowStart === right.hotWindowStart &&
+  left.hotWindowEnd === right.hotWindowEnd &&
+  left.hotNote.trim() === right.hotNote.trim() &&
+  normalizeTags(left.tagsInput).join("|") === normalizeTags(right.tagsInput).join("|");
 
 type ActionNoticeTone = "error" | "success";
 
@@ -88,6 +171,8 @@ export default function AdminClient() {
   const [orderLogs, setOrderLogs] = useState<OrderLogEntry[]>([]);
   const [marketingEvents, setMarketingEvents] = useState<MarketingEventEntry[]>([]);
   const [stats, setStats] = useState<MoStats | null>(null);
+  const [productDrafts, setProductDrafts] = useState<Record<string, ProductDraft>>({});
+  const [saveStateById, setSaveStateById] = useState<Record<string, SaveState>>({});
 
   const [saleProductId, setSaleProductId] = useState("");
   const [saleQuantity, setSaleQuantity] = useState(1);
@@ -174,6 +259,24 @@ export default function AdminClient() {
     setHotToday(snapshot.hotToday);
     setOrderLogs(snapshot.orderLogs);
     setMarketingEvents(snapshot.marketingEvents);
+    setProductDrafts(
+      Object.fromEntries(
+        snapshot.products.map((product) => [
+          product.id,
+          buildProductDraft(
+            product,
+            snapshot.prices[product.id] ?? product.price,
+            snapshot.stock[product.id] ?? product.stockStatus ?? "disponible",
+            snapshot.status[product.id] ?? product.status ?? "available",
+            snapshot.promo[product.id] ?? {
+              enabled: product.promoEnabled ?? false,
+              percent: product.promoPercent ?? 0,
+            },
+            snapshot.hotToday[product.id] ?? defaultHotState()
+          ),
+        ])
+      )
+    );
   }, []);
 
   const loadStats = useCallback(async (activeAdapter: MoDataAdapter) => {
@@ -300,6 +403,19 @@ export default function AdminClient() {
         .sort((a, b) => (a.sortOrder ?? 9999) - (b.sortOrder ?? 9999)),
     [products]
   );
+
+  const categoryOptions = useMemo(() => {
+    const merged = new Set([
+      "antojitos",
+      "combos",
+      "bebidas",
+      "snacks",
+      "abarrotes",
+      "lacteos",
+      ...products.map((product) => product.category).filter(Boolean),
+    ]);
+    return Array.from(merged).sort((a, b) => a.localeCompare(b, "es"));
+  }, [products]);
 
   const filteredProducts = useMemo(() => {
     const query = searchQuery.trim();
@@ -622,6 +738,120 @@ export default function AdminClient() {
       note,
       updatedAt: new Date().toISOString(),
     });
+  };
+
+  const updateDraft = useCallback(
+    (id: string, updater: (draft: ProductDraft) => ProductDraft) => {
+      setProductDrafts((prev) => {
+        const current = prev[id];
+        if (!current) return prev;
+        return {
+          ...prev,
+          [id]: updater(current),
+        };
+      });
+      setSaveStateById((prev) => ({ ...prev, [id]: "dirty" }));
+    },
+    []
+  );
+
+  const resetDraft = useCallback(
+    (product: Product) => {
+      const nextDraft = buildProductDraft(
+        product,
+        prices[product.id] ?? product.price,
+        stock[product.id] ?? product.stockStatus ?? "disponible",
+        status[product.id] ?? product.status ?? "available",
+        promo[product.id] ?? {
+          enabled: product.promoEnabled ?? false,
+          percent: product.promoPercent ?? 0,
+        },
+        hotToday[product.id] ?? defaultHotState()
+      );
+      setProductDrafts((prev) => ({ ...prev, [product.id]: nextDraft }));
+      setSaveStateById((prev) => ({ ...prev, [product.id]: "idle" }));
+    },
+    [hotToday, prices, promo, status, stock]
+  );
+
+  const toggleDraftTag = useCallback(
+    (id: string, tag: string) => {
+      updateDraft(id, (draft) => {
+        const tags = normalizeTags(draft.tagsInput);
+        const normalizedTag = tag.toLowerCase();
+        const nextTags = tags.includes(normalizedTag)
+          ? tags.filter((entry) => entry !== normalizedTag)
+          : [...tags, normalizedTag];
+        return {
+          ...draft,
+          tagsInput: nextTags.join(", "),
+        };
+      });
+    },
+    [updateDraft]
+  );
+
+  const saveProductChanges = async (product: Product) => {
+    if (!adapter) return;
+    const draft = productDrafts[product.id];
+    if (!draft) return;
+
+    const normalizedPrice = draft.price.trim();
+    const parsedPrice = parseMoney(normalizedPrice);
+    if (!parsedPrice || parsedPrice <= 0) {
+      showActionError(
+        "Precio inválido",
+        "Revisa el precio antes de guardar. Debe ser mayor a 0."
+      );
+      setSaveStateById((prev) => ({ ...prev, [product.id]: "error" }));
+      return;
+    }
+
+    const normalizedTags = normalizeTags(draft.tagsInput);
+    const payload: ProductAdminSaveInput = {
+      id: product.id,
+      category: draft.category.trim() || product.category,
+      tags: normalizedTags,
+      price: normalizedPrice.startsWith("$")
+        ? normalizedPrice
+        : formatMoney(parsedPrice),
+      image: draft.image.trim(),
+      sortOrder: Number.isFinite(draft.sortOrder)
+        ? Math.max(1, Math.round(draft.sortOrder))
+        : product.sortOrder ?? 9999,
+      isFeatured: draft.isFeatured,
+      status: draft.status,
+      stockStatus: draft.stockStatus,
+      promo: {
+        enabled: draft.promoEnabled,
+        percent: Math.max(0, Math.min(90, Math.round(draft.promoPercent || 0))),
+      },
+      hot: {
+        status: draft.hotStatus,
+        windowStart: draft.hotWindowStart,
+        windowEnd: draft.hotWindowEnd,
+        note: draft.hotNote.trim(),
+        updatedAt: new Date().toISOString(),
+      },
+    };
+
+    setSaveStateById((prev) => ({ ...prev, [product.id]: "saving" }));
+
+    try {
+      await adapter.saveProductDraft(payload);
+      await reloadAll(adapter);
+      setSaveStateById((prev) => ({ ...prev, [product.id]: "saved" }));
+      showActionSuccess(
+        "Cambios guardados",
+        `${product.name} quedó actualizado en la hoja con guardado explícito.`
+      );
+    } catch {
+      setSaveStateById((prev) => ({ ...prev, [product.id]: "error" }));
+      showActionError(
+        "No se pudo guardar este producto",
+        "El panel mantuvo tus cambios en pantalla para que puedas corregir o intentar de nuevo."
+      );
+    }
   };
 
   const registerSale = async () => {
@@ -1141,11 +1371,31 @@ export default function AdminClient() {
                 const baselinePrice = baselinePrices[product.id] ?? product.price;
                 const hotState = hotToday[product.id] ?? defaultHotState();
                 const price = parseMoney(prices[product.id] ?? "");
+                const draft =
+                  productDrafts[product.id] ??
+                  buildProductDraft(
+                    product,
+                    prices[product.id] ?? product.price,
+                    stockStatus,
+                    visibility,
+                    promoState,
+                    hotState
+                  );
+                const savedDraft = buildProductDraft(
+                  product,
+                  prices[product.id] ?? product.price,
+                  stockStatus,
+                  visibility,
+                  promoState,
+                  hotState
+                );
+                const isDirty = !areDraftsEqual(draft, savedDraft);
+                const saveState = saveStateById[product.id] ?? (isDirty ? "dirty" : "idle");
               const pricingProduct = {
                 ...product,
-                price: prices[product.id] ?? product.price,
-                promoEnabled: promoState.enabled,
-                promoPercent: promoState.percent,
+                price: draft.price,
+                promoEnabled: draft.promoEnabled,
+                promoPercent: draft.promoPercent,
               };
               const effectivePriceValue =
                 getEffectivePriceValue(pricingProduct) ?? price;
@@ -1160,11 +1410,16 @@ export default function AdminClient() {
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
                       <p className="text-xs uppercase tracking-[0.3em] text-white/60">
-                        {product.category}
+                        {draft.category}
                       </p>
                       <h3 className="mt-2 text-lg font-semibold">
                         {product.name}
                       </h3>
+                      <p className="mt-2 text-xs text-white/55">
+                        {normalizeTags(draft.tagsInput).length > 0
+                          ? normalizeTags(draft.tagsInput).join(" · ")
+                          : "Sin etiquetas comerciales"}
+                      </p>
                     </div>
                     <div className="text-right">
                       <p className="text-xs uppercase tracking-[0.3em] text-white/60">
@@ -1181,7 +1436,37 @@ export default function AdminClient() {
                           Ahorro {formatMoney(promoSavings)}
                         </p>
                       )}
+                      <p className="mt-2 text-[11px] text-white/55">
+                        {saveState === "saving"
+                          ? "Guardando..."
+                          : saveState === "saved"
+                            ? "Guardado"
+                            : saveState === "error"
+                              ? "Revisa y vuelve a guardar"
+                              : isDirty
+                                ? "Hay cambios sin guardar"
+                                : "Sin cambios pendientes"}
+                      </p>
                     </div>
+                  </div>
+
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() => saveProductChanges(product)}
+                      disabled={!isDirty || saveState === "saving"}
+                      className="rounded-full bg-emerald-300 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#07130c] disabled:cursor-not-allowed disabled:opacity-45"
+                    >
+                      {saveState === "saving" ? "Guardando..." : "Guardar cambios"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => resetDraft(product)}
+                      disabled={!isDirty || saveState === "saving"}
+                      className="rounded-full border border-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white/75 disabled:cursor-not-allowed disabled:opacity-45"
+                    >
+                      Descartar
+                    </button>
                   </div>
 
                   <div className="mt-4 grid gap-3 md:grid-cols-2">
@@ -1263,18 +1548,12 @@ export default function AdminClient() {
                     <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
                       Visibilidad
                       <select
-                        value={visibility}
+                        value={draft.status}
                         onChange={(event) =>
-                          (async () => {
-                            const nextStatus = event.target.value as ProductStatus;
-                            if (nextStatus === "hidden") {
-                              const ok = window.confirm(
-                                "¿Seguro? Este producto quedará oculto."
-                              );
-                              if (!ok) return;
-                            }
-                            await updateStatus(product.id, nextStatus);
-                          })()
+                          updateDraft(product.id, (current) => ({
+                            ...current,
+                            status: event.target.value as ProductStatus,
+                          }))
                         }
                         className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
                       >
@@ -1291,12 +1570,12 @@ export default function AdminClient() {
                     <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
                       Stock
                       <select
-                        value={stockStatus}
+                        value={draft.stockStatus}
                         onChange={(event) =>
-                          updateStock(
-                            product.id,
-                            event.target.value as StockStatus
-                          )
+                          updateDraft(product.id, (current) => ({
+                            ...current,
+                            stockStatus: event.target.value as StockStatus,
+                          }))
                         }
                         className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
                       >
@@ -1309,28 +1588,79 @@ export default function AdminClient() {
                     <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
                       Precio unitario
                       <span className="text-[11px] normal-case tracking-normal text-white/45">
-                        Se guarda al salir del campo. Formato sugerido: $2.50
+                        Cámbialo aquí y luego usa Guardar cambios.
                       </span>
-                        <input
-                          type="text"
-                          value={prices[product.id] ?? ""}
-                          onChange={(event) =>
-                            setPrices((prev) => ({
-                              ...prev,
-                              [product.id]: event.target.value,
-                            }))
-                          }
-                          inputMode="decimal"
-                          onBlur={(event) =>
-                            handlePriceBlur(
-                              product.id,
-                            event.target.value,
-                            baselinePrice
-                          )
+                      <input
+                        type="text"
+                        value={draft.price}
+                        onChange={(event) =>
+                          updateDraft(product.id, (current) => ({
+                            ...current,
+                            price: event.target.value,
+                          }))
                         }
+                        inputMode="decimal"
                         className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
                       />
                     </label>
+
+                    <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                      Categoría
+                      <select
+                        value={draft.category}
+                        onChange={(event) =>
+                          updateDraft(product.id, (current) => ({
+                            ...current,
+                            category: event.target.value,
+                          }))
+                        }
+                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                      >
+                        {categoryOptions.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+
+                    <div className="md:col-span-2 grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                      <p>Etiquetas</p>
+                      <div className="flex flex-wrap gap-2">
+                        {ADMIN_TAG_OPTIONS.map((tag) => {
+                          const isActive = normalizeTags(draft.tagsInput).includes(tag);
+                          return (
+                            <button
+                              key={tag}
+                              type="button"
+                              onClick={() => toggleDraftTag(product.id, tag)}
+                              className={`rounded-full border px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] ${
+                                isActive
+                                  ? "border-emerald-300/40 bg-emerald-400/15 text-emerald-100"
+                                  : "border-white/15 text-white/75"
+                              }`}
+                            >
+                              {tag}
+                            </button>
+                          );
+                        })}
+                      </div>
+                      <input
+                        type="text"
+                        value={draft.tagsInput}
+                        onChange={(event) =>
+                          updateDraft(product.id, (current) => ({
+                            ...current,
+                            tagsInput: event.target.value,
+                          }))
+                        }
+                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                        placeholder="Ej. desayuno, cafe caliente, oferta"
+                      />
+                      <p className="text-[11px] normal-case tracking-normal text-white/45">
+                        Úsalas para búsqueda y para marcar rápido antojo, desayuno, oferta o caliente hoy.
+                      </p>
+                    </div>
 
                   </div>
 
@@ -1345,26 +1675,15 @@ export default function AdminClient() {
                           <input
                             type="number"
                             min={1}
-                            value={product.sortOrder ?? 9999}
+                            value={draft.sortOrder}
                             inputMode="numeric"
                             onChange={(event) => {
                               const nextValue = Number(event.target.value);
-                              setProducts((prev) =>
-                                prev.map((current) =>
-                                  current.id === product.id
-                                    ? {
-                                        ...current,
-                                        sortOrder: Number.isFinite(nextValue)
-                                          ? nextValue
-                                          : 9999,
-                                      }
-                                    : current
-                                )
-                              );
+                              updateDraft(product.id, (current) => ({
+                                ...current,
+                                sortOrder: Number.isFinite(nextValue) ? nextValue : 9999,
+                              }));
                             }}
-                            onBlur={(event) =>
-                              updateSortOrder(product.id, Number(event.target.value))
-                            }
                             className="w-full rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
                           />
                           <button
@@ -1391,12 +1710,12 @@ export default function AdminClient() {
                       <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
                         Destacado
                         <select
-                          value={product.isFeatured ? "si" : "no"}
+                          value={draft.isFeatured ? "si" : "no"}
                           onChange={(event) =>
-                            updateFeatured(
-                              product.id,
-                              event.target.value === "si"
-                            )
+                            updateDraft(product.id, (current) => ({
+                              ...current,
+                              isFeatured: event.target.value === "si",
+                            }))
                           }
                           className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
                         >
@@ -1408,13 +1727,12 @@ export default function AdminClient() {
                       <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
                         Oferta
                         <select
-                          value={promoState.enabled ? "activa" : "inactiva"}
+                          value={draft.promoEnabled ? "activa" : "inactiva"}
                           onChange={(event) =>
-                            updatePromo(
-                              product.id,
-                              event.target.value === "activa",
-                              promoState.percent
-                            )
+                            updateDraft(product.id, (current) => ({
+                              ...current,
+                              promoEnabled: event.target.value === "activa",
+                            }))
                           }
                           className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
                         >
@@ -1429,13 +1747,12 @@ export default function AdminClient() {
                           type="number"
                           min={0}
                           max={90}
-                          value={promoState.percent}
+                          value={draft.promoPercent}
                           onChange={(event) =>
-                            updatePromo(
-                              product.id,
-                              promoState.enabled,
-                              Number(event.target.value)
-                            )
+                            updateDraft(product.id, (current) => ({
+                              ...current,
+                              promoPercent: Number(event.target.value),
+                            }))
                           }
                           className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
                         />
@@ -1444,12 +1761,12 @@ export default function AdminClient() {
                       <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
                         Estado calientes
                         <select
-                          value={hotState.status}
+                          value={draft.hotStatus}
                           onChange={(event) =>
-                            updateHotStatus(
-                              product.id,
-                              event.target.value as HotStatus
-                            )
+                            updateDraft(product.id, (current) => ({
+                              ...current,
+                              hotStatus: event.target.value as HotStatus,
+                            }))
                           }
                           className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
                         >
@@ -1466,25 +1783,23 @@ export default function AdminClient() {
                         <div className="flex gap-2">
                           <input
                             type="time"
-                            value={hotState.windowStart}
+                            value={draft.hotWindowStart}
                             onChange={(event) =>
-                              updateHotWindow(
-                                product.id,
-                                event.target.value,
-                                hotState.windowEnd
-                              )
+                              updateDraft(product.id, (current) => ({
+                                ...current,
+                                hotWindowStart: event.target.value,
+                              }))
                             }
                             className="w-full rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
                           />
                           <input
                             type="time"
-                            value={hotState.windowEnd}
+                            value={draft.hotWindowEnd}
                             onChange={(event) =>
-                              updateHotWindow(
-                                product.id,
-                                hotState.windowStart,
-                                event.target.value
-                              )
+                              updateDraft(product.id, (current) => ({
+                                ...current,
+                                hotWindowEnd: event.target.value,
+                              }))
                             }
                             className="w-full rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
                           />
@@ -1495,9 +1810,12 @@ export default function AdminClient() {
                         Nota del día
                         <input
                           type="text"
-                          value={hotState.note}
+                          value={draft.hotNote}
                           onChange={(event) =>
-                            updateHotNote(product.id, event.target.value)
+                            updateDraft(product.id, (current) => ({
+                              ...current,
+                              hotNote: event.target.value,
+                            }))
                           }
                           className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
                         />
@@ -1507,18 +1825,12 @@ export default function AdminClient() {
                         Imagen URL
                         <input
                           type="text"
-                          value={product.image ?? ""}
+                          value={draft.image}
                           onChange={(event) =>
-                            setProducts((prev) =>
-                              prev.map((current) =>
-                                current.id === product.id
-                                  ? { ...current, image: event.target.value }
-                                  : current
-                              )
-                            )
-                          }
-                          onBlur={(event) =>
-                            updateImage(product.id, event.target.value)
+                            updateDraft(product.id, (current) => ({
+                              ...current,
+                              image: event.target.value,
+                            }))
                           }
                           className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
                           placeholder="/RYSminisuper/images/... o https://..."

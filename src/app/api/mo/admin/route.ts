@@ -11,6 +11,7 @@ import type {
   HotState,
   MarketingEventInput,
   OrderLogInput,
+  ProductAdminSaveInput,
   StockStatus,
 } from "../../../../lib/mo/data/types";
 import {
@@ -21,6 +22,7 @@ import {
   logMarketingEvent,
   logOrder,
   removeOrder,
+  saveProductDraft,
   updateFeatured,
   updateHot,
   updateImage,
@@ -44,6 +46,7 @@ const toApiError = (error: unknown, fallbackMessage: string) => {
 };
 
 type AdminAction =
+  | { action: "saveProductDraft"; input: ProductAdminSaveInput }
   | { action: "updateStock"; id: string; status: StockStatus }
   | { action: "updatePrice"; id: string; price: string }
   | { action: "updateImage"; id: string; image: string }
@@ -96,6 +99,9 @@ export async function POST(request: Request) {
     const payload = (await request.json()) as AdminAction;
 
     switch (payload.action) {
+      case "saveProductDraft":
+        await saveProductDraft(payload.input);
+        break;
       case "updateStock":
         await updateStock(payload.id, payload.status);
         break;

@@ -53,6 +53,7 @@ export const getProductSearchHaystack = (product: Product) => {
     product.name,
     product.description,
     product.category,
+    ...(product.tags ?? []),
     ...getCategoryTerms(product),
     ...getAliasTerms(product),
   ];

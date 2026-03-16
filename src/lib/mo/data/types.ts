@@ -54,6 +54,20 @@ export type PromoState = {
   percent: number;
 };
 
+export type ProductAdminSaveInput = {
+  id: string;
+  category: string;
+  tags: string[];
+  price: string;
+  image: string;
+  sortOrder: number;
+  isFeatured: boolean;
+  status: ProductStatus;
+  stockStatus: StockStatus;
+  promo: PromoState;
+  hot: HotState;
+};
+
 export type MarketingEventName =
   | "product_click"
   | "search_zero_results"
@@ -90,6 +104,7 @@ export type AdminSnapshot = {
 export type MoDataAdapter = {
   getProducts: () => Promise<Product[]>;
   getAdminSnapshot: () => Promise<AdminSnapshot>;
+  saveProductDraft: (input: ProductAdminSaveInput) => Promise<void>;
   updateStock: (id: string, status: StockStatus) => Promise<void>;
   updatePrice: (id: string, price: string) => Promise<void>;
   updateImage: (id: string, image: string) => Promise<void>;
