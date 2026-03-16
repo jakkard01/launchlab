@@ -1089,3 +1089,89 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
   - fotos reales o muy cercanas al producto real;
   - luz clara, encuadre corto, comida servida/lista;
   - evitar stock genérico que rompa confianza local.
+
+## 2026-03-16 - RYS cierre VIP local: tono local + búsqueda clara + admin más llevadero
+
+### Autor/agente
+- Codex GPT-5
+
+### Problema real
+- El storefront ya vendía, pero no terminaba de sonar suficientemente local ni de empujar dolores reales:
+  - café caliente;
+  - antojo;
+  - compra rápida;
+  - evitar la vuelta en vano;
+  - evitar la cola del súper;
+  - retiro fácil con confirmación real.
+- La búsqueda seguía mezclándose con el storefront normal y no se sentía como una búsqueda clara para comprar.
+- El admin tenía demasiados controles visibles al mismo tiempo para operación diaria simple.
+
+### Qué se cambió
+- Localización/comercial:
+  - hero, quick shop, combos y promos quedan más alineados a San Salvador/La Gloria sin caricatura;
+  - se refuerzan mensajes de:
+    - confirmamos antes de salir;
+    - antojo caliente;
+    - café caliente;
+    - compra rápida;
+    - si no lo ves, pídelo;
+    - evitar cola/vuelta innecesaria.
+- Combos/promos:
+  - combos renombrados y reenfocados:
+    - `Antojo caliente`
+    - `Café y pan`
+    - `Merienda sin vueltas`
+    - `Algo rápido para hoy`
+    - `Para no salir dos veces`
+  - promos reescritas hacia dolor real:
+    - `Desayuno resuelto`
+    - `Antojito sin vuelta`
+    - `Algo rápido para hoy`
+- Búsqueda:
+  - cuando hay query, el storefront entra en modo búsqueda más limpio;
+  - se ocultan bloques que distraen;
+  - quedan resultados aislados, CTA para limpiar y salida directa a pedido especial;
+  - empty state queda más útil.
+- Ranking:
+  - `pupusas`, `café` y `empanadas` mejoran su priorización;
+  - `café` favorece mejor el café servido/caliente.
+- Admin:
+  - se refuerzan atajos diarios:
+    - `Listo hoy`
+    - `Empujar hoy`
+    - `Agotado`
+    - `Destacar`
+    - `Promo 10%`
+    - `Promo 15%`
+    - `Quitar caliente`
+    - `Ocultar`
+  - lo menos usado pasa a `Más ajustes` para bajar fricción visual y mental.
+
+### Qué se verificó
+- `npm run lint` OK.
+- `pnpm -s build` OK.
+- Lógica de búsqueda:
+  - `pupusas` -> encuentra `Pupusas mixtas (3 unid)` primero.
+  - `cafe` -> encuentra `Café servido vaso` primero.
+  - `empanadas` -> encuentra `Empanadas de queso (2 unid)`.
+  - query inexistente -> `[]`.
+- Storefront local:
+  - renderiza el copy localizado y el CTA reforzado.
+- Admin local:
+  - login local OK (`POST /api/mo/admin/login` con `password`);
+  - acceso admin responde `200`.
+- Salud operativa:
+  - local sigue separando bien UI viva vs operación real:
+    - `/api/mo/health` -> `fallback_only` por falta de creds locales;
+    - `/api/mo/products` -> `SHEETS_NOT_CONFIGURED`.
+
+### Qué mejora para móvil
+- búsqueda más clara y menos mezclada con el storefront normal;
+- CTA de salida/cancelación de búsqueda visibles;
+- admin con menos ruido inicial y foco en acciones rápidas;
+- la densidad visual baja porque los campos menos usados quedan plegados.
+
+### Qué queda pendiente solo como mejora futura opcional
+- browser QA automatizado real de búsqueda/admin móvil para validar taps/teclado/transiciones visuales;
+- upgrade visual de fotos prioritarias ya identificado en la nota anterior;
+- si en producción aparece una fricción real nueva de operadora, el siguiente microbloque debería salir del uso diario, no de intuición estética.

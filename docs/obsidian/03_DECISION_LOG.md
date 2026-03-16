@@ -1,5 +1,10 @@
 # 03_DECISION_LOG
 
+- 2026-03-16: RYS cierra una pasada extra de localización/comercial real: el lenguaje empuja mejor café caliente, antojo, compra rápida, confirmación antes de salir, evitar la vuelta en vano y evitar la cola del súper sin caer en caricatura.
+- 2026-03-16: La búsqueda pública de RYS deja de convivir con el storefront completo cuando hay query; entra en un modo búsqueda más limpio con resultados aislados, CTA de salida clara y empty state útil.
+- 2026-03-16: El ranking de búsqueda se ajusta para favorecer mejor productos comercialmente relevantes en queries cortas; por ejemplo, `café` prioriza mejor el café servido/caliente.
+- 2026-03-16: Combos y promos de RYS se reenfocan a dolores reales de compra local (`Antojo caliente`, `Café y pan`, `Merienda sin vueltas`, `Para no salir dos veces`) en lugar de naming genérico o demasiado abstracto.
+- 2026-03-16: El admin de RYS reduce fricción diaria moviendo campos menos usados a `Más ajustes` y reforzando atajos operativos (`Listo hoy`, `Empujar hoy`, `Agotado`, `Promo 10%`, `Promo 15%`, `Ocultar`).
 - 2026-03-16: RYS cierra polish comercial/UX de entrega VIP sin tocar arquitectura ni backend: hero, header, sticky/cart y pedido especial pasan a hablar de compra rápida, confirmación real y retiro fácil, reduciendo tono de demo y subiendo claridad de acción.
 - 2026-03-16: RYS corrige metadata propia de la ruta `/RYSminisuper` (`title`, `description`, canonical, Open Graph, Twitter) para dejar de heredar señales de PBIA y quedar listo para campañas, compartidos y tráfico móvil con identidad propia.
 - 2026-03-16: La presentación comercial del catálogo prioriza más claramente `caliente hoy`, combos, promos y antojitos/boquitas; no se rehacen las secciones, pero sí se ordena el lenguaje hacia resolución rápida y antojo útil.
