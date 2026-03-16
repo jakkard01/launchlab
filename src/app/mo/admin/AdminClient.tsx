@@ -12,8 +12,10 @@ import {
   getPromoLabel,
   getPromoSavings,
 } from "../../../lib/mo/pricing";
-import { matchesProductQuery } from "../../../lib/mo/search";
+import { matchesProductQuery, rankProductsByQuery } from "../../../lib/mo/search";
 import type {
+  AdminRole,
+  AdminSessionUser,
   HotState,
   HotStatus,
   MarketingEventEntry,
@@ -148,6 +150,15 @@ type InlineNotice = {
   message: string;
 };
 
+type AdminSection = "resumen" | "hoy" | "catalogo" | "marketing" | "avanzado";
+
+const ROLE_LABELS: Record<AdminRole, string> = {
+  owner: "Owner",
+  admin: "Admin",
+  operator: "Operadora",
+  viewer: "Solo lectura",
+};
+
 export default function AdminClient() {
   type VisibilityFilter =
     | "all"
@@ -159,6 +170,7 @@ export default function AdminClient() {
     | "hot";
 
   const [adapter, setAdapter] = useState<MoDataAdapter | null>(null);
+  const [currentUser, setCurrentUser] = useState<AdminSessionUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<MoBackendErrorInfo | null>(null);
   const [actionNotice, setActionNotice] = useState<ActionNotice | null>(null);
@@ -182,9 +194,12 @@ export default function AdminClient() {
   const [saleProductId, setSaleProductId] = useState("");
   const [saleQuantity, setSaleQuantity] = useState(1);
   const [saleUnitPrice, setSaleUnitPrice] = useState(0);
+  const [salePaymentMethod, setSalePaymentMethod] = useState("efectivo");
+  const [saleNote, setSaleNote] = useState("");
   const [manualSaleNotice, setManualSaleNotice] = useState<InlineNotice | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [visibilityFilter, setVisibilityFilter] = useState<VisibilityFilter>("all");
+  const [activeSection, setActiveSection] = useState<AdminSection>("resumen");
   const importInputRef = useRef<HTMLInputElement>(null);
 
   const showActionError = useCallback((title: string, message: string) => {
@@ -206,6 +221,11 @@ export default function AdminClient() {
     const timeoutId = window.setTimeout(() => setManualSaleNotice(null), 3200);
     return () => window.clearTimeout(timeoutId);
   }, [manualSaleNotice]);
+
+  useEffect(() => {
+    if (availableSections.some((section) => section.id === activeSection)) return;
+    setActiveSection("resumen");
+  }, [activeSection, availableSections]);
 
   const handleExport = () => {
     const payload = {
@@ -296,6 +316,18 @@ export default function AdminClient() {
     setStats(nextStats);
   }, []);
 
+  const loadSession = useCallback(async () => {
+    const response = await fetch("/api/mo/admin/me", {
+      method: "GET",
+      cache: "no-store",
+    });
+    if (!response.ok) {
+      throw new Error("No se pudo validar la sesión admin.");
+    }
+    const data = (await response.json()) as { user: AdminSessionUser };
+    setCurrentUser(data.user);
+  }, []);
+
   const reloadAll = useCallback(
     async (activeAdapter?: MoDataAdapter) => {
       const current = activeAdapter ?? adapter;
@@ -315,7 +347,7 @@ export default function AdminClient() {
         const dataAdapter = await getMoDataAdapter();
         if (!active) return;
         setAdapter(dataAdapter);
-        await reloadAll(dataAdapter);
+        await Promise.all([loadSession(), reloadAll(dataAdapter)]);
         if (!active) return;
         setActionNotice(null);
       } catch (err) {
@@ -332,7 +364,7 @@ export default function AdminClient() {
     return () => {
       active = false;
     };
-  }, [reloadAll]);
+  }, [loadSession, reloadAll]);
 
   useEffect(() => {
     if (!saleProductId && products.length > 0) {
@@ -431,7 +463,7 @@ export default function AdminClient() {
 
   const filteredProducts = useMemo(() => {
     const query = searchQuery.trim();
-    return sortedProducts.filter((product) => {
+    const visibleProducts = sortedProducts.filter((product) => {
       const currentStatus = status[product.id] ?? product.status ?? "available";
       const currentStock = stock[product.id] ?? product.stockStatus ?? "disponible";
       const currentPromo = promo[product.id] ?? {
@@ -458,7 +490,93 @@ export default function AdminClient() {
         query
       );
     });
+    return query ? rankProductsByQuery(visibleProducts, query) : visibleProducts;
   }, [hotToday, prices, promo, searchQuery, sortedProducts, status, stock, visibilityFilter]);
+
+  const currentRole = currentUser?.role ?? "viewer";
+  const canEditCatalog =
+    currentRole === "owner" || currentRole === "admin" || currentRole === "operator";
+  const canSeeAdvanced = currentRole === "owner" || currentRole === "admin";
+  const canSeeMarketing = currentRole !== "viewer";
+  const canUseManualSale = currentRole !== "viewer";
+
+  const availableSections = useMemo(
+    () => [
+      {
+        id: "resumen" as const,
+        label: "Resumen",
+        help: "Métricas rápidas y accesos del día.",
+      },
+      {
+        id: "hoy" as const,
+        label: "Operación",
+        help: "Lo diario: tocar y seguir.",
+      },
+      {
+        id: "catalogo" as const,
+        label: "Catálogo",
+        help: "Buscar producto y abrir ficha.",
+      },
+      ...(canSeeMarketing
+        ? [
+            {
+              id: "marketing" as const,
+              label: "Promos",
+              help: "Qué estás empujando hoy.",
+            },
+          ]
+        : []),
+      ...(canSeeAdvanced
+        ? [
+            {
+              id: "avanzado" as const,
+              label: "Más ajustes",
+              help: "Configuración más fina.",
+            },
+          ]
+        : []),
+    ],
+    [canSeeAdvanced, canSeeMarketing]
+  );
+
+  const sectionProducts = useMemo(() => {
+    if (searchQuery.trim() || visibilityFilter !== "all") return filteredProducts;
+
+    if (activeSection === "marketing") {
+      const marketingFirst = filteredProducts.filter((product) => {
+        const currentPromo = promo[product.id] ?? {
+          enabled: product.promoEnabled ?? false,
+          percent: product.promoPercent ?? 0,
+        };
+        const currentHot = hotToday[product.id] ?? defaultHotState();
+        return (
+          product.isFeatured ||
+          currentPromo.enabled ||
+          currentHot.status !== "hoy_no_hicimos"
+        );
+      });
+      return marketingFirst.length > 0 ? marketingFirst : filteredProducts.slice(0, 12);
+    }
+
+    if (activeSection === "hoy") {
+      return [...filteredProducts].sort((left, right) => {
+        const leftScore =
+          ((stock[left.id] ?? left.stockStatus) === "agotado" ? 10 : 0) +
+          ((promo[left.id]?.enabled ?? left.promoEnabled) ? 8 : 0) +
+          ((hotToday[left.id]?.status ?? "hoy_no_hicimos") !== "hoy_no_hicimos" ? 6 : 0) +
+          (left.isFeatured ? 4 : 0);
+        const rightScore =
+          ((stock[right.id] ?? right.stockStatus) === "agotado" ? 10 : 0) +
+          ((promo[right.id]?.enabled ?? right.promoEnabled) ? 8 : 0) +
+          ((hotToday[right.id]?.status ?? "hoy_no_hicimos") !== "hoy_no_hicimos" ? 6 : 0) +
+          (right.isFeatured ? 4 : 0);
+        if (leftScore !== rightScore) return rightScore - leftScore;
+        return (left.sortOrder ?? 9999) - (right.sortOrder ?? 9999);
+      });
+    }
+
+    return filteredProducts;
+  }, [activeSection, filteredProducts, hotToday, promo, searchQuery, stock, visibilityFilter]);
 
   const runQuickAction = async (
     actionLabel: string,
@@ -921,7 +1039,13 @@ export default function AdminClient() {
       ],
       total: saleTotal,
       channel: "manual",
-      note: product.name,
+      note: [
+        product.name,
+        `pago:${salePaymentMethod}`,
+        saleNote.trim() ? `nota:${saleNote.trim()}` : "",
+      ]
+        .filter(Boolean)
+        .join(" | "),
     };
 
     try {
@@ -930,6 +1054,8 @@ export default function AdminClient() {
       await reloadAll(adapter);
       setSaleQuantity(1);
       setSaleUnitPrice(parseMoney(prices[saleProductId] ?? product.price));
+      setSalePaymentMethod("efectivo");
+      setSaleNote("");
       setManualSaleNotice({
         tone: "success",
         message: `${product.name} x${safeQuantity} se sumó al resumen de hoy por ${formatMoney(
@@ -1144,10 +1270,18 @@ export default function AdminClient() {
             <p className="text-xs uppercase tracking-[0.45em] text-emerald-200/80">
               RYS minisuper admin
             </p>
-            <h1 className="text-3xl font-semibold">Resumen diario</h1>
+            <h1 className="text-3xl font-semibold">Panel de operación</h1>
             <p className="mt-2 text-sm text-white/60">
-              Panel rápido para dejar lista la tienda de hoy sin pensar demasiado.
+              Lo diario primero. Marketing y ajustes finos solo cuando de verdad hagan falta.
             </p>
+            <div className="mt-3 flex flex-wrap gap-2 text-[11px] uppercase tracking-[0.2em]">
+              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-white/70">
+                {ROLE_LABELS[currentRole]}
+              </span>
+              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-white/70">
+                {currentUser?.isLegacy ? "Acceso legacy temporal" : currentUser?.name ?? "Sesión admin"}
+              </span>
+            </div>
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <button
@@ -1158,6 +1292,8 @@ export default function AdminClient() {
             >
               {refreshing ? "Recargando..." : "Recargar panel"}
             </button>
+            {canSeeAdvanced ? (
+              <>
             <button
               type="button"
               onClick={handleExport}
@@ -1179,9 +1315,19 @@ export default function AdminClient() {
               className="hidden"
               onChange={handleImportFile}
             />
+              </>
+            ) : null}
             <div className="rounded-full border border-emerald-300/40 bg-emerald-400/10 px-4 py-2 text-xs uppercase tracking-[0.3em] text-emerald-200">
               {hotCount} calientes activos
             </div>
+            {currentRole === "owner" ? (
+              <a
+                href="/RYSminisuper/admin/seguridad"
+                className="rounded-full border border-white/10 px-4 py-2 text-xs uppercase tracking-[0.2em] text-white/70"
+              >
+                Seguridad
+              </a>
+            ) : null}
           </div>
         </header>
 
@@ -1216,6 +1362,40 @@ export default function AdminClient() {
           </div>
         ) : null}
 
+        <section className="grid gap-3 rounded-3xl border border-white/10 bg-white/5 p-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.25em] text-white/60">
+              Navegación rápida
+            </p>
+            <p className="mt-2 text-sm text-white/55">
+              Primero opera. Después empuja promos. Lo más fino vive en Más ajustes.
+            </p>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-5">
+            {availableSections.map((section) => {
+              const isActive = activeSection === section.id;
+              return (
+                <button
+                  key={section.id}
+                  type="button"
+                  onClick={() => setActiveSection(section.id)}
+                  className={`rounded-2xl border px-4 py-3 text-left transition ${
+                    isActive
+                      ? "border-emerald-300/40 bg-emerald-400/15 text-emerald-100"
+                      : "border-white/10 bg-black/30 text-white/75"
+                  }`}
+                >
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em]">
+                    {section.label}
+                  </p>
+                  <p className="mt-1 text-xs text-inherit/80">{section.help}</p>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+
+        {activeSection === "resumen" && (
         <section className="grid gap-4 sm:grid-cols-3">
           <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
             <p className="text-xs uppercase tracking-[0.25em] text-white/60">
@@ -1236,7 +1416,9 @@ export default function AdminClient() {
             <p className="mt-2 text-3xl font-semibold">{soldOutCount}</p>
           </div>
         </section>
+        )}
 
+        {activeSection === "resumen" && (
         <section className="rounded-3xl border border-emerald-300/20 bg-emerald-400/10 p-5 text-sm text-emerald-50">
           <p className="text-xs uppercase tracking-[0.25em] text-emerald-200/80">
             Guía rápida
@@ -1251,7 +1433,9 @@ export default function AdminClient() {
             Deja los campos largos para casos puntuales. Lo diario debería salir con los botones rápidos.
           </p>
         </section>
+        )}
 
+        {activeSection === "resumen" && (
         <section className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6">
           <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-white/80">
             Ventas de hoy
@@ -1275,7 +1459,9 @@ export default function AdminClient() {
             </div>
           </div>
         </section>
+        )}
 
+        {activeSection === "resumen" && canUseManualSale && (
         <details className="rounded-3xl border border-white/10 bg-white/5 p-6">
           <summary className="cursor-pointer list-none text-sm font-semibold uppercase tracking-[0.25em] text-white/80">
             Registrar venta manual
@@ -1324,6 +1510,18 @@ export default function AdminClient() {
                 className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
               />
             </label>
+            <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+              Pago
+              <select
+                value={salePaymentMethod}
+                onChange={(event) => setSalePaymentMethod(event.target.value)}
+                className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
+              >
+                <option value="efectivo">Efectivo</option>
+                <option value="transferencia">Transferencia</option>
+                <option value="tarjeta">Tarjeta</option>
+              </select>
+            </label>
             <button
               type="button"
               onClick={registerSale}
@@ -1335,6 +1533,16 @@ export default function AdminClient() {
                 : "Agregar venta manual"}
             </button>
           </div>
+          <label className="mt-4 grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+            Nota corta
+            <input
+              type="text"
+              value={saleNote}
+              onChange={(event) => setSaleNote(event.target.value)}
+              placeholder="Ej. retiro, transferencia, pedido directo"
+              className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
+            />
+          </label>
           {manualSaleNotice ? (
             <div
               className={`mt-4 rounded-2xl border px-4 py-3 text-sm ${
@@ -1353,19 +1561,33 @@ export default function AdminClient() {
             Sugerencia: si cambiaste el precio en el catálogo, revisa aquí el precio unitario antes de guardar.
           </p>
         </details>
+        )}
 
+        {activeSection !== "resumen" && (
         <section className="grid gap-6 rounded-3xl border border-white/10 bg-white/5 p-6">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-white/80">
-                Control de catálogo
+                {activeSection === "hoy"
+                  ? "Operación de hoy"
+                  : activeSection === "marketing"
+                    ? "Promos y empuje comercial"
+                    : activeSection === "avanzado"
+                      ? "Ajustes avanzados"
+                      : "Catálogo"}
               </h2>
               <p className="mt-2 text-sm text-white/60">
-                Busca un producto, usa atajos si quieres resolver rápido y guarda cambios solo cuando termines de ajustarlo.
+                {activeSection === "hoy"
+                  ? "Aquí va lo diario: agotado, listo hoy, promo rápida, visibilidad y tocar una vez para seguir."
+                  : activeSection === "marketing"
+                    ? "Aquí decides qué empujar hoy: promos, destacados, etiquetas y productos calientes."
+                    : activeSection === "avanzado"
+                      ? "Esta zona es para cambios finos. Si no lo necesitas hoy, no la toques."
+                      : "Busca un producto por nombre, categoría o etiqueta y abre su ficha sin perderte en una sábana eterna."}
               </p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-xs text-white/65">
-              Mostrando {filteredProducts.length} de {sortedProducts.length} productos
+              Mostrando {sectionProducts.length} de {sortedProducts.length} productos
             </div>
           </div>
           <div className="grid gap-4 lg:grid-cols-[2fr,1fr,auto]">
@@ -1411,11 +1633,11 @@ export default function AdminClient() {
             </div>
           </div>
           <div className="grid gap-4 lg:grid-cols-2">
-              {filteredProducts.length === 0 ? (
+              {sectionProducts.length === 0 ? (
                 <div className="rounded-2xl border border-dashed border-white/15 bg-black/20 p-5 text-sm text-white/60 lg:col-span-2">
                   No hay productos que coincidan con la búsqueda o el filtro actual. Si buscabas algo del surtido y no sale aquí, no significa que el buscador esté roto: puede que ese producto no esté cargado hoy.
                 </div>
-              ) : filteredProducts.map((product) => {
+              ) : sectionProducts.map((product) => {
                 const stockStatus = stock[product.id] ?? "disponible";
                 const promoState = promo[product.id] ?? {
                   enabled: false,
@@ -1455,6 +1677,40 @@ export default function AdminClient() {
                 getEffectivePriceValue(pricingProduct) ?? price;
               const promoLabel = getPromoLabel(pricingProduct);
               const promoSavings = getPromoSavings(pricingProduct);
+              const statusSummary = [
+                draft.status === "hidden"
+                  ? "Oculto"
+                  : draft.status === "out_of_stock"
+                    ? "Agotado"
+                    : draft.status === "soon"
+                      ? "Pronto"
+                      : "Visible",
+                draft.stockStatus === "agotado"
+                  ? "Stock agotado"
+                  : draft.stockStatus === "ultimas"
+                    ? "Últimas"
+                    : "Stock disponible",
+                draft.promoEnabled && draft.promoPercent > 0
+                  ? `Promo ${draft.promoPercent}%`
+                  : "",
+                draft.hotStatus !== "hoy_no_hicimos"
+                  ? hotLabels[draft.hotStatus]
+                  : "",
+                draft.isFeatured ? "Destacado" : "",
+              ]
+                .filter(Boolean)
+                .join(" · ");
+              const showTodayBlock =
+                activeSection === "hoy" || activeSection === "catalogo";
+              const showBasicsBlock =
+                activeSection === "hoy" || activeSection === "catalogo";
+              const showMarketingBlock =
+                activeSection === "marketing" ||
+                activeSection === "catalogo" ||
+                activeSection === "hoy";
+              const showAdvancedBlock =
+                canSeeAdvanced &&
+                (activeSection === "avanzado" || activeSection === "catalogo");
 
               return (
                 <div
@@ -1470,6 +1726,9 @@ export default function AdminClient() {
                         {product.name}
                       </h3>
                       <p className="mt-2 text-xs text-white/55">
+                        {statusSummary}
+                      </p>
+                      <p className="mt-2 text-xs text-white/45">
                         {normalizeTags(draft.tagsInput).length > 0
                           ? normalizeTags(draft.tagsInput).join(" · ")
                           : "Sin etiquetas comerciales"}
@@ -1532,7 +1791,7 @@ export default function AdminClient() {
                     <button
                       type="button"
                       onClick={() => saveProductChanges(product)}
-                      disabled={!isDirty || saveState === "saving"}
+                      disabled={!canEditCatalog || !isDirty || saveState === "saving"}
                       className="min-h-[46px] rounded-2xl bg-emerald-300 px-4 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-[#07130c] disabled:cursor-not-allowed disabled:opacity-45"
                     >
                       {saveState === "saving" ? "Guardando..." : "Guardar cambios"}
@@ -1540,7 +1799,7 @@ export default function AdminClient() {
                     <button
                       type="button"
                       onClick={() => resetDraft(product)}
-                      disabled={!isDirty || saveState === "saving"}
+                      disabled={!canEditCatalog || !isDirty || saveState === "saving"}
                       className="min-h-[46px] rounded-2xl border border-white/15 px-4 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-white/75 disabled:cursor-not-allowed disabled:opacity-45"
                     >
                       Descartar
@@ -1548,9 +1807,10 @@ export default function AdminClient() {
                   </div>
 
                   <div className="mt-4 grid gap-3 md:grid-cols-2">
+                    {currentRole !== "viewer" && showTodayBlock ? (
                     <div className="md:col-span-2 rounded-2xl border border-emerald-300/15 bg-emerald-400/10 p-3">
                       <p className="text-[11px] uppercase tracking-[0.22em] text-emerald-200/80">
-                        Atajos de hoy
+                        Hoy
                       </p>
                       <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
                         <button
@@ -1577,11 +1837,11 @@ export default function AdminClient() {
                         <button
                           type="button"
                           onClick={() =>
-                            toggleQuickFeatured(product.id, !product.isFeatured)
+                            toggleQuickFeatured(product.id, !draft.isFeatured)
                           }
                           className="min-h-[44px] rounded-2xl border border-sky-300/30 px-3 py-2 text-xs font-semibold text-sky-100"
                         >
-                          {product.isFeatured ? "Quitar destacado" : "Destacar"}
+                          {draft.isFeatured ? "Quitar destacado" : "Destacar"}
                         </button>
                         <button
                           type="button"
@@ -1622,7 +1882,12 @@ export default function AdminClient() {
                         Esto es lo diario: tocar y seguir. Abre &quot;Más ajustes&quot; solo si vas a cambiar algo más fino.
                       </p>
                     </div>
+                    ) : null}
 
+                    {currentRole !== "viewer" && (showBasicsBlock || showMarketingBlock) ? (
+                    <>
+                    {showBasicsBlock ? (
+                    <>
                     <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
                       Visibilidad
                       <select
@@ -1634,6 +1899,7 @@ export default function AdminClient() {
                           }))
                         }
                         className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                        disabled={!canEditCatalog}
                       >
                         <option value="available">Visible</option>
                         <option value="soon">Pronto</option>
@@ -1656,6 +1922,7 @@ export default function AdminClient() {
                           }))
                         }
                         className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                        disabled={!canEditCatalog}
                       >
                         <option value="disponible">Disponible</option>
                         <option value="ultimas">Ultimas</option>
@@ -1679,6 +1946,7 @@ export default function AdminClient() {
                         }
                         inputMode="decimal"
                         className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                        disabled={!canEditCatalog}
                       />
                     </label>
 
@@ -1704,6 +1972,7 @@ export default function AdminClient() {
                                   promoPercent: option.percent,
                                 }))
                               }
+                              disabled={!canEditCatalog}
                               className={`min-h-[44px] rounded-2xl border px-3 py-2 text-[11px] font-semibold ${
                                 isActive
                                   ? "border-emerald-300/40 bg-emerald-400/15 text-emerald-100"
@@ -1716,9 +1985,12 @@ export default function AdminClient() {
                         })}
                       </div>
                     </div>
+                    </>
+                    ) : null}
 
+                    {showMarketingBlock ? (
                     <div className="md:col-span-2 grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
-                      <p>Etiquetas</p>
+                      <p>Marketing</p>
                       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                         {ADMIN_TAG_OPTIONS.map((tag) => {
                           const isActive = normalizeTags(draft.tagsInput).includes(tag);
@@ -1727,6 +1999,7 @@ export default function AdminClient() {
                               key={tag}
                               type="button"
                               onClick={() => toggleDraftTag(product.id, tag)}
+                              disabled={!canEditCatalog}
                               className={`min-h-[42px] rounded-2xl border px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.08em] ${
                                 isActive
                                   ? "border-emerald-300/40 bg-emerald-400/15 text-emerald-100"
@@ -1749,14 +2022,22 @@ export default function AdminClient() {
                         }
                         className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
                         placeholder="Ej. desayuno, cafe caliente, oferta"
+                        disabled={!canEditCatalog}
                       />
                       <p className="text-[11px] normal-case tracking-normal text-white/45">
-                        Úsalas para búsqueda y para marcar rápido antojo, desayuno, oferta o caliente hoy.
+                        Aquí decides qué empujar hoy. Úsalas para búsqueda, promos y lectura comercial rápida.
                       </p>
                     </div>
-
+                    ) : null}
+                    </>
+                    ) : (
+                      <div className="md:col-span-2 rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-white/65">
+                        Modo solo lectura: puedes revisar estado, precio final y señales del producto, pero no editar.
+                      </div>
+                    )}
                   </div>
 
+                  {showAdvancedBlock ? (
                   <details className="mt-4 rounded-2xl border border-white/10 bg-black/20 p-4">
                     <summary className="cursor-pointer list-none text-sm font-semibold text-white">
                       Más ajustes
@@ -1773,6 +2054,7 @@ export default function AdminClient() {
                             }))
                           }
                           className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                          disabled={!canEditCatalog}
                         >
                           {categoryOptions.map((option) => (
                             <option key={option} value={option}>
@@ -1798,11 +2080,13 @@ export default function AdminClient() {
                               }));
                             }}
                             className="w-full rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                            disabled={!canEditCatalog}
                           />
                           <button
                             type="button"
                             onClick={() => moveProduct(product.id, "up")}
-                            className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                            className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white disabled:opacity-40"
+                            disabled={!canEditCatalog}
                             aria-label={`Subir ${product.name}`}
                             title="Subir"
                           >
@@ -1811,7 +2095,8 @@ export default function AdminClient() {
                           <button
                             type="button"
                             onClick={() => moveProduct(product.id, "down")}
-                            className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                            className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white disabled:opacity-40"
+                            disabled={!canEditCatalog}
                             aria-label={`Bajar ${product.name}`}
                             title="Bajar"
                           >
@@ -1831,6 +2116,7 @@ export default function AdminClient() {
                             }))
                           }
                           className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                          disabled={!canEditCatalog}
                         >
                           <option value="no">No</option>
                           <option value="si">Si</option>
@@ -1848,6 +2134,7 @@ export default function AdminClient() {
                             }))
                           }
                           className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                          disabled={!canEditCatalog}
                         >
                           <option value="inactiva">Inactiva</option>
                           <option value="activa">Activa</option>
@@ -1868,6 +2155,7 @@ export default function AdminClient() {
                             }))
                           }
                           className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                          disabled={!canEditCatalog}
                         />
                       </label>
 
@@ -1882,6 +2170,7 @@ export default function AdminClient() {
                             }))
                           }
                           className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                          disabled={!canEditCatalog}
                         >
                           {Object.entries(hotLabels).map(([value, label]) => (
                             <option key={value} value={value}>
@@ -1904,6 +2193,7 @@ export default function AdminClient() {
                               }))
                             }
                             className="w-full rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                            disabled={!canEditCatalog}
                           />
                           <input
                             type="time"
@@ -1915,6 +2205,7 @@ export default function AdminClient() {
                               }))
                             }
                             className="w-full rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                            disabled={!canEditCatalog}
                           />
                         </div>
                       </label>
@@ -1931,6 +2222,7 @@ export default function AdminClient() {
                             }))
                           }
                           className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                          disabled={!canEditCatalog}
                         />
                       </label>
 
@@ -1947,6 +2239,7 @@ export default function AdminClient() {
                           }
                           className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
                           placeholder="/RYSminisuper/images/... o https://..."
+                          disabled={!canEditCatalog}
                         />
                       </label>
 
@@ -1960,11 +2253,13 @@ export default function AdminClient() {
                       </div>
                     </div>
                   </details>
+                  ) : null}
                 </div>
               );
             })}
           </div>
         </section>
+        )}
 
         <section className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
@@ -2077,6 +2372,7 @@ export default function AdminClient() {
           </div>
         </section>
 
+        {(activeSection === "resumen" || activeSection === "marketing") && (
         <section className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-white/80">
@@ -2109,7 +2405,9 @@ export default function AdminClient() {
             ))}
           </div>
         </section>
+        )}
 
+        {(activeSection === "resumen" || activeSection === "marketing") && (
         <section className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6">
           <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-white/80">
             Top 30 (30 dias)
@@ -2133,6 +2431,7 @@ export default function AdminClient() {
             ))}
           </div>
         </section>
+        )}
       </div>
     </div>
   );
