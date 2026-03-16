@@ -1,3 +1,57 @@
+## 2026-03-16 — RYS cierre maestro: admin móvil más práctico + búsqueda clara + surtido separado
+- Rama: feat/pagina-hermana-live
+- Objetivo: cerrar las últimas fricciones reales sin mezclar “buscador roto” con “producto no cargado”, y dejar el admin más cómodo para operar desde móvil.
+
+### Lo que seguía fallando o incomodando
+- Admin:
+  - el guardado explícito ya existía, pero el card seguía demasiado denso para móvil.
+  - las etiquetas eran operables, pero no suficientemente cómodas visualmente.
+  - faltaba dejar aún más claro qué acciones guardan al tocar y cuáles se confirman con `Guardar cambios`.
+- Search:
+  - el motor ya resolvía bien productos existentes, pero el empty state todavía podía confundirse con fallo del buscador.
+- Surtido:
+  - `papas fritas` y `leche` sí existen en el catálogo actual; no eran ejemplo válido de fallo de búsqueda.
+  - la deuda real visible en datos pasa más por básicos ausentes como `huevos` y otros faltantes de surtido fino, no por el buscador.
+
+### Ajustes aplicados
+- Admin móvil:
+  - atajos diarios pasan a grid más táctil y legible.
+  - el bloque de guardado explica mejor el flujo: atajos guardan al tocar; edición manual se confirma con `Guardar cambios`.
+  - `Promo rápida` queda visible arriba sin obligar a abrir ajustes largos.
+  - `Categoría` baja a `Más ajustes` para reducir ruido en el flujo principal.
+- Search:
+  - el modo búsqueda deja más explícito que muestra coincidencias reales del catálogo.
+  - el empty state explica que, si no aparece algo, puede ser surtido no cargado hoy y no un buscador roto.
+  - se empuja con más claridad a pedirlo por WhatsApp si no aparece.
+- Copy/comercial:
+  - header/hero y bloques comerciales pasan a wording más directo: `no vayas a probar suerte`, `otra cola innecesaria`, `resolver antojo, café o básicos`.
+- Promos/combos:
+  - nombres y descripciones más directos a venta real:
+    - `Pupusas y Coca-Cola`
+    - `Café caliente y pan dulce`
+    - `Boquita y Coca-Cola`
+    - `Empanadas y Coca-Cola`
+    - `Básicos para hoy`
+
+### Verificación útil
+- Search real sobre dataset:
+  - `pupusas` devuelve resultados.
+  - `café` devuelve resultados.
+  - `huevos` devuelve vacío, lo que hoy confirma deuda de surtido, no bug del buscador.
+- Storefront local:
+  - renderiza copy nueva orientada a compra rápida y a evitar salir en vano.
+- Admin:
+  - login local sigue OK.
+  - acceso admin no se rompió.
+
+### Deuda real que queda
+- El panel ya es operable, pero crear productos nuevos desde admin sigue sin existir como flujo dedicado.
+- Si se quiere crecer surtido sin tocar Sheets manualmente, el siguiente bloque real sería `alta de producto` con validación mínima, no más polish visual.
+- Prioridad de surtido real visible hoy:
+  - huevos
+  - verduras rápidas/base si el local sí las trabaja
+  - otros básicos no publicados que la clienta confirme que rota de verdad
+
 ## 2026-03-16 — RYS admin hardening final: guardado explícito + tags operables
 - Rama: feat/pagina-hermana-live
 - Objetivo: dejar el panel admin realmente usable para operadora no técnica, sin depender de autosave implícito y sin abrir arquitectura nueva.

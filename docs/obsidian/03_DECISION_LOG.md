@@ -1,5 +1,9 @@
 # 03_DECISION_LOG
 
+- 2026-03-16: Se refuerza el cierre VIP de RYS separando explícitamente dos problemas distintos: la búsqueda pública funciona sobre lo cargado en catálogo, y la deuda restante es de surtido incompleto en ciertos básicos no publicados aún.
+- 2026-03-16: El admin móvil de RYS se simplifica otra vez: atajos diarios pasan a grid táctil más claro, el bloque de guardado explica qué se guarda al tocar y qué requiere `Guardar cambios`, y `Promo rápida` queda visible sin bajar a ajustes largos.
+- 2026-03-16: En catálogo/search se endurece el empty state para no sugerir “buscador roto”; ahora deja claro que si algo no aparece puede ser producto no cargado hoy y empuja a pedido por WhatsApp.
+- 2026-03-16: Copy comercial y promos/combo se aterrizan más: menos tono de agencia, más lenguaje directo de compra rápida, café caliente, boquita, antojo y evitar la vuelta o la cola innecesaria.
 - 2026-03-16: El admin de RYS deja de depender de `blur` como única señal de guardado para edición de producto; ahora trabaja con borrador por producto + `Guardar cambios`/`Descartar`, manteniendo autos operativos solo en atajos rápidos.
 - 2026-03-16: RYS añade `tags` de producto persistidos en Google Sheets y editables desde admin. Se usan como etiquetas comerciales/operativas (`caliente hoy`, `antojo`, `combo`, `desayuno`, etc.) y también alimentan búsqueda.
 - 2026-03-16: El flujo operativo del admin se separa más claramente en dos capas: `Atajos de hoy` para tareas inmediatas y `Guardar cambios` para ajustes manuales con control y confianza.
