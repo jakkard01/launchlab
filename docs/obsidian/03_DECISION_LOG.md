@@ -1,5 +1,8 @@
 # 03_DECISION_LOG
 
+- 2026-03-16: Se inicia la Parte 1 de migración seria del admin RYS. La clave compartida sola deja de ser base suficiente: se añade auth preparada para usuarios reales, roles (`owner/admin/operator/viewer`), sesión firmada y auditoría mínima, manteniendo compatibilidad temporal con la clave legacy para no romper producción de golpe.
+- 2026-03-16: La autorización real deja de depender de esconder botones o de una cookie plana `mo_admin=1`; ahora la escritura y las rutas sensibles validan sesión firmada + permiso server-side por acción.
+- 2026-03-16: Se elige seguir usando Google Sheets en esta parte para `users` y `audit_log`, evitando abrir todavía una migración de infraestructura más grande. La salida de la clave compartida vieja queda en: crear usuarios reales, validar flujo owner/admin/operator/viewer y luego retirar login legacy.
 - 2026-03-16: Hotfix crítico de resiliencia Sheets en RYS. La causa real del `quota exceeded` fue combinada: storefront leyendo en SSR y otra vez al montar en cliente, admin recargando `snapshot + stats` con demasiada frecuencia, y `sheetsStore` sin caché compartida de token/estado/readiness.
 - 2026-03-16: `sheetsStore` ahora reutiliza token OAuth, metadata de spreadsheet, estado operativo (`products/orders/daily_sales/events`) y readiness con TTL corto + deduplicación de requests en vuelo; al escribir, invalida caché para no mentir con datos viejos.
 - 2026-03-16: `/api/mo/products` y `/api/mo/health` pasan a exponer `Cache-Control` con `stale-while-revalidate`, y el storefront deja de reconsultar `/api/mo/products` al montar cuando ya recibió catálogo server-side.

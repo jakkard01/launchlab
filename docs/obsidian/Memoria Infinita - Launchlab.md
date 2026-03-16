@@ -2,6 +2,63 @@
 - Rama: feat/pagina-hermana-live
 - Objetivo: cerrar las últimas fricciones reales sin mezclar “buscador roto” con “producto no cargado”, y dejar el admin más cómodo para operar desde móvil.
 
+## 2026-03-16 — RYS Parte 1: base profesional de auth + roles + auditoría
+- Rama: feat/pagina-hermana-live
+- Objetivo: dejar de depender solo de la clave compartida y preparar el admin para un crecimiento serio, sin rehacer todavía toda la UX final.
+
+### Riesgo real que se está atacando
+- El admin actual con una sola clave compartida y cookie plana `mo_admin=1` no escala bien:
+  - no separa owner/admin/operator/viewer;
+  - no deja trazabilidad confiable;
+  - no soporta usuarios reales ni contraseñas hasheadas;
+  - cualquier endurecimiento futuro de UX seguiría montado sobre una base frágil.
+
+### Base nueva implementada
+- Auth:
+  - sesión firmada en cookie `httpOnly`;
+  - login preparado para usuarios reales con `username/email + password`;
+  - verificación de contraseña hasheada con `scrypt`.
+- Compatibilidad:
+  - mientras no se complete la migración, sigue existiendo entrada legacy por clave compartida para no romper producción de golpe;
+  - esa sesión entra como `legacy-owner`.
+- Roles:
+  - `owner`
+  - `admin`
+  - `operator`
+  - `viewer`
+- Auditoría mínima:
+  - login éxito/fallo
+  - logout
+  - creación/desactivación/cambio de rol
+  - ediciones de catálogo/precio/stock/promo/visibilidad
+  - venta manual
+
+### Modelo preparado
+- Sheets nuevas:
+  - `users`
+  - `audit_log`
+- Campos mínimos de usuario:
+  - `id`, `name`, `username`, `email`, `passwordHash`, `role`, `isActive`, `createdAt`, `updatedAt`, `lastLoginAt`
+- Campos mínimos de auditoría:
+  - `id`, `actorUserId`, `action`, `entityType`, `entityId`, `before`, `after`, `createdAt`
+
+### Guardrails añadidos
+- rate limit básico de login en memoria
+- sesión firmada con expiración controlada
+- validación server-side por permiso en endpoints sensibles
+- logout con invalidación de cookies
+- mensajes de error más seguros
+
+### Ruta de salida de la clave compartida vieja
+1. Crear owner real y usuarios operativos desde `/RYSminisuper/admin/seguridad`.
+2. Validar flujos por rol.
+3. Retirar login legacy y dejar solo sesión basada en usuarios.
+
+### Qué queda para Parte 2
+- esconder/hacer más brutalmente usable la UX por rol
+- simplificar pantalla móvil según operator/viewer
+- mejorar navegación y acciones rápidas según permisos reales
+
 ## 2026-03-16 — RYS hotfix crítico: quota exceeded de Google Sheets + reducción de lecturas
 - Rama: feat/pagina-hermana-live
 - Objetivo: evitar que RYS caiga a fallback/admin roto por exceso de lecturas por minuto en Google Sheets.
