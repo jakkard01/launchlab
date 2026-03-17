@@ -7,7 +7,6 @@ type MoHeaderProps = {
   query: string;
   onQueryChange: (value: string) => void;
   whatsappLink: string;
-  hasAdminSession: boolean;
   onScrollToSpecial: () => void;
 };
 
@@ -15,7 +14,6 @@ export default function MoHeader({
   query,
   onQueryChange,
   whatsappLink,
-  hasAdminSession,
   onScrollToSpecial,
 }: MoHeaderProps) {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -45,14 +43,6 @@ export default function MoHeader({
             >
               Pedir
             </a>
-            {hasAdminSession ? (
-              <a
-                href="/RYSminisuper/admin"
-                className="inline-flex min-h-9 items-center justify-center rounded-full border border-default bg-surface-3 px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-strong transition hover:border-[var(--accent)]/45 hover:text-[var(--accent)]"
-              >
-                Admin
-              </a>
-            ) : null}
           </div>
         </div>
         <div className="flex w-full flex-col gap-2">

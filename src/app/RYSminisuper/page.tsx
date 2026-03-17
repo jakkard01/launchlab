@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import { buildWhatsAppMessageLink } from "../../lib/mo/whatsapp";
 import { getStoreProducts } from "../../lib/mo/data/sheetsStore";
 import { getMoBackendErrorInfo } from "../../lib/mo/data/errorInfo";
@@ -48,9 +47,6 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export default async function RysMiniSuperPage() {
-  const hasAdminSession =
-    cookies().get("mo_admin")?.value === "1" ||
-    Boolean(cookies().get("mo_admin_session")?.value);
   let products: Product[] = [];
   let fallbackWarning: { title: string; message: string; help: string } | null = null;
 
@@ -92,7 +88,6 @@ export default async function RysMiniSuperPage() {
         <MoStorefront
           products={products}
           ctaLink={ctaLink}
-          hasAdminSession={hasAdminSession}
         />
       </main>
     </CartProvider>

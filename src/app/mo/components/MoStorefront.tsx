@@ -13,7 +13,6 @@ import CartUI from "../cart/CartUI";
 type MoStorefrontProps = {
   products: Product[];
   ctaLink: string;
-  hasAdminSession: boolean;
 };
 
 const filterHidden = (items: Product[]) =>
@@ -28,7 +27,6 @@ const filterHidden = (items: Product[]) =>
 export default function MoStorefront({
   products,
   ctaLink,
-  hasAdminSession,
 }: MoStorefrontProps) {
   const hasInitialCatalog = products.length > 0;
   const [activeTab, setActiveTab] = useState<TabId>("hot");
@@ -88,7 +86,6 @@ export default function MoStorefront({
         query={query}
         onQueryChange={setQuery}
         whatsappLink={ctaLink}
-        hasAdminSession={hasAdminSession}
         onScrollToSpecial={() => scrollToId("pedido-especial")}
       />
       {error ? (
