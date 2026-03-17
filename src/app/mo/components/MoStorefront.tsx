@@ -1,14 +1,12 @@
 "use client";
 
-import { MouseEvent, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { Product } from "../../../lib/mo/types";
 import { getMoDataAdapter } from "../../../lib/mo/data";
 import type { TabId } from "../catalogConfig";
 import MoHeader from "./MoHeader";
 import MoHero from "./MoHero";
 import MoCombos from "./MoCombos";
-import MoPromos from "./MoPromos";
-import MoQuickShop from "./MoQuickShop";
 import MoSections from "./MoSections";
 import CartUI from "../cart/CartUI";
 
@@ -68,8 +66,8 @@ export default function MoStorefront({
   const scrollToId = useCallback((id: string) => {
     const target = document.getElementById(id);
     if (!target) return;
-    // Keep anchor targets visible below the sticky RYS header (mobile is taller).
-    const headerOffset = window.innerWidth < 640 ? 176 : 128;
+    // Keep anchor targets visible below the sticky RYS header and quick nav.
+    const headerOffset = window.innerWidth < 640 ? 196 : 136;
     const top = target.getBoundingClientRect().top + window.scrollY - headerOffset;
     window.scrollTo({ top, behavior: "smooth" });
   }, []);
@@ -82,16 +80,7 @@ export default function MoStorefront({
     [scrollToId]
   );
 
-  const readyProducts = catalog.length;
   const isSearchMode = query.trim().length > 0;
-
-  const handleAnchorScroll = useCallback(
-    (event: MouseEvent<HTMLAnchorElement>, id: string) => {
-      event.preventDefault();
-      scrollToId(id);
-    },
-    [scrollToId]
-  );
 
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-5 overflow-x-clip pb-8 sm:gap-8 sm:pb-10">
@@ -144,45 +133,55 @@ export default function MoStorefront({
         </section>
       ) : (
         <>
-          <MoHero ctaLink={ctaLink} />
-          <section className="grid gap-3 overflow-x-clip rounded-3xl border border-default bg-surface px-4 py-3 shadow-sm dark:bg-[var(--surface-2)] dark:shadow-[0_18px_40px_rgba(3,8,16,0.22)] sm:grid-cols-[1.2fr,1fr,1fr] sm:px-6 sm:py-4">
-            <div>
-              <p className="text-xs uppercase tracking-[0.24em] text-[var(--accent)]">
-                Resumen rápido
-              </p>
-              <p className="mt-2 text-sm font-semibold text-main">
-                {readyProducts} productos visibles para retiro
-              </p>
-              <p className="mt-1 text-xs text-muted-strong">
-                Compra rápida, confirmación por WhatsApp y retiro sin otra vuelta innecesaria.
-              </p>
-            </div>
-            <a
-              href="#catalogo-hot"
-              onClick={(event) => {
-                handleJumpToTab("hot");
-                handleAnchorScroll(event, "catalogo-hot");
-              }}
-              className="rounded-2xl border border-default bg-surface-3 px-4 py-2.5 text-left text-sm font-semibold text-main transition hover:border-[var(--accent)]/45 hover:text-[var(--accent)]"
-            >
-              Ver lo que más sale hoy
-            </a>
-            <a
-              href="#pedido-especial"
-              onClick={(event) => handleAnchorScroll(event, "pedido-especial")}
-              className="rounded-2xl border border-default bg-surface-3 px-4 py-2.5 text-left text-sm font-semibold text-main transition hover:border-[var(--accent)]/45 hover:text-[var(--accent)]"
-            >
-              Pedir algo que no veo
-            </a>
+          <section id="inicio-rys">
+            <MoHero ctaLink={ctaLink} />
           </section>
-          <MoCombos products={catalog} />
-          <MoPromos products={catalog} />
-          <MoQuickShop
-            products={catalog}
-            activeTab={activeTab}
-            onJumpToTab={handleJumpToTab}
-            onScrollToSpecial={() => scrollToId("pedido-especial")}
-          />
+          <nav className="sticky top-[72px] z-30 overflow-x-clip rounded-2xl border border-default bg-[color-mix(in_srgb,var(--surface)_95%,transparent)] px-3 py-2 backdrop-blur sm:top-24 sm:px-4">
+            <div className="no-scrollbar flex max-w-full gap-2 overflow-x-auto pb-1 [overscroll-behavior-x:contain] [touch-action:pan-x]">
+              <button
+                type="button"
+                onClick={() => scrollToId("inicio-rys")}
+                className="whitespace-nowrap rounded-full border border-default bg-surface px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-main transition hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
+              >
+                Inicio
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  handleJumpToTab("hot");
+                  scrollToId("catalogo");
+                }}
+                className="whitespace-nowrap rounded-full border border-default bg-surface px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-main transition hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
+              >
+                Catálogo
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollToId("combos")}
+                className="whitespace-nowrap rounded-full border border-default bg-surface px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-main transition hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
+              >
+                Combos
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollToId("pedido-especial")}
+                className="whitespace-nowrap rounded-full border border-default bg-surface px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-main transition hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
+              >
+                Pedido
+              </button>
+              <a
+                href={ctaLink}
+                className="whitespace-nowrap rounded-full border border-[var(--accent)]/40 bg-[color-mix(in_srgb,var(--accent)_10%,transparent)] px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-main transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                WhatsApp
+              </a>
+            </div>
+          </nav>
+          <section id="combos">
+            <MoCombos products={catalog} />
+          </section>
         </>
       )}
       <MoSections

@@ -10,9 +10,9 @@ type MoHeroProps = {
 export default function MoHero({ ctaLink }: MoHeroProps) {
   return (
     <section className="space-y-3 overflow-x-clip">
-      <div className="flex min-h-[38px] items-center justify-center rounded-2xl border border-default bg-surface-2 px-3 py-2 text-center text-[11px] text-main shadow-sm sm:min-h-[44px] sm:px-4 sm:text-sm sm:justify-between">
+      <div className="flex min-h-[34px] items-center justify-center rounded-2xl border border-default bg-surface-2 px-3 py-2 text-center text-[11px] text-main shadow-sm sm:min-h-[40px] sm:px-4 sm:text-sm sm:justify-between">
         <span className="text-main">
-          Café, antojo o compra rápida: escribes, te confirmamos y sales solo cuando ya vale la pena pasar.
+          Café, boquita o básicos: escribes, confirmamos y pasas solo cuando ya vale la pena salir.
         </span>
         <span className="hidden text-muted-strong sm:inline">
           La Gloria • {MO_STORE_HOURS_LABEL}
@@ -29,13 +29,11 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
           <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[var(--accent)] sm:text-xs sm:tracking-[0.35em]">
             TIENDA LOCAL LISTA PARA PEDIR
           </p>
-          <h1 className="mt-2 text-2xl font-bold leading-tight text-main sm:mt-3 sm:text-4xl">
-            Resuelve antojo, café o básicos del día sin otra cola y con retiro fácil
+          <h1 className="mt-2 max-w-2xl text-2xl font-bold leading-tight text-main sm:mt-3 sm:text-4xl">
+            Resuelve antojo, café o básicos del día sin otra cola
           </h1>
           <p className="mt-2 max-w-2xl text-sm text-muted-strong sm:mt-3 sm:text-base">
-            Abarrotes, antojitos, café y combos para retiro en La Gloria,
-            San Salvador. Pides rápido, te confirmamos por WhatsApp y pasas
-            solo cuando ya sabes qué hay, cuánto pagar y cuándo retirar, sin comerte la cola del súper.
+            Abarrotes, café, antojitos y combos para retiro en La Gloria. Pides rápido, te confirmamos por WhatsApp y pasas cuando ya sabes qué hay y cuándo retirar.
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
             <span className="rounded-full border border-[var(--accent)]/40 bg-[var(--accent)]/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-main dark:border-[var(--accent)]/45 dark:bg-[color-mix(in_srgb,var(--accent)_20%,transparent)]">
@@ -47,26 +45,6 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
             <span className="hidden rounded-full border border-default bg-[color-mix(in_srgb,var(--surface-2)_50%,transparent)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-strong sm:inline-flex">
               Pago al retirar
             </span>
-          </div>
-          <div className="mt-4 hidden gap-3 text-sm text-main sm:grid sm:grid-cols-3">
-            <div className="rounded-2xl border border-default bg-surface-3 px-4 py-3 shadow-sm dark:shadow-[0_10px_30px_rgba(3,8,16,0.18)]">
-              <p className="text-xs uppercase tracking-[0.22em] text-[var(--accent)]">
-                Compra rápida
-              </p>
-              <p className="mt-1 text-muted-strong">Pan dulce, café caliente, boquitas y básicos de casa listos para sacarte del apuro.</p>
-            </div>
-            <div className="rounded-2xl border border-default bg-surface-3 px-4 py-3 shadow-sm dark:shadow-[0_10px_30px_rgba(3,8,16,0.18)]">
-              <p className="text-xs uppercase tracking-[0.22em] text-[var(--accent)]">
-                Confirmación real
-              </p>
-              <p className="mt-1 text-muted-strong">Te decimos si está disponible, total estimado y hora de retiro antes de que salgas.</p>
-            </div>
-            <div className="rounded-2xl border border-default bg-surface-3 px-4 py-3 shadow-sm dark:shadow-[0_10px_30px_rgba(3,8,16,0.18)]">
-              <p className="text-xs uppercase tracking-[0.22em] text-[var(--accent)]">
-                Ideal para hoy
-              </p>
-              <p className="mt-1 text-muted-strong">Perfecto para desayuno, merienda, antojo caliente o para no salir a probar suerte.</p>
-            </div>
           </div>
           <div className="mt-4 flex flex-col gap-2.5 sm:mt-5 sm:flex-row sm:items-center sm:gap-3">
             <a
@@ -83,14 +61,6 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
             >
               Ver qué hay hoy
             </a>
-            <a
-              href={MO_STORE_MAPS_URL}
-              className="hidden h-11 rounded-full border border-[var(--accent)]/40 bg-[color-mix(in_srgb,var(--surface-2)_44%,transparent)] px-5 py-3 text-center text-sm font-semibold text-main transition hover:border-[var(--accent)] hover:text-[var(--accent)] sm:inline-block"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              ¿Dónde estamos?
-            </a>
           </div>
           <div className="mt-4 rounded-2xl border border-[var(--accent)]/30 bg-[color-mix(in_srgb,var(--accent)_14%,var(--surface-2))] px-4 py-3 text-xs text-main shadow-sm sm:mt-5 sm:text-sm dark:border-[var(--accent)]/36 dark:bg-[color-mix(in_srgb,var(--accent)_12%,var(--surface-2))]">
             <p className="text-xs uppercase tracking-[0.3em] text-[var(--accent)]">
@@ -98,7 +68,6 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
             </p>
             <p className="mt-2 text-muted-strong">Retiro en La Gloria. Horario: {MO_STORE_HOURS_LABEL}.</p>
             <p className="mt-1 text-muted-strong">Si no sale en catálogo, pídelo por WhatsApp y te confirmamos antes de salir.</p>
-            <p className="mt-1 hidden text-muted-strong sm:block">Pagos: efectivo, transferencia o Tigo Money.</p>
           </div>
           <div className="mt-4 grid gap-2 text-xs text-muted-strong sm:mt-5 sm:grid-cols-3">
             <span>✅ Confirmamos antes de que salgas</span>
@@ -123,6 +92,14 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
                 <p className="text-muted-strong">
                   Local real para ubicarlo fácil antes de pasar a retirar tu pedido.
                 </p>
+                <a
+                  href={MO_STORE_MAPS_URL}
+                  className="inline-flex pt-2 text-xs font-semibold text-[var(--accent)] transition hover:text-[var(--accent)]/80"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Ver ubicación
+                </a>
               </div>
             </div>
           </div>
