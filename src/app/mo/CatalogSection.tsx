@@ -105,7 +105,7 @@ export default function CatalogSection({
       </div>
 
       {!queryFilter ? (
-        <div className="sticky top-[72px] z-30 overflow-x-clip rounded-2xl border border-default bg-[color-mix(in_srgb,var(--surface)_96%,transparent)] px-3 py-2.5 backdrop-blur sm:top-24 sm:px-6 sm:py-3">
+        <div className="sticky top-[124px] z-20 overflow-x-clip rounded-2xl border border-default bg-[color-mix(in_srgb,var(--surface)_96%,transparent)] px-3 py-2 backdrop-blur sm:top-24 sm:px-6 sm:py-3">
           <div className="no-scrollbar flex max-w-full gap-2 overflow-x-auto pb-1 [overscroll-behavior-x:contain] [touch-action:pan-x]">
             {TABS.map((tab) => {
               const isActive = tab.id === activeTab;
@@ -227,7 +227,7 @@ export default function CatalogSection({
             <section
               key={tab.id}
               id={`catalogo-${tab.id}`}
-              className="scroll-mt-24 space-y-3 sm:scroll-mt-28"
+              className="scroll-mt-32 space-y-3 sm:scroll-mt-28"
             >
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-semibold text-main">

@@ -58,10 +58,7 @@ const resolveCategoryIcon = (id: string) => {
   return CATEGORY_ICON_BY_ID[key];
 };
 
-const horizontalRailClass =
-  "no-scrollbar flex max-w-full snap-x snap-mandatory gap-3 overflow-x-auto pb-2 pr-1 [scrollbar-width:none] [overscroll-behavior-x:contain] [touch-action:pan-x] sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible sm:pr-0";
-
-const horizontalCardClass = "min-w-[220px] max-w-[220px] shrink-0 snap-start sm:min-w-0 sm:max-w-none";
+const productGridClass = "grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3";
 
 export default function MoQuickShop({
   products,
@@ -148,16 +145,16 @@ export default function MoQuickShop({
   ] as const;
 
   return (
-    <section className="space-y-6 overflow-x-clip">
+    <section className="space-y-5 overflow-x-clip">
       <div>
         <p className="text-xs uppercase tracking-[0.3em] text-muted">
           Pedido rápido
         </p>
         <h2 className="mt-2 text-lg font-semibold text-main">
-          Entra por categoría y resuelve sin tanta vuelta
+          Lo de hoy y categorías útiles
         </h2>
         <p className="mt-2 text-sm text-muted-strong">
-          Si no sale lo que buscas, eso es surtido pendiente o producto no cargado hoy, no un buscador roto.
+          Entra por categoría o revisa lo más útil de hoy sin pelearte con un rail largo.
         </p>
       </div>
 
@@ -245,9 +242,9 @@ export default function MoQuickShop({
           <span className="text-xs text-[var(--accent)]">Hecho para hoy</span>
         </div>
         {hotToday.length > 0 ? (
-          <div className={horizontalRailClass}>
+          <div className={productGridClass}>
             {hotToday.map((product) => (
-              <div key={product.id} className={horizontalCardClass}>
+              <div key={product.id}>
                 <ProductCard
                   product={product}
                   variant="compact"
@@ -272,9 +269,9 @@ export default function MoQuickShop({
           <span className="text-xs text-muted-strong">Para no salir dos veces</span>
         </div>
         {combos.length > 0 ? (
-          <div className={horizontalRailClass}>
+          <div className={productGridClass}>
             {combos.map((product) => (
-              <div key={product.id} className={horizontalCardClass}>
+              <div key={product.id}>
                 <ProductCard
                   product={product}
                   variant="compact"
@@ -299,9 +296,9 @@ export default function MoQuickShop({
           <span className="text-xs text-[var(--accent)]">Café caliente, pan dulce y antojo</span>
         </div>
         {antojitos.length > 0 ? (
-          <div className={horizontalRailClass}>
+          <div className={productGridClass}>
             {antojitos.map((product) => (
-              <div key={product.id} className={horizontalCardClass}>
+              <div key={product.id}>
                 <ProductCard
                   product={product}
                   variant="compact"
@@ -326,9 +323,9 @@ export default function MoQuickShop({
           <span className="text-xs text-muted-strong">Para resolver hoy sin cola</span>
         </div>
         {promoProducts.length > 0 ? (
-          <div className={horizontalRailClass}>
+          <div className={productGridClass}>
             {promoProducts.map((product) => (
-              <div key={product.id} className={horizontalCardClass}>
+              <div key={product.id}>
                 <ProductCard
                   product={product}
                   variant="compact"
@@ -352,10 +349,10 @@ export default function MoQuickShop({
           </h3>
           <span className="text-xs text-muted-strong">Lo que más ayuda a resolver la compra</span>
         </div>
-        <div className={horizontalRailClass}>
+        <div className={productGridClass}>
           {featured.length > 0 ? (
             featured.map((product) => (
-              <div key={product.id} className={horizontalCardClass}>
+              <div key={product.id}>
                 <ProductCard
                   product={product}
                   variant="compact"
@@ -371,11 +368,6 @@ export default function MoQuickShop({
           )}
         </div>
       </div>
-      <style jsx>{`
-        .no-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
     </section>
   );
 }

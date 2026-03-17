@@ -61,9 +61,9 @@ export default function MoPromos({ products }: MoPromosProps) {
               ) : null}
             </div>
 
-            <div className="no-scrollbar mt-4 flex max-w-full snap-x snap-mandatory gap-3 overflow-x-auto pb-2 pr-1 [scrollbar-width:none] [overscroll-behavior-x:contain] [touch-action:pan-x] sm:grid sm:grid-cols-1 sm:overflow-visible sm:pr-0">
+            <div className="mt-4 grid grid-cols-1 gap-3">
               {items.map((product) => (
-                <div key={product.id} className="min-w-[220px] max-w-[220px] shrink-0 snap-start sm:min-w-0 sm:max-w-none">
+                <div key={product.id}>
                   <ProductCard
                     product={product}
                     variant="compact"
@@ -76,11 +76,6 @@ export default function MoPromos({ products }: MoPromosProps) {
           </section>
         ))}
       </div>
-      <style jsx>{`
-        .no-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
     </section>
   );
 }
