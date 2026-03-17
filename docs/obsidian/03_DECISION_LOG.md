@@ -105,3 +105,6 @@
 - 2026-03-16: Hotfix móvil de RYS enfoca viewport real, no “embellecer”: header más corto, hero menos alto, `ThemeToggle` compacto, enlace admin relegado y barra inferior del pedido más pequeña.
 - 2026-03-16: El clipping horizontal de RYS venía sobre todo de rieles con márgenes negativos y cards mínimas demasiado anchas (`MoQuickShop`, `MoPromos`) combinados con sticky tabs altos; se corrige priorizando contención y legibilidad sobre efecto carrusel.
 - 2026-03-16: La home pública de RYS no debe contaminarse con el estado del admin; aunque exista sesión, el acceso admin queda secundario y no roba jerarquía comercial al storefront móvil.
+- 2026-03-17: La Parte 3 móvil de RYS prioriza sensación de recorrido corto: hero compacto, mini navegación interna y menos bloques antes del catálogo.
+- 2026-03-17: Si un rail móvil sigue transmitiendo clipping o desborde, deja de ser rail; `MoQuickShop` y `MoPromos` pasan a grids estables en móvil para priorizar scroll vertical limpio.
+- 2026-03-17: La foto del local vuelve como módulo de confianza local debajo del catálogo/combos, no como hero dominante; el objetivo es reforzar “tienda real en La Gloria” sin robar el primer viewport de conversión.

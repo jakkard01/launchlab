@@ -1577,3 +1577,58 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
   - se revisó render SSR/build completo;
   - se redujo el alto efectivo del header/hero por clases y estructura;
   - se eliminaron los patrones más probables de clipping horizontal (`-mx-*`, cards muy anchas, sticky demasiado alto).
+
+## 2026-03-17 — RYS Parte 3 móvil: home más corta, navegación interna y confianza local
+
+### Problema real detectado
+- La home móvil seguía sintiéndose como sábana larga aunque el header ya estaba más compacto.
+- Seguían existiendo rails que en móvil daban sensación de clipping o “siguiente card cortada”.
+- La foto del local había desaparecido del recorrido útil y con eso se perdió una capa de confianza local.
+- La navegación interna desde móvil seguía siendo pobre: para volver a catálogo, combos o pedido había que recorrer demasiado scroll mental.
+
+### Qué se cambió
+- Se reordenó la home pública con esta prioridad:
+  - hero compacto;
+  - mini navegación interna;
+  - combos;
+  - catálogo;
+  - confianza local;
+  - pedido especial y cierre de retiro.
+- Se añadió mini navegación móvil interna justo debajo del hero:
+  - `Inicio`
+  - `Catálogo`
+  - `Combos`
+  - `Pedido`
+  - `WhatsApp`
+- Se movió el módulo de confianza local fuera del hero y se reintrodujo la foto del local como bloque corto más abajo, con `Ver ubicación`.
+- Se endureció el scroll mental:
+  - menos bloques introductorios;
+  - menos explicación abierta arriba;
+  - narrativa más corta antes del catálogo.
+
+### Rails / scroll / cards
+- Se dejó de insistir con rails móviles donde ya no estaban aportando:
+  - `MoQuickShop` pasa a grids estables en móvil para `caliente hoy`, `combos`, `antojitos`, `promos` y `destacados`.
+  - `MoPromos` también deja el rail interno en móvil y usa grid.
+- Se mantiene scroll horizontal solo donde realmente aporta:
+  - mini navegación rápida;
+  - tabs del catálogo.
+- Se ajustó el offset de sticky/anchors para convivir con:
+  - header sticky;
+  - mini navegación sticky;
+  - tabs sticky del catálogo.
+
+### Criterio de producto aplicado
+- Se priorizó control mental del usuario sobre “mostrar todo”.
+- Si un rail no quedaba fino en móvil, se convirtió en layout más estable.
+- La confianza local vuelve, pero no roba el primer viewport ni frena conversión.
+
+### Validación real del bloque
+- `npm run lint` OK.
+- `pnpm -s build` OK.
+- Validación local renderizada:
+  - hero más corto;
+  - mini navegación presente;
+  - módulo `Local real en La Gloria` visible fuera del hero;
+  - wrappers principales con `overflow-x-clip`;
+  - home pública sigue sin protagonizar admin cuando `hasAdminSession=false`.
