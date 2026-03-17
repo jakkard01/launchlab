@@ -1632,3 +1632,45 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
   - módulo `Local real en La Gloria` visible fuera del hero;
   - wrappers principales con `overflow-x-clip`;
   - home pública sigue sin protagonizar admin cuando `hasAdminSession=false`.
+
+## 2026-03-17 — RYS Parte 4: storefront público determinista y sin contaminación admin
+
+### Inconsistencia detectada
+- El HTML público publicado sí contenía estructura correcta de storefront, pero en móvil real seguían apareciendo variaciones:
+  - CTA/admin visible a veces;
+  - percepción de módulos que “aparecen o desaparecen”;
+  - diferencias entre hard refresh y navegación posterior.
+
+### Causa raíz confirmada
+- La home pública aún dependía de cookies admin en SSR:
+  - `RYSminisuper/page.tsx` calculaba `hasAdminSession` desde cookies;
+  - ese dato bajaba a `MoStorefront` y `MoHeader`;
+  - la estructura visible del storefront cambiaba según sesión previa del usuario.
+- Esa variación no era comercialmente aceptable:
+  - la home pública no debe competir con lógica admin;
+  - SSR y cliente no deben negociar si aparece o no un control de admin dentro del recorrido principal.
+
+### Qué se corrigió
+- Se eliminó la dependencia de `hasAdminSession` del storefront público.
+- `MoHeader` deja de cambiar su estructura por sesión admin.
+- El acceso admin ya no forma parte del layout comercial de la home pública.
+- Se separó el módulo local en componente público estable (`MoLocalTrust`) para que:
+  - no dependa de estado admin;
+  - no dependa de reordenamientos cliente;
+  - quede siempre en la misma zona del recorrido.
+- `MoLocalTrust` usa imagen real con `priority` para reducir riesgos de desaparición percibida en móvil.
+
+### Lección técnica
+- No mezclar sesión/admin con la estructura visible del storefront público.
+- Si un módulo es de confianza/comercio público, debe depender de una sola fuente de verdad y ser SSR-safe.
+- La UI pública debe ser determinista entre:
+  - usuario sin sesión;
+  - usuario con sesión admin previa;
+  - hard refresh;
+  - navegación normal.
+
+### Validación real del bloque
+- `npm run lint` OK.
+- `pnpm -s build` OK.
+- La home pública ya no contiene render condicional por `hasAdminSession`.
+- La foto/local trust queda en componente público propio, fuera de lógica admin.

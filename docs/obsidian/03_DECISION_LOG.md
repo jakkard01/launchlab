@@ -108,3 +108,6 @@
 - 2026-03-17: La Parte 3 móvil de RYS prioriza sensación de recorrido corto: hero compacto, mini navegación interna y menos bloques antes del catálogo.
 - 2026-03-17: Si un rail móvil sigue transmitiendo clipping o desborde, deja de ser rail; `MoQuickShop` y `MoPromos` pasan a grids estables en móvil para priorizar scroll vertical limpio.
 - 2026-03-17: La foto del local vuelve como módulo de confianza local debajo del catálogo/combos, no como hero dominante; el objetivo es reforzar “tienda real en La Gloria” sin robar el primer viewport de conversión.
+- 2026-03-17: La home pública de RYS deja de leer estado admin para decidir estructura visible; sesión/cookie admin ya no debe alterar el layout comercial del storefront.
+- 2026-03-17: `MoLocalTrust` se separa como componente público estable y SSR-safe para evitar que la foto/local trust dependa de reorder cliente o lógica residual de sesión.
+- 2026-03-17: Lección confirmada: en storefront público, SSR y cliente no deben competir por mostrar/ocultar módulos críticos de confianza o navegación; esa estructura debe quedar determinada en servidor y sostenerse igual tras hidratar.
