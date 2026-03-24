@@ -1,3 +1,29 @@
+## 2026-03-24 — Estado vivo canonico PBIA + RYS
+
+### Como usar esta memoria
+
+- La referencia principal de estado actual ya no debe inferirse leyendo toda esta nota historica.
+- La fuente canonica para estado vivo y separacion PBIA/RYS es:
+  - `docs/obsidian/06_ESTADO_ACTUAL__PBIA_RYS.md`
+- Esta memoria se conserva como historial amplio y contexto de trabajo.
+
+### Resumen actual rapido
+
+- `RYS Mini Market` es el naming visible oficial.
+- `rysminimarket` es el identificador tecnico preferido.
+- `/RYSminisuper` sigue vivo por compatibilidad.
+- `rysminimarket.com` y `www.rysminimarket.com` son los accesos comerciales de la tienda.
+- `poweredbyia.com` sigue siendo el portfolio principal.
+- `poweredbyia.com/RYSminisuper` sigue siendo el acceso heredado de la tienda.
+- Hay routing por host para servir RYS desde su dominio sin exponer `/RYSminisuper`.
+- RYS ya tiene favicon propio, imagen local centralizada y varias mejoras mobile-first de storefront.
+- PBIA y RYS siguen conviviendo en el mismo repo, pero documentalmente deben tratarse como experiencias separadas.
+
+### Nota de higiene
+
+- Si una entrada historica de esta memoria menciona rutas, assets, branding o deploys previos, se interpreta como contexto de esa fecha.
+- Para decisiones vigentes, leer tambien `03_DECISION_LOG.md` y `06_ESTADO_ACTUAL__PBIA_RYS.md`.
+
 ## 2026-03-16 — RYS cierre maestro: admin móvil más práctico + búsqueda clara + surtido separado
 - Rama: feat/pagina-hermana-live
 - Objetivo: cerrar las últimas fricciones reales sin mezclar “buscador roto” con “producto no cargado”, y dejar el admin más cómodo para operar desde móvil.
@@ -433,7 +459,7 @@
   - CTA WhatsApp del simulador genera link correcto.
   - No loops con localStorage welcomeVideoSeen.
 
-## 2026-02-14 — RYS Minisúper: limpieza media + confianza + UX carrito
+## 2026-02-14 — RYS Mini Market: limpieza media + confianza + UX carrito
 - Rama: feat/pagina-hermana-live
 - Objetivo: limpiar media pesada y mejorar percepcion de tienda real + UX movil.
 - Cambios clave:
@@ -1674,3 +1700,110 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
 - `pnpm -s build` OK.
 - La home pública ya no contiene render condicional por `hasAdminSession`.
 - La foto/local trust queda en componente público propio, fuera de lógica admin.
+
+## 2026-03-23 — RYS cierre pre-produccion: documentacion atomica + deploy readiness + QA movil
+
+### Estado actual de RYS Mini Market
+- `/RYSminisuper` queda lista para un deploy real de prueba en movil, sin rehacer arquitectura.
+- La base sigue siendo la capa compartida `mo`, pero con storefront comercialmente mas claro:
+  - buscador visible;
+  - CTA de WhatsApp mas fuerte;
+  - "Lo mas pedido hoy";
+  - accesos rapidos utiles;
+  - categorias vacias ocultas;
+  - bloque "Como pedir";
+  - bloque de confianza local con foto del local;
+  - tarjetas mas claras;
+  - branding editable.
+
+### Naming actual y naming tecnico
+- Naming oficial visible:
+  - `RYS Mini Market`
+- Identificador tecnico preferido:
+  - `rysminimarket`
+- Compatibilidad tecnica mantenida:
+  - la ruta publica sigue siendo `/RYSminisuper`
+- La fuente de verdad para esto ahora vive en:
+  - `src/lib/mo/config.ts`
+
+### Ajustes finales de UX/producto antes de deploy
+- El sticky de WhatsApp se mueve a convivencia real con el carrito:
+  - no aparece si hay carrito con productos;
+  - no aparece si el drawer esta abierto;
+  - se oculta con teclado movil abierto.
+- El carrito sticky tambien se oculta con teclado movil abierto para reducir estorbo en inputs.
+- El mensaje de WhatsApp queda mas consistente con branding centralizado.
+- Las categorias visibles y accesos rapidos se derivan del contenido real para no vender pasillos vacios.
+
+### Estado del deploy
+- Validacion local hecha:
+  - `npm run lint` OK
+  - `npm run build` OK
+- Estado documental:
+  - changelog atomico creado
+  - implementation note creada
+  - deploy note creada
+  - checklist predeploy actualizada
+  - decision log actualizado
+- Estado productivo:
+  - listo para desplegar
+  - no desplegado desde esta iteracion
+
+### Datos reales pendientes del negocio
+- Direccion exacta del local
+- Referencia exacta para ubicar la tienda al llegar
+- Tiempo real prometible de respuesta por WhatsApp
+- Decision futura sobre si conviene migrar o no la ruta `/RYSminisuper`
+
+### Proximos pasos sugeridos
+1. Hacer deploy preview o productivo controlado.
+2. Validar en movil real:
+   - entrada;
+   - buscador;
+   - accesos rapidos;
+   - carrito;
+   - CTA a WhatsApp;
+   - teclado abierto;
+   - bloque de confianza/localizacion.
+3. Reemplazar datos genericos de direccion/referencia por datos reales.
+4. Si mas adelante se quiere alinear la URL con la marca, planificar migracion de ruta con redirects y smoke posterior.
+
+## 2026-03-23 — RYS Mini Market rename oficial + deploy a produccion
+
+### Naming oficial actual
+- Nombre visible/comercial:
+  - `RYS Mini Market`
+- Identificador tecnico preferido:
+  - `rysminimarket`
+- Compatibilidad actual:
+  - la ruta publica sigue en `/RYSminisuper`
+  - no se cambia slug en esta pasada para no romper produccion
+
+### Estado de branding visible
+- Config de marca actualizada
+- Metadata visible actualizada
+- Showcase actualizado
+- Documentacion operativa actualizada
+- Mensajes de WhatsApp siguen saliendo con la marca nueva por `MO_BRAND.currentDisplayName`
+
+### Estado de deploy
+- Validaciones locales:
+  - `npm run lint` OK
+  - `npm run build` OK
+- `npm run predeploy:env` corrido, pero `.env.local` de esta maquina sigue reportando faltantes
+- `npm run predeploy:smoke` no concluyente dentro de esta sandbox
+- Deploy oficial ejecutado con `vercel --prod`
+- Produccion generada:
+  - `https://launchlabv1-3vubvg6xf-gerrys-projects-7c589fcf.vercel.app`
+- Alias aplicado:
+  - `https://www.poweredbyia.com`
+
+### Datos reales aun pendientes
+- Direccion exacta del local
+- Referencia exacta del local
+- Tiempo real comprometible de respuesta por WhatsApp
+
+### Proximos pasos
+1. Validar en movil real `https://www.poweredbyia.com/RYSminisuper`.
+2. Sustituir datos genericos de direccion/referencia.
+3. Decidir si en otra iteracion conviene migrar o no el slug publico.

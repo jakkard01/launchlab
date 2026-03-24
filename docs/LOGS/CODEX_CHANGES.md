@@ -1,3 +1,38 @@
+- Fecha/Hora: 2026-03-24 00:00:00 CET
+- Autor: Codex
+- Scope: docs/obsidian/06_ESTADO_ACTUAL__PBIA_RYS.md, docs/obsidian/00_INDEX.md, docs/obsidian/Memoria Infinita - Launchlab.md, docs/obsidian/03_DECISION_LOG.md, docs/ops/2026-03-23__rys-mini-market-official-deploy.md, docs/LOGS/CODEX_CHANGES.md
+- Resumen: Saneamiento documental del vault para separar con claridad Powered by IA y RYS Mini Market, dejar un resumen canonico de estado vivo, actualizar decisiones vigentes y consolidar estado de dominios, branding y deploy.
+- Pruebas: Revision documental manual.
+- Notas/Riesgos: Los logs historicos se conservan como trazabilidad; la nota canonica actual para estado vivo pasa a `docs/obsidian/06_ESTADO_ACTUAL__PBIA_RYS.md`.
+
+- Fecha/Hora: 2026-03-23 23:00:00 CET
+- Autor: Codex
+- Scope: src/middleware.ts, docs/LOGS/2026-03-23__rys-domain-host-routing.md, docs/LOGS/CODEX_CHANGES.md
+- Resumen: Se agrego routing por host para `rysminimarket.com` y `www.rysminimarket.com`, reescribiendo `/` y `/admin` a la experiencia de `/RYSminisuper` sin afectar `poweredbyia.com`.
+- Pruebas: Pendiente ejecutar `npm run lint` y `npm run build`.
+- Notas/Riesgos: El cambio depende de que Vercel envie correctamente el host header del dominio nuevo a esta app.
+
+- Fecha/Hora: 2026-03-23 22:56:11 CET
+- Autor: Codex
+- Scope: src/lib/mo/config.ts, src/app/RYSminisuper/layout.tsx, src/app/RYSminisuper/page.tsx, src/app/mo/components/MoLocalTrust.tsx, public/rys/favicon/rys-mini-market-cart.svg, public/rys/favicon/rys-mini-market-apple-touch.svg, docs/LOGS/2026-03-23__rys-mini-market-favicon-local-pass.md, docs/LOGS/CODEX_CHANGES.md
+- Resumen: Se agrego favicon propio de carrito para `/RYSminisuper` via metadata segmentada, se centralizo la imagen del local en config y se ajusto el bloque de confianza para mostrar mejor la fachada en movil sin tocar la ruta publica ni el favicon global.
+- Pruebas: Pendiente ejecutar `npm run lint` y `npm run build` tras esta pasada.
+- Notas/Riesgos: El asset nuevo `public/rys/local/rys-mini-market-fachada.jpg` no existe en el repo; queda preparado el swap en config para reemplazar la foto actual sin tocar mas componentes.
+
+- Fecha/Hora: 2026-03-23 19:07:48 CET
+- Autor: Codex
+- Scope: src/lib/mo/config.ts, src/app/mo/page.tsx, src/app/content/showcase.ts, docs/LOGS/CODEX_CHANGES.md, docs/obsidian/03_DECISION_LOG.md, docs/obsidian/Memoria Infinita - Launchlab.md, docs/LOGS/2026-03-23__rys-production-pass.md, docs/LOGS/2026-03-23__rys-implementation-note.md, docs/ops/2026-03-23__rys-deploy-note.md, docs/LOGS/2026-03-23__rys-mini-market-rename-and-deploy.md, docs/LOGS/2026-03-23__rys-mini-market-implementation-note.md, docs/ops/2026-03-23__rys-mini-market-official-deploy.md
+- Resumen: Rename oficial del storefront a RYS Mini Market, conservando `/RYSminisuper` por compatibilidad. Se actualizaron branding/config/docs operativas, se ejecutaron validaciones obligatorias y se hizo deploy oficial con `vercel --prod`, quedando produccion en `https://launchlabv1-3vubvg6xf-gerrys-projects-7c589fcf.vercel.app` y alias en `https://www.poweredbyia.com`.
+- Pruebas: npm run predeploy:env (ejecutado, con faltantes en `.env.local`), npm run lint (ok), npm run build (ok), npm run predeploy:smoke (no concluyente por conectividad local de sandbox), vercel --prod (ok).
+- Notas/Riesgos: La URL publica sigue siendo `/RYSminisuper`; no se migra en esta pasada para no romper produccion. Faltan direccion exacta, referencia exacta y tiempo real comprometible de respuesta.
+
+- Fecha/Hora: 2026-03-23 18:48:59 CET
+- Autor: Codex
+- Scope: src/app/RYSminisuper/page.tsx, src/app/mo/CatalogSection.tsx, src/app/mo/FreeTextOrder.tsx, src/app/mo/ProductCard.tsx, src/app/mo/StickyWhatsAppButton.tsx, src/app/mo/cart/CartButtonSticky.tsx, src/app/mo/cart/CartDrawer.tsx, src/app/mo/cart/CartUI.tsx, src/app/mo/catalogConfig.ts, src/app/mo/components/MoHeader.tsx, src/app/mo/components/MoHero.tsx, src/app/mo/components/MoLocalTrust.tsx, src/app/mo/components/MoQuickShop.tsx, src/app/mo/components/MoSections.tsx, src/app/mo/components/MoStorefront.tsx, src/lib/mo/config.ts, src/lib/mo/whatsapp.ts, docs/LOGS/2026-03-23__rys-production-pass.md, docs/LOGS/2026-03-23__rys-implementation-note.md, docs/ops/2026-03-23__rys-deploy-note.md, docs/obsidian/Memoria Infinita - Launchlab.md, docs/obsidian/03_DECISION_LOG.md, docs/obsidian/CHECKLIST_SALIDA_PREDEPLOY.md
+- Resumen: Pasada final de RYS orientada a produccion y prueba movil. Se reforzo buscador/CTA, se ocultaron categorias vacias, se centralizo branding editable, se mejoro el bloque de confianza/localizacion, se ajusto el flujo sticky carrito/WhatsApp para movil y se dejo documentacion atomica de cambio, deploy y memoria.
+- Pruebas: npm run lint (ok), npm run build (ok).
+- Notas/Riesgos: Faltan direccion exacta, referencia exacta y tiempo real comprometible de respuesta del negocio. El deploy sigue dependiendo de configuracion productiva real en Vercel/Sheets.
+
 - Fecha/Hora: 2026-02-11 02:19:58 CET
 - Commit: 7d1bdda
 - Scope: src/app/mo/admin/page.tsx
@@ -166,6 +201,17 @@
 - Commit: 30820eb
 - Autor: Codex
 - Scope: src/app/mo/components/MoQuickShop.tsx, src/app/RYSminisuper/page.tsx
-- Resumen: Se ajustaron subtitulos de categorias y se fijo fondo global en RYS Minisuper.
+- Resumen: Se ajustaron subtitulos de categorias y se fijo fondo global en storefront RYS.
 - Pruebas: pnpm lint, pnpm build.
 - Notas/Riesgos: Revisar contraste en dark mode mobile.
+# 2026-03-24 - Rama segura PBIA y separacion operativa
+
+- Autor: Codex
+- Contexto: preparar una rama limpia para Powered by IA sin mezclar cambios con RYS Mini Market.
+- Acciones:
+  - Auditoria de estado git, ramas y worktrees.
+  - Confirmacion de `main` / `origin/main` como base estable local actual.
+  - Creacion de la rama `feat/pbia-portfolio-next` en worktree separado.
+  - Actualizacion de la nota canonica de estado PBIA/RYS con la estrategia operativa vigente.
+  - Ignorada la carpeta `.worktrees/` para no ensuciar el arbol principal.
+- Impacto: deja un punto de partida limpio para PBIA sin mover ni arriesgar el worktree sucio de RYS.

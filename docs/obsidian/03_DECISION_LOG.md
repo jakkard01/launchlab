@@ -1,5 +1,18 @@
 # 03_DECISION_LOG
 
+- 2026-03-24: La nota canonica de estado vivo para PBIA + RYS pasa a ser `docs/obsidian/06_ESTADO_ACTUAL__PBIA_RYS.md`; `Memoria Infinita` queda como historia amplia y no como unica fuente del presente.
+- 2026-03-24: `rysminimarket.com` y `www.rysminimarket.com` se consideran la entrada comercial de RYS Mini Market; `poweredbyia.com` sigue siendo el portfolio principal y `poweredbyia.com/RYSminisuper` se mantiene como acceso heredado.
+- 2026-03-24: La capa global PBIA no debe verse en el dominio de RYS; la separacion actual se resuelve con routing por host + ocultacion de shell PBIA para los hosts de tienda, sin rehacer arquitectura.
+- 2026-03-24: La ruta `/RYSminisuper` se mantiene por compatibilidad tecnica y por no romper accesos existentes; no debe tratarse como naming comercial actual.
+- 2026-03-24: Recomendacion operativa vigente: ramas separadas por experiencia (`feat/pbia-*` y `feat/rys-*`) y worktrees separados cuando el bloque sea largo o riesgoso.
+- 2026-03-24: La metadata social y canonical de RYS puede seguir arrastrando parte de la capa PBIA; se considera pendiente fino, no bloqueo actual de operacion.
+- 2026-03-23: La pasada final de RYS para produccion se mantiene sobre la capa compartida `mo`; no se abre una arquitectura paralela ni un redisenio total porque el storefront real depende de esos componentes.
+- 2026-03-23: El branding oficial visible pasa a `RYS Mini Market` y se centraliza en `src/lib/mo/config.ts`; se elimina la transicion previa de naming y se agrega identificador tecnico preferido `rysminimarket`.
+- 2026-03-23: La ruta publica `/RYSminisuper` no se cambia en esta pasada final de rename; el criterio es compatibilidad y no romper produccion. Si luego se migra URL, debe hacerse con redirects y validacion separada.
+- 2026-03-23: El deploy oficial del rename se ejecuta con `vercel --prod`; Vercel devuelve produccion en `launchlabv1-3vubvg6xf-gerrys-projects-7c589fcf.vercel.app` y alias activo en `www.poweredbyia.com`.
+- 2026-03-23: Las categorias visibles del catalogo y de los accesos rapidos se derivan del contenido real; una categoria vacia no debe renderizarse como seccion normal ni como atajo comercial.
+- 2026-03-23: Para movil se prioriza evitar estorbos funcionales antes que visual polish: sticky de WhatsApp oculto cuando el drawer esta abierto y ocultacion de barras sticky con teclado abierto via `visualViewport`.
+- 2026-03-23: "Lo mas pedido hoy" se resuelve como capa comercial minima usando `hotStatus` y destacados existentes; no se inventa una capa nueva de ventas reales del dia en esta iteracion.
 - 2026-03-16: Se inicia la Parte 1 de migración seria del admin RYS. La clave compartida sola deja de ser base suficiente: se añade auth preparada para usuarios reales, roles (`owner/admin/operator/viewer`), sesión firmada y auditoría mínima, manteniendo compatibilidad temporal con la clave legacy para no romper producción de golpe.
 - 2026-03-16: La autorización real deja de depender de esconder botones o de una cookie plana `mo_admin=1`; ahora la escritura y las rutas sensibles validan sesión firmada + permiso server-side por acción.
 - 2026-03-16: Se elige seguir usando Google Sheets en esta parte para `users` y `audit_log`, evitando abrir todavía una migración de infraestructura más grande. La salida de la clave compartida vieja queda en: crear usuarios reales, validar flujo owner/admin/operator/viewer y luego retirar login legacy.

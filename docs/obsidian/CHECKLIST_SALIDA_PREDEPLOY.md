@@ -21,10 +21,14 @@ Branch: feat/pagina-hermana-live
 3. Verificar llegada real del lead en webhook o hoja `pbia_leads`.
 4. Consultar `GET /api/mo/health` y exigir `200` + `mode=fully_operational`.
 5. Abrir `/RYSminisuper` y confirmar lectura de catálogo (`200` en `/api/mo/products`).
-6. Login admin en `/RYSminisuper/admin/acceso`.
-7. Cambiar un producto real (ej. `sortOrder`, `stock`, `image`) y guardar.
-8. Recargar storefront y confirmar reflejo del cambio.
-9. Probar CTA de WhatsApp de carrito y validar formato del mensaje.
+6. Confirmar en móvil que el primer viewport muestra buscador, CTA principal y copy clara sin scroll extra innecesario.
+7. Buscar un producto real (`pupusas`, `cafe`, `coca`) y validar que el modo búsqueda no muestre categorías vacías.
+8. Login admin en `/RYSminisuper/admin/acceso`.
+9. Cambiar un producto real (ej. `sortOrder`, `stock`, `image`) y guardar.
+10. Recargar storefront y confirmar reflejo del cambio.
+11. Agregar productos, abrir/cerrar carrito y validar que el sticky de WhatsApp no estorbe ni quede encima del drawer.
+12. Probar CTA de WhatsApp de carrito y validar formato del mensaje.
+13. Abrir teclado móvil en buscador o campos del drawer y confirmar que las barras sticky inferiores se oculten.
 
 ## Punto de reanudación siguiente
 1. Subida simple de imagen (sin panel complejo), manteniendo URL manual como fallback.
