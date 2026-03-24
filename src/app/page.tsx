@@ -2,9 +2,9 @@ import MainContent from './components/MainContent';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Powered by IA | IA aplicada para vender mejor y operar más claro',
+  title: 'Powered by IA | Sistemas comerciales con foco en captación y conversión',
   description:
-    'Creamos demos, automatizaciones y experiencias con IA para negocios que quieren verse mejor, responder más rápido y convertir más.',
+    'Creamos sistemas comerciales, demos y activos digitales para negocios que quieren captar mejor, responder con más orden y convertir más.',
 };
 
 export default function HomePage() {

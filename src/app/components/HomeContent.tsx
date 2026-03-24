@@ -3,31 +3,31 @@ const WHATSAPP_LINK =
 
 const services = [
   {
-    title: 'Landing y demos que convierten',
-    body: 'Páginas claras, más creíbles y pensadas para que el cliente entienda rápido qué haces y cómo contactarte.',
+    title: 'Sistema de captación',
+    body: 'Una home o activo digital que explica mejor tu oferta, filtra mejor clientes y lleva a una acción principal clara.',
   },
   {
-    title: 'Automatización útil',
-    body: 'Procesos, formularios y flujos simples para responder mejor, ordenar leads y reducir fricción operativa.',
+    title: 'Sistema de seguimiento',
+    body: 'Flujos, formularios y automatizaciones útiles para responder más rápido, ordenar leads y no perder oportunidades por desorden.',
   },
   {
-    title: 'Experiencias con IA aterrizadas',
-    body: 'Soluciones con IA que se ven bien, se entienden fácil y tienen un objetivo comercial real.',
+    title: 'Sistema de conversión',
+    body: 'Demos, experiencias y capas con IA aterrizadas para que el cliente entienda valor, confíe más y avance.',
   },
 ];
 
 const demos = [
   {
-    title: 'Demo comercial',
-    body: 'Una experiencia para mostrar mejor tu oferta, ordenar la navegación y llevar a una acción clara.',
+    title: 'Caso de captación',
+    body: 'Una demo pensada para ordenar el mensaje, dejar una ruta comercial clara y mejorar la percepción del negocio desde el primer scroll.',
   },
   {
-    title: 'Demo operativa',
-    body: 'Un flujo para simplificar respuestas, pedidos o seguimiento sin meter una plataforma pesada.',
+    title: 'Caso de seguimiento',
+    body: 'Un flujo para responder mejor, confirmar interés y mover conversaciones reales sin depender de procesos rotos o demasiado manuales.',
   },
   {
-    title: 'Demo de validación rápida',
-    body: 'Una versión mínima y presentable para probar si una idea convence antes de invertir más.',
+    title: 'Caso de validación rápida',
+    body: 'Una versión mínima, presentable y útil para probar si una idea comercial convence antes de escalarla.',
   },
 ];
 
@@ -39,8 +39,8 @@ const process = [
 
 const trust = [
   'Enfoque práctico y mobile-first',
-  'Menos humo visual, más claridad comercial',
-  'Iteraciones cortas con cambios visibles',
+  'Menos humo visual, más sistema comercial',
+  'Iteraciones cortas con cambios medibles',
 ];
 
 export default function HomeContent() {
@@ -79,13 +79,13 @@ export default function HomeContent() {
         >
           <div>
             <span className="inline-flex rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-cyan-200">
-              IA aplicada con foco comercial
+              Sistemas comerciales con IA aplicada
             </span>
             <h1 className="mt-4 max-w-3xl text-[2.35rem] font-semibold leading-[1.02] tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl">
-              Webs, demos y experiencias con IA para vender con más claridad y menos ruido.
+              Activos digitales y sistemas comerciales para captar mejor, dar seguimiento y convertir con más claridad.
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-7 text-white/72 sm:text-lg">
-              Powered by IA ayuda a convertir ideas en presentaciones digitales más claras, más creíbles y más fáciles de usar en móvil. Menos bloques sueltos. Más foco, más confianza y una acción principal bien definida.
+              Powered by IA no vende piezas sueltas ni ruido digital. Diseña sistemas comerciales: páginas, demos y flujos que ordenan el mensaje, elevan la percepción del negocio y empujan a una acción concreta.
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <a
@@ -130,19 +130,19 @@ export default function HomeContent() {
                 <div className="rounded-2xl border border-white/8 bg-white/[0.03] p-4">
                   <p className="text-sm font-semibold text-white">Mensaje principal claro</p>
                   <p className="mt-1 text-sm leading-6 text-white/68">
-                    Qué haces, para quién y cuál es la siguiente acción.
+                    Qué sistema necesitas, para qué sirve y cuál es la siguiente acción.
                   </p>
                 </div>
                 <div className="rounded-2xl border border-white/8 bg-white/[0.03] p-4">
-                  <p className="text-sm font-semibold text-white">Servicios ordenados</p>
+                  <p className="text-sm font-semibold text-white">Oferta menos commodity</p>
                   <p className="mt-1 text-sm leading-6 text-white/68">
-                    Menos competencia interna entre bloques, más foco en conversión.
+                    Menos “hago de todo”, más foco en captación, seguimiento y conversión.
                   </p>
                 </div>
                 <div className="rounded-2xl border border-white/8 bg-white/[0.03] p-4">
                   <p className="text-sm font-semibold text-white">Cierre con acción real</p>
                   <p className="mt-1 text-sm leading-6 text-white/68">
-                    WhatsApp para hablar y demos para validar rápido si encaja.
+                    WhatsApp para abrir conversación y demos para mostrar dirección real.
                   </p>
                 </div>
               </div>
@@ -154,12 +154,12 @@ export default function HomeContent() {
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Qué hacemos</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Convertimos ideas digitales en experiencias más claras, más útiles y más vendibles.
+              Convertimos ofertas dispersas en sistemas comerciales más claros, más creíbles y más útiles.
             </h2>
           </div>
           <div className="rounded-[1.6rem] border border-white/10 bg-white/[0.04] p-5">
             <p className="text-base leading-7 text-white/74">
-              No se trata solo de “meter IA”. Se trata de presentar mejor una oferta, simplificar la navegación, reducir dudas y dejar una ruta de contacto más directa. El foco está en claridad comercial, percepción premium y acción real.
+              No se trata solo de meter IA ni de llenar una web de secciones. Se trata de construir un sistema comercial que capte atención, ordene seguimiento y haga más fácil convertir una visita en conversación o venta.
             </p>
           </div>
         </section>
@@ -168,7 +168,7 @@ export default function HomeContent() {
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Servicios principales</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Lo esencial para que tu presencia digital convenza mejor.
+              Tres capas para que tu presencia digital deje de verse como piezas sueltas.
             </h2>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
@@ -189,10 +189,10 @@ export default function HomeContent() {
             <div>
               <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Demos y casos</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-                Tipos de demo para enseñar valor sin perder al cliente.
+                Casos y demos para probar dirección comercial antes de escalar.
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-white/66 sm:text-base">
-                No son piezas infladas ni promesas vacías. Son formatos de demo que ayudan a mostrar mejor una oferta, validar una idea o aterrizar una experiencia antes de invertir más.
+                Aquí la demo no es entretenimiento. Es una herramienta para comprobar si el mensaje, la estructura y la ruta de contacto realmente ayudan a vender mejor.
               </p>
             </div>
             <a
@@ -222,7 +222,7 @@ export default function HomeContent() {
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Cómo trabajamos</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Un proceso corto, visible y fácil de validar.
+              Un proceso corto para aterrizar el sistema antes de complicarlo.
             </h2>
           </div>
           <div className="grid gap-3">
@@ -249,10 +249,10 @@ export default function HomeContent() {
           </div>
           <div className="space-y-4 text-sm leading-7 text-white/72 sm:text-base">
             <p>
-              Powered by IA busca construir experiencias digitales que se entiendan rápido, transmitan más valor y empujen a una acción clara. La prioridad no es impresionar con capas innecesarias, sino hacer que la web se vea mejor, se sienta más sólida y convierta con menos fricción.
+              Powered by IA busca construir activos digitales que se entiendan rápido, transmitan más autoridad y empujen a una acción concreta. La prioridad no es acumular servicios, sino ordenar sistemas comerciales que funcionen de verdad.
             </p>
             <p>
-              El trabajo mezcla criterio visual, lógica comercial y ejecución directa. Menos decoración gratuita. Más estructura, más claridad y una sensación más premium.
+              El trabajo mezcla criterio visual, lógica comercial y ejecución directa. Menos commodity, menos bazar digital y más estructura útil para captar, seguir y convertir con mejor percepción.
             </p>
           </div>
         </section>
@@ -264,10 +264,10 @@ export default function HomeContent() {
           <div className="max-w-3xl">
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">CTA final</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Si quieres una web más clara, más creíble y mejor enfocada a conversión, empecemos por una conversación simple.
+              Si quieres un sistema comercial más claro y más serio para vender mejor, empecemos por una conversación simple.
             </h2>
             <p className="mt-4 text-base leading-7 text-white/74">
-              Escríbeme por WhatsApp, cuéntame qué estás vendiendo y te respondo con la ruta más razonable: demo, mejora puntual o una reestructuración más seria.
+              Escríbeme por WhatsApp, cuéntame qué estás vendiendo y te respondo con la ruta más razonable: captar mejor, ordenar seguimiento o mejorar conversión sin llenar tu negocio de más ruido.
             </p>
             <p className="mt-3 text-sm leading-6 text-white/60">
               El botón abre WhatsApp con un mensaje base listo para que el primer contacto sea rápido y directo.
