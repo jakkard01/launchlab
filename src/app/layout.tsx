@@ -1,21 +1,16 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import IntroOverlay from './components/IntroOverlay';
-import React from 'react';
 
 export const metadata: Metadata = {
-  title: 'Powered by IA',
-  description: 'Transformando ideas en realidad con IA, visión y código',
+  title: 'Powered by IA | Automatizaciones, bots y demos que convierten',
+  description:
+    'Diseñamos experiencias con IA, automatizaciones y demos claras para convertir mejor y operar con menos fricción.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const [showIntro, setShowIntro] = React.useState(true);
   return (
     <html lang="es">
-      <body>
-        {showIntro && <IntroOverlay onFinish={() => setShowIntro(false)} />}
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

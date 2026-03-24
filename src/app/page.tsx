@@ -1,22 +1,12 @@
-'use client';
-import React from 'react';
 import MainContent from './components/MainContent';
-import { NextSeo } from 'next-seo';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Powered by IA | IA aplicada para vender mejor y operar más claro',
+  description:
+    'Creamos demos, automatizaciones y experiencias con IA para negocios que quieren verse mejor, responder más rápido y convertir más.',
+};
 
 export default function HomePage() {
-  return (
-    <>
-      <NextSeo
-        title="Powered by IA — Transformando ideas en realidad"
-        description="Landing personal con IA, visión y código."
-        openGraph={{
-          title: 'Powered by IA — Transformando ideas en realidad',
-          description: 'Landing personal con IA, visión y código.',
-          url: 'https://poweredbyia.com/',
-          site_name: 'Powered by IA',
-        }}
-      />
-      <MainContent />
-    </>
-  );
+  return <MainContent />;
 }
