@@ -63,7 +63,12 @@ export default function CartDrawer({
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-[rgba(11,18,32,0.55)] px-0 pb-[calc(env(safe-area-inset-bottom)+16px)] pt-6 backdrop-blur-sm sm:items-center sm:px-4 sm:pb-6 sm:pt-10">
       <div className="w-full max-h-[calc(100dvh-16px)] overflow-y-auto rounded-t-3xl border border-default bg-surface p-6 pb-[calc(env(safe-area-inset-bottom)+24px)] text-main shadow-2xl motion-safe:animate-[sheet-up_240ms_ease-out] sm:max-h-[calc(100dvh-80px)] sm:max-w-lg sm:rounded-3xl sm:p-8">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-main">Tu pedido para retiro</h2>
+          <div>
+            <h2 className="text-lg font-semibold text-main">Ver lo que llevas</h2>
+            <p className="mt-1 text-xs text-muted-strong">
+              Desde aquí corriges cantidades y mandas el pedido por WhatsApp.
+            </p>
+          </div>
           <button
             type="button"
             onClick={onClose}

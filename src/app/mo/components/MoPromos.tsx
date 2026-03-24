@@ -67,7 +67,6 @@ export default function MoPromos({ products }: MoPromosProps) {
                   <ProductCard
                     product={product}
                     variant="compact"
-                    showActions={false}
                     showStatusBadge={false}
                   />
                 </div>

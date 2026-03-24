@@ -2,13 +2,13 @@ import type { Product } from "../../lib/mo/types";
 
 export const TABS = [
   { id: "hot", label: "Caliente hoy", icon: "🔥" },
-  { id: "antojitos", label: "Antojitos", image: "/mo/categories/antojitos.svg" },
-  { id: "combos", label: "Combos", icon: "🥡" },
-  { id: "lacteos", label: "Lácteos", image: "/mo/categories/lacteos.svg" },
+  { id: "antojitos", label: "Pupusas y antojitos", image: "/mo/categories/antojitos.svg" },
   { id: "bebidas", label: "Bebidas", image: "/mo/categories/bebida.svg" },
+  { id: "ofertas", label: "Promos", icon: "🏷️" },
+  { id: "combos", label: "Combos", icon: "🥡" },
   { id: "abarrotes", label: "Abarrotes", image: "/mo/categories/abarrotes.svg" },
   { id: "snacks", label: "Snacks", image: "/mo/categories/snacks.svg" },
-  { id: "ofertas", label: "Ofertas", icon: "🏷️" },
+  { id: "lacteos", label: "Lácteos", image: "/mo/categories/lacteos.svg" },
 ] as const;
 
 export type TabId = (typeof TABS)[number]["id"];
@@ -61,3 +61,10 @@ export const matchesTab = (product: Product, tabId: TabId) => {
       return true;
   }
 };
+
+export const getVisibleTabs = (products: Product[]) =>
+  TABS.filter((tab) =>
+    products.some(
+      (product) => isAvailableForCatalog(product) && matchesTab(product, tab.id)
+    )
+  );

@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { MO_STORE_RESPONSE_TIME_LABEL } from "../../lib/mo/config";
 import { buildWhatsAppLinkFreeText } from "../../lib/mo/whatsapp";
 
 export default function FreeTextOrder() {
@@ -83,7 +84,7 @@ export default function FreeTextOrder() {
           Consultar esto por WhatsApp
         </a>
         <p className="text-xs text-muted-strong">
-          Te respondemos con disponibilidad, total estimado y tiempo de retiro.
+          Te respondemos con disponibilidad, total estimado y tiempo de retiro. {MO_STORE_RESPONSE_TIME_LABEL}
         </p>
       </div>
     </div>

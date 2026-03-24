@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import type { Product } from "../../../lib/mo/types";
 import ProductCard from "../ProductCard";
 import {
+  getVisibleTabs,
   isComboProduct,
   isFeaturedProduct,
   isHotProduct,
@@ -144,6 +145,15 @@ export default function MoQuickShop({
     },
   ] as const;
 
+  const visibleTabIds = useMemo(
+    () => new Set(getVisibleTabs(products).map((tab) => tab.id)),
+    [products]
+  );
+
+  const visibleAisles = aisles.filter((aisle) => visibleTabIds.has(aisle.id));
+
+  const mostWanted = hotToday.length > 0 ? hotToday : featured;
+
   return (
     <section className="space-y-5 overflow-x-clip">
       <div>
@@ -151,15 +161,15 @@ export default function MoQuickShop({
           Pedido rápido
         </p>
         <h2 className="mt-2 text-lg font-semibold text-main">
-          Lo de hoy y categorías útiles
+          Lo más pedido hoy y accesos rápidos
         </h2>
         <p className="mt-2 text-sm text-muted-strong">
-          Entra por categoría o revisa lo más útil de hoy sin pelearte con un rail largo.
+          Entra por lo que más sale o ve directo a las categorías que más resuelven una compra rápida.
         </p>
       </div>
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {aisles.map((aisle) => {
+        {visibleAisles.map((aisle) => {
           const iconSrc = resolveCategoryIcon(aisle.id);
           const isActive = aisle.id === activeTab;
           const hint =
@@ -237,18 +247,19 @@ export default function MoQuickShop({
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-semibold text-main">
-            Caliente hoy
+            Lo más pedido hoy
           </h3>
-          <span className="text-xs text-[var(--accent)]">Hecho para hoy</span>
+          <span className="text-xs text-[var(--accent)]">
+            {hotToday.length > 0 ? "Hecho para hoy" : "Lo que más ayuda a resolver"}
+          </span>
         </div>
-        {hotToday.length > 0 ? (
+        {mostWanted.length > 0 ? (
           <div className={productGridClass}>
-            {hotToday.map((product) => (
+            {mostWanted.map((product) => (
               <div key={product.id}>
                 <ProductCard
                   product={product}
                   variant="compact"
-                  showActions={false}
                   showStatusBadge={false}
                 />
               </div>
@@ -256,7 +267,7 @@ export default function MoQuickShop({
           </div>
         ) : (
           <div className="rounded-2xl border border-dashed border-default bg-surface px-4 py-5 text-sm text-muted-strong">
-            Hoy no hay calientes confirmados. Escríbenos por WhatsApp si quieres consultar qué salió fresco.
+            Hoy no hay productos destacados confirmados. Escríbenos por WhatsApp y te decimos qué sale más rápido.
           </div>
         )}
       </div>
@@ -275,7 +286,6 @@ export default function MoQuickShop({
                 <ProductCard
                   product={product}
                   variant="compact"
-                  showActions={false}
                   showStatusBadge={false}
                 />
               </div>
@@ -302,7 +312,6 @@ export default function MoQuickShop({
                 <ProductCard
                   product={product}
                   variant="compact"
-                  showActions={false}
                   showStatusBadge={false}
                 />
               </div>
@@ -329,7 +338,6 @@ export default function MoQuickShop({
                 <ProductCard
                   product={product}
                   variant="compact"
-                  showActions={false}
                   showStatusBadge={false}
                 />
               </div>
@@ -356,7 +364,6 @@ export default function MoQuickShop({
                 <ProductCard
                   product={product}
                   variant="compact"
-                  showActions={false}
                   showStatusBadge={false}
                 />
               </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import StickyWhatsAppButton from "../StickyWhatsAppButton";
 import CartButtonSticky from "./CartButtonSticky";
 import CartDrawer from "./CartDrawer";
 
@@ -18,6 +19,7 @@ export default function CartUI({ isSearchMode = false }: CartUIProps) {
         isSearchMode={isSearchMode}
       />
       <CartDrawer isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <StickyWhatsAppButton hidden={isOpen} />
     </>
   );
 }

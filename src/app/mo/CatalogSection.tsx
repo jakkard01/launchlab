@@ -5,10 +5,10 @@ import { useState } from "react";
 import type { Product } from "../../lib/mo/types";
 import ProductCard from "./ProductCard";
 import {
+  getVisibleTabs,
   isAvailableForCatalog,
   matchesTab,
   sortCatalogProducts,
-  TABS,
   type TabId,
 } from "./catalogConfig";
 import { rankProductsByQuery } from "../../lib/mo/search";
@@ -33,6 +33,7 @@ type CatalogSectionProps = {
   query: string;
   onScrollToSpecial?: () => void;
   onClearQuery?: () => void;
+  headerMode: "full" | "compact" | "hidden";
 };
 
 export default function CatalogSection({
@@ -42,8 +43,15 @@ export default function CatalogSection({
   query,
   onScrollToSpecial,
   onClearQuery,
+  headerMode,
 }: CatalogSectionProps) {
-  const activeLabel = TABS.find((tab) => tab.id === activeTab)?.label ?? "Todo";
+  const visibleTabs = getVisibleTabs(products);
+  const fallbackTab = visibleTabs[0]?.id ?? activeTab;
+  const resolvedActiveTab = visibleTabs.some((tab) => tab.id === activeTab)
+    ? activeTab
+    : fallbackTab;
+  const activeLabel =
+    visibleTabs.find((tab) => tab.id === resolvedActiveTab)?.label ?? "Todo";
   const [expandedTab, setExpandedTab] = useState<TabId | null>(null);
 
   const queryFilter = query.trim();
@@ -61,6 +69,13 @@ export default function CatalogSection({
     if (!queryFilter) return base;
     return searchResults.filter((product) => matchesTab(product, tabId));
   };
+
+  const stickyTabsTopClass =
+    headerMode === "hidden"
+      ? "top-2 sm:top-4"
+      : headerMode === "compact" || queryFilter
+        ? "top-[58px] sm:top-[68px]"
+        : "top-[124px] sm:top-24";
 
   return (
     <section id="catalogo" className="space-y-6">
@@ -92,7 +107,7 @@ export default function CatalogSection({
             >
               Limpiar búsqueda
             </button>
-          ) : (
+          ) : visibleTabs.some((tab) => tab.id === "hot") ? (
             <button
               type="button"
               onClick={() => onTabChange("hot")}
@@ -100,15 +115,15 @@ export default function CatalogSection({
             >
               Ver caliente hoy
             </button>
-          )}
+          ) : null}
         </div>
       </div>
 
       {!queryFilter ? (
-        <div className="sticky top-[124px] z-20 overflow-x-clip rounded-2xl border border-default bg-[color-mix(in_srgb,var(--surface)_96%,transparent)] px-3 py-2 backdrop-blur sm:top-24 sm:px-6 sm:py-3">
+        <div className={`sticky z-20 overflow-x-clip rounded-2xl border border-default bg-[color-mix(in_srgb,var(--surface)_96%,transparent)] px-3 py-2 backdrop-blur transition-[top] duration-200 sm:px-6 sm:py-3 ${stickyTabsTopClass}`}>
           <div className="no-scrollbar flex max-w-full gap-2 overflow-x-auto pb-1 [overscroll-behavior-x:contain] [touch-action:pan-x]">
-            {TABS.map((tab) => {
-              const isActive = tab.id === activeTab;
+            {visibleTabs.map((tab) => {
+              const isActive = tab.id === resolvedActiveTab;
               const iconSrc = resolveCategoryIcon(tab.id);
               return (
                 <button
@@ -158,7 +173,7 @@ export default function CatalogSection({
       `}</style>
 
       {queryFilter ? (
-        <section className="space-y-4">
+        <section id="search-results" className="space-y-4 scroll-mt-32 sm:scroll-mt-24">
           <div className="grid gap-3 rounded-3xl border border-default bg-surface px-4 py-4 shadow-sm sm:grid-cols-[1.3fr,1fr]">
             <div>
               <h3 className="text-sm font-semibold text-main">
@@ -188,9 +203,9 @@ export default function CatalogSection({
             </div>
           </div>
           {searchResults.length > 0 ? (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {searchResults.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard key={product.id} product={product} variant="compact" />
               ))}
             </div>
           ) : (
@@ -218,7 +233,7 @@ export default function CatalogSection({
 
       {!queryFilter ? (
         <div className="space-y-8">
-        {TABS.map((tab) => {
+        {visibleTabs.map((tab) => {
           const items = productsForTab(tab.id);
           const isExpanded = expandedTab === tab.id;
           const visibleItems = isExpanded ? items : items.slice(0, 4);
@@ -233,36 +248,25 @@ export default function CatalogSection({
                 <h3 className="text-sm font-semibold text-main">
                   {tab.label}
                 </h3>
-                <button
-                  type="button"
-                  onClick={() =>
-                    setExpandedTab(isExpanded ? null : tab.id)
-                  }
-                  className="text-xs font-semibold text-[var(--accent)] transition hover:text-[var(--accent)]/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/50"
-                >
-                  {isExpanded ? "Ver menos" : "Ver más"}
-                </button>
+                {items.length > 4 ? (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setExpandedTab(isExpanded ? null : tab.id)
+                    }
+                    className="text-xs font-semibold text-[var(--accent)] transition hover:text-[var(--accent)]/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/50"
+                  >
+                    {isExpanded ? "Ver menos" : "Ver más"}
+                  </button>
+                ) : null}
               </div>
-              {items.length === 0 ? (
-                <div className="rounded-2xl border border-dashed border-default px-4 py-6 text-sm text-muted">
-                  <p>Sin productos en esta categoría.</p>
-                  {queryFilter ? (
-                    <button
-                      type="button"
-                      onClick={onScrollToSpecial}
-                      className="mt-3 inline-flex items-center rounded-full border border-[var(--accent)]/40 px-4 py-2 text-xs font-semibold text-[var(--accent)] transition hover:border-[var(--accent)]/60 hover:text-[var(--accent)]/80"
-                    >
-                      No lo tenemos. Agrégalo a tu Pedido Especial.
-                    </button>
-                  ) : null}
-                </div>
-              ) : (
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {items.length > 0 ? (
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   {visibleItems.map((product) => (
-                    <ProductCard key={product.id} product={product} />
+                    <ProductCard key={product.id} product={product} variant="compact" />
                   ))}
                 </div>
-              )}
+              ) : null}
             </section>
           );
         })}
