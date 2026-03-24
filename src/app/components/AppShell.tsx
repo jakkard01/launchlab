@@ -5,7 +5,11 @@ import ClientLayout from "./ClientLayout";
 import FAB from "./FAB";
 import CookieBanner from "./CookieBanner";
 
-export default function AppShell({ children }: { children: React.ReactNode }) {
+export default function AppShell({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const pathname = usePathname();
   const isMo =
     pathname?.startsWith("/mo") ||
@@ -17,11 +21,15 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <div className="relative min-h-screen bg-galaxy-shell">
+      <div className="pbia-shell relative min-h-screen bg-galaxy-shell">
         <ClientLayout>{children}</ClientLayout>
       </div>
-      <FAB />
-      <CookieBanner />
+      <div className="pbia-fab">
+        <FAB />
+      </div>
+      <div className="pbia-cookie">
+        <CookieBanner />
+      </div>
     </>
   );
 }

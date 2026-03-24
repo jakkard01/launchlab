@@ -20,6 +20,21 @@
   background-repeat: no-repeat;
 }
 
+html[data-store-host="rys"] .bg-galaxy-shell::before {
+  display: none;
+}
+
+html[data-store-host="rys"] .pbia-header,
+html[data-store-host="rys"] .pbia-footer,
+html[data-store-host="rys"] .pbia-fab,
+html[data-store-host="rys"] .pbia-cookie {
+  display: none !important;
+}
+
+html[data-store-host="rys"] .pbia-shell {
+  background: transparent;
+}
+
 html,
 body {
   min-height: 100%;
@@ -27,14 +42,14 @@ body {
 }
 
 :root {
-  --bg: #F4F0E9;
-  --surface: #FAF6F0;
-  --surface-2: #F6F1E9;
-  --surface-3: #FFFDFC;
-  --text: #1E242B;
-  --muted: #6E6A63;
-  --muted-strong: #524F49;
-  --border: #E3DDD3;
+  --bg: #f3ede3;
+  --surface: #fbf7ef;
+  --surface-2: #f6efe2;
+  --surface-3: #fffdf9;
+  --text: #1c2430;
+  --muted: #6f675d;
+  --muted-strong: #544d45;
+  --border: #ded3c4;
   --accent: #22C55E;
   --fab-safe-padding: 140px;
 }
@@ -80,8 +95,9 @@ body {
   isolation: isolate;
   overflow-x: clip;
   background:
-    radial-gradient(circle at top, rgba(34, 197, 94, 0.08), transparent 38%),
-    linear-gradient(180deg, color-mix(in srgb, var(--bg) 96%, white 4%), var(--bg));
+    radial-gradient(circle at top, rgba(34, 197, 94, 0.1), transparent 34%),
+    radial-gradient(circle at 85% 0%, rgba(255, 244, 214, 0.8), transparent 24%),
+    linear-gradient(180deg, color-mix(in srgb, var(--bg) 93%, white 7%), var(--bg));
 }
 
 a, button, input, textarea, select {
@@ -124,7 +140,7 @@ a, button, input, textarea, select {
   background-color: var(--surface);
   border: 1px solid var(--border);
   color: var(--text);
-  box-shadow: 0 12px 30px rgba(15, 24, 38, 0.08);
+  box-shadow: 0 14px 32px rgba(59, 43, 22, 0.08);
 }
 
 .dark .surface-card {

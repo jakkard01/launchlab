@@ -6,9 +6,13 @@ import SiteFooter from "./SiteFooter";
 export default function ClientLayout({ children }: { children: ReactNode }) {
   return (
     <>
-      <Header />
+      <div className="pbia-header">
+        <Header />
+      </div>
       {children}
-      <SiteFooter />
+      <div className="pbia-footer">
+        <SiteFooter />
+      </div>
     </>
   );
 }

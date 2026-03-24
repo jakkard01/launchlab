@@ -88,10 +88,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{
             __html: `(() => {
   try {
+    const storeHosts = ["rysminimarket.com", "www.rysminimarket.com"];
+    const host = window.location.hostname.toLowerCase();
+    const root = document.documentElement;
+    if (storeHosts.includes(host)) {
+      root.dataset.storeHost = "rys";
+    } else {
+      delete root.dataset.storeHost;
+    }
     const stored = localStorage.getItem("theme");
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     const theme = stored === "dark" || stored === "light" ? stored : (prefersDark ? "dark" : "light");
-    const root = document.documentElement;
     root.classList.remove("light", "dark");
     root.classList.add(theme);
     root.style.colorScheme = theme;

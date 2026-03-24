@@ -1,8 +1,26 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+const RYS_HOSTS = new Set(["rysminimarket.com", "www.rysminimarket.com"]);
+
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+  const hostHeader = req.headers.get("host") ?? "";
+  const hostname = hostHeader.split(":")[0].toLowerCase();
+
+  if (RYS_HOSTS.has(hostname)) {
+    if (pathname === "/") {
+      const rewriteUrl = req.nextUrl.clone();
+      rewriteUrl.pathname = "/RYSminisuper";
+      return NextResponse.rewrite(rewriteUrl);
+    }
+
+    if (pathname === "/admin" || pathname.startsWith("/admin/")) {
+      const rewriteUrl = req.nextUrl.clone();
+      rewriteUrl.pathname = `/RYSminisuper${pathname}`;
+      return NextResponse.rewrite(rewriteUrl);
+    }
+  }
 
   if (pathname.startsWith("/mo")) {
     const redirectUrl = req.nextUrl.clone();
@@ -35,5 +53,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/prompts/:path*", "/mo/:path*", "/RYSminisuper/admin/:path*"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|site.webmanifest|.*\\..*).*)"],
 };
