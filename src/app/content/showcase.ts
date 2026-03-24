@@ -19,7 +19,7 @@ export type ShowcaseItem = {
 export const showcase: ShowcaseItem[] = [
   {
     slug: "rys-minisuper",
-    title: "RYS Minisúper (caso real)",
+    title: "RYS Mini Market (caso real)",
     type: "system",
     status: "live",
     summary: "Tienda express con catálogo, estados y pedido por WhatsApp.",

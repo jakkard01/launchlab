@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
 import { buildWhatsAppMessageLink } from "../../lib/mo/whatsapp";
+import {
+  MO_BRAND,
+  MO_CANONICAL_PATH,
+  MO_STORE_IMAGE_ALT,
+  MO_STORE_IMAGE_SRC,
+} from "../../lib/mo/config";
 import { getStoreProducts } from "../../lib/mo/data/sheetsStore";
 import { getMoBackendErrorInfo } from "../../lib/mo/data/errorInfo";
 import productsSeed from "../../data/products.json";
@@ -8,34 +14,34 @@ import { CartProvider } from "../mo/cart/CartContext";
 import MoStorefront from "../mo/components/MoStorefront";
 
 export const metadata: Metadata = {
-  title: "RYS Minisúper | Retiro fácil en La Gloria",
+  title: `${MO_BRAND.currentDisplayName} | Retiro fácil en La Gloria`,
   description:
     "Abarrotes, café, antojitos y combos para retiro en La Gloria, San Salvador. Pide por WhatsApp, te confirmamos y pasas a retirar.",
   alternates: {
-    canonical: "/RYSminisuper",
+    canonical: MO_CANONICAL_PATH,
   },
   openGraph: {
-    title: "RYS Minisúper | Compra rápida para retiro en La Gloria",
+    title: `${MO_BRAND.currentDisplayName} | Compra rápida para retiro en La Gloria`,
     description:
       "Pide por WhatsApp, recibe confirmación real y pasa a retirar café, antojitos, básicos y combos en La Gloria, San Salvador.",
     url: "https://www.poweredbyia.com/RYSminisuper",
-    siteName: "RYS Minisúper",
+    siteName: MO_BRAND.currentDisplayName,
     type: "website",
     images: [
       {
-        url: "https://www.poweredbyia.com/imagenes/perfil/rysminisuper.jpeg",
+        url: `https://www.poweredbyia.com${MO_STORE_IMAGE_SRC}`,
         width: 1200,
         height: 1200,
-        alt: "RYS Minisúper en La Gloria, San Salvador",
+        alt: `${MO_BRAND.currentDisplayName}. ${MO_STORE_IMAGE_ALT}`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "RYS Minisúper | Compra rápida para retiro en La Gloria",
+    title: `${MO_BRAND.currentDisplayName} | Compra rápida para retiro en La Gloria`,
     description:
       "Abarrotes, café, antojitos y combos con confirmación por WhatsApp antes de salir.",
-    images: ["https://www.poweredbyia.com/imagenes/perfil/rysminisuper.jpeg"],
+    images: [`https://www.poweredbyia.com${MO_STORE_IMAGE_SRC}`],
   },
   robots: {
     index: true,
@@ -70,7 +76,7 @@ export default async function RysMiniSuperPage() {
   }
 
   const ctaLink = buildWhatsAppMessageLink(
-    "Hola RYS Minisúper, quiero hacer un pedido para retiro."
+    `Hola ${MO_BRAND.currentDisplayName}, quiero hacer un pedido para retiro.`
   );
 
   return (

@@ -1,3 +1,5 @@
+import { MO_BRAND } from "./config";
+
 type WhatsAppParams = {
   productName: string;
   qty: number;
@@ -42,7 +44,7 @@ export const buildWhatsAppLinkFreeText = ({
   const userZone = zone && zone.trim().length > 0 ? zone.trim() : "____";
   const noteLine =
     note && note.trim().length > 0 ? ` Nota: ${note.trim()}.` : " Nota: -.";
-  const message = `Hola RYS Minisúper, necesito: ${safeItem}.${noteLine} Estoy cerca de: ${userZone}. Retiro.`;
+  const message = `Hola ${MO_BRAND.currentDisplayName}, necesito: ${safeItem}.${noteLine} Estoy cerca de: ${userZone}. Retiro.`;
   return buildWhatsAppMessageLink(message);
 };
 
@@ -100,7 +102,7 @@ export const buildOrderWhatsAppLink = (
           ? "Ventana de retiro: Fuera de ventana, retiro en frío."
           : "";
   const messageParts = [
-    "RYS Minisúper (La Gloria)",
+    `${MO_BRAND.currentDisplayName} (${MO_BRAND.locationLabel})`,
     "Pedido para retiro:",
     ...lines,
     total,
