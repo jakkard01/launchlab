@@ -97,6 +97,7 @@ out
 
 # Local snapshot fallback
 tmp_runs/
+.worktrees/
 
 # Nuxt.js build / generate output
 .nuxt
