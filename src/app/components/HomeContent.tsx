@@ -200,7 +200,7 @@ export default function HomeContent() {
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex h-11 items-center justify-center rounded-full border border-cyan-300/22 bg-cyan-300/10 px-5 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/14"
-              >
+            >
               Pedir una demo
             </a>
           </div>
