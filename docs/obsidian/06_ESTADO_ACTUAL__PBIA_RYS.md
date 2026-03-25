@@ -6,21 +6,36 @@
 
 - Rama: `feat/pbia-portfolio-next`
 - Worktree: `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next`
-- En esta rama PBIA se trabajó como experiencia aislada.
-- La home quedó reposicionada para vender sistemas comerciales:
-  - captación
-  - seguimiento
-  - conversión
+- Render real de la home:
+  - `src/app/page.tsx`
+  - `src/app/components/MainContent.tsx`
+  - `src/app/components/HomeContent.tsx`
+- PBIA se trabaja como experiencia aislada y no debe mezclarse con `feat/pagina-hermana-live`.
+- Base buena de referencia recuperada:
+  - commit `7f058c6` `feat(pbia): sharpen home positioning and simplify conversion flow`
+- Problema detectado:
+  - la home local había derivado a un estado peor que la base buena
+  - se había debilitado la dirección comercial
+  - el fondo perdió presencia
+  - la foto había desaparecido
+  - había riesgo de mezclar worktrees o tomar como base una versión incorrecta
+- Estado correcto actual de la home:
+  - vende sistemas comerciales con IA para captar, responder y convertir mejor
+  - mantiene `Hablar por WhatsApp` como CTA principal
+  - mantiene `Ver demos` como CTA secundaria
+  - devuelve la foto al hero como apoyo de credibilidad
+  - vuelve a mostrar el fondo de marca con más respiración y menos caja opaca
+  - deja a RYS como caso real principal
+  - mantiene bots, automatizaciones y demos como capacidades subordinadas
+  - muestra WhatsApp real y email visible en el cierre
 - CTA principal:
   - `Hablar por WhatsApp`
 - CTA secundaria:
   - `Ver demos`
-- Deploy exitoso documentado:
-  - `https://launchlab-n4abojrej-gerrys-projects-7c589fcf.vercel.app`
-- Alias reportado por CLI:
-  - `https://launchlab-five.vercel.app`
-- Pendiente menor:
-  - conectar WhatsApp real de PBIA
+- Qué no se tocó:
+  - RYS Mini Market fuera de su experiencia propia
+  - worktree `feat/pagina-hermana-live`
+  - `next-env.d.ts` tratado como ruido de entorno salvo necesidad estricta
 
 ### RYS Mini Market
 

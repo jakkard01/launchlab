@@ -6,3 +6,9 @@
 - 2026-03-24: El bloqueo real de Vercel en PBIA se resolvió quitando la dependencia implícita de `lucide-react` en `HamburgerMenu.tsx`, evitando añadir dependencias nuevas por una sola necesidad visual.
 - 2026-03-24: El deploy productivo documentado de esta pasada quedó en `https://launchlab-n4abojrej-gerrys-projects-7c589fcf.vercel.app` con alias reportado por CLI en `https://launchlab-five.vercel.app`.
 - 2026-03-24: RYS Mini Market queda fuera de esta iteración y no debe mezclarse con cambios de PBIA en esta rama.
+- 2026-03-25: El último estado bueno real de la home PBIA en esta rama se fija en el commit `7f058c6`; cualquier recuperación debe partir de ahí y no de `feat/pagina-hermana-live`.
+- 2026-03-25: La separación operativa correcta queda así:
+  - `feat/pbia-portfolio-next` en `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next`
+  - `feat/pagina-hermana-live` en `/home/hagga/work/launchlab__PROD`
+- 2026-03-25: La home correcta de PBIA vuelve a incluir fondo de marca visible, foto en hero, RYS como caso principal y capacidades secundarias subordinadas.
+- 2026-03-25: El CTA de WhatsApp de PBIA debe usar el número real `34911528753` y el cierre debe dejar visible el email `poweredbyiaoficial@gmail.com`.
