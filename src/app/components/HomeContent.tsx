@@ -16,7 +16,7 @@ const services = [
   },
   {
     title: 'Convertir mejor',
-    body: 'Seguimiento, demos y capas de validación para que el cliente entienda valor y avance con menos fricción.',
+    body: 'Seguimiento y demos útiles para que el cliente entienda valor y avance con menos fricción.',
   },
 ];
 
@@ -27,7 +27,7 @@ const demos = [
   },
   {
     title: 'Bots, automatizaciones y demos guiadas',
-    body: 'Capas secundarias para responder, validar o ordenar mejor el negocio cuando el sistema principal ya está claro.',
+    body: 'Recursos secundarios para responder, validar o ordenar mejor el negocio cuando el sistema principal ya está claro.',
   },
 ];
 
@@ -94,7 +94,7 @@ export default function HomeContent() {
               Sistemas comerciales con IA para captar, responder y convertir mejor.
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-7 text-white/72 sm:text-lg">
-              PBIA construye una base comercial más clara, más rápida y mejor conectada. Después suma bots, automatizaciones, demos y otras capas solo cuando ayudan a vender mejor.
+              PBIA construye una base comercial más clara, más rápida y mejor conectada. Después suma bots, automatizaciones y demos solo cuando ayudan a vender mejor.
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <a
@@ -148,7 +148,7 @@ export default function HomeContent() {
                   </p>
                 </div>
                 <div className="rounded-2xl border border-white/8 bg-white/[0.03] p-4">
-                  <p className="text-sm font-semibold text-white">Capas secundarias con criterio</p>
+                  <p className="text-sm font-semibold text-white">Capacidades secundarias con criterio</p>
                   <p className="mt-1 text-sm leading-6 text-white/68">
                     Bots, automatizaciones y demos entran cuando refuerzan la conversión, no para crear bazar.
                   </p>
@@ -168,12 +168,12 @@ export default function HomeContent() {
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Qué hacemos</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Convertimos ofertas dispersas en sistemas comerciales más claros, más creíbles y más útiles.
+              Ordenamos captación, respuesta y conversión en un solo sistema comercial.
             </h2>
           </div>
           <div className="rounded-[1.6rem] border border-white/10 bg-white/[0.03] p-5 backdrop-blur-[4px]">
             <p className="text-base leading-7 text-white/74">
-              No se trata de llenar una web de servicios ni de meter IA porque sí. Se trata de construir un sistema comercial que atraiga mejores contactos, responda con más orden y haga más fácil convertir una visita en conversación o venta.
+              La idea es simple: explicar mejor lo que vendes, responder más rápido y facilitar que una visita se convierta en conversación o venta.
             </p>
           </div>
         </section>
@@ -317,6 +317,16 @@ export default function HomeContent() {
           </div>
         </section>
       </div>
+
+      <a
+        href={WHATSAPP_LINK}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-5 right-5 z-40 inline-flex h-14 items-center justify-center rounded-full bg-cyan-300 px-5 text-sm font-semibold text-[#041018] shadow-[0_18px_40px_rgba(0,0,0,0.28)] transition hover:bg-cyan-200"
+        aria-label="Abrir WhatsApp"
+      >
+        WhatsApp
+      </a>
     </main>
   );
 }
