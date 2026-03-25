@@ -1,3 +1,10 @@
+- Fecha/Hora: 2026-03-25 00:00:00 CET
+- Autor: Codex
+- Scope: src/app/page.tsx, src/app/components/AppShell.tsx, src/app/components/MainContent.tsx, src/app/components/HomeContent.tsx, docs/obsidian/03_DECISION_LOG.md, docs/LOGS/CODEX_CHANGES.md
+- Resumen: Se restauró la home buena real de PBIA en la línea actual usando como fuente `feat/pbia-portfolio-next` (`7f058c6` + delta compatible hasta `9e159c6`). La integración se resolvió excluyendo solo `/` del `AppShell`, sin tocar RYS ni reutilizar `LandingLocal` como base visual.
+- Pruebas: `npm run lint` (ok), `npm run build` (ok). Verificación estructural de rutas: `/` y `/RYSminisuper` presentes en build final; middleware de host-routing RYS intacto. `curl` local contra `localhost:3005` no fue confiable en sandbox.
+- Notas/Riesgos: `Header.tsx` y `LandingLocal.tsx` tenían cambios locales previos y se conservaron intactos. La validación visual final en navegador local sigue siendo recomendable antes de deploy.
+
 - Fecha/Hora: 2026-03-24 00:00:00 CET
 - Autor: Codex
 - Scope: docs/obsidian/06_ESTADO_ACTUAL__PBIA_RYS.md, docs/obsidian/00_INDEX.md, docs/obsidian/Memoria Infinita - Launchlab.md, docs/obsidian/03_DECISION_LOG.md, docs/ops/2026-03-23__rys-mini-market-official-deploy.md, docs/LOGS/CODEX_CHANGES.md

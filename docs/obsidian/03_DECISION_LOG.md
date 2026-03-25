@@ -1,5 +1,7 @@
 # 03_DECISION_LOG
 
+- 2026-03-25: La restauración controlada de la home PBIA en `feat/pagina-hermana-live` se hace tomando como fuente real `feat/pbia-portfolio-next`, con base segura `7f058c6` y delta compatible hasta `9e159c6`; no se rehace la home desde cero ni se usa `LandingLocal` como base visual.
+- 2026-03-25: Para integrar la home PBIA restaurada sin multiverso se toma una sola decisión de arquitectura: excluir solo `/` del `AppShell` actual. El resto de rutas PBIA mantienen su shell y RYS no se toca.
 - 2026-03-24: La nota canonica de estado vivo para PBIA + RYS pasa a ser `docs/obsidian/06_ESTADO_ACTUAL__PBIA_RYS.md`; `Memoria Infinita` queda como historia amplia y no como unica fuente del presente.
 - 2026-03-24: `rysminimarket.com` y `www.rysminimarket.com` se consideran la entrada comercial de RYS Mini Market; `poweredbyia.com` sigue siendo el portfolio principal y `poweredbyia.com/RYSminisuper` se mantiene como acceso heredado.
 - 2026-03-24: La capa global PBIA no debe verse en el dominio de RYS; la separacion actual se resuelve con routing por host + ocultacion de shell PBIA para los hosts de tienda, sin rehacer arquitectura.
