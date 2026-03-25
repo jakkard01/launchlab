@@ -11,11 +11,12 @@ export default function AppShell({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const isHome = pathname === "/";
   const isMo =
     pathname?.startsWith("/mo") ||
     pathname?.startsWith("/RYSminisuper");
 
-  if (isMo) {
+  if (isHome || isMo) {
     return <div className="min-h-screen bg-base text-main">{children}</div>;
   }
 
