@@ -13,6 +13,10 @@
 - PBIA se trabaja como experiencia aislada y no debe mezclarse con `feat/pagina-hermana-live`.
 - Base buena de referencia recuperada:
   - commit `7f058c6` `feat(pbia): sharpen home positioning and simplify conversion flow`
+- Regla operativa:
+  - no volver a parchear PBIA desde un estado intermedio degradado
+  - primero restaurar la base buena
+  - después aplicar mejoras mínimas compatibles
 - Problema detectado:
   - la home local había derivado a un estado peor que la base buena
   - se había debilitado la dirección comercial

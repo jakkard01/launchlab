@@ -12,3 +12,4 @@
   - `feat/pagina-hermana-live` en `/home/hagga/work/launchlab__PROD`
 - 2026-03-25: La home correcta de PBIA vuelve a incluir fondo de marca visible, foto en hero, RYS como caso principal y capacidades secundarias subordinadas.
 - 2026-03-25: El CTA de WhatsApp de PBIA debe usar el número real `34911528753` y el cierre debe dejar visible el email `poweredbyiaoficial@gmail.com`.
+- 2026-03-25: Si PBIA cae en un estado intermedio peor, no se debe parchear encima; primero se restaura la base buena `7f058c6` y luego se reaplican solo mejoras compatibles.
