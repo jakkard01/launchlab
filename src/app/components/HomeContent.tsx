@@ -4,6 +4,7 @@ const WHATSAPP_NUMBER = '34911528753';
 const WHATSAPP_LINK =
   `https://wa.me/${WHATSAPP_NUMBER}?text=Hola%20Powered%20by%20IA,%20quiero%20hablar%20sobre%20una%20demo%20o%20soluci%C3%B3n%20para%20mi%20negocio.`;
 const CONTACT_EMAIL = 'poweredbyiaoficial@gmail.com';
+const RYS_LINK = '/RYSminisuper';
 
 const services = [
   {
@@ -24,10 +25,14 @@ const demos = [
   {
     title: 'RYS Mini Market',
     body: 'Caso real donde catálogo, pedido y WhatsApp trabajan dentro del mismo flujo comercial en móvil.',
+    href: RYS_LINK,
+    cta: 'Ver caso real',
   },
   {
     title: 'Bots, automatizaciones y demos guiadas',
     body: 'Recursos secundarios para responder, validar o ordenar mejor el negocio cuando el sistema principal ya está claro.',
+    href: WHATSAPP_LINK,
+    cta: 'Hablar sobre esto',
   },
 ];
 
@@ -55,7 +60,7 @@ const trust = [
 export default function HomeContent() {
   return (
     <main
-      className="pbia-home relative overflow-hidden bg-[#07111a] text-white"
+      className="pbia-home relative isolate overflow-hidden bg-[#07111a] text-white"
       style={{
         backgroundImage:
           'linear-gradient(180deg, rgba(7, 17, 26, 0.32) 0%, rgba(7, 17, 26, 0.52) 28%, rgba(7, 17, 26, 0.78) 100%), url(/imagenes/fondo/tu-fondo.png)',
@@ -66,7 +71,7 @@ export default function HomeContent() {
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.14),transparent_28%),radial-gradient(circle_at_84%_14%,rgba(96,165,250,0.11),transparent_18%),linear-gradient(180deg,rgba(7,17,26,0.03)_0%,rgba(7,17,26,0.12)_40%,rgba(7,17,26,0.26)_100%)]" />
 
-      <header className="sticky top-0 z-30 bg-[linear-gradient(180deg,rgba(7,17,26,0.34),rgba(7,17,26,0.08))] backdrop-blur-[2px]">
+      <header className="sticky top-0 z-30 bg-[linear-gradient(180deg,rgba(7,17,26,0.22),rgba(7,17,26,0.04))] backdrop-blur-[2px]">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
           <a href="#inicio" className="text-sm font-semibold tracking-[0.18em] text-white/88">
             Powered by <span className="text-cyan-300">IA</span>
@@ -90,7 +95,7 @@ export default function HomeContent() {
         </div>
       </header>
 
-      <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-20 px-4 pb-20 pt-10 sm:px-6 sm:pb-28 sm:pt-14">
+      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-20 px-4 pb-20 pt-10 sm:px-6 sm:pb-28 sm:pt-14">
         <section
           id="inicio"
           className="grid gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:items-center"
@@ -218,7 +223,7 @@ export default function HomeContent() {
           </div>
         </section>
 
-        <section id="demos" className="space-y-5">
+        <section id="demos" className="scroll-mt-24 space-y-5">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Demos y casos</p>
@@ -240,16 +245,22 @@ export default function HomeContent() {
           </div>
           <div className="grid gap-4 lg:grid-cols-2">
             {demos.map((demo) => (
-              <article
+              <a
                 key={demo.title}
-                className="rounded-[1.4rem] bg-[linear-gradient(180deg,rgba(8,18,27,0.14),rgba(8,18,27,0.04))] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)] backdrop-blur-[1px]"
+                href={demo.href}
+                target={demo.href.startsWith('http') ? '_blank' : undefined}
+                rel={demo.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                className="group block rounded-[1.4rem] bg-[linear-gradient(180deg,rgba(8,18,27,0.14),rgba(8,18,27,0.04))] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)] backdrop-blur-[1px] transition hover:shadow-[inset_0_0_0_1px_rgba(103,232,249,0.22)]"
               >
                 <p className="text-xs uppercase tracking-[0.24em] text-white/45">
                   {demo.title === 'RYS Mini Market' ? 'Caso real' : 'Capacidades relacionadas'}
                 </p>
                 <h3 className="mt-2 text-lg font-semibold text-white">{demo.title}</h3>
                 <p className="mt-3 text-sm leading-6 text-white/76">{demo.body}</p>
-              </article>
+                <span className="mt-5 inline-flex items-center text-sm font-semibold text-cyan-200 transition group-hover:text-cyan-100">
+                  {demo.cta}
+                </span>
+              </a>
             ))}
           </div>
         </section>
