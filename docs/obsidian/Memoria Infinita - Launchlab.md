@@ -1,5 +1,20 @@
 # Memoria Infinita - Launchlab
 
+## 2026-03-26 — Multiverso de producción PBIA / RYS
+
+- Causa operativa verificada del riesgo de mezcla:
+  - el repo PBIA tenía `.vercel/project.json` trackeado contra `launchlab` (`prj_yQHuv7zkBBhl3bvfuAbnfSJHiyIK`)
+  - el link correcto para PBIA es `launchlabv1` (`prj_fJJEUmsxHUMReDZyu3E2CsEkLayz`)
+  - ambos proyectos recibieron deploys de producción recientes el mismo día
+- `poweredbyia.com` sigue mapeado a `launchlabv1`.
+- El proyecto antiguo `launchlab` no debe volver a usarse como destino de deploy para PBIA.
+- La separación correcta queda así:
+  - `poweredbyia.com` -> `launchlabv1`
+  - `rysminimarket.com` -> proyecto separado de RYS, nunca PBIA
+- Estado de corrección desde este worktree:
+  - se detectó el relink local correcto a `launchlabv1`
+  - no se reasignaron dominios a ciegas porque la API de Vercel estaba fallando por DNS (`EAI_AGAIN`) al inspeccionar dominios
+
 ## 2026-03-26 — Cierre técnico de `npm run lint` standalone
 
 - La causa real del bloqueo en este worktree no era la home: `next lint` estaba entrando en un estado inconsistente por dos motivos de entorno:
