@@ -239,7 +239,7 @@ export default function HomeContent() {
               rel="noopener noreferrer"
               className="inline-flex h-11 items-center justify-center rounded-full border border-cyan-300/22 bg-cyan-300/10 px-5 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/14"
             >
-              Pedir demo guiada
+              Hablar sobre tu caso
             </a>
           </div>
           <div className="grid gap-4 lg:grid-cols-2">
@@ -248,10 +248,10 @@ export default function HomeContent() {
                 key={demo.title}
                 href={demo.href}
                 target={demo.href.startsWith('http') ? '_blank' : undefined}
-              rel={demo.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-              className="group block rounded-[1.4rem] bg-[linear-gradient(180deg,rgba(8,18,27,0.14),rgba(8,18,27,0.04))] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)] backdrop-blur-[1px] transition hover:shadow-[inset_0_0_0_1px_rgba(103,232,249,0.22)]"
-            >
-              <p className="text-xs uppercase tracking-[0.24em] text-white/45">
+                rel={demo.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                className="group block rounded-[1.4rem] bg-[linear-gradient(180deg,rgba(8,18,27,0.14),rgba(8,18,27,0.04))] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)] backdrop-blur-[1px] transition hover:shadow-[inset_0_0_0_1px_rgba(103,232,249,0.22)]"
+              >
+                <p className="text-xs uppercase tracking-[0.24em] text-white/45">
                   {demo.title === 'RYS Minimarket' ? 'Caso real en producción' : 'Capacidades relacionadas'}
                 </p>
                 <h3 className="mt-2 text-lg font-semibold text-white">{demo.title}</h3>
