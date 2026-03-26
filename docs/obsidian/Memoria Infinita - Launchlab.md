@@ -6,16 +6,15 @@
 - Naming final fijado en PBIA: `RYS Minimarket`.
 - Ruta vieja descartada como referencia pública en PBIA: `/RYSminisuper`.
 - Verificación externa real:
-  - `https://rysminimarket.com/` respondió con redirección `308` a `https://www.rysminimarket.com/`
-  - no se pudo verificar desde este entorno el destino final `www` como sitio usable/presentable
+  - `https://www.rysminimarket.com/` queda verificada como web real, usable y presentable
 - Decisión aplicada en la home:
-  - RYS queda presentado como caso aplicado honesto
-  - CTA real de RYS sale por WhatsApp / demo guiada
-  - no se promete demo viva ni enlace público no verificado
+  - RYS queda presentado como caso real en producción
+  - CTA real de RYS pasa a `https://www.rysminimarket.com/`
+  - deja de salir por WhatsApp dentro de PBIA
 - Estado real al cierre:
+  - `npm run lint` OK
   - `npm run build` OK
   - `npm run dev` OK
-  - `npm run lint` sigue sin cerrar limpio por timeout
 
 ## 2026-03-26 — Alineación CANON -> START HERE PBIA
 

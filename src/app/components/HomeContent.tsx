@@ -4,6 +4,7 @@ const WHATSAPP_NUMBER = '34911528753';
 const WHATSAPP_LINK =
   `https://wa.me/${WHATSAPP_NUMBER}?text=Hola%20Powered%20by%20IA,%20quiero%20hablar%20sobre%20una%20demo%20o%20soluci%C3%B3n%20para%20mi%20negocio.`;
 const CONTACT_EMAIL = 'poweredbyiaoficial@gmail.com';
+const RYS_LINK = 'https://www.rysminimarket.com/';
 const services = [
   {
     title: 'Captar mejor',
@@ -22,9 +23,9 @@ const services = [
 const demos = [
   {
     title: 'RYS Minimarket',
-    body: 'Caso aplicado donde catálogo, pedido y WhatsApp se ordenaron como un solo flujo comercial pensado para móvil.',
-    href: WHATSAPP_LINK,
-    cta: 'Pedir demo guiada',
+    body: 'Caso real en producción con catálogo, productos y flujo de pedido que termina por WhatsApp dentro de una web real y usable.',
+    href: RYS_LINK,
+    cta: 'Ver tienda',
   },
   {
     title: 'Bots, automatizaciones y demos guiadas',
@@ -226,10 +227,10 @@ export default function HomeContent() {
             <div>
               <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Demos y casos</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-                RYS como caso aplicado principal. Lo demás, como apoyo para validar rápido.
+                RYS como caso real principal. Lo demás, como apoyo para validar rápido.
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-white/76 sm:text-base">
-                Aquí no prometemos una demo viva si no existe. Mostramos un caso aplicado para enseñar cómo se ordena captación, pedido y WhatsApp en un flujo comercial real, y dejamos las demás capacidades como apoyo.
+                Aquí enseñamos un caso real en producción. RYS Minimarket demuestra cómo catálogo, productos y pedido pueden llevar a WhatsApp dentro de una web pública usable, mientras el resto de capacidades queda como apoyo.
               </p>
             </div>
             <a
@@ -247,11 +248,11 @@ export default function HomeContent() {
                 key={demo.title}
                 href={demo.href}
                 target={demo.href.startsWith('http') ? '_blank' : undefined}
-                rel={demo.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                className="group block rounded-[1.4rem] bg-[linear-gradient(180deg,rgba(8,18,27,0.14),rgba(8,18,27,0.04))] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)] backdrop-blur-[1px] transition hover:shadow-[inset_0_0_0_1px_rgba(103,232,249,0.22)]"
-              >
-                <p className="text-xs uppercase tracking-[0.24em] text-white/45">
-                  {demo.title === 'RYS Minimarket' ? 'Caso aplicado' : 'Capacidades relacionadas'}
+              rel={demo.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+              className="group block rounded-[1.4rem] bg-[linear-gradient(180deg,rgba(8,18,27,0.14),rgba(8,18,27,0.04))] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)] backdrop-blur-[1px] transition hover:shadow-[inset_0_0_0_1px_rgba(103,232,249,0.22)]"
+            >
+              <p className="text-xs uppercase tracking-[0.24em] text-white/45">
+                  {demo.title === 'RYS Minimarket' ? 'Caso real en producción' : 'Capacidades relacionadas'}
                 </p>
                 <h3 className="mt-2 text-lg font-semibold text-white">{demo.title}</h3>
                 <p className="mt-3 text-sm leading-6 text-white/76">{demo.body}</p>
