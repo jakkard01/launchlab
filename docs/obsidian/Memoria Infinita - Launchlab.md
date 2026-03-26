@@ -1,5 +1,22 @@
 # Memoria Infinita - Launchlab
 
+## 2026-03-26 — Cierre técnico de `npm run lint` standalone
+
+- La causa real del bloqueo en este worktree no era la home: `next lint` estaba entrando en un estado inconsistente por dos motivos de entorno:
+  - no había `eslint` ni `eslint-config-next` instalados localmente
+  - al añadirlos en versión latest apareció un conflicto extra: `next@14.2.30` no era compatible con `eslint@9`/`eslint-config-next@16`, y además ESLint estaba heredando la config del repo padre
+- Cierre técnico aplicado:
+  - `eslint@8.57.0`
+  - `eslint-config-next@14.2.30`
+  - `.eslintrc.json` local con `extends: ["next/core-web-vitals"]`
+  - `.eslintrc.json` marcado con `"root": true` para cortar la herencia del repo padre
+- Verificación cerrada:
+  - primer `npm run lint` OK
+  - segundo `npm run lint` OK
+  - `npm run build` OK
+- Estado final:
+  - el worktree PBIA queda técnicamente listo para deploy final
+
 ## 2026-03-26 — Sincronización final PBIA / RYS
 
 - La referencia local buena de PBIA manda sobre la home pública vieja de `poweredbyia.com`, que todavía mostraba estructura anterior, naming viejo de RYS y bloques ya descartados.
