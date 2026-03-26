@@ -4,8 +4,6 @@ const WHATSAPP_NUMBER = '34911528753';
 const WHATSAPP_LINK =
   `https://wa.me/${WHATSAPP_NUMBER}?text=Hola%20Powered%20by%20IA,%20quiero%20hablar%20sobre%20una%20demo%20o%20soluci%C3%B3n%20para%20mi%20negocio.`;
 const CONTACT_EMAIL = 'poweredbyiaoficial@gmail.com';
-const RYS_LINK = '/RYSminisuper';
-
 const services = [
   {
     title: 'Captar mejor',
@@ -24,9 +22,9 @@ const services = [
 const demos = [
   {
     title: 'RYS Mini Market',
-    body: 'Caso real donde catálogo, pedido y WhatsApp trabajan dentro del mismo flujo comercial en móvil.',
-    href: RYS_LINK,
-    cta: 'Ver caso real',
+    body: 'Caso aplicado donde catálogo, pedido y WhatsApp se ordenaron como un solo flujo comercial pensado para móvil.',
+    href: WHATSAPP_LINK,
+    cta: 'Pedir demo guiada',
   },
   {
     title: 'Bots, automatizaciones y demos guiadas',
@@ -228,10 +226,10 @@ export default function HomeContent() {
             <div>
               <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Demos y casos</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-                RYS como caso real principal. Lo demás, como apoyo para validar rápido.
+                RYS como caso aplicado principal. Lo demás, como apoyo para validar rápido.
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-white/76 sm:text-base">
-                Aquí no enseñamos juguetes. Mostramos un caso real y dejamos visibles las capacidades secundarias para validar mensaje, respuesta o automatización cuando hace falta.
+                Aquí no prometemos una demo viva si no existe. Mostramos un caso aplicado para enseñar cómo se ordena captación, pedido y WhatsApp en un flujo comercial real, y dejamos las demás capacidades como apoyo.
               </p>
             </div>
             <a
@@ -240,7 +238,7 @@ export default function HomeContent() {
               rel="noopener noreferrer"
               className="inline-flex h-11 items-center justify-center rounded-full border border-cyan-300/22 bg-cyan-300/10 px-5 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/14"
             >
-              Pedir una demo
+              Pedir demo guiada
             </a>
           </div>
           <div className="grid gap-4 lg:grid-cols-2">
@@ -253,7 +251,7 @@ export default function HomeContent() {
                 className="group block rounded-[1.4rem] bg-[linear-gradient(180deg,rgba(8,18,27,0.14),rgba(8,18,27,0.04))] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)] backdrop-blur-[1px] transition hover:shadow-[inset_0_0_0_1px_rgba(103,232,249,0.22)]"
               >
                 <p className="text-xs uppercase tracking-[0.24em] text-white/45">
-                  {demo.title === 'RYS Mini Market' ? 'Caso real' : 'Capacidades relacionadas'}
+                  {demo.title === 'RYS Mini Market' ? 'Caso aplicado' : 'Capacidades relacionadas'}
                 </p>
                 <h3 className="mt-2 text-lg font-semibold text-white">{demo.title}</h3>
                 <p className="mt-3 text-sm leading-6 text-white/76">{demo.body}</p>
