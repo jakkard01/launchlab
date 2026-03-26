@@ -1,5 +1,19 @@
 # Memoria Infinita - Launchlab
 
+## 2026-03-26 — Alineación CANON -> START HERE PBIA
+
+- El CANON del Vault queda alineado como navegación maestra de alto nivel, no como manual operativo duplicado.
+- `02_Documentacion/_CANON/00_START_HERE.md` pasa a derivar a PBIA cuando la tarea corresponde a Powered by IA.
+- `RAMA_ACTIVA.md` y `ESTADO_ACTUAL.md` del CANON quedan actualizados a:
+  - worktree `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next`
+  - rama `feat/pbia-portfolio-next`
+- El detalle operativo sigue viviendo exclusivamente en `docs/ops/00_START_HERE__PBIA.md`.
+- Criterio fijado:
+  - CANON = índice maestro
+  - START HERE PBIA = operación concreta
+  - no mezclar PBIA con `feat/pagina-hermana-live`
+  - no reutilizar PBIA para `n8n` o `IA local`
+
 ## 2026-03-26 — Higiene de arranque y separación de contexto
 
 - `00_START_HERE.md` deja de ser un arranque PBIA hardcodeado y pasa a ser índice maestro corto.
