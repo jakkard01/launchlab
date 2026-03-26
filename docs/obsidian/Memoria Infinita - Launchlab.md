@@ -15,6 +15,23 @@
   - se detectó el relink local correcto a `launchlabv1`
   - no se reasignaron dominios a ciegas porque la API de Vercel estaba fallando por DNS (`EAI_AGAIN`) al inspeccionar dominios
 
+## 2026-03-27 — Cierre final del incidente PBIA / RYS
+
+- Cierre operativo verificado por API de Vercel:
+  - `launchlabv1` (`prj_fJJEUmsxHUMReDZyu3E2CsEkLayz`) ya no tiene `rysminimarket.com` ni `www.rysminimarket.com` en su lista de dominios
+  - `launchlab` (`prj_yQHuv7zkBBhl3bvfuAbnfSJHiyIK`) ya tiene registrados a nivel de proyecto:
+    - `www.rysminimarket.com`
+    - `rysminimarket.com` con redirect `308` a `www.rysminimarket.com`
+- Cierre funcional verificado por HTTP:
+  - `https://www.poweredbyia.com/` sigue sirviendo PBIA
+  - `https://www.rysminimarket.com/` vuelve a servir la tienda RYS
+  - `https://rysminimarket.com/` redirige a `https://www.rysminimarket.com/`
+- Nota operativa:
+  - `vercel domains inspect rysminimarket.com` siguió mostrando un estado desfasado durante parte del cierre
+  - la comprobación autoritativa final fue la API por proyecto + la verificación HTTP real
+- Regla fija:
+  - PBIA y RYS no comparten dominio ni proyecto productivo
+
 ## 2026-03-26 — Cierre técnico de `npm run lint` standalone
 
 - La causa real del bloqueo en este worktree no era la home: `next lint` estaba entrando en un estado inconsistente por dos motivos de entorno:

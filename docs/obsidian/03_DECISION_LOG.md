@@ -1,6 +1,7 @@
 # 03_DECISION_LOG
 
 - 2026-03-26: PBIA no debe volver a desplegarse contra el proyecto Vercel `launchlab` (`prj_yQHuv7zkBBhl3bvfuAbnfSJHiyIK`); el destino correcto de PBIA es `launchlabv1` (`prj_fJJEUmsxHUMReDZyu3E2CsEkLayz`).
+- 2026-03-27: El cierre correcto del incidente PBIA / RYS deja `poweredbyia.com` solo en `launchlabv1` y `rysminimarket.com` solo en `launchlab`; la comprobación autoritativa se hace por API de dominios por proyecto y por verificación HTTP, no solo por `vercel domains inspect`.
 - 2026-03-26: El cierre correcto de `npm run lint` standalone en PBIA requiere `eslint@8.57.0`, `eslint-config-next@14.2.30` y una `.eslintrc.json` local con `"root": true`; no debe volver a heredarse la config del repo padre en este worktree.
 - 2026-03-26: RYS dentro de PBIA queda fijado como caso real en producción bajo el naming `RYS Minimarket`, con CTA público a `https://www.rysminimarket.com/`; no debe volver a presentarse como `MiniSuper`, `/RYSminisuper` ni como demo guiada por WhatsApp.
 - 2026-03-26: Vídeos, avatares, HeyGen y CapCut quedan fuera del eje principal de la home PBIA en esta fase; no deben reabrirse como oferta protagonista sin una decisión nueva explícita.
