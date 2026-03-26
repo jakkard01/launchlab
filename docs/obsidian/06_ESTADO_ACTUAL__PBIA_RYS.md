@@ -1,5 +1,7 @@
 # 06_ESTADO_ACTUAL__PBIA_RYS
 
+- Nota: nombre legacy conservado por continuidad. El arranque operativo actual se hace desde `00_START_HERE.md` y `docs/ops/00_START_HERE__PBIA.md`.
+
 ## Estado actual en esta rama
 
 ### Powered by IA
@@ -8,6 +10,7 @@
 - Worktree: `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next`
 - Ruta correcta para abrir Codex y trabajar PBIA:
   - `cd /mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next`
+  - usar `docs/ops/00_START_HERE__PBIA.md`
 - Render real de la home:
   - `src/app/page.tsx`
   - `src/app/components/MainContent.tsx`
@@ -56,7 +59,7 @@
   - lista para deploy desde esta línea PBIA
 - Qué no se tocó:
   - RYS Mini Market fuera de su experiencia propia
-  - worktree `feat/pagina-hermana-live`
+  - `feat/pagina-hermana-live` como contexto separado de PBIA
   - `next-env.d.ts` tratado como ruido de entorno salvo necesidad estricta
 
 ### RYS Mini Market

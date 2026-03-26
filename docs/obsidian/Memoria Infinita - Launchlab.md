@@ -1,5 +1,17 @@
 # Memoria Infinita - Launchlab
 
+## 2026-03-26 — Higiene de arranque y separación de contexto
+
+- `00_START_HERE.md` deja de ser un arranque PBIA hardcodeado y pasa a ser índice maestro corto.
+- El arranque operativo real de PBIA queda fijado en `docs/ops/00_START_HERE__PBIA.md`.
+- PBIA sigue consolidado en `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next` sobre la rama `feat/pbia-portfolio-next`.
+- Se crean placeholders explícitos para `n8n` e `IA local` sin inventar rutas no verificadas.
+- Criterio fijado:
+  - no abrir PBIA desde el repo padre
+  - no mezclar PBIA con `feat/pagina-hermana-live`
+  - no reutilizar el contexto PBIA como contexto de n8n o IA local
+  - si una ruta no está verificada, se deja como placeholder y no se asume
+
 ## 2026-03-25 — PBIA home: simplificación visual final sin rehacer la estructura
 
 ### Problema visual identificado

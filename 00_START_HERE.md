@@ -1,52 +1,27 @@
-# 00_START_HERE — PBIA
+# 00_START_HERE
 
-## Ruta correcta
+Indice maestro de arranque. No usar este archivo como contexto de trabajo final: deriva al contexto correcto.
 
-```bash
-cd /mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next
-```
+## PBIA
 
-## Rama esperada
+- Usar: `docs/ops/00_START_HERE__PBIA.md`
+- Dominio: home y operación de Powered by IA
+- Estado: verificado
 
-```bash
-git branch --show-current
-# esperado: feat/pbia-portfolio-next
-```
+## n8n
+
+- Usar: `docs/ops/00_START_HERE__N8N.md`
+- Dominio: automatizaciones y flujos n8n
+- Estado: placeholder, sin ruta operativa verificada en este worktree
+
+## IA local
+
+- Usar: `docs/ops/00_START_HERE__IA_LOCAL.md`
+- Dominio: modelos locales, tooling y entorno IA local
+- Estado: placeholder, sin ruta operativa verificada en este worktree
 
 ## Regla operativa
 
-- Esta es la ruta correcta para abrir Codex y trabajar PBIA.
-- No trabajar PBIA desde el repo padre.
-- No trabajar PBIA desde `feat/pagina-hermana-live`.
-- Antes de tocar nada, confirmar worktree y rama reales.
-
-## Check mínimo obligatorio
-
-```bash
-pwd
-git branch --show-current
-git worktree list --porcelain | sed -n '1,40p'
-```
-
-## Fuente real de la home
-
-- `src/app/page.tsx`
-- `src/app/components/MainContent.tsx`
-- `src/app/components/HomeContent.tsx`
-
-## Cierre técnico vigente
-
-- Este worktree debe tener dependencias locales propias.
-- `next` validado localmente: `14.2.30`
-- `dev` usa `.next-dev`
-- `build` usa `.next`
-- `.next-dev` está ignorado en Git
-
-## Validación base antes de deploy
-
-```bash
-npm run lint
-npm run build
-npm run build
-npm run dev
-```
+- Elegir primero el dominio correcto.
+- Verificar `pwd` y rama antes de tocar nada.
+- No mezclar PBIA con otros contextos.

@@ -1,5 +1,7 @@
 # 03_DECISION_LOG
 
+- 2026-03-26: `00_START_HERE.md` queda redefinido como índice maestro corto; el arranque específico de PBIA vive en `docs/ops/00_START_HERE__PBIA.md`.
+- 2026-03-26: Se dejan placeholders explícitos para `n8n` e `IA local` en `docs/ops/00_START_HERE__N8N.md` y `docs/ops/00_START_HERE__IA_LOCAL.md` sin asumir rutas no verificadas.
 - 2026-03-26: PBIA se trabaja exclusivamente desde `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next` en la rama `feat/pbia-portfolio-next`; no debe reabrirse trabajo PBIA desde el repo padre ni desde `feat/pagina-hermana-live`.
 - 2026-03-26: La home PBIA se considera resuelta operativamente en `src/app/page.tsx`, `src/app/components/MainContent.tsx` y `src/app/components/HomeContent.tsx`.
 - 2026-03-26: La inestabilidad de build en `/` no venía de la home sino del entorno del worktree: dependencias heredadas (`next@13.4.0` del repo padre) y artefactos compartidos entre `dev` y `build`.
@@ -13,7 +15,6 @@
 - 2026-03-25: El último estado bueno real de la home PBIA en esta rama se fija en el commit `7f058c6`; cualquier recuperación debe partir de ahí y no de `feat/pagina-hermana-live`.
 - 2026-03-25: La separación operativa correcta queda así:
   - `feat/pbia-portfolio-next` en `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next`
-  - `feat/pagina-hermana-live` en `/home/hagga/work/launchlab__PROD`
 - 2026-03-25: La home correcta de PBIA vuelve a incluir fondo de marca visible, foto en hero, RYS como caso principal y capacidades secundarias subordinadas.
 - 2026-03-25: El CTA de WhatsApp de PBIA debe usar el número real `34911528753` y el cierre debe dejar visible el email `poweredbyiaoficial@gmail.com`.
 - 2026-03-25: Si PBIA cae en un estado intermedio peor, no se debe parchear encima; primero se restaura la base buena `7f058c6` y luego se reaplican solo mejoras compatibles.

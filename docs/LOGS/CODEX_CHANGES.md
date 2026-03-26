@@ -2,6 +2,13 @@
 
 - Fecha/Hora: 2026-03-26 00:00:00 CET
 - Autor: Codex
+- Scope: `00_START_HERE.md`, `docs/ops/00_START_HERE__PBIA.md`, `docs/ops/00_START_HERE__N8N.md`, `docs/ops/00_START_HERE__IA_LOCAL.md`, `docs/obsidian/Memoria Infinita - Launchlab.md`, `docs/obsidian/03_DECISION_LOG.md`, `docs/obsidian/06_ESTADO_ACTUAL__PBIA_RYS.md`
+- Resumen: Se reorganizó el arranque documental para separar dominio maestro, PBIA y futuros contextos de `n8n` e `IA local`. Se eliminaron referencias innecesarias que mezclaban worktrees y se dejó explícito que solo PBIA tiene ruta verificada en este worktree.
+- Pruebas: Verificación manual de rutas y archivos referenciados dentro del worktree PBIA.
+- Notas/Riesgos: `n8n` e `IA local` quedan como placeholders hasta que exista ruta operativa real verificada.
+
+- Fecha/Hora: 2026-03-26 00:00:00 CET
+- Autor: Codex
 - Scope: `next.config.js`, `.gitignore`, `tsconfig.json`, `00_START_HERE.md`, `docs/obsidian/Memoria Infinita - Launchlab.md`, `docs/obsidian/03_DECISION_LOG.md`, `docs/obsidian/06_ESTADO_ACTUAL__PBIA_RYS.md`, `docs/LOGS/CODEX_CHANGES.md`
 - Resumen: Se cerró el contexto operativo de PBIA en su worktree real. Se fijó la ruta correcta de arranque, se documentó la fuente real de la home, se explicó la causa del bloqueo técnico de `/` y se dejó estable el aislamiento de artefactos (`dev -> .next-dev`, `build -> .next`) con validación repetida de lint/build/dev.
 - Pruebas: `npm run lint` OK, primer `npm run build` OK, segundo `npm run build` OK, `npm run dev` OK.
