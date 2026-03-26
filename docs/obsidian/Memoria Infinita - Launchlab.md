@@ -1,5 +1,22 @@
 # Memoria Infinita - Launchlab
 
+## 2026-03-26 — Sincronización final PBIA / RYS
+
+- La referencia local buena de PBIA manda sobre la home pública vieja de `poweredbyia.com`, que todavía mostraba estructura anterior, naming viejo de RYS y bloques ya descartados.
+- Naming final fijado en PBIA: `RYS Minimarket`.
+- Ruta vieja descartada como referencia pública en PBIA: `/RYSminisuper`.
+- Verificación externa real:
+  - `https://rysminimarket.com/` respondió con redirección `308` a `https://www.rysminimarket.com/`
+  - no se pudo verificar desde este entorno el destino final `www` como sitio usable/presentable
+- Decisión aplicada en la home:
+  - RYS queda presentado como caso aplicado honesto
+  - CTA real de RYS sale por WhatsApp / demo guiada
+  - no se promete demo viva ni enlace público no verificado
+- Estado real al cierre:
+  - `npm run build` OK
+  - `npm run dev` OK
+  - `npm run lint` sigue sin cerrar limpio por timeout
+
 ## 2026-03-26 — Alineación CANON -> START HERE PBIA
 
 - El CANON del Vault queda alineado como navegación maestra de alto nivel, no como manual operativo duplicado.

@@ -21,7 +21,7 @@ const services = [
 
 const demos = [
   {
-    title: 'RYS Mini Market',
+    title: 'RYS Minimarket',
     body: 'Caso aplicado donde catálogo, pedido y WhatsApp se ordenaron como un solo flujo comercial pensado para móvil.',
     href: WHATSAPP_LINK,
     cta: 'Pedir demo guiada',
@@ -251,7 +251,7 @@ export default function HomeContent() {
                 className="group block rounded-[1.4rem] bg-[linear-gradient(180deg,rgba(8,18,27,0.14),rgba(8,18,27,0.04))] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)] backdrop-blur-[1px] transition hover:shadow-[inset_0_0_0_1px_rgba(103,232,249,0.22)]"
               >
                 <p className="text-xs uppercase tracking-[0.24em] text-white/45">
-                  {demo.title === 'RYS Mini Market' ? 'Caso aplicado' : 'Capacidades relacionadas'}
+                  {demo.title === 'RYS Minimarket' ? 'Caso aplicado' : 'Capacidades relacionadas'}
                 </p>
                 <h3 className="mt-2 text-lg font-semibold text-white">{demo.title}</h3>
                 <p className="mt-3 text-sm leading-6 text-white/76">{demo.body}</p>
