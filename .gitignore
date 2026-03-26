@@ -152,3 +152,5 @@ PID=*
 
 # local scratch
 tmp_runs/
+.vercel
+.env*.local
