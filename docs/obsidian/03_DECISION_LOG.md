@@ -1,5 +1,7 @@
 # 03_DECISION_LOG
 
+- 2026-03-26: RYS dentro de PBIA queda fijado como caso real en producción bajo el naming `RYS Minimarket`, con CTA público a `https://www.rysminimarket.com/`; no debe volver a presentarse como `MiniSuper`, `/RYSminisuper` ni como demo guiada por WhatsApp.
+- 2026-03-26: Vídeos, avatares, HeyGen y CapCut quedan fuera del eje principal de la home PBIA en esta fase; no deben reabrirse como oferta protagonista sin una decisión nueva explícita.
 - 2026-03-26: `00_START_HERE.md` queda redefinido como índice maestro corto; el arranque específico de PBIA vive en `docs/ops/00_START_HERE__PBIA.md`.
 - 2026-03-26: Se dejan placeholders explícitos para `n8n` e `IA local` en `docs/ops/00_START_HERE__N8N.md` y `docs/ops/00_START_HERE__IA_LOCAL.md` sin asumir rutas no verificadas.
 - 2026-03-26: PBIA se trabaja exclusivamente desde `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next` en la rama `feat/pbia-portfolio-next`; no debe reabrirse trabajo PBIA desde el repo padre ni desde `feat/pagina-hermana-live`.

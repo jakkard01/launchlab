@@ -11,10 +11,13 @@
   - RYS queda presentado como caso real en producción
   - CTA real de RYS pasa a `https://www.rysminimarket.com/`
   - deja de salir por WhatsApp dentro de PBIA
+- Foco fijado en la home principal:
+  - PBIA sigue vendiendo sistemas comerciales con IA para captar, responder y convertir mejor
+  - vídeos, avatares, HeyGen y CapCut quedan fuera del eje principal en esta fase
 - Estado real al cierre:
-  - `npm run lint` OK
   - `npm run build` OK
   - `npm run dev` OK
+  - `npm run lint` sigue sin devolver cierre estable en standalone en este entorno, aunque `next build` completa su fase de lint/types
 
 ## 2026-03-26 — Alineación CANON -> START HERE PBIA
 
