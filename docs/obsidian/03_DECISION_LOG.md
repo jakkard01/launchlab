@@ -1,5 +1,9 @@
 # 03_DECISION_LOG
 
+- 2026-03-26: PBIA se trabaja exclusivamente desde `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next` en la rama `feat/pbia-portfolio-next`; no debe reabrirse trabajo PBIA desde el repo padre ni desde `feat/pagina-hermana-live`.
+- 2026-03-26: La home PBIA se considera resuelta operativamente en `src/app/page.tsx`, `src/app/components/MainContent.tsx` y `src/app/components/HomeContent.tsx`.
+- 2026-03-26: La inestabilidad de build en `/` no venía de la home sino del entorno del worktree: dependencias heredadas (`next@13.4.0` del repo padre) y artefactos compartidos entre `dev` y `build`.
+- 2026-03-26: Cierre técnico fijo para PBIA: `npm ci` local en el worktree, `next` validado en `14.2.30`, `dev -> .next-dev`, `build -> .next`.
 - 2026-03-24: La home de Powered by IA deja de posicionarse como mezcla de servicios sueltos y pasa a vender sistemas comerciales con foco en captación, seguimiento y conversión.
 - 2026-03-24: La CTA principal de PBIA queda en `Hablar por WhatsApp` y la secundaria en `Ver demos`; el resto de acciones no debe competir con esas dos.
 - 2026-03-24: La línea de formación/cursos, FAQ floja, bloques vacíos o piezas tipo `Cargando demo...` no deben liderar la home principal de PBIA.

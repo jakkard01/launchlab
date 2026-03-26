@@ -1,5 +1,64 @@
 # Memoria Infinita - Launchlab
 
+## 2026-03-25 — PBIA home: simplificación visual final sin rehacer la estructura
+
+### Problema visual identificado
+
+- La home seguía demasiado encajonada por cajas dentro de cajas.
+- El fondo de marca había quedado enterrado por superficies opacas y bordes compitiendo.
+- La parte superior perdió integración con el fondo por exceso de wrapper y opacidad.
+- El bloque de foto se estaba percibiendo como otro módulo más, no como ancla visual.
+
+### Decisión aplicada
+
+- Se corrigió la home simplificando wrappers, bordes y superficies pesadas, sin rehacer su estructura ni abrir otra dirección visual.
+- Se restauró respiración del fondo bajando opacidades, soltando el hero y devolviendo transparencia al tramo superior.
+- Se mantiene el criterio ya fijado: `/` corre fuera del `AppShell` para que la home PBIA viva standalone sin contaminar el resto.
+
+### Ramas y worktrees
+
+- PBIA queda consolidado en `feat/pbia-portfolio-next`.
+- La separación respecto de `feat/pagina-hermana-live` queda resuelta y no debe reabrirse para cambios de home PBIA.
+- La restauración previa partió de la línea buena real de PBIA y esta pasada continúa sobre esa misma rama/worktree.
+
+### Fuente real de la home
+
+- `src/app/page.tsx`
+- `src/app/components/MainContent.tsx`
+- `src/app/components/HomeContent.tsx`
+
+### Criterio fijado para no repetir el problema
+
+- No volver a encajonar la home con cajas sobre cajas.
+- No volver a matar el fondo con superficies pesadas o demasiados bordes.
+- No volver a mezclar la home PBIA con implementaciones degradadas o ramas ajenas a PBIA.
+
+### Estado de validación y deploy
+
+- El problema visual final quedó acotado a tres puntos: fondo todavía demasiado tapado, legibilidad irregular sobre brillos del fondo y FAB móvil demasiado presente.
+- La pasada final abrió más el fondo, bajó peso de overlays/superficies, añadió oscuridad local detrás del texto donde hacía falta y retiró el FAB de móvil para no competir con la lectura.
+- Criterio fijado: el fondo debe seguir visible, pero la lectura manda siempre sobre cualquier brillo o transparencia.
+- La causa real de la inestabilidad de `/` no estaba en la home ni en `AppShell`: este worktree no tenía `node_modules` propios y estaba heredando `next@13.4.0` del repo padre a través del `PATH`, pese a declarar `next@^14` en `package.json`.
+- Además, `dev` y `build` compartían el mismo `.next`, lo que dejaba artefactos inconsistentes y errores de compilación intermitentes al prerenderizar `/`.
+- Cierre técnico aplicado:
+  - `npm ci` local dentro de `feat/pbia-portfolio-next`
+  - `next` del worktree validado en `14.2.30`
+  - `next.config.js` nuevo para separar artefactos: `dev -> .next-dev`, `build -> .next`
+  - `tsconfig.json` actualizado por Next para incluir `.next-dev/types/**/*.ts`
+  - `.next-dev` agregado a `.gitignore`
+- Procedimiento limpio y repetible fijado:
+  - correr desde `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next`
+  - mantener dependencias locales del worktree
+  - limpiar `.next` y `.next-dev` si se quiere partir de cero
+  - no correr builds concurrentes en el mismo worktree
+- Verificación cerrada:
+  - `npm run lint` OK
+  - primer `npm run build` limpio OK
+  - segundo `npm run build` consecutivo OK
+  - `npm run dev` OK
+- Ramas y worktrees siguen consolidados: PBIA vive en `feat/pbia-portfolio-next` y no debe volver a mezclarse con `feat/pagina-hermana-live`.
+- Estado final antes de deploy: la home queda visualmente aceptable para esta fase y el build de `/` queda estable en este worktree.
+
 ## 2026-03-24 — PBIA home: posicionamiento más claro + deploy exitoso
 
 ### Estado real de Powered by IA

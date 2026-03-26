@@ -1,5 +1,12 @@
 # CODEX_CHANGES
 
+- Fecha/Hora: 2026-03-26 00:00:00 CET
+- Autor: Codex
+- Scope: `next.config.js`, `.gitignore`, `tsconfig.json`, `00_START_HERE.md`, `docs/obsidian/Memoria Infinita - Launchlab.md`, `docs/obsidian/03_DECISION_LOG.md`, `docs/obsidian/06_ESTADO_ACTUAL__PBIA_RYS.md`, `docs/LOGS/CODEX_CHANGES.md`
+- Resumen: Se cerró el contexto operativo de PBIA en su worktree real. Se fijó la ruta correcta de arranque, se documentó la fuente real de la home, se explicó la causa del bloqueo técnico de `/` y se dejó estable el aislamiento de artefactos (`dev -> .next-dev`, `build -> .next`) con validación repetida de lint/build/dev.
+- Pruebas: `npm run lint` OK, primer `npm run build` OK, segundo `npm run build` OK, `npm run dev` OK.
+- Notas/Riesgos: No volver a trabajar PBIA desde el repo padre ni desde `feat/pagina-hermana-live`.
+
 - Fecha/Hora: 2026-03-24 03:22:23 CET
 - Autor: Codex
 - Scope: `src/app/layout.tsx`, `src/app/page.tsx`, `src/app/components/HomeContent.tsx`, `src/app/components/MainContent.tsx`, `src/app/components/ProfileModal.tsx`, `src/app/components/Sidebar.tsx`, `src/app/components/HamburgerMenu.tsx`, `src/app/globals.css`, `docs/obsidian/*`, `docs/ops/2026-03-24__pbia-home-positioning-and-deploy.md`

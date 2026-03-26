@@ -6,6 +6,8 @@
 
 - Rama: `feat/pbia-portfolio-next`
 - Worktree: `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next`
+- Ruta correcta para abrir Codex y trabajar PBIA:
+  - `cd /mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next`
 - Render real de la home:
   - `src/app/page.tsx`
   - `src/app/components/MainContent.tsx`
@@ -36,6 +38,22 @@
   - `Hablar por WhatsApp`
 - CTA secundaria:
   - `Ver demos`
+- Cierre técnico del worktree:
+  - `npm ci` local ejecutado dentro de este worktree
+  - `next` local validado en `14.2.30`
+  - `dev` usa `.next-dev`
+  - `build` usa `.next`
+  - `.next-dev` queda ignorado en Git
+- Validación cerrada:
+  - `npm run lint` OK
+  - primer `npm run build` OK
+  - segundo `npm run build` OK
+  - `npm run dev` OK
+  - `/` estable en build dentro de esta línea PBIA
+- Estado actual:
+  - home afinada para captación
+  - build estable
+  - lista para deploy desde esta línea PBIA
 - Qué no se tocó:
   - RYS Mini Market fuera de su experiencia propia
   - worktree `feat/pagina-hermana-live`
