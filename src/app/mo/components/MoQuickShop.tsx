@@ -27,18 +27,18 @@ type MoQuickShopProps = {
 };
 
 const CATEGORY_HINT_BY_ID = {
-  bebidas: "Frías y listas",
+  bebidas: "Listas para llevar",
   "snacks-golosinas": "Boquitas y dulces",
-  "panaderia-reposteria": "Pan del día",
-  "cereales-desayuno": "Desayuno fácil",
-  "cafe-instantaneas": "Café al toque",
-  "lacteos-refrigerados": "Leche y queso",
-  abarrotes: "Lo básico",
-  "higiene-personal": "Uso diario",
+  "panaderia-reposteria": "Pan y repostería",
+  "cereales-desayuno": "Desayuno rápido",
+  "cafe-instantaneas": "Café y sopas",
+  "lacteos-refrigerados": "Frío del día",
+  abarrotes: "Despensa básica",
+  "higiene-personal": "Cuidado diario",
   "limpieza-hogar": "Casa al día",
-  "frutas-verduras": "Fresco y rápido",
+  "frutas-verduras": "Fresco al momento",
   calientitos: "Próximamente",
-  econocombos: "Rinde mejor",
+  econocombos: "Compra resuelta",
 } as const;
 
 const productGridClass = "grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3";
@@ -117,62 +117,88 @@ export default function MoQuickShop({
               key={aisle.id}
               type="button"
               onClick={() => onJumpToTab(aisle.id)}
-              className={`min-h-[88px] flex items-start justify-between gap-2.5 rounded-2xl border px-3 py-3 text-left text-[12px] font-medium tracking-[0.08em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/30 active:translate-y-[1px] ${
+              className={`group relative overflow-hidden rounded-[1.4rem] border text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/30 active:translate-y-[1px] ${
                 isActive
-                  ? "border-[var(--accent)]/50 bg-[color-mix(in_srgb,var(--accent)_10%,transparent)] text-main shadow-[0_0_0_1px_rgba(34,197,94,0.08)]"
+                  ? "border-[var(--accent)]/45 bg-[color-mix(in_srgb,var(--accent)_10%,var(--surface))] text-main shadow-[0_0_0_1px_rgba(34,197,94,0.1)]"
                   : "border-default bg-surface text-main hover:border-[var(--accent)]/25 hover:bg-base"
               }`}
             >
-              <span className="flex flex-col gap-1">
-                <span className="text-[13px] font-semibold tracking-[0.06em]">
-                  {getMoCategoryShortLabel(aisle.id)}
-                </span>
-                <span className="text-[10px] uppercase tracking-[0.2em] text-muted">
-                  {hint}
-                </span>
-              </span>
-              <span
-                className={`flex h-10 w-10 items-center justify-center rounded-xl border bg-[color-mix(in_srgb,var(--surface)_92%,transparent)] shadow-sm dark:bg-[color-mix(in_srgb,var(--surface)_75%,transparent)] ${
-                  isActive
-                    ? "border-[var(--accent)]/35 bg-[color-mix(in_srgb,var(--accent)_12%,transparent)]"
-                    : "border-[var(--border)]/60"
-                }`}
-              >
+              <div className="relative aspect-[1.18/1] w-full overflow-hidden bg-[color-mix(in_srgb,var(--surface-3)_88%,transparent)]">
                 <Image
                   src={iconSrc}
                   alt=""
                   aria-hidden="true"
-                  width={30}
-                  height={30}
-                  className="h-[30px] w-[30px] rounded-lg object-cover"
+                  fill
+                  sizes="(max-width: 640px) 44vw, 220px"
+                  className="object-cover object-center transition duration-300 group-hover:scale-[1.03]"
                 />
-              </span>
+                <div
+                  className={`pointer-events-none absolute inset-0 ${
+                    isActive
+                      ? "bg-[linear-gradient(180deg,rgba(7,17,26,0.02)_0%,rgba(7,17,26,0.08)_45%,rgba(7,17,26,0.2)_100%)]"
+                      : "bg-[linear-gradient(180deg,rgba(7,17,26,0.02)_0%,rgba(7,17,26,0.06)_42%,rgba(7,17,26,0.16)_100%)]"
+                  }`}
+                />
+                <span
+                  className={`absolute right-2.5 top-2.5 rounded-full px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.22em] ${
+                    isActive
+                      ? "bg-[color-mix(in_srgb,var(--accent)_18%,white)] text-main shadow-sm"
+                      : "bg-[rgba(255,255,255,0.86)] text-muted-strong shadow-sm"
+                  }`}
+                >
+                  {isActive ? "Abierta" : "Entrar"}
+                </span>
+              </div>
+              <div className="flex min-h-[86px] flex-col justify-between gap-2 px-3.5 py-3">
+                <div className="space-y-1">
+                  <span className="block text-[14px] font-semibold leading-snug tracking-[0.02em] text-main">
+                    {getMoCategoryShortLabel(aisle.id)}
+                  </span>
+                  <span className="block text-[11px] leading-4 text-muted-strong">
+                    {hint}
+                  </span>
+                </div>
+                <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[var(--accent)]">
+                  Ver categoría
+                </span>
+              </div>
             </button>
           );
         })}
         <button
           type="button"
           onClick={onScrollToSpecial}
-          className="min-h-[88px] flex items-start justify-between gap-2.5 rounded-2xl border border-[var(--accent)]/30 bg-surface px-3 py-3 text-left text-[12px] font-medium tracking-[0.08em] text-main transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/30 active:translate-y-[1px] hover:border-[var(--accent)]/35 hover:bg-base"
+          className="group relative overflow-hidden rounded-[1.4rem] border border-[var(--accent)]/30 bg-[linear-gradient(160deg,color-mix(in_srgb,var(--accent)_14%,var(--surface)),color-mix(in_srgb,var(--surface)_92%,transparent))] text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/30 active:translate-y-[1px] hover:border-[var(--accent)]/4"
         >
-          <span className="flex flex-col gap-1">
-            <span className="text-[13px] font-semibold tracking-[0.06em]">
-              Pedido especial
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_88%_14%,color-mix(in_srgb,var(--accent)_18%,transparent),transparent_36%),linear-gradient(180deg,transparent,rgba(7,17,26,0.04))]" />
+          <div className="relative flex min-h-[184px] flex-col justify-between px-3.5 py-3.5">
+            <div className="flex items-start justify-between gap-3">
+              <span className="rounded-full bg-[rgba(255,255,255,0.82)] px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.22em] text-[var(--accent)] shadow-sm">
+                Pedido útil
+              </span>
+              <span className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[var(--accent)]/25 bg-[rgba(255,255,255,0.75)] shadow-sm">
+                <Image
+                  src="/rys/favicon/rys-mini-market-cart.svg"
+                  alt=""
+                  aria-hidden="true"
+                  width={30}
+                  height={30}
+                  className="h-[30px] w-[30px] object-contain"
+                />
+              </span>
+            </div>
+            <div className="space-y-1.5">
+              <span className="block text-[15px] font-semibold leading-snug text-main">
+                Pedido especial
+              </span>
+              <span className="block text-[12px] leading-4 text-muted-strong">
+                Si no ves algo, lo consultas por WhatsApp y te confirmamos antes de salir.
+              </span>
+            </div>
+            <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[var(--accent)]">
+              Pedir lo que falta
             </span>
-            <span className="text-[10px] uppercase tracking-[0.2em] text-muted">
-              Si no lo ves, pídelo
-            </span>
-          </span>
-          <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--accent)]/35 bg-[color-mix(in_srgb,var(--accent)_12%,transparent)] shadow-sm dark:bg-[color-mix(in_srgb,var(--accent)_14%,transparent)]">
-            <Image
-              src="/rys/favicon/rys-mini-market-cart.svg"
-              alt=""
-              aria-hidden="true"
-              width={30}
-              height={30}
-              className="h-[30px] w-[30px] object-contain"
-            />
-          </span>
+          </div>
         </button>
       </div>
 
