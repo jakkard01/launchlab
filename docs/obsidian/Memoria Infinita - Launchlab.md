@@ -1896,3 +1896,29 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
 2. Llevar esta misma taxonomía a la hoja real.
 3. Cargar productos reales por categoría con sus imágenes.
 4. Solo después abrir la operación diaria completa a la administradora.
+
+### Portadas finales por categoría
+- Se fija el set final en `public/rys/categories/` con estos nombres exactos:
+  - `bebidas.webp`
+  - `snacks-golosinas.webp`
+  - `panaderia-reposteria.webp`
+  - `cereales-desayuno.webp`
+  - `cafe-instantaneas.webp`
+  - `lacteos-refrigerados.webp`
+  - `abarrotes.webp`
+  - `higiene-personal.webp`
+  - `limpieza-hogar.webp`
+  - `frutas-verduras.webp`
+  - `calientitos.webp`
+  - `econocombos.webp`
+- La fuente visible principal de categoría pasa a `src/lib/mo/categories.ts` apuntando a esas rutas.
+- Los iconos compactos quedan desacoplados de las portadas grandes para no romper tabs/atajos móviles.
+
+### Assets descartados
+- `public/RYSminisuper/icons/pasillos/*.webp` no se usan como portadas finales porque el checkerboard venía incrustado en el propio asset.
+- `public/RYSminisuper/images/top/*.webp` siguen descartados como portadas por falta de calidad/composición útil.
+- `public/imagenes/perfil/rysminisuper.jpeg` sigue descartada por naming viejo visible.
+
+### Regla fija de imágenes
+- No usar watermark, firma, checkerboard incrustado ni naming viejo visible en portadas de categoría.
+- Si el asset no sirve limpio para producción, se descarta; no se mete “por salir del paso”.
