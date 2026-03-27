@@ -5,13 +5,16 @@ import {
   MO_STORE_HOURS_LABEL,
   MO_STORE_IMAGE_ALT,
   MO_STORE_IMAGE_SRC,
+  MO_STORE_LOCATION_FALLBACK_MESSAGE,
   MO_STORE_MAPS_URL,
   MO_STORE_NOTE_IF_MISSING,
   MO_STORE_PAYMENT_LABEL,
   MO_STORE_PICKUP_LABEL,
   MO_STORE_REFERENCE,
   MO_STORE_RESPONSE_TIME_LABEL,
+  MO_STORE_TRUST_COPY,
 } from "../../../lib/mo/config";
+import { buildWhatsAppMessageLink } from "../../../lib/mo/whatsapp";
 
 type MoLocalTrustProps = {
   onScrollToSpecial: () => void;
@@ -22,6 +25,12 @@ export default function MoLocalTrust({
   onScrollToSpecial,
   whatsappLink,
 }: MoLocalTrustProps) {
+  const locationFallbackLink = buildWhatsAppMessageLink(
+    MO_STORE_LOCATION_FALLBACK_MESSAGE
+  );
+  const locationLink = MO_STORE_MAPS_URL || locationFallbackLink;
+  const locationLinkLabel = MO_STORE_MAPS_URL ? "Cómo llegar" : "Pedir ubicación";
+
   return (
     <section
       id="local-real"
@@ -45,13 +54,13 @@ export default function MoLocalTrust({
       <div className="flex flex-col justify-between gap-3">
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-[var(--accent)]">
-            Confianza local
+            Ubicación real y retiro seguro
           </p>
           <p className="mt-2 text-sm font-semibold text-main sm:text-base">
             {MO_BRAND.currentDisplayName}, punto real para retirar sin perder tiempo.
           </p>
           <p className="mt-2 text-sm text-muted-strong">
-            Te confirmamos por WhatsApp antes de salir y luego pasas a retirar. Asi llegas con horario, pago y disponibilidad claros.
+            {MO_STORE_TRUST_COPY}
           </p>
           <div className="mt-4 grid gap-2 sm:grid-cols-2">
             <div className="rounded-2xl border border-default bg-surface-3 px-3 py-3 text-sm">
@@ -83,12 +92,12 @@ export default function MoLocalTrust({
         </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
           <a
-            href={MO_STORE_MAPS_URL}
+            href={locationLink}
             className="h-11 rounded-full border border-default bg-surface-3 px-4 py-2 text-center text-sm font-semibold text-main transition hover:border-[var(--accent)]/45 hover:text-[var(--accent)]"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Ver ubicación
+            {locationLinkLabel}
           </a>
           <a
             href={whatsappLink}

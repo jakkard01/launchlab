@@ -4,11 +4,13 @@ import FreeTextOrder from "../FreeTextOrder";
 import type { TabId } from "../catalogConfig";
 import {
   MO_STORE_HOURS_LABEL,
+  MO_STORE_LOCATION_FALLBACK_MESSAGE,
   MO_STORE_MAPS_URL,
   MO_STORE_NOTE_IF_MISSING,
   MO_STORE_PAYMENT_LABEL,
   MO_STORE_RESPONSE_TIME_LABEL,
 } from "../../../lib/mo/config";
+import { buildWhatsAppMessageLink } from "../../../lib/mo/whatsapp";
 import MoPromos from "./MoPromos";
 import MoQuickShop from "./MoQuickShop";
 import MoLocalTrust from "./MoLocalTrust";
@@ -34,6 +36,12 @@ export default function MoSections({
   whatsappLink,
   headerMode,
 }: MoSectionsProps) {
+  const locationFallbackLink = buildWhatsAppMessageLink(
+    MO_STORE_LOCATION_FALLBACK_MESSAGE
+  );
+  const locationLink = MO_STORE_MAPS_URL || locationFallbackLink;
+  const locationLinkLabel = MO_STORE_MAPS_URL ? "Cómo llegar" : "Pedir ubicación";
+
   return (
     <section className="space-y-8">
       {!query ? (
@@ -117,18 +125,20 @@ export default function MoSections({
           </div>
           <div className="flex flex-col gap-2 sm:flex-row">
             <a
-              href="#inicio-rys"
-              className="h-11 rounded-full border border-default bg-surface-3 px-4 py-2 text-center text-sm font-semibold text-main transition hover:border-[var(--accent)]/45 hover:text-[var(--accent)]"
+              href={locationLink}
+              className="h-11 rounded-full bg-[var(--accent)] px-4 py-2 text-center text-sm font-semibold text-[#07130c] transition hover:opacity-90"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Volver arriba
+              {locationLinkLabel}
             </a>
             <a
-              href={MO_STORE_MAPS_URL}
+              href={whatsappLink}
               className="h-11 rounded-full border border-default bg-surface-3 px-4 py-2 text-center text-sm font-semibold text-main transition hover:border-[var(--accent)]/45 hover:text-[var(--accent)]"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Cómo llegar
+              Pedir por WhatsApp
             </a>
           </div>
         </div>

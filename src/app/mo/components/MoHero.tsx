@@ -2,16 +2,29 @@
 
 import {
   MO_BRAND,
+  MO_STORE_ADDRESS,
   MO_STORE_HOURS_LABEL,
+  MO_STORE_LOCATION_FALLBACK_MESSAGE,
+  MO_STORE_MAPS_URL,
+  MO_STORE_PAYMENT_LABEL,
   MO_STORE_PICKUP_LABEL,
+  MO_STORE_REFERENCE,
   MO_STORE_RESPONSE_TIME_LABEL,
+  MO_STORE_TRUST_COPY,
 } from "../../../lib/mo/config";
+import { buildWhatsAppMessageLink } from "../../../lib/mo/whatsapp";
 
 type MoHeroProps = {
   ctaLink: string;
 };
 
 export default function MoHero({ ctaLink }: MoHeroProps) {
+  const locationFallbackLink = buildWhatsAppMessageLink(
+    MO_STORE_LOCATION_FALLBACK_MESSAGE
+  );
+  const locationLink = MO_STORE_MAPS_URL || locationFallbackLink;
+  const locationLinkLabel = MO_STORE_MAPS_URL ? "Cómo llegar" : "Pedir ubicación";
+
   return (
     <section className="space-y-3 overflow-x-clip">
       <div className="flex min-h-[34px] items-center justify-center rounded-2xl border border-default bg-surface-2 px-3 py-2 text-center text-[11px] text-main shadow-sm sm:min-h-[40px] sm:px-4 sm:text-sm sm:justify-between">
@@ -52,6 +65,14 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
           </div>
           <div className="mt-4 flex flex-col gap-2.5 sm:mt-5 sm:flex-row sm:items-center sm:gap-3">
             <a
+              href={locationLink}
+              className="h-11 rounded-full bg-[color-mix(in_srgb,var(--accent)_16%,var(--surface))] px-5 py-3 text-center text-sm font-semibold text-main shadow-[0_10px_24px_rgba(15,23,42,0.08)] transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {locationLinkLabel}
+            </a>
+            <a
               href={ctaLink}
               className="h-11 rounded-full bg-[var(--accent)] px-5 py-3 text-center text-sm font-semibold text-[#07130c] shadow-[0_10px_24px_rgba(34,197,94,0.24)] transition hover:opacity-90"
               target="_blank"
@@ -65,6 +86,55 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
             >
               Ver qué hay hoy
             </a>
+          </div>
+          <div className="mt-4 rounded-3xl border border-[var(--accent)]/28 bg-[color-mix(in_srgb,var(--surface)_78%,var(--accent)_8%)] p-4 shadow-sm dark:bg-[color-mix(in_srgb,var(--surface-2)_86%,var(--accent)_8%)] sm:mt-5 sm:p-5">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[var(--accent)]">
+              Ubicación real y retiro seguro
+            </p>
+            <p className="mt-2 text-base font-semibold text-main sm:text-lg">
+              Estamos en La Gloria, San Salvador.
+            </p>
+            <p className="mt-2 text-sm text-muted-strong sm:text-base">
+              {MO_STORE_TRUST_COPY}
+            </p>
+            <div className="mt-4 grid gap-2 sm:grid-cols-2">
+              <div className="rounded-2xl border border-default bg-surface px-3 py-3 text-sm shadow-sm">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted">Ubicación / referencia</p>
+                <p className="mt-1 font-semibold text-main">{MO_STORE_ADDRESS}</p>
+                <p className="mt-1 text-xs text-muted-strong">{MO_STORE_REFERENCE}</p>
+              </div>
+              <div className="rounded-2xl border border-default bg-surface px-3 py-3 text-sm shadow-sm">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted">Horario</p>
+                <p className="mt-1 font-semibold text-main">{MO_STORE_HOURS_LABEL}</p>
+              </div>
+              <div className="rounded-2xl border border-default bg-surface px-3 py-3 text-sm shadow-sm">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted">Pago</p>
+                <p className="mt-1 font-semibold text-main">{MO_STORE_PAYMENT_LABEL}</p>
+              </div>
+              <div className="rounded-2xl border border-default bg-surface px-3 py-3 text-sm shadow-sm">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted">Retiro en tienda</p>
+                <p className="mt-1 font-semibold text-main">{MO_STORE_PICKUP_LABEL}</p>
+                <p className="mt-1 text-xs text-muted-strong">Si no ves algo, escríbenos y te confirmamos antes de salir.</p>
+              </div>
+            </div>
+            <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+              <a
+                href={locationLink}
+                className="h-11 rounded-full bg-[var(--accent)] px-5 py-3 text-center text-sm font-semibold text-[#07130c] shadow-[0_10px_24px_rgba(34,197,94,0.24)] transition hover:opacity-90"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {locationLinkLabel}
+              </a>
+              <a
+                href={ctaLink}
+                className="h-11 rounded-full border border-default bg-surface px-5 py-3 text-center text-sm font-semibold text-main transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Pedir por WhatsApp
+              </a>
+            </div>
           </div>
           <div className="mt-4 rounded-2xl border border-[var(--accent)]/30 bg-[color-mix(in_srgb,var(--accent)_14%,var(--surface-2))] px-4 py-3 text-xs text-main shadow-sm sm:mt-5 sm:text-sm dark:border-[var(--accent)]/36 dark:bg-[color-mix(in_srgb,var(--accent)_12%,var(--surface-2))]">
             <p className="text-xs uppercase tracking-[0.3em] text-[var(--accent)]">
