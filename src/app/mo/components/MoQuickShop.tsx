@@ -41,6 +41,21 @@ const CATEGORY_HINT_BY_ID = {
   econocombos: "Compra resuelta",
 } as const;
 
+const CATEGORY_TONE_BY_ID = {
+  bebidas: "from-sky-100/95 to-cyan-50/70 text-sky-900",
+  "snacks-golosinas": "from-amber-100/95 to-orange-50/70 text-amber-900",
+  "panaderia-reposteria": "from-yellow-100/95 to-orange-50/70 text-amber-900",
+  "cereales-desayuno": "from-lime-100/95 to-amber-50/70 text-lime-950",
+  "cafe-instantaneas": "from-stone-100/95 to-amber-50/70 text-stone-900",
+  "lacteos-refrigerados": "from-cyan-100/95 to-sky-50/70 text-cyan-950",
+  abarrotes: "from-emerald-100/95 to-lime-50/70 text-emerald-950",
+  "higiene-personal": "from-fuchsia-100/95 to-rose-50/70 text-fuchsia-950",
+  "limpieza-hogar": "from-indigo-100/95 to-slate-50/70 text-indigo-950",
+  "frutas-verduras": "from-green-100/95 to-lime-50/70 text-green-950",
+  calientitos: "from-rose-100/95 to-orange-50/70 text-rose-950",
+  econocombos: "from-emerald-100/95 to-teal-50/70 text-emerald-950",
+} as const;
+
 const productGridClass = "grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3";
 
 export default function MoQuickShop({
@@ -102,16 +117,19 @@ export default function MoQuickShop({
         <h2 className="mt-2 text-lg font-semibold text-main">
           Accesos rápidos por categoría
         </h2>
-        <p className="mt-2 text-sm text-muted-strong">
-          Entra por categorías claras, baja al producto puntual y confirma por WhatsApp sin perderte en una lista eterna.
+        <p className="mt-1.5 text-sm text-muted-strong">
+          Entra rápido a lo que sí necesitas hoy.
         </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 pb-16 sm:grid-cols-4 sm:pb-4">
         {visibleAisles.map((aisle) => {
           const iconSrc = getMoCategoryIcon(aisle.id);
           const isActive = aisle.id === activeTab;
           const hint = CATEGORY_HINT_BY_ID[aisle.id as keyof typeof CATEGORY_HINT_BY_ID] ?? "";
+          const tone =
+            CATEGORY_TONE_BY_ID[aisle.id as keyof typeof CATEGORY_TONE_BY_ID] ??
+            "from-white/95 to-slate-50/70 text-main";
           return (
             <button
               key={aisle.id}
@@ -123,7 +141,7 @@ export default function MoQuickShop({
                   : "border-default bg-surface text-main hover:border-[var(--accent)]/25 hover:bg-base"
               }`}
             >
-              <div className="relative aspect-[1.18/1] w-full overflow-hidden bg-[color-mix(in_srgb,var(--surface-3)_88%,transparent)]">
+              <div className="relative aspect-[1.28/1] w-full overflow-hidden bg-[color-mix(in_srgb,var(--surface-3)_88%,transparent)]">
                 <Image
                   src={iconSrc}
                   alt=""
@@ -140,7 +158,7 @@ export default function MoQuickShop({
                   }`}
                 />
                 <span
-                  className={`absolute right-2.5 top-2.5 rounded-full px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.22em] ${
+                  className={`absolute right-2.5 top-2.5 rounded-full px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.22em] ${
                     isActive
                       ? "bg-[color-mix(in_srgb,var(--accent)_18%,white)] text-main shadow-sm"
                       : "bg-[rgba(255,255,255,0.86)] text-muted-strong shadow-sm"
@@ -149,12 +167,12 @@ export default function MoQuickShop({
                   {isActive ? "Abierta" : "Entrar"}
                 </span>
               </div>
-              <div className="flex min-h-[86px] flex-col justify-between gap-2 px-3.5 py-3">
+              <div className={`flex min-h-[74px] flex-col justify-between gap-1.5 bg-gradient-to-br px-3.5 py-2.5 ${tone}`}>
                 <div className="space-y-1">
                   <span className="block text-[14px] font-semibold leading-snug tracking-[0.02em] text-main">
                     {getMoCategoryShortLabel(aisle.id)}
                   </span>
-                  <span className="block text-[11px] leading-4 text-muted-strong">
+                  <span className="block text-[10.5px] leading-4 text-muted-strong">
                     {hint}
                   </span>
                 </div>
@@ -168,13 +186,13 @@ export default function MoQuickShop({
         <button
           type="button"
           onClick={onScrollToSpecial}
-          className="group relative overflow-hidden rounded-[1.4rem] border border-[var(--accent)]/30 bg-[linear-gradient(160deg,color-mix(in_srgb,var(--accent)_14%,var(--surface)),color-mix(in_srgb,var(--surface)_92%,transparent))] text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/30 active:translate-y-[1px] hover:border-[var(--accent)]/4"
+          className="group relative overflow-hidden rounded-[1.4rem] border border-[var(--accent)]/30 bg-[linear-gradient(160deg,color-mix(in_srgb,var(--accent)_16%,var(--surface)),color-mix(in_srgb,var(--surface)_94%,transparent))] text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/30 active:translate-y-[1px] hover:border-[var(--accent)]/45"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_88%_14%,color-mix(in_srgb,var(--accent)_18%,transparent),transparent_36%),linear-gradient(180deg,transparent,rgba(7,17,26,0.04))]" />
-          <div className="relative flex min-h-[184px] flex-col justify-between px-3.5 py-3.5">
+          <div className="relative flex min-h-[164px] flex-col justify-between px-3.5 py-3">
             <div className="flex items-start justify-between gap-3">
-              <span className="rounded-full bg-[rgba(255,255,255,0.82)] px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.22em] text-[var(--accent)] shadow-sm">
-                Pedido útil
+              <span className="rounded-full bg-[rgba(255,255,255,0.88)] px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.22em] text-[var(--accent)] shadow-sm">
+                Ayuda rápida
               </span>
               <span className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[var(--accent)]/25 bg-[rgba(255,255,255,0.75)] shadow-sm">
                 <Image
@@ -192,11 +210,11 @@ export default function MoQuickShop({
                 Pedido especial
               </span>
               <span className="block text-[12px] leading-4 text-muted-strong">
-                Si no ves algo, lo consultas por WhatsApp y te confirmamos antes de salir.
+                Si no aparece aquí, lo consultas por WhatsApp y te confirmamos antes de salir.
               </span>
             </div>
             <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[var(--accent)]">
-              Pedir lo que falta
+              Consultar por WhatsApp
             </span>
           </div>
         </button>
