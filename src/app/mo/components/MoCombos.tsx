@@ -4,8 +4,7 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 import type { Product } from "../../../lib/mo/types";
 import { MO_COMBOS } from "../../../lib/mo/combos";
-import { getMoCategoryImage } from "../../../lib/mo/categories";
-import { resolveProductImage } from "../../../lib/mo/productVisuals";
+import { getComboImagePath } from "../../../lib/mo/comboVisuals";
 import { useCart } from "../cart/CartContext";
 
 const parsePrice = (price?: string) => {
@@ -79,17 +78,8 @@ export default function MoCombos({ products }: MoCombosProps) {
         ? totals.reduce((sum, value) => sum + value, 0)
         : null;
 
-      const visuals = combo.items
-        .map((item) => productById.get(item.productId))
-        .filter((product): product is Product => Boolean(product))
-        .slice(0, 3)
-        .map((product) => ({
-          id: product.id,
-          name: product.name,
-          src: resolveProductImage(product),
-        }));
-
-      return { combo, estimate, visuals };
+      const comboImage = getComboImagePath(combo.id);
+      return { combo, estimate, comboImage };
     });
   }, [productById]);
 
@@ -110,38 +100,21 @@ export default function MoCombos({ products }: MoCombosProps) {
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
-        {combosWithEstimate.map(({ combo, estimate, visuals }) => (
+        {combosWithEstimate.map(({ combo, estimate, comboImage }) => (
           <article
             key={combo.id}
             className="rounded-3xl border border-default bg-surface p-5 shadow-sm dark:bg-[var(--surface-2)] dark:shadow-[0_18px_40px_rgba(3,8,16,0.2)]"
           >
             <div className="relative mb-4 overflow-hidden rounded-2xl border border-default bg-[linear-gradient(135deg,color-mix(in_srgb,var(--surface-3)_94%,transparent),color-mix(in_srgb,var(--accent)_8%,transparent))] p-3">
-              <div className="grid grid-cols-3 gap-2">
-                {(visuals.length > 0
-                  ? visuals
-                  : [
-                      {
-                        id: `${combo.id}-fallback`,
-                        name: combo.title,
-                        src: getMoCategoryImage("econocombos"),
-                      },
-                    ]).map((visual, index) => (
-                  <div
-                    key={visual.id}
-                    className={`relative overflow-hidden rounded-xl border border-default bg-surface-3 ${
-                      index === 0 && visuals.length === 1 ? "col-span-3 aspect-[2.4/1]" : "aspect-square"
-                    }`}
-                  >
-                    <Image
-                      src={visual.src}
-                      alt={visual.name}
-                      fill
-                      sizes="(max-width: 640px) 30vw, 180px"
-                      className="object-cover"
-                    />
-                    <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(7,17,26,0.02)_0%,rgba(7,17,26,0.16)_100%)]" />
-                  </div>
-                ))}
+              <div className="relative aspect-[2.35/1] overflow-hidden rounded-xl border border-default bg-surface-3">
+                <Image
+                  src={comboImage}
+                  alt={combo.title}
+                  fill
+                  sizes="(max-width: 640px) 90vw, 420px"
+                  className="object-cover"
+                />
+                <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(7,17,26,0.02)_0%,rgba(7,17,26,0.16)_100%)]" />
               </div>
             </div>
             <div className="flex items-start justify-between gap-3">

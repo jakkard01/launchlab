@@ -2342,9 +2342,12 @@ export default function AdminClient() {
                             }))
                           }
                           className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
-                          placeholder="/RYSminisuper/images/... o https://..."
+                          placeholder="/rys/products/... o /rys/categories/... o https://..."
                           disabled={!canEditCatalog}
                         />
+                        <p className="text-[11px] normal-case tracking-normal text-white/45">
+                          Producto: usa `/rys/products/...` si existe. Si no, deja vacío y caerá a la portada correcta de su categoría. Las categorías usan `src/lib/mo/categories.ts` y los combos usan `/rys/combos/...`.
+                        </p>
                       </label>
 
                       <div className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
