@@ -1,6 +1,14 @@
 import { getMoCategoryImage } from "./categories";
 import type { Product } from "./types";
 
+const PRODUCT_IMAGE_OVERRIDES: Record<string, string> = {
+  "mo-papel-higienico-scott": "/rys/categories/higiene-personal.webp",
+  "mo-papel-cocina-scott": "/rys/categories/limpieza-hogar.webp",
+  "mo-leche-evaporada-ideal": "/rys/categories/abarrotes.webp",
+  "mo-leche-refrigerada": "/rys/categories/lacteos-refrigerados.webp",
+  "mo-yogur-individual": "/rys/categories/lacteos-refrigerados.webp",
+};
+
 const TOP_IMAGES = {
   frijoles: "/RYSminisuper/images/top/frijoles.webp",
   sopa_frijoles: "/RYSminisuper/images/top/sopa_frijoles.webp",
@@ -27,6 +35,11 @@ export const isLowQualityProductImage = (value?: string | null) => {
 };
 
 export const resolveProductImage = (product: Product) => {
+  const forcedImage = PRODUCT_IMAGE_OVERRIDES[product.id];
+  if (forcedImage) {
+    return forcedImage;
+  }
+
   const productImage = product.image?.trim();
   if (productImage && !isLowQualityProductImage(productImage)) {
     return productImage;

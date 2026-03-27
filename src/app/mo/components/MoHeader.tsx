@@ -2,7 +2,12 @@
 
 import { ChangeEvent, FormEvent, KeyboardEvent, useRef } from "react";
 import ThemeToggle from "../../components/ThemeToggle";
-import { MO_BRAND } from "../../../lib/mo/config";
+import {
+  MO_BRAND,
+  MO_STORE_LOCATION_FALLBACK_MESSAGE,
+  MO_STORE_MAPS_URL,
+} from "../../../lib/mo/config";
+import { buildWhatsAppMessageLink } from "../../../lib/mo/whatsapp";
 
 type HeaderMode = "full" | "compact" | "hidden";
 
@@ -26,6 +31,11 @@ export default function MoHeader({
   onSearchSubmit,
 }: MoHeaderProps) {
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const mapsFallbackLink = buildWhatsAppMessageLink(
+    MO_STORE_LOCATION_FALLBACK_MESSAGE
+  );
+  const mapsLink = MO_STORE_MAPS_URL || mapsFallbackLink;
+  const mapsLabel = MO_STORE_MAPS_URL ? "Cómo llegar" : "Ubicación";
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     onQueryChange(event.target.value);
@@ -72,12 +82,22 @@ export default function MoHeader({
             <p className="text-[11px] text-muted-strong">{MO_BRAND.locationLabel}</p>
             {!isCompact ? (
               <p className="mt-0.5 text-[11px] text-muted sm:text-xs">
-                Compra rápida para retiro. Te confirmamos antes de salir.
+                Retiro confirmado antes de salir.
               </p>
             ) : null}
           </div>
           <div className="flex shrink-0 items-center gap-2">
             <ThemeToggle compact className="shrink-0" />
+            {!isCompact ? (
+              <a
+                href={mapsLink}
+                className="inline-flex min-h-10 items-center justify-center rounded-full border border-default bg-surface px-3 py-2 text-[11px] font-semibold text-main transition hover:border-[var(--accent)] hover:text-[var(--accent)] sm:min-h-11 sm:px-4 sm:text-xs"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {mapsLabel}
+              </a>
+            ) : null}
             <a
               href={whatsappLink}
               className={`inline-flex items-center justify-center rounded-full border border-[var(--accent)] bg-[var(--accent)] text-center font-semibold text-[#07130c] shadow-[0_10px_24px_rgba(34,197,94,0.16)] transition hover:opacity-90 ${
@@ -150,7 +170,7 @@ export default function MoHeader({
           {!isCompact ? (
             <div className="mt-3 flex items-center justify-between gap-2 text-[11px] text-muted">
               <span className="truncate text-muted-strong">
-                Retiro fácil. Evita la cola y la vuelta en vano.
+                Retiro fácil con confirmación clara antes de salir.
               </span>
               <button
                 type="button"
