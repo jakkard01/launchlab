@@ -1940,3 +1940,25 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
   - `Econocombos` -> `public/rys/categories/econocombos.webp`
 - Se considera cerrada la limpieza visual de placeholders flojos para categorías donde ya existe asset final.
 - Backend sigue en `fallback_only`; esta pasada no toca Sheets ni secrets.
+
+### Incidente de deploy PBIA / RYS corregido
+- Se confirmó un error operativo de enlace local: el repo RYS en `feat/pagina-hermana-live` seguía con `.vercel/project.json` apuntando a `launchlabv1` (PBIA).
+- PBIA correcto:
+  - worktree: `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next`
+  - rama: `feat/pbia-portfolio-next`
+  - proyecto: `launchlabv1`
+  - dominio: `poweredbyia.com`
+- RYS correcto:
+  - repo: `/mnt/c/Demonio_IA/06_Web/launchlab__PROD`
+  - rama: `feat/pagina-hermana-live`
+  - proyecto: `launchlab`
+  - dominio: `rysminimarket.com`
+- En esta corrección:
+  - PBIA no estaba contaminada con contenido de RYS y no requirió redeploy
+  - RYS se relinkeó localmente a `launchlab`
+  - RYS se redeployó limpio al proyecto `launchlab`
+- Regla fija antes de cualquier deploy:
+  - validar `pwd`
+  - validar `git branch --show-current`
+  - validar `cat .vercel/project.json`
+- La rama correcta y el proyecto correcto no son la misma cosa; ambos deben cuadrar antes de publicar.
