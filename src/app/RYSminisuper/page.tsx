@@ -54,25 +54,16 @@ export const runtime = "nodejs";
 
 export default async function RysMiniSuperPage() {
   let products: Product[] = [];
-  let fallbackWarning: { title: string; message: string; help: string } | null = null;
 
   try {
     products = await getStoreProducts();
   } catch (error) {
-    const issue = getMoBackendErrorInfo(error);
+    getMoBackendErrorInfo(error);
     products = (productsSeed as Product[]).map((product, index) => ({
       ...product,
       sortOrder: product.sortOrder ?? index + 1,
       stockStatus: product.stockStatus ?? "disponible",
     }));
-    fallbackWarning = {
-      title: "Catálogo temporal en modo respaldo",
-      message:
-        issue.kind === "quota"
-          ? "Estamos mostrando el catálogo de respaldo mientras bajan las lecturas contra la hoja."
-          : issue.message,
-      help: issue.help,
-    };
   }
 
   const ctaLink = buildWhatsAppMessageLink(
@@ -82,15 +73,6 @@ export default async function RysMiniSuperPage() {
   return (
     <CartProvider>
       <main className="min-h-screen w-full overflow-x-clip bg-base px-3 pb-28 pt-3 text-main sm:px-6 sm:pb-36 sm:pt-10 lg:px-8">
-        {fallbackWarning ? (
-          <div className="mx-auto mb-4 w-full max-w-5xl rounded-2xl border border-amber-300/50 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-300/25 dark:bg-amber-500/10 dark:text-amber-100">
-            <p className="font-semibold">{fallbackWarning.title}</p>
-            <p className="mt-1">{fallbackWarning.message}</p>
-            <p className="mt-1 text-xs text-amber-900/80 dark:text-amber-100/80">
-              {fallbackWarning.help}
-            </p>
-          </div>
-        ) : null}
         <MoStorefront
           products={products}
           ctaLink={ctaLink}
