@@ -1,10 +1,19 @@
 import './globals.css';
 import type { Metadata } from 'next';
+import { headers } from 'next/headers';
 import AppShell from './components/AppShell';
 import { siteConfig, siteUrl } from '../lib/site';
+import {
+  MO_BRAND,
+  MO_CANONICAL_URL,
+  MO_SITE_URL,
+  MO_STORE_IMAGE_ALT,
+  MO_STORE_IMAGE_SRC,
+} from '../lib/mo/config';
 
-// --- CONFIGURACIÓN SEO GLOBAL ---
-export const metadata: Metadata = {
+const storeHosts = new Set(["rysminimarket.com", "www.rysminimarket.com"]);
+
+const defaultMetadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     default: 'Powered by IA | Sistemas IA, automatización y productos digitales',
@@ -51,35 +60,109 @@ export const metadata: Metadata = {
   },
 };
 
-// --- LAYOUT PRINCIPAL ---
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const organizationJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: siteConfig.brand,
-    url: siteUrl,
-    logo: `${siteUrl}${siteConfig.ogImage}`,
-    email: siteConfig.email,
-    sameAs: [
-      siteConfig.socials.instagram,
-      siteConfig.socials.tiktok,
-      siteConfig.socials.youtube,
-      siteConfig.socials.x,
-      siteConfig.socials.facebook,
+const rysMetadata: Metadata = {
+  metadataBase: new URL(MO_SITE_URL),
+  title: {
+    absolute: `${MO_BRAND.currentDisplayName} | Retiro fácil en La Gloria`,
+  },
+  description:
+    'Bebidas, abarrotes y categorías claras para retiro en La Gloria, San Salvador. Pide por WhatsApp, te confirmamos y pasas a retirar.',
+  alternates: {
+    canonical: MO_CANONICAL_URL,
+  },
+  manifest: "/site.webmanifest",
+  icons: {
+    icon: "/rys/favicon/rys-mini-market-cart.svg",
+    apple: "/rys/favicon/rys-mini-market-apple-touch.svg",
+    shortcut: "/rys/favicon/rys-mini-market-cart.svg",
+  },
+  keywords: ['RYS Mini Market', 'RYS Minimarket', 'minimarket', 'retiro en tienda', 'La Gloria', 'San Salvador'],
+  authors: [{ name: MO_BRAND.currentDisplayName }],
+  creator: MO_BRAND.currentDisplayName,
+  openGraph: {
+    type: 'website',
+    locale: 'es_SV',
+    url: MO_CANONICAL_URL,
+    siteName: MO_BRAND.currentDisplayName,
+    title: `${MO_BRAND.currentDisplayName} | Retiro fácil en La Gloria`,
+    description: 'Compra rápida por WhatsApp y retiro confirmado antes de salir.',
+    images: [
+      {
+        url: `${MO_SITE_URL}${MO_STORE_IMAGE_SRC}`,
+        width: 1200,
+        height: 1200,
+        alt: `${MO_BRAND.currentDisplayName}. ${MO_STORE_IMAGE_ALT}`,
+      },
     ],
-  };
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${MO_BRAND.currentDisplayName} | Retiro fácil en La Gloria`,
+    description: 'Compra rápida por WhatsApp y retiro confirmado antes de salir.',
+    images: [`${MO_SITE_URL}${MO_STORE_IMAGE_SRC}`],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
-  const websiteJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: siteConfig.brand,
-    url: siteUrl,
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${siteUrl}/?q={search_term_string}`,
-      "query-input": "required name=search_term_string",
-    },
-  };
+export async function generateMetadata(): Promise<Metadata> {
+  const host = (await headers()).get("host")?.toLowerCase() ?? "";
+  return storeHosts.has(host) ? rysMetadata : defaultMetadata;
+}
+
+// --- LAYOUT PRINCIPAL ---
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const host = (await headers()).get("host")?.toLowerCase() ?? "";
+  const isStoreHost = storeHosts.has(host);
+  const organizationJsonLd = isStoreHost
+    ? {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        name: MO_BRAND.currentDisplayName,
+        url: MO_SITE_URL,
+        logo: `${MO_SITE_URL}${MO_STORE_IMAGE_SRC}`,
+      }
+    : {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        name: siteConfig.brand,
+        url: siteUrl,
+        logo: `${siteUrl}${siteConfig.ogImage}`,
+        email: siteConfig.email,
+        sameAs: [
+          siteConfig.socials.instagram,
+          siteConfig.socials.tiktok,
+          siteConfig.socials.youtube,
+          siteConfig.socials.x,
+          siteConfig.socials.facebook,
+        ],
+      };
+
+  const websiteJsonLd = isStoreHost
+    ? {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: MO_BRAND.currentDisplayName,
+        url: MO_SITE_URL,
+        potentialAction: {
+          "@type": "SearchAction",
+          target: `${MO_SITE_URL}/?q={search_term_string}`,
+          "query-input": "required name=search_term_string",
+        },
+      }
+    : {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: siteConfig.brand,
+        url: siteUrl,
+        potentialAction: {
+          "@type": "SearchAction",
+          target: `${siteUrl}/?q={search_term_string}`,
+          "query-input": "required name=search_term_string",
+        },
+      };
 
   return (
     <html lang="es">

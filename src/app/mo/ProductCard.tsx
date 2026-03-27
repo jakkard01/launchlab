@@ -166,14 +166,22 @@ export default function ProductCard({
       ) : null}
       <div className="mt-2">
         <div className="flex flex-wrap gap-2">
-          <span className="rounded-full border border-default bg-[color-mix(in_srgb,var(--surface-3)_80%,transparent)] px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-muted-strong">
-            {getMoCategoryLabel(product.category)}
-          </span>
-          {product.subgroup ? (
-            <span className="rounded-full border border-default bg-[color-mix(in_srgb,var(--surface)_92%,transparent)] px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-muted-strong">
-              {product.subgroup}
+          {isCompact ? (
+            <span className="rounded-full border border-default bg-[color-mix(in_srgb,var(--surface-3)_80%,transparent)] px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-muted-strong">
+              {product.subgroup || getMoCategoryLabel(product.category)}
             </span>
-          ) : null}
+          ) : (
+            <>
+              <span className="rounded-full border border-default bg-[color-mix(in_srgb,var(--surface-3)_80%,transparent)] px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-muted-strong">
+                {getMoCategoryLabel(product.category)}
+              </span>
+              {product.subgroup ? (
+                <span className="rounded-full border border-default bg-[color-mix(in_srgb,var(--surface)_92%,transparent)] px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-muted-strong">
+                  {product.subgroup}
+                </span>
+              ) : null}
+            </>
+          )}
         </div>
       </div>
       <div className={`flex items-center justify-between ${isCompact ? "mt-2.5" : "mt-3"}`}>

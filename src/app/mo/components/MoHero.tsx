@@ -26,7 +26,7 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
   const locationLinkLabel = MO_STORE_MAPS_URL ? "Cómo llegar" : "Pedir ubicación";
 
   return (
-    <section className="space-y-4 overflow-x-clip">
+    <section className="hidden space-y-4 overflow-x-clip sm:block">
       <div
         className="relative overflow-hidden rounded-3xl border border-default bg-surface px-4 py-4 shadow-sm shadow-slate-950/5 sm:px-8 sm:py-6 dark:bg-[var(--surface-2)] dark:shadow-[0_24px_70px_rgba(3,8,16,0.34)]"
         data-hero-bg="placeholder-gradient"
@@ -36,10 +36,10 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
         <div className="relative grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(280px,340px)] lg:items-start lg:gap-6">
           <div>
           <h1 className="max-w-2xl text-2xl font-bold leading-tight text-main sm:text-4xl">
-            Pide rápido desde el móvil y retira cuando ya está confirmado
+            Compra rápida para retiro confirmado antes de salir
           </h1>
           <p className="mt-2 max-w-2xl text-sm text-muted-strong sm:text-base">
-            Compra rápida para retiro confirmado antes de salir.
+            Categorías claras, pedido simple por WhatsApp y punto de retiro fácil de reconocer.
           </p>
           <div className="mt-4 flex flex-col gap-2.5 sm:flex-row sm:items-center sm:gap-3">
             <a
@@ -62,20 +62,20 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
           </div>
           <div className="rounded-3xl border border-default bg-[color-mix(in_srgb,var(--surface-2)_78%,transparent)] p-4 shadow-sm dark:bg-[color-mix(in_srgb,var(--surface-2)_92%,transparent)]">
             <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[var(--accent)]">
-              Compra en 3 pasos
+              Retiro simple
             </p>
             <ol className="mt-3 space-y-3 text-sm text-muted-strong">
               <li className="rounded-2xl border border-default bg-surface px-3 py-3">
-                <span className="font-semibold text-main">1. Elige tus productos</span>
-                <p className="mt-1">Busca por nombre o entra por categorías útiles.</p>
+                <span className="font-semibold text-main">1. Busca o entra por categoría</span>
+                <p className="mt-1">Ves lo que sí está y pides sin perder tiempo.</p>
               </li>
               <li className="rounded-2xl border border-default bg-surface px-3 py-3">
-                <span className="font-semibold text-main">2. Manda el pedido por WhatsApp</span>
-                <p className="mt-1">Te queda claro lo que llevas y si falta algo nos lo escribes.</p>
+                <span className="font-semibold text-main">2. Confirma por WhatsApp</span>
+                <p className="mt-1">Te decimos disponibilidad, total y punto de retiro.</p>
               </li>
               <li className="rounded-2xl border border-default bg-surface px-3 py-3">
-                <span className="font-semibold text-main">3. Te confirmamos y lo recoges en tienda</span>
-                <p className="mt-1">Pago al retirar, con confirmación antes de salir.</p>
+                <span className="font-semibold text-main">3. Pasas solo cuando ya está claro</span>
+                <p className="mt-1">Pago al retirar, sin vuelta innecesaria.</p>
               </li>
             </ol>
             <div className="mt-3 rounded-2xl border border-[var(--accent)]/20 bg-[color-mix(in_srgb,var(--accent)_8%,transparent)] px-3 py-3 text-xs text-muted-strong">
