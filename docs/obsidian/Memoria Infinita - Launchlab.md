@@ -1860,6 +1860,33 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
     - orden
 - La edición live de metadata de categoría (`nombre`, `imagen`, `orden`) todavía no queda persistida por backend; hoy la fuente real está en config hasta conectar Sheets.
 
+### Imágenes elegidas por categoría
+- Assets seleccionados en código:
+  - `Bebidas` -> `/RYSminisuper/icons/pasillos/bebidas.webp`
+  - `Snacks y golosinas` -> `/RYSminisuper/icons/pasillos/snacks.webp`
+  - `Panadería y repostería` -> `/mo/categories/pan.svg`
+  - `Cereales y desayuno` -> `/mo/categories/pan.svg`
+  - `Café e instantáneas` -> `/mo/categories/cafe.svg`
+  - `Lácteos y refrigerados` -> `/RYSminisuper/icons/pasillos/lacteos.webp`
+  - `Abarrotes` -> `/RYSminisuper/icons/pasillos/abarrotes.webp`
+  - `Higiene personal` -> `/mo/categories/abarrotes.svg` (fallback limpio temporal)
+  - `Limpieza y hogar` -> `/mo/categories/abarrotes.svg` (fallback limpio temporal)
+  - `Frutas y verduras` -> `/mo/categories/abarrotes.svg` (fallback limpio temporal)
+  - `Calientitos / comida recién hecha` -> `/RYSminisuper/icons/pasillos/comida_caliente.webp`
+  - `Econocombos` -> `/RYSminisuper/icons/pasillos/combos.webp`
+- Descartes explícitos:
+  - `public/imagenes/perfil/rysminisuper.jpeg` por naming viejo visible (`RYS Minisúper`)
+  - `public/imagenes/fondo/ChatGPT Image*.png` por ser fondos PBIA/galaxia no relacionados con categorías RYS
+  - `public/RYSminisuper/images/top/*.webp` como portadas de categoría, porque sirven mejor como apoyo de producto que como portada estable de categoría
+
+### Pan dulce: separación preparada
+- `Pan dulce artesanal surtido` queda como producto individual dentro de `Panadería y repostería`.
+- Se agrega `subgroup = artesanal`.
+- `Pan blanco` y `Pan integral` quedan marcados como `subgroup = empacado`.
+- Regla operativa fijada:
+  - artesanal y empacado no deben compartir un precio genérico único.
+  - el modelo ya soporta precio individual + visibilidad individual por producto.
+
 ### Validación local
 - `npm run lint` OK
 - `npm run build` OK
