@@ -11,7 +11,11 @@ import {
   sortCatalogProducts,
   type TabId,
 } from "./catalogConfig";
-import { getMoCategoryDescription, getMoCategoryImage, getMoCategoryLabel } from "../../lib/mo/categories";
+import {
+  getMoCategoryDescription,
+  getMoCategoryIcon,
+  getMoCategoryLabel,
+} from "../../lib/mo/categories";
 import { rankProductsByQuery } from "../../lib/mo/search";
 
 type CatalogSectionProps = {
@@ -104,7 +108,7 @@ export default function CatalogSection({
           <div className="no-scrollbar flex max-w-full gap-2 overflow-x-auto pb-1 [overscroll-behavior-x:contain] [touch-action:pan-x]">
             {visibleTabs.map((tab) => {
               const isActive = tab.id === resolvedActiveTab;
-              const iconSrc = getMoCategoryImage(tab.id);
+              const iconSrc = getMoCategoryIcon(tab.id);
               return (
                 <button
                   key={tab.id}
@@ -126,7 +130,7 @@ export default function CatalogSection({
                           aria-hidden="true"
                           width={20}
                           height={20}
-                          className="h-5 w-5 object-cover"
+                          className="h-5 w-5 object-contain"
                         />
                       </span>
                     ) : null}

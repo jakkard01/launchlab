@@ -1692,7 +1692,7 @@ export default function AdminClient() {
                         aria-hidden="true"
                         width={56}
                         height={56}
-                        className="h-14 w-14 object-cover"
+                        className="h-14 w-14 object-contain"
                       />
                     </span>
                     <span className="min-w-0">

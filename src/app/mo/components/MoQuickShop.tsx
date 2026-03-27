@@ -14,7 +14,7 @@ import {
   TabId,
 } from "../catalogConfig";
 import {
-  getMoCategoryImage,
+  getMoCategoryIcon,
   getMoCategoryShortLabel,
   normalizeMoCategoryId,
 } from "../../../lib/mo/categories";
@@ -109,7 +109,7 @@ export default function MoQuickShop({
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {visibleAisles.map((aisle) => {
-          const iconSrc = getMoCategoryImage(aisle.id);
+          const iconSrc = getMoCategoryIcon(aisle.id);
           const isActive = aisle.id === activeTab;
           const hint = CATEGORY_HINT_BY_ID[aisle.id as keyof typeof CATEGORY_HINT_BY_ID] ?? "";
           return (
