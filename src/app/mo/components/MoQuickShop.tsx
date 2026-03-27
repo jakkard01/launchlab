@@ -37,7 +37,7 @@ const CATEGORY_HINT_BY_ID = {
   "higiene-personal": "Uso diario",
   "limpieza-hogar": "Casa al día",
   "frutas-verduras": "Fresco y rápido",
-  calientitos: "Listo para hoy",
+  calientitos: "Próximamente",
   econocombos: "Rinde mejor",
 } as const;
 
@@ -235,7 +235,7 @@ export default function MoQuickShop({
           </div>
         ) : (
           <div className="rounded-2xl border border-dashed border-default bg-surface px-4 py-5 text-sm text-muted-strong">
-            No hay calientitos cargados por ahora.
+            La comida recién hecha todavía no está definida en catálogo. Si quieres consultarla, pídela por WhatsApp.
           </div>
         )}
       </div>

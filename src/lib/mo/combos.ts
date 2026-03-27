@@ -16,16 +16,6 @@ export type MoCombo = {
 // Keep this file intentionally simple: it is the easiest place to edit combos without touching catalog logic.
 export const MO_COMBOS: MoCombo[] = [
   {
-    id: "tamal_coca",
-    title: "Tamal y Coca-Cola",
-    description: "Combo directo para resolver comida rápida, bebida y salida corta.",
-    badge: "Sale rápido",
-    items: [
-      { productId: "mo-tamales", qty: 1 },
-      { productId: "mo-coca-cola-600ml", qty: 1 },
-    ],
-  },
-  {
     id: "cafe_pan_dulce",
     title: "Cappuccino y pan dulce artesanal",
     description: "Desayuno o merienda listos para retirar sin complicarte.",

@@ -13,7 +13,7 @@ const CATEGORY_SYNONYMS: Record<string, string[]> = {
   "higiene-personal": ["higiene", "shampoo", "crema dental", "oral-b", "papel higienico", "toallas", "pañales"],
   "limpieza-hogar": ["limpieza", "hogar", "papel cocina", "encendedor"],
   "frutas-verduras": ["frutas", "verduras", "fruta", "banano", "tomate", "cebolla"],
-  calientitos: ["calientitos", "comida", "comida caliente", "recien hecho", "tamales", "tostadas", "yuca"],
+  calientitos: ["calientitos", "comida", "comida caliente", "recien hecho", "recien hecha"],
   econocombos: ["combo", "combos", "pack", "packs", "econocombos"],
   ofertas: ["ofertas", "oferta", "promo", "promos", "descuento"],
 };
@@ -47,9 +47,6 @@ const PRODUCT_ALIASES: Record<string, string[]> = {
   "mo-shampoo-pantene-botella": ["pantene", "botella", "shampoo"],
   "mo-banano-unidad": ["banano"],
   "mo-racimo-banano-pequeno": ["banano", "racimo"],
-  "mo-tamales": ["tamales", "calientito"],
-  "mo-tostadas": ["tostadas", "calientito"],
-  "mo-yuca-frita": ["yuca", "frita", "calientito"],
 };
 
 export const normalizeSearchText = (value: string) =>

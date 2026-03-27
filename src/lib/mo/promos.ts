@@ -24,11 +24,11 @@ export const MO_PROMOS: MoPromo[] = [
   {
     id: "calientito_del_dia",
     type: "todaySpecial",
-    title: "Calientito con bebida",
+    title: "Próximamente en comida recién hecha",
     description:
-      "Tamal, tostada o yuca con bebida para resolver comida recién hecha sin dar más vueltas.",
-    badge: "Hoy",
-    productIds: ["mo-tamales", "mo-tostadas", "mo-coca-cola-600ml"],
+      "Cuando la comida recién hecha quede definida de verdad, se publicará aquí. Por ahora, confírmalo por WhatsApp.",
+    badge: "Próximamente",
+    productIds: [],
   },
   {
     id: "algo_rapido_para_hoy",

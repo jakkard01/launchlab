@@ -106,8 +106,8 @@ export const MO_CATEGORY_DEFINITIONS = [
     image: "/rys/categories/calientitos.webp",
     icon: "/rys/categories/calientitos.webp",
     fallbackImage: "/rys/categories/calientitos.webp",
-    description: "Comida recién hecha y salida rápida para hoy.",
-    searchTerms: ["calientitos", "comida", "comida recien hecha", "tamales", "tostadas"],
+    description: "Categoría futura para comida recién hecha cuando esté definida de verdad.",
+    searchTerms: ["calientitos", "comida", "comida recien hecha"],
   },
   {
     id: "econocombos",

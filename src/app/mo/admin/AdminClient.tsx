@@ -1615,7 +1615,7 @@ export default function AdminClient() {
                 type="search"
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
-                placeholder="Ej. café, shampoo, tamales..."
+                placeholder="Ej. café, shampoo, Coca-Cola..."
                 className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
               />
             </label>
