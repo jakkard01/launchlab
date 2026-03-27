@@ -1,13 +1,20 @@
 import type { Product } from "./types";
+import { getMoCategorySearchTerms, normalizeMoCategoryId } from "./categories";
 
 const CATEGORY_SYNONYMS: Record<string, string[]> = {
-  hot: ["caliente", "comida caliente", "hoy", "listo", "antojitos"],
-  antojitos: ["antojitos", "pupusas", "fritos", "comida", "pan dulce", "antojos"],
-  combos: ["combo", "combos", "pack", "packs"],
-  lacteos: ["lacteos", "lacteo", "leche", "queso"],
-  bebidas: ["bebidas", "bebida", "refresco", "gaseosa", "jugo", "cafe", "coca", "coca cola", "soda"],
+  hot: ["caliente", "comida caliente", "hoy", "listo", "calientitos"],
+  bebidas: ["bebidas", "bebida", "refresco", "gaseosa", "jugo", "coca", "coca cola", "soda"],
+  "snacks-golosinas": ["snacks", "galletas", "boquitas", "boquita", "mani", "dulces", "golosinas"],
+  "panaderia-reposteria": ["pan", "panaderia", "reposteria", "pan dulce", "pan integral"],
+  "cereales-desayuno": ["desayuno", "cereales", "cereal", "avena", "granola"],
+  "cafe-instantaneas": ["cafe", "café", "instantaneo", "instantáneo", "caliente"],
+  "lacteos-refrigerados": ["lacteos", "lacteo", "leche", "queso", "yogurt", "refrigerados"],
   abarrotes: ["abarrotes", "basicos", "casa", "arroz", "frijoles"],
-  snacks: ["snacks", "galletas", "boquitas", "boquita", "platanitos", "tortillitas", "mani", "mani con chile"],
+  "higiene-personal": ["higiene", "shampoo", "jabon", "jabón", "papel higienico", "baño"],
+  "limpieza-hogar": ["limpieza", "hogar", "detergente", "escoba", "trapeador", "servilletas"],
+  "frutas-verduras": ["frutas", "verduras", "fruta", "ensalada"],
+  calientitos: ["calientitos", "comida", "comida caliente", "recien hecho", "tamales", "tostadas"],
+  econocombos: ["combo", "combos", "pack", "packs", "econocombos"],
   ofertas: ["ofertas", "oferta", "promo", "promos", "descuento"],
 };
 
@@ -18,8 +25,6 @@ const PRODUCT_ALIASES: Record<string, string[]> = {
   "mo-cafe-servido": ["cafe", "café", "cafe caliente"],
   "mo-cafe-instantaneo": ["cafe", "café", "instantaneo", "instantáneo"],
   "mo-cafe-molido": ["cafe", "café", "molido", "para preparar"],
-  "mo-pupusas": ["pupusas", "antojo caliente", "caliente", "almuerzo rapido"],
-  "mo-empanadas": ["empanadas", "antojito", "antojo caliente", "rapido"],
   "mo-pan-dulce": ["pan dulce", "desayuno", "merienda", "cafe con pan"],
   "mo-mani-salado": ["mani", "maní", "boquita"],
   "mo-mani-limon-chile": ["mani", "maní", "limon", "limón", "chile", "boquita"],
@@ -40,9 +45,10 @@ const tokenize = (value: string) =>
     .filter(Boolean);
 
 const getCategoryTerms = (product: Product) => {
-  const category = normalizeSearchText(product.category);
+  const category = normalizeSearchText(normalizeMoCategoryId(product.category));
   const base = CATEGORY_SYNONYMS[category] ?? [];
-  return [category, ...base].filter(Boolean);
+  const configured = getMoCategorySearchTerms(product.category).map(normalizeSearchText);
+  return [category, ...base, ...configured].filter(Boolean);
 };
 
 const getAliasTerms = (product: Product) =>

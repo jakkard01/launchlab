@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import type { Product } from "../../../lib/mo/types";
 import { getMoDataAdapter } from "../../../lib/mo/data";
 import { getVisibleTabs, type TabId } from "../catalogConfig";
+import { getMoCategoryShortLabel } from "../../../lib/mo/categories";
 import MoHeader from "./MoHeader";
 import MoHero from "./MoHero";
 import MoCombos from "./MoCombos";
@@ -31,7 +32,7 @@ export default function MoStorefront({
   ctaLink,
 }: MoStorefrontProps) {
   const hasInitialCatalog = products.length > 0;
-  const [activeTab, setActiveTab] = useState<TabId>("hot");
+  const [activeTab, setActiveTab] = useState<TabId>("calientitos");
   const [query, setQuery] = useState("");
   const [catalog, setCatalog] = useState<Product[]>(filterHidden(products));
   const [loading, setLoading] = useState(false);
@@ -239,36 +240,25 @@ export default function MoStorefront({
                   Catálogo
                 </button>
               ) : null}
-              {visibleTabs.some((tab) => tab.id === "hot") ? (
+              {visibleTabs.slice(0, 3).map((tab) => (
                 <button
+                  key={tab.id}
                   type="button"
                   onClick={() => {
-                    handleJumpToTab("hot");
+                    handleJumpToTab(tab.id);
                     scrollToId("catalogo");
                   }}
                   className="whitespace-nowrap rounded-full border border-default bg-surface px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-main transition hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
                 >
-                  Lo más pedido
+                  {getMoCategoryShortLabel(tab.id)}
                 </button>
-              ) : null}
-              {visibleTabs.some((tab) => tab.id === "bebidas") ? (
-                <button
-                  type="button"
-                  onClick={() => {
-                    handleJumpToTab("bebidas");
-                    scrollToId("catalogo");
-                  }}
-                  className="whitespace-nowrap rounded-full border border-default bg-surface px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-main transition hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
-                >
-                  Bebidas
-                </button>
-              ) : null}
+              ))}
               <button
                 type="button"
                 onClick={() => scrollToId("combos")}
                 className="whitespace-nowrap rounded-full border border-default bg-surface px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-main transition hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
               >
-                Combos
+                Econocombos
               </button>
               <button
                 type="button"

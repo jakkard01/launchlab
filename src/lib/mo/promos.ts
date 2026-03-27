@@ -22,13 +22,13 @@ export const MO_PROMOS: MoPromo[] = [
     productIds: ["mo-cafe-servido", "mo-pan-dulce"],
   },
   {
-    id: "antojito_sin_vuelta",
+    id: "calientito_del_dia",
     type: "todaySpecial",
-    title: "Antojo caliente con bebida",
+    title: "Calientito con bebida",
     description:
-      "Pupusas, empanadas y bebida para quitarte el antojo caliente y salir de una vez.",
+      "Tamal, tostada o yuca con bebida para resolver comida recién hecha sin dar más vueltas.",
     badge: "Hoy",
-    productIds: ["mo-pupusas", "mo-empanadas", "mo-coca-cola-600ml"],
+    productIds: ["mo-tamales", "mo-tostadas", "mo-coca-cola-600ml"],
   },
   {
     id: "algo_rapido_para_hoy",

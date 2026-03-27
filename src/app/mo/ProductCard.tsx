@@ -9,6 +9,7 @@ import {
   getEffectivePrice,
   getPromoLabel,
 } from "../../lib/mo/pricing";
+import { getMoCategoryLabel } from "../../lib/mo/categories";
 import { MO_BRAND } from "../../lib/mo/config";
 import { buildWhatsAppMessageLink } from "../../lib/mo/whatsapp";
 import QuantityStepper from "./cart/QuantityStepper";
@@ -158,7 +159,7 @@ export default function ProductCard({
           <div className="absolute inset-0 flex items-end justify-between overflow-hidden bg-[radial-gradient(circle_at_20%_15%,color-mix(in_srgb,var(--accent)_10%,transparent),transparent_55%),linear-gradient(135deg,color-mix(in_srgb,var(--surface-3)_92%,transparent),color-mix(in_srgb,var(--accent)_6%,transparent))] px-2.5 py-2">
             <div className="flex flex-col gap-1">
               <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted">
-                {product.category}
+                {getMoCategoryLabel(product.category)}
               </span>
               <span className="text-xs font-medium text-main">
                 Selección local
@@ -199,14 +200,14 @@ export default function ProductCard({
       <p className={`mt-1.5 overflow-hidden text-muted-strong [display:-webkit-box] [-webkit-box-orient:vertical] ${isCompact ? "text-[12px] leading-[1.25rem] [-webkit-line-clamp:2]" : "text-[13px] leading-5 [-webkit-line-clamp:2]"}`}>
         {product.description}
       </p>
-      {product.hotNote ? (
+          {product.hotNote ? (
         <p className="mt-1.5 rounded-2xl border border-default bg-surface-3 px-2.5 py-1.5 text-[10px] leading-4 text-muted-strong">
           {product.hotNote}
         </p>
       ) : null}
       <div className="mt-2">
         <span className="rounded-full border border-default bg-[color-mix(in_srgb,var(--surface-3)_80%,transparent)] px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-muted-strong">
-          {product.category}
+          {getMoCategoryLabel(product.category)}
         </span>
       </div>
       <div className={`flex items-center justify-between ${isCompact ? "mt-2.5" : "mt-3"}`}>

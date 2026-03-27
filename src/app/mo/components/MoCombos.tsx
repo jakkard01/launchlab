@@ -85,13 +85,13 @@ export default function MoCombos({ products }: MoCombosProps) {
       <div className="flex items-end justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-muted">
-            Combos útiles
+            Econocombos
           </p>
         <h2 className="mt-2 text-lg font-semibold text-main">
-          Combos para desayuno, antojo o resolver sin otra vuelta
+          Packs simples para desayuno, calientito o básicos sin otra vuelta
         </h2>
         <p className="mt-2 text-sm text-muted-strong">
-          Agrega un combo, confirma por WhatsApp y resuelve comida, merienda o básicos sin salir dos veces.
+          Agrega un econocombo, confirma por WhatsApp y resuelve comida, merienda o básicos sin salir dos veces.
         </p>
       </div>
       </div>
@@ -163,7 +163,7 @@ export default function MoCombos({ products }: MoCombosProps) {
                 onClick={() => addCombo(combo.id)}
                 className="h-11 rounded-full bg-[var(--accent)] px-5 text-sm font-semibold text-[#07130c] transition hover:opacity-90"
               >
-                Agregar combo al pedido
+                Agregar econocombo
               </button>
             </div>
 

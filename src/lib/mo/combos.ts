@@ -16,12 +16,12 @@ export type MoCombo = {
 // Keep this file intentionally simple: it is the easiest place to edit combos without touching catalog logic.
 export const MO_COMBOS: MoCombo[] = [
   {
-    id: "pupusas_coca",
-    title: "Pupusas y Coca-Cola",
-    description: "Combo directo para resolver comida rápida, antojo caliente y salida corta.",
+    id: "tamal_coca",
+    title: "Tamal y Coca-Cola",
+    description: "Combo directo para resolver comida rápida, bebida y salida corta.",
     badge: "Sale rápido",
     items: [
-      { productId: "mo-pupusas", qty: 1 },
+      { productId: "mo-tamales", qty: 1 },
       { productId: "mo-coca-cola-600ml", qty: 1 },
     ],
   },
@@ -46,12 +46,12 @@ export const MO_COMBOS: MoCombo[] = [
     ],
   },
   {
-    id: "antojito_bebida",
-    title: "Empanadas y Coca-Cola",
-    description: "Antojo rápido para hoy, con bebida lista para salir y seguir el día.",
+    id: "yuca_bebida",
+    title: "Yuca frita y Coca-Cola",
+    description: "Calientito rápido para hoy, con bebida lista para salir y seguir el día.",
     badge: "Hoy",
     items: [
-      { productId: "mo-empanadas", qty: 1 },
+      { productId: "mo-yuca-frita", qty: 1 },
       { productId: "mo-coca-cola-600ml", qty: 1 },
     ],
   },

@@ -104,7 +104,7 @@ export default function MoHeader({
                   Buscador rapido
                 </p>
                 <p className="mt-1 text-xs text-muted-strong">
-                  Busca por nombre, antojo o basico para ubicarlo rapido desde el movil.
+                  Busca por nombre, categoría o básico para ubicarlo rápido desde el móvil.
                 </p>
               </div>
             ) : (
@@ -134,7 +134,7 @@ export default function MoHeader({
               onKeyDown={handleKeyDown}
               onFocus={() => onSearchFocusChange(true)}
               onBlur={() => onSearchFocusChange(false)}
-              placeholder="Busca pupusas, café, empanadas..."
+              placeholder="Busca café, shampoo, arroz o tamales..."
               className={`w-full rounded-full border border-default bg-surface px-4 text-sm text-main placeholder:text-muted focus:border-[var(--accent)] focus:outline-none ${
                 isCompact ? "h-10" : "h-11"
               }`}

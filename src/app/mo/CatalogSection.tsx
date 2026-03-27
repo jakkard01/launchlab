@@ -11,20 +11,8 @@ import {
   sortCatalogProducts,
   type TabId,
 } from "./catalogConfig";
+import { getMoCategoryDescription, getMoCategoryImage, getMoCategoryLabel } from "../../lib/mo/categories";
 import { rankProductsByQuery } from "../../lib/mo/search";
-
-const CATEGORY_ICON_BY_ID = {
-  hot: "/RYSminisuper/icons/pasillos/comida_caliente.webp",
-  combos: "/RYSminisuper/icons/pasillos/combos.webp",
-  lacteos: "/RYSminisuper/icons/pasillos/lacteos.webp",
-  bebidas: "/RYSminisuper/icons/pasillos/bebidas.webp",
-  abarrotes: "/RYSminisuper/icons/pasillos/abarrotes.webp",
-  snacks: "/RYSminisuper/icons/pasillos/snacks.webp",
-  ofertas: "/RYSminisuper/icons/pasillos/ofertas.webp",
-} as const;
-
-const resolveCategoryIcon = (id: TabId) =>
-  CATEGORY_ICON_BY_ID[id as keyof typeof CATEGORY_ICON_BY_ID];
 
 type CatalogSectionProps = {
   products: Product[];
@@ -51,7 +39,7 @@ export default function CatalogSection({
     ? activeTab
     : fallbackTab;
   const activeLabel =
-    visibleTabs.find((tab) => tab.id === resolvedActiveTab)?.label ?? "Todo";
+    visibleTabs.find((tab) => tab.id === resolvedActiveTab)?.label ?? "Categorías";
   const [expandedTab, setExpandedTab] = useState<TabId | null>(null);
 
   const queryFilter = query.trim();
@@ -81,12 +69,12 @@ export default function CatalogSection({
     <section id="catalogo" className="space-y-6">
       <div className="flex flex-col gap-3">
         <h2 className="text-lg font-semibold text-main">
-          {queryFilter ? "Resultados de búsqueda" : "Catálogo completo"}
+          {queryFilter ? "Resultados de búsqueda" : "Catálogo por categorías"}
         </h2>
         <p className="text-sm text-muted">
           {queryFilter
             ? "Aquí solo ves coincidencias reales del catálogo. Si no aparece, no significa que el buscador falle: puede que hoy no esté cargado o que toque pedirlo directo."
-            : "Revisa qué hay hoy, arma tu pedido y confirma por WhatsApp antes de pasar."}
+            : "Entra por categorías visuales, ubica rápido lo que sí hay hoy y confirma por WhatsApp antes de pasar."}
         </p>
         <div className="flex flex-wrap gap-2 text-xs text-muted">
           {!queryFilter ? (
@@ -107,14 +95,6 @@ export default function CatalogSection({
             >
               Limpiar búsqueda
             </button>
-          ) : visibleTabs.some((tab) => tab.id === "hot") ? (
-            <button
-              type="button"
-              onClick={() => onTabChange("hot")}
-              className="rounded-full border border-default px-3 py-1 text-xs font-semibold text-main transition hover:border-[var(--accent)]/40 hover:text-[var(--accent)]"
-            >
-              Ver caliente hoy
-            </button>
           ) : null}
         </div>
       </div>
@@ -124,10 +104,10 @@ export default function CatalogSection({
           <div className="no-scrollbar flex max-w-full gap-2 overflow-x-auto pb-1 [overscroll-behavior-x:contain] [touch-action:pan-x]">
             {visibleTabs.map((tab) => {
               const isActive = tab.id === resolvedActiveTab;
-              const iconSrc = resolveCategoryIcon(tab.id);
+              const iconSrc = getMoCategoryImage(tab.id);
               return (
                 <button
-              key={tab.id}
+                  key={tab.id}
                   type="button"
                   onClick={() => onTabChange(tab.id)}
                   className={`whitespace-nowrap rounded-full border px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/50 sm:px-4 sm:text-xs sm:tracking-[0.18em] ${
@@ -149,8 +129,6 @@ export default function CatalogSection({
                           className="h-5 w-5 object-cover"
                         />
                       </span>
-                    ) : ("icon" in tab && tab.icon) ? (
-                      <span aria-hidden="true">{tab.icon}</span>
                     ) : null}
                     <span>{tab.label}</span>
                   </span>
@@ -246,8 +224,11 @@ export default function CatalogSection({
             >
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-semibold text-main">
-                  {tab.label}
+                  {getMoCategoryLabel(tab.id)}
                 </h3>
+                <p className="text-xs text-muted-strong">
+                  {getMoCategoryDescription(tab.id)}
+                </p>
                 {items.length > 4 ? (
                   <button
                     type="button"

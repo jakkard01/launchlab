@@ -1,7 +1,7 @@
 export const MO_BRAND = {
   technicalId: "rysminimarket",
-  currentName: "RYS Mini Market",
-  currentDisplayName: "RYS Mini Market",
+  currentName: "RYS Minimarket",
+  currentDisplayName: "RYS Minimarket",
   shortName: "RYS",
   locationLabel: "La Gloria, San Salvador",
 } as const;

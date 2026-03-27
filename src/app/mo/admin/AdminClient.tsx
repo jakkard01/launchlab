@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Product, ProductStatus } from "../../../lib/mo/types";
 import { getMoDataAdapter } from "../../../lib/mo/data";
@@ -12,6 +13,12 @@ import {
   getPromoLabel,
   getPromoSavings,
 } from "../../../lib/mo/pricing";
+import {
+  MO_CATEGORY_DEFINITIONS,
+  getMoCategoryDescription,
+  getMoCategoryLabel,
+  normalizeMoCategoryId,
+} from "../../../lib/mo/categories";
 import { matchesProductQuery, rankProductsByQuery } from "../../../lib/mo/search";
 import type {
   AdminRole,
@@ -199,6 +206,7 @@ export default function AdminClient() {
   const [manualSaleNotice, setManualSaleNotice] = useState<InlineNotice | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [visibilityFilter, setVisibilityFilter] = useState<VisibilityFilter>("all");
+  const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [activeSection, setActiveSection] = useState<AdminSection>("resumen");
   const importInputRef = useRef<HTMLInputElement>(null);
 
@@ -444,21 +452,25 @@ export default function AdminClient() {
   );
 
   const categoryOptions = useMemo(() => {
-    const merged = new Set([
-      "antojitos",
-      "combos",
-      "bebidas",
-      "snacks",
-      "abarrotes",
-      "lacteos",
-      ...products.map((product) => product.category).filter(Boolean),
-    ]);
-    return Array.from(merged).sort((a, b) => a.localeCompare(b, "es"));
+    const liveCategories = new Set(
+      products.map((product) => normalizeMoCategoryId(product.category)).filter(Boolean)
+    );
+    return MO_CATEGORY_DEFINITIONS.filter((category) => liveCategories.has(category.id));
   }, [products]);
+
+  const categoryCounts = useMemo(() => {
+    return MO_CATEGORY_DEFINITIONS.map((category) => ({
+      ...category,
+      count: sortedProducts.filter(
+        (product) => normalizeMoCategoryId(product.category) === category.id
+      ).length,
+    })).filter((category) => category.count > 0);
+  }, [sortedProducts]);
 
   const filteredProducts = useMemo(() => {
     const query = searchQuery.trim();
     const visibleProducts = sortedProducts.filter((product) => {
+      const normalizedCategory = normalizeMoCategoryId(product.category);
       const currentStatus = status[product.id] ?? product.status ?? "available";
       const currentStock = stock[product.id] ?? product.stockStatus ?? "disponible";
       const currentPromo = promo[product.id] ?? {
@@ -475,7 +487,9 @@ export default function AdminClient() {
         (visibilityFilter === "featured" && product.isFeatured) ||
         (visibilityFilter === "promo" && currentPromo.enabled && currentPromo.percent > 0) ||
         (visibilityFilter === "hot" && currentHot.status !== "hoy_no_hicimos");
-      if (!matchesVisibility) return false;
+      const matchesCategory =
+        categoryFilter === "all" || normalizedCategory === categoryFilter;
+      if (!matchesVisibility || !matchesCategory) return false;
       if (!query) return true;
       return matchesProductQuery(
         {
@@ -486,7 +500,7 @@ export default function AdminClient() {
       );
     });
     return query ? rankProductsByQuery(visibleProducts, query) : visibleProducts;
-  }, [hotToday, prices, promo, searchQuery, sortedProducts, status, stock, visibilityFilter]);
+  }, [categoryFilter, hotToday, prices, promo, searchQuery, sortedProducts, status, stock, visibilityFilter]);
 
   const currentRole = currentUser?.role ?? "viewer";
   const canEditCatalog =
@@ -535,7 +549,7 @@ export default function AdminClient() {
   );
 
   const sectionProducts = useMemo(() => {
-    if (searchQuery.trim() || visibilityFilter !== "all") return filteredProducts;
+    if (searchQuery.trim() || visibilityFilter !== "all" || categoryFilter !== "all") return filteredProducts;
 
     if (activeSection === "marketing") {
       const marketingFirst = filteredProducts.filter((product) => {
@@ -571,7 +585,7 @@ export default function AdminClient() {
     }
 
     return filteredProducts;
-  }, [activeSection, filteredProducts, hotToday, promo, searchQuery, stock, visibilityFilter]);
+  }, [activeSection, categoryFilter, filteredProducts, hotToday, promo, searchQuery, stock, visibilityFilter]);
 
   useEffect(() => {
     if (availableSections.some((section) => section.id === activeSection)) return;
@@ -1583,23 +1597,38 @@ export default function AdminClient() {
                     ? "Aquí decides qué empujar hoy: promos, destacados, etiquetas y productos calientes."
                     : activeSection === "avanzado"
                       ? "Esta zona es para cambios finos. Si no lo necesitas hoy, no la toques."
-                      : "Busca un producto por nombre, categoría o etiqueta y abre su ficha sin perderte en una sábana eterna."}
+                      : "Busca un producto por nombre, categoría o etiqueta y entra por bloques de categoría para operar sin perderte en una sábana eterna."}
               </p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-xs text-white/65">
               Mostrando {sectionProducts.length} de {sortedProducts.length} productos
             </div>
           </div>
-          <div className="grid gap-4 lg:grid-cols-[2fr,1fr,auto]">
+          <div className="grid gap-4 lg:grid-cols-[2fr,1fr,1fr,auto]">
             <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
               Buscar producto
               <input
                 type="search"
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
-                placeholder="Ej. pupusas, café, empanadas..."
+                placeholder="Ej. café, shampoo, tamales..."
                 className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
               />
+            </label>
+            <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+              Categoría
+              <select
+                value={categoryFilter}
+                onChange={(event) => setCategoryFilter(event.target.value)}
+                className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
+              >
+                <option value="all">Todas</option>
+                {categoryOptions.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.label}
+                  </option>
+                ))}
+              </select>
             </label>
             <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
               Filtrar lista
@@ -1624,6 +1653,7 @@ export default function AdminClient() {
                 type="button"
                 onClick={() => {
                   setSearchQuery("");
+                  setCategoryFilter("all");
                   setVisibilityFilter("all");
                 }}
                 className="w-full rounded-2xl border border-white/10 px-4 py-3 text-xs uppercase tracking-[0.2em] text-white/70"
@@ -1632,6 +1662,51 @@ export default function AdminClient() {
               </button>
             </div>
           </div>
+          {categoryCounts.length > 0 ? (
+            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+              {categoryCounts.map((category) => {
+                const isActive = categoryFilter === category.id;
+                return (
+                  <button
+                    key={category.id}
+                    type="button"
+                    onClick={() =>
+                      setCategoryFilter((current) =>
+                        current === category.id ? "all" : category.id
+                      )
+                    }
+                    className={`flex items-center gap-3 rounded-2xl border p-3 text-left transition ${
+                      isActive
+                        ? "border-emerald-300/35 bg-emerald-400/10"
+                        : "border-white/10 bg-black/25 hover:border-white/20"
+                    }`}
+                  >
+                    <span className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-black/25">
+                      <Image
+                        src={category.image}
+                        alt=""
+                        aria-hidden="true"
+                        width={56}
+                        height={56}
+                        className="h-14 w-14 object-cover"
+                      />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block text-sm font-semibold text-white">
+                        {category.label}
+                      </span>
+                      <span className="mt-1 block text-xs text-white/55">
+                        {category.count} producto{category.count === 1 ? "" : "s"}
+                      </span>
+                      <span className="mt-1 block text-[11px] text-white/45">
+                        {getMoCategoryDescription(category.id)}
+                      </span>
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          ) : null}
           <div className="grid gap-4 lg:grid-cols-2">
               {sectionProducts.length === 0 ? (
                 <div className="rounded-2xl border border-dashed border-white/15 bg-black/20 p-5 text-sm text-white/60 lg:col-span-2">
@@ -1720,7 +1795,7 @@ export default function AdminClient() {
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
                       <p className="text-xs uppercase tracking-[0.3em] text-white/60">
-                        {draft.category}
+                        {getMoCategoryLabel(draft.category)}
                       </p>
                       <h3 className="mt-2 text-lg font-semibold">
                         {product.name}
@@ -2057,8 +2132,8 @@ export default function AdminClient() {
                           disabled={!canEditCatalog}
                         >
                           {categoryOptions.map((option) => (
-                            <option key={option} value={option}>
-                              {option}
+                            <option key={option.id} value={option.id}>
+                              {option.label}
                             </option>
                           ))}
                         </select>

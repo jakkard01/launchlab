@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "RYS Mini Market",
+  title: "RYS Minimarket",
   description: "Retiro en La Gloria, San Salvador.",
   robots: {
     index: false,
