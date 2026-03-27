@@ -164,7 +164,7 @@ export const getMoCategoryImage = (value: string) => {
 
 export const getMoCategoryIcon = (value: string) => {
   const category = getMoCategoryById(value);
-  return category?.icon ?? category?.image ?? category?.fallbackImage ?? "/rys/categories/abarrotes.webp";
+  return category?.image ?? category?.icon ?? category?.fallbackImage ?? "/rys/categories/abarrotes.webp";
 };
 
 export const getMoCategoryFallbackImage = (value: string) =>

@@ -1963,3 +1963,13 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
   - validar `git branch --show-current`
   - validar `cat .vercel/project.json`
 - La rama correcta y el proyecto correcto no son la misma cosa; ambos deben cuadrar antes de publicar.
+
+### Cierre visual de coherencia en catálogo y combos
+- Las categorías rápidas y tabs del catálogo de RYS dejan de mezclar covers finales con iconos/SVG viejos; la prioridad visual pasa a ser la portada real de categoría cuando exista.
+- `Pedido especial` deja de usar el asset legacy de `icons/pasillos` y pasa a un icono limpio de carrito para no contaminar la lectura del bloque.
+- Los econocombos ya no quedan como cards ciegas: muestran un collage visual armado con los productos reales del combo; si no hubiera imágenes útiles, caen al cover de `Econocombos`.
+- La regla visual para storefront queda fijada así:
+  - imagen real coherente del producto, si existe
+  - imagen top específica, si existe
+  - portada limpia de categoría
+  - nunca volver a priorizar `icons/pasillos` o SVGs flojos cuando contradicen o degradan lo que se muestra

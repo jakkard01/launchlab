@@ -144,7 +144,7 @@ export default function MoQuickShop({
                   aria-hidden="true"
                   width={30}
                   height={30}
-                  className="h-[30px] w-[30px] object-contain"
+                  className="h-[30px] w-[30px] rounded-lg object-cover"
                 />
               </span>
             </button>
@@ -165,7 +165,7 @@ export default function MoQuickShop({
           </span>
           <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--accent)]/35 bg-[color-mix(in_srgb,var(--accent)_12%,transparent)] shadow-sm dark:bg-[color-mix(in_srgb,var(--accent)_14%,transparent)]">
             <Image
-              src="/RYSminisuper/icons/pasillos/pedido_especial.webp"
+              src="/rys/favicon/rys-mini-market-cart.svg"
               alt=""
               aria-hidden="true"
               width={30}

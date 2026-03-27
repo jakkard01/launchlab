@@ -11,6 +11,7 @@ import {
 } from "../../lib/mo/pricing";
 import { getMoCategoryImage, getMoCategoryLabel } from "../../lib/mo/categories";
 import { MO_BRAND } from "../../lib/mo/config";
+import { resolveProductImage } from "../../lib/mo/productVisuals";
 import { buildWhatsAppMessageLink } from "../../lib/mo/whatsapp";
 import QuantityStepper from "./cart/QuantityStepper";
 import { useCart } from "./cart/CartContext";
@@ -33,59 +34,6 @@ const stockLabels: Record<StockStatus, string> = {
   disponible: "Disponible",
   ultimas: "Ultimas",
   agotado: "Agotado",
-};
-
-const TOP_IMAGES = {
-  frijoles: "/RYSminisuper/images/top/frijoles.webp",
-  sopa_frijoles: "/RYSminisuper/images/top/sopa_frijoles.webp",
-  fritos: "/RYSminisuper/images/top/fritos.webp",
-  platano_tajadas: "/RYSminisuper/images/top/platano_tajadas.webp",
-  "cafe-pack": "/RYSminisuper/images/top/cafe.webp",
-} as const;
-
-const LOW_QUALITY_IMAGE_PATTERNS = [
-  "/RYSminisuper/icons/pasillos/",
-  "/mo/categories/",
-] as const;
-
-const normalizeText = (value: string) =>
-  value
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase();
-
-const isLowQualityProductImage = (value?: string | null) => {
-  const src = value?.trim();
-  if (!src) return true;
-  return LOW_QUALITY_IMAGE_PATTERNS.some((pattern) => src.includes(pattern));
-};
-
-const resolveTopImage = (product: Product) => {
-  const productImage = product.image?.trim();
-  if (productImage && !isLowQualityProductImage(productImage)) {
-    return productImage;
-  }
-  const key = product.imageKey ?? "";
-  if (key && key in TOP_IMAGES) {
-    return TOP_IMAGES[key as keyof typeof TOP_IMAGES];
-  }
-  const name = normalizeText(product.name);
-  if (name.includes("sopa") && name.includes("frijol")) {
-    return TOP_IMAGES.sopa_frijoles;
-  }
-  if (name.includes("frijol")) {
-    return TOP_IMAGES.frijoles;
-  }
-  if (name.includes("platano")) {
-    return TOP_IMAGES.platano_tajadas;
-  }
-  if (name.includes("frito")) {
-    return TOP_IMAGES.fritos;
-  }
-  if (name.includes("cafe")) {
-    return TOP_IMAGES["cafe-pack"];
-  }
-  return getMoCategoryImage(product.category);
 };
 
 const getInitials = (value: string) =>
@@ -120,7 +68,7 @@ export default function ProductCard({
   const resolvedStock =
     isOutOfStockStatus ? "agotado" : stockStatus ?? product.stockStatus ?? "disponible";
   const isOutOfStock = resolvedStock === "agotado" || isSoon || isOutOfStockStatus;
-  const topImageSrc = resolveTopImage(product);
+  const topImageSrc = resolveProductImage(product);
   const imageAlt = product.name;
   const initials = getInitials(product.name);
   const notifyLink = buildWhatsAppMessageLink(
