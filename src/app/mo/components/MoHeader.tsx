@@ -149,7 +149,7 @@ export default function MoHeader({
               onKeyDown={handleKeyDown}
               onFocus={() => onSearchFocusChange(true)}
               onBlur={() => onSearchFocusChange(false)}
-              placeholder="Busca café, shampoo o Coca-Cola"
+              placeholder="Busca café, arroz o shampoo"
               className={`w-full rounded-full border border-default bg-surface px-4 text-sm text-main placeholder:text-muted focus:border-[var(--accent)] focus:outline-none ${
                 isCompact ? "h-10" : "h-11"
               }`}

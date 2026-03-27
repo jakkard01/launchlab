@@ -11,14 +11,14 @@ export default function MoAdminAccessPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [statusNote, setStatusNote] = useState(
-    "Usa usuario/email + contraseña. Si todavía no existe usuario migrado, la clave compartida legacy sigue funcionando temporalmente."
+    "Usa email o usuario interno + contraseña. Las cuentas las crea internamente un super admin."
   );
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSubmitting(true);
     setError(null);
-    setStatusNote("Validando clave admin...");
+      setStatusNote("Validando acceso admin...");
 
     try {
       const response = await fetch("/api/mo/admin/login", {
@@ -55,8 +55,8 @@ export default function MoAdminAccessPage() {
         return;
       }
 
-      setStatusNote("Clave correcta. Abriendo el panel...");
-      router.push("/RYSminisuper/admin");
+      setStatusNote("Acceso correcto. Abriendo el panel...");
+      router.push("/admin");
       router.refresh();
     } catch {
       setError("No se pudo iniciar sesión.");
@@ -81,7 +81,7 @@ export default function MoAdminAccessPage() {
           Este panel es solo para administracion. La migración ya está preparada para usuarios reales, roles y sesiones seguras.
         </p>
         <div className="mt-4 rounded-2xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-xs text-emerald-900">
-          En móvil: escribe usuario/email y contraseña. Si todavía no existe usuario migrado, la clave compartida legacy sigue entrando de forma temporal mientras se completa la transición.
+          En móvil: entra con email o usuario interno y contraseña. El acceso final no usa registro público.
         </div>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
@@ -99,7 +99,7 @@ export default function MoAdminAccessPage() {
               autoComplete="username"
             />
             <p className="text-xs text-slate-500">
-              Si sigues en modo legacy, puedes dejar este campo vacío y usar la clave compartida temporal.
+              Usa el email o usuario que te haya creado internamente el super admin.
             </p>
           </div>
           <div className="space-y-2">
@@ -107,7 +107,7 @@ export default function MoAdminAccessPage() {
               Contraseña
             </label>
             <p className="text-xs text-slate-500">
-              Usa la contraseña del usuario migrado o la clave legacy temporal mientras se completa la migración.
+              La contraseña se valida contra la cuenta interna del panel.
             </p>
           </div>
           <div className="relative">
@@ -164,14 +164,14 @@ export default function MoAdminAccessPage() {
         <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-600">
           <p className="font-semibold text-slate-800">Qué deberías ver</p>
           <p className="mt-1">
-            Si la clave está bien, entras al panel. Si luego falla la carga, el
+            Si el acceso está bien, entras al panel. Si luego falla la carga, el
             panel te dirá si faltan datos de la hoja, si la sesión no quedó activa
             o si hay un problema de conexión.
           </p>
         </div>
 
         <a
-          href="/RYSminisuper"
+          href="/"
           className="mt-6 inline-flex h-11 items-center justify-center rounded-full border border-slate-200 px-5 text-sm font-semibold text-slate-600 transition hover:border-emerald-300 hover:text-emerald-700"
         >
           Volver a la tienda

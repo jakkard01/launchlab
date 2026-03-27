@@ -3,6 +3,7 @@ import {
   formatGoogleTokenError,
   getGoogleServiceAccountConfig,
 } from "../../google/serviceAccount";
+import { normalizeAdminRole } from "../adminRoles";
 import type {
   AdminAuditEntry,
   AdminUserCreateInput,
@@ -258,7 +259,7 @@ const parseUsers = (rows: string[][]): AdminUserRecord[] => {
         username: String(record.username ?? ""),
         email: String(record.email ?? ""),
         passwordHash: String(record.passwordHash ?? ""),
-        role: (record.role as AdminUserRecord["role"]) ?? "viewer",
+        role: normalizeAdminRole(record.role),
         isActive: String(record.isActive ?? "true") === "true",
         createdAt: String(record.createdAt ?? ""),
         updatedAt: String(record.updatedAt ?? ""),
@@ -411,7 +412,7 @@ export const createAdminUser = async (input: AdminUserCreateInput) => {
     username: identifier.username,
     email: identifier.email,
     passwordHash: hashPassword(input.password),
-    role: input.role,
+    role: normalizeAdminRole(input.role),
     isActive: input.isActive ?? true,
     createdAt: timestamp,
     updatedAt: timestamp,
@@ -453,7 +454,7 @@ export const updateAdminUser = async (input: AdminUserUpdateInput) => {
           username: identifier.username,
           email: identifier.email,
           passwordHash: input.password ? hashPassword(input.password) : user.passwordHash,
-          role: input.role ?? user.role,
+          role: input.role ? normalizeAdminRole(input.role) : user.role,
           isActive: input.isActive ?? user.isActive,
           updatedAt,
         }

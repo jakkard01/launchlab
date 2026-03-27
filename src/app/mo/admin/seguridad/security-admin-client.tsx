@@ -7,8 +7,12 @@ import type {
   AdminSessionUser,
   AdminUserSafe,
 } from "../../../../lib/mo/data/types";
+import {
+  ADMIN_ROLE_LABELS,
+  ADMIN_ROLE_OPTIONS,
+} from "../../../../lib/mo/adminRoles";
 
-const roles: AdminRole[] = ["owner", "admin", "operator", "viewer"];
+const roles: AdminRole[] = ADMIN_ROLE_OPTIONS;
 
 export default function SecurityAdminClient() {
   const [user, setUser] = useState<AdminSessionUser | null>(null);
@@ -21,7 +25,7 @@ export default function SecurityAdminClient() {
     username: "",
     email: "",
     password: "",
-    role: "operator" as AdminRole,
+    role: "admin_operator" as AdminRole,
   });
 
   const loadAll = async () => {
@@ -38,7 +42,7 @@ export default function SecurityAdminClient() {
       setUser(meData.user);
 
       if (usersRes.status === 403 || auditRes.status === 403) {
-        throw new Error("Solo owner puede ver usuarios y auditoría.");
+        throw new Error("Solo super admin puede ver usuarios y auditoría.");
       }
 
       if (usersRes.ok) {
@@ -78,7 +82,7 @@ export default function SecurityAdminClient() {
         username: "",
         email: "",
         password: "",
-        role: "operator",
+        role: "admin_operator",
       });
       await loadAll();
     } catch (err) {
@@ -114,7 +118,7 @@ export default function SecurityAdminClient() {
 
   const logout = async () => {
     await fetch("/api/mo/admin/logout", { method: "POST" });
-    window.location.href = "/RYSminisuper/admin/acceso";
+    window.location.href = "/admin/acceso";
   };
 
   return (
@@ -130,12 +134,12 @@ export default function SecurityAdminClient() {
                 Usuarios, roles y auditoría
               </h1>
               <p className="mt-2 text-sm text-slate-600">
-                Base profesional del panel. Desde aquí el owner puede crear usuarios reales, cambiar roles y revisar trazabilidad.
+                Base operativa del panel. Desde aquí el super admin crea cuentas internas, cambia roles y revisa trazabilidad.
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
               <a
-                href="/RYSminisuper/admin"
+                href="/admin"
                 className="inline-flex h-11 items-center justify-center rounded-full border border-slate-200 px-4 text-sm font-semibold text-slate-700"
               >
                 Volver al panel
@@ -151,8 +155,8 @@ export default function SecurityAdminClient() {
           </div>
           {user ? (
             <div className="mt-4 rounded-2xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
-              Sesión actual: <strong>{user.name}</strong> ({user.role})
-              {user.isLegacy ? " · modo legacy temporal" : ""}
+              Sesión actual: <strong>{user.name}</strong> ({ADMIN_ROLE_LABELS[user.role]})
+              {user.isLegacy ? " · acceso temporal de emergencia" : ""}
             </div>
           ) : null}
           {error ? (
@@ -206,7 +210,7 @@ export default function SecurityAdminClient() {
               >
                 {roles.map((role) => (
                   <option key={role} value={role}>
-                    {role}
+                    {ADMIN_ROLE_LABELS[role]}
                   </option>
                 ))}
               </select>
@@ -247,7 +251,7 @@ export default function SecurityAdminClient() {
                       >
                         {roles.map((role) => (
                           <option key={role} value={role}>
-                            {role}
+                            {ADMIN_ROLE_LABELS[role]}
                           </option>
                         ))}
                       </select>

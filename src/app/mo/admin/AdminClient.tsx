@@ -19,9 +19,13 @@ import {
   getMoCategoryLabel,
   normalizeMoCategoryId,
 } from "../../../lib/mo/categories";
+import {
+  ADMIN_ROLE_LABELS,
+  isAdminOperatorRole,
+  isSuperAdminRole,
+} from "../../../lib/mo/adminRoles";
 import { matchesProductQuery, rankProductsByQuery } from "../../../lib/mo/search";
 import type {
-  AdminRole,
   AdminSessionUser,
   HotState,
   HotStatus,
@@ -161,13 +165,6 @@ type InlineNotice = {
 };
 
 type AdminSection = "resumen" | "hoy" | "catalogo" | "marketing" | "avanzado";
-
-const ROLE_LABELS: Record<AdminRole, string> = {
-  owner: "Owner",
-  admin: "Admin",
-  operator: "Operadora",
-  viewer: "Solo lectura",
-};
 
 export default function AdminClient() {
   type VisibilityFilter =
@@ -507,8 +504,8 @@ export default function AdminClient() {
 
   const currentRole = currentUser?.role ?? "viewer";
   const canEditCatalog =
-    currentRole === "owner" || currentRole === "admin" || currentRole === "operator";
-  const canSeeAdvanced = currentRole === "owner" || currentRole === "admin";
+    isSuperAdminRole(currentRole) || isAdminOperatorRole(currentRole);
+  const canSeeAdvanced = isSuperAdminRole(currentRole);
   const canSeeMarketing = currentRole !== "viewer";
   const canUseManualSale = currentRole !== "viewer";
 
@@ -1263,7 +1260,7 @@ export default function AdminClient() {
               Reintentar
             </button>
             <a
-              href="/RYSminisuper/admin/acceso"
+              href="/admin/acceso"
               className="rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/90"
             >
               Volver a acceso
@@ -1294,10 +1291,10 @@ export default function AdminClient() {
             </p>
             <div className="mt-3 flex flex-wrap gap-2 text-[11px] uppercase tracking-[0.2em]">
               <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-white/70">
-                {ROLE_LABELS[currentRole]}
+                {ADMIN_ROLE_LABELS[currentRole]}
               </span>
               <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-white/70">
-                {currentUser?.isLegacy ? "Acceso legacy temporal" : currentUser?.name ?? "Sesión admin"}
+                {currentUser?.isLegacy ? "Acceso temporal de emergencia" : currentUser?.name ?? "Sesión admin"}
               </span>
             </div>
           </div>
@@ -1338,9 +1335,9 @@ export default function AdminClient() {
             <div className="rounded-full border border-emerald-300/40 bg-emerald-400/10 px-4 py-2 text-xs uppercase tracking-[0.3em] text-emerald-200">
               {hotCount} calientes activos
             </div>
-            {currentRole === "owner" ? (
+            {isSuperAdminRole(currentRole) ? (
               <a
-                href="/RYSminisuper/admin/seguridad"
+                href="/admin/seguridad"
                 className="rounded-full border border-white/10 px-4 py-2 text-xs uppercase tracking-[0.2em] text-white/70"
               >
                 Seguridad

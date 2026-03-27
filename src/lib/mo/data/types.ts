@@ -148,7 +148,9 @@ export type MoStats = {
   whatsappClicks: ContextStatEntry[];
 };
 
-export type AdminRole = "owner" | "admin" | "operator" | "viewer";
+export type AdminRole = "super_admin" | "admin_operator";
+export type AdminLegacyRole = "owner" | "admin" | "operator" | "viewer";
+export type AdminStoredRole = AdminRole | AdminLegacyRole;
 
 export type AdminUserRecord = {
   id: string;
@@ -156,7 +158,7 @@ export type AdminUserRecord = {
   username: string;
   email: string;
   passwordHash: string;
-  role: AdminRole;
+  role: AdminRole | "viewer";
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
@@ -222,7 +224,7 @@ export type AdminSessionUser = {
   name: string;
   username: string;
   email: string;
-  role: AdminRole;
+  role: AdminRole | "viewer";
   isActive: boolean;
   isLegacy?: boolean;
 };

@@ -34,7 +34,7 @@ export const getMoBackendErrorInfo = (error: unknown): MoBackendErrorInfo => {
       "auth",
       "Sesión inválida o acceso denegado",
       "La sesión admin no está activa o la clave no fue aceptada.",
-      "Vuelve a entrar desde /RYSminisuper/admin/acceso y prueba de nuevo."
+      "Vuelve a entrar desde /admin/acceso y prueba de nuevo."
     );
   }
 
@@ -43,7 +43,7 @@ export const getMoBackendErrorInfo = (error: unknown): MoBackendErrorInfo => {
       "auth",
       "Sesión inválida o acceso denegado",
       "La cookie del admin no está activa o ya venció.",
-      "Vuelve a entrar desde /RYSminisuper/admin/acceso."
+      "Vuelve a entrar desde /admin/acceso."
     );
   }
 

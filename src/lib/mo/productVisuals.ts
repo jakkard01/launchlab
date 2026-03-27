@@ -10,13 +10,11 @@ const PRODUCT_IMAGE_OVERRIDES: Record<string, string> = {
   "mo-papel-higienico-scott": "/rys/categories/higiene-personal.webp",
   "mo-papel-cocina-scott": "/rys/categories/limpieza-hogar.webp",
   "mo-leche-evaporada-ideal": "/rys/categories/abarrotes.webp",
+  "mo-atun-calvo-lata": "/rys/categories/abarrotes.webp",
   "mo-leche-refrigerada": "/rys/categories/lacteos-refrigerados.webp",
+  "mo-sopa-vaso": "/rys/categories/abarrotes.webp",
+  "mo-sopa-sobre": "/rys/categories/abarrotes.webp",
 };
-
-const PRODUCT_IDS_WITH_NEUTRAL_FALLBACK = new Set([
-  "mo-sopa-vaso",
-  "mo-sopa-sobre",
-]);
 
 const LOW_QUALITY_IMAGE_PATTERNS = [
   "/RYSminisuper/icons/pasillos/",
@@ -36,10 +34,6 @@ export const resolveProductImage = (product: Product) => {
   const forcedImage = PRODUCT_IMAGE_OVERRIDES[product.id];
   if (forcedImage) {
     return forcedImage;
-  }
-
-  if (PRODUCT_IDS_WITH_NEUTRAL_FALLBACK.has(product.id)) {
-    return "";
   }
 
   const productImage = product.image?.trim();

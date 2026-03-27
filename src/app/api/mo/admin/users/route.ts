@@ -12,6 +12,7 @@ import {
   getAdminUserById,
   updateAdminUser,
 } from "../../../../../lib/mo/data/securityStore";
+import type { AdminRole } from "../../../../../lib/mo/data/types";
 
 const getSession = async () =>
   getAdminSessionFromCookieStore(cookies().get(MO_ADMIN_SESSION_COOKIE)?.value);
@@ -55,7 +56,7 @@ export async function POST(request: Request) {
     username?: string;
     email?: string;
     password?: string;
-    role?: "owner" | "admin" | "operator" | "viewer";
+    role?: AdminRole;
     isActive?: boolean;
   };
 
@@ -101,7 +102,7 @@ export async function PATCH(request: Request) {
     username?: string;
     email?: string;
     password?: string;
-    role?: "owner" | "admin" | "operator" | "viewer";
+    role?: AdminRole;
     isActive?: boolean;
   };
 

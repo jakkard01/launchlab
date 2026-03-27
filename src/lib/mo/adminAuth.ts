@@ -10,6 +10,7 @@ import type {
   AdminSessionUser,
   AdminUserRecord,
 } from "./data/types";
+import { normalizeAdminRole } from "./adminRoles";
 import {
   getAdminUserById,
   getAdminUserByIdentifier,
@@ -28,7 +29,7 @@ type LoginBucket = {
 
 type SessionPayload = {
   userId: string;
-  role: AdminRole;
+  role: AdminRole | "viewer";
   iat: number;
   exp: number;
   legacy?: boolean;
@@ -115,7 +116,7 @@ const toSafeSessionUser = (user: AdminUserRecord): AdminSessionUser => ({
   name: user.name,
   username: user.username,
   email: user.email,
-  role: user.role,
+  role: normalizeAdminRole(user.role),
   isActive: user.isActive,
 });
 
@@ -137,7 +138,7 @@ export const getLegacyOwnerSession = (): AdminSessionUser => ({
   name: "Legacy Owner",
   username: "legacy-owner",
   email: "",
-  role: "owner",
+  role: "super_admin",
   isActive: true,
   isLegacy: true,
 });
@@ -204,8 +205,8 @@ export const clearAdminSessionCookies = () => [
   },
 ];
 
-export const adminPermissions: Record<AdminRole, Set<string>> = {
-  owner: new Set([
+export const adminPermissions: Record<AdminRole | "viewer", Set<string>> = {
+  super_admin: new Set([
     "users:manage",
     "audit:view",
     "catalog:view",
@@ -217,7 +218,7 @@ export const adminPermissions: Record<AdminRole, Set<string>> = {
     "stats:view",
     "sensitive:edit",
   ]),
-  admin: new Set([
+  admin_operator: new Set([
     "catalog:view",
     "catalog:edit",
     "price:edit",
@@ -226,13 +227,6 @@ export const adminPermissions: Record<AdminRole, Set<string>> = {
     "manualSale:write",
     "stats:view",
     "sensitive:edit",
-  ]),
-  operator: new Set([
-    "catalog:view",
-    "stock:edit",
-    "promo:edit",
-    "manualSale:write",
-    "stats:view",
   ]),
   viewer: new Set(["catalog:view", "stats:view"]),
 };
