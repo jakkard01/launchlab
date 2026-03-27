@@ -77,6 +77,7 @@ const ADMIN_TAG_OPTIONS = [
 
 type ProductDraft = {
   category: string;
+  subgroup: string;
   tagsInput: string;
   price: string;
   image: string;
@@ -113,6 +114,7 @@ const buildProductDraft = (
   hotState: HotState
 ): ProductDraft => ({
   category: product.category,
+  subgroup: product.subgroup ?? "",
   tagsInput: (product.tags ?? []).join(", "),
   price,
   image: product.image ?? "",
@@ -130,6 +132,7 @@ const buildProductDraft = (
 
 const areDraftsEqual = (left: ProductDraft, right: ProductDraft) =>
   left.category.trim() === right.category.trim() &&
+  left.subgroup.trim() === right.subgroup.trim() &&
   left.price.trim() === right.price.trim() &&
   left.image.trim() === right.image.trim() &&
   left.sortOrder === right.sortOrder &&
@@ -955,6 +958,7 @@ export default function AdminClient() {
     const payload: ProductAdminSaveInput = {
       id: product.id,
       category: draft.category.trim() || product.category,
+      subgroup: draft.subgroup.trim(),
       tags: normalizedTags,
       price: normalizedPrice.startsWith("$")
         ? normalizedPrice
@@ -1797,6 +1801,11 @@ export default function AdminClient() {
                       <p className="text-xs uppercase tracking-[0.3em] text-white/60">
                         {getMoCategoryLabel(draft.category)}
                       </p>
+                      {draft.subgroup.trim() ? (
+                        <p className="mt-1 text-[11px] uppercase tracking-[0.2em] text-white/45">
+                          {draft.subgroup}
+                        </p>
+                      ) : null}
                       <h3 className="mt-2 text-lg font-semibold">
                         {product.name}
                       </h3>
@@ -2137,6 +2146,26 @@ export default function AdminClient() {
                             </option>
                           ))}
                         </select>
+                      </label>
+
+                      <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                        Subgrupo
+                        <input
+                          type="text"
+                          value={draft.subgroup}
+                          onChange={(event) =>
+                            updateDraft(product.id, (current) => ({
+                              ...current,
+                              subgroup: event.target.value,
+                            }))
+                          }
+                          className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                          placeholder="Ej. artesanal, empacado, familiar"
+                          disabled={!canEditCatalog}
+                        />
+                        <span className="text-[11px] normal-case tracking-normal text-white/45">
+                          Sirve para separar variantes reales sin mezclar precios.
+                        </span>
                       </label>
 
                       <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">

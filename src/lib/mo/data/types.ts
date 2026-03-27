@@ -57,6 +57,7 @@ export type PromoState = {
 export type ProductAdminSaveInput = {
   id: string;
   category: string;
+  subgroup: string;
   tags: string[];
   price: string;
   image: string;

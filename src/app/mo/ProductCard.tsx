@@ -40,7 +40,6 @@ const TOP_IMAGES = {
   sopa_frijoles: "/RYSminisuper/images/top/sopa_frijoles.webp",
   fritos: "/RYSminisuper/images/top/fritos.webp",
   platano_tajadas: "/RYSminisuper/images/top/platano_tajadas.webp",
-  pupusas: "/RYSminisuper/images/top/pupusas.webp",
   "cafe-pack": "/RYSminisuper/images/top/cafe.webp",
 } as const;
 
@@ -64,9 +63,6 @@ const resolveTopImage = (product: Product) => {
   }
   if (name.includes("frijol")) {
     return TOP_IMAGES.frijoles;
-  }
-  if (name.includes("pupusa")) {
-    return TOP_IMAGES.pupusas;
   }
   if (name.includes("platano")) {
     return TOP_IMAGES.platano_tajadas;
@@ -206,9 +202,16 @@ export default function ProductCard({
         </p>
       ) : null}
       <div className="mt-2">
-        <span className="rounded-full border border-default bg-[color-mix(in_srgb,var(--surface-3)_80%,transparent)] px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-muted-strong">
-          {getMoCategoryLabel(product.category)}
-        </span>
+        <div className="flex flex-wrap gap-2">
+          <span className="rounded-full border border-default bg-[color-mix(in_srgb,var(--surface-3)_80%,transparent)] px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-muted-strong">
+            {getMoCategoryLabel(product.category)}
+          </span>
+          {product.subgroup ? (
+            <span className="rounded-full border border-default bg-[color-mix(in_srgb,var(--surface)_92%,transparent)] px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-muted-strong">
+              {product.subgroup}
+            </span>
+          ) : null}
+        </div>
       </div>
       <div className={`flex items-center justify-between ${isCompact ? "mt-2.5" : "mt-3"}`}>
         <div>

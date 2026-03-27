@@ -1,23 +1,86 @@
 {
-  "cafe-pack": { "src": "/mo/categories/cafe.svg", "alt": "Cafe molido" },
-  "granola": { "src": "/mo/categories/snacks.svg", "alt": "Granola casera" },
-  "cold-brew": { "src": "/mo/categories/bebida.svg", "alt": "Cold brew" },
-  "agua-mineral": { "src": "/mo/categories/bebida.svg", "alt": "Agua mineral" },
-  "jugo-naranja": { "src": "/mo/categories/bebida.svg", "alt": "Jugo de naranja" },
-  "leche-entera": { "src": "/mo/categories/lacteos.svg", "alt": "Leche entera" },
-  "leche-deslactosada": { "src": "/mo/categories/lacteos.svg", "alt": "Leche deslactosada" },
-  "queso-fresco": { "src": "/mo/categories/lacteos.svg", "alt": "Queso fresco" },
-  "pan-integral": { "src": "/mo/categories/pan.svg", "alt": "Pan integral" },
-  "galletas-avena": { "src": "/mo/categories/snacks.svg", "alt": "Galletas de avena" },
-  "arroz-1kg": { "src": "/mo/categories/abarrotes.svg", "alt": "Arroz" },
-  "azucar-1kg": { "src": "/mo/categories/abarrotes.svg", "alt": "Azucar" },
-  "atun-lata": { "src": "/mo/categories/abarrotes.svg", "alt": "Atun en lata" },
-  "frijoles": { "src": "/mo/categories/abarrotes.svg", "alt": "Frijoles rojos" },
-  "salsa-tomate": { "src": "/mo/categories/abarrotes.svg", "alt": "Salsa de tomate" },
-  "empanadas": { "src": "/mo/categories/antojitos.svg", "alt": "Empanadas de queso" },
-  "tostadas": { "src": "/mo/categories/antojitos.svg", "alt": "Tostadas" },
-  "pupusas": { "src": "/mo/categories/antojitos.svg", "alt": "Pupusas mixtas" },
-  "sandwich": { "src": "/mo/categories/antojitos.svg", "alt": "Sandwich" },
-  "tamales": { "src": "/mo/categories/antojitos.svg", "alt": "Tamales" },
-  "ensalada-frutas": { "src": "/mo/categories/antojitos.svg", "alt": "Ensalada de frutas" }
+  "cafe-pack": {
+    "src": "/mo/categories/cafe.svg",
+    "alt": "Café e instantáneas"
+  },
+  "granola": {
+    "src": "/mo/categories/pan.svg",
+    "alt": "Cereales y desayuno"
+  },
+  "cold-brew": {
+    "src": "/mo/categories/cafe.svg",
+    "alt": "Café frío listo para llevar"
+  },
+  "agua-mineral": {
+    "src": "/RYSminisuper/icons/pasillos/bebidas.webp",
+    "alt": "Bebidas"
+  },
+  "jugo-naranja": {
+    "src": "/RYSminisuper/icons/pasillos/bebidas.webp",
+    "alt": "Bebidas"
+  },
+  "leche-entera": {
+    "src": "/RYSminisuper/icons/pasillos/lacteos.webp",
+    "alt": "Lácteos y refrigerados"
+  },
+  "leche-deslactosada": {
+    "src": "/RYSminisuper/icons/pasillos/lacteos.webp",
+    "alt": "Lácteos y refrigerados"
+  },
+  "queso-fresco": {
+    "src": "/RYSminisuper/icons/pasillos/lacteos.webp",
+    "alt": "Lácteos y refrigerados"
+  },
+  "pan-integral": {
+    "src": "/mo/categories/pan.svg",
+    "alt": "Panadería y repostería"
+  },
+  "galletas-avena": {
+    "src": "/RYSminisuper/icons/pasillos/snacks.webp",
+    "alt": "Snacks y golosinas"
+  },
+  "arroz-1kg": {
+    "src": "/RYSminisuper/icons/pasillos/abarrotes.webp",
+    "alt": "Abarrotes"
+  },
+  "azucar-1kg": {
+    "src": "/RYSminisuper/icons/pasillos/abarrotes.webp",
+    "alt": "Abarrotes"
+  },
+  "atun-lata": {
+    "src": "/RYSminisuper/icons/pasillos/abarrotes.webp",
+    "alt": "Abarrotes"
+  },
+  "frijoles": {
+    "src": "/RYSminisuper/icons/pasillos/abarrotes.webp",
+    "alt": "Abarrotes"
+  },
+  "salsa-tomate": {
+    "src": "/RYSminisuper/icons/pasillos/abarrotes.webp",
+    "alt": "Abarrotes"
+  },
+  "empanadas": {
+    "src": "/RYSminisuper/icons/pasillos/comida_caliente.webp",
+    "alt": "Calientitos"
+  },
+  "tostadas": {
+    "src": "/RYSminisuper/icons/pasillos/comida_caliente.webp",
+    "alt": "Calientitos"
+  },
+  "pupusas": {
+    "src": "/RYSminisuper/icons/pasillos/comida_caliente.webp",
+    "alt": "Calientitos"
+  },
+  "sandwich": {
+    "src": "/RYSminisuper/icons/pasillos/combos.webp",
+    "alt": "Econocombos"
+  },
+  "tamales": {
+    "src": "/RYSminisuper/icons/pasillos/comida_caliente.webp",
+    "alt": "Calientitos"
+  },
+  "ensalada-frutas": {
+    "src": "/mo/categories/abarrotes.svg",
+    "alt": "Frutas y verduras"
+  }
 }

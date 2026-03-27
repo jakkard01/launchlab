@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
-  <title id="title">RYS Mini Market cart icon</title>
-  <desc id="desc">Cart icon for the RYS Mini Market storefront.</desc>
+  <title id="title">RYS Minimarket cart icon</title>
+  <desc id="desc">Cart icon for the RYS Minimarket storefront.</desc>
   <rect width="64" height="64" rx="16" fill="#f6efe1"/>
   <path d="M19 18h7l3 18h17l4-13H27" fill="none" stroke="#0f5132" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
   <path d="M33 18a7 7 0 0 1 14 0" fill="none" stroke="#0f5132" stroke-linecap="round" stroke-width="4"/>
