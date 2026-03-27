@@ -71,7 +71,7 @@ export default function MoHeader({
         className={`mx-auto flex w-full max-w-5xl flex-col bg-surface transition-all duration-200 sm:rounded-3xl sm:border sm:border-default lg:px-8 dark:bg-[var(--surface-2)] dark:shadow-[0_14px_40px_rgba(3,8,16,0.2)] ${
           isCompact
             ? "gap-2 px-3 py-2 sm:px-4 sm:py-2.5"
-            : "gap-3 px-3 py-2.5 sm:gap-3 sm:px-5 sm:py-3"
+            : "gap-2.5 px-3 py-2.5 sm:gap-3 sm:px-5 sm:py-3"
         }`}
         >
         <div className="flex items-start justify-between gap-3">
@@ -87,7 +87,9 @@ export default function MoHeader({
             </p>
           </div>
           <div className="flex shrink-0 items-center gap-2">
-            <ThemeToggle compact className="shrink-0" />
+            <div className="hidden sm:block">
+              <ThemeToggle compact className="shrink-0" />
+            </div>
             <a
               href={mapsLink}
               className={`inline-flex items-center justify-center rounded-full border border-default bg-surface text-[11px] font-semibold text-main transition hover:border-[var(--accent)] hover:text-[var(--accent)] ${
@@ -124,11 +126,6 @@ export default function MoHeader({
               <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[var(--accent)]">
                 {isCompact ? "Buscar producto" : "Buscador rápido"}
               </p>
-              {!isCompact ? (
-                <p className="mt-1 text-xs text-muted-strong">
-                  Busca por nombre o básico y confirma todo antes de salir.
-                </p>
-              ) : null}
             </div>
             {query.trim().length > 0 ? (
               <button
@@ -152,7 +149,7 @@ export default function MoHeader({
               onKeyDown={handleKeyDown}
               onFocus={() => onSearchFocusChange(true)}
               onBlur={() => onSearchFocusChange(false)}
-              placeholder="Busca café, shampoo, arroz o Coca-Cola..."
+              placeholder="Busca café, shampoo o Coca-Cola"
               className={`w-full rounded-full border border-default bg-surface px-4 text-sm text-main placeholder:text-muted focus:border-[var(--accent)] focus:outline-none ${
                 isCompact ? "h-10" : "h-11"
               }`}
@@ -166,7 +163,7 @@ export default function MoHeader({
             </button>
           </form>
           {!isCompact ? (
-            <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] text-muted">
+            <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px] text-muted">
               <span className="rounded-full border border-default bg-surface px-3 py-1 font-semibold text-main">
                 Retiro hoy
               </span>

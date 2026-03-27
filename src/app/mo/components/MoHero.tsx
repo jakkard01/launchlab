@@ -26,7 +26,7 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
   const locationLinkLabel = MO_STORE_MAPS_URL ? "Cómo llegar" : "Pedir ubicación";
 
   return (
-    <section className="space-y-3 overflow-x-clip">
+    <section className="space-y-4 overflow-x-clip">
       <div
         className="relative overflow-hidden rounded-3xl border border-default bg-surface px-4 py-4 shadow-sm shadow-slate-950/5 sm:px-8 sm:py-6 dark:bg-[var(--surface-2)] dark:shadow-[0_24px_70px_rgba(3,8,16,0.34)]"
         data-hero-bg="placeholder-gradient"
@@ -35,31 +35,12 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
         <div className="absolute inset-0 bg-[color-mix(in_srgb,var(--surface)_62%,transparent)] backdrop-blur-[2px] dark:bg-[linear-gradient(180deg,rgba(9,16,27,0.1),rgba(9,16,27,0.34))]" />
         <div className="relative grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(280px,340px)] lg:items-start lg:gap-6">
           <div>
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="rounded-full border border-[var(--accent)]/40 bg-[var(--accent)]/15 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-main dark:border-[var(--accent)]/45 dark:bg-[color-mix(in_srgb,var(--accent)_20%,transparent)]">
-              Tienda local lista para pedir
-            </span>
-            <span className="rounded-full border border-default bg-[color-mix(in_srgb,var(--surface-2)_50%,transparent)] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-strong">
-              {MO_STORE_PICKUP_LABEL}
-            </span>
-          </div>
-          <h1 className="mt-3 max-w-2xl text-2xl font-bold leading-tight text-main sm:text-4xl">
+          <h1 className="max-w-2xl text-2xl font-bold leading-tight text-main sm:text-4xl">
             Pide rápido desde el móvil y retira cuando ya está confirmado
           </h1>
-          <p className="mt-3 max-w-2xl text-sm text-muted-strong sm:text-base">
-            {MO_BRAND.currentDisplayName} te deja resolver bebidas, snacks, básicos y desayuno sin dar la vuelta en vano. Buscas, escribes y te confirmamos antes de salir.
+          <p className="mt-2 max-w-2xl text-sm text-muted-strong sm:text-base">
+            Compra rápida para retiro confirmado antes de salir.
           </p>
-          <div className="mt-4 grid gap-2 text-xs text-muted-strong sm:grid-cols-3">
-            <span className="rounded-2xl border border-default bg-surface/80 px-3 py-2">
-              Ubicación real en {MO_STORE_ADDRESS}
-            </span>
-            <span className="rounded-2xl border border-default bg-surface/80 px-3 py-2">
-              {MO_STORE_HOURS_LABEL}
-            </span>
-            <span className="rounded-2xl border border-default bg-surface/80 px-3 py-2">
-              {MO_STORE_PAYMENT_LABEL}
-            </span>
-          </div>
           <div className="mt-4 flex flex-col gap-2.5 sm:flex-row sm:items-center sm:gap-3">
             <a
               href={locationLink}
@@ -77,14 +58,36 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
             >
               Pedir por WhatsApp
             </a>
-            <a
-              href="#catalogo"
-              className="h-11 rounded-full border border-default bg-[color-mix(in_srgb,var(--surface-2)_48%,transparent)] px-5 py-3 text-center text-sm font-semibold text-main transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
-            >
-              Ver qué hay hoy
-            </a>
           </div>
-          <div className="mt-4 rounded-3xl border border-[var(--accent)]/28 bg-[color-mix(in_srgb,var(--surface)_78%,var(--accent)_8%)] p-4 shadow-sm dark:bg-[color-mix(in_srgb,var(--surface-2)_86%,var(--accent)_8%)] sm:mt-5 sm:p-5">
+          </div>
+          <div className="rounded-3xl border border-default bg-[color-mix(in_srgb,var(--surface-2)_78%,transparent)] p-4 shadow-sm dark:bg-[color-mix(in_srgb,var(--surface-2)_92%,transparent)]">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[var(--accent)]">
+              Compra en 3 pasos
+            </p>
+            <ol className="mt-3 space-y-3 text-sm text-muted-strong">
+              <li className="rounded-2xl border border-default bg-surface px-3 py-3">
+                <span className="font-semibold text-main">1. Elige tus productos</span>
+                <p className="mt-1">Busca por nombre o entra por categorías útiles.</p>
+              </li>
+              <li className="rounded-2xl border border-default bg-surface px-3 py-3">
+                <span className="font-semibold text-main">2. Manda el pedido por WhatsApp</span>
+                <p className="mt-1">Te queda claro lo que llevas y si falta algo nos lo escribes.</p>
+              </li>
+              <li className="rounded-2xl border border-default bg-surface px-3 py-3">
+                <span className="font-semibold text-main">3. Te confirmamos y lo recoges en tienda</span>
+                <p className="mt-1">Pago al retirar, con confirmación antes de salir.</p>
+              </li>
+            </ol>
+            <div className="mt-3 rounded-2xl border border-[var(--accent)]/20 bg-[color-mix(in_srgb,var(--accent)_8%,transparent)] px-3 py-3 text-xs text-muted-strong">
+              <p>Pago al retirar.</p>
+              <p className="mt-1">Si no ves algo, escríbenos.</p>
+              <p className="mt-1">Confirmación antes de salir.</p>
+              <p className="mt-1">{MO_STORE_RESPONSE_TIME_LABEL}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <section className="rounded-3xl border border-[var(--accent)]/28 bg-[color-mix(in_srgb,var(--surface)_78%,var(--accent)_8%)] p-4 shadow-sm dark:bg-[color-mix(in_srgb,var(--surface-2)_86%,var(--accent)_8%)] sm:p-5">
             <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[var(--accent)]">
               Ubicación real y retiro seguro
             </p>
@@ -129,40 +132,7 @@ export default function MoHero({ ctaLink }: MoHeroProps) {
                 Pedir por WhatsApp
               </a>
             </div>
-          </div>
-          <div className="mt-4 grid gap-2 text-xs text-muted-strong sm:mt-5 sm:grid-cols-3">
-            <span>✅ Confirmamos antes de que salgas</span>
-            <span>✅ Pago al retirar y retiro simple</span>
-            <span className="hidden sm:inline">✅ Respuesta clara por WhatsApp</span>
-          </div>
-          </div>
-          <div className="rounded-3xl border border-default bg-[color-mix(in_srgb,var(--surface-2)_78%,transparent)] p-4 shadow-sm dark:bg-[color-mix(in_srgb,var(--surface-2)_92%,transparent)]">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[var(--accent)]">
-              Compra en 3 pasos
-            </p>
-            <ol className="mt-3 space-y-3 text-sm text-muted-strong">
-              <li className="rounded-2xl border border-default bg-surface px-3 py-3">
-                <span className="font-semibold text-main">1. Elige tus productos</span>
-                <p className="mt-1">Busca por nombre o entra por categorías útiles.</p>
-              </li>
-              <li className="rounded-2xl border border-default bg-surface px-3 py-3">
-                <span className="font-semibold text-main">2. Manda el pedido por WhatsApp</span>
-                <p className="mt-1">Te queda claro lo que llevas y si falta algo nos lo escribes.</p>
-              </li>
-              <li className="rounded-2xl border border-default bg-surface px-3 py-3">
-                <span className="font-semibold text-main">3. Te confirmamos y lo recoges en tienda</span>
-                <p className="mt-1">Pago al retirar, con confirmación antes de salir.</p>
-              </li>
-            </ol>
-            <div className="mt-3 rounded-2xl border border-[var(--accent)]/20 bg-[color-mix(in_srgb,var(--accent)_8%,transparent)] px-3 py-3 text-xs text-muted-strong">
-              <p>Pago al retirar.</p>
-              <p className="mt-1">Si no ves algo, escríbenos.</p>
-              <p className="mt-1">Confirmación antes de salir.</p>
-              <p className="mt-1">{MO_STORE_RESPONSE_TIME_LABEL}</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      </section>
     </section>
   );
 }

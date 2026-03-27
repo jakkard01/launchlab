@@ -26,11 +26,11 @@ export default function CartButtonSticky({
       const scrollingDown = delta > 8;
       const scrollingUp = delta < -8;
 
-      setIsCompact(currentY > 160 || isSearchMode);
+      setIsCompact(currentY > 260 || isSearchMode);
 
-      if (!isSearchMode && currentY > 280 && scrollingDown) {
+      if (!isSearchMode && currentY > 420 && scrollingDown) {
         setIsPeeked(true);
-      } else if (currentY < 120 || scrollingUp) {
+      } else if (currentY < 220 || scrollingUp) {
         setIsPeeked(false);
       }
 
