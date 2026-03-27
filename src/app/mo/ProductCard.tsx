@@ -9,7 +9,7 @@ import {
   getEffectivePrice,
   getPromoLabel,
 } from "../../lib/mo/pricing";
-import { getMoCategoryLabel } from "../../lib/mo/categories";
+import { getMoCategoryImage, getMoCategoryLabel } from "../../lib/mo/categories";
 import { MO_BRAND } from "../../lib/mo/config";
 import { buildWhatsAppMessageLink } from "../../lib/mo/whatsapp";
 import QuantityStepper from "./cart/QuantityStepper";
@@ -43,15 +43,27 @@ const TOP_IMAGES = {
   "cafe-pack": "/RYSminisuper/images/top/cafe.webp",
 } as const;
 
+const LOW_QUALITY_IMAGE_PATTERNS = [
+  "/RYSminisuper/icons/pasillos/",
+  "/mo/categories/",
+] as const;
+
 const normalizeText = (value: string) =>
   value
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase();
 
+const isLowQualityProductImage = (value?: string | null) => {
+  const src = value?.trim();
+  if (!src) return true;
+  return LOW_QUALITY_IMAGE_PATTERNS.some((pattern) => src.includes(pattern));
+};
+
 const resolveTopImage = (product: Product) => {
-  if (product.image) {
-    return product.image;
+  const productImage = product.image?.trim();
+  if (productImage && !isLowQualityProductImage(productImage)) {
+    return productImage;
   }
   const key = product.imageKey ?? "";
   if (key && key in TOP_IMAGES) {
@@ -73,7 +85,7 @@ const resolveTopImage = (product: Product) => {
   if (name.includes("cafe")) {
     return TOP_IMAGES["cafe-pack"];
   }
-  return null;
+  return getMoCategoryImage(product.category);
 };
 
 const getInitials = (value: string) =>
@@ -136,23 +148,26 @@ export default function ProductCard({
   }
 
   return (
-    <article className={`surface-card flex h-full flex-col rounded-2xl transition hover:-translate-y-0.5 hover:shadow-md dark:bg-[var(--surface-2)] ${
+    <article className={`group surface-card flex h-full flex-col rounded-2xl transition hover:-translate-y-0.5 hover:shadow-md dark:bg-[var(--surface-2)] ${
       isCompact ? "p-2.5" : "p-3 sm:p-3.5"
     }`}>
-      <div className="relative overflow-hidden rounded-xl border border-default bg-surface-3">
+      <div className="relative overflow-hidden rounded-xl border border-default bg-[linear-gradient(180deg,color-mix(in_srgb,var(--surface-3)_95%,transparent),color-mix(in_srgb,var(--surface)_96%,transparent))] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
         {topImageSrc && !imageFailed ? (
-          <Image
-            src={topImageSrc}
-            alt={imageAlt}
-            fill
-            className="object-cover object-center"
-            sizes="(max-width: 480px) 45vw, 240px"
-            quality={55}
-            unoptimized={isExternalUrl(topImageSrc)}
-            onError={() => setImageFailed(true)}
-          />
+          <>
+            <Image
+              src={topImageSrc}
+              alt={imageAlt}
+              fill
+              className="object-cover object-center transition duration-500 group-hover:scale-[1.02]"
+              sizes="(max-width: 480px) 45vw, 240px"
+              quality={70}
+              unoptimized={isExternalUrl(topImageSrc)}
+              onError={() => setImageFailed(true)}
+            />
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(7,17,26,0.03)_0%,rgba(7,17,26,0.08)_54%,rgba(7,17,26,0.18)_100%)]" />
+          </>
         ) : (
-          <div className="absolute inset-0 flex items-end justify-between overflow-hidden bg-[radial-gradient(circle_at_20%_15%,color-mix(in_srgb,var(--accent)_10%,transparent),transparent_55%),linear-gradient(135deg,color-mix(in_srgb,var(--surface-3)_92%,transparent),color-mix(in_srgb,var(--accent)_6%,transparent))] px-2.5 py-2">
+          <div className="absolute inset-0 flex items-end justify-between overflow-hidden bg-[radial-gradient(circle_at_20%_15%,color-mix(in_srgb,var(--accent)_10%,transparent),transparent_55%),linear-gradient(135deg,color-mix(in_srgb,var(--surface-3)_94%,transparent),color-mix(in_srgb,var(--accent)_6%,transparent))] px-2.5 py-2">
             <div className="flex flex-col gap-1">
               <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted">
                 {getMoCategoryLabel(product.category)}

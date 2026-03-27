@@ -1939,6 +1939,7 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
   - `Calientitos / comida recién hecha` -> `public/rys/categories/calientitos.webp`
   - `Econocombos` -> `public/rys/categories/econocombos.webp`
 - Se considera cerrada la limpieza visual de placeholders flojos para categorías donde ya existe asset final.
+- En tarjetas visibles de producto (`Lo que más resuelve hoy`, `Econocombos`, `Calientitos`, promos y primeras cards de catálogo), la prioridad visual deja de ser `icons/pasillos` o SVGs flojos; si no hay foto de producto decente, se usa la portada limpia de su categoría.
 - Backend sigue en `fallback_only`; esta pasada no toca Sheets ni secrets.
 
 ### Incidente de deploy PBIA / RYS corregido
