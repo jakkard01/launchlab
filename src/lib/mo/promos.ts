@@ -15,11 +15,11 @@ export const MO_PROMOS: MoPromo[] = [
   {
     id: "desayuno_resuelto",
     type: "todaySpecial",
-    title: "Café caliente y pan dulce",
+    title: "Desayuno rápido",
     description:
-      "Para arrancar la mañana o resolver merienda sin cola, sin tráfico y sin salir a probar suerte.",
+      "Café instantáneo y pan dulce para resolver la mañana sin otra vuelta.",
     badge: "Temprano",
-    productIds: ["mo-cafe-servido", "mo-pan-dulce"],
+    productIds: ["mo-nescafe-cappuccino", "mo-pan-dulce-artesanal"],
   },
   {
     id: "calientito_del_dia",
@@ -33,10 +33,10 @@ export const MO_PROMOS: MoPromo[] = [
   {
     id: "algo_rapido_para_hoy",
     type: "sampling",
-    title: "Boquita o café para hoy",
+    title: "Boquita o gaseosa para hoy",
     description:
       "Para visita, merienda o salida corta sin meterte otra cola innecesaria.",
     badge: "Sale rápido",
-    productIds: ["mo-cafe-servido", "mo-tortillitas-limon", "mo-mani-limon-chile"],
+    productIds: ["mo-pepsi-600ml", "mo-boquita-individual", "mo-chocolate-pequeno"],
   },
 ];

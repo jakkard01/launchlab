@@ -200,14 +200,14 @@ export default function MoQuickShop({
         )}
       </div>
 
-      <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-main">
-            Econocombos
-          </h3>
-          <span className="text-xs text-muted-strong">Para resolver más de una cosa de una vez</span>
-        </div>
-        {econocombos.length > 0 ? (
+      {econocombos.length > 0 ? (
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-semibold text-main">
+              Econocombos
+            </h3>
+            <span className="text-xs text-muted-strong">Para resolver más de una cosa de una vez</span>
+          </div>
           <div className={productGridClass}>
             {econocombos.map((product) => (
               <div key={product.id}>
@@ -215,12 +215,8 @@ export default function MoQuickShop({
               </div>
             ))}
           </div>
-        ) : (
-          <div className="rounded-2xl border border-dashed border-default bg-surface px-4 py-5 text-sm text-muted-strong">
-            Aún no hay econocombos cargados.
-          </div>
-        )}
-      </div>
+        </div>
+      ) : null}
 
       <div className="space-y-3">
         <div className="flex items-center justify-between">

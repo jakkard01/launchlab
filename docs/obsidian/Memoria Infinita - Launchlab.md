@@ -1973,3 +1973,24 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
   - imagen top específica, si existe
   - portada limpia de categoría
   - nunca volver a priorizar `icons/pasillos` o SVGs flojos cuando contradicen o degradan lo que se muestra
+
+### Nueva base visible de catálogo RYS
+- La semilla visible de RYS se reemplaza por un catálogo base más corto y confirmado:
+  - `Bebidas`
+  - `Lácteos y refrigerados`
+  - `Cereales y desayuno`
+  - `Café e instantáneas`
+  - `Abarrotes`
+  - `Snacks y golosinas`
+  - `Panadería y repostería`
+  - `Higiene personal`
+  - `Limpieza y hogar`
+  - `Frutas y verduras`
+  - `Calientitos / comida recién hecha`
+- Sale del catálogo visible todo lo viejo o no confirmado del seed anterior, incluyendo `pupusas`, `empanadas` y combos basados en ese surtido.
+- `Pan dulce` queda separado en estructura:
+  - `Pan dulce artesanal`
+  - `Pan dulce especial`
+  - además de pan empacado y repostería individual como productos propios
+- Los productos visibles ya no usan rangos en UI para esta base; se fijan con precios base explícitos en `src/data/products.json`.
+- Backend sigue en `fallback_only`; esta pasada limpia catálogo visible, búsqueda y referencias operativas, pero no toca Sheets ni secrets.
