@@ -20,7 +20,7 @@
     "category": "bebidas",
     "subgroup": "gaseosas",
     "description": "Coca-Cola personal para antojo, boquita o calientito.",
-    "image": "/rys/products/coca-cola-600ml.png",
+    "image": "/rys/categories/bebidas.webp",
     "isFeatured": true,
     "status": "available",
     "stockStatus": "disponible",

@@ -2,7 +2,6 @@ import { getMoCategoryImage } from "./categories";
 import type { Product } from "./types";
 
 const PRODUCT_IMAGE_OVERRIDES: Record<string, string> = {
-  "mo-coca-cola-600ml": "/rys/products/coca-cola-600ml.png",
   "mo-yogur-individual": "/rys/products/yogur-individual-refrigerado.png",
   "mo-boquita-individual": "/rys/products/boquita-individual.png",
   "mo-pan-dulce-artesanal": "/rys/products/pan-dulce-artesanal.png",
@@ -13,6 +12,11 @@ const PRODUCT_IMAGE_OVERRIDES: Record<string, string> = {
   "mo-leche-evaporada-ideal": "/rys/categories/abarrotes.webp",
   "mo-leche-refrigerada": "/rys/categories/lacteos-refrigerados.webp",
 };
+
+const PRODUCT_IDS_WITH_NEUTRAL_FALLBACK = new Set([
+  "mo-sopa-vaso",
+  "mo-sopa-sobre",
+]);
 
 const LOW_QUALITY_IMAGE_PATTERNS = [
   "/RYSminisuper/icons/pasillos/",
@@ -32,6 +36,10 @@ export const resolveProductImage = (product: Product) => {
   const forcedImage = PRODUCT_IMAGE_OVERRIDES[product.id];
   if (forcedImage) {
     return forcedImage;
+  }
+
+  if (PRODUCT_IDS_WITH_NEUTRAL_FALLBACK.has(product.id)) {
+    return "";
   }
 
   const productImage = product.image?.trim();
