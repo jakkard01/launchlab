@@ -6,7 +6,8 @@ export const MO_BRAND = {
   locationLabel: "La Gloria, San Salvador",
 } as const;
 
-export const MO_CANONICAL_PATH = "/RYSminisuper";
+export const MO_SITE_URL = "https://www.rysminimarket.com";
+export const MO_CANONICAL_URL = `${MO_SITE_URL}/`;
 export const MO_STORE_IMAGE_SRC = "/rys/local/rys-mini-market-fachada.png";
 export const MO_STORE_IMAGE_ALT =
   "Fachada de la tienda para reconocer el punto de retiro al llegar";

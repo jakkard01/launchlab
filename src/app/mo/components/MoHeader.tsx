@@ -73,31 +73,33 @@ export default function MoHeader({
             ? "gap-2 px-3 py-2 sm:px-4 sm:py-2.5"
             : "gap-3 px-3 py-2.5 sm:gap-3 sm:px-5 sm:py-3"
         }`}
-      >
+        >
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <div className="text-sm font-semibold tracking-[0.08em] text-main sm:text-base">
               {MO_BRAND.currentDisplayName}
             </div>
-            <p className="text-[11px] text-muted-strong">{MO_BRAND.locationLabel}</p>
-            {!isCompact ? (
-              <p className="mt-0.5 text-[11px] text-muted sm:text-xs">
-                Retiro confirmado antes de salir.
-              </p>
-            ) : null}
+            <p className="mt-0.5 text-[11px] text-muted-strong">
+              {MO_BRAND.locationLabel}
+            </p>
+            <p className="mt-0.5 text-[11px] text-muted sm:text-xs">
+              Retiro confirmado antes de salir.
+            </p>
           </div>
           <div className="flex shrink-0 items-center gap-2">
             <ThemeToggle compact className="shrink-0" />
-            {!isCompact ? (
-              <a
-                href={mapsLink}
-                className="inline-flex min-h-10 items-center justify-center rounded-full border border-default bg-surface px-3 py-2 text-[11px] font-semibold text-main transition hover:border-[var(--accent)] hover:text-[var(--accent)] sm:min-h-11 sm:px-4 sm:text-xs"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {mapsLabel}
-              </a>
-            ) : null}
+            <a
+              href={mapsLink}
+              className={`inline-flex items-center justify-center rounded-full border border-default bg-surface text-[11px] font-semibold text-main transition hover:border-[var(--accent)] hover:text-[var(--accent)] ${
+                isCompact
+                  ? "min-h-9 px-3 py-1.5 sm:min-h-10 sm:px-3.5"
+                  : "min-h-10 px-3 py-2 sm:min-h-11 sm:px-4 sm:text-xs"
+              }`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {mapsLabel}
+            </a>
             <a
               href={whatsappLink}
               className={`inline-flex items-center justify-center rounded-full border border-[var(--accent)] bg-[var(--accent)] text-center font-semibold text-[#07130c] shadow-[0_10px_24px_rgba(34,197,94,0.16)] transition hover:opacity-90 ${
@@ -118,20 +120,16 @@ export default function MoHeader({
           }`}
         >
           <div className="flex items-center justify-between gap-2">
-            {!isCompact ? (
-              <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[var(--accent)]">
-                  Buscador rapido
-                </p>
-                <p className="mt-1 text-xs text-muted-strong">
-                  Busca por nombre, categoría o básico para ubicarlo rápido desde el móvil.
-                </p>
-              </div>
-            ) : (
+            <div>
               <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[var(--accent)]">
-                Buscar producto
+                {isCompact ? "Buscar producto" : "Buscador rápido"}
               </p>
-            )}
+              {!isCompact ? (
+                <p className="mt-1 text-xs text-muted-strong">
+                  Busca por nombre o básico y confirma todo antes de salir.
+                </p>
+              ) : null}
+            </div>
             {query.trim().length > 0 ? (
               <button
                 type="button"
@@ -168,14 +166,17 @@ export default function MoHeader({
             </button>
           </form>
           {!isCompact ? (
-            <div className="mt-3 flex items-center justify-between gap-2 text-[11px] text-muted">
-              <span className="truncate text-muted-strong">
-                Retiro fácil con confirmación clara antes de salir.
+            <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] text-muted">
+              <span className="rounded-full border border-default bg-surface px-3 py-1 font-semibold text-main">
+                Retiro hoy
+              </span>
+              <span className="rounded-full border border-default bg-surface px-3 py-1 font-semibold text-main">
+                Pago al retirar
               </span>
               <button
                 type="button"
                 onClick={onScrollToSpecial}
-                className="shrink-0 rounded-full border border-default bg-[color-mix(in_srgb,var(--surface-2)_55%,transparent)] px-3 py-1 font-semibold text-main transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                className="rounded-full border border-default bg-[color-mix(in_srgb,var(--surface-2)_55%,transparent)] px-3 py-1 font-semibold text-main transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
               >
                 Si no lo ves, pídelo
               </button>

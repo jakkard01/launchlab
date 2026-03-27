@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { buildWhatsAppMessageLink } from "../../lib/mo/whatsapp";
 import {
   MO_BRAND,
-  MO_CANONICAL_PATH,
+  MO_CANONICAL_URL,
+  MO_SITE_URL,
   MO_STORE_IMAGE_ALT,
   MO_STORE_IMAGE_SRC,
 } from "../../lib/mo/config";
@@ -18,18 +19,18 @@ export const metadata: Metadata = {
   description:
     "Bebidas, abarrotes, calientitos y categorías claras para retiro en La Gloria, San Salvador. Pide por WhatsApp, te confirmamos y pasas a retirar.",
   alternates: {
-    canonical: MO_CANONICAL_PATH,
+    canonical: MO_CANONICAL_URL,
   },
   openGraph: {
     title: `${MO_BRAND.currentDisplayName} | Compra rápida para retiro en La Gloria`,
     description:
       "Pide por WhatsApp, recibe confirmación real y pasa a retirar bebidas, básicos, calientitos y econocombos en La Gloria, San Salvador.",
-    url: "https://www.poweredbyia.com/RYSminisuper",
+    url: MO_CANONICAL_URL,
     siteName: MO_BRAND.currentDisplayName,
     type: "website",
     images: [
       {
-        url: `https://www.poweredbyia.com${MO_STORE_IMAGE_SRC}`,
+        url: `${MO_SITE_URL}${MO_STORE_IMAGE_SRC}`,
         width: 1200,
         height: 1200,
         alt: `${MO_BRAND.currentDisplayName}. ${MO_STORE_IMAGE_ALT}`,
@@ -41,7 +42,7 @@ export const metadata: Metadata = {
     title: `${MO_BRAND.currentDisplayName} | Compra rápida para retiro en La Gloria`,
     description:
       "Categorías claras, confirmación por WhatsApp y retiro fácil antes de salir.",
-    images: [`https://www.poweredbyia.com${MO_STORE_IMAGE_SRC}`],
+    images: [`${MO_SITE_URL}${MO_STORE_IMAGE_SRC}`],
   },
   robots: {
     index: true,

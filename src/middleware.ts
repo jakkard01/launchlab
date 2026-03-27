@@ -11,24 +11,33 @@ export function middleware(req: NextRequest) {
   if (RYS_HOSTS.has(hostname)) {
     if (pathname === "/") {
       const rewriteUrl = req.nextUrl.clone();
-      rewriteUrl.pathname = "/RYSminisuper";
+      rewriteUrl.pathname = "/mo";
       return NextResponse.rewrite(rewriteUrl);
     }
 
     if (pathname === "/admin" || pathname.startsWith("/admin/")) {
       const rewriteUrl = req.nextUrl.clone();
-      rewriteUrl.pathname = `/RYSminisuper${pathname}`;
+      rewriteUrl.pathname = `/mo${pathname}`;
       return NextResponse.rewrite(rewriteUrl);
+    }
+
+    if (pathname === "/RYSminisuper" || pathname.startsWith("/RYSminisuper/")) {
+      const redirectUrl = req.nextUrl.clone();
+      redirectUrl.pathname = pathname.replace(/^\/RYSminisuper/, "/mo");
+      return NextResponse.redirect(redirectUrl, 308);
     }
   }
 
-  if (pathname.startsWith("/mo")) {
+  if (!RYS_HOSTS.has(hostname) && pathname.startsWith("/mo")) {
     const redirectUrl = req.nextUrl.clone();
     redirectUrl.pathname = pathname.replace(/^\/mo/, "/RYSminisuper");
     return NextResponse.redirect(redirectUrl, 308);
   }
 
-  if (pathname.startsWith("/RYSminisuper/admin")) {
+  if (
+    pathname.startsWith("/RYSminisuper/admin") ||
+    pathname.startsWith("/mo/admin")
+  ) {
     const enabled = process.env.MO_ADMIN_ENABLED === "1";
     if (!enabled) {
       return new Response("Not Found", { status: 404 });
@@ -41,7 +50,7 @@ export function middleware(req: NextRequest) {
     }
 
     return NextResponse.rewrite(
-      new URL("/RYSminisuper/admin/acceso", req.url)
+      new URL("/mo/admin/acceso", req.url)
     );
   }
 
