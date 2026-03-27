@@ -1922,3 +1922,21 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
 ### Regla fija de imágenes
 - No usar watermark, firma, checkerboard incrustado ni naming viejo visible en portadas de categoría.
 - Si el asset no sirve limpio para producción, se descarta; no se mete “por salir del paso”.
+
+### Cierre visual actual de categorías
+- El storefront de RYS ya usa como portadas reales el set final de `public/rys/categories/*.webp`.
+- Queda validado este mapping final:
+  - `Bebidas` -> `public/rys/categories/bebidas.webp`
+  - `Snacks y golosinas` -> `public/rys/categories/snacks-golosinas.webp`
+  - `Panadería y repostería` -> `public/rys/categories/panaderia-reposteria.webp`
+  - `Cereales y desayuno` -> `public/rys/categories/cereales-desayuno.webp`
+  - `Café e instantáneas` -> `public/rys/categories/cafe-instantaneas.webp`
+  - `Lácteos y refrigerados` -> `public/rys/categories/lacteos-refrigerados.webp`
+  - `Abarrotes` -> `public/rys/categories/abarrotes.webp`
+  - `Higiene personal` -> `public/rys/categories/higiene-personal.webp`
+  - `Limpieza y hogar` -> `public/rys/categories/limpieza-hogar.webp`
+  - `Frutas y verduras` -> `public/rys/categories/frutas-verduras.webp`
+  - `Calientitos / comida recién hecha` -> `public/rys/categories/calientitos.webp`
+  - `Econocombos` -> `public/rys/categories/econocombos.webp`
+- Se considera cerrada la limpieza visual de placeholders flojos para categorías donde ya existe asset final.
+- Backend sigue en `fallback_only`; esta pasada no toca Sheets ni secrets.
