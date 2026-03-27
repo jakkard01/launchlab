@@ -1807,3 +1807,65 @@ Mirror: decision canonica en Vault -> /mnt/c/Demonio_IA/01_PJECTOX/notas/PJECTOX
 1. Validar en movil real `https://www.poweredbyia.com/RYSminisuper`.
 2. Sustituir datos genericos de direccion/referencia.
 3. Decidir si en otra iteracion conviene migrar o no el slug publico.
+
+## 2026-03-27 — RYS Minimarket: base nueva de catálogo por categorías
+
+### Estado real del backend
+- Producción de RYS sigue en `fallback_only`:
+  - `GET /api/mo/health` no está `fully_operational`.
+  - faltan env vars reales de Sheets/admin en Vercel `production`.
+- Consecuencia:
+  - la semilla local sigue siendo la base operativa visible hasta conectar Google Sheets.
+
+### Modelo fijo de catálogo
+- Se fija una fuente única de categorías en `src/lib/mo/categories.ts`.
+- Categorías comerciales actuales:
+  - `Bebidas`
+  - `Snacks y golosinas`
+  - `Panadería y repostería`
+  - `Cereales y desayuno`
+  - `Café e instantáneas`
+  - `Lácteos y refrigerados`
+  - `Abarrotes`
+  - `Higiene personal`
+  - `Limpieza y hogar`
+  - `Frutas y verduras`
+  - `Calientitos / comida recién hecha`
+  - `Econocombos`
+- La tienda y el admin ya leen esta misma taxonomía.
+
+### Surtido que sale del eje
+- Quedan fuera del eje principal:
+  - `pupusas`
+  - `empanadas`
+  - combos basados en ese surtido
+- Queda vigente:
+  - `calientitos / comida recién hecha`
+
+### Naming fijo
+- Naming visible actual:
+  - `RYS Minimarket`
+- La ruta heredada sigue siendo `/RYSminisuper`, pero el nombre visible ya no usa `RYS Mini Market`.
+
+### Panel/admin preparado
+- El admin ya queda orientado a operación por categoría:
+  - filtro por categoría real
+  - tarjetas-resumen por categoría con conteo
+  - búsqueda rápida sobre el catálogo reclasificado
+  - edición diaria sigue centrada en:
+    - precio
+    - stock
+    - promo
+    - visibilidad
+    - orden
+- La edición live de metadata de categoría (`nombre`, `imagen`, `orden`) todavía no queda persistida por backend; hoy la fuente real está en config hasta conectar Sheets.
+
+### Validación local
+- `npm run lint` OK
+- `npm run build` OK
+
+### Qué falta para meter el catálogo real
+1. Conectar Sheets real en Vercel `production`.
+2. Llevar esta misma taxonomía a la hoja real.
+3. Cargar productos reales por categoría con sus imágenes.
+4. Solo después abrir la operación diaria completa a la administradora.
