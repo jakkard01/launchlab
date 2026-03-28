@@ -2053,61 +2053,92 @@ export default function AdminClient() {
                     : draft.status === "soon"
                       ? "Pronto"
                       : "En catálogo";
+              const saveLabel =
+                saveState === "saving"
+                  ? "Guardando..."
+                  : saveState === "saved"
+                    ? "Guardado"
+                    : saveState === "error"
+                      ? "Revisa y guarda"
+                      : isDirty
+                        ? "Cambios pendientes"
+                        : "Sin cambios";
 
               return (
                 <div
                   key={product.id}
                   className={`rounded-3xl border border-white/10 bg-black/40 shadow-[0_14px_38px_rgba(0,0,0,0.16)] ${isSimpleView ? "p-3" : "p-4"}`}
                 >
-                  <div
-                    className={
-                      isSimpleView
-                        ? "grid gap-3"
-                        : "flex flex-wrap items-start justify-between gap-4"
-                    }
-                  >
-                    <div className={`flex min-w-0 flex-1 ${isSimpleView ? "items-start gap-3" : "gap-4"}`}>
-                      <div className={isSimpleView ? "w-20 shrink-0" : "w-24 shrink-0"}>
-                        <div className={`${isSimpleView ? "" : "mt-2"} overflow-hidden rounded-2xl border border-white/10 bg-black/25`}>
+                  {isSimpleView ? (
+                    <div className="grid gap-3">
+                      <div className="grid grid-cols-[80px_minmax(0,1fr)_auto] items-start gap-3">
+                        <div className="overflow-hidden rounded-2xl border border-white/10 bg-black/25">
                           {currentImageSrc ? (
                             <Image
                               src={currentImageSrc}
                               alt={product.name}
                               width={160}
                               height={160}
-                              className={isSimpleView ? "h-20 w-20 object-cover" : "h-24 w-24 object-cover"}
+                              className="h-20 w-20 object-cover"
                               unoptimized={isInlineImage || isRemoteImage}
                             />
                           ) : (
-                            <div className={`flex items-center justify-center px-2 text-center text-[11px] text-white/45 ${isSimpleView ? "h-20 w-20" : "h-24 w-24"}`}>
+                            <div className="flex h-20 w-20 items-center justify-center px-2 text-center text-[11px] text-white/45">
                               Sin foto
                             </div>
                           )}
                         </div>
+                        <div className="min-w-0">
+                          <h3 className="line-clamp-2 text-sm font-semibold leading-tight text-white">
+                            {product.name}
+                          </h3>
+                          <p className="mt-1 line-clamp-1 text-[11px] text-white/55">
+                            {getMoCategoryLabel(draft.category)}
+                            {draft.subgroup.trim() ? ` · ${draft.subgroup}` : ""}
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-lg font-semibold leading-none text-white">
+                            {formatMoney(effectivePriceValue)}
+                          </p>
+                        </div>
                       </div>
-                    <div className="min-w-0 flex-1">
-                      {isSimpleView ? (
-                        <div className="flex items-start justify-between gap-2">
-                          <div className="min-w-0">
-                            <p className="line-clamp-1 text-[11px] uppercase tracking-[0.14em] text-white/55">
-                              {getMoCategoryLabel(draft.category)}
-                              {draft.subgroup.trim() ? ` · ${draft.subgroup}` : ""}
-                            </p>
-                            <h3 className="mt-1 line-clamp-2 text-base font-semibold leading-tight">
-                              {product.name}
-                            </h3>
-                          </div>
-                          <div className="shrink-0 text-right">
-                            <p className="text-[10px] uppercase tracking-[0.16em] text-white/45">
-                              Precio
-                            </p>
-                            <p className="mt-1 text-sm font-semibold text-white">
-                              {formatMoney(effectivePriceValue)}
-                            </p>
+
+                      <div className="flex flex-wrap gap-2 text-[11px]">
+                        <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1 text-white/85">
+                          {quickStatusLabel}
+                        </span>
+                        <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1 text-white/75">
+                          {draft.stockStatus === "agotado"
+                            ? "Stock agotado"
+                            : draft.stockStatus === "ultimas"
+                              ? "Últimas"
+                              : "Stock disponible"}
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex flex-wrap items-start justify-between gap-4">
+                      <div className="flex min-w-0 flex-1 gap-4">
+                        <div className="w-24 shrink-0">
+                          <div className="mt-2 overflow-hidden rounded-2xl border border-white/10 bg-black/25">
+                            {currentImageSrc ? (
+                              <Image
+                                src={currentImageSrc}
+                                alt={product.name}
+                                width={160}
+                                height={160}
+                                className="h-24 w-24 object-cover"
+                                unoptimized={isInlineImage || isRemoteImage}
+                              />
+                            ) : (
+                              <div className="flex h-24 w-24 items-center justify-center px-2 text-center text-[11px] text-white/45">
+                                Sin foto
+                              </div>
+                            )}
                           </div>
                         </div>
-                      ) : (
-                        <>
+                        <div className="min-w-0 flex-1">
                           <p className="text-xs uppercase tracking-[0.3em] text-white/60">
                             {getMoCategoryLabel(draft.category)}
                           </p>
@@ -2119,109 +2150,97 @@ export default function AdminClient() {
                           <h3 className="mt-1 text-lg font-semibold leading-tight">
                             {product.name}
                           </h3>
-                        </>
-                      )}
-                      <div className={`mt-2 flex flex-wrap gap-2 text-[11px] ${isSimpleView ? "" : "pr-0"}`}>
-                        <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1 text-white/85">
-                          {quickStatusLabel}
-                        </span>
-                        <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1 text-white/75">
-                          {draft.stockStatus === "agotado"
-                            ? "Stock agotado"
-                            : draft.stockStatus === "ultimas"
-                              ? "Últimas"
-                              : "Stock disponible"}
-                        </span>
-                        {promoLabel ? (
-                          <span className="rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-1 text-emerald-100">
-                            {promoLabel}
-                          </span>
-                        ) : null}
+                          <div className="mt-2 flex flex-wrap gap-2 text-[11px]">
+                            <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1 text-white/85">
+                              {quickStatusLabel}
+                            </span>
+                            <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1 text-white/75">
+                              {draft.stockStatus === "agotado"
+                                ? "Stock agotado"
+                                : draft.stockStatus === "ultimas"
+                                  ? "Últimas"
+                                  : "Stock disponible"}
+                            </span>
+                            {promoLabel ? (
+                              <span className="rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-1 text-emerald-100">
+                                {promoLabel}
+                              </span>
+                            ) : null}
+                          </div>
+                          <p className="mt-2 text-[11px] text-white/45">
+                            {isUsingSuggestedImage
+                              ? "Usando foto por defecto de su categoría"
+                              : isInlineImage
+                                ? "Usando foto subida desde este dispositivo"
+                                : isRemoteImage
+                                  ? "Usando link público del producto"
+                                  : "Usando foto propia del producto"}
+                          </p>
+                        </div>
                       </div>
-                      {!isSimpleView ? (
-                        <p className="mt-2 text-[11px] text-white/45">
-                          {isUsingSuggestedImage
-                            ? "Usando foto por defecto de su categoría"
-                            : isInlineImage
-                              ? "Usando foto subida desde este dispositivo"
-                              : isRemoteImage
-                                ? "Usando link público del producto"
-                                : "Usando foto propia del producto"}
+                      <div className="min-w-[136px] text-right">
+                        <p className="text-xs uppercase tracking-[0.3em] text-white/60">
+                          Precio final
                         </p>
-                      ) : null}
-                      {isSimpleView ? null : null}
-                    </div>
-                    </div>
-                    <div className={isSimpleView ? "hidden" : "min-w-[136px] text-right"}>
-                      <p className="text-xs uppercase tracking-[0.3em] text-white/60">
-                        Precio final
-                      </p>
-                      <p className="mt-2 text-lg font-semibold">
-                        {formatMoney(effectivePriceValue)}
-                      </p>
-                      {!isSimpleView && promoSavings !== null && promoSavings > 0 && (
-                        <p className="text-xs text-emerald-200">
-                          Ahorro {formatMoney(promoSavings)}
+                        <p className="mt-2 text-lg font-semibold">
+                          {formatMoney(effectivePriceValue)}
                         </p>
-                      )}
-                      <p className="mt-2 text-[11px] text-white/55">
-                        {saveState === "saving"
-                          ? "Guardando..."
-                          : saveState === "saved"
-                            ? "Guardado"
-                            : saveState === "error"
-                              ? "Revisa y vuelve a guardar"
-                              : isDirty
-                                ? "Hay cambios sin guardar"
-                                : "Sin cambios pendientes"}
-                      </p>
+                        {promoSavings !== null && promoSavings > 0 ? (
+                          <p className="text-xs text-emerald-200">
+                            Ahorro {formatMoney(promoSavings)}
+                          </p>
+                        ) : null}
+                        <p className="mt-2 text-[11px] text-white/55">{saveLabel}</p>
+                      </div>
                     </div>
-                  </div>
+                  )}
 
-                  <div className={`mt-3 grid gap-2 ${isSimpleView ? "grid-cols-2" : "sm:grid-cols-2 xl:grid-cols-4"}`}>
-                    <button
-                      type="button"
-                      onClick={() => saveProductChanges(product)}
-                      disabled={!canEditCatalog || !isDirty || saveState === "saving"}
-                      className="min-h-[46px] rounded-2xl bg-emerald-300 px-4 py-3 text-xs font-semibold text-[#07130c] disabled:cursor-not-allowed disabled:opacity-45"
-                    >
-                      {saveState === "saving" ? "Guardando..." : "Guardar"}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => resetDraft(product)}
-                      disabled={!canEditCatalog || !isDirty || saveState === "saving"}
-                      className="min-h-[46px] rounded-2xl border border-white/15 px-4 py-3 text-xs font-semibold text-white/75 disabled:cursor-not-allowed disabled:opacity-45"
-                    >
-                      Cancelar
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        updateDraft(product.id, (current) => ({
-                          ...current,
-                          status: current.status === "hidden" ? "available" : "hidden",
-                        }))
-                      }
-                      disabled={!canEditCatalog || saveState === "saving"}
-                      className="min-h-[46px] rounded-2xl border border-white/15 px-4 py-3 text-xs font-semibold text-white disabled:cursor-not-allowed disabled:opacity-45"
-                    >
-                      {draft.status === "hidden" ? "Volver a mostrar" : "Quitar del catálogo"}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => restoreSuggestedImage(product.id, draft.category)}
-                      disabled={!canEditCatalog || saveState === "saving"}
-                      className="min-h-[46px] rounded-2xl border border-white/15 px-4 py-3 text-xs font-semibold text-white disabled:cursor-not-allowed disabled:opacity-45"
-                    >
-                      Usar imagen por defecto
-                    </button>
-                  </div>
+                  {isSimpleView ? null : (
+                    <div className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+                      <button
+                        type="button"
+                        onClick={() => saveProductChanges(product)}
+                        disabled={!canEditCatalog || !isDirty || saveState === "saving"}
+                        className="min-h-[46px] rounded-2xl bg-emerald-300 px-4 py-3 text-xs font-semibold text-[#07130c] disabled:cursor-not-allowed disabled:opacity-45"
+                      >
+                        {saveState === "saving" ? "Guardando..." : "Guardar"}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => resetDraft(product)}
+                        disabled={!canEditCatalog || !isDirty || saveState === "saving"}
+                        className="min-h-[46px] rounded-2xl border border-white/15 px-4 py-3 text-xs font-semibold text-white/75 disabled:cursor-not-allowed disabled:opacity-45"
+                      >
+                        Cancelar
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          updateDraft(product.id, (current) => ({
+                            ...current,
+                            status: current.status === "hidden" ? "available" : "hidden",
+                          }))
+                        }
+                        disabled={!canEditCatalog || saveState === "saving"}
+                        className="min-h-[46px] rounded-2xl border border-white/15 px-4 py-3 text-xs font-semibold text-white disabled:cursor-not-allowed disabled:opacity-45"
+                      >
+                        {draft.status === "hidden" ? "Volver a mostrar" : "Quitar del catálogo"}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => restoreSuggestedImage(product.id, draft.category)}
+                        disabled={!canEditCatalog || saveState === "saving"}
+                        className="min-h-[46px] rounded-2xl border border-white/15 px-4 py-3 text-xs font-semibold text-white disabled:cursor-not-allowed disabled:opacity-45"
+                      >
+                        Usar imagen por defecto
+                      </button>
+                    </div>
+                  )}
 
-                  <div className={`mt-3 grid gap-3 ${isSimpleView ? "md:grid-cols-2" : "md:grid-cols-2"}`}>
+                  <div className={`mt-3 grid gap-3 ${isSimpleView ? "" : "md:grid-cols-2"}`}>
                     {showBasicsBlock ? (
                     <>
-                    <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                    <label className={`grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60 ${isSimpleView ? "hidden" : ""}`}>
                       En catálogo
                       <select
                         value={draft.status}
@@ -2241,7 +2260,7 @@ export default function AdminClient() {
                       </select>
                     </label>
 
-                    <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                    <label className={`grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60 ${isSimpleView ? "hidden" : ""}`}>
                       Stock
                       <select
                         value={draft.stockStatus}
@@ -2260,7 +2279,7 @@ export default function AdminClient() {
                       </select>
                     </label>
 
-                    <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                    <label className={`grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60 ${isSimpleView ? "hidden" : ""}`}>
                       Cambiar precio
                       <input
                         type="text"
@@ -2277,21 +2296,23 @@ export default function AdminClient() {
                       />
                     </label>
 
-                    <div className="md:col-span-2 grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
-                      <p>Cambiar foto</p>
-                      <input
-                        type="text"
-                        value={draft.image}
-                        onChange={(event) =>
-                          updateDraft(product.id, (current) => ({
-                            ...current,
-                            image: event.target.value,
-                          }))
-                        }
-                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
-                        placeholder="Pega /rys/products/... o un link público"
-                        disabled={!canEditCatalog}
-                      />
+                    <div className={`grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60 ${isSimpleView ? "" : "md:col-span-2"}`}>
+                      <p>{isSimpleView ? "Cambiar foto" : "Cambiar foto"}</p>
+                      {isSimpleView ? null : (
+                        <input
+                          type="text"
+                          value={draft.image}
+                          onChange={(event) =>
+                            updateDraft(product.id, (current) => ({
+                              ...current,
+                              image: event.target.value,
+                            }))
+                          }
+                          className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                          placeholder="Pega /rys/products/... o un link público"
+                          disabled={!canEditCatalog}
+                        />
+                      )}
                       <div className="flex flex-wrap gap-2">
                         <label className="inline-flex cursor-pointer items-center justify-center rounded-full border border-white/15 px-3 py-2 text-[11px] font-semibold text-white">
                           <input
@@ -2324,6 +2345,101 @@ export default function AdminClient() {
                           />
                           {isImageBusy ? "Preparando..." : "Tomar foto"}
                         </label>
+                        {isSimpleView ? null : (
+                          <>
+                            <button
+                              type="button"
+                              onClick={() => restoreSuggestedImage(product.id, draft.category)}
+                              disabled={!canEditCatalog}
+                              className="rounded-full border border-white/15 px-3 py-2 text-[11px] font-semibold text-white disabled:opacity-45"
+                            >
+                              Restaurar sugerida
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                updateDraft(product.id, (current) => ({
+                                  ...current,
+                                  image: "",
+                                }))
+                              }
+                              disabled={!canEditCatalog}
+                              className="rounded-full border border-white/15 px-3 py-2 text-[11px] font-semibold text-white disabled:opacity-45"
+                            >
+                              Usar imagen por defecto
+                            </button>
+                          </>
+                        )}
+                      </div>
+                      {isSimpleView ? (
+                        <div className="grid gap-2 sm:grid-cols-2">
+                          <button
+                            type="button"
+                            onClick={() => saveProductChanges(product)}
+                            disabled={!canEditCatalog || !isDirty || saveState === "saving"}
+                            className="min-h-[46px] rounded-2xl bg-emerald-300 px-4 py-3 text-xs font-semibold text-[#07130c] disabled:cursor-not-allowed disabled:opacity-45"
+                          >
+                            {saveState === "saving" ? "Guardando..." : "Guardar"}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => resetDraft(product)}
+                            disabled={!canEditCatalog || !isDirty || saveState === "saving"}
+                            className="min-h-[46px] rounded-2xl border border-white/15 px-4 py-3 text-xs font-semibold text-white/75 disabled:cursor-not-allowed disabled:opacity-45"
+                          >
+                            Cancelar
+                          </button>
+                        </div>
+                      ) : null}
+                      {isSimpleView ? (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            updateDraft(product.id, (current) => ({
+                              ...current,
+                              status: current.status === "hidden" ? "available" : "hidden",
+                            }))
+                          }
+                          disabled={!canEditCatalog || saveState === "saving"}
+                          className="min-h-[46px] rounded-2xl border border-white/15 px-4 py-3 text-xs font-semibold text-white disabled:cursor-not-allowed disabled:opacity-45"
+                        >
+                          {draft.status === "hidden" ? "Volver a mostrar" : "Quitar del catálogo"}
+                        </button>
+                      ) : null}
+                      {localImageDraft ? (
+                        <p className="text-[11px] normal-case tracking-normal text-white/55">
+                          Foto preparada por {localImageDraft.source === "camera" ? "cámara" : "archivo"} · {localImageDraft.width}x{localImageDraft.height} · {localImageDraft.approxKb} KB aprox.
+                        </p>
+                      ) : null}
+                    </div>
+                    </>
+                    ) : null}
+                  </div>
+
+                  <details
+                    className="mt-3 rounded-2xl border border-white/10 bg-black/20 p-4"
+                    open={catalogView === "detailed"}
+                  >
+                    <summary className="cursor-pointer list-none text-sm font-semibold text-white">
+                      Más opciones
+                    </summary>
+                    <div className="mt-4 grid gap-3 md:grid-cols-2">
+                    <div className="md:col-span-2 grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                      <p>Foto</p>
+                      <input
+                        type="text"
+                        value={draft.image}
+                        onChange={(event) =>
+                          updateDraft(product.id, (current) => ({
+                            ...current,
+                            image: event.target.value,
+                          }))
+                        }
+                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                        placeholder="Pega /rys/products/... o un link público"
+                        disabled={!canEditCatalog}
+                      />
+                      <div className="flex flex-wrap gap-2">
                         <button
                           type="button"
                           onClick={() => restoreSuggestedImage(product.id, draft.category)}
@@ -2346,24 +2462,7 @@ export default function AdminClient() {
                           Usar imagen por defecto
                         </button>
                       </div>
-                      {localImageDraft ? (
-                        <p className="text-[11px] normal-case tracking-normal text-white/55">
-                          Foto preparada por {localImageDraft.source === "camera" ? "cámara" : "archivo"} · {localImageDraft.width}x{localImageDraft.height} · {localImageDraft.approxKb} KB aprox.
-                        </p>
-                      ) : null}
                     </div>
-                    </>
-                    ) : null}
-                  </div>
-
-                  <details
-                    className="mt-3 rounded-2xl border border-white/10 bg-black/20 p-4"
-                    open={catalogView === "detailed"}
-                  >
-                    <summary className="cursor-pointer list-none text-sm font-semibold text-white">
-                      Más opciones
-                    </summary>
-                    <div className="mt-4 grid gap-3 md:grid-cols-2">
                     {currentRole !== "viewer" && showTodayBlock ? (
                     <div className="md:col-span-2 rounded-2xl border border-emerald-300/15 bg-emerald-400/10 p-3">
                       <p className="text-[11px] uppercase tracking-[0.22em] text-emerald-200/80">

@@ -9,6 +9,17 @@ export function middleware(req: NextRequest) {
   const hostname = hostHeader.split(":")[0].toLowerCase();
 
   if (RYS_HOSTS.has(hostname)) {
+    if (
+      pathname === "/acces" ||
+      pathname === "/admin/acces" ||
+      pathname === "/mo/admin/acces" ||
+      pathname === "/RYSminisuper/admin/acces"
+    ) {
+      const redirectUrl = req.nextUrl.clone();
+      redirectUrl.pathname = "/admin/acceso";
+      return NextResponse.redirect(redirectUrl, 307);
+    }
+
     if (pathname === "/") {
       const rewriteUrl = req.nextUrl.clone();
       rewriteUrl.pathname = "/mo";
