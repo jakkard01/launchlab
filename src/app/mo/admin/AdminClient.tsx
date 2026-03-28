@@ -387,6 +387,11 @@ export default function AdminClient() {
     }
   };
 
+  const handleLogout = async () => {
+    await fetch("/api/mo/admin/logout", { method: "POST" });
+    window.location.href = "/admin/acceso";
+  };
+
   const loadSnapshot = useCallback(async (activeAdapter: MoDataAdapter) => {
     const snapshot = await activeAdapter.getAdminSnapshot();
     setProducts(snapshot.products);
@@ -656,12 +661,12 @@ export default function AdminClient() {
         label: "Productos",
         help: "Buscar, filtrar y editar rápido.",
       },
-      ...(currentRole !== "viewer"
+      ...(isSuperAdminRole(currentRole)
         ? [
             {
               id: "avanzado" as const,
               label: "Herramientas",
-              help: "Seguridad, auditoría y respaldo.",
+              help: "Seguridad y gestión interna.",
             },
           ]
         : []),
@@ -1395,6 +1400,11 @@ export default function AdminClient() {
               <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-slate-200">
                 {currentUser?.name ?? "Sesión admin"}
               </span>
+              {currentUser?.username ? (
+                <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-slate-300">
+                  @{currentUser.username}
+                </span>
+              ) : null}
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-3">
@@ -1442,6 +1452,13 @@ export default function AdminClient() {
                 Seguridad
               </a>
             ) : null}
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="rounded-full border border-white/10 px-4 py-2 text-sm font-semibold text-slate-200"
+            >
+              Cerrar sesión
+            </button>
           </div>
         </header>
 
@@ -1567,47 +1584,38 @@ export default function AdminClient() {
         )}
 
         {activeSection === "avanzado" && (
-        <section className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6 md:grid-cols-3">
-          <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+        <section className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6">
+          <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-300">
-              Seguridad
+              Herramientas
             </p>
             <p className="mt-2 text-sm text-slate-300">
-              Usuarios, roles y auditoría del panel.
+              Zona solo para super admin. Aquí gestionas usuarios, auditoría y respaldos sin mezclarlo con la operación diaria.
             </p>
-            {isSuperAdminRole(currentRole) ? (
+            <div className="mt-4 flex flex-wrap gap-3">
               <a
                 href="/admin/seguridad"
-                className="mt-4 inline-flex h-10 items-center justify-center rounded-full border border-white/15 px-4 text-sm font-semibold text-white"
+                className="inline-flex h-10 items-center justify-center rounded-full border border-white/15 px-4 text-sm font-semibold text-white"
               >
                 Abrir seguridad
               </a>
-            ) : (
-              <p className="mt-4 text-xs text-slate-400">
-                Solo super admin puede abrir esta zona.
-              </p>
-            )}
-          </div>
-          <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-300">
-              Respaldo
-            </p>
-            <p className="mt-2 text-sm text-slate-300">
-              Exporta o importa un backup del estado actual del panel.
-            </p>
+              <button
+                type="button"
+                onClick={handleExport}
+                className="inline-flex h-10 items-center justify-center rounded-full border border-white/15 px-4 text-sm font-semibold text-white"
+              >
+                Exportar
+              </button>
+              <button
+                type="button"
+                onClick={handleImportClick}
+                className="inline-flex h-10 items-center justify-center rounded-full border border-white/15 px-4 text-sm font-semibold text-white"
+              >
+                Importar
+              </button>
+            </div>
             <p className="mt-4 text-xs text-slate-400">
-              Usa esto solo cuando vayas a mover estado completo.
-            </p>
-          </div>
-          <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-300">
-              Auditoría rápida
-            </p>
-            <p className="mt-2 text-sm text-slate-300">
-              Revisa señales, clics, búsquedas perdidas y uso de promos.
-            </p>
-            <p className="mt-4 text-xs text-slate-400">
-              Todo sigue leyendo la hoja viva de RYS.
+              Si solo vas a cambiar precio, foto o visibilidad, quédate en Productos.
             </p>
           </div>
         </section>
@@ -1844,7 +1852,7 @@ export default function AdminClient() {
               </p>
             </div>
           </div>
-          <div className="grid gap-4 lg:grid-cols-[2fr,1fr,1fr,auto]">
+          <div className="grid gap-4 lg:grid-cols-[2fr,1fr,auto]">
             <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
               Buscar producto
               <input
@@ -1858,21 +1866,6 @@ export default function AdminClient() {
                 }
                 className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
               />
-            </label>
-            <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
-              Categoría
-              <select
-                value={categoryFilter}
-                onChange={(event) => setCategoryFilter(event.target.value)}
-                className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
-              >
-                <option value="all">Todas</option>
-                {categoryOptions.map((category) => (
-                  <option key={category.id} value={category.id}>
-                    {category.label}
-                  </option>
-                ))}
-              </select>
             </label>
             <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
               Ver
@@ -1904,8 +1897,19 @@ export default function AdminClient() {
               </button>
             </div>
           </div>
-          {catalogView === "detailed" && categoryCounts.length > 0 ? (
-            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          {categoryCounts.length > 0 ? (
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              <button
+                type="button"
+                onClick={() => setCategoryFilter("all")}
+                className={`shrink-0 rounded-full border px-4 py-2 text-xs font-semibold ${
+                  categoryFilter === "all"
+                    ? "border-emerald-300/35 bg-emerald-400/10 text-emerald-100"
+                    : "border-white/10 bg-black/25 text-white/75"
+                }`}
+              >
+                Todas
+              </button>
               {categoryCounts.map((category) => {
                 const isActive = categoryFilter === category.id;
                 return (
@@ -1917,32 +1921,15 @@ export default function AdminClient() {
                         current === category.id ? "all" : category.id
                       )
                     }
-                    className={`flex items-center gap-3 rounded-2xl border p-3 text-left transition ${
+                    className={`shrink-0 rounded-full border px-4 py-2 text-xs font-semibold transition ${
                       isActive
                         ? "border-emerald-300/35 bg-emerald-400/10"
-                        : "border-white/10 bg-black/25 hover:border-white/20"
+                        : "border-white/10 bg-black/25 hover:border-white/20 text-white/75"
                     }`}
                   >
-                    <span className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-black/25">
-                      <Image
-                        src={category.image}
-                        alt=""
-                        aria-hidden="true"
-                        width={56}
-                        height={56}
-                        className="h-14 w-14 object-contain"
-                      />
-                    </span>
-                    <span className="min-w-0">
-                      <span className="block text-sm font-semibold text-white">
-                        {category.label}
-                      </span>
-                      <span className="mt-1 block text-xs text-white/55">
-                        {category.count} producto{category.count === 1 ? "" : "s"}
-                      </span>
-                      <span className="mt-1 block text-[11px] text-white/45">
-                        {getMoCategoryDescription(category.id)}
-                      </span>
+                    <span>{category.label}</span>
+                    <span className="text-white/45">
+                      {category.count}
                     </span>
                   </button>
                 );
@@ -2079,12 +2066,9 @@ export default function AdminClient() {
                         : "flex flex-wrap items-start justify-between gap-4"
                     }
                   >
-                    <div className={`flex min-w-0 flex-1 ${isSimpleView ? "gap-3" : "gap-4"}`}>
+                    <div className={`flex min-w-0 flex-1 ${isSimpleView ? "items-start gap-3" : "gap-4"}`}>
                       <div className={isSimpleView ? "w-20 shrink-0" : "w-24 shrink-0"}>
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">
-                          Foto actual
-                        </p>
-                        <div className="mt-2 overflow-hidden rounded-2xl border border-white/10 bg-black/25">
+                        <div className={`${isSimpleView ? "" : "mt-2"} overflow-hidden rounded-2xl border border-white/10 bg-black/25`}>
                           {currentImageSrc ? (
                             <Image
                               src={currentImageSrc}
@@ -2102,18 +2086,42 @@ export default function AdminClient() {
                         </div>
                       </div>
                     <div className="min-w-0 flex-1">
-                      <p className={`uppercase text-white/60 ${isSimpleView ? "text-[11px] tracking-[0.18em]" : "text-xs tracking-[0.3em]"}`}>
-                        {getMoCategoryLabel(draft.category)}
-                      </p>
-                      {draft.subgroup.trim() ? (
-                        <p className="mt-1 line-clamp-1 text-[11px] uppercase tracking-[0.14em] text-white/45">
-                          {draft.subgroup}
-                        </p>
-                      ) : null}
-                      <h3 className={`mt-1 font-semibold leading-tight ${isSimpleView ? "text-base" : "text-lg"}`}>
-                        {product.name}
-                      </h3>
-                      <div className={`mt-2 flex flex-wrap gap-2 text-[11px] ${isSimpleView ? "pr-0" : ""}`}>
+                      {isSimpleView ? (
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="min-w-0">
+                            <p className="line-clamp-1 text-[11px] uppercase tracking-[0.14em] text-white/55">
+                              {getMoCategoryLabel(draft.category)}
+                              {draft.subgroup.trim() ? ` · ${draft.subgroup}` : ""}
+                            </p>
+                            <h3 className="mt-1 line-clamp-2 text-base font-semibold leading-tight">
+                              {product.name}
+                            </h3>
+                          </div>
+                          <div className="shrink-0 text-right">
+                            <p className="text-[10px] uppercase tracking-[0.16em] text-white/45">
+                              Precio
+                            </p>
+                            <p className="mt-1 text-sm font-semibold text-white">
+                              {formatMoney(effectivePriceValue)}
+                            </p>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <p className="text-xs uppercase tracking-[0.3em] text-white/60">
+                            {getMoCategoryLabel(draft.category)}
+                          </p>
+                          {draft.subgroup.trim() ? (
+                            <p className="mt-1 line-clamp-1 text-[11px] uppercase tracking-[0.14em] text-white/45">
+                              {draft.subgroup}
+                            </p>
+                          ) : null}
+                          <h3 className="mt-1 text-lg font-semibold leading-tight">
+                            {product.name}
+                          </h3>
+                        </>
+                      )}
+                      <div className={`mt-2 flex flex-wrap gap-2 text-[11px] ${isSimpleView ? "" : "pr-0"}`}>
                         <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1 text-white/85">
                           {quickStatusLabel}
                         </span>
@@ -2141,34 +2149,7 @@ export default function AdminClient() {
                                 : "Usando foto propia del producto"}
                         </p>
                       ) : null}
-                      {isSimpleView ? (
-                        <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
-                          <div className="rounded-2xl border border-white/10 bg-black/20 px-3 py-2">
-                            <p className="text-[10px] uppercase tracking-[0.18em] text-white/45">
-                              Precio
-                            </p>
-                            <p className="mt-1 text-sm font-semibold text-white">
-                              {formatMoney(effectivePriceValue)}
-                            </p>
-                          </div>
-                          <div className="rounded-2xl border border-white/10 bg-black/20 px-3 py-2">
-                            <p className="text-[10px] uppercase tracking-[0.18em] text-white/45">
-                              Guardado
-                            </p>
-                            <p className="mt-1 text-sm font-semibold text-white">
-                              {saveState === "saving"
-                                ? "Guardando..."
-                                : saveState === "saved"
-                                  ? "Guardado"
-                                  : saveState === "error"
-                                    ? "Revisar"
-                                    : isDirty
-                                      ? "Pendiente"
-                                      : "Sin cambios"}
-                            </p>
-                          </div>
-                        </div>
-                      ) : null}
+                      {isSimpleView ? null : null}
                     </div>
                     </div>
                     <div className={isSimpleView ? "hidden" : "min-w-[136px] text-right"}>
@@ -2200,6 +2181,22 @@ export default function AdminClient() {
                   <div className={`mt-3 grid gap-2 ${isSimpleView ? "grid-cols-2" : "sm:grid-cols-2 xl:grid-cols-4"}`}>
                     <button
                       type="button"
+                      onClick={() => saveProductChanges(product)}
+                      disabled={!canEditCatalog || !isDirty || saveState === "saving"}
+                      className="min-h-[46px] rounded-2xl bg-emerald-300 px-4 py-3 text-xs font-semibold text-[#07130c] disabled:cursor-not-allowed disabled:opacity-45"
+                    >
+                      {saveState === "saving" ? "Guardando..." : "Guardar"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => resetDraft(product)}
+                      disabled={!canEditCatalog || !isDirty || saveState === "saving"}
+                      className="min-h-[46px] rounded-2xl border border-white/15 px-4 py-3 text-xs font-semibold text-white/75 disabled:cursor-not-allowed disabled:opacity-45"
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      type="button"
                       onClick={() =>
                         updateDraft(product.id, (current) => ({
                           ...current,
@@ -2218,22 +2215,6 @@ export default function AdminClient() {
                       className="min-h-[46px] rounded-2xl border border-white/15 px-4 py-3 text-xs font-semibold text-white disabled:cursor-not-allowed disabled:opacity-45"
                     >
                       Usar imagen por defecto
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => saveProductChanges(product)}
-                      disabled={!canEditCatalog || !isDirty || saveState === "saving"}
-                      className="min-h-[46px] rounded-2xl bg-emerald-300 px-4 py-3 text-xs font-semibold text-[#07130c] disabled:cursor-not-allowed disabled:opacity-45"
-                    >
-                      {saveState === "saving" ? "Guardando..." : "Guardar"}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => resetDraft(product)}
-                      disabled={!canEditCatalog || !isDirty || saveState === "saving"}
-                      className="min-h-[46px] rounded-2xl border border-white/15 px-4 py-3 text-xs font-semibold text-white/75 disabled:cursor-not-allowed disabled:opacity-45"
-                    >
-                      Cancelar
                     </button>
                   </div>
 
