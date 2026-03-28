@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { readApiResponseJson } from "../../../../lib/mo/data/apiAdapter";
 
 export default function MoAdminAccessClient() {
   const router = useRouter();
@@ -29,7 +30,9 @@ export default function MoAdminAccessClient() {
         body: JSON.stringify({ identifier, password }),
       });
 
-      const data = (await response.json()) as { ok?: boolean; message?: string };
+      const data = await readApiResponseJson<{ ok?: boolean; message?: string }>(
+        response
+      );
 
       if (!response.ok || !data.ok) {
         if (response.status === 400 || response.status === 401) {

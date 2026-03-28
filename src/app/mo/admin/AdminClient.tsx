@@ -8,6 +8,7 @@ import {
   getMoBackendErrorInfo,
   type MoBackendErrorInfo,
 } from "../../../lib/mo/data/errorInfo";
+import { readApiResponseJson } from "../../../lib/mo/data/apiAdapter";
 import {
   getEffectivePriceValue,
   getPromoLabel,
@@ -164,7 +165,7 @@ type InlineNotice = {
   message: string;
 };
 
-type AdminSection = "resumen" | "hoy" | "catalogo" | "marketing" | "avanzado";
+type AdminSection = "resumen" | "catalogo" | "avanzado";
 
 export default function AdminClient() {
   type VisibilityFilter =
@@ -327,7 +328,7 @@ export default function AdminClient() {
     if (!response.ok) {
       throw new Error("No se pudo validar la sesión admin.");
     }
-    const data = (await response.json()) as { user: AdminSessionUser };
+    const data = await readApiResponseJson<{ user: AdminSessionUser }>(response);
     setCurrentUser(data.user);
   }, []);
 
@@ -429,13 +430,6 @@ export default function AdminClient() {
       ).length,
     [products, status]
   );
-  const hiddenCount = useMemo(
-    () =>
-      products.filter(
-        (product) => (status[product.id] ?? product.status) === "hidden"
-      ).length,
-    [products, status]
-  );
   const soldOutCount = useMemo(
     () =>
       products.filter(
@@ -506,86 +500,34 @@ export default function AdminClient() {
   const canEditCatalog =
     isSuperAdminRole(currentRole) || isAdminOperatorRole(currentRole);
   const canSeeAdvanced = isSuperAdminRole(currentRole);
-  const canSeeMarketing = currentRole !== "viewer";
   const canUseManualSale = currentRole !== "viewer";
 
   const availableSections = useMemo(
     () => [
       {
         id: "resumen" as const,
-        label: "Resumen",
-        help: "Métricas rápidas y accesos del día.",
-      },
-      {
-        id: "hoy" as const,
-        label: "Operación",
-        help: "Lo diario: tocar y seguir.",
+        label: "Inicio",
+        help: "Resumen del día y estado del panel.",
       },
       {
         id: "catalogo" as const,
-        label: "Catálogo",
-        help: "Buscar producto y abrir ficha.",
+        label: "Productos",
+        help: "Buscar, filtrar y editar rápido.",
       },
-      ...(canSeeMarketing
-        ? [
-            {
-              id: "marketing" as const,
-              label: "Promos",
-              help: "Qué estás empujando hoy.",
-            },
-          ]
-        : []),
-      ...(canSeeAdvanced
+      ...(currentRole !== "viewer"
         ? [
             {
               id: "avanzado" as const,
-              label: "Más ajustes",
-              help: "Configuración más fina.",
+              label: "Herramientas",
+              help: "Seguridad, auditoría y respaldo.",
             },
           ]
         : []),
     ],
-    [canSeeAdvanced, canSeeMarketing]
+    [currentRole]
   );
 
-  const sectionProducts = useMemo(() => {
-    if (searchQuery.trim() || visibilityFilter !== "all" || categoryFilter !== "all") return filteredProducts;
-
-    if (activeSection === "marketing") {
-      const marketingFirst = filteredProducts.filter((product) => {
-        const currentPromo = promo[product.id] ?? {
-          enabled: product.promoEnabled ?? false,
-          percent: product.promoPercent ?? 0,
-        };
-        const currentHot = hotToday[product.id] ?? defaultHotState();
-        return (
-          product.isFeatured ||
-          currentPromo.enabled ||
-          currentHot.status !== "hoy_no_hicimos"
-        );
-      });
-      return marketingFirst.length > 0 ? marketingFirst : filteredProducts.slice(0, 12);
-    }
-
-    if (activeSection === "hoy") {
-      return [...filteredProducts].sort((left, right) => {
-        const leftScore =
-          ((stock[left.id] ?? left.stockStatus) === "agotado" ? 10 : 0) +
-          ((promo[left.id]?.enabled ?? left.promoEnabled) ? 8 : 0) +
-          ((hotToday[left.id]?.status ?? "hoy_no_hicimos") !== "hoy_no_hicimos" ? 6 : 0) +
-          (left.isFeatured ? 4 : 0);
-        const rightScore =
-          ((stock[right.id] ?? right.stockStatus) === "agotado" ? 10 : 0) +
-          ((promo[right.id]?.enabled ?? right.promoEnabled) ? 8 : 0) +
-          ((hotToday[right.id]?.status ?? "hoy_no_hicimos") !== "hoy_no_hicimos" ? 6 : 0) +
-          (right.isFeatured ? 4 : 0);
-        if (leftScore !== rightScore) return rightScore - leftScore;
-        return (left.sortOrder ?? 9999) - (right.sortOrder ?? 9999);
-      });
-    }
-
-    return filteredProducts;
-  }, [activeSection, categoryFilter, filteredProducts, hotToday, promo, searchQuery, stock, visibilityFilter]);
+  const sectionProducts = useMemo(() => filteredProducts, [filteredProducts]);
 
   useEffect(() => {
     if (availableSections.some((section) => section.id === activeSection)) return;
@@ -1278,23 +1220,23 @@ export default function AdminClient() {
   }
 
   return (
-    <div className="min-h-screen bg-black px-4 pb-12 pt-10 text-white">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-10">
-        <header className="flex flex-wrap items-center justify-between gap-4">
+    <div className="min-h-screen bg-slate-950 px-4 pb-12 pt-8 text-slate-100">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-8">
+        <header className="flex flex-wrap items-start justify-between gap-4 rounded-3xl border border-white/10 bg-white/5 px-5 py-5">
           <div>
-            <p className="text-xs uppercase tracking-[0.45em] text-emerald-200/80">
-              RYS minisuper admin
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-emerald-200/80">
+              RYS admin
             </p>
-            <h1 className="text-3xl font-semibold">Panel de operación</h1>
-            <p className="mt-2 text-sm text-white/60">
-              Lo diario primero. Marketing y ajustes finos solo cuando de verdad hagan falta.
+            <h1 className="mt-2 text-3xl font-semibold text-white">Inicio del panel</h1>
+            <p className="mt-2 text-sm text-slate-300">
+              Panel diario para revisar estado, editar productos y entrar a seguridad sin ruido técnico.
             </p>
-            <div className="mt-3 flex flex-wrap gap-2 text-[11px] uppercase tracking-[0.2em]">
-              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-white/70">
+            <div className="mt-3 flex flex-wrap gap-2 text-xs">
+              <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-slate-200">
                 {ADMIN_ROLE_LABELS[currentRole]}
               </span>
-              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-white/70">
-                {currentUser?.isLegacy ? "Acceso temporal de emergencia" : currentUser?.name ?? "Sesión admin"}
+              <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-slate-200">
+                {currentUser?.name ?? "Sesión admin"}
               </span>
             </div>
           </div>
@@ -1303,25 +1245,25 @@ export default function AdminClient() {
               type="button"
               onClick={handleManualReload}
               disabled={refreshing}
-              className="rounded-full border border-white/10 px-4 py-2 text-xs uppercase tracking-[0.2em] text-white/70 disabled:opacity-60"
+              className="rounded-full border border-white/10 px-4 py-2 text-sm font-semibold text-slate-200 disabled:opacity-60"
             >
-              {refreshing ? "Recargando..." : "Recargar panel"}
+              {refreshing ? "Actualizando..." : "Actualizar"}
             </button>
             {canSeeAdvanced ? (
               <>
             <button
               type="button"
               onClick={handleExport}
-              className="rounded-full border border-white/10 px-4 py-2 text-xs uppercase tracking-[0.2em] text-white/70"
+              className="rounded-full border border-white/10 px-4 py-2 text-sm font-semibold text-slate-200"
             >
-              Exportar backup
+              Exportar
             </button>
             <button
               type="button"
               onClick={handleImportClick}
-              className="rounded-full border border-white/10 px-4 py-2 text-xs uppercase tracking-[0.2em] text-white/70"
+              className="rounded-full border border-white/10 px-4 py-2 text-sm font-semibold text-slate-200"
             >
-              Importar backup
+              Importar
             </button>
             <input
               ref={importInputRef}
@@ -1332,13 +1274,13 @@ export default function AdminClient() {
             />
               </>
             ) : null}
-            <div className="rounded-full border border-emerald-300/40 bg-emerald-400/10 px-4 py-2 text-xs uppercase tracking-[0.3em] text-emerald-200">
-              {hotCount} calientes activos
+            <div className="rounded-full border border-emerald-300/40 bg-emerald-400/10 px-4 py-2 text-sm font-semibold text-emerald-100">
+              {hotCount} promos activas
             </div>
             {isSuperAdminRole(currentRole) ? (
               <a
                 href="/admin/seguridad"
-                className="rounded-full border border-white/10 px-4 py-2 text-xs uppercase tracking-[0.2em] text-white/70"
+                className="rounded-full border border-white/10 px-4 py-2 text-sm font-semibold text-slate-200"
               >
                 Seguridad
               </a>
@@ -1379,14 +1321,14 @@ export default function AdminClient() {
 
         <section className="grid gap-3 rounded-3xl border border-white/10 bg-white/5 p-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.25em] text-white/60">
-              Navegación rápida
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-300">
+              Secciones
             </p>
-            <p className="mt-2 text-sm text-white/55">
-              Primero opera. Después empuja promos. Lo más fino vive en Más ajustes.
+            <p className="mt-2 text-sm text-slate-400">
+              Tres zonas claras: estado del día, productos y herramientas.
             </p>
           </div>
-          <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-5">
+          <div className="grid gap-2 sm:grid-cols-3">
             {availableSections.map((section) => {
               const isActive = activeSection === section.id;
               return (
@@ -1397,10 +1339,10 @@ export default function AdminClient() {
                   className={`rounded-2xl border px-4 py-3 text-left transition ${
                     isActive
                       ? "border-emerald-300/40 bg-emerald-400/15 text-emerald-100"
-                      : "border-white/10 bg-black/30 text-white/75"
+                      : "border-white/10 bg-black/20 text-slate-200"
                   }`}
                 >
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em]">
+                  <p className="text-sm font-semibold">
                     {section.label}
                   </p>
                   <p className="mt-1 text-xs text-inherit/80">{section.help}</p>
@@ -1411,42 +1353,33 @@ export default function AdminClient() {
         </section>
 
         {activeSection === "resumen" && (
-        <section className="grid gap-4 sm:grid-cols-3">
+        <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
-            <p className="text-xs uppercase tracking-[0.25em] text-white/60">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-300">
+              Ventas del día
+            </p>
+            <p className="mt-2 text-3xl font-semibold text-white">
+              {formatMoney(todayTotals.total)}
+            </p>
+          </div>
+          <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-300">
               Productos visibles
             </p>
-            <p className="mt-2 text-3xl font-semibold">{visibleCount}</p>
+            <p className="mt-2 text-3xl font-semibold text-white">{visibleCount}</p>
           </div>
           <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
-            <p className="text-xs uppercase tracking-[0.25em] text-white/60">
-              Ocultos
-            </p>
-            <p className="mt-2 text-3xl font-semibold">{hiddenCount}</p>
-          </div>
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
-            <p className="text-xs uppercase tracking-[0.25em] text-white/60">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-300">
               Agotados
             </p>
-            <p className="mt-2 text-3xl font-semibold">{soldOutCount}</p>
+            <p className="mt-2 text-3xl font-semibold text-white">{soldOutCount}</p>
           </div>
-        </section>
-        )}
-
-        {activeSection === "resumen" && (
-        <section className="rounded-3xl border border-emerald-300/20 bg-emerald-400/10 p-5 text-sm text-emerald-50">
-          <p className="text-xs uppercase tracking-[0.25em] text-emerald-200/80">
-            Guía rápida
-          </p>
-          <p className="mt-2 font-semibold">
-            Lo más usado debe resolverse con atajos: listo hoy, agotado, promo y destacado.
-          </p>
-          <p className="mt-2 text-emerald-100/85">
-            Para comprobarlo, recarga la tienda en otro celular o en otra pestaña. Si solo quieres quitar algo del storefront, usa &quot;Oculto&quot; y no lo borres.
-          </p>
-          <p className="mt-2 text-emerald-100/85">
-            Deja los campos largos para casos puntuales. Lo diario debería salir con los botones rápidos.
-          </p>
+          <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-300">
+              Promos activas
+            </p>
+            <p className="mt-2 text-3xl font-semibold text-white">{hotCount}</p>
+          </div>
         </section>
         )}
 
@@ -1476,7 +1409,54 @@ export default function AdminClient() {
         </section>
         )}
 
-        {activeSection === "resumen" && canUseManualSale && (
+        {activeSection === "avanzado" && (
+        <section className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6 md:grid-cols-3">
+          <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-300">
+              Seguridad
+            </p>
+            <p className="mt-2 text-sm text-slate-300">
+              Usuarios, roles y auditoría del panel.
+            </p>
+            {isSuperAdminRole(currentRole) ? (
+              <a
+                href="/admin/seguridad"
+                className="mt-4 inline-flex h-10 items-center justify-center rounded-full border border-white/15 px-4 text-sm font-semibold text-white"
+              >
+                Abrir seguridad
+              </a>
+            ) : (
+              <p className="mt-4 text-xs text-slate-400">
+                Solo super admin puede abrir esta zona.
+              </p>
+            )}
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-300">
+              Respaldo
+            </p>
+            <p className="mt-2 text-sm text-slate-300">
+              Exporta o importa un backup del estado actual del panel.
+            </p>
+            <p className="mt-4 text-xs text-slate-400">
+              Usa esto solo cuando vayas a mover estado completo.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-300">
+              Auditoría rápida
+            </p>
+            <p className="mt-2 text-sm text-slate-300">
+              Revisa señales, clics, búsquedas perdidas y uso de promos.
+            </p>
+            <p className="mt-4 text-xs text-slate-400">
+              Todo sigue leyendo la hoja viva de RYS.
+            </p>
+          </div>
+        </section>
+        )}
+
+        {activeSection === "avanzado" && canUseManualSale && (
         <details className="rounded-3xl border border-white/10 bg-white/5 p-6">
           <summary className="cursor-pointer list-none text-sm font-semibold uppercase tracking-[0.25em] text-white/80">
             Registrar venta manual
@@ -1578,27 +1558,15 @@ export default function AdminClient() {
         </details>
         )}
 
-        {activeSection !== "resumen" && (
+        {activeSection === "catalogo" && (
         <section className="grid gap-6 rounded-3xl border border-white/10 bg-white/5 p-6">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-white/80">
-                {activeSection === "hoy"
-                  ? "Operación de hoy"
-                  : activeSection === "marketing"
-                    ? "Promos y empuje comercial"
-                    : activeSection === "avanzado"
-                      ? "Ajustes avanzados"
-                      : "Catálogo"}
+                Productos
               </h2>
               <p className="mt-2 text-sm text-white/60">
-                {activeSection === "hoy"
-                  ? "Aquí va lo diario: agotado, listo hoy, promo rápida, visibilidad y tocar una vez para seguir."
-                  : activeSection === "marketing"
-                    ? "Aquí decides qué empujar hoy: promos, destacados, etiquetas y productos calientes."
-                    : activeSection === "avanzado"
-                      ? "Esta zona es para cambios finos. Si no lo necesitas hoy, no la toques."
-                      : "Busca un producto por nombre, categoría o etiqueta y entra por bloques de categoría para operar sin perderte en una sábana eterna."}
+                Busca un producto, filtra por categoría o estado y cambia visibilidad, stock, precio y promo sin perderte en el panel.
               </p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-xs text-white/65">
@@ -1776,17 +1744,10 @@ export default function AdminClient() {
               ]
                 .filter(Boolean)
                 .join(" · ");
-              const showTodayBlock =
-                activeSection === "hoy" || activeSection === "catalogo";
-              const showBasicsBlock =
-                activeSection === "hoy" || activeSection === "catalogo";
-              const showMarketingBlock =
-                activeSection === "marketing" ||
-                activeSection === "catalogo" ||
-                activeSection === "hoy";
-              const showAdvancedBlock =
-                canSeeAdvanced &&
-                (activeSection === "avanzado" || activeSection === "catalogo");
+              const showTodayBlock = true;
+              const showBasicsBlock = true;
+              const showMarketingBlock = true;
+              const showAdvancedBlock = canSeeAdvanced;
 
               return (
                 <div
@@ -1960,7 +1921,7 @@ export default function AdminClient() {
                         </button>
                       </div>
                       <p className="mt-3 text-[11px] text-emerald-100/75">
-                        Esto es lo diario: tocar y seguir. Abre &quot;Más ajustes&quot; solo si vas a cambiar algo más fino.
+                        Usa estos atajos para lo diario. Si necesitas tocar estructura o imágenes, abre Herramientas.
                       </p>
                     </div>
                     ) : null}
@@ -2121,7 +2082,7 @@ export default function AdminClient() {
                   {showAdvancedBlock ? (
                   <details className="mt-4 rounded-2xl border border-white/10 bg-black/20 p-4">
                     <summary className="cursor-pointer list-none text-sm font-semibold text-white">
-                      Más ajustes
+                      Herramientas
                     </summary>
                     <div className="mt-4 grid gap-3 md:grid-cols-2">
                       <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
@@ -2365,14 +2326,15 @@ export default function AdminClient() {
         </section>
         )}
 
+        {activeSection === "avanzado" && (
         <section className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-white/80">
-                Señales de marketing
+                Herramientas
               </h2>
               <p className="mt-2 text-sm text-white/60">
-                Lectura mínima de interés real: clics, búsquedas perdidas, combos y CTA a WhatsApp.
+                Seguridad, respaldo y lectura rápida de lo que está pasando en el panel.
               </p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-xs text-white/65">
@@ -2475,8 +2437,9 @@ export default function AdminClient() {
             Los combos siguen siendo manuales por ahora. Si hace falta mover un combo útil sin tocar el panel, la edición sigue concentrada en `src/lib/mo/combos.ts`.
           </div>
         </section>
+        )}
 
-        {(activeSection === "resumen" || activeSection === "marketing") && (
+        {activeSection === "avanzado" && (
         <section className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-white/80">
@@ -2511,7 +2474,7 @@ export default function AdminClient() {
         </section>
         )}
 
-        {(activeSection === "resumen" || activeSection === "marketing") && (
+        {activeSection === "avanzado" && (
         <section className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6">
           <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-white/80">
             Top 30 (30 dias)

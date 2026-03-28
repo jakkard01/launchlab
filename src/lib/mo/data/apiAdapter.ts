@@ -39,6 +39,34 @@ export class MoApiError extends Error {
   }
 }
 
+export const readApiResponseJson = async <T>(
+  response: Response
+): Promise<T & { message?: string; code?: string }> => {
+  const raw = await response.text();
+
+  if (!raw.trim()) {
+    if (!response.ok) {
+      throw new MoApiError(
+        "No pudimos leer la respuesta del panel.",
+        response.status,
+        "ADMIN_EMPTY_RESPONSE"
+      );
+    }
+
+    return {} as T & { message?: string; code?: string };
+  }
+
+  try {
+    return JSON.parse(raw) as T & { message?: string; code?: string };
+  } catch {
+    throw new MoApiError(
+      "La respuesta del panel llegó incompleta o con formato inválido.",
+      response.status,
+      "ADMIN_INVALID_JSON"
+    );
+  }
+};
+
 const fetchJson = async <T>(input: RequestInfo, init?: RequestInit): Promise<T> => {
   const response = await fetch(input, {
     ...init,
@@ -49,7 +77,7 @@ const fetchJson = async <T>(input: RequestInfo, init?: RequestInit): Promise<T> 
     },
   });
 
-  const data = (await response.json()) as T & { message?: string; code?: string };
+  const data = await readApiResponseJson<T>(response);
 
   if (!response.ok) {
     throw new MoApiError(

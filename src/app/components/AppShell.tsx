@@ -15,8 +15,9 @@ export default function AppShell({
   const isMo =
     pathname?.startsWith("/mo") ||
     pathname?.startsWith("/RYSminisuper");
+  const isMoAdmin = pathname?.startsWith("/admin");
 
-  if (isHome || isMo) {
+  if (isHome || isMo || isMoAdmin) {
     return <div className="min-h-screen bg-base text-main">{children}</div>;
   }
 

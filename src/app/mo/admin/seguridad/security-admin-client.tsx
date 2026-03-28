@@ -11,6 +11,7 @@ import {
   ADMIN_ROLE_LABELS,
   ADMIN_ROLE_OPTIONS,
 } from "../../../../lib/mo/adminRoles";
+import { readApiResponseJson } from "../../../../lib/mo/data/apiAdapter";
 
 const roles: AdminRole[] = ADMIN_ROLE_OPTIONS;
 
@@ -38,7 +39,7 @@ export default function SecurityAdminClient() {
       ]);
 
       if (!meRes.ok) throw new Error("No se pudo validar la sesión.");
-      const meData = (await meRes.json()) as { user: AdminSessionUser };
+      const meData = await readApiResponseJson<{ user: AdminSessionUser }>(meRes);
       setUser(meData.user);
 
       if (usersRes.status === 403 || auditRes.status === 403) {
@@ -46,12 +47,16 @@ export default function SecurityAdminClient() {
       }
 
       if (usersRes.ok) {
-        const usersData = (await usersRes.json()) as { users: AdminUserSafe[] };
+        const usersData = await readApiResponseJson<{ users: AdminUserSafe[] }>(
+          usersRes
+        );
         setUsers(usersData.users);
       }
 
       if (auditRes.ok) {
-        const auditData = (await auditRes.json()) as { entries: AdminAuditEntry[] };
+        const auditData = await readApiResponseJson<{
+          entries: AdminAuditEntry[];
+        }>(auditRes);
         setAudit(auditData.entries);
       }
     } catch (err) {
@@ -73,7 +78,7 @@ export default function SecurityAdminClient() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      const data = (await response.json()) as { message?: string };
+      const data = await readApiResponseJson<{ message?: string }>(response);
       if (!response.ok) {
         throw new Error(data.message ?? "No se pudo crear el usuario.");
       }
@@ -104,7 +109,7 @@ export default function SecurityAdminClient() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id, ...patch }),
       });
-      const data = (await response.json()) as { message?: string };
+      const data = await readApiResponseJson<{ message?: string }>(response);
       if (!response.ok) {
         throw new Error(data.message ?? "No se pudo actualizar el usuario.");
       }

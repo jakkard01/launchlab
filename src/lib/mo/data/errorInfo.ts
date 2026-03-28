@@ -48,6 +48,18 @@ export const getMoBackendErrorInfo = (error: unknown): MoBackendErrorInfo => {
   }
 
   if (
+    message.includes("respuesta del panel llegó incompleta") ||
+    message.includes("No pudimos leer la respuesta del panel")
+  ) {
+    return buildInfo(
+      "network",
+      "No pudimos cargar el panel",
+      "La sesión puede seguir activa, pero la respuesta del panel llegó vacía o incompleta.",
+      "Reintenta primero. Si sigue pasando, vuelve al acceso y entra de nuevo."
+    );
+  }
+
+  if (
     message.includes("GOOGLE_SERVICE_ACCOUNT_EMAIL no apunta") ||
     message.includes("tu-proyecto.iam.gserviceaccount.com")
   ) {
