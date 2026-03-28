@@ -166,6 +166,11 @@ type InlineNotice = {
 };
 
 type AdminSection = "resumen" | "catalogo" | "avanzado";
+type CatalogLane = "active" | "hidden";
+
+const getCategoryFallbackImage = (categoryId: string) =>
+  MO_CATEGORY_DEFINITIONS.find((category) => category.id === normalizeMoCategoryId(categoryId))
+    ?.image ?? "";
 
 export default function AdminClient() {
   type VisibilityFilter =
@@ -209,6 +214,7 @@ export default function AdminClient() {
   const [visibilityFilter, setVisibilityFilter] = useState<VisibilityFilter>("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [activeSection, setActiveSection] = useState<AdminSection>("resumen");
+  const [catalogLane, setCatalogLane] = useState<CatalogLane>("active");
   const importInputRef = useRef<HTMLInputElement>(null);
 
   const showActionError = useCallback((title: string, message: string) => {
@@ -430,6 +436,13 @@ export default function AdminClient() {
       ).length,
     [products, status]
   );
+  const hiddenCount = useMemo(
+    () =>
+      products.filter(
+        (product) => (status[product.id] ?? product.status) === "hidden"
+      ).length,
+    [products, status]
+  );
   const soldOutCount = useMemo(
     () =>
       products.filter(
@@ -481,9 +494,13 @@ export default function AdminClient() {
         (visibilityFilter === "featured" && product.isFeatured) ||
         (visibilityFilter === "promo" && currentPromo.enabled && currentPromo.percent > 0) ||
         (visibilityFilter === "hot" && currentHot.status !== "hoy_no_hicimos");
+      const matchesLane =
+        catalogLane === "active"
+          ? currentStatus !== "hidden"
+          : currentStatus === "hidden";
       const matchesCategory =
         categoryFilter === "all" || normalizedCategory === categoryFilter;
-      if (!matchesVisibility || !matchesCategory) return false;
+      if (!matchesVisibility || !matchesCategory || !matchesLane) return false;
       if (!query) return true;
       return matchesProductQuery(
         {
@@ -494,7 +511,7 @@ export default function AdminClient() {
       );
     });
     return query ? rankProductsByQuery(visibleProducts, query) : visibleProducts;
-  }, [categoryFilter, hotToday, prices, promo, searchQuery, sortedProducts, status, stock, visibilityFilter]);
+  }, [catalogLane, categoryFilter, hotToday, prices, promo, searchQuery, sortedProducts, status, stock, visibilityFilter]);
 
   const currentRole = currentUser?.role ?? "viewer";
   const canEditCatalog =
@@ -585,29 +602,6 @@ export default function AdminClient() {
       showActionError(
         "No se pudo actualizar el precio",
         "El panel recargó el valor anterior para evitar dudas."
-      );
-      await reloadAll(adapter);
-    } finally {
-      setPendingActionLabel(null);
-    }
-  };
-
-  const updateImage = async (id: string, image: string) => {
-    if (!adapter) return;
-    const nextImage = image.trim();
-    setPendingActionLabel("Guardando imagen...");
-    setProducts((prev) =>
-      prev.map((product) =>
-        product.id === id ? { ...product, image: nextImage } : product
-      )
-    );
-    try {
-      await adapter.updateImage(id, nextImage);
-      showActionSuccess("Imagen actualizada", "La nueva ruta quedó guardada.");
-    } catch {
-      showActionError(
-        "No se pudo actualizar la imagen",
-        "Comprueba que la ruta local o la URL pública sea válida."
       );
       await reloadAll(adapter);
     } finally {
@@ -767,65 +761,6 @@ export default function AdminClient() {
     }
   };
 
-  const updateHotStatus = async (id: string, status: HotStatus) => {
-    const current = hotToday[id] ?? defaultHotState();
-    await updateHot(id, {
-      ...current,
-      status,
-      updatedAt: new Date().toISOString(),
-    });
-  };
-
-  const handlePriceBlur = async (
-    id: string,
-    value: string,
-    fallback: string
-  ) => {
-    const parsed = parseMoney(value);
-    if (!parsed || parsed <= 0) {
-      showActionError(
-        "Precio inválido",
-        "Debe ser un número mayor a 0. Se restauró el valor anterior."
-      );
-      setPrices((prev) => ({ ...prev, [id]: fallback }));
-      return;
-    }
-    const baseline = parseMoney(fallback) ?? parsed;
-    if (baseline > 0 && parsed < baseline * 0.5) {
-      const ok = window.confirm(
-        "¿Seguro? Parece un precio muy bajo versus el anterior."
-      );
-      if (!ok) {
-        setPrices((prev) => ({ ...prev, [id]: fallback }));
-        return;
-      }
-    }
-    await updatePrice(id, value);
-  };
-
-  const updateHotWindow = async (
-    id: string,
-    windowStart: string,
-    windowEnd: string
-  ) => {
-    const current = hotToday[id] ?? defaultHotState();
-    await updateHot(id, {
-      ...current,
-      windowStart,
-      windowEnd,
-      updatedAt: new Date().toISOString(),
-    });
-  };
-
-  const updateHotNote = async (id: string, note: string) => {
-    const current = hotToday[id] ?? defaultHotState();
-    await updateHot(id, {
-      ...current,
-      note,
-      updatedAt: new Date().toISOString(),
-    });
-  };
-
   const updateDraft = useCallback(
     (id: string, updater: (draft: ProductDraft) => ProductDraft) => {
       setProductDrafts((prev) => {
@@ -873,6 +808,17 @@ export default function AdminClient() {
           tagsInput: nextTags.join(", "),
         };
       });
+    },
+    [updateDraft]
+  );
+
+  const restoreSuggestedImage = useCallback(
+    (productId: string, categoryId: string) => {
+      updateDraft(productId, (current) => ({
+        ...current,
+        image: "",
+        category: normalizeMoCategoryId(categoryId) || current.category,
+      }));
     },
     [updateDraft]
   );
@@ -1456,6 +1402,43 @@ export default function AdminClient() {
         </section>
         )}
 
+        {activeSection === "avanzado" && categoryCounts.length > 0 && (
+        <section className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6">
+          <div>
+            <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-white/80">
+              Portadas de categoría
+            </h2>
+            <p className="mt-2 text-sm text-white/60">
+              Estas portadas se usan como imagen por defecto cuando un producto no tiene foto propia.
+            </p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            {categoryCounts.map((category) => (
+              <div
+                key={category.id}
+                className="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/20 p-3"
+              >
+                <div className="overflow-hidden rounded-2xl border border-white/10 bg-black/20">
+                  <Image
+                    src={category.image}
+                    alt={category.label}
+                    width={72}
+                    height={72}
+                    className="h-[72px] w-[72px] object-cover"
+                  />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-white">{category.label}</p>
+                  <p className="mt-1 break-all text-[11px] text-white/45">
+                    {category.image}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+        )}
+
         {activeSection === "avanzado" && canUseManualSale && (
         <details className="rounded-3xl border border-white/10 bg-white/5 p-6">
           <summary className="cursor-pointer list-none text-sm font-semibold uppercase tracking-[0.25em] text-white/80">
@@ -1566,11 +1549,57 @@ export default function AdminClient() {
                 Productos
               </h2>
               <p className="mt-2 text-sm text-white/60">
-                Busca un producto, filtra por categoría o estado y cambia visibilidad, stock, precio y promo sin perderte en el panel.
+                Aquí resuelves lo diario: cambiar precio, cambiar foto, quitar del catálogo o volver a mostrar.
               </p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-xs text-white/65">
               Mostrando {sectionProducts.length} de {sortedProducts.length} productos
+            </div>
+          </div>
+          <div className="grid gap-3 lg:grid-cols-[1.2fr,1.2fr,1fr]">
+            <button
+              type="button"
+              onClick={() => {
+                setCatalogLane("active");
+                setVisibilityFilter("all");
+              }}
+              className={`rounded-3xl border px-4 py-4 text-left transition ${
+                catalogLane === "active"
+                  ? "border-emerald-300/40 bg-emerald-400/15 text-emerald-100"
+                  : "border-white/10 bg-black/25 text-white/80"
+              }`}
+            >
+              <p className="text-xs font-semibold uppercase tracking-[0.2em]">
+                Productos activos
+              </p>
+              <p className="mt-2 text-2xl font-semibold">{visibleCount}</p>
+              <p className="mt-1 text-sm text-inherit/80">En catálogo</p>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setCatalogLane("hidden");
+                setVisibilityFilter("all");
+              }}
+              className={`rounded-3xl border px-4 py-4 text-left transition ${
+                catalogLane === "hidden"
+                  ? "border-amber-300/40 bg-amber-400/15 text-amber-100"
+                  : "border-white/10 bg-black/25 text-white/80"
+              }`}
+            >
+              <p className="text-xs font-semibold uppercase tracking-[0.2em]">
+                Productos quitados
+              </p>
+              <p className="mt-2 text-2xl font-semibold">{hiddenCount}</p>
+              <p className="mt-1 text-sm text-inherit/80">Fuera del catálogo</p>
+            </button>
+            <div className="rounded-3xl border border-white/10 bg-black/20 px-4 py-4 text-sm text-white/70">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/60">
+                Atajo diario
+              </p>
+              <p className="mt-2">
+                Si un producto salió de la tienda, ábrelo en “Productos quitados” y usa “Volver a mostrar”.
+              </p>
             </div>
           </div>
           <div className="grid gap-4 lg:grid-cols-[2fr,1fr,1fr,auto]">
@@ -1580,7 +1609,11 @@ export default function AdminClient() {
                 type="search"
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
-                placeholder="Ej. café, shampoo, Coca-Cola..."
+                placeholder={
+                  catalogLane === "hidden"
+                    ? "Busca el producto que quitaste"
+                    : "Busca café, shampoo o Coca-Cola"
+                }
                 className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
               />
             </label>
@@ -1600,7 +1633,7 @@ export default function AdminClient() {
               </select>
             </label>
             <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
-              Filtrar lista
+              Ver
               <select
                 value={visibilityFilter}
                 onChange={(event) =>
@@ -1609,12 +1642,10 @@ export default function AdminClient() {
                 className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
               >
                 <option value="all">Todos</option>
-                <option value="visible">Solo visibles</option>
-                <option value="hidden">Solo ocultos</option>
                 <option value="sold_out">Agotados</option>
                 <option value="featured">Destacados</option>
                 <option value="promo">Promos</option>
-                <option value="hot">Hoy</option>
+                <option value="hot">Con promo activa hoy</option>
               </select>
             </label>
             <div className="flex items-end">
@@ -1679,7 +1710,9 @@ export default function AdminClient() {
           <div className="grid gap-4 lg:grid-cols-2">
               {sectionProducts.length === 0 ? (
                 <div className="rounded-2xl border border-dashed border-white/15 bg-black/20 p-5 text-sm text-white/60 lg:col-span-2">
-                  No hay productos que coincidan con la búsqueda o el filtro actual. Si buscabas algo del surtido y no sale aquí, no significa que el buscador esté roto: puede que ese producto no esté cargado hoy.
+                  {catalogLane === "hidden"
+                    ? "No hay productos quitados que coincidan con la búsqueda. Si acabas de quitar uno, actualiza el panel y vuelve a mirar aquí."
+                    : "No hay productos en catálogo que coincidan con la búsqueda o el filtro actual."}
                 </div>
               ) : sectionProducts.map((product) => {
                 const stockStatus = stock[product.id] ?? "disponible";
@@ -1711,6 +1744,9 @@ export default function AdminClient() {
                 );
                 const isDirty = !areDraftsEqual(draft, savedDraft);
                 const saveState = saveStateById[product.id] ?? (isDirty ? "dirty" : "idle");
+              const suggestedImage = getCategoryFallbackImage(draft.category);
+              const currentImageSrc = draft.image.trim() || suggestedImage;
+              const isUsingSuggestedImage = !draft.image.trim();
               const pricingProduct = {
                 ...product,
                 price: draft.price,
@@ -1754,8 +1790,29 @@ export default function AdminClient() {
                   key={product.id}
                   className="rounded-3xl border border-white/10 bg-black/40 p-4 shadow-[0_14px_38px_rgba(0,0,0,0.16)]"
                 >
-                  <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div>
+                  <div className="flex flex-wrap items-start justify-between gap-4">
+                    <div className="flex min-w-0 flex-1 gap-4">
+                      <div className="w-24 shrink-0">
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">
+                          Foto actual
+                        </p>
+                        <div className="mt-2 overflow-hidden rounded-2xl border border-white/10 bg-black/25">
+                          {currentImageSrc ? (
+                            <Image
+                              src={currentImageSrc}
+                              alt={product.name}
+                              width={160}
+                              height={160}
+                              className="h-24 w-24 object-cover"
+                            />
+                          ) : (
+                            <div className="flex h-24 w-24 items-center justify-center px-2 text-center text-[11px] text-white/45">
+                              Sin foto
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    <div className="min-w-0">
                       <p className="text-xs uppercase tracking-[0.3em] text-white/60">
                         {getMoCategoryLabel(draft.category)}
                       </p>
@@ -1775,6 +1832,12 @@ export default function AdminClient() {
                           ? normalizeTags(draft.tagsInput).join(" · ")
                           : "Sin etiquetas comerciales"}
                       </p>
+                      <p className="mt-2 text-[11px] text-white/45">
+                        {isUsingSuggestedImage
+                          ? "Usando foto por defecto de su categoría"
+                          : "Usando foto propia del producto"}
+                      </p>
+                    </div>
                     </div>
                     <div className="min-w-[136px] text-right">
                       <p className="text-xs uppercase tracking-[0.3em] text-white/60">
@@ -1809,10 +1872,10 @@ export default function AdminClient() {
                     <div className="flex flex-wrap items-center justify-between gap-3">
                       <div>
                         <p className="text-[11px] uppercase tracking-[0.22em] text-emerald-200/80">
-                          Guardado del producto
+                          Estado del producto
                         </p>
                         <p className="mt-1 text-xs text-emerald-50/85">
-                          Los atajos de hoy se guardan al tocar. Lo demás se confirma con Guardar cambios.
+                          Aquí mismo puedes cambiar precio, foto y si sigue o no en catálogo.
                         </p>
                       </div>
                       <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1 text-[11px] font-semibold text-white/85">
@@ -1829,22 +1892,43 @@ export default function AdminClient() {
                     </div>
                   </div>
 
-                  <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                  <div className="mt-4 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        updateDraft(product.id, (current) => ({
+                          ...current,
+                          status: current.status === "hidden" ? "available" : "hidden",
+                        }))
+                      }
+                      disabled={!canEditCatalog || saveState === "saving"}
+                      className="min-h-[46px] rounded-2xl border border-white/15 px-4 py-3 text-xs font-semibold text-white disabled:cursor-not-allowed disabled:opacity-45"
+                    >
+                      {draft.status === "hidden" ? "Volver a mostrar" : "Quitar del catálogo"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => restoreSuggestedImage(product.id, draft.category)}
+                      disabled={!canEditCatalog || saveState === "saving"}
+                      className="min-h-[46px] rounded-2xl border border-white/15 px-4 py-3 text-xs font-semibold text-white disabled:cursor-not-allowed disabled:opacity-45"
+                    >
+                      Usar imagen por defecto
+                    </button>
                     <button
                       type="button"
                       onClick={() => saveProductChanges(product)}
                       disabled={!canEditCatalog || !isDirty || saveState === "saving"}
-                      className="min-h-[46px] rounded-2xl bg-emerald-300 px-4 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-[#07130c] disabled:cursor-not-allowed disabled:opacity-45"
+                      className="min-h-[46px] rounded-2xl bg-emerald-300 px-4 py-3 text-xs font-semibold text-[#07130c] disabled:cursor-not-allowed disabled:opacity-45"
                     >
-                      {saveState === "saving" ? "Guardando..." : "Guardar cambios"}
+                      {saveState === "saving" ? "Guardando..." : "Guardar"}
                     </button>
                     <button
                       type="button"
                       onClick={() => resetDraft(product)}
                       disabled={!canEditCatalog || !isDirty || saveState === "saving"}
-                      className="min-h-[46px] rounded-2xl border border-white/15 px-4 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-white/75 disabled:cursor-not-allowed disabled:opacity-45"
+                      className="min-h-[46px] rounded-2xl border border-white/15 px-4 py-3 text-xs font-semibold text-white/75 disabled:cursor-not-allowed disabled:opacity-45"
                     >
-                      Descartar
+                      Cancelar
                     </button>
                   </div>
 
@@ -1931,7 +2015,7 @@ export default function AdminClient() {
                     {showBasicsBlock ? (
                     <>
                     <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
-                      Visibilidad
+                      En catálogo
                       <select
                         value={draft.status}
                         onChange={(event) =>
@@ -1949,7 +2033,7 @@ export default function AdminClient() {
                         <option value="hidden">Oculto</option>
                       </select>
                       <span className="text-[11px] normal-case tracking-normal text-white/50">
-                        Usa &quot;Oculto&quot; para quitarlo de la tienda sin borrarlo.
+                        “Oculto” lo quita de la tienda, pero lo deja listo para volver a mostrar.
                       </span>
                     </label>
 
@@ -1973,9 +2057,9 @@ export default function AdminClient() {
                     </label>
 
                     <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
-                      Precio unitario
+                      Cambiar precio
                       <span className="text-[11px] normal-case tracking-normal text-white/45">
-                        Cámbialo aquí y luego usa Guardar cambios.
+                        Escribe el nuevo precio y luego pulsa Guardar.
                       </span>
                       <input
                         type="text"
@@ -1992,8 +2076,51 @@ export default function AdminClient() {
                       />
                     </label>
 
+                    <div className="md:col-span-2 grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                      <p>Cambiar foto</p>
+                      <input
+                        type="text"
+                        value={draft.image}
+                        onChange={(event) =>
+                          updateDraft(product.id, (current) => ({
+                            ...current,
+                            image: event.target.value,
+                          }))
+                        }
+                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                        placeholder="Pega /rys/products/... o una URL pública"
+                        disabled={!canEditCatalog}
+                      />
+                      <div className="flex flex-wrap gap-2">
+                        <button
+                          type="button"
+                          onClick={() => restoreSuggestedImage(product.id, draft.category)}
+                          disabled={!canEditCatalog}
+                          className="rounded-full border border-white/15 px-3 py-2 text-[11px] font-semibold text-white disabled:opacity-45"
+                        >
+                          Restaurar foto sugerida
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            updateDraft(product.id, (current) => ({
+                              ...current,
+                              image: "",
+                            }))
+                          }
+                          disabled={!canEditCatalog}
+                          className="rounded-full border border-white/15 px-3 py-2 text-[11px] font-semibold text-white disabled:opacity-45"
+                        >
+                          Usar imagen por defecto
+                        </button>
+                      </div>
+                      <p className="text-[11px] normal-case tracking-normal text-white/45">
+                        Si no pegas una foto propia, el sistema usará la portada correcta de su categoría.
+                      </p>
+                    </div>
+
                     <div className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
-                      <p>Promo rápida</p>
+                      <p>Promo</p>
                       <div className="grid grid-cols-3 gap-2">
                         {[
                           { label: "Sin promo", enabled: false, percent: 0 },
@@ -2288,25 +2415,34 @@ export default function AdminClient() {
                         />
                       </label>
 
-                      <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60 md:col-span-2">
-                        Imagen URL
-                        <input
-                          type="text"
-                          value={draft.image}
-                          onChange={(event) =>
-                            updateDraft(product.id, (current) => ({
-                              ...current,
-                              image: event.target.value,
-                            }))
-                          }
-                          className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
-                          placeholder="/rys/products/... o /rys/categories/... o https://..."
-                          disabled={!canEditCatalog}
-                        />
-                        <p className="text-[11px] normal-case tracking-normal text-white/45">
-                          Producto: usa `/rys/products/...` si existe. Si no, deja vacío y caerá a la portada correcta de su categoría. Las categorías usan `src/lib/mo/categories.ts` y los combos usan `/rys/combos/...`.
-                        </p>
-                      </label>
+                      <div className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60 md:col-span-2">
+                        <p>Portada sugerida de categoría</p>
+                        <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-black/30 px-3 py-3">
+                          <div className="overflow-hidden rounded-xl border border-white/10 bg-black/20">
+                            {suggestedImage ? (
+                              <Image
+                                src={suggestedImage}
+                                alt={getMoCategoryLabel(draft.category)}
+                                width={64}
+                                height={64}
+                                className="h-16 w-16 object-cover"
+                              />
+                            ) : (
+                              <div className="flex h-16 w-16 items-center justify-center text-[11px] text-white/45">
+                                Sin portada
+                              </div>
+                            )}
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-sm font-semibold normal-case tracking-normal text-white">
+                              {getMoCategoryLabel(draft.category)}
+                            </p>
+                            <p className="mt-1 break-all text-[11px] normal-case tracking-normal text-white/50">
+                              {suggestedImage || "Sin portada definida"}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
 
                       <div className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
                         Última actualización
