@@ -2070,9 +2070,15 @@ export default function AdminClient() {
               return (
                 <div
                   key={product.id}
-                  className="rounded-3xl border border-white/10 bg-black/40 p-4 shadow-[0_14px_38px_rgba(0,0,0,0.16)]"
+                  className={`rounded-3xl border border-white/10 bg-black/40 shadow-[0_14px_38px_rgba(0,0,0,0.16)] ${isSimpleView ? "p-3" : "p-4"}`}
                 >
-                  <div className={`flex flex-wrap items-start justify-between gap-4 ${isSimpleView ? "md:flex-nowrap" : ""}`}>
+                  <div
+                    className={
+                      isSimpleView
+                        ? "grid gap-3"
+                        : "flex flex-wrap items-start justify-between gap-4"
+                    }
+                  >
                     <div className={`flex min-w-0 flex-1 ${isSimpleView ? "gap-3" : "gap-4"}`}>
                       <div className={isSimpleView ? "w-20 shrink-0" : "w-24 shrink-0"}>
                         <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">
@@ -2095,19 +2101,19 @@ export default function AdminClient() {
                           )}
                         </div>
                       </div>
-                    <div className="min-w-0">
-                      <p className="text-xs uppercase tracking-[0.3em] text-white/60">
+                    <div className="min-w-0 flex-1">
+                      <p className={`uppercase text-white/60 ${isSimpleView ? "text-[11px] tracking-[0.18em]" : "text-xs tracking-[0.3em]"}`}>
                         {getMoCategoryLabel(draft.category)}
                       </p>
                       {draft.subgroup.trim() ? (
-                        <p className="mt-1 text-[11px] uppercase tracking-[0.2em] text-white/45">
+                        <p className="mt-1 line-clamp-1 text-[11px] uppercase tracking-[0.14em] text-white/45">
                           {draft.subgroup}
                         </p>
                       ) : null}
-                      <h3 className="mt-2 text-lg font-semibold">
+                      <h3 className={`mt-1 font-semibold leading-tight ${isSimpleView ? "text-base" : "text-lg"}`}>
                         {product.name}
                       </h3>
-                      <div className="mt-2 flex flex-wrap gap-2 text-[11px]">
+                      <div className={`mt-2 flex flex-wrap gap-2 text-[11px] ${isSimpleView ? "pr-0" : ""}`}>
                         <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1 text-white/85">
                           {quickStatusLabel}
                         </span>
@@ -2135,9 +2141,37 @@ export default function AdminClient() {
                                 : "Usando foto propia del producto"}
                         </p>
                       ) : null}
+                      {isSimpleView ? (
+                        <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
+                          <div className="rounded-2xl border border-white/10 bg-black/20 px-3 py-2">
+                            <p className="text-[10px] uppercase tracking-[0.18em] text-white/45">
+                              Precio
+                            </p>
+                            <p className="mt-1 text-sm font-semibold text-white">
+                              {formatMoney(effectivePriceValue)}
+                            </p>
+                          </div>
+                          <div className="rounded-2xl border border-white/10 bg-black/20 px-3 py-2">
+                            <p className="text-[10px] uppercase tracking-[0.18em] text-white/45">
+                              Guardado
+                            </p>
+                            <p className="mt-1 text-sm font-semibold text-white">
+                              {saveState === "saving"
+                                ? "Guardando..."
+                                : saveState === "saved"
+                                  ? "Guardado"
+                                  : saveState === "error"
+                                    ? "Revisar"
+                                    : isDirty
+                                      ? "Pendiente"
+                                      : "Sin cambios"}
+                            </p>
+                          </div>
+                        </div>
+                      ) : null}
                     </div>
                     </div>
-                    <div className="min-w-[136px] text-right">
+                    <div className={isSimpleView ? "hidden" : "min-w-[136px] text-right"}>
                       <p className="text-xs uppercase tracking-[0.3em] text-white/60">
                         Precio final
                       </p>
@@ -2163,7 +2197,7 @@ export default function AdminClient() {
                     </div>
                   </div>
 
-                  <div className={`mt-4 grid gap-2 ${isSimpleView ? "sm:grid-cols-2 xl:grid-cols-2" : "sm:grid-cols-2 xl:grid-cols-4"}`}>
+                  <div className={`mt-3 grid gap-2 ${isSimpleView ? "grid-cols-2" : "sm:grid-cols-2 xl:grid-cols-4"}`}>
                     <button
                       type="button"
                       onClick={() =>
@@ -2203,7 +2237,7 @@ export default function AdminClient() {
                     </button>
                   </div>
 
-                  <div className="mt-4 grid gap-3 md:grid-cols-2">
+                  <div className={`mt-3 grid gap-3 ${isSimpleView ? "md:grid-cols-2" : "md:grid-cols-2"}`}>
                     {showBasicsBlock ? (
                     <>
                     <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
@@ -2342,7 +2376,7 @@ export default function AdminClient() {
                   </div>
 
                   <details
-                    className="mt-4 rounded-2xl border border-white/10 bg-black/20 p-4"
+                    className="mt-3 rounded-2xl border border-white/10 bg-black/20 p-4"
                     open={catalogView === "detailed"}
                   >
                     <summary className="cursor-pointer list-none text-sm font-semibold text-white">
