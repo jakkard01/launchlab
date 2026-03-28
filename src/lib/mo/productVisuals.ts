@@ -2,6 +2,10 @@ import { getMoCategoryImage } from "./categories";
 import type { Product } from "./types";
 
 const PRODUCT_IMAGE_OVERRIDES: Record<string, string> = {
+  "mo-pepsi-600ml": "/rys/categories/bebidas.webp",
+  "mo-coca-cola-600ml": "/rys/categories/bebidas.webp",
+  "mo-coca-cola-grande": "/rys/categories/bebidas.webp",
+  "mo-pepsi-grande": "/rys/categories/bebidas.webp",
   "mo-yogur-individual": "/rys/products/yogur-individual-refrigerado.png",
   "mo-boquita-individual": "/rys/products/boquita-individual.png",
   "mo-pan-dulce-artesanal": "/rys/products/pan-dulce-artesanal.png",
@@ -24,11 +28,18 @@ const LOW_QUALITY_IMAGE_PATTERNS = [
   "/rys/categories/review_pending/",
 ] as const;
 
+const ALLOWED_PRODUCT_IMAGE_PREFIXES = ["/rys/products/", "/rys/categories/"] as const;
+
 export const isLowQualityProductImage = (value?: string | null) => {
   const src = value?.trim();
   if (!src) return true;
   return LOW_QUALITY_IMAGE_PATTERNS.some((pattern) => src.includes(pattern));
 };
+
+const isAllowedProductImagePrefix = (value: string) =>
+  ALLOWED_PRODUCT_IMAGE_PREFIXES.some((prefix) => value.startsWith(prefix));
+
+const isCategoryCoverImage = (value: string) => value.startsWith("/rys/categories/");
 
 export const resolveProductImage = (product: Product) => {
   const forcedImage = PRODUCT_IMAGE_OVERRIDES[product.id];
@@ -37,8 +48,19 @@ export const resolveProductImage = (product: Product) => {
   }
 
   const productImage = product.image?.trim();
-  if (productImage && !isLowQualityProductImage(productImage)) {
-    return productImage;
+  if (
+    productImage &&
+    !isLowQualityProductImage(productImage) &&
+    isAllowedProductImagePrefix(productImage)
+  ) {
+    if (isCategoryCoverImage(productImage)) {
+      const categoryImage = getMoCategoryImage(product.category);
+      if (productImage === categoryImage) {
+        return productImage;
+      }
+    } else {
+      return productImage;
+    }
   }
 
   return getMoCategoryImage(product.category);

@@ -48,7 +48,19 @@ export async function POST(request: Request) {
     );
   }
 
-  const users = await getAdminUsers();
+  let users = [] as Awaited<ReturnType<typeof getAdminUsers>>;
+  try {
+    users = await getAdminUsers();
+  } catch {
+    return NextResponse.json(
+      {
+        ok: false,
+        message:
+          "El acceso admin está habilitado, pero la capa de usuarios/sesión aún no puede validar contra Sheets en este entorno.",
+      },
+      { status: 503 }
+    );
+  }
   const hasRealUsers = users.length > 0;
 
   if (!hasRealUsers && !verifyLegacySharedPassword(password)) {
