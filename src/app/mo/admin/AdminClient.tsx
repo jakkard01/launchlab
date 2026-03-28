@@ -2016,6 +2016,14 @@ export default function AdminClient() {
               const showBasicsBlock = true;
               const showMarketingBlock = true;
               const showAdvancedBlock = canSeeAdvanced;
+              const quickStatusLabel =
+                draft.status === "hidden"
+                  ? "Quitado del catálogo"
+                  : draft.status === "out_of_stock"
+                    ? "Agotado hoy"
+                    : draft.status === "soon"
+                      ? "Pronto"
+                      : "En catálogo";
 
               return (
                 <div
@@ -2057,14 +2065,23 @@ export default function AdminClient() {
                       <h3 className="mt-2 text-lg font-semibold">
                         {product.name}
                       </h3>
-                      <p className="mt-2 text-xs text-white/55">
-                        {statusSummary}
-                      </p>
-                      <p className="mt-2 text-xs text-white/45">
-                        {normalizeTags(draft.tagsInput).length > 0
-                          ? normalizeTags(draft.tagsInput).join(" · ")
-                          : "Sin etiquetas comerciales"}
-                      </p>
+                      <div className="mt-2 flex flex-wrap gap-2 text-[11px]">
+                        <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1 text-white/85">
+                          {quickStatusLabel}
+                        </span>
+                        <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1 text-white/75">
+                          {draft.stockStatus === "agotado"
+                            ? "Stock agotado"
+                            : draft.stockStatus === "ultimas"
+                              ? "Últimas"
+                              : "Stock disponible"}
+                        </span>
+                        {promoLabel ? (
+                          <span className="rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-1 text-emerald-100">
+                            {promoLabel}
+                          </span>
+                        ) : null}
+                      </div>
                       <p className="mt-2 text-[11px] text-white/45">
                         {isUsingSuggestedImage
                           ? "Usando foto por defecto de su categoría"
@@ -2083,9 +2100,6 @@ export default function AdminClient() {
                       <p className="mt-2 text-lg font-semibold">
                         {formatMoney(effectivePriceValue)}
                       </p>
-                      {promoLabel && (
-                        <p className="text-xs text-emerald-200">{promoLabel}</p>
-                      )}
                       {promoSavings !== null && promoSavings > 0 && (
                         <p className="text-xs text-emerald-200">
                           Ahorro {formatMoney(promoSavings)}
@@ -2102,30 +2116,6 @@ export default function AdminClient() {
                                 ? "Hay cambios sin guardar"
                                 : "Sin cambios pendientes"}
                       </p>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 rounded-2xl border border-emerald-300/20 bg-emerald-400/10 p-3">
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                      <div>
-                        <p className="text-[11px] uppercase tracking-[0.22em] text-emerald-200/80">
-                          Estado del producto
-                        </p>
-                        <p className="mt-1 text-xs text-emerald-50/85">
-                          Aquí mismo puedes cambiar precio, foto y si sigue o no en catálogo.
-                        </p>
-                      </div>
-                      <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1 text-[11px] font-semibold text-white/85">
-                        {saveState === "saving"
-                          ? "Guardando"
-                          : saveState === "saved"
-                            ? "Guardado"
-                            : saveState === "error"
-                              ? "Revisar"
-                              : isDirty
-                                ? "Pendiente"
-                                : "Al día"}
-                      </span>
                     </div>
                   </div>
 
@@ -2170,6 +2160,148 @@ export default function AdminClient() {
                   </div>
 
                   <div className="mt-4 grid gap-3 md:grid-cols-2">
+                    {showBasicsBlock ? (
+                    <>
+                    <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                      En catálogo
+                      <select
+                        value={draft.status}
+                        onChange={(event) =>
+                          updateDraft(product.id, (current) => ({
+                            ...current,
+                            status: event.target.value as ProductStatus,
+                          }))
+                        }
+                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                        disabled={!canEditCatalog}
+                      >
+                        <option value="available">Visible</option>
+                        <option value="soon">Pronto</option>
+                        <option value="out_of_stock">Agotado hoy</option>
+                        <option value="hidden">Oculto</option>
+                      </select>
+                    </label>
+
+                    <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                      Stock
+                      <select
+                        value={draft.stockStatus}
+                        onChange={(event) =>
+                          updateDraft(product.id, (current) => ({
+                            ...current,
+                            stockStatus: event.target.value as StockStatus,
+                          }))
+                        }
+                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                        disabled={!canEditCatalog}
+                      >
+                        <option value="disponible">Disponible</option>
+                        <option value="ultimas">Ultimas</option>
+                        <option value="agotado">Agotado</option>
+                      </select>
+                    </label>
+
+                    <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                      Cambiar precio
+                      <input
+                        type="text"
+                        value={draft.price}
+                        onChange={(event) =>
+                          updateDraft(product.id, (current) => ({
+                            ...current,
+                            price: event.target.value,
+                          }))
+                        }
+                        inputMode="decimal"
+                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                        disabled={!canEditCatalog}
+                      />
+                    </label>
+
+                    <div className="md:col-span-2 grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                      <p>Cambiar foto</p>
+                      <input
+                        type="text"
+                        value={draft.image}
+                        onChange={(event) =>
+                          updateDraft(product.id, (current) => ({
+                            ...current,
+                            image: event.target.value,
+                          }))
+                        }
+                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                        placeholder="Pega /rys/products/... o un link público"
+                        disabled={!canEditCatalog}
+                      />
+                      <div className="flex flex-wrap gap-2">
+                        <label className="inline-flex cursor-pointer items-center justify-center rounded-full border border-white/15 px-3 py-2 text-[11px] font-semibold text-white">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            disabled={!canEditCatalog || isImageBusy}
+                            onChange={async (event) => {
+                              const file = event.target.files?.[0];
+                              if (!file) return;
+                              await prepareImageFromFile(product, file, "file");
+                              event.target.value = "";
+                            }}
+                          />
+                          {isImageBusy ? "Preparando..." : "Subir foto"}
+                        </label>
+                        <label className="inline-flex cursor-pointer items-center justify-center rounded-full border border-white/15 px-3 py-2 text-[11px] font-semibold text-white">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            capture="environment"
+                            className="hidden"
+                            disabled={!canEditCatalog || isImageBusy}
+                            onChange={async (event) => {
+                              const file = event.target.files?.[0];
+                              if (!file) return;
+                              await prepareImageFromFile(product, file, "camera");
+                              event.target.value = "";
+                            }}
+                          />
+                          {isImageBusy ? "Preparando..." : "Tomar foto"}
+                        </label>
+                        <button
+                          type="button"
+                          onClick={() => restoreSuggestedImage(product.id, draft.category)}
+                          disabled={!canEditCatalog}
+                          className="rounded-full border border-white/15 px-3 py-2 text-[11px] font-semibold text-white disabled:opacity-45"
+                        >
+                          Restaurar sugerida
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            updateDraft(product.id, (current) => ({
+                              ...current,
+                              image: "",
+                            }))
+                          }
+                          disabled={!canEditCatalog}
+                          className="rounded-full border border-white/15 px-3 py-2 text-[11px] font-semibold text-white disabled:opacity-45"
+                        >
+                          Usar imagen por defecto
+                        </button>
+                      </div>
+                      {localImageDraft ? (
+                        <p className="text-[11px] normal-case tracking-normal text-white/55">
+                          Foto preparada por {localImageDraft.source === "camera" ? "cámara" : "archivo"} · {localImageDraft.width}x{localImageDraft.height} · {localImageDraft.approxKb} KB aprox.
+                        </p>
+                      ) : null}
+                    </div>
+                    </>
+                    ) : null}
+                  </div>
+
+                  <details className="mt-4 rounded-2xl border border-white/10 bg-black/20 p-4">
+                    <summary className="cursor-pointer list-none text-sm font-semibold text-white">
+                      Más opciones
+                    </summary>
+                    <div className="mt-4 grid gap-3 md:grid-cols-2">
                     {currentRole !== "viewer" && showTodayBlock ? (
                     <div className="md:col-span-2 rounded-2xl border border-emerald-300/15 bg-emerald-400/10 p-3">
                       <p className="text-[11px] uppercase tracking-[0.22em] text-emerald-200/80">
@@ -2247,157 +2379,8 @@ export default function AdminClient() {
                     </div>
                     ) : null}
 
-                    {currentRole !== "viewer" && (showBasicsBlock || showMarketingBlock) ? (
+                    {currentRole !== "viewer" && showMarketingBlock ? (
                     <>
-                    {showBasicsBlock ? (
-                    <>
-                    <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
-                      En catálogo
-                      <select
-                        value={draft.status}
-                        onChange={(event) =>
-                          updateDraft(product.id, (current) => ({
-                            ...current,
-                            status: event.target.value as ProductStatus,
-                          }))
-                        }
-                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
-                        disabled={!canEditCatalog}
-                      >
-                        <option value="available">Visible</option>
-                        <option value="soon">Pronto</option>
-                        <option value="out_of_stock">Agotado hoy</option>
-                        <option value="hidden">Oculto</option>
-                      </select>
-                      <span className="text-[11px] normal-case tracking-normal text-white/50">
-                        “Oculto” lo quita de la tienda, pero lo deja listo para volver a mostrar.
-                      </span>
-                    </label>
-
-                    <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
-                      Stock
-                      <select
-                        value={draft.stockStatus}
-                        onChange={(event) =>
-                          updateDraft(product.id, (current) => ({
-                            ...current,
-                            stockStatus: event.target.value as StockStatus,
-                          }))
-                        }
-                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
-                        disabled={!canEditCatalog}
-                      >
-                        <option value="disponible">Disponible</option>
-                        <option value="ultimas">Ultimas</option>
-                        <option value="agotado">Agotado</option>
-                      </select>
-                    </label>
-
-                    <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
-                      Cambiar precio
-                      <span className="text-[11px] normal-case tracking-normal text-white/45">
-                        Escribe el nuevo precio y luego pulsa Guardar.
-                      </span>
-                      <input
-                        type="text"
-                        value={draft.price}
-                        onChange={(event) =>
-                          updateDraft(product.id, (current) => ({
-                            ...current,
-                            price: event.target.value,
-                          }))
-                        }
-                        inputMode="decimal"
-                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
-                        disabled={!canEditCatalog}
-                      />
-                    </label>
-
-                    <div className="md:col-span-2 grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
-                      <p>Foto actual</p>
-                      <div className="rounded-2xl border border-white/10 bg-black/25 p-3 text-[11px] normal-case tracking-normal text-white/70">
-                        <p className="font-semibold text-white">Cambiar foto</p>
-                        <p className="mt-1">
-                          Puedes pegar un link público o usar una foto desde este dispositivo. Si usas archivo o cámara, el panel la optimiza a WebP antes de guardarla.
-                        </p>
-                        {localImageDraft ? (
-                          <p className="mt-2 text-white/55">
-                            Foto preparada por {localImageDraft.source === "camera" ? "cámara" : "archivo"} · {localImageDraft.width}x{localImageDraft.height} · {localImageDraft.approxKb} KB aprox.
-                          </p>
-                        ) : null}
-                      </div>
-                      <input
-                        type="text"
-                        value={draft.image}
-                        onChange={(event) =>
-                          updateDraft(product.id, (current) => ({
-                            ...current,
-                            image: event.target.value,
-                          }))
-                        }
-                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
-                        placeholder="Pega /rys/products/... o un link público"
-                        disabled={!canEditCatalog}
-                      />
-                      <div className="flex flex-wrap gap-2">
-                        <label className="inline-flex cursor-pointer items-center justify-center rounded-full border border-white/15 px-3 py-2 text-[11px] font-semibold text-white">
-                          <input
-                            type="file"
-                            accept="image/*"
-                            className="hidden"
-                            disabled={!canEditCatalog || isImageBusy}
-                            onChange={async (event) => {
-                              const file = event.target.files?.[0];
-                              if (!file) return;
-                              await prepareImageFromFile(product, file, "file");
-                              event.target.value = "";
-                            }}
-                          />
-                          {isImageBusy ? "Preparando..." : "Subir foto"}
-                        </label>
-                        <label className="inline-flex cursor-pointer items-center justify-center rounded-full border border-white/15 px-3 py-2 text-[11px] font-semibold text-white">
-                          <input
-                            type="file"
-                            accept="image/*"
-                            capture="environment"
-                            className="hidden"
-                            disabled={!canEditCatalog || isImageBusy}
-                            onChange={async (event) => {
-                              const file = event.target.files?.[0];
-                              if (!file) return;
-                              await prepareImageFromFile(product, file, "camera");
-                              event.target.value = "";
-                            }}
-                          />
-                          {isImageBusy ? "Preparando..." : "Tomar foto"}
-                        </label>
-                        <button
-                          type="button"
-                          onClick={() => restoreSuggestedImage(product.id, draft.category)}
-                          disabled={!canEditCatalog}
-                          className="rounded-full border border-white/15 px-3 py-2 text-[11px] font-semibold text-white disabled:opacity-45"
-                        >
-                          Restaurar foto sugerida
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            updateDraft(product.id, (current) => ({
-                              ...current,
-                              image: "",
-                            }))
-                          }
-                          disabled={!canEditCatalog}
-                          className="rounded-full border border-white/15 px-3 py-2 text-[11px] font-semibold text-white disabled:opacity-45"
-                        >
-                          Usar imagen por defecto
-                        </button>
-                      </div>
-                      <p className="text-[11px] normal-case tracking-normal text-white/45">
-                        Si no dejas una foto propia válida, el sistema usará la portada correcta de su categoría.
-                      </p>
-                    </div>
-
                     <div className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
                       <p>Promo</p>
                       <div className="grid grid-cols-3 gap-2">
@@ -2433,9 +2416,6 @@ export default function AdminClient() {
                         })}
                       </div>
                     </div>
-                    </>
-                    ) : null}
-
                     {showMarketingBlock ? (
                     <div className="md:col-span-2 grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
                       <p>Marketing</p>
@@ -2734,6 +2714,7 @@ export default function AdminClient() {
                     </div>
                   </details>
                   ) : null}
+                  </details>
                 </div>
               );
             })}
