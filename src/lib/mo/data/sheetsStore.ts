@@ -4,6 +4,11 @@ import {
   formatGoogleTokenError,
   getGoogleServiceAccountConfig,
 } from "../../google/serviceAccount";
+import {
+  getMoCategoryById,
+  getMoCategoryImage,
+  normalizeMoCategoryId,
+} from "../categories";
 import type { Product, ProductStatus } from "../types";
 import type {
   AdminSnapshot,
@@ -329,10 +334,16 @@ const writeSheet = async (
   rows: string[][]
 ) => {
   await ensureSheet(sheetName);
-  const encodedRange = encodeURIComponent(`${sheetName}!A1:Z`);
+  const clearRange = encodeURIComponent(`${sheetName}!A:Z`);
+  const writeRange = encodeURIComponent(`${sheetName}!A1:Z`);
+
+  await sheetsFetch(`${getSpreadsheetUrl(`/values/${clearRange}`)}:clear`, {
+    method: "POST",
+    body: JSON.stringify({}),
+  });
 
   await sheetsFetch(
-    `${getSpreadsheetUrl(`/values/${encodedRange}`)}?valueInputOption=RAW`,
+    `${getSpreadsheetUrl(`/values/${writeRange}`)}?valueInputOption=RAW`,
     {
       method: "PUT",
       body: JSON.stringify({
@@ -361,6 +372,109 @@ const seedProducts = (): Product[] =>
       updatedAt: product.updatedAt ?? "",
     }))
     .sort((a, b) => (a.sortOrder ?? 9999) - (b.sortOrder ?? 9999));
+
+const CANONICAL_SEED_PRODUCTS = seedProducts();
+const CANONICAL_PRODUCT_IDS = new Set(
+  CANONICAL_SEED_PRODUCTS.map((product) => product.id)
+);
+const CANONICAL_PRODUCT_BY_ID = new Map(
+  CANONICAL_SEED_PRODUCTS.map((product) => [product.id, product])
+);
+
+const BLOCKED_LIVE_IMAGE_PATTERNS = [
+  "/RYSminisuper/",
+  "/mo/categories/",
+  "/rys/categories/duplicates_unused/",
+  "/rys/categories/review_pending/",
+] as const;
+
+const ALLOWED_LIVE_PRODUCT_IMAGE_PREFIXES = [
+  "/rys/categories/",
+  "/rys/products/",
+] as const;
+
+const isBlockedLiveImage = (value: string) =>
+  BLOCKED_LIVE_IMAGE_PATTERNS.some((pattern) => value.includes(pattern));
+
+const isAllowedLiveProductImage = (value: string) =>
+  ALLOWED_LIVE_PRODUCT_IMAGE_PREFIXES.some((prefix) => value.startsWith(prefix));
+
+const sanitizeCanonicalProductImage = (
+  image: string | undefined,
+  category: string,
+  fallbackImage: string
+) => {
+  const candidate = String(image ?? "").trim();
+  if (!candidate || isBlockedLiveImage(candidate) || !isAllowedLiveProductImage(candidate)) {
+    return fallbackImage;
+  }
+
+  if (candidate.startsWith("/rys/categories/")) {
+    return candidate === getMoCategoryImage(category) ? candidate : fallbackImage;
+  }
+
+  return candidate;
+};
+
+const canonicalizeLiveProduct = (product: Product) => {
+  const seed = CANONICAL_PRODUCT_BY_ID.get(product.id);
+  if (!seed) {
+    return null;
+  }
+
+  const canonicalCategory = normalizeMoCategoryId(seed.category);
+  const fallbackImage = sanitizeCanonicalProductImage(
+    seed.image,
+    canonicalCategory,
+    getMoCategoryImage(canonicalCategory)
+  );
+
+  return {
+    ...product,
+    name: seed.name,
+    category:
+      getMoCategoryById(canonicalCategory)?.id ?? normalizeMoCategoryId(product.category),
+    subgroup: seed.subgroup,
+    tags: seed.tags ?? [],
+    description: seed.description,
+    image: sanitizeCanonicalProductImage(product.image, canonicalCategory, fallbackImage),
+    imageKey: seed.imageKey ?? product.imageKey,
+    price: product.price || seed.price,
+    sortOrder: product.sortOrder ?? seed.sortOrder,
+    isFeatured: product.isFeatured ?? seed.isFeatured,
+    status: product.status ?? seed.status ?? "available",
+    stockStatus: product.stockStatus ?? seed.stockStatus ?? "disponible",
+    promoEnabled: product.promoEnabled ?? seed.promoEnabled ?? false,
+    promoPercent: product.promoPercent ?? seed.promoPercent ?? 0,
+  } satisfies Product;
+};
+
+const reconcileProductsWithSeed = async (rows: string[][]) => {
+  const products = parseProducts(rows);
+  const hotToday = parseHotToday(rows);
+  const reconciledProducts = CANONICAL_SEED_PRODUCTS.map((seed) =>
+    canonicalizeLiveProduct(
+      products.find((product) => product.id === seed.id) ?? seed
+    ) ?? seed
+  );
+
+  const normalizedHotToday = Object.fromEntries(
+    reconciledProducts.map((product) => [
+      product.id,
+      hotToday[product.id] ?? defaultHotState(),
+    ])
+  );
+
+  const liveRows = serializeProducts(products, hotToday);
+  const canonicalRows = serializeProducts(reconciledProducts, normalizedHotToday);
+
+  if (JSON.stringify(liveRows) === JSON.stringify(canonicalRows)) {
+    return rows;
+  }
+
+  await saveProducts(reconciledProducts, normalizedHotToday);
+  return readSheet(PRODUCTS_SHEET);
+};
 
 const parseTags = (value: string | undefined) =>
   String(value ?? "")
@@ -936,25 +1050,6 @@ export const getStoreOperationalReadiness =
     }
   };
 
-const mergeMissingSeedProducts = async (rows: string[][]) => {
-  const products = parseProducts(rows);
-  const seed = seedProducts();
-  const currentIds = new Set(products.map((product) => product.id));
-  const missingSeedProducts = seed.filter((product) => !currentIds.has(product.id));
-
-  if (missingSeedProducts.length === 0) {
-    return rows;
-  }
-
-  const hotToday = {
-    ...Object.fromEntries(seed.map((product) => [product.id, defaultHotState()])),
-    ...parseHotToday(rows),
-  };
-
-  await saveProducts([...products, ...missingSeedProducts], hotToday);
-  return readSheet(PRODUCTS_SHEET);
-};
-
 const ensureSupportSheets = async () => {
   if (supportSheetsReady) return;
   if (supportSheetsInFlight) return supportSheetsInFlight;
@@ -995,7 +1090,7 @@ const loadState = async ({ forceRefresh = false }: { forceRefresh?: boolean } = 
 
   storeStateInFlight = (async () => {
     const seededProductRows = await ensureProductsSeeded();
-    const productRows = await mergeMissingSeedProducts(seededProductRows);
+    const productRows = await reconcileProductsWithSeed(seededProductRows);
     await ensureSupportSheets();
     const orderRows = await readSheet(ORDERS_SHEET);
     const dailyRows = await readSheet(DAILY_SALES_SHEET);

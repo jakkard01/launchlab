@@ -230,9 +230,16 @@ const writeSheet = async (
   rows: string[][]
 ) => {
   await ensureSheet(sheetName);
-  const encodedRange = encodeURIComponent(`${sheetName}!A1:Z`);
+  const clearRange = encodeURIComponent(`${sheetName}!A:Z`);
+  const writeRange = encodeURIComponent(`${sheetName}!A1:Z`);
+
+  await sheetsFetch(`${getSpreadsheetUrl(`/values/${clearRange}`)}:clear`, {
+    method: "POST",
+    body: JSON.stringify({}),
+  });
+
   await sheetsFetch(
-    `${getSpreadsheetUrl(`/values/${encodedRange}`)}?valueInputOption=RAW`,
+    `${getSpreadsheetUrl(`/values/${writeRange}`)}?valueInputOption=RAW`,
     {
       method: "PUT",
       body: JSON.stringify({

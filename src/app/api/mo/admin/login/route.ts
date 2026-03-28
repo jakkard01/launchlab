@@ -4,11 +4,8 @@ import {
   consumeLoginAttempt,
   createSessionToken,
   findUserForLogin,
-  getLegacyOwnerSession,
-  serializeLegacyCompatCookie,
   serializeSessionCookie,
   touchSuccessfulLogin,
-  verifyLegacySharedPassword,
   verifyPassword,
 } from "../../../../../lib/mo/adminAuth";
 import { appendAuditEntry, getAdminUsers } from "../../../../../lib/mo/data/securityStore";
@@ -37,6 +34,19 @@ export async function POST(request: Request) {
     );
   }
 
+  const normalizedIdentifier = identifier.trim().toLowerCase();
+  const normalizedPassword = password.trim();
+
+  if (!normalizedIdentifier || !normalizedPassword) {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: "Ingresa tu usuario o correo y una contraseña válida.",
+      },
+      { status: 400 }
+    );
+  }
+
   const loginKey =
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
     "unknown";
@@ -61,41 +71,31 @@ export async function POST(request: Request) {
       { status: 503 }
     );
   }
-  const hasRealUsers = users.length > 0;
-
-  if (!hasRealUsers && !verifyLegacySharedPassword(password)) {
+  if (users.length === 0) {
     return NextResponse.json(
       {
         ok: false,
         message:
-          "No existe todavía un usuario real o la clave temporal no fue aceptada.",
+          "No existe todavía un usuario admin interno para este entorno.",
       },
-      { status: 401 }
+      { status: 503 }
     );
   }
+  const user = await findUserForLogin(normalizedIdentifier);
+  const sessionUser =
+    user?.isActive && verifyPassword(normalizedPassword, user.passwordHash)
+      ? {
+          id: user.id,
+          name: user.name,
+          username: user.username,
+          email: user.email,
+          role: user.role,
+          isActive: user.isActive,
+        }
+      : null;
 
-  let sessionUser = null;
-  let loginMode: "user" | "legacy" = "legacy";
-
-  if (identifier.trim()) {
-    const user = await findUserForLogin(identifier);
-    if (user?.isActive && verifyPassword(password, user.passwordHash)) {
-      sessionUser = {
-        id: user.id,
-        name: user.name,
-        username: user.username,
-        email: user.email,
-        role: user.role,
-        isActive: user.isActive,
-      };
-      loginMode = "user";
-      await touchSuccessfulLogin(user.id);
-    }
-  }
-
-  if (!sessionUser && verifyLegacySharedPassword(password)) {
-    sessionUser = getLegacyOwnerSession();
-    loginMode = "legacy";
+  if (sessionUser) {
+    await touchSuccessfulLogin(user.id);
   }
 
   if (!sessionUser) {
@@ -103,8 +103,8 @@ export async function POST(request: Request) {
       actorUserId: "anonymous",
       action: "login_failed",
       entityType: "auth",
-      entityId: identifier.trim().toLowerCase() || "shared-password",
-      after: JSON.stringify({ identifier: identifier.trim().toLowerCase() || null }),
+      entityId: normalizedIdentifier,
+      after: JSON.stringify({ identifier: normalizedIdentifier }),
     });
     return NextResponse.json({ ok: false, message: "Credenciales incorrectas." }, { status: 401 });
   }
@@ -113,13 +113,12 @@ export async function POST(request: Request) {
   const sessionToken = createSessionToken(sessionUser);
   const response = NextResponse.json({ ok: true });
   response.cookies.set(serializeSessionCookie(sessionToken));
-  response.cookies.set(serializeLegacyCompatCookie());
   await appendAuditEntry({
     actorUserId: sessionUser.id,
     action: "login_success",
     entityType: "auth",
     entityId: sessionUser.id,
-    after: JSON.stringify({ role: sessionUser.role, mode: loginMode }),
+    after: JSON.stringify({ role: sessionUser.role, mode: "user" }),
   });
   return response;
 }
