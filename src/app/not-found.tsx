@@ -1,6 +1,5 @@
 import { headers } from "next/headers";
 import Link from "next/link";
-import { buildWhatsappLink, siteConfig } from "../lib/site";
 import { buildWhatsAppMessageLink } from "../lib/mo/whatsapp";
 
 export default function NotFound() {
@@ -69,7 +68,9 @@ export default function NotFound() {
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
           <a
-            href={buildWhatsappLink("404")}
+            href={buildWhatsAppMessageLink(
+              "Hola, necesito ayuda para encontrar una ruta de la web."
+            )}
             className="rounded-full bg-emerald-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-emerald-300"
             target="_blank"
             rel="noopener noreferrer"
@@ -80,7 +81,7 @@ export default function NotFound() {
             href="/"
             className="rounded-full border border-white/20 px-6 py-3 text-center text-sm font-semibold text-white/90 transition hover:border-cyan-300/60"
           >
-            Volver a {siteConfig.brand}
+            Volver al inicio
           </Link>
         </div>
       </section>
