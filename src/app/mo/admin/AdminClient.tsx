@@ -171,6 +171,7 @@ type InlineNotice = {
 
 type AdminSection = "resumen" | "catalogo" | "avanzado";
 type CatalogLane = "active" | "hidden";
+type CatalogView = "simple" | "detailed";
 type ImageDraftSource = "file" | "camera";
 
 type LocalImageDraft = {
@@ -310,6 +311,7 @@ export default function AdminClient() {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [activeSection, setActiveSection] = useState<AdminSection>("resumen");
   const [catalogLane, setCatalogLane] = useState<CatalogLane>("active");
+  const [catalogView, setCatalogView] = useState<CatalogView>("simple");
   const importInputRef = useRef<HTMLInputElement>(null);
 
   const showActionError = useCallback((title: string, message: string) => {
@@ -668,6 +670,37 @@ export default function AdminClient() {
   );
 
   const sectionProducts = useMemo(() => filteredProducts, [filteredProducts]);
+  const pendingChangesCount = useMemo(
+    () =>
+      sortedProducts.reduce((count, product) => {
+        const stockStatus = stock[product.id] ?? "disponible";
+        const promoState = promo[product.id] ?? {
+          enabled: false,
+          percent: 0,
+        };
+        const visibility = status[product.id] ?? product.status ?? "available";
+        const draft =
+          productDrafts[product.id] ??
+          buildProductDraft(
+            product,
+            prices[product.id] ?? product.price,
+            stockStatus,
+            visibility,
+            promoState,
+            hotToday[product.id] ?? defaultHotState()
+          );
+        const savedDraft = buildProductDraft(
+          product,
+          prices[product.id] ?? product.price,
+          stockStatus,
+          visibility,
+          promoState,
+          hotToday[product.id] ?? defaultHotState()
+        );
+        return count + (areDraftsEqual(draft, savedDraft) ? 0 : 1);
+      }, 0),
+    [hotToday, prices, productDrafts, promo, sortedProducts, status, stock]
+  );
 
   useEffect(() => {
     if (availableSections.some((section) => section.id === activeSection)) return;
@@ -1727,11 +1760,37 @@ export default function AdminClient() {
                 Productos
               </h2>
               <p className="mt-2 text-sm text-white/60">
-                Aquí resuelves lo diario: cambiar precio, cambiar foto, quitar del catálogo o volver a mostrar.
+                Edita la tienda rápido: precio, foto y visibilidad sin perderte en ajustes secundarios.
               </p>
             </div>
-            <div className="rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-xs text-white/65">
-              Mostrando {sectionProducts.length} de {sortedProducts.length} productos
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-xs text-white/65">
+                Mostrando {sectionProducts.length} de {sortedProducts.length} productos
+              </div>
+              <div className="inline-flex rounded-2xl border border-white/10 bg-black/25 p-1 text-xs font-semibold">
+                <button
+                  type="button"
+                  onClick={() => setCatalogView("simple")}
+                  className={`rounded-xl px-3 py-2 ${
+                    catalogView === "simple"
+                      ? "bg-emerald-300 text-[#08110c]"
+                      : "text-white/75"
+                  }`}
+                >
+                  Vista simple
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCatalogView("detailed")}
+                  className={`rounded-xl px-3 py-2 ${
+                    catalogView === "detailed"
+                      ? "bg-white text-[#08110c]"
+                      : "text-white/75"
+                  }`}
+                >
+                  Vista detallada
+                </button>
+              </div>
             </div>
           </div>
           <div className="grid gap-3 lg:grid-cols-[1.2fr,1.2fr,1fr]">
@@ -1773,10 +1832,15 @@ export default function AdminClient() {
             </button>
             <div className="rounded-3xl border border-white/10 bg-black/20 px-4 py-4 text-sm text-white/70">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/60">
-                Atajo diario
+                Cambios pendientes
               </p>
-              <p className="mt-2">
-                Si un producto salió de la tienda, ábrelo en “Productos quitados” y usa “Volver a mostrar”.
+              <p className="mt-2 text-2xl font-semibold text-white">
+                {pendingChangesCount}
+              </p>
+              <p className="mt-1 text-sm text-inherit/80">
+                {pendingChangesCount === 0
+                  ? "Sin cambios por guardar"
+                  : "Productos con cambios sin guardar"}
               </p>
             </div>
           </div>
@@ -1840,7 +1904,7 @@ export default function AdminClient() {
               </button>
             </div>
           </div>
-          {categoryCounts.length > 0 ? (
+          {catalogView === "detailed" && categoryCounts.length > 0 ? (
             <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
               {categoryCounts.map((category) => {
                 const isActive = categoryFilter === category.id;
@@ -1989,33 +2053,11 @@ export default function AdminClient() {
                 getEffectivePriceValue(pricingProduct) ?? price;
               const promoLabel = getPromoLabel(pricingProduct);
               const promoSavings = getPromoSavings(pricingProduct);
-              const statusSummary = [
-                draft.status === "hidden"
-                  ? "Oculto"
-                  : draft.status === "out_of_stock"
-                    ? "Agotado"
-                    : draft.status === "soon"
-                      ? "Pronto"
-                      : "Visible",
-                draft.stockStatus === "agotado"
-                  ? "Stock agotado"
-                  : draft.stockStatus === "ultimas"
-                    ? "Últimas"
-                    : "Stock disponible",
-                draft.promoEnabled && draft.promoPercent > 0
-                  ? `Promo ${draft.promoPercent}%`
-                  : "",
-                draft.hotStatus !== "hoy_no_hicimos"
-                  ? hotLabels[draft.hotStatus]
-                  : "",
-                draft.isFeatured ? "Destacado" : "",
-              ]
-                .filter(Boolean)
-                .join(" · ");
-              const showTodayBlock = true;
+              const isSimpleView = catalogView === "simple";
+              const showTodayBlock = !isSimpleView;
               const showBasicsBlock = true;
-              const showMarketingBlock = true;
-              const showAdvancedBlock = canSeeAdvanced;
+              const showMarketingBlock = !isSimpleView;
+              const showAdvancedBlock = canSeeAdvanced && !isSimpleView;
               const quickStatusLabel =
                 draft.status === "hidden"
                   ? "Quitado del catálogo"
@@ -2030,9 +2072,9 @@ export default function AdminClient() {
                   key={product.id}
                   className="rounded-3xl border border-white/10 bg-black/40 p-4 shadow-[0_14px_38px_rgba(0,0,0,0.16)]"
                 >
-                  <div className="flex flex-wrap items-start justify-between gap-4">
-                    <div className="flex min-w-0 flex-1 gap-4">
-                      <div className="w-24 shrink-0">
+                  <div className={`flex flex-wrap items-start justify-between gap-4 ${isSimpleView ? "md:flex-nowrap" : ""}`}>
+                    <div className={`flex min-w-0 flex-1 ${isSimpleView ? "gap-3" : "gap-4"}`}>
+                      <div className={isSimpleView ? "w-20 shrink-0" : "w-24 shrink-0"}>
                         <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">
                           Foto actual
                         </p>
@@ -2043,11 +2085,11 @@ export default function AdminClient() {
                               alt={product.name}
                               width={160}
                               height={160}
-                              className="h-24 w-24 object-cover"
+                              className={isSimpleView ? "h-20 w-20 object-cover" : "h-24 w-24 object-cover"}
                               unoptimized={isInlineImage || isRemoteImage}
                             />
                           ) : (
-                            <div className="flex h-24 w-24 items-center justify-center px-2 text-center text-[11px] text-white/45">
+                            <div className={`flex items-center justify-center px-2 text-center text-[11px] text-white/45 ${isSimpleView ? "h-20 w-20" : "h-24 w-24"}`}>
                               Sin foto
                             </div>
                           )}
@@ -2082,15 +2124,17 @@ export default function AdminClient() {
                           </span>
                         ) : null}
                       </div>
-                      <p className="mt-2 text-[11px] text-white/45">
-                        {isUsingSuggestedImage
-                          ? "Usando foto por defecto de su categoría"
-                          : isInlineImage
-                            ? "Usando foto subida desde este dispositivo"
-                            : isRemoteImage
-                              ? "Usando link público del producto"
-                              : "Usando foto propia del producto"}
-                      </p>
+                      {!isSimpleView ? (
+                        <p className="mt-2 text-[11px] text-white/45">
+                          {isUsingSuggestedImage
+                            ? "Usando foto por defecto de su categoría"
+                            : isInlineImage
+                              ? "Usando foto subida desde este dispositivo"
+                              : isRemoteImage
+                                ? "Usando link público del producto"
+                                : "Usando foto propia del producto"}
+                        </p>
+                      ) : null}
                     </div>
                     </div>
                     <div className="min-w-[136px] text-right">
@@ -2100,7 +2144,7 @@ export default function AdminClient() {
                       <p className="mt-2 text-lg font-semibold">
                         {formatMoney(effectivePriceValue)}
                       </p>
-                      {promoSavings !== null && promoSavings > 0 && (
+                      {!isSimpleView && promoSavings !== null && promoSavings > 0 && (
                         <p className="text-xs text-emerald-200">
                           Ahorro {formatMoney(promoSavings)}
                         </p>
@@ -2119,7 +2163,7 @@ export default function AdminClient() {
                     </div>
                   </div>
 
-                  <div className="mt-4 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+                  <div className={`mt-4 grid gap-2 ${isSimpleView ? "sm:grid-cols-2 xl:grid-cols-2" : "sm:grid-cols-2 xl:grid-cols-4"}`}>
                     <button
                       type="button"
                       onClick={() =>
@@ -2297,7 +2341,10 @@ export default function AdminClient() {
                     ) : null}
                   </div>
 
-                  <details className="mt-4 rounded-2xl border border-white/10 bg-black/20 p-4">
+                  <details
+                    className="mt-4 rounded-2xl border border-white/10 bg-black/20 p-4"
+                    open={catalogView === "detailed"}
+                  >
                     <summary className="cursor-pointer list-none text-sm font-semibold text-white">
                       Más opciones
                     </summary>
