@@ -120,36 +120,13 @@ const toSafeSessionUser = (user: AdminUserRecord): AdminSessionUser => ({
   isActive: user.isActive,
 });
 
-const getLegacyPassword = () =>
-  (
-    process.env.ADMIN_PASSWORD ??
-    process.env.ADMIN_PIN ??
-    process.env.MO_ADMIN_KEY ??
-    ""
-  ).trim();
-
-export const verifyLegacySharedPassword = (password: string) => {
-  const legacy = getLegacyPassword();
-  return legacy.length > 0 && password === legacy;
-};
-
-export const getLegacyOwnerSession = (): AdminSessionUser => ({
-  id: "legacy-owner",
-  name: "Legacy Owner",
-  username: "legacy-owner",
-  email: "",
-  role: "super_admin",
-  isActive: true,
-  isLegacy: true,
-});
-
 export const getAdminSessionFromToken = async (token: string | undefined) => {
   if (!token) return null;
   const payload = parseSessionToken(token);
   if (!payload) return null;
 
   if (payload.legacy) {
-    return getLegacyOwnerSession();
+    return null;
   }
 
   const user = await getAdminUserById(payload.userId);
@@ -167,16 +144,6 @@ export const getAdminSessionFromCookieStore = async (
 export const serializeSessionCookie = (token: string) => ({
   name: MO_ADMIN_SESSION_COOKIE,
   value: token,
-  httpOnly: true,
-  sameSite: "lax" as const,
-  secure: process.env.NODE_ENV === "production",
-  path: "/",
-  maxAge: SESSION_TTL_SECONDS,
-});
-
-export const serializeLegacyCompatCookie = () => ({
-  name: "mo_admin",
-  value: "1",
   httpOnly: true,
   sameSite: "lax" as const,
   secure: process.env.NODE_ENV === "production",
@@ -293,6 +260,5 @@ export const findUserForLogin = async (identifier: string) => {
 };
 
 export const touchSuccessfulLogin = async (userId: string) => {
-  if (userId === "legacy-owner") return;
   await touchAdminUserLastLogin(userId);
 };
