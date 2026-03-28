@@ -197,7 +197,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
-        <AppShell>{children}</AppShell>
+        <AppShell isStoreHost={isStoreHost}>{children}</AppShell>
       </body>
     </html>
   );
