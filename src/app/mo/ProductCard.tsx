@@ -45,7 +45,9 @@ const getInitials = (value: string) =>
     .join("");
 
 const isExternalUrl = (value: string) =>
-  value.startsWith("http://") || value.startsWith("https://");
+  value.startsWith("http://") ||
+  value.startsWith("https://") ||
+  value.startsWith("data:image/");
 
 export default function ProductCard({
   product,

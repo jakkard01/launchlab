@@ -28,7 +28,13 @@ const LOW_QUALITY_IMAGE_PATTERNS = [
   "/rys/categories/review_pending/",
 ] as const;
 
-const ALLOWED_PRODUCT_IMAGE_PREFIXES = ["/rys/products/", "/rys/categories/"] as const;
+const ALLOWED_PRODUCT_IMAGE_PREFIXES = [
+  "/rys/products/",
+  "/rys/categories/",
+  "https://",
+  "http://",
+  "data:image/",
+] as const;
 
 export const isLowQualityProductImage = (value?: string | null) => {
   const src = value?.trim();

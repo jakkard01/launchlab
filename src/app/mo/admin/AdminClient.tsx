@@ -25,7 +25,11 @@ import {
   isAdminOperatorRole,
   isSuperAdminRole,
 } from "../../../lib/mo/adminRoles";
-import { matchesProductQuery, rankProductsByQuery } from "../../../lib/mo/search";
+import {
+  matchesProductQuery,
+  normalizeSearchText,
+  rankProductsByQuery,
+} from "../../../lib/mo/search";
 import type {
   AdminSessionUser,
   HotState,
@@ -167,6 +171,95 @@ type InlineNotice = {
 
 type AdminSection = "resumen" | "catalogo" | "avanzado";
 type CatalogLane = "active" | "hidden";
+type ImageDraftSource = "file" | "camera";
+
+type LocalImageDraft = {
+  source: ImageDraftSource;
+  fileName: string;
+  width: number;
+  height: number;
+  approxKb: number;
+};
+
+const MAX_INLINE_IMAGE_CHARS = 45_000;
+const MAX_INLINE_IMAGE_DIMENSION = 960;
+const IMAGE_QUALITY_STEPS = [0.82, 0.74, 0.66, 0.58, 0.5] as const;
+
+const compactSearchText = (value: string) =>
+  normalizeSearchText(value).replace(/[^a-z0-9]+/g, "");
+
+const matchesAdminSearch = (product: Product, query: string) => {
+  if (matchesProductQuery(product, query)) return true;
+  const compactQuery = compactSearchText(query);
+  if (!compactQuery) return true;
+  const haystack = compactSearchText(
+    [
+      product.name,
+      product.description,
+      product.category,
+      product.subgroup ?? "",
+      ...(product.tags ?? []),
+    ].join(" ")
+  );
+  return haystack.includes(compactQuery);
+};
+
+const loadImageElement = (src: string) =>
+  new Promise<HTMLImageElement>((resolve, reject) => {
+    const image = new window.Image();
+    image.onload = () => resolve(image);
+    image.onerror = () =>
+      reject(new Error("No se pudo abrir la foto en este dispositivo."));
+    image.src = src;
+  });
+
+const optimizeInlineImage = async (file: File) => {
+  const objectUrl = URL.createObjectURL(file);
+
+  try {
+    const image = await loadImageElement(objectUrl);
+    const scale = Math.min(
+      1,
+      MAX_INLINE_IMAGE_DIMENSION / Math.max(image.naturalWidth, image.naturalHeight)
+    );
+    const width = Math.max(1, Math.round(image.naturalWidth * scale));
+    const height = Math.max(1, Math.round(image.naturalHeight * scale));
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+
+    const context = canvas.getContext("2d");
+    if (!context) {
+      throw new Error("No se pudo preparar la foto en este navegador.");
+    }
+
+    context.drawImage(image, 0, 0, width, height);
+
+    let bestDataUrl = "";
+
+    for (const quality of IMAGE_QUALITY_STEPS) {
+      const candidate = canvas.toDataURL("image/webp", quality);
+      bestDataUrl = candidate;
+      if (candidate.length <= MAX_INLINE_IMAGE_CHARS) break;
+    }
+
+    if (!bestDataUrl || bestDataUrl.length > MAX_INLINE_IMAGE_CHARS) {
+      throw new Error(
+        "La foto sigue demasiado pesada. Usa una foto más cerrada o pega un link público."
+      );
+    }
+
+    return {
+      dataUrl: bestDataUrl,
+      width,
+      height,
+      approxKb: Math.max(1, Math.round((bestDataUrl.length * 3) / 4 / 1024)),
+      fileName: file.name.replace(/\.[^.]+$/, "") || "foto-producto",
+    };
+  } finally {
+    URL.revokeObjectURL(objectUrl);
+  }
+};
 
 const getCategoryFallbackImage = (categoryId: string) =>
   MO_CATEGORY_DEFINITIONS.find((category) => category.id === normalizeMoCategoryId(categoryId))
@@ -203,6 +296,8 @@ export default function AdminClient() {
   const [stats, setStats] = useState<MoStats | null>(null);
   const [productDrafts, setProductDrafts] = useState<Record<string, ProductDraft>>({});
   const [saveStateById, setSaveStateById] = useState<Record<string, SaveState>>({});
+  const [localImageDrafts, setLocalImageDrafts] = useState<Record<string, LocalImageDraft>>({});
+  const [imageBusyById, setImageBusyById] = useState<Record<string, boolean>>({});
 
   const [saleProductId, setSaleProductId] = useState("");
   const [saleQuantity, setSaleQuantity] = useState(1);
@@ -502,7 +597,7 @@ export default function AdminClient() {
         categoryFilter === "all" || normalizedCategory === categoryFilter;
       if (!matchesVisibility || !matchesCategory || !matchesLane) return false;
       if (!query) return true;
-      return matchesProductQuery(
+      return matchesAdminSearch(
         {
           ...product,
           price: prices[product.id] ?? product.price,
@@ -512,6 +607,34 @@ export default function AdminClient() {
     });
     return query ? rankProductsByQuery(visibleProducts, query) : visibleProducts;
   }, [catalogLane, categoryFilter, hotToday, prices, promo, searchQuery, sortedProducts, status, stock, visibilityFilter]);
+
+  const searchRecovery = useMemo(() => {
+    const query = searchQuery.trim();
+    if (!query) return null;
+
+    const generalMatches = sortedProducts.filter((product) =>
+      matchesAdminSearch(
+        {
+          ...product,
+          price: prices[product.id] ?? product.price,
+        },
+        query
+      )
+    );
+
+    const oppositeLaneCount = generalMatches.filter((product) => {
+      const currentStatus = status[product.id] ?? product.status ?? "available";
+      return catalogLane === "active"
+        ? currentStatus === "hidden"
+        : currentStatus !== "hidden";
+    }).length;
+
+    return {
+      total: generalMatches.length,
+      oppositeLaneCount,
+      sample: generalMatches.slice(0, 3).map((product) => product.name),
+    };
+  }, [catalogLane, prices, searchQuery, sortedProducts, status]);
 
   const currentRole = currentUser?.role ?? "viewer";
   const canEditCatalog =
@@ -791,6 +914,12 @@ export default function AdminClient() {
       );
       setProductDrafts((prev) => ({ ...prev, [product.id]: nextDraft }));
       setSaveStateById((prev) => ({ ...prev, [product.id]: "idle" }));
+      setLocalImageDrafts((prev) => {
+        if (!prev[product.id]) return prev;
+        const next = { ...prev };
+        delete next[product.id];
+        return next;
+      });
     },
     [hotToday, prices, promo, status, stock]
   );
@@ -814,6 +943,12 @@ export default function AdminClient() {
 
   const restoreSuggestedImage = useCallback(
     (productId: string, categoryId: string) => {
+      setLocalImageDrafts((prev) => {
+        if (!prev[productId]) return prev;
+        const next = { ...prev };
+        delete next[productId];
+        return next;
+      });
       updateDraft(productId, (current) => ({
         ...current,
         image: "",
@@ -821,6 +956,43 @@ export default function AdminClient() {
       }));
     },
     [updateDraft]
+  );
+
+  const prepareImageFromFile = useCallback(
+    async (product: Product, file: File, source: ImageDraftSource) => {
+      setImageBusyById((prev) => ({ ...prev, [product.id]: true }));
+      try {
+        const optimized = await optimizeInlineImage(file);
+        updateDraft(product.id, (current) => ({
+          ...current,
+          image: optimized.dataUrl,
+        }));
+        setLocalImageDrafts((prev) => ({
+          ...prev,
+          [product.id]: {
+            source,
+            fileName: `${optimized.fileName}.webp`,
+            width: optimized.width,
+            height: optimized.height,
+            approxKb: optimized.approxKb,
+          },
+        }));
+        showActionSuccess(
+          source === "camera" ? "Foto tomada" : "Foto preparada",
+          `La foto quedó optimizada a WebP (${optimized.width}x${optimized.height}, ${optimized.approxKb} KB aprox.) y lista para guardar.`
+        );
+      } catch (error) {
+        showActionError(
+          "No se pudo preparar la foto",
+          error instanceof Error
+            ? error.message
+            : "Intenta con otra foto o pega un link público."
+        );
+      } finally {
+        setImageBusyById((prev) => ({ ...prev, [product.id]: false }));
+      }
+    },
+    [showActionError, showActionSuccess, updateDraft]
   );
 
   const saveProductChanges = async (product: Product) => {
@@ -873,6 +1045,12 @@ export default function AdminClient() {
     try {
       await adapter.saveProductDraft(payload);
       await reloadAll(adapter);
+      setLocalImageDrafts((prev) => {
+        if (!prev[product.id]) return prev;
+        const next = { ...prev };
+        delete next[product.id];
+        return next;
+      });
       setSaveStateById((prev) => ({ ...prev, [product.id]: "saved" }));
       showActionSuccess(
         "Cambios guardados",
@@ -1612,7 +1790,7 @@ export default function AdminClient() {
                 placeholder={
                   catalogLane === "hidden"
                     ? "Busca el producto que quitaste"
-                    : "Busca café, shampoo o Coca-Cola"
+                    : "Busca coca cola, arroz o shampoo"
                 }
                 className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
               />
@@ -1710,9 +1888,57 @@ export default function AdminClient() {
           <div className="grid gap-4 lg:grid-cols-2">
               {sectionProducts.length === 0 ? (
                 <div className="rounded-2xl border border-dashed border-white/15 bg-black/20 p-5 text-sm text-white/60 lg:col-span-2">
-                  {catalogLane === "hidden"
-                    ? "No hay productos quitados que coincidan con la búsqueda. Si acabas de quitar uno, actualiza el panel y vuelve a mirar aquí."
-                    : "No hay productos en catálogo que coincidan con la búsqueda o el filtro actual."}
+                  <p className="font-semibold text-white">
+                    {catalogLane === "hidden"
+                      ? "No encontramos productos quitados con ese cruce."
+                      : "No encontramos productos activos con ese cruce."}
+                  </p>
+                  <p className="mt-2">
+                    Ajusta la búsqueda o limpia filtros para volver a una lista útil de trabajo.
+                  </p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setSearchQuery("")}
+                      className="rounded-full border border-white/15 px-3 py-2 text-xs font-semibold text-white"
+                    >
+                      Limpiar búsqueda
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCategoryFilter("all");
+                        setVisibilityFilter("all");
+                      }}
+                      className="rounded-full border border-white/15 px-3 py-2 text-xs font-semibold text-white"
+                    >
+                      Quitar filtros
+                    </button>
+                    {searchRecovery && searchRecovery.oppositeLaneCount > 0 ? (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setCatalogLane((current) =>
+                            current === "active" ? "hidden" : "active"
+                          )
+                        }
+                        className="rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-2 text-xs font-semibold text-emerald-100"
+                      >
+                        {catalogLane === "active"
+                          ? `Ver ${searchRecovery.oppositeLaneCount} quitado${
+                              searchRecovery.oppositeLaneCount === 1 ? "" : "s"
+                            }`
+                          : `Ver ${searchRecovery.oppositeLaneCount} activo${
+                              searchRecovery.oppositeLaneCount === 1 ? "" : "s"
+                            }`}
+                      </button>
+                    ) : null}
+                  </div>
+                  {searchRecovery?.sample?.length ? (
+                    <p className="mt-3 text-xs text-white/45">
+                      Sugerencias: {searchRecovery.sample.join(" · ")}
+                    </p>
+                  ) : null}
                 </div>
               ) : sectionProducts.map((product) => {
                 const stockStatus = stock[product.id] ?? "disponible";
@@ -1747,6 +1973,12 @@ export default function AdminClient() {
               const suggestedImage = getCategoryFallbackImage(draft.category);
               const currentImageSrc = draft.image.trim() || suggestedImage;
               const isUsingSuggestedImage = !draft.image.trim();
+              const isInlineImage = draft.image.trim().startsWith("data:image/");
+              const isRemoteImage =
+                draft.image.trim().startsWith("http://") ||
+                draft.image.trim().startsWith("https://");
+              const localImageDraft = localImageDrafts[product.id];
+              const isImageBusy = imageBusyById[product.id] ?? false;
               const pricingProduct = {
                 ...product,
                 price: draft.price,
@@ -1804,6 +2036,7 @@ export default function AdminClient() {
                               width={160}
                               height={160}
                               className="h-24 w-24 object-cover"
+                              unoptimized={isInlineImage || isRemoteImage}
                             />
                           ) : (
                             <div className="flex h-24 w-24 items-center justify-center px-2 text-center text-[11px] text-white/45">
@@ -1835,7 +2068,11 @@ export default function AdminClient() {
                       <p className="mt-2 text-[11px] text-white/45">
                         {isUsingSuggestedImage
                           ? "Usando foto por defecto de su categoría"
-                          : "Usando foto propia del producto"}
+                          : isInlineImage
+                            ? "Usando foto subida desde este dispositivo"
+                            : isRemoteImage
+                              ? "Usando link público del producto"
+                              : "Usando foto propia del producto"}
                       </p>
                     </div>
                     </div>
@@ -2077,7 +2314,18 @@ export default function AdminClient() {
                     </label>
 
                     <div className="md:col-span-2 grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
-                      <p>Cambiar foto</p>
+                      <p>Foto actual</p>
+                      <div className="rounded-2xl border border-white/10 bg-black/25 p-3 text-[11px] normal-case tracking-normal text-white/70">
+                        <p className="font-semibold text-white">Cambiar foto</p>
+                        <p className="mt-1">
+                          Puedes pegar un link público o usar una foto desde este dispositivo. Si usas archivo o cámara, el panel la optimiza a WebP antes de guardarla.
+                        </p>
+                        {localImageDraft ? (
+                          <p className="mt-2 text-white/55">
+                            Foto preparada por {localImageDraft.source === "camera" ? "cámara" : "archivo"} · {localImageDraft.width}x{localImageDraft.height} · {localImageDraft.approxKb} KB aprox.
+                          </p>
+                        ) : null}
+                      </div>
                       <input
                         type="text"
                         value={draft.image}
@@ -2088,10 +2336,41 @@ export default function AdminClient() {
                           }))
                         }
                         className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
-                        placeholder="Pega /rys/products/... o una URL pública"
+                        placeholder="Pega /rys/products/... o un link público"
                         disabled={!canEditCatalog}
                       />
                       <div className="flex flex-wrap gap-2">
+                        <label className="inline-flex cursor-pointer items-center justify-center rounded-full border border-white/15 px-3 py-2 text-[11px] font-semibold text-white">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            disabled={!canEditCatalog || isImageBusy}
+                            onChange={async (event) => {
+                              const file = event.target.files?.[0];
+                              if (!file) return;
+                              await prepareImageFromFile(product, file, "file");
+                              event.target.value = "";
+                            }}
+                          />
+                          {isImageBusy ? "Preparando..." : "Subir foto"}
+                        </label>
+                        <label className="inline-flex cursor-pointer items-center justify-center rounded-full border border-white/15 px-3 py-2 text-[11px] font-semibold text-white">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            capture="environment"
+                            className="hidden"
+                            disabled={!canEditCatalog || isImageBusy}
+                            onChange={async (event) => {
+                              const file = event.target.files?.[0];
+                              if (!file) return;
+                              await prepareImageFromFile(product, file, "camera");
+                              event.target.value = "";
+                            }}
+                          />
+                          {isImageBusy ? "Preparando..." : "Tomar foto"}
+                        </label>
                         <button
                           type="button"
                           onClick={() => restoreSuggestedImage(product.id, draft.category)}
@@ -2115,7 +2394,7 @@ export default function AdminClient() {
                         </button>
                       </div>
                       <p className="text-[11px] normal-case tracking-normal text-white/45">
-                        Si no pegas una foto propia, el sistema usará la portada correcta de su categoría.
+                        Si no dejas una foto propia válida, el sistema usará la portada correcta de su categoría.
                       </p>
                     </div>
 

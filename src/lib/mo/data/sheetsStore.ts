@@ -391,6 +391,9 @@ const BLOCKED_LIVE_IMAGE_PATTERNS = [
 const ALLOWED_LIVE_PRODUCT_IMAGE_PREFIXES = [
   "/rys/categories/",
   "/rys/products/",
+  "https://",
+  "http://",
+  "data:image/",
 ] as const;
 
 const isBlockedLiveImage = (value: string) =>
