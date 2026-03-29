@@ -4,10 +4,14 @@
 - Autor: Codex
 - Scope: `src/app/layout.tsx`, `src/app/components/HomeContent.tsx`, `src/app/components/LegalPageShell.tsx`, `src/app/aviso-legal/page.tsx`, `src/app/privacidad/page.tsx`, `src/app/cookies/page.tsx`, `public/robots.txt`, `public/sitemap.xml`, `docs/ops/00_START_HERE__PBIA.md`, `docs/obsidian/06_ESTADO_ACTUAL__PBIA_RYS.md`, `docs/obsidian/Memoria Infinita - Launchlab.md`, `docs/obsidian/03_DECISION_LOG.md`
 - Resumen: Se cerró PBIA para salida al mercado con metadata SEO profesional, páginas legales mínimas, aclaración de cookies sin banner porque no hay analítica, microajustes móviles en los proyectos reales y CTA de WhatsApp prellenado por servicio.
-- Pruebas: pendiente `npm run lint` y `npm run build`.
+- Pruebas: `npm run lint` OK, `npm run build` OK.
 - Legal/cookies: se añadieron `Aviso legal`, `Privacidad` y `Cookies`; no se activó banner porque esta versión no usa cookies no exentas ni analítica.
 - CTA WhatsApp: mensajes específicos para `Web rápida para negocio local`, `Mejora de web existente` y `Automatizar la entrada de contactos`.
 - Fase 2 explícita: configurador avanzado, presupuesto guiado, lógica con n8n, scoring de leads y formularios dinámicos complejos.
+
+- Commit exacto: `4d25222`
+- Deploy exacto: `https://launchlabv1-gnyyw0bmm-gerrys-projects-7c589fcf.vercel.app`
+- Alias: `https://www.poweredbyia.com`
 
 - Fecha/Hora: 2026-03-29 23:51:40 CEST
 - Autor: Codex

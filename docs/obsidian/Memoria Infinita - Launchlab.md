@@ -34,13 +34,14 @@
   - priorización / alertas con n8n
   - horario preferido de contacto
 - Commit exacto:
-  - pendiente de cerrar al final de esta pasada
+  - `4d25222`
 - Deploy exacto:
-  - pendiente de cerrar al final de esta pasada
+  - `https://launchlabv1-gnyyw0bmm-gerrys-projects-7c589fcf.vercel.app`
+  - alias: `https://www.poweredbyia.com`
 - Checkpoint actual:
   - worktree real: `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next`
   - rama real: `feat/pbia-portfolio-next`
-  - cierre en curso: PBIA lista para salida al mercado con SEO, legal, cookies y CTA comerciales
+  - cierre final: PBIA lista para salida al mercado con SEO, legal, cookies y CTA comerciales
   - riesgo operativo: no tocar RYS como producto activo ni abrir automatizaciones nuevas en esta fase
 
 ## 2026-03-29 — PBIA: capturas reales en proyectos

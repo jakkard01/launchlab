@@ -59,6 +59,9 @@ npm run dev
 - Lo ya preservado de PBIA: hero, problema, servicios, proceso, proyectos reales, enfoque / sobre mí, precios orientativos, CTA final y apoyo real a `RYS Minimarket`
 - Lo ya consolidado de RYS en memoria: auth/login/logout/roles/404/aislamiento, `yasmin.rys`, admin móvil y reducción de lecturas a Sheets
 - Siguiente paso lógico: commit, deploy y verificación final de lo ya cerrado
+- Commit exacto: `4d25222`
+- Deploy exacto: `https://launchlabv1-gnyyw0bmm-gerrys-projects-7c589fcf.vercel.app`
+- Alias: `https://www.poweredbyia.com`
 - Imágenes exactas:
   - `/imagenes/pbidesk.jpeg`
   - `/imagenes/pbiamov.jpeg`

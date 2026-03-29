@@ -109,3 +109,15 @@
 - Deploy exacto: `https://launchlabv1-hdltyncg3-gerrys-projects-7c589fcf.vercel.app`
 - Alias: `https://www.poweredbyia.com`
 - Riesgo operativo: cambios sueltos preexistentes en el worktree padre no se deben arrastrar aquí; no tocar PBIA desde el repo padre ni mezclarlo con RYS
+
+## Cierre 2026-03-30
+
+- Commit exacto: `4d25222`
+- Deploy exacto: `https://launchlabv1-gnyyw0bmm-gerrys-projects-7c589fcf.vercel.app`
+- Alias: `https://www.poweredbyia.com`
+- Estado final de PBIA:
+  - SEO / metadata profesional
+  - legal mínimo + cookies sin banner porque no hay analítica ni cookies no exentas
+  - microajustes móviles en proyectos reales
+  - CTA `Quiero esto` con mensaje prellenado por servicio
+  - fase 2 documentada pero no implementada
