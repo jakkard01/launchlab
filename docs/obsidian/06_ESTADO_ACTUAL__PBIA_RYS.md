@@ -55,8 +55,10 @@
   - `/` estable en build dentro de esta línea PBIA
 - Estado actual:
   - home afinada para captación
+  - bloque `Servicios` en refinamiento con 3 ofertas paquetizadas
+  - bloque `Proceso` en refinamiento con 4 pasos simples
   - build estable
-  - lista para deploy desde esta línea PBIA
+  - lista para cerrar validación y deploy desde esta línea PBIA
 - Qué no se tocó:
   - RYS Mini Market fuera de su experiencia propia
   - `feat/pagina-hermana-live` como contexto separado de PBIA
@@ -65,4 +67,17 @@
 ### RYS Mini Market
 
 - No fue tocada en esta pasada.
+- Estado bueno ya conseguido y mantenido en memoria:
+  - auth/login/logout/roles/404/aislamiento cerrados y validados
+  - usuario `yasmin.rys` creado con rol `admin_operator`
+  - admin móvil más usable
+  - lecturas a Google Sheets reducidas
 - Debe seguir tratándose como experiencia separada.
+
+## Checkpoint 2026-03-29
+
+- Worktree actual: `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next`
+- Rama actual: `feat/pbia-portfolio-next`
+- Bloque completado en esta pasada: `Servicios` y `Proceso`
+- Siguiente minibloque lógico: cerrar `npm run lint`, `npm run build`, validar en móvil y dejar deploy trazable
+- Riesgo operativo: cambios sueltos preexistentes en el worktree padre no se deben arrastrar aquí; no tocar PBIA desde el repo padre ni mezclarlo con RYS

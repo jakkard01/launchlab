@@ -50,3 +50,12 @@ npm run build
 npm run build
 npm run dev
 ```
+
+## Checkpoint actual
+
+- Worktree real: `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next`
+- Rama real: `feat/pbia-portfolio-next`
+- Bloque en curso: `Servicios` y `Proceso`
+- Lo ya preservado de PBIA: hero, CTA WhatsApp, tono serio y apoyo real a `RYS Minimarket`
+- Lo ya consolidado de RYS en memoria: auth/login/logout/roles/404/aislamiento, `yasmin.rys`, admin móvil y reducción de lecturas a Sheets
+- Siguiente paso lógico: `npm run lint`, `npm run build`, validar home en móvil y cerrar deploy trazable

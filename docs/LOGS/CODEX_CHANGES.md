@@ -1,5 +1,12 @@
 # CODEX_CHANGES
 
+- Fecha/Hora: 2026-03-29 21:55:43 CEST
+- Autor: Codex
+- Scope: `src/app/components/HomeContent.tsx`, `docs/LOGS/CODEX_CHANGES.md`, `docs/obsidian/Memoria Infinita - Launchlab.md`, `docs/obsidian/06_ESTADO_ACTUAL__PBIA_RYS.md`, `docs/ops/00_START_HERE__PBIA.md`
+- Resumen: Se refinó la primera mitad de la home de PBIA para dejar paquetizados los bloques de `Servicios` y `Proceso` con copy corto, precios y CTA claros, manteniendo el hero ya consolidado. También se dejó memoria operativa actualizada con el checkpoint PBIA/RYS de esta pasada.
+- Pruebas: `npm run lint` OK, `npm run build` OK.
+- Notas/Riesgos: No tocar RYS como producto activo ni mezclar branding/layouts con PBIA.
+
 - Fecha/Hora: 2026-03-26 00:00:00 CET
 - Autor: Codex
 - Scope: `00_START_HERE.md`, `docs/ops/00_START_HERE__PBIA.md`, `docs/ops/00_START_HERE__N8N.md`, `docs/ops/00_START_HERE__IA_LOCAL.md`, `docs/obsidian/Memoria Infinita - Launchlab.md`, `docs/obsidian/03_DECISION_LOG.md`, `docs/obsidian/06_ESTADO_ACTUAL__PBIA_RYS.md`

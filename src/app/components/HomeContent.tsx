@@ -5,18 +5,36 @@ const WHATSAPP_LINK =
   `https://wa.me/${WHATSAPP_NUMBER}?text=Hola%20Powered%20by%20IA,%20quiero%20hablar%20sobre%20una%20demo%20o%20soluci%C3%B3n%20para%20mi%20negocio.`;
 const CONTACT_EMAIL = 'poweredbyiaoficial@gmail.com';
 const RYS_LINK = 'https://www.rysminimarket.com/';
-const services = [
+const buildWhatsAppLink = (message: string) =>
+  `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+const serviceCards = [
   {
-    title: 'Captar mejor',
-    body: 'Landing, oferta y entrada comercial más claras para atraer mejores oportunidades.',
+    title: 'Web rápida para negocio local',
+    body:
+      'Consigue una web clara, móvil y lista para recibir mensajes, mostrar tus servicios y dar una imagen profesional sin complicarte.',
+    support: 'Para comercios, bares, restaurantes, minimarkets, peluquerías, talleres y pequeños negocios.',
+    price: 'Desde 350 €',
+    cta: 'Quiero esto',
+    href: buildWhatsAppLink('Hola, quiero una web rápida para mi negocio local.'),
   },
   {
-    title: 'Responder mejor',
-    body: 'Bots, flujos y automatizaciones útiles para responder rápido y no perder leads por desorden.',
+    title: 'Mejora tu web actual',
+    body:
+      'Si tu web ya existe pero no transmite bien, la reorganizo para que sea más clara, más útil y más efectiva en móvil.',
+    support: 'Para negocios que ya tienen web pero la experiencia es floja o no convierte bien.',
+    price: 'Desde 180 €',
+    cta: 'Quiero esto',
+    href: buildWhatsAppLink('Hola, quiero mejorar la web que ya tengo para que convierta mejor.'),
   },
   {
-    title: 'Convertir mejor',
-    body: 'Seguimiento y demos útiles para que el cliente entienda valor y avance con menos fricción.',
+    title: 'Automatiza la entrada de contactos',
+    body:
+      'Conecto tu formulario para que cada contacto entre de forma ordenada, quede registrado y no se pierda por el camino.',
+    support: 'Formulario + Google Sheets + alertas + automatización básica.',
+    price: 'Desde 180 €',
+    cta: 'Quiero esto',
+    href: buildWhatsAppLink('Hola, quiero automatizar la entrada de contactos de mi web.'),
   },
 ];
 
@@ -35,18 +53,22 @@ const demos = [
   },
 ];
 
-const process = [
+const processSteps = [
   {
-    title: 'Aclaramos la entrada comercial',
-    body: 'Vemos dónde se pierde atención, respuesta o intención de compra para dejar más claro qué vendes y qué debe pasar después.',
+    title: 'Te escucho',
+    body: 'Qué necesitas, qué vendes, qué te falta.',
   },
   {
-    title: 'Ordenamos el sistema útil',
-    body: 'Definimos la versión más razonable para captar mejor, responder con más orden y sostener la conversación sin ruido extra.',
+    title: 'Te propongo la solución',
+    body: 'Te digo qué tiene sentido hacer y qué no.',
   },
   {
-    title: 'Lo dejamos listo para usar',
-    body: 'Se prueba, se valida y se deja preparado para crecer sin rehacer la base cada vez que quieras avanzar.',
+    title: 'Lo montamos',
+    body: 'Diseño, ajustes, revisión y entrega.',
+  },
+  {
+    title: 'Lo dejas funcionando',
+    body: 'Tu web o flujo queda listo para usar.',
   },
 ];
 
@@ -205,18 +227,33 @@ export default function HomeContent() {
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Servicios principales</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Un sistema central con tres efectos claros: captar, responder y convertir mejor.
+              Tres ofertas claras para resolver lo que más mueve un negocio local.
             </h2>
           </div>
-          <div className="grid gap-4 md:grid-cols-3">
-            {services.map((service) => (
+          <div className="grid gap-4 lg:grid-cols-3">
+            {serviceCards.map((service) => (
               <article
                 key={service.title}
-                className="rounded-[1.2rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.1),rgba(7,17,26,0.04))] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)] backdrop-blur-[1px]"
+                className="flex h-full flex-col rounded-[1.35rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.14),rgba(7,17,26,0.06))] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] backdrop-blur-[1px]"
               >
                 <span className="block h-px w-14 bg-cyan-300/55" />
                 <h3 className="mt-4 text-lg font-semibold text-white">{service.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-white/76">{service.body}</p>
+                <p className="mt-3 text-sm leading-6 text-white/80">{service.body}</p>
+                <p className="mt-4 text-sm leading-6 text-cyan-100/86">{service.support}</p>
+                <div className="mt-auto pt-5">
+                  <div className="flex items-end justify-between gap-3">
+                    <p className="text-sm uppercase tracking-[0.2em] text-white/46">Precio</p>
+                    <p className="text-lg font-semibold text-white">{service.price}</p>
+                  </div>
+                  <a
+                    href={service.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 inline-flex h-11 w-full items-center justify-center rounded-full bg-cyan-300 px-4 text-sm font-semibold text-[#041018] shadow-[0_14px_30px_rgba(34,211,238,0.18)] transition hover:bg-cyan-200"
+                  >
+                    {service.cta}
+                  </a>
+                </div>
               </article>
             ))}
           </div>
@@ -268,24 +305,23 @@ export default function HomeContent() {
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Cómo trabajamos</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Un recorrido claro para pasar de idea dispersa a sistema comercial utilizable.
+              Proceso simple, sin líos
             </h2>
           </div>
-          <div className="relative grid gap-4">
-            <div className="pointer-events-none absolute bottom-6 left-[1.1rem] top-6 w-px bg-gradient-to-b from-cyan-300/0 via-cyan-300/28 to-cyan-300/0" />
-            {process.map((step, index) => (
-              <div
+          <div className="grid gap-4 md:grid-cols-2">
+            {processSteps.map((step, index) => (
+              <article
                 key={step.title}
-                className="relative flex gap-4 rounded-[1.35rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.16),rgba(7,17,26,0.06))] px-4 py-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)] backdrop-blur-[1px]"
+                className="flex gap-4 rounded-[1.35rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.14),rgba(7,17,26,0.06))] px-4 py-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] backdrop-blur-[1px]"
               >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-cyan-300/92 text-sm font-semibold text-[#041018] shadow-[0_10px_28px_rgba(34,211,238,0.2)]">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cyan-300/92 text-sm font-semibold text-[#041018] shadow-[0_10px_28px_rgba(34,211,238,0.2)]">
                   {index + 1}
                 </span>
                 <div className="pt-0.5">
                   <p className="text-sm font-semibold text-white">{step.title}</p>
-                  <p className="mt-1 text-sm leading-6 text-white/76">{step.body}</p>
+                  <p className="mt-1 text-sm leading-6 text-white/78">{step.body}</p>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         </section>

@@ -1,5 +1,44 @@
 # Memoria Infinita - Launchlab
 
+## 2026-03-29 — PBIA: servicios, proceso y checkpoint operativo
+
+- PBIA en esta pasada:
+  - se conservaron del bloque anterior el CTA a WhatsApp, el tono serio, el enfoque comercial y la línea de apoyo con `Powered by IA` y `RYS Minimarket`
+  - se refinó solo la primera mitad de la home: `Servicios` y `Proceso`
+  - se dejó fuera cualquier cambio de RYS como producto activo
+- Bloque `Servicios`:
+  - oferta 1: `Web rápida para negocio local` desde `350 €`
+  - oferta 2: `Mejora tu web actual` desde `180 €`
+  - oferta 3: `Automatiza la entrada de contactos` desde `180 €`
+  - cada tarjeta quedó con texto corto, apoyo, precio y CTA `Quiero esto`
+- Bloque `Proceso`:
+  - `Te escucho`
+  - `Te propongo la solución`
+  - `Lo montamos`
+  - `Lo dejas funcionando`
+- Estado PBIA ya conseguido en memoria:
+  - bloque anterior cerrado: hero + bloque problema afinados
+  - commit conocido: `784a44c`
+  - deploy conocido: `https://launchlabv1-gcuk922u4-gerrys-projects-7c589fcf.vercel.app`
+  - alias conocido: `https://www.poweredbyia.com`
+  - hero conservado: CTA WhatsApp, tono directo, apoyo comercial, mención real de `RYS Minimarket`
+  - hero cambiado: título, subtítulo y copy de apoyo para que la primera impresión sea más clara
+  - pendiente después de este bloque: revisar el resto de la home solo si hace falta, sin abrir re-arquitectura
+- Estado RYS ya conseguido en memoria:
+  - auth, login, logout, roles, 404 y aislamiento PBIA/RYS cerrados y validados
+  - usuario real adicional `yasmin.rys` creado con rol `admin_operator`
+  - admin móvil bastante más usable
+  - se redujeron lecturas innecesarias a Google Sheets
+  - commit conocido: `e49f09d`
+  - deploy conocido: `https://launchlab-3gjz72b8u-gerrys-projects-7c589fcf.vercel.app`
+  - alias conocido: `https://www.rysminimarket.com`
+- Checkpoint actual:
+  - worktree real: `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next`
+  - rama real: `feat/pbia-portfolio-next`
+  - bloque actual: `Servicios` y `Proceso`
+  - siguiente minibloque lógico: `npm run lint`, `npm run build`, validar home en móvil y cerrar deploy
+  - riesgo operativo que se sigue vigilando: no mezclar PBIA con RYS ni volver al repo padre
+
 ## 2026-03-26 — Multiverso de producción PBIA / RYS
 
 - Causa operativa verificada del riesgo de mezcla:
