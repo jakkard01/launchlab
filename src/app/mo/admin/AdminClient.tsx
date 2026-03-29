@@ -1590,7 +1590,7 @@ export default function AdminClient() {
               Herramientas
             </p>
             <p className="mt-2 text-sm text-slate-300">
-              Zona solo para super admin. Aquí gestionas usuarios, auditoría y respaldos sin mezclarlo con la operación diaria.
+              Solo para super admin. Seguridad y respaldos, fuera del flujo diario de tienda.
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
               <a
@@ -1615,7 +1615,7 @@ export default function AdminClient() {
               </button>
             </div>
             <p className="mt-4 text-xs text-slate-400">
-              Si solo vas a cambiar precio, foto o visibilidad, quédate en Productos.
+              Para precio, foto o visibilidad, usa Productos.
             </p>
           </div>
         </section>
@@ -1768,7 +1768,7 @@ export default function AdminClient() {
                 Productos
               </h2>
               <p className="mt-2 text-sm text-white/60">
-                Edita la tienda rápido: precio, foto y visibilidad sin perderte en ajustes secundarios.
+                Filtra, cambia precio o foto, guarda y sigue al siguiente producto.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-3">
@@ -1898,7 +1898,24 @@ export default function AdminClient() {
             </div>
           </div>
           {categoryCounts.length > 0 ? (
-            <div className="flex gap-2 overflow-x-auto pb-1">
+            <div className="grid gap-2">
+              <div className="flex items-center justify-between gap-3 text-xs text-white/55">
+                <p>
+                  {categoryFilter === "all"
+                    ? "Todas las categorías"
+                    : `Filtrando: ${getMoCategoryLabel(categoryFilter)}`}
+                </p>
+                {categoryFilter !== "all" ? (
+                  <button
+                    type="button"
+                    onClick={() => setCategoryFilter("all")}
+                    className="rounded-full border border-white/10 px-3 py-1 text-[11px] font-semibold text-white/75"
+                  >
+                    Limpiar categoría
+                  </button>
+                ) : null}
+              </div>
+              <div className="flex gap-2 overflow-x-auto pb-1">
               <button
                 type="button"
                 onClick={() => setCategoryFilter("all")}
@@ -1934,6 +1951,7 @@ export default function AdminClient() {
                   </button>
                 );
               })}
+              </div>
             </div>
           ) : null}
           <div className="grid gap-4 lg:grid-cols-2">
@@ -2053,6 +2071,20 @@ export default function AdminClient() {
                     : draft.status === "soon"
                       ? "Pronto"
                       : "En catálogo";
+              const compactStatusLabel =
+                draft.status === "hidden"
+                  ? "Quitado"
+                  : draft.status === "out_of_stock"
+                    ? "Agotado"
+                    : draft.status === "soon"
+                      ? "Pronto"
+                      : "En catálogo";
+              const compactStockLabel =
+                draft.stockStatus === "agotado"
+                  ? "Agotado"
+                  : draft.stockStatus === "ultimas"
+                    ? "Últimas"
+                    : "Disponible";
               const saveLabel =
                 saveState === "saving"
                   ? "Guardando..."
@@ -2067,11 +2099,11 @@ export default function AdminClient() {
               return (
                 <div
                   key={product.id}
-                  className={`rounded-3xl border border-white/10 bg-black/40 shadow-[0_14px_38px_rgba(0,0,0,0.16)] ${isSimpleView ? "p-3" : "p-4"}`}
+                  className={`rounded-3xl border border-white/10 bg-black/40 shadow-[0_14px_38px_rgba(0,0,0,0.16)] ${isSimpleView ? "p-2.5" : "p-4"}`}
                 >
                   {isSimpleView ? (
-                    <div className="grid gap-3">
-                      <div className="grid grid-cols-[80px_minmax(0,1fr)_auto] items-start gap-3">
+                    <div className="grid gap-2.5">
+                      <div className="grid grid-cols-[68px_minmax(0,1fr)_auto] items-start gap-3">
                         <div className="overflow-hidden rounded-2xl border border-white/10 bg-black/25">
                           {currentImageSrc ? (
                             <Image
@@ -2079,41 +2111,37 @@ export default function AdminClient() {
                               alt={product.name}
                               width={160}
                               height={160}
-                              className="h-20 w-20 object-cover"
+                              className="h-[68px] w-[68px] object-cover"
                               unoptimized={isInlineImage || isRemoteImage}
                             />
                           ) : (
-                            <div className="flex h-20 w-20 items-center justify-center px-2 text-center text-[11px] text-white/45">
+                            <div className="flex h-[68px] w-[68px] items-center justify-center px-2 text-center text-[10px] text-white/45">
                               Sin foto
                             </div>
                           )}
                         </div>
-                        <div className="min-w-0">
-                          <h3 className="line-clamp-2 text-sm font-semibold leading-tight text-white">
+                        <div className="min-w-0 pt-0.5">
+                          <h3 className="line-clamp-2 break-words text-sm font-semibold leading-[1.2] text-white">
                             {product.name}
                           </h3>
-                          <p className="mt-1 line-clamp-1 text-[11px] text-white/55">
+                          <p className="mt-1 line-clamp-1 text-[10px] text-white/50">
                             {getMoCategoryLabel(draft.category)}
                             {draft.subgroup.trim() ? ` · ${draft.subgroup}` : ""}
                           </p>
                         </div>
-                        <div className="text-right">
-                          <p className="text-lg font-semibold leading-none text-white">
+                        <div className="min-w-[70px] text-right">
+                          <p className="text-base font-semibold leading-none text-white sm:text-lg">
                             {formatMoney(effectivePriceValue)}
                           </p>
                         </div>
                       </div>
 
-                      <div className="flex flex-wrap gap-2 text-[11px]">
-                        <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1 text-white/85">
-                          {quickStatusLabel}
+                      <div className="grid grid-cols-2 gap-2 text-[11px]">
+                        <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1 text-center text-white/85">
+                          {compactStatusLabel}
                         </span>
-                        <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1 text-white/75">
-                          {draft.stockStatus === "agotado"
-                            ? "Stock agotado"
-                            : draft.stockStatus === "ultimas"
-                              ? "Últimas"
-                              : "Stock disponible"}
+                        <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1 text-center text-white/75">
+                          Stock: {compactStockLabel}
                         </span>
                       </div>
                     </div>
@@ -2237,7 +2265,7 @@ export default function AdminClient() {
                     </div>
                   )}
 
-                  <div className={`mt-3 grid gap-3 ${isSimpleView ? "" : "md:grid-cols-2"}`}>
+                  <div className={`mt-2.5 grid gap-2.5 ${isSimpleView ? "" : "md:grid-cols-2"}`}>
                     {showBasicsBlock ? (
                     <>
                     <label className={`grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60 ${isSimpleView ? "hidden" : ""}`}>
@@ -2297,7 +2325,7 @@ export default function AdminClient() {
                     </label>
 
                     <div className={`grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60 ${isSimpleView ? "" : "md:col-span-2"}`}>
-                      <p>{isSimpleView ? "Cambiar foto" : "Cambiar foto"}</p>
+                      {isSimpleView ? null : <p>Cambiar foto</p>}
                       {isSimpleView ? null : (
                         <input
                           type="text"
@@ -2313,8 +2341,8 @@ export default function AdminClient() {
                           disabled={!canEditCatalog}
                         />
                       )}
-                      <div className="flex flex-wrap gap-2">
-                        <label className="inline-flex cursor-pointer items-center justify-center rounded-full border border-white/15 px-3 py-2 text-[11px] font-semibold text-white">
+                      <div className={`gap-2 ${isSimpleView ? "grid grid-cols-2" : "flex flex-wrap"}`}>
+                        <label className={`inline-flex cursor-pointer items-center justify-center border border-white/15 text-[11px] font-semibold text-white ${isSimpleView ? "min-h-[42px] rounded-2xl px-3 py-2" : "rounded-full px-3 py-2"}`}>
                           <input
                             type="file"
                             accept="image/*"
@@ -2329,7 +2357,7 @@ export default function AdminClient() {
                           />
                           {isImageBusy ? "Preparando..." : "Subir foto"}
                         </label>
-                        <label className="inline-flex cursor-pointer items-center justify-center rounded-full border border-white/15 px-3 py-2 text-[11px] font-semibold text-white">
+                        <label className={`inline-flex cursor-pointer items-center justify-center border border-white/15 text-[11px] font-semibold text-white ${isSimpleView ? "min-h-[42px] rounded-2xl px-3 py-2" : "rounded-full px-3 py-2"}`}>
                           <input
                             type="file"
                             accept="image/*"
@@ -2406,7 +2434,7 @@ export default function AdminClient() {
                           {draft.status === "hidden" ? "Volver a mostrar" : "Quitar del catálogo"}
                         </button>
                       ) : null}
-                      {localImageDraft ? (
+                      {localImageDraft && !isSimpleView ? (
                         <p className="text-[11px] normal-case tracking-normal text-white/55">
                           Foto preparada por {localImageDraft.source === "camera" ? "cámara" : "archivo"} · {localImageDraft.width}x{localImageDraft.height} · {localImageDraft.approxKb} KB aprox.
                         </p>
@@ -2418,7 +2446,7 @@ export default function AdminClient() {
 
                   <details
                     className="mt-3 rounded-2xl border border-white/10 bg-black/20 p-4"
-                    open={catalogView === "detailed"}
+                    open={false}
                   >
                     <summary className="cursor-pointer list-none text-sm font-semibold text-white">
                       Más opciones
