@@ -40,16 +40,16 @@ const serviceCards = [
 
 const demos = [
   {
-    title: 'RYS Minimarket',
-    body: 'Caso real en producción con catálogo, productos y flujo de pedido que termina por WhatsApp dentro de una web real y usable.',
-    href: RYS_LINK,
-    cta: 'Ver tienda',
+    title: 'Powered by IA',
+    body: 'Web real orientada a presentación de servicios digitales y propuesta comercial.',
+    href: '#inicio',
+    cta: 'Ver proyecto',
   },
   {
-    title: 'Bots, automatizaciones y demos guiadas',
-    body: 'Recursos secundarios para responder, validar o ordenar mejor el negocio cuando el sistema principal ya está claro.',
-    href: WHATSAPP_LINK,
-    cta: 'Hablar sobre esto',
+    title: 'RYS Minimarket',
+    body: 'Tienda online y operación web con foco en navegación, producto y experiencia funcional.',
+    href: RYS_LINK,
+    cta: 'Ver tienda',
   },
 ];
 
@@ -99,10 +99,10 @@ export default function HomeContent() {
           </a>
           <div className="flex items-center gap-2">
             <a
-              href="#demos"
+              href="#proyectos"
               className="inline-flex h-10 items-center rounded-full border border-white/12 bg-white/[0.03] px-4 text-sm font-medium text-white/84 transition hover:border-cyan-300/40 hover:bg-white/[0.08] hover:text-white"
             >
-              Ver demos
+              Ver proyectos
             </a>
             <a
               href={WHATSAPP_LINK}
@@ -142,10 +142,10 @@ export default function HomeContent() {
                 Hablar por WhatsApp
               </a>
               <a
-                href="#demos"
+                href="#proyectos"
                 className="inline-flex h-12 items-center justify-center rounded-full border border-white/14 bg-white/[0.03] px-6 text-sm font-semibold text-white/88 transition hover:border-cyan-300/40 hover:bg-white/[0.08]"
               >
-                Ver demos
+                Ver proyectos
               </a>
             </div>
             <div className="mt-8 flex flex-wrap gap-2.5">
@@ -259,15 +259,15 @@ export default function HomeContent() {
           </div>
         </section>
 
-        <section id="demos" className="scroll-mt-24 space-y-5">
+        <section id="proyectos" className="scroll-mt-24 space-y-5">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Demos y casos</p>
+              <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Prueba real</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-                RYS como caso real principal. Lo demás, como apoyo para validar rápido.
+                Proyectos reales
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-white/76 sm:text-base">
-                Aquí enseñamos un caso real en producción. RYS Minimarket demuestra cómo catálogo, productos y pedido pueden llevar a WhatsApp dentro de una web pública usable, mientras el resto de capacidades queda como apoyo.
+                Son casos reales de trabajo. Powered by IA abre la lista como proyecto activo y RYS Minimarket aporta autoridad funcional sin comerse la marca principal.
               </p>
             </div>
             <a
@@ -289,10 +289,24 @@ export default function HomeContent() {
                 className="group block rounded-[1.4rem] bg-[linear-gradient(180deg,rgba(8,18,27,0.14),rgba(8,18,27,0.04))] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)] backdrop-blur-[1px] transition hover:shadow-[inset_0_0_0_1px_rgba(103,232,249,0.22)]"
               >
                 <p className="text-xs uppercase tracking-[0.24em] text-white/45">
-                  {demo.title === 'RYS Minimarket' ? 'Caso real en producción' : 'Capacidades relacionadas'}
+                  {demo.title === 'Powered by IA' ? 'Proyecto activo' : 'Caso real en producción'}
                 </p>
                 <h3 className="mt-2 text-lg font-semibold text-white">{demo.title}</h3>
                 <p className="mt-3 text-sm leading-6 text-white/76">{demo.body}</p>
+                <div className="mt-5 grid gap-2 sm:grid-cols-3">
+                  <div className="rounded-2xl bg-white/[0.03] px-3 py-3 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]">
+                    <p className="text-[11px] uppercase tracking-[0.2em] text-white/46">Captura desktop</p>
+                    <p className="mt-1 text-sm font-medium text-white/72">Pendiente</p>
+                  </div>
+                  <div className="rounded-2xl bg-white/[0.03] px-3 py-3 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]">
+                    <p className="text-[11px] uppercase tracking-[0.2em] text-white/46">Captura móvil</p>
+                    <p className="mt-1 text-sm font-medium text-white/72">Pendiente</p>
+                  </div>
+                  <div className="rounded-2xl bg-white/[0.03] px-3 py-3 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]">
+                    <p className="text-[11px] uppercase tracking-[0.2em] text-white/46">Mi papel</p>
+                    <p className="mt-1 text-sm font-medium text-white/72">Pendiente</p>
+                  </div>
+                </div>
                 <span className="mt-5 inline-flex items-center text-sm font-semibold text-cyan-200 transition group-hover:text-cyan-100">
                   {demo.cta}
                 </span>
@@ -303,26 +317,31 @@ export default function HomeContent() {
 
         <section id="como-trabajamos" className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Cómo trabajamos</p>
+            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Enfoque</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Proceso simple, sin líos
+              Trabajo con enfoque práctico
             </h2>
           </div>
-          <div className="grid gap-4 md:grid-cols-2">
-            {processSteps.map((step, index) => (
-              <article
-                key={step.title}
-                className="flex gap-4 rounded-[1.35rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.14),rgba(7,17,26,0.06))] px-4 py-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] backdrop-blur-[1px]"
-              >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cyan-300/92 text-sm font-semibold text-[#041018] shadow-[0_10px_28px_rgba(34,211,238,0.2)]">
-                  {index + 1}
-                </span>
-                <div className="pt-0.5">
-                  <p className="text-sm font-semibold text-white">{step.title}</p>
-                  <p className="mt-1 text-sm leading-6 text-white/78">{step.body}</p>
-                </div>
-              </article>
-            ))}
+          <div className="space-y-4 rounded-[1.45rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.12),rgba(7,17,26,0.05))] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] backdrop-blur-[1px]">
+            <p className="text-sm leading-7 text-white/80 sm:text-base">
+              Ayudo a pequeños negocios y proyectos a tener una presencia online más clara, funcional y útil. Mi enfoque combina producto, validación, mejora web y automatización práctica para resolver necesidades reales sin vender humo.
+            </p>
+            <div className="grid gap-4 md:grid-cols-2">
+              {processSteps.map((step, index) => (
+                <article
+                  key={step.title}
+                  className="flex gap-4 rounded-[1.35rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.14),rgba(7,17,26,0.06))] px-4 py-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] backdrop-blur-[1px]"
+                >
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cyan-300/92 text-sm font-semibold text-[#041018] shadow-[0_10px_28px_rgba(34,211,238,0.2)]">
+                    {index + 1}
+                  </span>
+                  <div className="pt-0.5">
+                    <p className="text-sm font-semibold text-white">{step.title}</p>
+                    <p className="mt-1 text-sm leading-6 text-white/78">{step.body}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 
