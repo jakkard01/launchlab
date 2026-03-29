@@ -31,16 +31,16 @@
 - Estado correcto actual de la home:
   - vende sistemas comerciales con IA para captar, responder y convertir mejor
   - mantiene `Hablar por WhatsApp` como CTA principal
-  - mantiene `Ver demos` como CTA secundaria
+  - mantiene `Ver proyectos` como CTA secundaria para el bloque de pruebas reales
   - devuelve la foto al hero como apoyo de credibilidad
   - vuelve a mostrar el fondo de marca con más respiración y menos caja opaca
   - deja a RYS como caso real principal
-  - mantiene bots, automatizaciones y demos como capacidades subordinadas
+  - mantiene bots, automatizaciones y pruebas reales como capacidades subordinadas
   - muestra WhatsApp real y email visible en el cierre
 - CTA principal:
   - `Hablar por WhatsApp`
 - CTA secundaria:
-  - `Ver demos`
+  - `Ver proyectos`
 - Cierre técnico del worktree:
   - `npm ci` local ejecutado dentro de este worktree
   - `next` local validado en `14.2.30`
@@ -57,6 +57,8 @@
   - home afinada para captación
   - bloque `Servicios` en refinamiento con 3 ofertas paquetizadas
   - bloque `Proceso` en refinamiento con 4 pasos simples
+  - bloque `Proyectos reales` ya cerrado con Powered by IA y RYS Minimarket
+  - bloque `Enfoque / Sobre mí` ya cerrado con copy práctico y breve
   - build estable
   - lista para cerrar validación y deploy desde esta línea PBIA
 - Qué no se tocó:
@@ -72,12 +74,13 @@
   - usuario `yasmin.rys` creado con rol `admin_operator`
   - admin móvil más usable
   - lecturas a Google Sheets reducidas
+- Sigue siendo caso real dentro de PBIA, no producto activo de esta pasada.
 - Debe seguir tratándose como experiencia separada.
 
 ## Checkpoint 2026-03-29
 
 - Worktree actual: `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next`
 - Rama actual: `feat/pbia-portfolio-next`
-- Bloque completado en esta pasada: `Servicios` y `Proceso`
-- Siguiente minibloque lógico: cerrar `npm run lint`, `npm run build`, validar en móvil y dejar deploy trazable
+- Bloque completado en esta pasada: `Proyectos reales` y `Enfoque / Sobre mí`
+- Siguiente minibloque lógico: validar móvil visualmente y decidir si los placeholders se sustituyen por capturas reales
 - Riesgo operativo: cambios sueltos preexistentes en el worktree padre no se deben arrastrar aquí; no tocar PBIA desde el repo padre ni mezclarlo con RYS

@@ -1,5 +1,15 @@
 # CODEX_CHANGES
 
+- Fecha/Hora: 2026-03-29 22:10:49 CEST
+- Autor: Codex
+- Scope: `src/app/components/HomeContent.tsx`, `docs/LOGS/CODEX_CHANGES.md`, `docs/obsidian/Memoria Infinita - Launchlab.md`, `docs/obsidian/06_ESTADO_ACTUAL__PBIA_RYS.md`, `docs/ops/00_START_HERE__PBIA.md`
+- Resumen: Se cerró el bloque de `Proyectos reales` y `Enfoque / Sobre mí` en PBIA. Quedaron dos proyectos reales creíbles con placeholders elegantes para capturas y papel, y un bloque de enfoque breve, serio y práctico.
+- Pruebas: `npm run lint` OK, `npm run build` OK, deploy prod OK.
+- Commit: `d61a546`
+- Deploy: `https://launchlabv1-osz7jpzye-gerrys-projects-7c589fcf.vercel.app`
+- Alias: `https://www.poweredbyia.com`
+- Notas/Riesgos: RYS sigue solo como caso real dentro de PBIA; no se tocó como producto activo.
+
 - Fecha/Hora: 2026-03-29 21:55:43 CEST
 - Autor: Codex
 - Scope: `src/app/components/HomeContent.tsx`, `docs/LOGS/CODEX_CHANGES.md`, `docs/obsidian/Memoria Infinita - Launchlab.md`, `docs/obsidian/06_ESTADO_ACTUAL__PBIA_RYS.md`, `docs/ops/00_START_HERE__PBIA.md`

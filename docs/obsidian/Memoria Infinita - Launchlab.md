@@ -1,5 +1,39 @@
 # Memoria Infinita - Launchlab
 
+## 2026-03-29 — PBIA: proyectos reales y enfoque práctico
+
+- Bloque 3 cerrado en PBIA:
+  - `Proyectos reales`
+  - `Enfoque / Sobre mí`
+- Proyectos reales dejados listos:
+  - `Powered by IA` como proyecto activo
+  - `RYS Minimarket` como caso real en producción
+  - estructura preparada para añadir después captura desktop, captura móvil y línea de `mi papel`
+  - placeholders elegantes, sin verse vacíos ni romper el bloque
+- Enfoque / Sobre mí dejado listo:
+  - título: `Trabajo con enfoque práctico`
+  - texto breve, serio y honesto
+  - refuerzo de confianza sin ego inflado
+- Qué quedó listo:
+  - la home ya tiene servicios, proceso, proyectos reales y enfoque alineados
+  - RYS suma autoridad sin comerse la marca PBIA
+  - la navegación entre bloques quedó coherente
+- Qué queda pendiente después de este bloque:
+  - sustituir los placeholders por capturas reales si se decide hacerlo más adelante
+  - añadir una línea concreta de `mi papel` si se quiere cerrar ese tramo
+  - cualquier otro ajuste fino de la home fuera de este bloque
+- Commit exacto:
+  - `d61a546`
+- Deploy exacto:
+  - `https://launchlabv1-osz7jpzye-gerrys-projects-7c589fcf.vercel.app`
+  - alias: `https://www.poweredbyia.com`
+- Checkpoint actual:
+  - worktree real: `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next`
+  - rama real: `feat/pbia-portfolio-next`
+  - bloque completado en esta pasada: `Proyectos reales` y `Enfoque / Sobre mí`
+  - siguiente minibloque lógico: validar móvil visualmente y decidir si los placeholders se reemplazan o se mantienen
+  - riesgo operativo: no tocar RYS como producto activo ni mezclarlo con el branding PBIA
+
 ## 2026-03-29 — PBIA: servicios, proceso y checkpoint operativo
 
 - PBIA en esta pasada:
