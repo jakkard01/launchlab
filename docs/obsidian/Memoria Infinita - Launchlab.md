@@ -22,9 +22,9 @@
 - Qué queda pendiente después de este bloque:
   - si se quiere después, revisar la compacidad visual general
 - Commit exacto:
-  - `9b4add5`
+  - `7e7ef22`
 - Deploy exacto:
-  - `https://launchlabv1-92yyy7yer-gerrys-projects-7c589fcf.vercel.app`
+  - `https://launchlabv1-hdltyncg3-gerrys-projects-7c589fcf.vercel.app`
   - alias: `https://www.poweredbyia.com`
 - Checkpoint actual:
   - worktree real: `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next`

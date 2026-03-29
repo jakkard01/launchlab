@@ -98,4 +98,7 @@
 - Mi papel exacto:
   - PBIA: `Dirección comercial, estructura web y ejecución del producto.`
   - RYS: `Definición operativa, validación funcional y mejora del flujo de tienda/admin.`
+- Commit exacto: `7e7ef22`
+- Deploy exacto: `https://launchlabv1-hdltyncg3-gerrys-projects-7c589fcf.vercel.app`
+- Alias: `https://www.poweredbyia.com`
 - Riesgo operativo: cambios sueltos preexistentes en el worktree padre no se deben arrastrar aquí; no tocar PBIA desde el repo padre ni mezclarlo con RYS
