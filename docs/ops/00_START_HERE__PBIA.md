@@ -59,3 +59,11 @@ npm run dev
 - Lo ya preservado de PBIA: hero, problema, servicios, proceso, proyectos reales, enfoque / sobre mí, precios orientativos, CTA final y apoyo real a `RYS Minimarket`
 - Lo ya consolidado de RYS en memoria: auth/login/logout/roles/404/aislamiento, `yasmin.rys`, admin móvil y reducción de lecturas a Sheets
 - Siguiente paso lógico: cierre de commit/deploy final y luego SEO / metadata, legal / cookies o un repaso de compacidad visual general
+- Imágenes exactas:
+  - `/imagenes/pbidesk.jpeg`
+  - `/imagenes/pbiamov.jpeg`
+  - `/imagenes/rysdesk.jpeg`
+  - `/imagenes/rysmov.jpeg`
+- Mi papel exacto:
+  - PBIA: `Dirección comercial, estructura web y ejecución del producto.`
+  - RYS: `Definición operativa, validación funcional y mejora del flujo de tienda/admin.`

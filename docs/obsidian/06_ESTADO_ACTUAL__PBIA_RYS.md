@@ -90,4 +90,12 @@
 - Rama actual: `feat/pbia-portfolio-next`
 - Bloque completado en esta pasada: `Proyectos reales` con capturas reales y `Mi papel`
 - Siguiente minibloque lógico: SEO / metadata, legal / cookies o un repaso de compacidad visual general
+- Imágenes exactas usadas:
+  - `/imagenes/pbidesk.jpeg`
+  - `/imagenes/pbiamov.jpeg`
+  - `/imagenes/rysdesk.jpeg`
+  - `/imagenes/rysmov.jpeg`
+- Mi papel exacto:
+  - PBIA: `Dirección comercial, estructura web y ejecución del producto.`
+  - RYS: `Definición operativa, validación funcional y mejora del flujo de tienda/admin.`
 - Riesgo operativo: cambios sueltos preexistentes en el worktree padre no se deben arrastrar aquí; no tocar PBIA desde el repo padre ni mezclarlo con RYS

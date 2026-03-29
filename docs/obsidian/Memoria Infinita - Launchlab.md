@@ -20,18 +20,17 @@
   - las dos tarjetas ya muestran nombre, texto corto, desktop, móvil, `Mi papel` y CTA
   - la home gana credibilidad visual sin abrir nuevas páginas ni tocar RYS como producto activo
 - Qué queda pendiente después de este bloque:
-  - cerrar commit final
-  - generar deploy final
   - si se quiere después, revisar la compacidad visual general
 - Commit exacto:
-  - pendiente de cerrar tras el deploy final
+  - `9b4add5`
 - Deploy exacto:
-  - pendiente de cerrar tras el deploy final
+  - `https://launchlabv1-92yyy7yer-gerrys-projects-7c589fcf.vercel.app`
+  - alias: `https://www.poweredbyia.com`
 - Checkpoint actual:
   - worktree real: `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next`
   - rama real: `feat/pbia-portfolio-next`
   - bloque completado en esta pasada: `Proyectos reales` con capturas reales y `Mi papel`
-  - siguiente minibloque lógico: cierre de commit/deploy y, si se decide, un repaso de compacidad visual general
+  - siguiente minibloque lógico: si se decide, un repaso de compacidad visual general
   - riesgo operativo: no tocar RYS como producto activo ni mezclar assets o branding entre productos
 
 ## 2026-03-29 — PBIA: precios orientativos, CTA final y limpieza general

@@ -1,15 +1,16 @@
 # CODEX_CHANGES
 
-- Fecha/Hora: 2026-03-29 22:48:01 CEST
+- Fecha/Hora: 2026-03-29 23:41:31 CEST
 - Autor: Codex
 - Scope: `src/app/components/HomeContent.tsx`, `docs/LOGS/CODEX_CHANGES.md`, `docs/obsidian/Memoria Infinita - Launchlab.md`, `docs/obsidian/06_ESTADO_ACTUAL__PBIA_RYS.md`, `docs/ops/00_START_HERE__PBIA.md`
 - Resumen: Se sustituyeron los placeholders del bloque `Proyectos reales` por capturas reales de PBIA y RYS, y se añadió la línea breve de `Mi papel` en cada tarjeta para hacer el bloque más creíble y vendedor.
-- Pruebas: `npm run lint` OK, `npm run build` OK.
+- Pruebas: `npm run lint` OK, `npm run build` OK, deploy prod OK.
 - Imágenes usadas: `/imagenes/pbidesk.jpeg`, `/imagenes/pbiamov.jpeg`, `/imagenes/rysdesk.jpeg`, `/imagenes/rysmov.jpeg`
 - Mi papel PBIA: `Dirección comercial, estructura web y ejecución del producto.`
 - Mi papel RYS: `Definición operativa, validación funcional y mejora del flujo de tienda/admin.`
-- Commit: pendiente de cerrar tras el deploy final
-- Deploy: pendiente de cerrar tras el deploy final
+- Commit: `9b4add5`
+- Deploy: `https://launchlabv1-92yyy7yer-gerrys-projects-7c589fcf.vercel.app`
+- Alias: `https://www.poweredbyia.com`
 - Notas/Riesgos: No tocar RYS como producto activo; solo se usa como caso real dentro de PBIA.
 
 - Fecha/Hora: 2026-03-29 22:26:20 CEST
