@@ -44,12 +44,18 @@ const demos = [
   {
     title: 'Powered by IA',
     body: 'Web real orientada a presentación de servicios digitales y propuesta comercial.',
+    role: 'Dirección comercial, estructura web y ejecución del producto.',
+    desktopImage: '/imagenes/pbidesk.jpeg',
+    mobileImage: '/imagenes/pbiamov.jpeg',
     href: '#inicio',
     cta: 'Ver proyecto',
   },
   {
     title: 'RYS Minimarket',
     body: 'Tienda online y operación web con foco en navegación, producto y experiencia funcional.',
+    role: 'Definición operativa, validación funcional y mejora del flujo de tienda/admin.',
+    desktopImage: '/imagenes/rysdesk.jpeg',
+    mobileImage: '/imagenes/rysmov.jpeg',
     href: RYS_LINK,
     cta: 'Ver tienda',
   },
@@ -338,18 +344,40 @@ export default function HomeContent() {
                 </p>
                 <h3 className="mt-2 text-lg font-semibold text-white">{demo.title}</h3>
                 <p className="mt-3 text-sm leading-6 text-white/76">{demo.body}</p>
-                <div className="mt-5 grid gap-2 sm:grid-cols-3">
-                  <div className="rounded-2xl bg-white/[0.03] px-3 py-3 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]">
-                    <p className="text-[11px] uppercase tracking-[0.2em] text-white/46">Captura desktop</p>
-                    <p className="mt-1 text-sm font-medium text-white/72">Pendiente</p>
-                  </div>
-                  <div className="rounded-2xl bg-white/[0.03] px-3 py-3 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]">
-                    <p className="text-[11px] uppercase tracking-[0.2em] text-white/46">Captura móvil</p>
-                    <p className="mt-1 text-sm font-medium text-white/72">Pendiente</p>
-                  </div>
-                  <div className="rounded-2xl bg-white/[0.03] px-3 py-3 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]">
-                    <p className="text-[11px] uppercase tracking-[0.2em] text-white/46">Mi papel</p>
-                    <p className="mt-1 text-sm font-medium text-white/72">Pendiente</p>
+                <div className="mt-5 grid gap-4 md:grid-cols-[1.35fr_0.65fr]">
+                  <figure className="overflow-hidden rounded-[1.15rem] bg-black/20 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]">
+                    <div className="relative aspect-[16/10] w-full">
+                      <Image
+                        src={demo.desktopImage}
+                        alt={`Captura desktop de ${demo.title}`}
+                        fill
+                        sizes="(min-width: 768px) 55vw, 100vw"
+                        className="object-cover object-top"
+                      />
+                    </div>
+                    <figcaption className="px-3 py-2 text-[11px] uppercase tracking-[0.2em] text-white/50">
+                      Captura desktop
+                    </figcaption>
+                  </figure>
+                  <div className="grid gap-4">
+                    <figure className="overflow-hidden rounded-[1.15rem] bg-black/20 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]">
+                      <div className="relative aspect-[9/16] w-full">
+                        <Image
+                          src={demo.mobileImage}
+                          alt={`Captura móvil de ${demo.title}`}
+                          fill
+                          sizes="(min-width: 768px) 22vw, 100vw"
+                          className="object-cover object-top"
+                        />
+                      </div>
+                      <figcaption className="px-3 py-2 text-[11px] uppercase tracking-[0.2em] text-white/50">
+                        Captura móvil
+                      </figcaption>
+                    </figure>
+                    <div className="rounded-[1.15rem] bg-white/[0.03] px-4 py-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]">
+                      <p className="text-[11px] uppercase tracking-[0.2em] text-white/46">Mi papel</p>
+                      <p className="mt-2 text-sm leading-6 text-white/74">{demo.role}</p>
+                    </div>
                   </div>
                 </div>
                 <span className="mt-5 inline-flex items-center text-sm font-semibold text-cyan-200 transition group-hover:text-cyan-100">

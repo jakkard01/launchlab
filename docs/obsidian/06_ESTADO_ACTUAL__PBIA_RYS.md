@@ -34,6 +34,8 @@
   - mantiene `Ver proyectos` como CTA secundaria para el bloque de pruebas reales
   - mantiene una sección de precios orientativos clara y corta
   - cierra con CTA final visible con WhatsApp, Formulario y Email
+  - muestra capturas reales en `Proyectos reales` en lugar de placeholders
+  - incluye una línea breve de `Mi papel` en cada proyecto
   - devuelve la foto al hero como apoyo de credibilidad
   - vuelve a mostrar el fondo de marca con más respiración y menos caja opaca
   - deja a RYS como caso real principal
@@ -63,6 +65,7 @@
   - bloque `Enfoque / Sobre mí` ya cerrado con copy práctico y breve
   - bloque `Precios orientativos` ya cerrado
   - bloque `CTA final` ya cerrado
+  - bloque `Proyectos reales` ahora usa capturas reales y línea de `Mi papel`
   - build estable
   - lista para validar y cerrar deploy desde esta línea PBIA
 - Qué no se tocó:
@@ -85,6 +88,6 @@
 
 - Worktree actual: `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next`
 - Rama actual: `feat/pbia-portfolio-next`
-- Bloque completado en esta pasada: `precios orientativos`, `CTA final` y limpieza general
-- Siguiente minibloque lógico: SEO / metadata, legal / cookies o sustitución de placeholders por capturas reales
+- Bloque completado en esta pasada: `Proyectos reales` con capturas reales y `Mi papel`
+- Siguiente minibloque lógico: SEO / metadata, legal / cookies o un repaso de compacidad visual general
 - Riesgo operativo: cambios sueltos preexistentes en el worktree padre no se deben arrastrar aquí; no tocar PBIA desde el repo padre ni mezclarlo con RYS

@@ -55,7 +55,7 @@ npm run dev
 
 - Worktree real: `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next`
 - Rama real: `feat/pbia-portfolio-next`
-- Bloque en curso: `precios orientativos`, `CTA final` y limpieza general
-- Lo ya preservado de PBIA: hero, problema, servicios, proceso, proyectos reales, enfoque / sobre mí, CTA WhatsApp y apoyo real a `RYS Minimarket`
+- Bloque en curso: `Proyectos reales` con capturas reales y `Mi papel`
+- Lo ya preservado de PBIA: hero, problema, servicios, proceso, proyectos reales, enfoque / sobre mí, precios orientativos, CTA final y apoyo real a `RYS Minimarket`
 - Lo ya consolidado de RYS en memoria: auth/login/logout/roles/404/aislamiento, `yasmin.rys`, admin móvil y reducción de lecturas a Sheets
-- Siguiente paso lógico: SEO / metadata, legal / cookies o sustitución de placeholders por capturas reales
+- Siguiente paso lógico: cierre de commit/deploy final y luego SEO / metadata, legal / cookies o un repaso de compacidad visual general
