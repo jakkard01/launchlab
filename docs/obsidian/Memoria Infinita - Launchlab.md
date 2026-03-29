@@ -37,9 +37,10 @@
   - legal / cookies
   - sustitución de placeholders por capturas reales, si se decide hacerlo
 - Commit exacto:
-  - pendiente de cerrar tras validar el build final de esta pasada
+  - `5e4ba1c`
 - Deploy exacto:
-  - pendiente de generar tras validar el build final de esta pasada
+  - `https://launchlabv1-ehc6smxm6-gerrys-projects-7c589fcf.vercel.app`
+  - alias: `https://www.poweredbyia.com`
 - Checkpoint actual:
   - worktree real: `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next`
   - rama real: `feat/pbia-portfolio-next`
