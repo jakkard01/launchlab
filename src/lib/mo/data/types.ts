@@ -56,6 +56,7 @@ export type PromoState = {
 
 export type ProductAdminSaveInput = {
   id: string;
+  name: string;
   category: string;
   subgroup: string;
   tags: string[];
@@ -67,6 +68,17 @@ export type ProductAdminSaveInput = {
   stockStatus: StockStatus;
   promo: PromoState;
   hot: HotState;
+};
+
+export type ProductCreateInput = {
+  name: string;
+  category: string;
+  subgroup: string;
+  tags: string[];
+  price: string;
+  image: string;
+  status: ProductStatus;
+  stockStatus: StockStatus;
 };
 
 export type MarketingEventName =
@@ -100,12 +112,15 @@ export type AdminSnapshot = {
   orderLogs: OrderLogEntry[];
   dailySales: DailySalesEntry[];
   marketingEvents: MarketingEventEntry[];
+  recentChanges?: AdminAuditEntry[];
 };
 
 export type MoDataAdapter = {
   getProducts: () => Promise<Product[]>;
   getAdminSnapshot: () => Promise<AdminSnapshot>;
   saveProductDraft: (input: ProductAdminSaveInput) => Promise<void>;
+  createProduct: (input: ProductCreateInput) => Promise<{ product: Product }>;
+  revertAuditEntry: (entryId: string) => Promise<void>;
   updateStock: (id: string, status: StockStatus) => Promise<void>;
   updatePrice: (id: string, price: string) => Promise<void>;
   updateImage: (id: string, image: string) => Promise<void>;
@@ -201,6 +216,8 @@ export type AuditAction =
   | "user_created"
   | "user_deactivated"
   | "role_changed"
+  | "product_created"
+  | "product_reverted"
   | "product_updated"
   | "price_changed"
   | "stock_changed"
@@ -211,9 +228,19 @@ export type AuditAction =
 export type AdminAuditEntry = {
   id: string;
   actorUserId: string;
+  actorUsername?: string;
+  actorRole?: AdminRole | "viewer";
   action: AuditAction;
   entityType: AuditEntityType;
   entityId: string;
+  productId?: string;
+  productName?: string;
+  field?: string;
+  oldValue?: string;
+  newValue?: string;
+  reversible?: boolean;
+  revertedAt?: string;
+  revertedByUserId?: string;
   before?: string;
   after?: string;
   createdAt: string;

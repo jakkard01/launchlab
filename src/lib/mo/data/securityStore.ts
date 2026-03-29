@@ -42,9 +42,19 @@ const USER_HEADERS = [
 const AUDIT_HEADERS = [
   "id",
   "actorUserId",
+  "actorUsername",
+  "actorRole",
   "action",
   "entityType",
   "entityId",
+  "productId",
+  "productName",
+  "field",
+  "oldValue",
+  "newValue",
+  "reversible",
+  "revertedAt",
+  "revertedByUserId",
   "before",
   "after",
   "createdAt",
@@ -300,9 +310,21 @@ const parseAudit = (rows: string[][]): AdminAuditEntry[] => {
       return {
         id: String(record.id),
         actorUserId: String(record.actorUserId ?? ""),
+        actorUsername: String(record.actorUsername ?? "") || undefined,
+        actorRole: (String(record.actorRole ?? "") || undefined) as
+          | AdminAuditEntry["actorRole"]
+          | undefined,
         action: record.action as AdminAuditEntry["action"],
         entityType: record.entityType as AdminAuditEntry["entityType"],
         entityId: String(record.entityId ?? ""),
+        productId: String(record.productId ?? "") || undefined,
+        productName: String(record.productName ?? "") || undefined,
+        field: String(record.field ?? "") || undefined,
+        oldValue: String(record.oldValue ?? "") || undefined,
+        newValue: String(record.newValue ?? "") || undefined,
+        reversible: String(record.reversible ?? "false") === "true",
+        revertedAt: String(record.revertedAt ?? "") || undefined,
+        revertedByUserId: String(record.revertedByUserId ?? "") || undefined,
         before: String(record.before ?? "") || undefined,
         after: String(record.after ?? "") || undefined,
         createdAt: String(record.createdAt ?? ""),
@@ -315,9 +337,19 @@ const serializeAudit = (entries: AdminAuditEntry[]) =>
   entries.map((entry) => [
     entry.id,
     entry.actorUserId,
+    entry.actorUsername ?? "",
+    entry.actorRole ?? "",
     entry.action,
     entry.entityType,
     entry.entityId,
+    entry.productId ?? "",
+    entry.productName ?? "",
+    entry.field ?? "",
+    entry.oldValue ?? "",
+    entry.newValue ?? "",
+    String(Boolean(entry.reversible)),
+    entry.revertedAt ?? "",
+    entry.revertedByUserId ?? "",
     entry.before ?? "",
     entry.after ?? "",
     entry.createdAt,
@@ -394,6 +426,16 @@ export const getAdminUserByIdentifier = async (identifier: string) => {
 export const getAuditEntries = async (limit = 200) => {
   const state = await loadSecurityState();
   return state.audit.slice(0, limit);
+};
+
+export const getAuditEntriesForUser = async (userId: string, limit = 20) => {
+  const state = await loadSecurityState();
+  return state.audit.filter((entry) => entry.actorUserId === userId).slice(0, limit);
+};
+
+export const getAuditEntryById = async (id: string) => {
+  const state = await loadSecurityState();
+  return state.audit.find((entry) => entry.id === id) ?? null;
 };
 
 export const createAdminUser = async (input: AdminUserCreateInput) => {
@@ -498,4 +540,22 @@ export const appendAuditEntry = async (
     serializeAudit([nextEntry, ...state.audit].slice(0, 1000))
   );
   return nextEntry;
+};
+
+export const markAuditEntryReverted = async (
+  id: string,
+  revertedByUserId: string
+) => {
+  const state = await loadSecurityState({ forceRefresh: true });
+  const nextEntries = state.audit.map((entry) =>
+    entry.id === id
+      ? {
+          ...entry,
+          revertedAt: new Date().toISOString(),
+          revertedByUserId,
+        }
+      : entry
+  );
+  await writeSheet(AUDIT_SHEET, AUDIT_HEADERS, serializeAudit(nextEntries));
+  return nextEntries.find((entry) => entry.id === id) ?? null;
 };

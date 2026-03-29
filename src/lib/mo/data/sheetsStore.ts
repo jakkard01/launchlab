@@ -20,6 +20,7 @@ import type {
   MoStats,
   OrderLogEntry,
   OrderLogInput,
+  ProductCreateInput,
   ProductAdminSaveInput,
   PromoState,
   StockStatus,
@@ -111,6 +112,15 @@ const parseNumber = (value: string | undefined, fallback = 0) => {
   const parsed = Number(value);
   return Number.isFinite(parsed) ? parsed : fallback;
 };
+
+const slugify = (value: string) =>
+  value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 36);
 
 const base64Url = (value: string | Buffer) =>
   Buffer.from(value)
@@ -1179,6 +1189,11 @@ export const getStoreProducts = async () => {
   return state.products;
 };
 
+export const getStoreProductById = async (id: string) => {
+  const state = await loadState();
+  return state.products.find((product) => product.id === id) ?? null;
+};
+
 export const getAdminSnapshot = async (): Promise<AdminSnapshot> => {
   const state = await loadState();
   const maps = toMaps(state.products);
@@ -1211,6 +1226,7 @@ export const saveProductDraft = async (input: ProductAdminSaveInput) => {
     product.id === input.id
       ? {
           ...product,
+          name: input.name.trim() || product.name,
           category: input.category,
           subgroup: input.subgroup,
           tags: input.tags,
@@ -1228,6 +1244,50 @@ export const saveProductDraft = async (input: ProductAdminSaveInput) => {
   );
 
   await saveProducts(products, nextHot);
+};
+
+export const createProduct = async (input: ProductCreateInput) => {
+  const state = await loadState({ forceRefresh: true });
+  const category = normalizeMoCategoryId(input.category) || "abarrotes";
+  const timestamp = new Date().toISOString();
+  const baseId = slugify(input.name) || "producto";
+  let nextId = `mo-${baseId}`;
+  let suffix = 2;
+  while (state.products.some((product) => product.id === nextId)) {
+    nextId = `mo-${baseId}-${suffix}`;
+    suffix += 1;
+  }
+
+  const product: Product = {
+    id: nextId,
+    name: input.name.trim(),
+    category,
+    subgroup: input.subgroup.trim() || undefined,
+    tags: input.tags,
+    sortOrder:
+      state.products.reduce((max, product) => Math.max(max, product.sortOrder ?? 0), 0) + 1,
+    price: input.price,
+    description: "",
+    image: input.image.trim(),
+    imageKey: "",
+    isFeatured: false,
+    status: input.status,
+    stockStatus: input.stockStatus,
+    promoEnabled: false,
+    promoPercent: 0,
+    hotStatus: "hoy_no_hicimos",
+    hotWindowStart: "",
+    hotWindowEnd: "",
+    hotNote: "",
+    updatedAt: timestamp,
+  };
+
+  await saveProducts([...state.products, product], {
+    ...state.hotToday,
+    [product.id]: defaultHotState(),
+  });
+
+  return product;
 };
 
 export const updateStock = async (id: string, stockStatus: StockStatus) => {

@@ -31,6 +31,7 @@ import {
   rankProductsByQuery,
 } from "../../../lib/mo/search";
 import type {
+  AdminAuditEntry,
   AdminSessionUser,
   HotState,
   HotStatus,
@@ -39,6 +40,7 @@ import type {
   MoStats,
   OrderLogInput,
   OrderLogEntry,
+  ProductCreateInput,
   ProductAdminSaveInput,
   PromoState,
   StockStatus,
@@ -85,6 +87,7 @@ const ADMIN_TAG_OPTIONS = [
 ] as const;
 
 type ProductDraft = {
+  name: string;
   category: string;
   subgroup: string;
   tagsInput: string;
@@ -122,6 +125,7 @@ const buildProductDraft = (
   promoState: PromoState,
   hotState: HotState
 ): ProductDraft => ({
+  name: product.name,
   category: product.category,
   subgroup: product.subgroup ?? "",
   tagsInput: (product.tags ?? []).join(", "),
@@ -140,6 +144,7 @@ const buildProductDraft = (
 });
 
 const areDraftsEqual = (left: ProductDraft, right: ProductDraft) =>
+  left.name.trim() === right.name.trim() &&
   left.category.trim() === right.category.trim() &&
   left.subgroup.trim() === right.subgroup.trim() &&
   left.price.trim() === right.price.trim() &&
@@ -180,6 +185,23 @@ type LocalImageDraft = {
   width: number;
   height: number;
   approxKb: number;
+};
+
+type CreateProductDraft = {
+  name: string;
+  category: string;
+  subgroup: string;
+  price: string;
+  status: ProductStatus;
+  stockStatus: StockStatus;
+  image: string;
+};
+
+type PriceConfirmState = {
+  productId: string;
+  productName: string;
+  oldPrice: string;
+  newPrice: string;
 };
 
 const MAX_INLINE_IMAGE_CHARS = 45_000;
@@ -266,6 +288,36 @@ const getCategoryFallbackImage = (categoryId: string) =>
   MO_CATEGORY_DEFINITIONS.find((category) => category.id === normalizeMoCategoryId(categoryId))
     ?.image ?? "";
 
+const buildCreateProductDraft = (): CreateProductDraft => ({
+  name: "",
+  category: "bebidas",
+  subgroup: "",
+  price: "",
+  status: "available",
+  stockStatus: "disponible",
+  image: "",
+});
+
+const describeRecentChange = (entry: AdminAuditEntry) => {
+  const productName = entry.productName || entry.entityId || "producto";
+  switch (entry.action) {
+    case "product_created":
+      return `Creaste ${productName}`;
+    case "product_reverted":
+      return `Deshiciste ${entry.field ?? "un cambio"} en ${productName}`;
+    case "price_changed":
+      return `Cambiaste el precio de ${productName}`;
+    case "visibility_changed":
+      return `${entry.newValue?.includes("hidden") ? "Quitaste" : "Mostraste"} ${productName}`;
+    case "promo_changed":
+      return `Actualizaste promo de ${productName}`;
+    case "stock_changed":
+      return `Actualizaste stock de ${productName}`;
+    default:
+      return `Actualizaste ${productName}`;
+  }
+};
+
 export default function AdminClient() {
   type VisibilityFilter =
     | "all"
@@ -294,6 +346,7 @@ export default function AdminClient() {
   const [hotToday, setHotToday] = useState<Record<string, HotState>>({});
   const [orderLogs, setOrderLogs] = useState<OrderLogEntry[]>([]);
   const [marketingEvents, setMarketingEvents] = useState<MarketingEventEntry[]>([]);
+  const [recentChanges, setRecentChanges] = useState<AdminAuditEntry[]>([]);
   const [stats, setStats] = useState<MoStats | null>(null);
   const [productDrafts, setProductDrafts] = useState<Record<string, ProductDraft>>({});
   const [saveStateById, setSaveStateById] = useState<Record<string, SaveState>>({});
@@ -312,6 +365,16 @@ export default function AdminClient() {
   const [activeSection, setActiveSection] = useState<AdminSection>("resumen");
   const [catalogLane, setCatalogLane] = useState<CatalogLane>("active");
   const [catalogView, setCatalogView] = useState<CatalogView>("simple");
+  const [showCreateProduct, setShowCreateProduct] = useState(false);
+  const [creatingProduct, setCreatingProduct] = useState(false);
+  const [createProductDraft, setCreateProductDraft] = useState<CreateProductDraft>(
+    buildCreateProductDraft()
+  );
+  const [createProductImageBusy, setCreateProductImageBusy] = useState(false);
+  const [createProductImageMeta, setCreateProductImageMeta] = useState<LocalImageDraft | null>(
+    null
+  );
+  const [priceConfirmState, setPriceConfirmState] = useState<PriceConfirmState | null>(null);
   const importInputRef = useRef<HTMLInputElement>(null);
 
   const showActionError = useCallback((title: string, message: string) => {
@@ -403,6 +466,7 @@ export default function AdminClient() {
     setHotToday(snapshot.hotToday);
     setOrderLogs(snapshot.orderLogs);
     setMarketingEvents(snapshot.marketingEvents);
+    setRecentChanges(snapshot.recentChanges ?? []);
     setProductDrafts(
       Object.fromEntries(
         snapshot.products.map((product) => [
@@ -1033,11 +1097,124 @@ export default function AdminClient() {
     [showActionError, showActionSuccess, updateDraft]
   );
 
+  const prepareCreateImageFromFile = useCallback(
+    async (file: File, source: ImageDraftSource) => {
+      setCreateProductImageBusy(true);
+      try {
+        const optimized = await optimizeInlineImage(file);
+        setCreateProductDraft((prev) => ({ ...prev, image: optimized.dataUrl }));
+        setCreateProductImageMeta({
+          source,
+          fileName: `${optimized.fileName}.webp`,
+          width: optimized.width,
+          height: optimized.height,
+          approxKb: optimized.approxKb,
+        });
+        showActionSuccess(
+          source === "camera" ? "Foto tomada" : "Foto preparada",
+          `La foto nueva quedó optimizada a WebP (${optimized.width}x${optimized.height}, ${optimized.approxKb} KB aprox.) y lista para guardar.`
+        );
+      } catch (error) {
+        showActionError(
+          "No se pudo preparar la foto",
+          error instanceof Error
+            ? error.message
+            : "Intenta con otra foto o usa la imagen sugerida."
+        );
+      } finally {
+        setCreateProductImageBusy(false);
+      }
+    },
+    [showActionError, showActionSuccess]
+  );
+
+  const submitProductSave = useCallback(
+    async (product: Product) => {
+      if (!adapter) return;
+      const draft = productDrafts[product.id];
+      if (!draft) return;
+
+      const normalizedName = draft.name.trim();
+      if (!normalizedName) {
+        showActionError(
+          "Nombre requerido",
+          "Escribe un nombre antes de guardar este producto."
+        );
+        setSaveStateById((prev) => ({ ...prev, [product.id]: "error" }));
+        return;
+      }
+
+      const normalizedPrice = draft.price.trim();
+      const parsedPrice = parseMoney(normalizedPrice);
+      if (!parsedPrice || parsedPrice <= 0) {
+        showActionError(
+          "Precio inválido",
+          "Revisa el precio antes de guardar. Debe ser mayor a 0."
+        );
+        setSaveStateById((prev) => ({ ...prev, [product.id]: "error" }));
+        return;
+      }
+
+      const normalizedTags = normalizeTags(draft.tagsInput);
+      const payload: ProductAdminSaveInput = {
+        id: product.id,
+        name: normalizedName,
+        category: draft.category.trim() || product.category,
+        subgroup: draft.subgroup.trim(),
+        tags: normalizedTags,
+        price: normalizedPrice.startsWith("$")
+          ? normalizedPrice
+          : formatMoney(parsedPrice),
+        image: draft.image.trim(),
+        sortOrder: Number.isFinite(draft.sortOrder)
+          ? Math.max(1, Math.round(draft.sortOrder))
+          : product.sortOrder ?? 9999,
+        isFeatured: draft.isFeatured,
+        status: draft.status,
+        stockStatus: draft.stockStatus,
+        promo: {
+          enabled: draft.promoEnabled,
+          percent: Math.max(0, Math.min(90, Math.round(draft.promoPercent || 0))),
+        },
+        hot: {
+          status: draft.hotStatus,
+          windowStart: draft.hotWindowStart,
+          windowEnd: draft.hotWindowEnd,
+          note: draft.hotNote.trim(),
+          updatedAt: new Date().toISOString(),
+        },
+      };
+
+      setSaveStateById((prev) => ({ ...prev, [product.id]: "saving" }));
+
+      try {
+        await adapter.saveProductDraft(payload);
+        await reloadAll(adapter);
+        setLocalImageDrafts((prev) => {
+          if (!prev[product.id]) return prev;
+          const next = { ...prev };
+          delete next[product.id];
+          return next;
+        });
+        setSaveStateById((prev) => ({ ...prev, [product.id]: "saved" }));
+        showActionSuccess(
+          "Cambios guardados",
+          `${normalizedName} quedó actualizado en la hoja con guardado explícito.`
+        );
+      } catch {
+        setSaveStateById((prev) => ({ ...prev, [product.id]: "error" }));
+        showActionError(
+          "No se pudo guardar este producto",
+          "El panel mantuvo tus cambios en pantalla para que puedas corregir o intentar de nuevo."
+        );
+      }
+    },
+    [adapter, productDrafts, reloadAll, showActionError, showActionSuccess]
+  );
+
   const saveProductChanges = async (product: Product) => {
-    if (!adapter) return;
     const draft = productDrafts[product.id];
     if (!draft) return;
-
     const normalizedPrice = draft.price.trim();
     const parsedPrice = parseMoney(normalizedPrice);
     if (!parsedPrice || parsedPrice <= 0) {
@@ -1049,59 +1226,93 @@ export default function AdminClient() {
       return;
     }
 
-    const normalizedTags = normalizeTags(draft.tagsInput);
-    const payload: ProductAdminSaveInput = {
-      id: product.id,
-      category: draft.category.trim() || product.category,
-      subgroup: draft.subgroup.trim(),
-      tags: normalizedTags,
-      price: normalizedPrice.startsWith("$")
-        ? normalizedPrice
-        : formatMoney(parsedPrice),
-      image: draft.image.trim(),
-      sortOrder: Number.isFinite(draft.sortOrder)
-        ? Math.max(1, Math.round(draft.sortOrder))
-        : product.sortOrder ?? 9999,
-      isFeatured: draft.isFeatured,
-      status: draft.status,
-      stockStatus: draft.stockStatus,
-      promo: {
-        enabled: draft.promoEnabled,
-        percent: Math.max(0, Math.min(90, Math.round(draft.promoPercent || 0))),
-      },
-      hot: {
-        status: draft.hotStatus,
-        windowStart: draft.hotWindowStart,
-        windowEnd: draft.hotWindowEnd,
-        note: draft.hotNote.trim(),
-        updatedAt: new Date().toISOString(),
-      },
+    const nextPrice = normalizedPrice.startsWith("$")
+      ? normalizedPrice
+      : formatMoney(parsedPrice);
+    const previousPrice = baselinePrices[product.id] ?? product.price;
+
+    if (nextPrice !== previousPrice) {
+      setPriceConfirmState({
+        productId: product.id,
+        productName: draft.name.trim() || product.name,
+        oldPrice: previousPrice,
+        newPrice: nextPrice,
+      });
+      return;
+    }
+
+    await submitProductSave(product);
+  };
+
+  const createProductQuick = useCallback(async () => {
+    if (!adapter) return;
+    const name = createProductDraft.name.trim();
+    const parsedPrice = parseMoney(createProductDraft.price);
+    if (!name) {
+      showActionError("Nombre requerido", "Escribe el nombre del producto nuevo.");
+      return;
+    }
+    if (!createProductDraft.category.trim()) {
+      showActionError("Categoría requerida", "Elige una categoría antes de crear el producto.");
+      return;
+    }
+    if (!parsedPrice || parsedPrice <= 0) {
+      showActionError("Precio inválido", "El precio inicial debe ser mayor a 0.");
+      return;
+    }
+
+    const payload: ProductCreateInput = {
+      name,
+      category: createProductDraft.category,
+      subgroup: createProductDraft.subgroup.trim(),
+      tags: [],
+      price: formatMoney(parsedPrice),
+      image:
+        createProductDraft.image.trim() ||
+        getCategoryFallbackImage(createProductDraft.category),
+      status: createProductDraft.status,
+      stockStatus: createProductDraft.stockStatus,
     };
 
-    setSaveStateById((prev) => ({ ...prev, [product.id]: "saving" }));
-
+    setCreatingProduct(true);
     try {
-      await adapter.saveProductDraft(payload);
+      const result = await adapter.createProduct(payload);
       await reloadAll(adapter);
-      setLocalImageDrafts((prev) => {
-        if (!prev[product.id]) return prev;
-        const next = { ...prev };
-        delete next[product.id];
-        return next;
-      });
-      setSaveStateById((prev) => ({ ...prev, [product.id]: "saved" }));
-      showActionSuccess(
-        "Cambios guardados",
-        `${product.name} quedó actualizado en la hoja con guardado explícito.`
-      );
+      setShowCreateProduct(false);
+      setCreateProductDraft(buildCreateProductDraft());
+      setCreateProductImageMeta(null);
+      setCategoryFilter(normalizeMoCategoryId(payload.category));
+      setSearchQuery(result.product.name);
+      showActionSuccess("Producto creado", `${result.product.name} ya quedó listo para operar.`);
     } catch {
-      setSaveStateById((prev) => ({ ...prev, [product.id]: "error" }));
       showActionError(
-        "No se pudo guardar este producto",
-        "El panel mantuvo tus cambios en pantalla para que puedas corregir o intentar de nuevo."
+        "No se pudo crear el producto",
+        "Revisa nombre, precio y categoría e intenta de nuevo."
       );
+    } finally {
+      setCreatingProduct(false);
     }
-  };
+  }, [adapter, createProductDraft, reloadAll, showActionError, showActionSuccess]);
+
+  const revertRecentChange = useCallback(
+    async (entry: AdminAuditEntry) => {
+      if (!adapter) return;
+      setPendingActionLabel("Deshaciendo cambio...");
+      try {
+        await adapter.revertAuditEntry(entry.id);
+        await reloadAll(adapter);
+        showActionSuccess("Cambio deshecho", "Se restauró el valor anterior del producto.");
+      } catch {
+        showActionError(
+          "No se pudo deshacer",
+          "Ese cambio ya no se puede revertir o fue modificado después."
+        );
+      } finally {
+        setPendingActionLabel(null);
+      }
+    },
+    [adapter, reloadAll, showActionError, showActionSuccess]
+  );
 
   const registerSale = async () => {
     if (!adapter) return;
@@ -1852,6 +2063,278 @@ export default function AdminClient() {
               </p>
             </div>
           </div>
+          <div className="grid gap-4 xl:grid-cols-[1.2fr,1fr]">
+            <details
+              className="rounded-3xl border border-white/10 bg-black/20 p-4"
+              open={showCreateProduct}
+              onToggle={(event) =>
+                setShowCreateProduct((event.target as HTMLDetailsElement).open)
+              }
+            >
+              <summary className="cursor-pointer list-none text-sm font-semibold text-white">
+                Agregar producto
+              </summary>
+              <div className="mt-4 grid gap-3">
+                <div className="grid gap-3 sm:grid-cols-[1.4fr,0.9fr]">
+                  <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                    Nombre
+                    <input
+                      type="text"
+                      value={createProductDraft.name}
+                      onChange={(event) =>
+                        setCreateProductDraft((prev) => ({
+                          ...prev,
+                          name: event.target.value,
+                        }))
+                      }
+                      placeholder="Ej. Coca-Cola 1.5 L"
+                      className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
+                    />
+                  </label>
+                  <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                    Precio
+                    <input
+                      type="text"
+                      value={createProductDraft.price}
+                      onChange={(event) =>
+                        setCreateProductDraft((prev) => ({
+                          ...prev,
+                          price: event.target.value,
+                        }))
+                      }
+                      inputMode="decimal"
+                      placeholder="$0.00"
+                      className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
+                    />
+                  </label>
+                </div>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                    Categoría
+                    <select
+                      value={createProductDraft.category}
+                      onChange={(event) =>
+                        setCreateProductDraft((prev) => ({
+                          ...prev,
+                          category: event.target.value,
+                          image:
+                            prev.image.trim().startsWith("/rys/categories/")
+                              ? ""
+                              : prev.image,
+                        }))
+                      }
+                      className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
+                    >
+                      {MO_CATEGORY_DEFINITIONS.map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {category.label}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                    Visible
+                    <select
+                      value={createProductDraft.status}
+                      onChange={(event) =>
+                        setCreateProductDraft((prev) => ({
+                          ...prev,
+                          status: event.target.value as ProductStatus,
+                        }))
+                      }
+                      className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
+                    >
+                      <option value="available">Sí, en catálogo</option>
+                      <option value="hidden">No, crear quitado</option>
+                      <option value="soon">Próximamente</option>
+                    </select>
+                  </label>
+                </div>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                    Stock
+                    <select
+                      value={createProductDraft.stockStatus}
+                      onChange={(event) =>
+                        setCreateProductDraft((prev) => ({
+                          ...prev,
+                          stockStatus: event.target.value as StockStatus,
+                        }))
+                      }
+                      className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
+                    >
+                      <option value="disponible">Disponible</option>
+                      <option value="ultimas">Últimas</option>
+                      <option value="agotado">Agotado</option>
+                    </select>
+                  </label>
+                  <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
+                    Subgrupo
+                    <input
+                      type="text"
+                      value={createProductDraft.subgroup}
+                      onChange={(event) =>
+                        setCreateProductDraft((prev) => ({
+                          ...prev,
+                          subgroup: event.target.value,
+                        }))
+                      }
+                      placeholder="Opcional"
+                      className="rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
+                    />
+                  </label>
+                </div>
+                <div className="rounded-2xl border border-white/10 bg-black/25 p-3">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/60">
+                    Imagen sugerida de {getMoCategoryLabel(createProductDraft.category)}
+                  </p>
+                  <div className="mt-3 flex items-center gap-3">
+                    <div className="overflow-hidden rounded-2xl border border-white/10 bg-black/20">
+                      <Image
+                        src={createProductDraft.image.trim() || getCategoryFallbackImage(createProductDraft.category)}
+                        alt={createProductDraft.name || getMoCategoryLabel(createProductDraft.category)}
+                        width={88}
+                        height={88}
+                        className="h-[72px] w-[72px] object-cover"
+                        unoptimized={createProductDraft.image.startsWith("data:image/")}
+                      />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap gap-2">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setCreateProductDraft((prev) => ({
+                              ...prev,
+                              image: getCategoryFallbackImage(prev.category),
+                            }))
+                          }
+                          className="rounded-full border border-white/15 px-3 py-2 text-[11px] font-semibold text-white"
+                        >
+                          Usar sugerida
+                        </button>
+                        <label className="inline-flex cursor-pointer items-center justify-center rounded-full border border-white/15 px-3 py-2 text-[11px] font-semibold text-white">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            disabled={createProductImageBusy}
+                            onChange={async (event) => {
+                              const file = event.target.files?.[0];
+                              if (!file) return;
+                              await prepareCreateImageFromFile(file, "file");
+                              event.target.value = "";
+                            }}
+                          />
+                          {createProductImageBusy ? "Preparando..." : "Subir foto"}
+                        </label>
+                        <label className="inline-flex cursor-pointer items-center justify-center rounded-full border border-white/15 px-3 py-2 text-[11px] font-semibold text-white">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            capture="environment"
+                            className="hidden"
+                            disabled={createProductImageBusy}
+                            onChange={async (event) => {
+                              const file = event.target.files?.[0];
+                              if (!file) return;
+                              await prepareCreateImageFromFile(file, "camera");
+                              event.target.value = "";
+                            }}
+                          />
+                          {createProductImageBusy ? "Preparando..." : "Tomar foto"}
+                        </label>
+                      </div>
+                      <input
+                        type="text"
+                        value={createProductDraft.image}
+                        onChange={(event) =>
+                          setCreateProductDraft((prev) => ({
+                            ...prev,
+                            image: event.target.value,
+                          }))
+                        }
+                        placeholder="Pega un link público si prefieres"
+                        className="mt-3 w-full rounded-2xl border border-white/10 bg-black/70 px-4 py-3 text-sm text-white"
+                      />
+                      {createProductImageMeta ? (
+                        <p className="mt-2 text-[11px] text-white/55">
+                          Foto lista por {createProductImageMeta.source === "camera" ? "cámara" : "archivo"} · {createProductImageMeta.width}x{createProductImageMeta.height} · {createProductImageMeta.approxKb} KB aprox.
+                        </p>
+                      ) : (
+                        <p className="mt-2 text-[11px] text-white/45">
+                          Si no subes foto, puedes guardar con la imagen sugerida de esta categoría.
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={createProductQuick}
+                    disabled={creatingProduct}
+                    className="rounded-2xl bg-emerald-300 px-4 py-3 text-sm font-semibold text-[#07130c] disabled:opacity-50"
+                  >
+                    {creatingProduct ? "Guardando..." : "Guardar producto"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCreateProductDraft(buildCreateProductDraft());
+                      setCreateProductImageMeta(null);
+                    }}
+                    className="rounded-2xl border border-white/15 px-4 py-3 text-sm font-semibold text-white/75"
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            </details>
+            <section className="rounded-3xl border border-white/10 bg-black/20 p-4">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <h3 className="text-sm font-semibold text-white">Mis últimos cambios</h3>
+                  <p className="mt-1 text-xs text-white/50">
+                    Tus cambios recientes y los que puedes deshacer rápido.
+                  </p>
+                </div>
+                <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/65">
+                  {recentChanges.length}
+                </span>
+              </div>
+              <div className="mt-3 space-y-2">
+                {recentChanges.length === 0 ? (
+                  <p className="text-sm text-white/55">Todavía no hay cambios recientes de este usuario.</p>
+                ) : (
+                  recentChanges.slice(0, 6).map((entry) => (
+                    <div
+                      key={entry.id}
+                      className="rounded-2xl border border-white/10 bg-black/25 px-3 py-3"
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold text-white">
+                            {describeRecentChange(entry)}
+                          </p>
+                          <p className="mt-1 text-xs text-white/45">{entry.createdAt}</p>
+                        </div>
+                        {entry.reversible && !entry.revertedAt ? (
+                          <button
+                            type="button"
+                            onClick={() => revertRecentChange(entry)}
+                            className="rounded-full border border-white/15 px-3 py-2 text-[11px] font-semibold text-white"
+                          >
+                            Deshacer
+                          </button>
+                        ) : null}
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </section>
+          </div>
           <div className="grid gap-4 lg:grid-cols-[2fr,1fr,auto]">
             <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
               Buscar producto
@@ -2121,9 +2604,18 @@ export default function AdminClient() {
                           )}
                         </div>
                         <div className="min-w-0 pt-0.5">
-                          <h3 className="line-clamp-2 break-words text-sm font-semibold leading-[1.2] text-white">
-                            {product.name}
-                          </h3>
+                          <textarea
+                            value={draft.name}
+                            onChange={(event) =>
+                              updateDraft(product.id, (current) => ({
+                                ...current,
+                                name: event.target.value,
+                              }))
+                            }
+                            rows={2}
+                            className="min-h-[40px] w-full resize-none border-0 bg-transparent p-0 text-sm font-semibold leading-[1.2] text-white outline-none"
+                            disabled={!canEditCatalog}
+                          />
                           <p className="mt-1 line-clamp-1 text-[10px] text-white/50">
                             {getMoCategoryLabel(draft.category)}
                             {draft.subgroup.trim() ? ` · ${draft.subgroup}` : ""}
@@ -2176,7 +2668,7 @@ export default function AdminClient() {
                             </p>
                           ) : null}
                           <h3 className="mt-1 text-lg font-semibold leading-tight">
-                            {product.name}
+                            {draft.name}
                           </h3>
                           <div className="mt-2 flex flex-wrap gap-2 text-[11px]">
                             <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1 text-white/85">
@@ -2307,7 +2799,7 @@ export default function AdminClient() {
                       </select>
                     </label>
 
-                    <label className={`grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60 ${isSimpleView ? "hidden" : ""}`}>
+                    <label className={`grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60 ${isSimpleView ? "" : ""}`}>
                       Cambiar precio
                       <input
                         type="text"
@@ -2452,6 +2944,21 @@ export default function AdminClient() {
                       Más opciones
                     </summary>
                     <div className="mt-4 grid gap-3 md:grid-cols-2">
+                    <label className="grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60 md:col-span-2">
+                      Nombre
+                      <input
+                        type="text"
+                        value={draft.name}
+                        onChange={(event) =>
+                          updateDraft(product.id, (current) => ({
+                            ...current,
+                            name: event.target.value,
+                          }))
+                        }
+                        className="rounded-xl border border-white/10 bg-black/70 px-3 py-2 text-sm text-white"
+                        disabled={!canEditCatalog}
+                      />
+                    </label>
                     <div className="md:col-span-2 grid gap-2 text-xs uppercase tracking-[0.2em] text-white/60">
                       <p>Foto</p>
                       <input
@@ -3085,6 +3592,44 @@ export default function AdminClient() {
         </section>
         )}
       </div>
+      {priceConfirmState ? (
+        <div className="fixed inset-0 z-[120] flex items-end justify-center bg-slate-950/72 p-4 sm:items-center">
+          <div className="w-full max-w-md rounded-3xl border border-white/10 bg-[#08110c] p-5 text-white shadow-2xl">
+            <p className="text-xs uppercase tracking-[0.2em] text-amber-200/80">
+              Confirmar cambio de precio
+            </p>
+            <h2 className="mt-2 text-lg font-semibold">
+              Vas a cambiar el precio de {priceConfirmState.productName}
+            </h2>
+            <p className="mt-3 text-sm text-white/75">
+              De {priceConfirmState.oldPrice} a {priceConfirmState.newPrice}. ¿Seguro que quieres guardar este cambio?
+            </p>
+            <div className="mt-5 grid gap-2 sm:grid-cols-2">
+              <button
+                type="button"
+                onClick={async () => {
+                  const product = products.find(
+                    (entry) => entry.id === priceConfirmState.productId
+                  );
+                  setPriceConfirmState(null);
+                  if (!product) return;
+                  await submitProductSave(product);
+                }}
+                className="min-h-[46px] rounded-2xl bg-emerald-300 px-4 py-3 text-sm font-semibold text-[#07130c]"
+              >
+                Confirmar cambio
+              </button>
+              <button
+                type="button"
+                onClick={() => setPriceConfirmState(null)}
+                className="min-h-[46px] rounded-2xl border border-white/15 px-4 py-3 text-sm font-semibold text-white/75"
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

@@ -126,6 +126,27 @@ export default function SecurityAdminClient() {
     window.location.href = "/admin/acceso";
   };
 
+  const revertAudit = async (entryId: string) => {
+    setSaving(true);
+    setError(null);
+    try {
+      const response = await fetch("/api/mo/admin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "revertAuditEntry", entryId }),
+      });
+      const data = await readApiResponseJson<{ message?: string }>(response);
+      if (!response.ok) {
+        throw new Error(data.message ?? "No se pudo deshacer el cambio.");
+      }
+      await loadAll();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "No se pudo deshacer el cambio.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
   return (
     <main className="min-h-screen w-full px-4 pb-20 pt-10 sm:px-6 lg:px-8">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-6">
@@ -284,18 +305,38 @@ export default function SecurityAdminClient() {
                   <th className="px-3 py-2">Fecha</th>
                   <th className="px-3 py-2">Actor</th>
                   <th className="px-3 py-2">Acción</th>
-                  <th className="px-3 py-2">Entidad</th>
-                  <th className="px-3 py-2">ID</th>
+                  <th className="px-3 py-2">Producto</th>
+                  <th className="px-3 py-2">Campo</th>
+                  <th className="px-3 py-2">Acción rápida</th>
                 </tr>
               </thead>
               <tbody>
                 {audit.map((entry) => (
                   <tr key={entry.id} className="border-b border-slate-100">
                     <td className="px-3 py-2 text-slate-600">{entry.createdAt}</td>
-                    <td className="px-3 py-2 text-slate-900">{entry.actorUserId}</td>
+                    <td className="px-3 py-2 text-slate-900">
+                      {entry.actorUsername || entry.actorUserId}
+                    </td>
                     <td className="px-3 py-2 text-slate-900">{entry.action}</td>
-                    <td className="px-3 py-2 text-slate-600">{entry.entityType}</td>
-                    <td className="px-3 py-2 text-slate-600">{entry.entityId}</td>
+                    <td className="px-3 py-2 text-slate-600">
+                      {entry.productName || entry.entityId}
+                    </td>
+                    <td className="px-3 py-2 text-slate-600">{entry.field || "-"}</td>
+                    <td className="px-3 py-2 text-slate-600">
+                      {entry.reversible && !entry.revertedAt ? (
+                        <button
+                          type="button"
+                          onClick={() => revertAudit(entry.id)}
+                          className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-700"
+                        >
+                          Deshacer
+                        </button>
+                      ) : entry.revertedAt ? (
+                        "Ya deshecho"
+                      ) : (
+                        "No reversible"
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>
