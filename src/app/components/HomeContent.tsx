@@ -21,7 +21,9 @@ const serviceCards = [
     support: 'Para comercios, bares, restaurantes, minimarkets, peluquerías, talleres y pequeños negocios.',
     price: 'Desde 350 €',
     cta: 'Quiero esto',
-    href: buildWhatsAppLink('Hola, quiero una web rápida para mi negocio local.'),
+    href: buildWhatsAppLink(
+      'Hola, me interesa Web rápida para negocio local. Quiero saber qué tendría sentido para mi negocio.',
+    ),
   },
   {
     title: 'Mejora tu web actual',
@@ -30,7 +32,9 @@ const serviceCards = [
     support: 'Para negocios que ya tienen web pero la experiencia es floja o no convierte bien.',
     price: 'Desde 180 €',
     cta: 'Quiero esto',
-    href: buildWhatsAppLink('Hola, quiero mejorar la web que ya tengo para que convierta mejor.'),
+    href: buildWhatsAppLink(
+      'Hola, me interesa Mejora de web existente. Quiero revisar si mi web actual se puede reorganizar y mejorar.',
+    ),
   },
   {
     title: 'Automatiza la entrada de contactos',
@@ -39,7 +43,9 @@ const serviceCards = [
     support: 'Formulario + Google Sheets + alertas + automatización básica.',
     price: 'Desde 180 €',
     cta: 'Quiero esto',
-    href: buildWhatsAppLink('Hola, quiero automatizar la entrada de contactos de mi web.'),
+    href: buildWhatsAppLink(
+      'Hola, me interesa Automatizar la entrada de contactos. Quiero ordenar mejor formularios y leads.',
+    ),
   },
 ];
 
@@ -112,11 +118,13 @@ function ProjectShot({
   alt,
   caption,
   aspectClassName,
+  imageClassName = 'object-cover object-top',
 }: {
   src: string;
   alt: string;
   caption: string;
   aspectClassName: string;
+  imageClassName?: string;
 }) {
   const [failed, setFailed] = useState(false);
 
@@ -140,12 +148,12 @@ function ProjectShot({
             alt={alt}
             fill
             sizes="(min-width: 768px) 50vw, 100vw"
-            className="object-cover object-top"
+            className={imageClassName}
             onError={() => setFailed(true)}
           />
         )}
       </div>
-      <figcaption className="px-3 py-2 text-[11px] uppercase tracking-[0.2em] text-white/50">
+      <figcaption className="px-3 py-2 text-[10px] uppercase tracking-[0.18em] text-white/42">
         {caption}
       </figcaption>
     </figure>
@@ -308,7 +316,7 @@ export default function HomeContent() {
             {serviceCards.map((service) => (
               <article
                 key={service.title}
-                className="flex h-full flex-col rounded-[1.35rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.14),rgba(7,17,26,0.06))] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] backdrop-blur-[1px]"
+                className="flex h-full flex-col rounded-[1.35rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.14),rgba(7,17,26,0.06))] p-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] backdrop-blur-[1px] sm:p-5"
               >
                 <span className="block h-px w-14 bg-cyan-300/55" />
                 <h3 className="mt-4 text-lg font-semibold text-white">{service.title}</h3>
@@ -395,16 +403,17 @@ export default function HomeContent() {
                 <div className="mt-5 grid gap-3 md:grid-cols-[1.35fr_0.65fr] md:gap-4">
                   <ProjectShot
                     src={demo.desktopImage}
-                    alt={`Captura desktop de ${demo.title}`}
-                    caption="Captura desktop"
-                    aspectClassName="aspect-[16/10]"
+                    alt={`Captura real desktop de ${demo.title}`}
+                    caption="Desktop real"
+                    aspectClassName="aspect-[19/10]"
                   />
                   <div className="grid gap-3 md:gap-4">
                     <ProjectShot
                       src={demo.mobileImage}
-                      alt={`Captura móvil de ${demo.title}`}
-                      caption="Captura móvil"
-                      aspectClassName="aspect-[4/5]"
+                      alt={`Captura real móvil de ${demo.title}`}
+                      caption="Móvil real"
+                      aspectClassName="aspect-[1/2]"
+                      imageClassName="object-contain object-top bg-[#07111a]"
                     />
                     <div className="rounded-[1.15rem] bg-white/[0.03] px-4 py-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]">
                       <p className="text-[11px] uppercase tracking-[0.2em] text-white/46">Mi papel</p>
@@ -506,6 +515,27 @@ export default function HomeContent() {
             </div>
           </div>
         </section>
+
+        <footer className="border-t border-white/8 pt-6 text-sm text-white/54">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <p>Powered by IA · webs y soluciones digitales para negocios locales.</p>
+            <div className="flex flex-wrap gap-4">
+              <a href="/aviso-legal" className="transition hover:text-white">
+                Aviso legal
+              </a>
+              <a href="/privacidad" className="transition hover:text-white">
+                Privacidad
+              </a>
+              <a href="/cookies" className="transition hover:text-white">
+                Cookies
+              </a>
+            </div>
+          </div>
+          <p className="mt-2 max-w-3xl text-xs leading-5 text-white/42">
+            Esta versión no usa analítica ni cookies de terceros. Si se añaden herramientas no
+            esenciales en el futuro, se activará el consentimiento antes de usarlas.
+          </p>
+        </footer>
       </div>
 
       <a

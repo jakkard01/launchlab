@@ -68,6 +68,13 @@
   - bloque `Proyectos reales` ahora usa capturas reales y línea de `Mi papel`
   - build estable
   - lista para validar y cerrar deploy desde esta línea PBIA
+- Cierre 2026-03-30:
+  - SEO / metadata finalizados para negocio local, mejora de webs y automatización de contactos
+  - páginas legales añadidas: `Aviso legal`, `Política de privacidad`, `Política de cookies`
+  - cookies resueltas sin banner porque no hay analítica ni cookies no exentas en esta versión
+  - CTA `Quiero esto` prellenado por servicio en WhatsApp
+  - capturas móviles ajustadas para que PBIA encaje mejor en móvil sin rehacer bloques
+  - fase 2 explícita: brief guiado, presupuesto orientativo, Sheets, n8n y scoring
 - Qué no se tocó:
   - RYS Mini Market fuera de su experiencia propia
   - `feat/pagina-hermana-live` como contexto separado de PBIA

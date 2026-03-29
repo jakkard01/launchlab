@@ -1,5 +1,48 @@
 # Memoria Infinita - Launchlab
 
+## 2026-03-30 — PBIA: cierre market-ready
+
+- Bloque cerrado:
+  - SEO / metadata final
+  - legal mínimo
+  - cookies resueltas sin banner porque no hay analítica en esta versión
+  - microajustes móviles en proyectos reales
+  - CTA `Quiero esto` prellenado por servicio
+- SEO final:
+  - title: `Powered by IA | Webs, mejoras y automatización para negocios locales`
+  - description: `Webs y soluciones digitales para negocios locales. Mejoramos webs existentes, automatizamos la entrada de contactos y damos un enfoque práctico, claro y sin humo.`
+  - OG / Twitter con la misma línea comercial y preview en `/imagenes/pbidesk.jpeg`
+  - canonical raíz alineado con `poweredbyia.com`
+- Legal y cookies:
+  - `Aviso legal`
+  - `Política de privacidad`
+  - `Política de cookies`
+  - sin banner de cookies porque no hay cookies no exentas ni analítica de terceros en esta versión
+- Mobile:
+  - la captura móvil de PBIA quedó menos recortada con ajuste de ratio y `object-contain`
+  - los labels de capturas bajaron de peso visual
+  - el bloque de proyectos quedó un poco más compacto en móvil
+- CTA:
+  - `Web rápida para negocio local`
+  - `Mejora de web existente`
+  - `Automatizar la entrada de contactos`
+  - cada botón `Quiero esto` lleva WhatsApp con mensaje prellenado y comercialmente más claro
+- Fase 2 explícita:
+  - brief guiado por servicio
+  - presupuesto orientativo por opciones
+  - captura estructurada en Sheets
+  - priorización / alertas con n8n
+  - horario preferido de contacto
+- Commit exacto:
+  - pendiente de cerrar al final de esta pasada
+- Deploy exacto:
+  - pendiente de cerrar al final de esta pasada
+- Checkpoint actual:
+  - worktree real: `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next`
+  - rama real: `feat/pbia-portfolio-next`
+  - cierre en curso: PBIA lista para salida al mercado con SEO, legal, cookies y CTA comerciales
+  - riesgo operativo: no tocar RYS como producto activo ni abrir automatizaciones nuevas en esta fase
+
 ## 2026-03-29 — PBIA: capturas reales en proyectos
 
 - Bloque cerrado:
