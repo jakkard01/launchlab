@@ -7,6 +7,8 @@ const CONTACT_EMAIL = 'poweredbyiaoficial@gmail.com';
 const RYS_LINK = 'https://www.rysminimarket.com/';
 const buildWhatsAppLink = (message: string) =>
   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+const buildMailtoLink = (subject: string, body: string) =>
+  `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
 const serviceCards = [
   {
@@ -69,6 +71,24 @@ const processSteps = [
   {
     title: 'Lo dejas funcionando',
     body: 'Tu web o flujo queda listo para usar.',
+  },
+];
+
+const priceItems = [
+  {
+    title: 'Web local básica',
+    price: 'Desde 350 €',
+    body: 'Para una presencia clara, móvil y lista para recibir mensajes sin complicarte.',
+  },
+  {
+    title: 'Mejora de web existente',
+    price: 'Desde 180 €',
+    body: 'Para ordenar una web que ya existe y hacerla más útil en móvil.',
+  },
+  {
+    title: 'Captura automática de contactos',
+    price: 'Desde 180 €',
+    body: 'Para registrar contactos de forma ordenada y no perder oportunidades.',
   },
 ];
 
@@ -218,7 +238,7 @@ export default function HomeContent() {
           </div>
           <div className="max-w-2xl border-l border-white/10 pl-5">
             <p className="text-base leading-7 text-white/78">
-              Hacemos que la propuesta se entienda rápido, que la respuesta llegue mejor y que el cliente tenga más claro cómo avanzar.
+              Hacemos que la propuesta se entienda rápido, que la respuesta llegue ordenada y que el siguiente paso sea simple.
             </p>
           </div>
         </section>
@@ -254,6 +274,31 @@ export default function HomeContent() {
                     {service.cta}
                   </a>
                 </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="precios" className="space-y-5">
+          <div>
+            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Precios</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
+              Servicios claros, precios orientativos
+            </h2>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/76 sm:text-base">
+              Rangos reales para filtrar curiosos y dar una referencia rápida antes de hablar.
+            </p>
+          </div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {priceItems.map((item) => (
+              <article
+                key={item.title}
+                className="rounded-[1.35rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.14),rgba(7,17,26,0.06))] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] backdrop-blur-[1px]"
+              >
+                <span className="block h-px w-14 bg-cyan-300/55" />
+                <h3 className="mt-4 text-base font-semibold text-white">{item.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-white/76">{item.body}</p>
+                <p className="mt-5 text-lg font-semibold text-white">{item.price}</p>
               </article>
             ))}
           </div>
@@ -364,43 +409,39 @@ export default function HomeContent() {
 
         <section
           id="contacto"
-          className="rounded-[2rem] bg-[linear-gradient(180deg,rgba(34,211,238,0.08),rgba(8,18,27,0.08))] px-5 py-8 shadow-[inset_0_0_0_1px_rgba(103,232,249,0.11)] backdrop-blur-[2px] sm:px-7 sm:py-9"
+          className="rounded-[2rem] bg-[linear-gradient(180deg,rgba(34,211,238,0.1),rgba(8,18,27,0.1))] px-5 py-8 shadow-[inset_0_0_0_1px_rgba(103,232,249,0.14)] backdrop-blur-[2px] sm:px-7 sm:py-10"
         >
           <div className="max-w-3xl">
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">CTA final</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Si quieres un sistema comercial más claro y más serio para vender mejor, empecemos por una conversación simple.
+              ¿Tienes un negocio y quieres una web clara o mejorar la que ya tienes?
             </h2>
             <p className="mt-4 text-base leading-7 text-white/80">
-              Escríbeme por WhatsApp, cuéntame qué estás vendiendo y te respondo con la ruta más razonable para captar mejor, responder con más orden o convertir con menos fricción.
+              Cuéntame qué necesitas y te diré qué tendría sentido hacer.
             </p>
-            <p className="mt-3 text-sm leading-6 text-white/68">
-              El botón abre WhatsApp con un mensaje base listo para que el primer contacto sea rápido y directo.
-            </p>
-            <p className="mt-3 text-sm leading-6 text-white/76">
-              También puedes escribir a{' '}
-              <a
-                href={`mailto:${CONTACT_EMAIL}`}
-                className="font-medium text-cyan-200 underline underline-offset-4 transition hover:text-cyan-100"
-              >
-                {CONTACT_EMAIL}
-              </a>
-              {' '}si prefieres correo.
-            </p>
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-6 grid gap-3 sm:grid-cols-3">
               <a
                 href={WHATSAPP_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-12 items-center justify-center rounded-full bg-cyan-300 px-6 text-sm font-semibold text-[#041018] shadow-[0_18px_42px_rgba(34,211,238,0.24)] transition hover:bg-cyan-200"
+                className="inline-flex h-12 items-center justify-center rounded-full bg-cyan-300 px-5 text-sm font-semibold text-[#041018] shadow-[0_18px_42px_rgba(34,211,238,0.24)] transition hover:bg-cyan-200"
               >
                 Hablar por WhatsApp
               </a>
               <a
-                href="#demos"
-                className="inline-flex h-12 items-center justify-center rounded-full border border-white/14 bg-white/[0.03] px-6 text-sm font-semibold text-white/88 transition hover:border-cyan-300/40 hover:bg-white/[0.08]"
+                href={buildMailtoLink(
+                  'Formulario PBIA',
+                  'Hola, quiero dejarte mi caso por formulario. Necesito que revises mi web o me propongas una web nueva.',
+                )}
+                className="inline-flex h-12 items-center justify-center rounded-full border border-white/14 bg-white/[0.03] px-5 text-sm font-semibold text-white/88 transition hover:border-cyan-300/40 hover:bg-white/[0.08]"
               >
-                Ver demos
+                Formulario
+              </a>
+              <a
+                href={`mailto:${CONTACT_EMAIL}`}
+                className="inline-flex h-12 items-center justify-center rounded-full border border-cyan-300/22 bg-cyan-300/10 px-5 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/14"
+              >
+                Email
               </a>
             </div>
           </div>

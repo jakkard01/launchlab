@@ -1,5 +1,12 @@
 # CODEX_CHANGES
 
+- Fecha/Hora: 2026-03-29 22:26:20 CEST
+- Autor: Codex
+- Scope: `src/app/components/HomeContent.tsx`, `docs/LOGS/CODEX_CHANGES.md`, `docs/obsidian/Memoria Infinita - Launchlab.md`, `docs/obsidian/06_ESTADO_ACTUAL__PBIA_RYS.md`, `docs/ops/00_START_HERE__PBIA.md`
+- Resumen: Se cerró el bloque 4 de PBIA con precios orientativos, CTA final fuerte y limpieza visual/comercial de la home. Se añadieron tres rangos de precio reales, CTA con WhatsApp/Formulario/Email y una jerarquía más compacta.
+- Pruebas: Pendiente `npm run lint` y `npm run build` tras el cambio.
+- Notas/Riesgos: No tocar legal, cookies, metadata avanzada ni nuevas páginas; RYS sigue solo como caso real dentro de PBIA.
+
 - Fecha/Hora: 2026-03-29 22:10:49 CEST
 - Autor: Codex
 - Scope: `src/app/components/HomeContent.tsx`, `docs/LOGS/CODEX_CHANGES.md`, `docs/obsidian/Memoria Infinita - Launchlab.md`, `docs/obsidian/06_ESTADO_ACTUAL__PBIA_RYS.md`, `docs/ops/00_START_HERE__PBIA.md`

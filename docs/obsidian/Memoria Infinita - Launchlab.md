@@ -1,5 +1,52 @@
 # Memoria Infinita - Launchlab
 
+## 2026-03-29 — PBIA: precios orientativos, CTA final y limpieza general
+
+- Bloque 4 cerrado en PBIA:
+  - `Servicios claros, precios orientativos`
+  - `CTA final`
+  - limpieza general de la home
+- Precios orientativos dejados listos:
+  - `Web local básica` desde `350 €`
+  - `Mejora de web existente` desde `180 €`
+  - `Captura automática de contactos` desde `180 €`
+  - formato corto, visible y mobile-first
+- CTA final dejado listo:
+  - título fuerte orientado a negocio real
+  - texto breve: `Cuéntame qué necesitas y te diré qué tendría sentido hacer.`
+  - botones reales:
+    - `Hablar por WhatsApp`
+    - `Formulario`
+    - `Email`
+- Limpieza general aplicada:
+  - la home quedó más compacta
+  - se redujeron repeticiones de mensaje
+  - la jerarquía entre secciones quedó más clara
+  - el cierre comercial quedó más visible
+- Qué quedó montado ya en la home:
+  - hero
+  - bloque problema
+  - servicios
+  - proceso
+  - proyectos reales
+  - enfoque / sobre mí
+  - precios orientativos
+  - CTA final
+- Qué queda pendiente después de este bloque:
+  - SEO / metadata
+  - legal / cookies
+  - sustitución de placeholders por capturas reales, si se decide hacerlo
+- Commit exacto:
+  - pendiente de cerrar tras validar el build final de esta pasada
+- Deploy exacto:
+  - pendiente de generar tras validar el build final de esta pasada
+- Checkpoint actual:
+  - worktree real: `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next`
+  - rama real: `feat/pbia-portfolio-next`
+  - bloque completado en esta pasada: `precios orientativos`, `CTA final` y limpieza general
+  - siguiente minibloque lógico: SEO / metadata, legal / cookies o sustitución de placeholders por capturas reales
+  - riesgo operativo: no tocar RYS como producto activo ni mezclarlo con el branding PBIA
+
 ## 2026-03-29 — PBIA: proyectos reales y enfoque práctico
 
 - Bloque 3 cerrado en PBIA:
