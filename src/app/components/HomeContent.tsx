@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 const WHATSAPP_NUMBER = '34911528753';
@@ -103,6 +106,51 @@ const trust = [
   'Menos humo visual, más sistema comercial',
   'Iteraciones cortas con cambios medibles',
 ];
+
+function ProjectShot({
+  src,
+  alt,
+  caption,
+  aspectClassName,
+}: {
+  src: string;
+  alt: string;
+  caption: string;
+  aspectClassName: string;
+}) {
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    setFailed(false);
+  }, [src]);
+
+  return (
+    <figure className="overflow-hidden rounded-[1.15rem] bg-black/20 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]">
+      <div className={`relative w-full ${aspectClassName}`}>
+        {failed ? (
+          <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(180deg,rgba(8,18,27,0.98),rgba(8,18,27,0.78))] px-4 text-center">
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.22em] text-cyan-200/70">{caption}</p>
+              <p className="mt-2 text-sm leading-6 text-white/76">{alt}</p>
+            </div>
+          </div>
+        ) : (
+          <Image
+            src={src}
+            alt={alt}
+            fill
+            sizes="(min-width: 768px) 50vw, 100vw"
+            className="object-cover object-top"
+            onError={() => setFailed(true)}
+          />
+        )}
+      </div>
+      <figcaption className="px-3 py-2 text-[11px] uppercase tracking-[0.2em] text-white/50">
+        {caption}
+      </figcaption>
+    </figure>
+  );
+}
 
 export default function HomeContent() {
   return (
@@ -344,36 +392,20 @@ export default function HomeContent() {
                 </p>
                 <h3 className="mt-2 text-lg font-semibold text-white">{demo.title}</h3>
                 <p className="mt-3 text-sm leading-6 text-white/76">{demo.body}</p>
-                <div className="mt-5 grid gap-4 md:grid-cols-[1.35fr_0.65fr]">
-                  <figure className="overflow-hidden rounded-[1.15rem] bg-black/20 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]">
-                    <div className="relative aspect-[16/10] w-full">
-                      <Image
-                        src={demo.desktopImage}
-                        alt={`Captura desktop de ${demo.title}`}
-                        fill
-                        sizes="(min-width: 768px) 55vw, 100vw"
-                        className="object-cover object-top"
-                      />
-                    </div>
-                    <figcaption className="px-3 py-2 text-[11px] uppercase tracking-[0.2em] text-white/50">
-                      Captura desktop
-                    </figcaption>
-                  </figure>
-                  <div className="grid gap-4">
-                    <figure className="overflow-hidden rounded-[1.15rem] bg-black/20 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]">
-                      <div className="relative aspect-[9/16] w-full">
-                        <Image
-                          src={demo.mobileImage}
-                          alt={`Captura móvil de ${demo.title}`}
-                          fill
-                          sizes="(min-width: 768px) 22vw, 100vw"
-                          className="object-cover object-top"
-                        />
-                      </div>
-                      <figcaption className="px-3 py-2 text-[11px] uppercase tracking-[0.2em] text-white/50">
-                        Captura móvil
-                      </figcaption>
-                    </figure>
+                <div className="mt-5 grid gap-3 md:grid-cols-[1.35fr_0.65fr] md:gap-4">
+                  <ProjectShot
+                    src={demo.desktopImage}
+                    alt={`Captura desktop de ${demo.title}`}
+                    caption="Captura desktop"
+                    aspectClassName="aspect-[16/10]"
+                  />
+                  <div className="grid gap-3 md:gap-4">
+                    <ProjectShot
+                      src={demo.mobileImage}
+                      alt={`Captura móvil de ${demo.title}`}
+                      caption="Captura móvil"
+                      aspectClassName="aspect-[4/5]"
+                    />
                     <div className="rounded-[1.15rem] bg-white/[0.03] px-4 py-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]">
                       <p className="text-[11px] uppercase tracking-[0.2em] text-white/46">Mi papel</p>
                       <p className="mt-2 text-sm leading-6 text-white/74">{demo.role}</p>
