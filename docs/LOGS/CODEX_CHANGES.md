@@ -1,5 +1,12 @@
 # CODEX_CHANGES
 
+- Fecha/Hora: 2026-03-31 00:12:01 CEST
+- Autor: Codex
+- Scope: `src/app/components/HomeContent.tsx`, `src/app/layout.tsx`, `docs/LOGS/CODEX_CHANGES.md`, `docs/obsidian/Memoria Infinita - Launchlab.md`
+- Resumen: Se cerró una pasada corta de copy y SEO para PBIA con lenguaje más directo para cliente local, un bloque `Qué hacemos` menos interno, un CTA final más claro que `Formulario` y metadata home más comercial. No se tocó RYS como producto ni el routing host-based.
+- Pruebas: `npm run lint` OK, `npm run build` OK.
+- Notas/Riesgos: RYS sigue solo como caso real dentro de la home PBIA; no abrir nuevos servicios, páginas ni rediseños.
+
 - Fecha/Hora: 2026-03-30 00:00:00 CEST
 - Autor: Codex
 - Scope: `src/app/layout.tsx`, `src/app/components/HomeContent.tsx`, `src/app/components/LegalPageShell.tsx`, `src/app/aviso-legal/page.tsx`, `src/app/privacidad/page.tsx`, `src/app/cookies/page.tsx`, `public/robots.txt`, `public/sitemap.xml`, `docs/ops/00_START_HERE__PBIA.md`, `docs/obsidian/06_ESTADO_ACTUAL__PBIA_RYS.md`, `docs/obsidian/Memoria Infinita - Launchlab.md`, `docs/obsidian/03_DECISION_LOG.md`

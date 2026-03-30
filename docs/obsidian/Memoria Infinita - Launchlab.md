@@ -1,5 +1,28 @@
 # Memoria Infinita - Launchlab
 
+## 2026-03-31 — PBIA: copy comercial y SEO visible
+
+- Bloque tocado:
+  - home principal de PBIA
+- Qué se ajustó:
+  - hero más directo para negocio local
+  - bloque interno de arriba reescrito en lenguaje de cliente
+  - `Qué hacemos` menos abstracto
+  - `Proyectos reales` con menos tono autoreferencial
+  - `Quién está detrás` más claro y comercial
+  - CTA final renombrado de `Formulario` a `Dejar mi caso`
+- SEO visible:
+  - title y description de home más concretos
+  - OG / Twitter alineados con el mismo mensaje comercial
+  - `metadataBase` apuntado a `poweredbyia.com`
+- Validación:
+  - `npm run lint` OK
+  - `npm run build` OK
+- Criterio:
+  - mantener la home como portfolio comercial
+  - no tocar RYS como producto activo
+  - no abrir nuevas páginas, blog ni routing host-based
+
 ## 2026-03-30 — PBIA: cierre market-ready
 
 - Bloque cerrado:

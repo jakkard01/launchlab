@@ -2,13 +2,13 @@ import './globals.css';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.poweredbyia.com'),
+  metadataBase: new URL('https://poweredbyia.com'),
   title: {
-    default: 'Powered by IA | Webs, mejoras y automatización para negocios locales',
+    default: 'Powered by IA | Webs claras y automatización para negocios locales',
     template: '%s | Powered by IA',
   },
   description:
-    'Webs y soluciones digitales para negocios locales. Mejoramos webs existentes, automatizamos la entrada de contactos y damos un enfoque práctico, claro y sin humo.',
+    'Webs claras para negocio local, mejoras de webs que no convierten y automatización básica para no perder contactos. Directo, móvil y sin humo.',
   alternates: {
     canonical: '/',
   },
@@ -28,9 +28,9 @@ export const metadata: Metadata = {
     locale: 'es_ES',
     url: '/',
     siteName: 'Powered by IA',
-    title: 'Powered by IA | Webs, mejoras y automatización para negocios locales',
+    title: 'Powered by IA | Webs claras y automatización para negocios locales',
     description:
-      'Webs y soluciones digitales para negocios locales. Mejoramos webs existentes, automatizamos la entrada de contactos y damos un enfoque práctico, claro y sin humo.',
+      'Webs claras para negocio local, mejoras de webs que no convierten y automatización básica para no perder contactos. Directo, móvil y sin humo.',
     images: [
       {
         url: '/imagenes/pbidesk.jpeg',
@@ -42,9 +42,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Powered by IA | Webs, mejoras y automatización para negocios locales',
+    title: 'Powered by IA | Webs claras y automatización para negocios locales',
     description:
-      'Webs y soluciones digitales para negocios locales. Mejoramos webs existentes, automatizamos la entrada de contactos y damos un enfoque práctico, claro y sin humo.',
+      'Webs claras para negocio local, mejoras de webs que no convierten y automatización básica para no perder contactos. Directo, móvil y sin humo.',
     images: ['/imagenes/pbidesk.jpeg'],
   },
 };

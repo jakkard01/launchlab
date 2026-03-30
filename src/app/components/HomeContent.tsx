@@ -209,10 +209,10 @@ export default function HomeContent() {
               Sistemas comerciales con IA
             </span>
             <h1 className="relative mt-5 max-w-3xl text-[2.6rem] font-semibold leading-[0.98] tracking-[-0.05em] text-white drop-shadow-[0_10px_28px_rgba(0,0,0,0.42)] sm:text-5xl lg:text-[4.4rem]">
-              Sistemas comerciales con IA para captar, responder y convertir mejor.
+              Webs y automatización para que te contacten más clientes.
             </h1>
             <p className="relative mt-5 max-w-2xl text-base leading-7 text-white/82 drop-shadow-[0_6px_18px_rgba(0,0,0,0.34)] sm:text-[1.1rem]">
-              Aclaramos qué estás vendiendo, ordenamos cómo respondes y dejamos una ruta comercial más simple para convertir mejor. Después sumamos bots, automatizaciones o demos solo cuando ayudan de verdad.
+              Te ayudo a explicar qué vendes, ordenar la respuesta y dejar una ruta simple para pedir presupuesto, escribir por WhatsApp o ver un caso real. Si hace falta, después sumamos automatización.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
@@ -260,30 +260,30 @@ export default function HomeContent() {
                   <div className="pointer-events-none absolute -left-4 top-7 hidden h-px w-10 bg-gradient-to-r from-cyan-300/45 to-transparent sm:block" />
                   <p className="text-xs uppercase tracking-[0.26em] text-cyan-200/78">Powered by IA</p>
                   <p className="mt-2 text-2xl font-semibold leading-tight text-white drop-shadow-[0_8px_20px_rgba(0,0,0,0.32)]">
-                    Dirección comercial y ejecución en el mismo flujo
+                    Una sola ruta para vender mejor
                   </p>
                   <p className="mt-3 max-w-md text-sm leading-6 text-white/78">
-                    Una sola dirección para ordenar mensaje, sistema y siguiente paso sin separar estrategia, ejecución y conversión.
+                    Ordeno el mensaje, la página y el siguiente paso para que el cliente entienda rápido qué hacer.
                   </p>
                 </div>
               </div>
               <div className="mt-10 grid gap-5">
                 <div className="border-l border-cyan-300/32 pl-4">
-                  <p className="text-sm font-semibold text-white">Mensaje principal claro</p>
+                  <p className="text-sm font-semibold text-white">Qué haces, sin rodeos</p>
                   <p className="mt-1 text-sm leading-6 text-white/74">
-                    Qué haces, qué problema resuelves y cuál es la siguiente acción.
+                    Qué haces, para quién es y qué problema resuelves.
                   </p>
                 </div>
                 <div className="border-l border-white/12 pl-4">
-                  <p className="text-sm font-semibold text-white">Capacidades secundarias con criterio</p>
+                  <p className="text-sm font-semibold text-white">Solo lo que suma</p>
                   <p className="mt-1 text-sm leading-6 text-white/74">
-                    Bots, automatizaciones y demos entran cuando refuerzan la conversión, no para crear bazar.
+                    Bots, automatizaciones y demos entran solo si ayudan a cerrar más.
                   </p>
                 </div>
                 <div className="border-l border-white/12 pl-4">
-                  <p className="text-sm font-semibold text-white">Cierre con acción real</p>
+                  <p className="text-sm font-semibold text-white">Contacto fácil</p>
                   <p className="mt-1 text-sm leading-6 text-white/74">
-                    WhatsApp como ruta principal y demos como prueba de apoyo.
+                    WhatsApp primero, con formulario y email como apoyo.
                   </p>
                 </div>
               </div>
@@ -295,12 +295,12 @@ export default function HomeContent() {
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Qué hacemos</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Ordenamos captación, respuesta y conversión en un solo sistema comercial.
+              Hacemos que tu negocio se entienda y te contacten más fácil.
             </h2>
           </div>
           <div className="max-w-2xl border-l border-white/10 pl-5">
             <p className="text-base leading-7 text-white/78">
-              Hacemos que la propuesta se entienda rápido, que la respuesta llegue ordenada y que el siguiente paso sea simple.
+              Dejamos claro qué ofreces, cómo te escriben y qué pasa después, sin enredo ni humo.
             </p>
           </div>
         </section>
@@ -374,7 +374,7 @@ export default function HomeContent() {
                 Proyectos reales
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-white/76 sm:text-base">
-                Son casos reales de trabajo. Powered by IA abre la lista como proyecto activo y RYS Minimarket aporta autoridad funcional sin comerse la marca principal.
+                Son casos reales de trabajo. Powered by IA aparece como proyecto activo y RYS Minimarket aporta prueba real sin comerse la marca principal.
               </p>
             </div>
             <a
@@ -433,12 +433,12 @@ export default function HomeContent() {
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Enfoque</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Trabajo con enfoque práctico
+              Trabajo práctico, directo y sin vueltas
             </h2>
           </div>
           <div className="space-y-4 rounded-[1.45rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.12),rgba(7,17,26,0.05))] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] backdrop-blur-[1px]">
             <p className="text-sm leading-7 text-white/80 sm:text-base">
-              Ayudo a pequeños negocios y proyectos a tener una presencia online más clara, funcional y útil. Mi enfoque combina producto, validación, mejora web y automatización práctica para resolver necesidades reales sin vender humo.
+              Ayudo a pequeños negocios y proyectos a tener una presencia online más clara, funcional y útil. Combino mensaje, diseño y ejecución para resolver necesidades reales sin vender humo.
             </p>
             <div className="grid gap-4 md:grid-cols-2">
               {processSteps.map((step, index) => (
@@ -463,15 +463,15 @@ export default function HomeContent() {
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Quién está detrás</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Dirección comercial, criterio visual y ejecución directa.
+              Una sola persona para pensar, montar y dejar listo.
             </h2>
           </div>
           <div className="space-y-4 border-l border-white/10 pl-5 text-sm leading-7 text-white/78 sm:text-base">
             <p>
-              Powered by IA construye sistemas comerciales que se entienden rápido, transmiten seriedad y empujan a una acción concreta. La prioridad no es acumular servicios, sino dejar una base que ayude a captar, responder y convertir mejor.
+              Powered by IA construye webs y sistemas sencillos que se entienden rápido, transmiten seriedad y empujan a una acción concreta.
             </p>
             <p>
-              El trabajo mezcla mensaje, criterio comercial y ejecución técnica dentro del mismo flujo. Menos piezas sueltas y más dirección clara para mover al cliente hacia la conversación correcta.
+              El trabajo mezcla mensaje, criterio comercial y ejecución técnica para que el negocio reciba más consultas y no pierda oportunidades.
             </p>
           </div>
         </section>
@@ -499,12 +499,12 @@ export default function HomeContent() {
               </a>
               <a
                 href={buildMailtoLink(
-                  'Formulario PBIA',
-                  'Hola, quiero dejarte mi caso por formulario. Necesito que revises mi web o me propongas una web nueva.',
+                  'Caso PBIA',
+                  'Hola, quiero dejarte mi caso. Necesito que revises mi web o me propongas una web nueva.',
                 )}
                 className="inline-flex h-12 items-center justify-center rounded-full border border-white/14 bg-white/[0.03] px-5 text-sm font-semibold text-white/88 transition hover:border-cyan-300/40 hover:bg-white/[0.08]"
               >
-                Formulario
+                Dejar mi caso
               </a>
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
