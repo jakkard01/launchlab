@@ -12,39 +12,45 @@ const buildWhatsAppLink = (message: string) =>
   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 const buildMailtoLink = (subject: string, body: string) =>
   `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+const HERO_CTA_LINK = buildWhatsAppLink(
+  'Hola, quiero ver qué me conviene para captar mejor, responder más rápido y ordenar los contactos de mi negocio local.',
+);
 
 const serviceCards = [
   {
-    title: 'Web rápida para negocio local',
+    title: 'Web Local Base',
     body:
-      'Consigue una web clara, móvil y lista para recibir mensajes, mostrar tus servicios y dar una imagen profesional sin complicarte.',
-    support: 'Para comercios, bares, restaurantes, minimarkets, peluquerías, talleres y pequeños negocios.',
+      'Si hoy tu negocio no se entiende bien online o da poca confianza, te monto una web simple y clara para explicar qué haces, cómo contactarte y por dónde empezar.',
+    support:
+      'Ideal para peluquerías, barberías, estética, salud, bienestar, nutrición, fisio y servicios similares. Incluye estructura base, textos claros y contacto visible. Resultado esperado: más claridad y más facilidad para que te escriban. No incluye tienda, reservas complejas ni automatizaciones a medida.',
     price: 'Desde 350 €',
-    cta: 'Quiero esto',
+    cta: 'Quiero una web clara',
     href: buildWhatsAppLink(
-      'Hola, me interesa Web rápida para negocio local. Quiero saber qué tendría sentido para mi negocio.',
+      'Hola, me interesa Web Local Base. Quiero revisar si encaja para mi negocio local.',
     ),
   },
   {
-    title: 'Mejora tu web actual',
+    title: 'Mejora Web Express',
     body:
-      'Si tu web ya existe pero no transmite bien, la reorganizo para que sea más clara, más útil y más efectiva en móvil.',
-    support: 'Para negocios que ya tienen web pero la experiencia es floja o no convierte bien.',
+      'Si ya tienes web pero se ve floja, confusa o poco útil en móvil, la ordeno para que transmita mejor, se entienda más rápido y deje un siguiente paso claro.',
+    support:
+      'Ideal para negocios locales con una web hecha que no les ayuda a captar ni a responder mejor. Incluye revisión, limpieza del mensaje y mejora de secciones clave. Resultado esperado: una web más clara y más confiable sin rehacerla entera. No incluye rediseño completo, nuevas funciones grandes ni cambio total de marca.',
     price: 'Desde 180 €',
-    cta: 'Quiero esto',
+    cta: 'Quiero revisar mi web',
     href: buildWhatsAppLink(
-      'Hola, me interesa Mejora de web existente. Quiero revisar si mi web actual se puede reorganizar y mejorar.',
+      'Hola, me interesa Mejora Web Express. Quiero revisar si mi web actual se puede aclarar y ordenar mejor.',
     ),
   },
   {
-    title: 'Automatiza la entrada de contactos',
+    title: 'Captación Ordenada',
     body:
-      'Conecto tu formulario para que cada contacto entre de forma ordenada, quede registrado y no se pierda por el camino.',
-    support: 'Formulario + Google Sheets + alertas + automatización básica.',
+      'Si hoy te llegan consultas por varios sitios y acabas perdiendo alguna, te dejo una entrada simple para que los contactos lleguen mejor ordenados y no dependas solo de mensajes sueltos.',
+    support:
+      'Ideal para negocios que usan WhatsApp, formulario o correo y necesitan más orden sin montar nada complejo. Incluye formulario, registro de entradas y aviso por correo sobre una base funcional ya montada. Resultado esperado: consultas mejor recogidas y seguimiento más fácil. No incluye bots, automatización avanzada ni CRM completo.',
     price: 'Desde 180 €',
-    cta: 'Quiero esto',
+    cta: 'Quiero ordenar contactos',
     href: buildWhatsAppLink(
-      'Hola, me interesa Automatizar la entrada de contactos. Quiero ordenar mejor formularios y leads.',
+      'Hola, me interesa Captacion Ordenada. Quiero ordenar mejor los contactos que entran en mi negocio.',
     ),
   },
 ];
@@ -108,9 +114,9 @@ const priceItems = [
 ];
 
 const trust = [
-  'Enfoque práctico y mobile-first',
-  'Menos humo visual, más sistema comercial',
-  'Iteraciones cortas con cambios medibles',
+  'Web clara para negocio local',
+  'WhatsApp, formularios y contactos más ordenados',
+  'Más confianza y respuesta más rápida',
 ];
 
 function ProjectShot({
@@ -206,22 +212,22 @@ export default function HomeContent() {
           <div className="relative max-w-3xl">
             <div className="pointer-events-none absolute -inset-x-4 -inset-y-6 rounded-[2rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.34),rgba(7,17,26,0.18))] blur-2xl sm:-inset-x-8" />
             <span className="inline-flex rounded-full bg-cyan-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-cyan-200 shadow-[inset_0_0_0_1px_rgba(103,232,249,0.16)]">
-              Sistemas comerciales con IA
+              Web clara y contacto ordenado
             </span>
             <h1 className="relative mt-5 max-w-3xl text-[2.6rem] font-semibold leading-[0.98] tracking-[-0.05em] text-white drop-shadow-[0_10px_28px_rgba(0,0,0,0.42)] sm:text-5xl lg:text-[4.4rem]">
-              Webs y automatización para que te contacten más clientes.
+              Web clara y contacto ordenado para negocios locales.
             </h1>
             <p className="relative mt-5 max-w-2xl text-base leading-7 text-white/82 drop-shadow-[0_6px_18px_rgba(0,0,0,0.34)] sm:text-[1.1rem]">
-              Te ayudo a explicar qué vendes, ordenar la respuesta y dejar una ruta simple para pedir presupuesto, escribir por WhatsApp o ver un caso real. Si hace falta, después sumamos automatización.
+              Para peluquerías, barberías, estética, salud, bienestar, nutrición, fisio y servicios similares que necesitan captar mejor, responder más rápido y no perder contactos.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
-                href={WHATSAPP_LINK}
+                href={HERO_CTA_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex h-12 items-center justify-center rounded-full bg-cyan-300 px-6 text-sm font-semibold text-[#041018] shadow-[0_18px_42px_rgba(34,211,238,0.24)] transition hover:bg-cyan-200"
               >
-                Hablar por WhatsApp
+                Ver qué te conviene
               </a>
               <a
                 href="#proyectos"
@@ -260,30 +266,30 @@ export default function HomeContent() {
                   <div className="pointer-events-none absolute -left-4 top-7 hidden h-px w-10 bg-gradient-to-r from-cyan-300/45 to-transparent sm:block" />
                   <p className="text-xs uppercase tracking-[0.26em] text-cyan-200/78">Powered by IA</p>
                   <p className="mt-2 text-2xl font-semibold leading-tight text-white drop-shadow-[0_8px_20px_rgba(0,0,0,0.32)]">
-                    Una sola ruta para vender mejor
+                    Mas claridad para captar mejor
                   </p>
                   <p className="mt-3 max-w-md text-sm leading-6 text-white/78">
-                    Ordeno el mensaje, la página y el siguiente paso para que el cliente entienda rápido qué hacer.
+                    Aclaro tu oferta, facilito el contacto y ordeno las entradas para que no se pierdan consultas.
                   </p>
                 </div>
               </div>
               <div className="mt-10 grid gap-5">
                 <div className="border-l border-cyan-300/32 pl-4">
-                  <p className="text-sm font-semibold text-white">Qué haces, sin rodeos</p>
+                  <p className="text-sm font-semibold text-white">Más claridad</p>
                   <p className="mt-1 text-sm leading-6 text-white/74">
-                    Qué haces, para quién es y qué problema resuelves.
-                  </p>
-                </div>
-                <div className="border-l border-white/12 pl-4">
-                  <p className="text-sm font-semibold text-white">Solo lo que suma</p>
-                  <p className="mt-1 text-sm leading-6 text-white/74">
-                    Bots, automatizaciones y demos entran solo si ayudan a cerrar más.
+                    Tu cliente entiende rápido qué haces y cómo contactarte.
                   </p>
                 </div>
                 <div className="border-l border-white/12 pl-4">
                   <p className="text-sm font-semibold text-white">Contacto fácil</p>
                   <p className="mt-1 text-sm leading-6 text-white/74">
-                    WhatsApp primero, con formulario y email como apoyo.
+                    WhatsApp, formulario y siguiente paso claro desde el móvil.
+                  </p>
+                </div>
+                <div className="border-l border-white/12 pl-4">
+                  <p className="text-sm font-semibold text-white">Consultas ordenadas</p>
+                  <p className="mt-1 text-sm leading-6 text-white/74">
+                    Menos mensajes perdidos y más entradas bien recogidas.
                   </p>
                 </div>
               </div>
@@ -293,23 +299,23 @@ export default function HomeContent() {
 
         <section id="que-hacemos" className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Qué hacemos</p>
+            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Lo que resolvemos</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Hacemos que tu negocio se entienda y te contacten más fácil.
+              Lo que necesita un negocio local para captar mejor
             </h2>
           </div>
           <div className="max-w-2xl border-l border-white/10 pl-5">
             <p className="text-base leading-7 text-white/78">
-              Dejamos claro qué ofreces, cómo te escriben y qué pasa después, sin enredo ni humo.
+              Una base clara para que te entiendan rápido, te contacten fácil y no se te pierdan consultas.
             </p>
           </div>
         </section>
 
         <section id="servicios" className="space-y-5">
           <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Servicios principales</p>
+            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Servicios</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Tres ofertas claras para resolver lo que más mueve un negocio local.
+              Elige la solución que mejor encaja con tu caso.
             </h2>
           </div>
           <div className="grid gap-4 lg:grid-cols-3">
@@ -343,12 +349,12 @@ export default function HomeContent() {
 
         <section id="precios" className="space-y-5">
           <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Precios</p>
+            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Precios orientativos</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Servicios claros, precios orientativos
+              Precios orientativos
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-white/76 sm:text-base">
-              Rangos reales para filtrar curiosos y dar una referencia rápida antes de hablar.
+              Una referencia realista para que sepas por dónde va cada solución antes de hablar.
             </p>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
@@ -463,15 +469,18 @@ export default function HomeContent() {
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Quién está detrás</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Una sola persona para pensar, montar y dejar listo.
+              Una sola persona para pensar, estructurar y dejarlo listo.
             </h2>
           </div>
           <div className="space-y-4 border-l border-white/10 pl-5 text-sm leading-7 text-white/78 sm:text-base">
             <p>
-              Powered by IA construye webs y sistemas sencillos que se entienden rápido, transmiten seriedad y empujan a una acción concreta.
+              Detrás de Powered by IA hay una sola persona que piensa, estructura y ejecuta.
             </p>
             <p>
-              El trabajo mezcla mensaje, criterio comercial y ejecución técnica para que el negocio reciba más consultas y no pierda oportunidades.
+              Sin intermediarios, sin enredos y sin venderte algo que no necesitas.
+            </p>
+            <p>
+              La idea es dejar una solución clara, útil y lista para usar.
             </p>
           </div>
         </section>
@@ -483,10 +492,10 @@ export default function HomeContent() {
           <div className="max-w-3xl">
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">CTA final</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              ¿Tienes un negocio y quieres una web clara o mejorar la que ya tienes?
+              Si tu negocio no transmite bien lo que hace o pierde consultas por el camino, escríbeme y te digo por dónde empezaría.
             </h2>
             <p className="mt-4 text-base leading-7 text-white/80">
-              Cuéntame qué necesitas y te diré qué tendría sentido hacer.
+              Cuéntame tu caso y te diré si te conviene una web nueva, mejorar la actual o simplemente ordenar mejor tus contactos.
             </p>
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
               <a
