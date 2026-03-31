@@ -46,7 +46,7 @@ const serviceCards = [
     body:
       'Si hoy te llegan consultas por varios sitios y acabas perdiendo alguna, te dejo una entrada simple para que los contactos lleguen mejor ordenados y no dependas solo de mensajes sueltos.',
     support:
-      'Ideal para negocios que usan WhatsApp, formulario o correo y necesitan más orden sin montar nada complejo. Incluye formulario, registro de entradas y aviso por correo sobre una base funcional ya montada. Resultado esperado: consultas mejor recogidas y seguimiento más fácil. No incluye bots, automatización avanzada ni CRM completo.',
+      'Ideal para negocios que usan WhatsApp, formulario o correo y necesitan más orden sin montar nada complejo. Incluye formulario, registro básico y aviso por correo. Resultado esperado: consultas mejor recogidas y seguimiento más fácil. No incluye bots, automatización avanzada ni CRM completo.',
     price: 'Desde 180 €',
     cta: 'Quiero ordenar contactos',
     href: buildWhatsAppLink(
@@ -349,7 +349,7 @@ export default function HomeContent() {
 
         <section id="precios" className="space-y-5">
           <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Precios orientativos</p>
+            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">PRECIOS</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
               Precios orientativos
             </h2>
@@ -492,7 +492,7 @@ export default function HomeContent() {
           <div className="max-w-3xl">
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">CTA final</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Si tu negocio no transmite bien lo que hace o pierde consultas por el camino, escríbeme y te digo por dónde empezaría.
+              Si tu negocio no transmite bien lo que hace o pierde consultas, te digo por dónde empezaría.
             </h2>
             <p className="mt-4 text-base leading-7 text-white/80">
               Cuéntame tu caso y te diré si te conviene una web nueva, mejorar la actual o simplemente ordenar mejor tus contactos.
