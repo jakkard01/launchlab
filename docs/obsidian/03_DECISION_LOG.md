@@ -1,0 +1,27 @@
+# 03_DECISION_LOG
+
+- 2026-03-30: PBIA no muestra banner de cookies en esta versión porque no hay analítica ni cookies no exentas activas; la capa legal mínima queda cubierta con `Aviso legal`, `Privacidad` y `Cookies`.
+- 2026-03-30: Los CTA `Quiero esto` de PBIA pasan a abrir WhatsApp con mensaje prellenado por servicio para `Web rápida para negocio local`, `Mejora de web existente` y `Automatizar la entrada de contactos`; no se abre aún configurador, brief guiado ni automatización nueva.
+- 2026-03-26: PBIA no debe volver a desplegarse contra el proyecto Vercel `launchlab` (`prj_yQHuv7zkBBhl3bvfuAbnfSJHiyIK`); el destino correcto de PBIA es `launchlabv1` (`prj_fJJEUmsxHUMReDZyu3E2CsEkLayz`).
+- 2026-03-27: El cierre correcto del incidente PBIA / RYS deja `poweredbyia.com` solo en `launchlabv1` y `rysminimarket.com` solo en `launchlab`; la comprobación autoritativa se hace por API de dominios por proyecto y por verificación HTTP, no solo por `vercel domains inspect`.
+- 2026-03-26: El cierre correcto de `npm run lint` standalone en PBIA requiere `eslint@8.57.0`, `eslint-config-next@14.2.30` y una `.eslintrc.json` local con `"root": true`; no debe volver a heredarse la config del repo padre en este worktree.
+- 2026-03-26: RYS dentro de PBIA queda fijado como caso real en producción bajo el naming `RYS Minimarket`, con CTA público a `https://www.rysminimarket.com/`; no debe volver a presentarse como `MiniSuper`, `/RYSminisuper` ni como demo guiada por WhatsApp.
+- 2026-03-26: Vídeos, avatares, HeyGen y CapCut quedan fuera del eje principal de la home PBIA en esta fase; no deben reabrirse como oferta protagonista sin una decisión nueva explícita.
+- 2026-03-26: `00_START_HERE.md` queda redefinido como índice maestro corto; el arranque específico de PBIA vive en `docs/ops/00_START_HERE__PBIA.md`.
+- 2026-03-26: Se dejan placeholders explícitos para `n8n` e `IA local` en `docs/ops/00_START_HERE__N8N.md` y `docs/ops/00_START_HERE__IA_LOCAL.md` sin asumir rutas no verificadas.
+- 2026-03-26: PBIA se trabaja exclusivamente desde `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next` en la rama `feat/pbia-portfolio-next`; no debe reabrirse trabajo PBIA desde el repo padre ni desde `feat/pagina-hermana-live`.
+- 2026-03-26: La home PBIA se considera resuelta operativamente en `src/app/page.tsx`, `src/app/components/MainContent.tsx` y `src/app/components/HomeContent.tsx`.
+- 2026-03-26: La inestabilidad de build en `/` no venía de la home sino del entorno del worktree: dependencias heredadas (`next@13.4.0` del repo padre) y artefactos compartidos entre `dev` y `build`.
+- 2026-03-26: Cierre técnico fijo para PBIA: `npm ci` local en el worktree, `next` validado en `14.2.30`, `dev -> .next-dev`, `build -> .next`.
+- 2026-03-24: La home de Powered by IA deja de posicionarse como mezcla de servicios sueltos y pasa a vender sistemas comerciales con foco en captación, seguimiento y conversión.
+- 2026-03-24: La CTA principal de PBIA queda en `Hablar por WhatsApp` y la secundaria en `Ver demos`; el resto de acciones no debe competir con esas dos.
+- 2026-03-24: La línea de formación/cursos, FAQ floja, bloques vacíos o piezas tipo `Cargando demo...` no deben liderar la home principal de PBIA.
+- 2026-03-24: El bloqueo real de Vercel en PBIA se resolvió quitando la dependencia implícita de `lucide-react` en `HamburgerMenu.tsx`, evitando añadir dependencias nuevas por una sola necesidad visual.
+- 2026-03-24: El deploy productivo documentado de esta pasada quedó en `https://launchlab-n4abojrej-gerrys-projects-7c589fcf.vercel.app` con alias reportado por CLI en `https://launchlab-five.vercel.app`.
+- 2026-03-24: RYS Mini Market queda fuera de esta iteración y no debe mezclarse con cambios de PBIA en esta rama.
+- 2026-03-25: El último estado bueno real de la home PBIA en esta rama se fija en el commit `7f058c6`; cualquier recuperación debe partir de ahí y no de `feat/pagina-hermana-live`.
+- 2026-03-25: La separación operativa correcta queda así:
+  - `feat/pbia-portfolio-next` en `/mnt/c/Demonio_IA/06_Web/launchlab__PROD/.worktrees/feat-pbia-portfolio-next`
+- 2026-03-25: La home correcta de PBIA vuelve a incluir fondo de marca visible, foto en hero, RYS como caso principal y capacidades secundarias subordinadas.
+- 2026-03-25: El CTA de WhatsApp de PBIA debe usar el número real `34911528753` y el cierre debe dejar visible el email `poweredbyiaoficial@gmail.com`.
+- 2026-03-25: Si PBIA cae en un estado intermedio peor, no se debe parchear encima; primero se restaura la base buena `7f058c6` y luego se reaplican solo mejoras compatibles.

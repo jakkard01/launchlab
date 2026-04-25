@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, type Variants } from 'framer-motion';
 
 type Props = {
   isOpen: boolean;
@@ -9,13 +9,22 @@ type Props = {
 };
 
 const Sidebar = ({ isOpen, onClose, onSelect }: Props) => {
-  const sidebarVariants = {
+  const sidebarVariants: Variants = {
     hidden: { x: '-100%' },
-    visible: { x: 0, transition: { type: 'spring', stiffness: 80, damping: 20, when: 'beforeChildren', staggerChildren: 0.08 } },
+    visible: {
+      x: 0,
+      transition: {
+        type: 'spring',
+        stiffness: 80,
+        damping: 20,
+        when: 'beforeChildren',
+        staggerChildren: 0.08,
+      },
+    },
     exit: { x: '-100%', transition: { type: 'spring', stiffness: 80, damping: 20 } },
   };
 
-  const buttonVariants = {
+  const buttonVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
   };

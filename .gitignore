@@ -1,5 +1,6 @@
 node_modules
 .next
+.next-dev
 out
 dist
 .env
@@ -151,3 +152,5 @@ PID=*
 
 # local scratch
 tmp_runs/
+.vercel
+.env*.local
