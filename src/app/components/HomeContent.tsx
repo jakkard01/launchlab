@@ -4,62 +4,116 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 const WHATSAPP_NUMBER = '34911528753';
-const WHATSAPP_LINK =
-  `https://wa.me/${WHATSAPP_NUMBER}?text=Hola%20Powered%20by%20IA,%20quiero%20hablar%20sobre%20una%20demo%20o%20soluci%C3%B3n%20para%20mi%20negocio.`;
 const CONTACT_EMAIL = 'poweredbyiaoficial@gmail.com';
 const RYS_LINK = 'https://www.rysminimarket.com/';
+
 const buildWhatsAppLink = (message: string) =>
   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
 const buildMailtoLink = (subject: string, body: string) =>
   `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-const HERO_CTA_LINK = buildWhatsAppLink(
-  'Hola, quiero ver qué me conviene para captar mejor, responder más rápido y ordenar los contactos de mi negocio local.',
+
+const WHATSAPP_LINK = buildWhatsAppLink(
+  'Hola Powered by IA, quiero pedir un diagnostico gratis para mi negocio local.',
 );
 
-const serviceCards = [
-  {
-    title: 'Web Local Base',
-    body:
-      'Si hoy tu negocio no se entiende bien online o da poca confianza, te monto una web simple y clara para explicar qué haces, cómo contactarte y por dónde empezar.',
-    support:
-      'Ideal para peluquerías, barberías, estética, salud, bienestar, nutrición, fisio y servicios similares. Incluye estructura base, textos claros y contacto visible. Resultado esperado: más claridad y más facilidad para que te escriban. No incluye tienda, reservas complejas ni automatizaciones a medida.',
-    price: 'Desde 350 €',
-    cta: 'Quiero una web clara',
-    href: buildWhatsAppLink(
-      'Hola, me interesa Web Local Base. Quiero revisar si encaja para mi negocio local.',
-    ),
-  },
+const badges = ['Mobile-first', 'WhatsApp', 'SEO local', 'Contactos ordenados'];
+
+const services = [
   {
     title: 'Mejora Web Express',
-    body:
-      'Si ya tienes web pero se ve floja, confusa o poco útil en móvil, la ordeno para que transmita mejor, se entienda más rápido y deje un siguiente paso claro.',
-    support:
-      'Ideal para negocios locales con una web hecha que no les ayuda a captar ni a responder mejor. Incluye revisión, limpieza del mensaje y mejora de secciones clave. Resultado esperado: una web más clara y más confiable sin rehacerla entera. No incluye rediseño completo, nuevas funciones grandes ni cambio total de marca.',
     price: 'Desde 180 €',
-    cta: 'Quiero revisar mi web',
+    intro: 'Para webs que existen, pero no transmiten confianza ni convierten bien en móvil.',
+    bullets: ['Revisión de estructura', 'Textos y CTA más claros', 'Mejor experiencia móvil'],
+    includes: [
+      'Revisión de estructura',
+      'Mejora de textos',
+      'Limpieza visual ligera',
+      'CTA más claros',
+      'Mejora de experiencia móvil',
+      'Recomendaciones SEO básicas',
+    ],
+    excludes: ['Rediseño completo', 'Nueva marca visual desde cero', 'Automatizaciones', 'Tienda online'],
+    cta: 'Revisar mi web',
     href: buildWhatsAppLink(
-      'Hola, me interesa Mejora Web Express. Quiero revisar si mi web actual se puede aclarar y ordenar mejor.',
+      'Hola, me interesa Mejora Web Express. Quiero revisar si mi web actual puede convertir mejor en movil.',
     ),
   },
   {
-    title: 'Captación Ordenada',
-    body:
-      'Si hoy te llegan consultas por varios sitios y acabas perdiendo alguna, te dejo una entrada simple para que los contactos lleguen mejor ordenados y no dependas solo de mensajes sueltos.',
-    support:
-      'Ideal para negocios que usan WhatsApp, formulario o correo y necesitan más orden sin montar nada complejo. Incluye formulario, registro básico y aviso por correo. Resultado esperado: consultas mejor recogidas y seguimiento más fácil. No incluye bots, automatización avanzada ni CRM completo.',
-    price: 'Desde 180 €',
-    cta: 'Quiero ordenar contactos',
+    title: 'Web Local Base',
+    price: 'Desde 350 €',
+    intro: 'Para tener una web profesional, clara y lista para recibir contactos.',
+    bullets: ['Landing responsive', 'WhatsApp y formulario básico', 'SEO local básico'],
+    includes: [
+      'Landing responsive',
+      'Textos claros',
+      'Secciones de servicios',
+      'Botones a WhatsApp',
+      'Formulario básico',
+      'SEO local básico',
+      'Publicación',
+      'Revisión final en móvil',
+    ],
+    excludes: ['Tienda online', 'Reservas complejas', 'Automatizaciones avanzadas', 'Campañas de anuncios'],
+    cta: 'Quiero una web clara',
     href: buildWhatsAppLink(
-      'Hola, me interesa Captacion Ordenada. Quiero ordenar mejor los contactos que entran en mi negocio.',
+      'Hola, me interesa Web Local Base. Quiero una web clara para recibir contactos.',
+    ),
+  },
+  {
+    title: 'Pack Web + Contactos',
+    price: 'Desde 500 €',
+    intro: 'Para verte mejor y empezar a recoger contactos ordenados desde el primer día.',
+    bullets: ['Web Local Base', 'Formulario conectado', 'Registro simple en Google Sheets'],
+    includes: [
+      'Web Local Base',
+      'Formulario conectado',
+      'Google Sheets como registro simple',
+      'Aviso por email',
+      'WhatsApp visible',
+      'Estructura preparada para campañas',
+    ],
+    excludes: ['Bot conversacional IA', 'CRM profesional complejo', 'Gestión mensual de anuncios', 'Soporte 24/7'],
+    cta: 'Quiero el recomendado',
+    href: buildWhatsAppLink(
+      'Hola, me interesa Pack Web + Contactos. Quiero una web y contactos ordenados desde el primer dia.',
+    ),
+    recommended: true,
+  },
+  {
+    title: 'Pack Pro Captación',
+    price: 'Desde 750 €',
+    intro: 'Para una presencia más seria, con mejor mensaje y captación más preparada.',
+    bullets: ['Copy más trabajado', 'SEO local más completo', 'Medición básica de conversiones'],
+    includes: [
+      'Web Local Base',
+      'Google Sheets',
+      'Email automático',
+      'Copy más trabajado',
+      'SEO local más completo',
+      'FAQ',
+      'Medición básica de conversiones',
+    ],
+    excludes: ['Inversión publicitaria', 'Gestión mensual de campañas', 'Bot IA avanzado', 'Integraciones complejas'],
+    cta: 'Preparar captación',
+    href: buildWhatsAppLink(
+      'Hola, me interesa Pack Pro Captacion. Quiero una presencia mas seria y captacion mejor preparada.',
     ),
   },
 ];
 
-const demos = [
+const projects = [
   {
     title: 'Powered by IA',
-    body: 'Web real orientada a presentación de servicios digitales y propuesta comercial.',
-    role: 'Dirección comercial, estructura web y ejecución del producto.',
+    type: 'Landing comercial + IA demo',
+    value: 'Portfolio vivo para vender webs, captación ordenada y futuros operadores IA.',
+    skills: ['Estrategia comercial', 'UX mobile-first', 'SEO local', 'Bot FAQ demo'],
+    problem:
+      'Convertir una web personal en una landing comercial clara para clientes locales y, a la vez, enseñar capacidad técnica sin saturar la página.',
+    solution:
+      'Estructura de servicios, precios orientativos, CTA a WhatsApp, SEO local, FAQ y una demo de chat FAQ/offline para preparar el producto de operador IA.',
+    proof:
+      'Demuestra estrategia comercial, diseño mobile-first, copy de conversión, SEO local y una primera capa de producto IA explicada con límites claros.',
     desktopImage: '/imagenes/pbidesk.jpeg',
     mobileImage: '/imagenes/pbiamov.jpeg',
     href: '#inicio',
@@ -67,8 +121,15 @@ const demos = [
   },
   {
     title: 'RYS Minimarket',
-    body: 'Tienda online y operación web con foco en navegación, producto y experiencia funcional.',
-    role: 'Definición operativa, validación funcional y mejora del flujo de tienda/admin.',
+    type: 'Catálogo mobile-first',
+    value: 'Tienda ligera con navegación móvil, contacto claro y operación web simple.',
+    skills: ['Next.js', 'UX móvil', 'Catálogo', 'WhatsApp/contacto'],
+    problem:
+      'Mostrar productos y facilitar contacto desde móvil sin convertir la experiencia en una tienda pesada o difícil de operar.',
+    solution:
+      'Catálogo web ligero con navegación clara, enfoque móvil, contacto visible y flujo pensado para operación sencilla.',
+    proof:
+      'Demuestra ejecución en Next.js, criterio de UX móvil, organización de catálogo y orientación práctica a contacto/venta.',
     desktopImage: '/imagenes/rysdesk.jpeg',
     mobileImage: '/imagenes/rysmov.jpeg',
     href: RYS_LINK,
@@ -78,45 +139,100 @@ const demos = [
 
 const processSteps = [
   {
-    title: 'Te escucho',
-    body: 'Qué necesitas, qué vendes, qué te falta.',
+    title: 'Diagnóstico rápido',
+    body: 'Vemos qué necesitas y qué no merece la pena hacer.',
   },
   {
-    title: 'Te propongo la solución',
-    body: 'Te digo qué tiene sentido hacer y qué no.',
+    title: 'Estructura y mensaje',
+    body: 'Ordenamos la oferta para que se entienda rápido.',
   },
   {
-    title: 'Lo montamos',
-    body: 'Diseño, ajustes, revisión y entrega.',
+    title: 'Diseño mobile-first',
+    body: 'Primero móvil, luego escritorio.',
   },
   {
-    title: 'Lo dejas funcionando',
-    body: 'Tu web o flujo queda listo para usar.',
+    title: 'Contacto y captación',
+    body: 'WhatsApp, formulario o correo con siguiente paso claro.',
+  },
+  {
+    title: 'Revisión final',
+    body: 'Ajustamos textos, enlaces y visual antes de publicar.',
+  },
+  {
+    title: 'Publicación',
+    body: 'Dejamos la web lista para compartir y medir.',
   },
 ];
 
-const priceItems = [
+const faqs = [
   {
-    title: 'Web local básica',
-    price: 'Desde 350 €',
-    body: 'Para una presencia clara, móvil y lista para recibir mensajes sin complicarte.',
+    question: '¿Cuánto cuesta una web?',
+    answer:
+      'Una mejora empieza desde 180 €. Una web local clara desde 350 €. Si quieres ordenar contactos, el pack recomendado empieza desde 500 €.',
   },
   {
-    title: 'Mejora de web existente',
-    price: 'Desde 180 €',
-    body: 'Para ordenar una web que ya existe y hacerla más útil en móvil.',
+    question: '¿Qué necesito para empezar?',
+    answer:
+      'Una explicación breve de tu negocio, servicios, zona, forma de contacto y, si ya tienes web, el enlace actual.',
   },
   {
-    title: 'Captura automática de contactos',
-    price: 'Desde 180 €',
-    body: 'Para registrar contactos de forma ordenada y no perder oportunidades.',
+    question: '¿Cuánto tarda?',
+    answer:
+      'Depende del alcance. Una mejora simple puede ir rápido; una web nueva necesita estructura, textos, revisión móvil y publicación.',
+  },
+  {
+    question: '¿Qué diferencia hay entre una web normal y una web preparada para captar contactos?',
+    answer:
+      'La segunda no solo se ve bien: explica rápido, genera confianza y deja WhatsApp, formulario o correo como siguiente paso claro.',
+  },
+  {
+    question: '¿Puedo empezar solo con WhatsApp?',
+    answer:
+      'Sí. WhatsApp puede ser el contacto principal. Si necesitas más orden, se puede sumar formulario y registro simple.',
+  },
+  {
+    question: '¿Y si ya tengo web?',
+    answer:
+      'Podemos revisarla y mejorar estructura, textos, móvil y llamadas a la acción sin rehacer todo desde cero.',
+  },
+  {
+    question: '¿El bot IA ya está disponible?',
+    answer:
+      'Está en modo demo/FAQ. No promete 24/7 si el servidor local está apagado y no sustituye atención humana.',
+  },
+  {
+    question: '¿Hay mantenimiento mensual?',
+    answer:
+      'No es obligatorio. Se puede plantear solo si necesitas cambios frecuentes, medición, campañas o mejoras continuas.',
   },
 ];
 
-const trust = [
-  'Web clara para negocio local',
-  'WhatsApp, formularios y contactos más ordenados',
-  'Más confianza y respuesta más rápida',
+const quickQuestions = [
+  {
+    question: '¿Cuánto cuesta una web?',
+    answer:
+      'Desde 350 € para una Web Local Base. Si ya tienes web y solo necesita mejora, puede empezar desde 180 €.',
+  },
+  {
+    question: '¿Qué incluye el pack recomendado?',
+    answer:
+      'Incluye Web Local Base, formulario conectado, Google Sheets como registro simple, aviso por email y WhatsApp visible.',
+  },
+  {
+    question: '¿Puedo usar WhatsApp?',
+    answer:
+      'Sí. WhatsApp puede ser el CTA principal y estar presente en hero, servicios y cierre de la web.',
+  },
+  {
+    question: '¿Trabajas en Alcalá de Henares?',
+    answer:
+      'Sí. Trabajo en Alcalá de Henares, Madrid y también en remoto con negocios locales.',
+  },
+  {
+    question: '¿Qué es Captación Ordenada?',
+    answer:
+      'Es dejar el contacto claro y registrar consultas para que no dependas solo de mensajes sueltos.',
+  },
 ];
 
 function ProjectShot({
@@ -139,10 +255,10 @@ function ProjectShot({
   }, [src]);
 
   return (
-    <figure className="overflow-hidden rounded-[1.15rem] bg-black/20 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]">
+    <figure className="overflow-hidden rounded-[1.15rem] bg-black/22 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)]">
       <div className={`relative w-full ${aspectClassName}`}>
         {failed ? (
-          <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(180deg,rgba(8,18,27,0.98),rgba(8,18,27,0.78))] px-4 text-center">
+          <div className="flex h-full w-full items-center justify-center bg-[#07111a] px-4 text-center">
             <div>
               <p className="text-[11px] uppercase tracking-[0.22em] text-cyan-200/70">{caption}</p>
               <p className="mt-2 text-sm leading-6 text-white/76">{alt}</p>
@@ -166,81 +282,98 @@ function ProjectShot({
   );
 }
 
+function ServiceList({ title, items }: { title: string; items: string[] }) {
+  return (
+    <div>
+      <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-100/68">
+        {title}
+      </p>
+      <ul className="mt-3 space-y-2">
+        {items.map((item) => (
+          <li key={item} className="flex gap-2 text-sm leading-5 text-white/76">
+            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-300/80" />
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export default function HomeContent() {
+  const [openService, setOpenService] = useState<string | null>(null);
+  const [openFaq, setOpenFaq] = useState<string | null>(null);
+  const [openProject, setOpenProject] = useState<string | null>(null);
+  const [isBotOpen, setIsBotOpen] = useState(false);
+  const [selectedQuestion, setSelectedQuestion] = useState(quickQuestions[0]);
+
+  const openBot = () => {
+    setIsBotOpen(true);
+  };
+
   return (
     <main
       className="pbia-home relative isolate overflow-hidden bg-[#07111a] text-white"
       style={{
         backgroundImage:
-          'linear-gradient(180deg, rgba(7, 17, 26, 0.32) 0%, rgba(7, 17, 26, 0.52) 28%, rgba(7, 17, 26, 0.78) 100%), url(/imagenes/fondo/tu-fondo.png)',
+          'linear-gradient(180deg, rgba(7, 17, 26, 0.18) 0%, rgba(7, 17, 26, 0.62) 36%, rgba(7, 17, 26, 0.9) 100%), url(/imagenes/fondo/tu-fondo.png)',
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundPosition: 'center top',
         backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed',
       }}
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.14),transparent_28%),radial-gradient(circle_at_84%_14%,rgba(96,165,250,0.11),transparent_18%),linear-gradient(180deg,rgba(7,17,26,0.03)_0%,rgba(7,17,26,0.12)_40%,rgba(7,17,26,0.26)_100%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(34,211,238,0.18),transparent_24%),radial-gradient(circle_at_86%_8%,rgba(96,165,250,0.12),transparent_22%),linear-gradient(180deg,rgba(2,6,12,0.08)_0%,rgba(2,6,12,0.34)_44%,rgba(2,6,12,0.68)_100%)]" />
 
-      <header className="sticky top-0 z-30 bg-[linear-gradient(180deg,rgba(7,17,26,0.22),rgba(7,17,26,0.04))] backdrop-blur-[2px]">
-        <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
+      <header className="fixed inset-x-0 top-0 z-40 border-b border-white/8 bg-[#07111a]/82 shadow-[0_12px_36px_rgba(0,0,0,0.22)] backdrop-blur-md">
+        <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-2.5 sm:px-6 sm:py-3">
           <a href="#inicio" className="text-sm font-semibold tracking-[0.18em] text-white/88">
             Powered by <span className="text-cyan-300">IA</span>
           </a>
-          <div className="flex items-center gap-2">
-            <a
-              href="#proyectos"
-              className="inline-flex h-10 items-center rounded-full border border-white/12 bg-white/[0.03] px-4 text-sm font-medium text-white/84 transition hover:border-cyan-300/40 hover:bg-white/[0.08] hover:text-white"
-            >
-              Ver proyectos
-            </a>
-            <a
-              href={WHATSAPP_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex h-10 items-center rounded-full bg-cyan-300 px-4 text-sm font-semibold text-[#041018] shadow-[0_10px_32px_rgba(34,211,238,0.22)] transition hover:bg-cyan-200"
-            >
-              Hablar por WhatsApp
-            </a>
-          </div>
+          <a
+            href={WHATSAPP_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-9 items-center rounded-full bg-cyan-300 px-3 text-xs font-semibold text-[#041018] shadow-[0_10px_32px_rgba(34,211,238,0.2)] transition hover:bg-cyan-200 sm:h-10 sm:px-4 sm:text-sm"
+          >
+            Diagnóstico gratis
+          </a>
         </div>
       </header>
 
-      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-20 px-4 pb-20 pt-10 sm:px-6 sm:pb-28 sm:pt-14">
-        <section
-          id="inicio"
-          className="grid gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:items-center"
-        >
+      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-16 px-4 pb-44 pt-24 sm:gap-20 sm:px-6 sm:pb-36 sm:pt-28">
+        <section id="inicio" className="grid min-h-[72vh] gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
           <div className="relative max-w-3xl">
-            <div className="pointer-events-none absolute -inset-x-4 -inset-y-6 rounded-[2rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.34),rgba(7,17,26,0.18))] blur-2xl sm:-inset-x-8" />
-            <span className="inline-flex rounded-full bg-cyan-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-cyan-200 shadow-[inset_0_0_0_1px_rgba(103,232,249,0.16)]">
-              Web clara y contacto ordenado
+            <span className="inline-flex rounded-full bg-cyan-300/12 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-cyan-100 shadow-[inset_0_0_0_1px_rgba(103,232,249,0.18)] backdrop-blur">
+              Diseño web para negocio local
             </span>
-            <h1 className="relative mt-5 max-w-3xl text-[2.6rem] font-semibold leading-[0.98] tracking-[-0.05em] text-white drop-shadow-[0_10px_28px_rgba(0,0,0,0.42)] sm:text-5xl lg:text-[4.4rem]">
-              Web clara y contacto ordenado para negocios locales.
+            <h1 className="mt-5 max-w-4xl text-[2.55rem] font-semibold leading-[0.98] tracking-[-0.055em] text-white drop-shadow-[0_18px_42px_rgba(0,0,0,0.54)] sm:text-5xl lg:text-[4.35rem]">
+              Webs claras para negocios locales que quieren recibir más contactos sin complicarse.
             </h1>
-            <p className="relative mt-5 max-w-2xl text-base leading-7 text-white/82 drop-shadow-[0_6px_18px_rgba(0,0,0,0.34)] sm:text-[1.1rem]">
-              Para peluquerías, barberías, estética, salud, bienestar, nutrición, fisio y servicios similares que necesitan captar mejor, responder más rápido y no perder contactos.
+            <p className="mt-6 max-w-2xl text-base leading-7 text-white/84 drop-shadow-[0_8px_22px_rgba(0,0,0,0.36)] sm:text-[1.1rem]">
+              Diseño una web sencilla, rápida y enfocada en que tus clientes entiendan qué haces, confíen en ti y te escriban por WhatsApp, formulario o correo.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
-                href={HERO_CTA_LINK}
+                href={WHATSAPP_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex h-12 items-center justify-center rounded-full bg-cyan-300 px-6 text-sm font-semibold text-[#041018] shadow-[0_18px_42px_rgba(34,211,238,0.24)] transition hover:bg-cyan-200"
               >
-                Ver qué te conviene
+                Pedir diagnóstico gratis
               </a>
               <a
                 href="#proyectos"
-                className="inline-flex h-12 items-center justify-center rounded-full border border-white/14 bg-white/[0.03] px-6 text-sm font-semibold text-white/88 transition hover:border-cyan-300/40 hover:bg-white/[0.08]"
+                className="inline-flex h-12 items-center justify-center rounded-full border border-white/16 bg-white/[0.04] px-6 text-sm font-semibold text-white/88 transition hover:border-cyan-300/40 hover:bg-white/[0.08]"
               >
-                Ver proyectos
+                Ver ejemplos reales
               </a>
             </div>
             <div className="mt-8 flex flex-wrap gap-2.5">
-              {trust.map((item) => (
+              {badges.map((item) => (
                 <span
                   key={item}
-                  className="rounded-full bg-black/16 px-3 py-2 text-xs font-medium text-white/74 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.07)] backdrop-blur-[1px]"
+                  className="rounded-full bg-black/22 px-3 py-2 text-xs font-medium text-white/78 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] backdrop-blur"
                 >
                   {item}
                 </span>
@@ -248,139 +381,193 @@ export default function HomeContent() {
             </div>
           </div>
 
-          <div className="relative lg:pl-10">
-            <div className="pointer-events-none absolute -left-10 top-8 h-36 w-36 rounded-full bg-cyan-300/12 blur-3xl" />
-            <div className="pointer-events-none absolute right-6 top-2 h-48 w-48 rounded-full bg-sky-400/10 blur-3xl" />
-            <div className="pointer-events-none absolute left-10 top-14 hidden h-28 w-28 rounded-full bg-white/6 blur-3xl sm:block" />
-            <div className="relative">
-              <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
+          <div className="relative lg:pl-8">
+            <div className="pointer-events-none absolute -inset-4 rounded-[2rem] bg-cyan-300/8 blur-3xl" />
+            <div className="relative overflow-hidden rounded-[1.7rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.54),rgba(7,17,26,0.28))] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08),0_24px_90px_rgba(0,0,0,0.34)] backdrop-blur-md">
+              <div className="flex items-center gap-4">
                 <Image
                   src="/imagenes/perfil/mifoto.jpg"
                   alt="Foto de perfil de Powered by IA"
-                  width={176}
-                  height={176}
-                  className="h-32 w-32 rounded-full object-cover shadow-[0_26px_74px_rgba(0,0,0,0.34)] ring-1 ring-white/16 sm:h-40 sm:w-40"
+                  width={112}
+                  height={112}
+                  className="h-20 w-20 rounded-full object-cover ring-1 ring-white/16 sm:h-24 sm:w-24"
                   priority
                 />
-                <div className="relative max-w-md rounded-[1.5rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.24),rgba(7,17,26,0.08))] px-4 py-3 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] backdrop-blur-[2px]">
-                  <div className="pointer-events-none absolute -left-4 top-7 hidden h-px w-10 bg-gradient-to-r from-cyan-300/45 to-transparent sm:block" />
-                  <p className="text-xs uppercase tracking-[0.26em] text-cyan-200/78">Powered by IA</p>
-                  <p className="mt-2 text-2xl font-semibold leading-tight text-white drop-shadow-[0_8px_20px_rgba(0,0,0,0.32)]">
-                    Mas claridad para captar mejor
-                  </p>
-                  <p className="mt-3 max-w-md text-sm leading-6 text-white/78">
-                    Aclaro tu oferta, facilito el contacto y ordeno las entradas para que no se pierdan consultas.
+                <div>
+                  <p className="text-xs uppercase tracking-[0.24em] text-cyan-200/78">Trato directo</p>
+                  <p className="mt-2 text-xl font-semibold leading-tight text-white">
+                    Claridad comercial, móvil y contacto visible.
                   </p>
                 </div>
               </div>
-              <div className="mt-10 grid gap-5">
-                <div className="border-l border-cyan-300/32 pl-4">
-                  <p className="text-sm font-semibold text-white">Más claridad</p>
-                  <p className="mt-1 text-sm leading-6 text-white/74">
-                    Tu cliente entiende rápido qué haces y cómo contactarte.
-                  </p>
-                </div>
-                <div className="border-l border-white/12 pl-4">
-                  <p className="text-sm font-semibold text-white">Contacto fácil</p>
-                  <p className="mt-1 text-sm leading-6 text-white/74">
-                    WhatsApp, formulario y siguiente paso claro desde el móvil.
-                  </p>
-                </div>
-                <div className="border-l border-white/12 pl-4">
-                  <p className="text-sm font-semibold text-white">Consultas ordenadas</p>
-                  <p className="mt-1 text-sm leading-6 text-white/74">
-                    Menos mensajes perdidos y más entradas bien recogidas.
-                  </p>
-                </div>
+              <div className="mt-6 grid gap-3">
+                {[
+                  ['Mensaje claro', 'Tu cliente entiende qué haces en segundos.'],
+                  ['Contacto fácil', 'WhatsApp, formulario o correo sin esconder el siguiente paso.'],
+                  ['Captación ordenada', 'Base preparada para registrar y seguir consultas.'],
+                ].map(([title, body]) => (
+                  <div key={title} className="rounded-[1.1rem] bg-black/18 p-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)]">
+                    <p className="text-sm font-semibold text-white">{title}</p>
+                    <p className="mt-1 text-sm leading-6 text-white/72">{body}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </section>
 
-        <section id="que-hacemos" className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
-          <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Lo que resolvemos</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Lo que necesita un negocio local para captar mejor
-            </h2>
-          </div>
-          <div className="max-w-2xl border-l border-white/10 pl-5">
-            <p className="text-base leading-7 text-white/78">
-              Una base clara para que te entiendan rápido, te contacten fácil y no se te pierdan consultas.
-            </p>
-          </div>
+        <section id="problema" className="rounded-[1.8rem] bg-[linear-gradient(135deg,rgba(7,17,26,0.7),rgba(7,17,26,0.28))] p-6 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] backdrop-blur-md sm:p-8">
+          <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Problema</p>
+          <h2 className="mt-4 max-w-4xl text-2xl font-semibold leading-tight tracking-[-0.03em] text-white sm:text-4xl">
+            Muchos negocios no pierden clientes por falta de calidad, sino porque su web no se entiende, el contacto está escondido o las consultas quedan desordenadas.
+          </h2>
         </section>
 
-        <section id="servicios" className="space-y-5">
+        <section id="servicios" className="space-y-6">
           <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Servicios</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Elige la solución que mejor encaja con tu caso.
+            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Servicios y precios</p>
+            <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
+              Elige una solución simple, clara y proporcional.
             </h2>
           </div>
-          <div className="grid gap-4 lg:grid-cols-3">
-            {serviceCards.map((service) => (
-              <article
-                key={service.title}
-                className="flex h-full flex-col rounded-[1.35rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.14),rgba(7,17,26,0.06))] p-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] backdrop-blur-[1px] sm:p-5"
-              >
-                <span className="block h-px w-14 bg-cyan-300/55" />
-                <h3 className="mt-4 text-lg font-semibold text-white">{service.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-white/80">{service.body}</p>
-                <p className="mt-4 text-sm leading-6 text-cyan-100/86">{service.support}</p>
-                <div className="mt-auto pt-5">
-                  <div className="flex items-end justify-between gap-3">
-                    <p className="text-sm uppercase tracking-[0.2em] text-white/46">Precio</p>
-                    <p className="text-lg font-semibold text-white">{service.price}</p>
+          <div className="grid gap-4 lg:grid-cols-2">
+            {services.map((service) => {
+              const isOpen = openService === service.title;
+
+              return (
+                <article
+                  key={service.title}
+                  className={`relative flex h-full flex-col rounded-[1.5rem] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.07)] backdrop-blur-md ${
+                    service.recommended
+                      ? 'bg-[linear-gradient(180deg,rgba(34,211,238,0.18),rgba(7,17,26,0.34))] ring-1 ring-cyan-300/32'
+                      : 'bg-[linear-gradient(180deg,rgba(7,17,26,0.46),rgba(7,17,26,0.22))]'
+                  }`}
+                >
+                  {service.recommended ? (
+                    <span className="absolute right-4 top-4 rounded-full bg-cyan-300 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#041018]">
+                      Recomendado
+                    </span>
+                  ) : null}
+                  <span className="block h-px w-14 bg-cyan-300/55" />
+                  <h3 className="mt-4 pr-28 text-xl font-semibold text-white">{service.title}</h3>
+                  <p className="mt-2 text-2xl font-semibold text-cyan-100">{service.price}</p>
+                  <p className="mt-4 text-sm leading-6 text-white/80">{service.intro}</p>
+                  <ul className="mt-5 space-y-2">
+                    {service.bullets.map((item) => (
+                      <li key={item} className="flex gap-2 text-sm leading-5 text-white/78">
+                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-300/80" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-auto pt-6">
+                    <a
+                      href={service.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex h-11 w-full items-center justify-center rounded-full bg-cyan-300 px-4 text-sm font-semibold text-[#041018] shadow-[0_14px_30px_rgba(34,211,238,0.18)] transition hover:bg-cyan-200"
+                    >
+                      {service.cta}
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => setOpenService(isOpen ? null : service.title)}
+                      aria-expanded={isOpen}
+                      className="mt-3 inline-flex h-10 w-full items-center justify-center rounded-full border border-white/12 bg-white/[0.03] px-4 text-sm font-semibold text-white/82 transition hover:border-cyan-300/34 hover:bg-white/[0.07]"
+                    >
+                      {isOpen ? 'Ocultar detalles' : 'Ver qué incluye'}
+                    </button>
                   </div>
-                  <a
-                    href={service.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-4 inline-flex h-11 w-full items-center justify-center rounded-full bg-cyan-300 px-4 text-sm font-semibold text-[#041018] shadow-[0_14px_30px_rgba(34,211,238,0.18)] transition hover:bg-cyan-200"
-                  >
-                    {service.cta}
-                  </a>
-                </div>
-              </article>
-            ))}
+                  {isOpen ? (
+                    <div className="mt-5 grid gap-5 rounded-[1.1rem] bg-black/14 p-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] md:grid-cols-2">
+                      <ServiceList title="Incluye" items={service.includes} />
+                      <ServiceList title="No incluye" items={service.excludes} />
+                    </div>
+                  ) : null}
+                </article>
+              );
+            })}
           </div>
         </section>
 
-        <section id="precios" className="space-y-5">
+        <section id="bot-ia-local" className="grid gap-5 rounded-[2rem] bg-[radial-gradient(circle_at_18%_12%,rgba(34,211,238,0.18),transparent_26%),linear-gradient(135deg,rgba(7,17,26,0.68),rgba(4,12,20,0.42))] p-5 shadow-[inset_0_0_0_1px_rgba(103,232,249,0.16)] backdrop-blur-md sm:p-7 lg:grid-cols-[1fr_0.82fr] lg:items-center">
           <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">PRECIOS</p>
+            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Producto futuro</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Precios orientativos
+              Operador IA Local - Demo en desarrollo
             </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/76 sm:text-base">
-              Una referencia realista para que sepas por dónde va cada solución antes de hablar.
+            <p className="mt-4 max-w-2xl text-sm leading-7 text-white/80 sm:text-base">
+              Un asistente para responder dudas básicas, recoger datos y orientar contactos cuando el servidor esté activo. Ahora funciona como demo FAQ/offline dentro del portfolio técnico.
             </p>
+            <div className="mt-5 flex flex-wrap gap-2 text-xs text-white/72">
+              <span className="rounded-full bg-white/[0.06] px-3 py-2">Demo en desarrollo</span>
+              <span className="rounded-full bg-white/[0.06] px-3 py-2">No promete 24/7</span>
+              <span className="rounded-full bg-white/[0.06] px-3 py-2">No sustituye atención humana</span>
+              <span className="rounded-full bg-white/[0.06] px-3 py-2">Portfolio técnico PBIA</span>
+            </div>
+            <button
+              type="button"
+              onClick={openBot}
+              className="mt-6 inline-flex h-12 items-center justify-center rounded-full bg-cyan-300 px-6 text-sm font-semibold text-[#041018] transition hover:bg-cyan-200"
+            >
+              Probar demo FAQ
+            </button>
           </div>
-          <div className="grid gap-4 md:grid-cols-3">
-            {priceItems.map((item) => (
-              <article
-                key={item.title}
-                className="rounded-[1.35rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.14),rgba(7,17,26,0.06))] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] backdrop-blur-[1px]"
-              >
-                <span className="block h-px w-14 bg-cyan-300/55" />
-                <h3 className="mt-4 text-base font-semibold text-white">{item.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-white/76">{item.body}</p>
-                <p className="mt-5 text-lg font-semibold text-white">{item.price}</p>
-              </article>
-            ))}
+
+          <button
+            type="button"
+            onClick={openBot}
+            className="rounded-[1.4rem] bg-[#061018]/82 p-4 text-left shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08),0_24px_70px_rgba(0,0,0,0.24)] transition hover:shadow-[inset_0_0_0_1px_rgba(103,232,249,0.2),0_24px_70px_rgba(0,0,0,0.24)]"
+          >
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-sm font-semibold text-white">Chat IA demo</p>
+                <p className="mt-1 text-xs text-white/50">Servidor offline / FAQ</p>
+              </div>
+              <span className="rounded-full bg-amber-300/12 px-3 py-1 text-xs font-medium text-amber-100">
+                Offline
+              </span>
+            </div>
+            <div className="mt-5 space-y-3">
+              <div className="ml-auto max-w-[86%] rounded-2xl rounded-tr-sm bg-cyan-300 px-4 py-3 text-sm leading-6 text-[#041018]">
+                ¿Cuánto cuesta una web sencilla?
+              </div>
+              <div className="max-w-[90%] rounded-2xl rounded-tl-sm bg-white/[0.07] px-4 py-3 text-sm leading-6 text-white/84">
+                Desde 350 €. Si quieres ordenar contactos, el pack recomendado empieza desde 500 €.
+              </div>
+            </div>
+          </button>
+        </section>
+
+        <section id="seo-local" className="grid gap-6 lg:grid-cols-[0.86fr_1.14fr]">
+          <div>
+            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">SEO local</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
+              Diseño web para negocios locales en Alcalá de Henares y Madrid
+            </h2>
+          </div>
+          <div className="rounded-[1.45rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.48),rgba(7,17,26,0.2))] p-5 text-sm leading-7 text-white/80 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.07)] backdrop-blur-md sm:p-6 sm:text-base">
+            <p>
+              Trabajo con pequeños negocios que necesitan una web clara, rápida y pensada para móvil: peluquerías, barberías, clínicas de estética, consultas, restaurantes y servicios locales. Si estás en Alcalá de Henares, Madrid o trabajas en remoto, la prioridad es la misma: que el cliente entienda qué ofreces y tenga un siguiente paso claro para contactarte por WhatsApp, formulario o correo.
+            </p>
+            <p className="mt-4">
+              El enfoque combina diseño web para negocios locales, landing page para negocio local, web con WhatsApp y automatización de contactos cuando aporta orden de verdad.
+            </p>
           </div>
         </section>
 
         <section id="proyectos" className="scroll-mt-24 space-y-5">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Prueba real</p>
+              <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Portfolio</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-                Proyectos reales
+                Ejemplos reales
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-white/76 sm:text-base">
-                Son casos reales de trabajo. Powered by IA aparece como proyecto activo y RYS Minimarket aporta prueba real sin comerse la marca principal.
+                Proyectos existentes usados para enseñar criterio comercial, UX móvil y ejecución técnica sin inventar clientes no autorizados.
+              </p>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-cyan-100/78">
+                Abre solo el caso que quieras revisar. La idea es enseñar trabajo real sin llenar la página de ruido.
               </p>
             </div>
             <a
@@ -392,76 +579,153 @@ export default function HomeContent() {
               Hablar sobre tu caso
             </a>
           </div>
-          <div className="grid gap-4 lg:grid-cols-2">
-            {demos.map((demo) => (
-              <a
-                key={demo.title}
-                href={demo.href}
-                target={demo.href.startsWith('http') ? '_blank' : undefined}
-                rel={demo.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                className="group block rounded-[1.4rem] bg-[linear-gradient(180deg,rgba(8,18,27,0.14),rgba(8,18,27,0.04))] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)] backdrop-blur-[1px] transition hover:shadow-[inset_0_0_0_1px_rgba(103,232,249,0.22)]"
-              >
-                <p className="text-xs uppercase tracking-[0.24em] text-white/45">
-                  {demo.title === 'Powered by IA' ? 'Proyecto activo' : 'Caso real en producción'}
-                </p>
-                <h3 className="mt-2 text-lg font-semibold text-white">{demo.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-white/76">{demo.body}</p>
-                <div className="mt-5 grid gap-3 md:grid-cols-[1.35fr_0.65fr] md:gap-4">
-                  <ProjectShot
-                    src={demo.desktopImage}
-                    alt={`Captura real desktop de ${demo.title}`}
-                    caption="Desktop real"
-                    aspectClassName="aspect-[19/10]"
-                  />
-                  <div className="grid gap-3 md:gap-4">
-                    <ProjectShot
-                      src={demo.mobileImage}
-                      alt={`Captura real móvil de ${demo.title}`}
-                      caption="Móvil real"
-                      aspectClassName="aspect-[1/2]"
-                      imageClassName="object-contain object-top bg-[#07111a]"
-                    />
-                    <div className="rounded-[1.15rem] bg-white/[0.03] px-4 py-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]">
-                      <p className="text-[11px] uppercase tracking-[0.2em] text-white/46">Mi papel</p>
-                      <p className="mt-2 text-sm leading-6 text-white/74">{demo.role}</p>
+          <div className="grid gap-4">
+            {projects.map((project) => {
+              const isOpen = openProject === project.title;
+
+              return (
+                <article
+                  key={project.title}
+                  className="rounded-[1.4rem] bg-[linear-gradient(180deg,rgba(8,18,27,0.48),rgba(8,18,27,0.18))] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)] backdrop-blur-md"
+                >
+                  <div className="grid gap-4 lg:grid-cols-[1fr_auto] lg:items-start">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.24em] text-white/45">{project.type}</p>
+                      <h3 className="mt-2 text-xl font-semibold text-white">{project.title}</h3>
+                      <p className="mt-3 max-w-2xl text-sm leading-6 text-white/76">{project.value}</p>
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {project.skills.map((skill) => (
+                          <span
+                            key={skill}
+                            className="rounded-full bg-cyan-300/10 px-3 py-1.5 text-xs font-medium text-cyan-100 shadow-[inset_0_0_0_1px_rgba(103,232,249,0.14)]"
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-2 sm:flex-row lg:flex-col">
+                      <button
+                        type="button"
+                        onClick={() => setOpenProject(isOpen ? null : project.title)}
+                        aria-expanded={isOpen}
+                        className="inline-flex h-11 items-center justify-center rounded-full bg-cyan-300 px-5 text-sm font-semibold text-[#041018] transition hover:bg-cyan-200"
+                      >
+                        {isOpen ? 'Ocultar resumen' : 'Ver resumen'}
+                      </button>
+                      <a
+                        href={project.href}
+                        target={project.href.startsWith('http') ? '_blank' : undefined}
+                        rel={project.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                        className="inline-flex h-11 items-center justify-center rounded-full border border-white/14 bg-white/[0.04] px-5 text-sm font-semibold text-white/86 transition hover:border-cyan-300/34 hover:bg-white/[0.08]"
+                      >
+                        {project.cta}
+                      </a>
                     </div>
                   </div>
-                </div>
-                <span className="mt-5 inline-flex items-center text-sm font-semibold text-cyan-200 transition group-hover:text-cyan-100">
-                  {demo.cta}
+
+                  {isOpen ? (
+                    <div className="mt-5 border-t border-white/10 pt-5">
+                      <div className="grid gap-3 lg:grid-cols-3">
+                        {[
+                          ['Problema', project.problem],
+                          ['Solución', project.solution],
+                          ['Qué demuestra', project.proof],
+                        ].map(([label, text]) => (
+                          <div
+                            key={label}
+                            className="rounded-[1.1rem] bg-black/14 p-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]"
+                          >
+                            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-100/68">
+                              {label}
+                            </p>
+                            <p className="mt-3 text-sm leading-6 text-white/74">{text}</p>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="mt-4 grid gap-3 md:grid-cols-[1.2fr_0.8fr] md:items-start">
+                        <ProjectShot
+                          src={project.desktopImage}
+                          alt={`Captura real desktop de ${project.title}`}
+                          caption="Desktop real"
+                          aspectClassName="aspect-[19/10]"
+                        />
+                        <ProjectShot
+                          src={project.mobileImage}
+                          alt={`Captura real móvil de ${project.title}`}
+                          caption="Móvil real"
+                          aspectClassName="aspect-[1/2]"
+                          imageClassName="object-contain object-top bg-[#07111a]"
+                        />
+                      </div>
+                    </div>
+                  ) : null}
+                </article>
+              );
+            })}
+          </div>
+        </section>
+
+        <section id="como-trabajamos" className="space-y-6">
+          <div>
+            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Proceso</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
+              Cómo trabajamos
+            </h2>
+          </div>
+          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+            {processSteps.map((step, index) => (
+              <article
+                key={step.title}
+                className="flex gap-4 rounded-[1.35rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.46),rgba(7,17,26,0.2))] px-4 py-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.07)] backdrop-blur-md"
+              >
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cyan-300 text-base font-bold text-[#041018] shadow-[0_10px_28px_rgba(34,211,238,0.18)]">
+                  {index + 1}
                 </span>
-              </a>
+                <div>
+                  <h3 className="text-sm font-semibold text-white">{step.title}</h3>
+                  <p className="mt-1 text-sm leading-6 text-white/72">{step.body}</p>
+                </div>
+              </article>
             ))}
           </div>
         </section>
 
-        <section id="como-trabajamos" className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+        <section id="faq" className="space-y-6">
           <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Enfoque</p>
+            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">FAQ</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Trabajo práctico, directo y sin vueltas
+              Preguntas frecuentes
             </h2>
           </div>
-          <div className="space-y-4 rounded-[1.45rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.12),rgba(7,17,26,0.05))] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] backdrop-blur-[1px]">
-            <p className="text-sm leading-7 text-white/80 sm:text-base">
-              Ayudo a pequeños negocios y proyectos a tener una presencia online más clara, funcional y útil. Combino mensaje, diseño y ejecución para resolver necesidades reales sin vender humo.
-            </p>
-            <div className="grid gap-4 md:grid-cols-2">
-              {processSteps.map((step, index) => (
+          <div className="grid gap-3">
+            {faqs.map((faq) => {
+              const isOpen = openFaq === faq.question;
+
+              return (
                 <article
-                  key={step.title}
-                  className="flex gap-4 rounded-[1.35rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.14),rgba(7,17,26,0.06))] px-4 py-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] backdrop-blur-[1px]"
+                  key={faq.question}
+                  className="overflow-hidden rounded-[1.25rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.46),rgba(7,17,26,0.18))] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.07)] backdrop-blur-md"
                 >
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cyan-300/92 text-sm font-semibold text-[#041018] shadow-[0_10px_28px_rgba(34,211,238,0.2)]">
-                    {index + 1}
-                  </span>
-                  <div className="pt-0.5">
-                    <p className="text-sm font-semibold text-white">{step.title}</p>
-                    <p className="mt-1 text-sm leading-6 text-white/78">{step.body}</p>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setOpenFaq(isOpen ? null : faq.question)}
+                    aria-expanded={isOpen}
+                    className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
+                  >
+                    <span className="text-base font-semibold text-white">{faq.question}</span>
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/[0.06] text-lg font-semibold text-cyan-100">
+                      {isOpen ? '-' : '+'}
+                    </span>
+                  </button>
+                  {isOpen ? (
+                    <p className="border-t border-white/8 px-5 pb-5 pt-4 text-sm leading-6 text-white/76">
+                      {faq.answer}
+                    </p>
+                  ) : null}
                 </article>
-              ))}
-            </div>
+              );
+            })}
           </div>
         </section>
 
@@ -469,33 +733,30 @@ export default function HomeContent() {
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Quién está detrás</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Una sola persona para pensar, estructurar y dejarlo listo.
+              Trato directo, ejecución clara y soluciones sin mareos.
             </h2>
           </div>
-          <div className="space-y-4 border-l border-white/10 pl-5 text-sm leading-7 text-white/78 sm:text-base">
+          <div className="space-y-4 rounded-[1.45rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.46),rgba(7,17,26,0.18))] p-5 text-sm leading-7 text-white/78 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.07)] backdrop-blur-md sm:text-base">
             <p>
-              Detrás de Powered by IA hay una sola persona que piensa, estructura y ejecuta.
+              Soy la persona que analiza, estructura y ejecuta el proyecto. Hablas conmigo desde el inicio hasta la entrega, sin intermediarios y sin venderte algo que no necesitas.
             </p>
             <p>
-              Sin intermediarios, sin enredos y sin venderte algo que no necesitas.
-            </p>
-            <p>
-              La idea es dejar una solución clara, útil y lista para usar.
+              La prioridad es dejar una solución clara, útil y preparada para que un cliente entienda tu negocio y tenga un siguiente paso para contactarte.
             </p>
           </div>
         </section>
 
         <section
           id="contacto"
-          className="rounded-[2rem] bg-[linear-gradient(180deg,rgba(34,211,238,0.1),rgba(8,18,27,0.1))] px-5 py-8 shadow-[inset_0_0_0_1px_rgba(103,232,249,0.14)] backdrop-blur-[2px] sm:px-7 sm:py-10"
+          className="rounded-[2rem] bg-[linear-gradient(180deg,rgba(34,211,238,0.12),rgba(8,18,27,0.18))] px-5 py-8 shadow-[inset_0_0_0_1px_rgba(103,232,249,0.16)] backdrop-blur-md sm:px-7 sm:py-10"
         >
           <div className="max-w-3xl">
-            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">CTA final</p>
+            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Contacto</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Si tu negocio no transmite bien lo que hace o pierde consultas, te digo por dónde empezaría.
+              Pide un diagnóstico gratis y te digo qué haría primero.
             </h2>
             <p className="mt-4 text-base leading-7 text-white/80">
-              Cuéntame tu caso y te diré si te conviene una web nueva, mejorar la actual o simplemente ordenar mejor tus contactos.
+              Cuéntame tu caso y reviso si te conviene mejorar tu web, crear una landing nueva o preparar un sistema simple para ordenar contactos.
             </p>
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
               <a
@@ -504,22 +765,22 @@ export default function HomeContent() {
                 rel="noopener noreferrer"
                 className="inline-flex h-12 items-center justify-center rounded-full bg-cyan-300 px-5 text-sm font-semibold text-[#041018] shadow-[0_18px_42px_rgba(34,211,238,0.24)] transition hover:bg-cyan-200"
               >
-                Hablar por WhatsApp
+                Pedir diagnóstico gratis
               </a>
               <a
                 href={buildMailtoLink(
-                  'Caso PBIA',
-                  'Hola, quiero dejarte mi caso. Necesito que revises mi web o me propongas una web nueva.',
+                  'Diagnóstico Powered by IA',
+                  'Hola, quiero pedir un diagnostico gratis. Mi negocio es:',
                 )}
-                className="inline-flex h-12 items-center justify-center rounded-full border border-white/14 bg-white/[0.03] px-5 text-sm font-semibold text-white/88 transition hover:border-cyan-300/40 hover:bg-white/[0.08]"
+                className="inline-flex h-12 items-center justify-center rounded-full border border-white/14 bg-white/[0.04] px-5 text-sm font-semibold text-white/88 transition hover:border-cyan-300/40 hover:bg-white/[0.08]"
               >
-                Dejar mi caso
+                Enviar por email
               </a>
               <a
-                href={`mailto:${CONTACT_EMAIL}`}
+                href="#servicios"
                 className="inline-flex h-12 items-center justify-center rounded-full border border-cyan-300/22 bg-cyan-300/10 px-5 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/14"
               >
-                Email
+                Ver servicios
               </a>
             </div>
           </div>
@@ -527,7 +788,7 @@ export default function HomeContent() {
 
         <footer className="border-t border-white/8 pt-6 text-sm text-white/54">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p>Powered by IA · webs y soluciones digitales para negocios locales.</p>
+            <p>Powered by IA · diseño web y captación para negocios locales.</p>
             <div className="flex flex-wrap gap-4">
               <a href="/aviso-legal" className="transition hover:text-white">
                 Aviso legal
@@ -541,21 +802,100 @@ export default function HomeContent() {
             </div>
           </div>
           <p className="mt-2 max-w-3xl text-xs leading-5 text-white/42">
-            Esta versión no usa analítica ni cookies de terceros. Si se añaden herramientas no
-            esenciales en el futuro, se activará el consentimiento antes de usarlas.
+            Esta versión no usa analítica ni cookies de terceros. Si se añaden herramientas no esenciales en el futuro, se activará el consentimiento antes de usarlas.
           </p>
         </footer>
       </div>
 
-      <a
-        href={WHATSAPP_LINK}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-4 right-4 z-40 hidden h-12 items-center justify-center rounded-full bg-cyan-300/96 px-4 text-sm font-semibold text-[#041018] shadow-[0_14px_32px_rgba(0,0,0,0.24)] transition hover:bg-cyan-200 sm:inline-flex"
-        aria-label="Abrir WhatsApp"
-      >
-        WhatsApp
-      </a>
+      <div className="fixed bottom-3 right-3 z-30 flex flex-col items-end gap-2 sm:bottom-4 sm:right-4">
+        <button
+          type="button"
+          onClick={openBot}
+          className="group max-w-[calc(100vw-1.5rem)] rounded-[1rem] bg-[#061018]/92 p-0.5 text-left shadow-[0_14px_34px_rgba(0,0,0,0.3),inset_0_0_0_1px_rgba(103,232,249,0.18)] backdrop-blur-md transition hover:shadow-[0_14px_34px_rgba(0,0,0,0.3),inset_0_0_0_1px_rgba(103,232,249,0.34)] sm:rounded-2xl sm:p-1"
+          aria-label="Abrir chat IA demo"
+        >
+          <span className="flex flex-col gap-0.5 rounded-[0.85rem] bg-cyan-300 px-3 py-2 text-xs font-semibold leading-tight text-[#041018] sm:flex-row sm:items-center sm:gap-3 sm:px-4 sm:py-3 sm:text-sm">
+            <span>Chat IA demo</span>
+            <span className="rounded-full bg-[#041018]/10 px-2 py-0.5 text-[8px] uppercase tracking-[0.1em] sm:py-1 sm:text-[10px] sm:tracking-[0.14em]">
+              Servidor offline / FAQ
+            </span>
+          </span>
+        </button>
+        <a
+          href={WHATSAPP_LINK}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hidden h-10 items-center justify-center rounded-full bg-white/[0.08] px-4 text-xs font-semibold text-white/82 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12)] backdrop-blur-md transition hover:bg-white/[0.12] sm:inline-flex"
+          aria-label="Abrir WhatsApp"
+        >
+          WhatsApp
+        </a>
+      </div>
+
+      {isBotOpen ? (
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/62 px-2 py-2 backdrop-blur-sm sm:items-center sm:p-6">
+          <div className="flex max-h-[75vh] w-full max-w-lg flex-col overflow-hidden rounded-[1.25rem] bg-[#061018] shadow-[0_28px_90px_rgba(0,0,0,0.46),inset_0_0_0_1px_rgba(255,255,255,0.1)] sm:rounded-[1.6rem]">
+            <div className="flex shrink-0 items-start justify-between gap-4 border-b border-white/8 px-4 py-3 sm:px-5 sm:py-4">
+              <div>
+                <p className="text-sm font-semibold text-white">Chat IA demo</p>
+                <p className="mt-1 text-xs text-amber-100/78">Servidor offline / FAQ</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsBotOpen(false)}
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/[0.08] text-lg font-semibold text-white transition hover:bg-white/[0.13]"
+                aria-label="Cerrar chat IA demo"
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto px-3 py-3 sm:px-5 sm:py-5">
+              <div className="rounded-2xl rounded-tl-sm bg-white/[0.07] px-3 py-2.5 text-sm leading-6 text-white/82 sm:px-4 sm:py-3">
+                El operador IA está en modo demo. Cuando el servidor esté activo podrá responder con información real. Ahora puedes consultar respuestas rápidas.
+              </div>
+
+              <div className="mt-4 grid gap-1.5 sm:mt-5 sm:gap-2">
+                {quickQuestions.map((item) => (
+                  <button
+                    key={item.question}
+                    type="button"
+                    onClick={() => setSelectedQuestion(item)}
+                    className={`rounded-full px-3 py-1.5 text-left text-xs font-medium transition sm:px-4 sm:py-2 sm:text-sm ${
+                      selectedQuestion.question === item.question
+                        ? 'bg-cyan-300 text-[#041018]'
+                        : 'bg-white/[0.06] text-white/78 hover:bg-white/[0.1]'
+                    }`}
+                  >
+                    {item.question}
+                  </button>
+                ))}
+                <a
+                  href={WHATSAPP_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full bg-cyan-300 px-3 py-1.5 text-center text-xs font-semibold text-[#041018] transition hover:bg-cyan-200 sm:px-4 sm:py-2 sm:text-sm"
+                >
+                  Quiero pedir diagnóstico
+                </a>
+              </div>
+
+              <div className="mt-4 space-y-3 sm:mt-5">
+                <div className="ml-auto max-w-[86%] rounded-2xl rounded-tr-sm bg-cyan-300 px-3 py-2.5 text-sm leading-6 text-[#041018] sm:px-4 sm:py-3">
+                  {selectedQuestion.question}
+                </div>
+                <div className="max-w-[92%] rounded-2xl rounded-tl-sm bg-white/[0.07] px-3 py-2.5 text-sm leading-6 text-white/84 sm:px-4 sm:py-3">
+                  {selectedQuestion.answer}
+                </div>
+              </div>
+
+              <p className="mt-5 text-xs leading-5 text-white/46">
+                Modo actual: FAQ/offline. No es atención automática 24/7 y no sustituye una revisión humana.
+              </p>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </main>
   );
 }
