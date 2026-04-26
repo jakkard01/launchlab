@@ -341,7 +341,7 @@ export default function HomeContent() {
         </div>
       </header>
 
-      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-16 px-4 pb-44 pt-24 sm:gap-20 sm:px-6 sm:pb-36 sm:pt-28">
+      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-16 px-4 pb-52 pt-24 sm:gap-20 sm:px-6 sm:pb-40 sm:pt-28">
         <section id="inicio" className="grid min-h-[72vh] gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
           <div className="relative max-w-3xl">
             <span className="inline-flex rounded-full bg-cyan-300/12 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-cyan-100 shadow-[inset_0_0_0_1px_rgba(103,232,249,0.18)] backdrop-blur">
@@ -490,7 +490,7 @@ export default function HomeContent() {
           </div>
         </section>
 
-        <section id="bot-ia-local" className="grid gap-5 rounded-[2rem] bg-[radial-gradient(circle_at_18%_12%,rgba(34,211,238,0.18),transparent_26%),linear-gradient(135deg,rgba(7,17,26,0.68),rgba(4,12,20,0.42))] p-5 shadow-[inset_0_0_0_1px_rgba(103,232,249,0.16)] backdrop-blur-md sm:p-7 lg:grid-cols-[1fr_0.82fr] lg:items-center">
+        <section id="bot-ia-local" className="grid gap-4 rounded-[2rem] bg-[radial-gradient(circle_at_18%_12%,rgba(34,211,238,0.16),transparent_26%),linear-gradient(135deg,rgba(7,17,26,0.68),rgba(4,12,20,0.42))] p-5 shadow-[inset_0_0_0_1px_rgba(103,232,249,0.16)] backdrop-blur-md sm:p-6 lg:grid-cols-[1fr_0.68fr] lg:items-center">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Producto futuro</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
@@ -499,16 +499,16 @@ export default function HomeContent() {
             <p className="mt-4 max-w-2xl text-sm leading-7 text-white/80 sm:text-base">
               Un asistente para responder dudas básicas, recoger datos y orientar contactos cuando el servidor esté activo. Ahora funciona como demo FAQ/offline dentro del portfolio técnico.
             </p>
-            <div className="mt-5 flex flex-wrap gap-2 text-xs text-white/72">
-              <span className="rounded-full bg-white/[0.06] px-3 py-2">Demo en desarrollo</span>
-              <span className="rounded-full bg-white/[0.06] px-3 py-2">No promete 24/7</span>
-              <span className="rounded-full bg-white/[0.06] px-3 py-2">No sustituye atención humana</span>
-              <span className="rounded-full bg-white/[0.06] px-3 py-2">Portfolio técnico PBIA</span>
+            <div className="mt-4 flex flex-wrap gap-2 text-xs text-white/72">
+              <span className="rounded-full bg-white/[0.06] px-3 py-1.5">Demo en desarrollo</span>
+              <span className="rounded-full bg-white/[0.06] px-3 py-1.5">No promete 24/7</span>
+              <span className="rounded-full bg-white/[0.06] px-3 py-1.5">No sustituye atención humana</span>
+              <span className="rounded-full bg-white/[0.06] px-3 py-1.5">Portfolio técnico PBIA</span>
             </div>
             <button
               type="button"
               onClick={openBot}
-              className="mt-6 inline-flex h-12 items-center justify-center rounded-full bg-cyan-300 px-6 text-sm font-semibold text-[#041018] transition hover:bg-cyan-200"
+              className="mt-5 inline-flex h-11 items-center justify-center rounded-full bg-cyan-300 px-5 text-sm font-semibold text-[#041018] transition hover:bg-cyan-200"
             >
               Probar demo FAQ
             </button>
@@ -517,7 +517,7 @@ export default function HomeContent() {
           <button
             type="button"
             onClick={openBot}
-            className="rounded-[1.4rem] bg-[#061018]/82 p-4 text-left shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08),0_24px_70px_rgba(0,0,0,0.24)] transition hover:shadow-[inset_0_0_0_1px_rgba(103,232,249,0.2),0_24px_70px_rgba(0,0,0,0.24)]"
+            className="rounded-[1.25rem] bg-[#061018]/74 p-3 text-left shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08),0_18px_52px_rgba(0,0,0,0.2)] transition hover:shadow-[inset_0_0_0_1px_rgba(103,232,249,0.2),0_18px_52px_rgba(0,0,0,0.2)] sm:p-4"
           >
             <div className="flex items-center justify-between gap-3">
               <div>
@@ -528,11 +528,11 @@ export default function HomeContent() {
                 Offline
               </span>
             </div>
-            <div className="mt-5 space-y-3">
-              <div className="ml-auto max-w-[86%] rounded-2xl rounded-tr-sm bg-cyan-300 px-4 py-3 text-sm leading-6 text-[#041018]">
+            <div className="mt-4 space-y-2.5">
+              <div className="ml-auto max-w-[86%] rounded-2xl rounded-tr-sm bg-cyan-300 px-3 py-2 text-xs leading-5 text-[#041018] sm:text-sm sm:leading-6">
                 ¿Cuánto cuesta una web sencilla?
               </div>
-              <div className="max-w-[90%] rounded-2xl rounded-tl-sm bg-white/[0.07] px-4 py-3 text-sm leading-6 text-white/84">
+              <div className="max-w-[90%] rounded-2xl rounded-tl-sm bg-white/[0.07] px-3 py-2 text-xs leading-5 text-white/84 sm:text-sm sm:leading-6">
                 Desde 350 €. Si quieres ordenar contactos, el pack recomendado empieza desde 500 €.
               </div>
             </div>
@@ -807,16 +807,17 @@ export default function HomeContent() {
         </footer>
       </div>
 
-      <div className="fixed bottom-3 right-3 z-30 flex flex-col items-end gap-2 sm:bottom-4 sm:right-4">
+      <div className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] right-3 z-30 flex flex-col items-end gap-2 sm:bottom-4 sm:right-4">
         <button
           type="button"
           onClick={openBot}
-          className="group max-w-[calc(100vw-1.5rem)] rounded-[1rem] bg-[#061018]/92 p-0.5 text-left shadow-[0_14px_34px_rgba(0,0,0,0.3),inset_0_0_0_1px_rgba(103,232,249,0.18)] backdrop-blur-md transition hover:shadow-[0_14px_34px_rgba(0,0,0,0.3),inset_0_0_0_1px_rgba(103,232,249,0.34)] sm:rounded-2xl sm:p-1"
+          className="group max-w-[calc(100vw-1.5rem)] rounded-full bg-[#061018]/90 p-0.5 text-left shadow-[0_10px_24px_rgba(0,0,0,0.28),inset_0_0_0_1px_rgba(103,232,249,0.18)] backdrop-blur-md transition hover:shadow-[0_10px_24px_rgba(0,0,0,0.28),inset_0_0_0_1px_rgba(103,232,249,0.34)] sm:rounded-2xl sm:p-1"
           aria-label="Abrir chat IA demo"
         >
-          <span className="flex flex-col gap-0.5 rounded-[0.85rem] bg-cyan-300 px-3 py-2 text-xs font-semibold leading-tight text-[#041018] sm:flex-row sm:items-center sm:gap-3 sm:px-4 sm:py-3 sm:text-sm">
-            <span>Chat IA demo</span>
-            <span className="rounded-full bg-[#041018]/10 px-2 py-0.5 text-[8px] uppercase tracking-[0.1em] sm:py-1 sm:text-[10px] sm:tracking-[0.14em]">
+          <span className="flex items-center rounded-full bg-cyan-300 px-3 py-2 text-xs font-semibold leading-tight text-[#041018] sm:gap-3 sm:rounded-[0.85rem] sm:px-4 sm:py-3 sm:text-sm">
+            <span className="sm:hidden">IA demo</span>
+            <span className="hidden sm:inline">Chat IA demo</span>
+            <span className="hidden rounded-full bg-[#041018]/10 px-2 py-1 text-[10px] uppercase tracking-[0.14em] sm:inline">
               Servidor offline / FAQ
             </span>
           </span>

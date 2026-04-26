@@ -2,7 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://poweredbyia.com'),
+  metadataBase: new URL('https://www.poweredbyia.com'),
   title: {
     default: 'Powered by IA | Diseño web para negocios locales en Alcalá de Henares',
     template: '%s | Powered by IA',
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'es_ES',
-    url: '/',
+    url: 'https://www.poweredbyia.com',
     siteName: 'Powered by IA',
     title: 'Powered by IA | Diseño web para negocios locales en Alcalá de Henares',
     description:
