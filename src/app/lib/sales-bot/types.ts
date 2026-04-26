@@ -31,3 +31,20 @@ export type SalesBotLeadPayload = {
   createdAt: string;
   userAgent: string;
 };
+
+export type SalesBotLeadProfile = {
+  businessType?: string;
+  hasWebsite?: boolean | null;
+  goal?: 'improve_website' | 'new_website' | 'more_contacts' | 'complete_capture' | '';
+  message?: string;
+  ctaClicked?: string;
+};
+
+export type SalesBotQuickReply = {
+  id: string;
+  label: string;
+  userText: string;
+  botText: string;
+  signals: LeadSignal[];
+  profilePatch?: Partial<SalesBotLeadProfile>;
+};
