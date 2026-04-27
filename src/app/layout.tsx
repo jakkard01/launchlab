@@ -124,7 +124,7 @@ const structuredData = [
         name: '¿Cuánto cuesta una web?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Una mejora empieza desde 180 €. Una web local clara desde 350 €. Si quieres ordenar contactos, el pack recomendado empieza desde 500 €.',
+          text: 'Una mejora empieza desde 180 €. Una web local clara desde 350 €. Si quieres ordenar contactos, el pack recomendado empieza desde 500 €. El precio final depende del alcance.',
         },
       },
       {
@@ -140,7 +140,7 @@ const structuredData = [
         name: '¿Cuánto tarda?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Depende del alcance. Una mejora simple puede ir rápido; una web nueva necesita estructura, textos, revisión móvil y publicación.',
+          text: 'Depende del alcance. Una landing local sencilla puede prepararse en pocos días si el material está claro. Primero reviso tu caso antes de presupuestar.',
         },
       },
       {
@@ -172,7 +172,15 @@ const structuredData = [
         name: '¿El bot IA ya está disponible?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Está en modo demo/FAQ. No promete 24/7 si el servidor local está apagado y no sustituye atención humana.',
+          text: 'Ahora está en modo respuestas rápidas/demo. La versión con IA comercial real está en preparación y dependerá del servidor. No sustituye atención humana.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: '¿Cómo se paga?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Para proyectos pequeños puedo trabajar con transferencia bancaria o metálico. En proyectos más completos, lo normal es reservar con un anticipo y cerrar el resto al entregar o publicar.',
         },
       },
       {

@@ -64,8 +64,8 @@ const services = [
   {
     title: 'Pack Web + Contactos',
     price: 'Desde 500 €',
-    intro: 'Para verte mejor y empezar a recoger contactos ordenados desde el primer día.',
-    bullets: ['Web Local Base', 'Formulario conectado', 'Registro simple en Google Sheets'],
+    intro: 'Recomendado si no quieres solo una web bonita, sino empezar a recoger contactos de forma ordenada.',
+    bullets: ['Web Local Base', 'Formulario conectado', 'Siguiente paso claro para cada consulta'],
     includes: [
       'Web Local Base',
       'Formulario conectado',
@@ -115,6 +115,8 @@ const projects = [
       'Estructura de servicios, precios orientativos, CTA a WhatsApp, SEO local, FAQ y una demo de chat FAQ/offline para preparar el producto de operador IA.',
     proof:
       'Demuestra estrategia comercial, diseño mobile-first, copy de conversión, SEO local y una primera capa de producto IA explicada con límites claros.',
+    result:
+      'Proyecto real en producción con dominio propio, servicios publicados, páginas legales y flujo de contacto claro.',
     desktopImage: '/imagenes/pbidesk.jpeg',
     mobileImage: '/imagenes/pbiamov.jpeg',
     href: '#inicio',
@@ -131,6 +133,8 @@ const projects = [
       'Catálogo web ligero con navegación clara, enfoque móvil, contacto visible y flujo pensado para operación sencilla.',
     proof:
       'Demuestra ejecución en Next.js, criterio de UX móvil, organización de catálogo y orientación práctica a contacto/venta.',
+    result:
+      'El negocio puede compartir una URL clara y facilitar consultas desde móvil sin depender de una tienda compleja.',
     desktopImage: '/imagenes/rysdesk.jpeg',
     mobileImage: '/imagenes/rysmov.jpeg',
     href: RYS_LINK,
@@ -169,7 +173,7 @@ const faqs = [
   {
     question: '¿Cuánto cuesta una web?',
     answer:
-      'Una mejora empieza desde 180 €. Una web local clara desde 350 €. Si quieres ordenar contactos, el pack recomendado empieza desde 500 €.',
+      'Una mejora empieza desde 180 €. Una web local clara desde 350 €. Si quieres ordenar contactos, el pack recomendado empieza desde 500 €. El precio final depende del alcance.',
   },
   {
     question: '¿Qué necesito para empezar?',
@@ -179,7 +183,7 @@ const faqs = [
   {
     question: '¿Cuánto tarda?',
     answer:
-      'Depende del alcance. Una mejora simple puede ir rápido; una web nueva necesita estructura, textos, revisión móvil y publicación.',
+      'Depende del alcance. Una landing local sencilla puede prepararse en pocos días si el material está claro. Primero reviso tu caso antes de presupuestar.',
   },
   {
     question: '¿Qué diferencia hay entre una web normal y una web preparada para captar contactos?',
@@ -199,7 +203,12 @@ const faqs = [
   {
     question: '¿El bot IA ya está disponible?',
     answer:
-      'Está en modo demo/FAQ. No promete 24/7 si el servidor local está apagado y no sustituye atención humana.',
+      'Ahora está en modo respuestas rápidas/demo. La versión con IA comercial real está en preparación y dependerá del servidor. No sustituye atención humana.',
+  },
+  {
+    question: '¿Cómo se paga?',
+    answer:
+      'Para proyectos pequeños puedo trabajar con transferencia bancaria o metálico. En proyectos más completos, lo normal es reservar con un anticipo y cerrar el resto al entregar o publicar.',
   },
   {
     question: '¿Hay mantenimiento mensual?',
@@ -341,6 +350,9 @@ export default function HomeContent() {
                 Ver ejemplos reales
               </a>
             </div>
+            <p className="mt-3 max-w-xl text-xs leading-5 text-white/66 sm:text-sm">
+              Envíame tu web o cuéntame tu negocio y te respondo con 3 mejoras claras: mensaje, móvil y contacto. Sin compromiso.
+            </p>
             <div className="mt-8 flex flex-wrap gap-2.5">
               {badges.map((item) => (
                 <span
@@ -401,6 +413,9 @@ export default function HomeContent() {
             <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
               Elige una solución simple, clara y proporcional.
             </h2>
+            <p className="mt-3 max-w-3xl text-sm leading-6 text-white/66">
+              Los precios son orientativos y parten de un alcance base. El presupuesto final depende del número de secciones, materiales disponibles y funciones necesarias.
+            </p>
           </div>
           <div className="grid gap-4 lg:grid-cols-2">
             {services.map((service) => {
@@ -460,6 +475,9 @@ export default function HomeContent() {
               );
             })}
           </div>
+          <p className="rounded-[1.15rem] bg-white/[0.04] px-4 py-3 text-xs leading-5 text-white/58 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)]">
+            Los packs base no incluyen tienda online, reservas complejas, campañas de anuncios ni sistemas a medida. Si aparece una necesidad fuera del alcance, se plantea aparte antes de empezar.
+          </p>
         </section>
 
         <section id="bot-ia-local" className="grid gap-4 rounded-[2rem] bg-[radial-gradient(circle_at_18%_12%,rgba(34,211,238,0.16),transparent_26%),linear-gradient(135deg,rgba(7,17,26,0.68),rgba(4,12,20,0.42))] p-5 shadow-[inset_0_0_0_1px_rgba(103,232,249,0.16)] backdrop-blur-md sm:p-6 lg:grid-cols-[1fr_0.68fr] lg:items-center">
@@ -469,7 +487,7 @@ export default function HomeContent() {
               Operador IA Local - Demo en desarrollo
             </h2>
             <p className="mt-4 max-w-2xl text-sm leading-7 text-white/80 sm:text-base">
-              Un asistente para responder dudas básicas, recoger datos y orientar contactos cuando el servidor esté activo. Ahora funciona como demo FAQ/offline dentro del portfolio técnico.
+              Un asistente para responder dudas básicas, recoger datos y orientar contactos cuando el modo IA real esté disponible. Ahora funciona como demo de respuestas rápidas dentro del portfolio técnico.
             </p>
             <div className="mt-4 flex flex-wrap gap-2 text-xs text-white/72">
               <span className="rounded-full bg-white/[0.06] px-3 py-1.5">Demo en desarrollo</span>
@@ -494,10 +512,10 @@ export default function HomeContent() {
             <div className="flex items-center justify-between gap-3">
               <div>
                 <p className="text-sm font-semibold text-white">Chat IA demo</p>
-                <p className="mt-1 text-xs text-white/50">Servidor offline / FAQ</p>
+                <p className="mt-1 text-xs text-white/50">Modo respuestas rápidas</p>
               </div>
               <span className="rounded-full bg-amber-300/12 px-3 py-1 text-xs font-medium text-amber-100">
-                Offline
+                Demo FAQ
               </span>
             </div>
             <div className="mt-4 space-y-2.5">
@@ -598,11 +616,12 @@ export default function HomeContent() {
 
                   {isOpen ? (
                     <div className="mt-5 border-t border-white/10 pt-5">
-                      <div className="grid gap-3 lg:grid-cols-3">
+                      <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
                         {[
                           ['Problema', project.problem],
                           ['Solución', project.solution],
                           ['Qué demuestra', project.proof],
+                          ['Resultado observable', project.result],
                         ].map(([label, text]) => (
                           <div
                             key={label}
@@ -710,10 +729,10 @@ export default function HomeContent() {
           </div>
           <div className="space-y-4 rounded-[1.45rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.46),rgba(7,17,26,0.18))] p-5 text-sm leading-7 text-white/78 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.07)] backdrop-blur-md sm:text-base">
             <p>
-              Soy la persona que analiza, estructura y ejecuta el proyecto. Hablas conmigo desde el inicio hasta la entrega, sin intermediarios y sin venderte algo que no necesitas.
+              Soy Gerardo, creador de Powered by IA. Trabajo directamente contigo para ordenar tu presencia online sin meterte en sistemas que no necesitas.
             </p>
             <p>
-              La prioridad es dejar una solución clara, útil y preparada para que un cliente entienda tu negocio y tenga un siguiente paso para contactarte.
+              Analizo, diseño, escribo y publico con foco en algo simple: que tus clientes entiendan qué haces y tengan claro cómo contactarte.
             </p>
           </div>
         </section>
