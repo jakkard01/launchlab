@@ -53,12 +53,12 @@ export default function SalesBotPanel({
   return (
     <div
       className="fixed inset-0 z-50 flex items-end justify-center bg-black/62 px-2 py-2 backdrop-blur-sm sm:items-center sm:p-6"
-      onClick={onClose}
+      onPointerDown={onClose}
       role="presentation"
     >
       <div
         className="flex max-h-[75vh] w-full max-w-lg flex-col overflow-hidden rounded-[1.25rem] bg-[#061018] shadow-[0_28px_90px_rgba(0,0,0,0.46),inset_0_0_0_1px_rgba(255,255,255,0.1)] sm:rounded-[1.6rem]"
-        onClick={(event) => event.stopPropagation()}
+        onPointerDown={(event) => event.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-label="Chat IA demo en modo respuestas rápidas"
