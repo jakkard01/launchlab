@@ -112,7 +112,7 @@ const projects = [
     problem:
       'Convertir una web personal en una landing comercial clara para clientes locales y, a la vez, enseñar capacidad técnica sin saturar la página.',
     solution:
-      'Estructura de servicios, precios orientativos, CTA a WhatsApp, SEO local, FAQ y una demo de chat FAQ/offline para preparar el producto de operador IA.',
+      'Estructura de servicios, precios orientativos, CTA a WhatsApp, SEO local, FAQ y una demo de respuestas rápidas para preparar el producto de operador IA.',
     proof:
       'Demuestra estrategia comercial, diseño mobile-first, copy de conversión, SEO local y una primera capa de producto IA explicada con límites claros.',
     result:
@@ -351,7 +351,7 @@ export default function HomeContent() {
               </a>
             </div>
             <p className="mt-3 max-w-xl text-xs leading-5 text-white/66 sm:text-sm">
-              Envíame tu web o cuéntame tu negocio y te respondo con 3 mejoras claras: mensaje, móvil y contacto. Sin compromiso.
+              Te respondo con 3 mejoras claras: mensaje, móvil y contacto. Sin compromiso.
             </p>
             <div className="mt-8 flex flex-wrap gap-2.5">
               {badges.map((item) => (

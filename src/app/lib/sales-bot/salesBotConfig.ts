@@ -12,7 +12,7 @@ export const salesBotConfig = {
   quickReplies: [
     {
       id: 'timeline',
-      label: '¿Cuánto tarda una web?',
+      label: '¿Cuánto tarda?',
       userText: '¿Cuánto tarda una web?',
       botText:
         'Depende del alcance. Una landing local sencilla puede prepararse en pocos días si el material está claro. Lo primero es revisar tu caso y decirte qué haría antes de presupuestar.',
@@ -20,8 +20,8 @@ export const salesBotConfig = {
     },
     {
       id: 'prices',
-      label: '¿Cuánto cuesta?',
-      userText: '¿Cuánto cuesta?',
+      label: '¿Cuánto cuesta una web?',
+      userText: '¿Cuánto cuesta una web?',
       botText:
         'Referencias: mejora desde 180 €, web base desde 350 €, web + contactos desde 500 € y captación pro desde 750 €. El precio final depende del alcance.',
       signals: ['asked_price'],
@@ -70,11 +70,20 @@ export const salesBotConfig = {
       signals: ['has_business'],
     },
     {
+      id: 'whatsapp-contact',
+      label: '¿Puedo usar WhatsApp?',
+      userText: '¿Puedo usar WhatsApp?',
+      botText:
+        'Sí. WhatsApp puede ser el contacto principal. Si necesitas más orden, se puede sumar formulario, aviso por email y registro simple de consultas.',
+      signals: ['wants_more_contacts'],
+      profilePatch: { goal: 'more_contacts' },
+    },
+    {
       id: 'ai-status',
       label: '¿El bot IA está activo?',
       userText: '¿El bot IA está activo?',
       botText:
-        'Ahora mismo está en modo respuestas rápidas/demo. La versión con IA comercial real está en preparación y dependerá del servidor. No sustituye atención humana.',
+        'Ahora estás usando respuestas rápidas. La versión con IA comercial real está en preparación y dependerá del servidor. No sustituye atención humana.',
       signals: [],
     },
     {
@@ -91,7 +100,7 @@ export const salesBotConfig = {
       label: 'Pedir diagnóstico gratis',
       userText: 'Quiero diagnóstico gratis',
       botText:
-        'Buen siguiente paso. Envíame tu web o cuéntame tu negocio y te respondo con 3 mejoras claras: mensaje, móvil y contacto.',
+        'Te digo en 3 puntos qué mejoraría primero: mensaje, móvil y contacto. Sin compromiso.',
       signals: ['requested_budget', 'clicked_whatsapp'],
       profilePatch: { ctaClicked: 'diagnosis' },
     },

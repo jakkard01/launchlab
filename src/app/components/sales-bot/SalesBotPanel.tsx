@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from 'react';
 import type { LeadTemperature, SalesBotQuickReply } from '../../lib/sales-bot/types';
 import { getLeadTemperatureLabel } from '../../lib/sales-bot/leadScoring';
 import SalesBotMessage from './SalesBotMessage';
@@ -38,13 +39,34 @@ export default function SalesBotPanel({
   onSelectReply,
   onDiagnosisClick,
 }: SalesBotPanelProps) {
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/62 px-2 py-2 backdrop-blur-sm sm:items-center sm:p-6">
-      <div className="flex max-h-[75vh] w-full max-w-lg flex-col overflow-hidden rounded-[1.25rem] bg-[#061018] shadow-[0_28px_90px_rgba(0,0,0,0.46),inset_0_0_0_1px_rgba(255,255,255,0.1)] sm:rounded-[1.6rem]">
+    <div
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/62 px-2 py-2 backdrop-blur-sm sm:items-center sm:p-6"
+      onClick={onClose}
+      role="presentation"
+    >
+      <div
+        className="flex max-h-[75vh] w-full max-w-lg flex-col overflow-hidden rounded-[1.25rem] bg-[#061018] shadow-[0_28px_90px_rgba(0,0,0,0.46),inset_0_0_0_1px_rgba(255,255,255,0.1)] sm:rounded-[1.6rem]"
+        onClick={(event) => event.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Chat IA demo en modo respuestas rápidas"
+      >
         <div className="flex shrink-0 items-start justify-between gap-4 border-b border-white/8 px-4 py-3 sm:px-5 sm:py-4">
           <div>
             <p className="text-sm font-semibold text-white">Chat IA demo</p>
-            <p className="mt-1 text-xs text-amber-100/78">Modo respuestas rápidas</p>
+            <p className="mt-1 text-xs text-amber-100/78">Respuestas rápidas</p>
           </div>
           <button
             type="button"
@@ -85,7 +107,7 @@ export default function SalesBotPanel({
           </div>
 
           <p className="mt-5 text-xs leading-5 text-white/46">
-            La versión con IA comercial real está en preparación y se activará cuando el servidor esté disponible. No es atención automática 24/7 y no sustituye una revisión humana.
+            Modo actual: respuestas rápidas. No sustituye una revisión humana ni promete atención automática 24/7.
           </p>
         </div>
       </div>
