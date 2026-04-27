@@ -25,7 +25,7 @@ export default function SalesBotLauncher({
           <span className="sm:hidden">{isHot ? 'Lead caliente' : 'IA demo'}</span>
           <span className="hidden sm:inline">Chat IA demo</span>
           <span className="hidden rounded-full bg-[#041018]/10 px-2 py-1 text-[10px] uppercase tracking-[0.14em] sm:inline">
-            Servidor offline / FAQ
+            Respuestas rápidas
           </span>
         </span>
       </button>

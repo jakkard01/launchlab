@@ -24,7 +24,7 @@ const initialMessages: BotMessage[] = [
   {
     id: 'intro',
     role: 'bot',
-    text: 'Estoy en modo demo/offline. Puedo orientarte con respuestas rápidas y preparar un diagnóstico por WhatsApp.',
+    text: 'Ahora estás viendo el modo respuestas rápidas. Sirve para resolver dudas frecuentes sin esperar: precios, tiempos, pagos y próximos pasos.',
   },
 ];
 

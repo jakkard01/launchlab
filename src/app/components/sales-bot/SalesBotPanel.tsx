@@ -44,7 +44,7 @@ export default function SalesBotPanel({
         <div className="flex shrink-0 items-start justify-between gap-4 border-b border-white/8 px-4 py-3 sm:px-5 sm:py-4">
           <div>
             <p className="text-sm font-semibold text-white">Chat IA demo</p>
-            <p className="mt-1 text-xs text-amber-100/78">Servidor offline / FAQ</p>
+            <p className="mt-1 text-xs text-amber-100/78">Modo respuestas rápidas</p>
           </div>
           <button
             type="button"
@@ -85,7 +85,7 @@ export default function SalesBotPanel({
           </div>
 
           <p className="mt-5 text-xs leading-5 text-white/46">
-            Modo actual: FAQ/offline. No es atención automática 24/7 y no sustituye una revisión humana.
+            La versión con IA comercial real está en preparación y se activará cuando el servidor esté disponible. No es atención automática 24/7 y no sustituye una revisión humana.
           </p>
         </div>
       </div>
