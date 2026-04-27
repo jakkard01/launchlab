@@ -9,10 +9,8 @@ export type SalesBotLauncherProps = {
 
 export default function SalesBotLauncher({
   onOpen,
-  leadTemperature,
+  leadTemperature: _leadTemperature,
 }: SalesBotLauncherProps) {
-  const isHot = leadTemperature === 'hot';
-
   return (
     <div className="fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] right-3 z-30 flex flex-col items-end gap-2 sm:bottom-4 sm:right-4">
       <button
@@ -22,7 +20,7 @@ export default function SalesBotLauncher({
         aria-label="Abrir chat IA demo"
       >
         <span className="flex items-center rounded-full bg-cyan-300 px-3 py-2 text-xs font-semibold leading-tight text-[#041018] sm:gap-3 sm:rounded-[0.85rem] sm:px-4 sm:py-3 sm:text-sm">
-          <span className="sm:hidden">{isHot ? 'Lead caliente' : 'FAQ RÁPIDA'}</span>
+          <span className="sm:hidden">FAQ RÁPIDA</span>
           <span className="hidden sm:inline">Chat IA demo</span>
           <span className="hidden rounded-full bg-[#041018]/10 px-2 py-1 text-[10px] uppercase tracking-[0.14em] sm:inline">
             FAQ RÁPIDA
