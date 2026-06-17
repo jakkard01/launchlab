@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: 'Política de cookies',
   description:
     'Política de cookies de Powered by IA: cookies técnicas mínimas y ausencia de analítica en esta versión.',
+  alternates: {
+    canonical: 'https://www.poweredbyia.com/cookies',
+  },
 };
 
 export default function CookiesPage() {

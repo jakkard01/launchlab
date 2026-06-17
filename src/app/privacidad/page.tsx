@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: 'Política de privacidad',
   description:
     'Política de privacidad mínima de Powered by IA: datos tratados, finalidad, base y derechos.',
+  alternates: {
+    canonical: 'https://www.poweredbyia.com/privacidad',
+  },
 };
 
 export default function PrivacidadPage() {

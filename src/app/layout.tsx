@@ -2,16 +2,13 @@ import './globals.css';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://poweredbyia.com'),
+  metadataBase: new URL('https://www.poweredbyia.com'),
   title: {
-    default: 'Powered by IA | Diseño web para negocios locales en Alcalá de Henares',
+    default: 'Powered by IA — Webs rápidas e IA para negocios locales',
     template: '%s | Powered by IA',
   },
   description:
-    'Webs claras, rápidas y enfocadas en captar contactos para negocios locales. Diseño web, mejora de páginas existentes y captación ordenada por WhatsApp, formulario o correo.',
-  alternates: {
-    canonical: '/',
-  },
+    'Diseño webs claras para negocios locales en Alcalá de Henares y Madrid, con WhatsApp, SEO local, captación de contactos, automatización básica e IA aplicada.',
   robots: {
     index: true,
     follow: true,
@@ -26,26 +23,26 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'es_ES',
-    url: '/',
+    url: 'https://www.poweredbyia.com/',
     siteName: 'Powered by IA',
-    title: 'Powered by IA | Diseño web para negocios locales en Alcalá de Henares',
+    title: 'Powered by IA — Webs rápidas e IA para negocios locales',
     description:
-      'Webs claras, rápidas y enfocadas en captar contactos para negocios locales. Diseño web, mejora de páginas existentes y captación ordenada por WhatsApp, formulario o correo.',
+      'Diseño webs claras para negocios locales en Alcalá de Henares y Madrid, con WhatsApp, SEO local, captación de contactos, automatización básica e IA aplicada.',
     images: [
       {
-        url: '/imagenes/pbidesk.jpeg',
+        url: '/imagenes/og-pbia-1200x630.jpg',
         width: 1200,
         height: 630,
-        alt: 'Powered by IA: webs y soluciones digitales para negocios locales',
+        alt: 'Powered by IA — Webs rápidas e IA para negocios locales',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Powered by IA | Diseño web para negocios locales en Alcalá de Henares',
+    title: 'Powered by IA — Webs rápidas e IA para negocios locales',
     description:
-      'Webs claras, rápidas y enfocadas en captar contactos para negocios locales. Diseño web, mejora de páginas existentes y captación ordenada por WhatsApp, formulario o correo.',
-    images: ['/imagenes/pbidesk.jpeg'],
+      'Diseño webs claras para negocios locales en Alcalá de Henares y Madrid, con WhatsApp, SEO local, captación de contactos, automatización básica e IA aplicada.',
+    images: ['/imagenes/og-pbia-1200x630.jpg'],
   },
 };
 
@@ -55,12 +52,12 @@ const structuredData = [
     '@type': 'LocalBusiness',
     name: 'Powered by IA',
     url: 'https://www.poweredbyia.com',
-    image: 'https://www.poweredbyia.com/imagenes/pbidesk.jpeg',
+    image: 'https://www.poweredbyia.com/imagenes/og-pbia-1200x630.jpg',
     email: 'poweredbyiaoficial@gmail.com',
     telephone: '+34911528753',
     areaServed: ['Alcalá de Henares', 'Madrid', 'España'],
     description:
-      'Diseño web para negocios locales, mejora de páginas existentes y captación ordenada por WhatsApp, formulario o correo.',
+      'Diseño webs claras para negocios locales en Alcalá de Henares y Madrid, con WhatsApp, SEO local, captación de contactos, automatización básica e IA aplicada.',
     priceRange: '€€',
     sameAs: ['https://www.poweredbyia.com'],
   },
@@ -71,7 +68,7 @@ const structuredData = [
     url: 'https://www.poweredbyia.com',
     inLanguage: 'es-ES',
     description:
-      'Webs claras, rápidas y enfocadas en captar contactos para negocios locales.',
+      'Webs rápidas e IA aplicada para negocios locales que necesitan contacto claro y captación ordenada.',
   },
   {
     '@context': 'https://schema.org',

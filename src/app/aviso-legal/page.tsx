@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: 'Aviso legal',
   description:
     'Aviso legal mínimo de Powered by IA: titularidad, uso del sitio, propiedad intelectual y contacto.',
+  alternates: {
+    canonical: 'https://www.poweredbyia.com/aviso-legal',
+  },
 };
 
 export default function AvisoLegalPage() {
