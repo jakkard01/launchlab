@@ -105,13 +105,13 @@ const services = [
 const projects = [
   {
     title: 'Powered by IA',
-    type: 'Landing comercial + IA demo',
-    value: 'Portfolio vivo para vender webs, captación ordenada y futuros operadores IA.',
-    skills: ['Estrategia comercial', 'UX mobile-first', 'SEO local', 'Bot FAQ demo'],
+    type: 'Landing comercial + demo técnica IA',
+    value: 'Caso aplicado para vender webs, captación ordenada y futuros operadores IA.',
+    skills: ['Estrategia comercial', 'UX mobile-first', 'SEO local', 'Demo FAQ IA'],
     problem:
-      'Convertir una web personal en una landing comercial clara para clientes locales y, a la vez, enseñar capacidad técnica sin saturar la página.',
+      'Convertir una presencia digital básica en una landing comercial clara para clientes locales y, a la vez, enseñar capacidad técnica sin saturar la página.',
     solution:
-      'Estructura de servicios, precios orientativos, CTA a WhatsApp, SEO local, FAQ y una demo de chat FAQ/offline para preparar el producto de operador IA.',
+      'Estructura de servicios, precios orientativos, CTA a WhatsApp, SEO local, FAQ y una demo técnica FAQ/offline para preparar el producto de operador IA.',
     proof:
       'Demuestra estrategia comercial, diseño mobile-first, copy de conversión, SEO local y una primera capa de producto IA explicada con límites claros.',
     desktopImage: '/imagenes/pbidesk.jpeg',
@@ -497,13 +497,13 @@ export default function HomeContent() {
               Operador IA Local - Demo en desarrollo
             </h2>
             <p className="mt-4 max-w-2xl text-sm leading-7 text-white/80 sm:text-base">
-              Un asistente para responder dudas básicas, recoger datos y orientar contactos cuando el servidor esté activo. Ahora funciona como demo FAQ/offline dentro del portfolio técnico.
+              Un asistente para responder dudas básicas, ayudar a recoger contactos y orientar conversaciones cuando el servidor esté activo. Ahora funciona como demo técnica FAQ/offline en desarrollo.
             </p>
             <div className="mt-5 flex flex-wrap gap-2 text-xs text-white/72">
               <span className="rounded-full bg-white/[0.06] px-3 py-2">Demo en desarrollo</span>
               <span className="rounded-full bg-white/[0.06] px-3 py-2">No promete 24/7</span>
               <span className="rounded-full bg-white/[0.06] px-3 py-2">No sustituye atención humana</span>
-              <span className="rounded-full bg-white/[0.06] px-3 py-2">Portfolio técnico PBIA</span>
+              <span className="rounded-full bg-white/[0.06] px-3 py-2">Demo técnica PBIA</span>
             </div>
             <button
               type="button"
@@ -559,7 +559,7 @@ export default function HomeContent() {
         <section id="proyectos" className="scroll-mt-24 space-y-5">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Portfolio</p>
+              <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Casos reales</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
                 Ejemplos reales
               </h2>
