@@ -393,6 +393,24 @@ export default function HomeContent() {
     setChatDraft('');
   };
 
+  useEffect(() => {
+    if (!isBotOpen) {
+      return;
+    }
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsBotOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleEscape);
+
+    return () => {
+      window.removeEventListener('keydown', handleEscape);
+    };
+  }, [isBotOpen]);
+
   return (
     <main
       className="pbia-home relative isolate overflow-hidden bg-[#07111a] text-white"
@@ -913,8 +931,16 @@ export default function HomeContent() {
       </div>
 
       {isBotOpen ? (
-        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/58 px-2 py-2 backdrop-blur-sm sm:items-center sm:p-6">
-          <div className="flex max-h-[82vh] w-full max-w-lg flex-col overflow-hidden rounded-[1rem] border border-white/10 bg-[#061018] shadow-[0_24px_80px_rgba(0,0,0,0.42)] sm:max-h-[75vh] sm:rounded-[1.35rem]">
+        <div
+          className="fixed inset-0 z-50 flex items-end justify-center bg-black/58 px-2 py-2 backdrop-blur-sm sm:items-center sm:p-6"
+          onClick={() => setIsBotOpen(false)}
+          aria-label="Cerrar chat IA demo"
+          role="presentation"
+        >
+          <div
+            className="flex max-h-[82vh] w-full max-w-lg flex-col overflow-hidden rounded-[1rem] border border-white/10 bg-[#061018] shadow-[0_24px_80px_rgba(0,0,0,0.42)] sm:max-h-[75vh] sm:rounded-[1.35rem]"
+            onClick={(event) => event.stopPropagation()}
+          >
             <div className="flex shrink-0 items-start justify-between gap-4 border-b border-white/8 px-4 py-3 sm:px-5 sm:py-4">
               <div>
                 <p className="text-sm font-semibold text-white">Chat IA demo</p>
