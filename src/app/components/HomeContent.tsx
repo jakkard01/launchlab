@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { type FormEvent, useEffect, useState } from 'react';
 import Image from 'next/image';
 
 const WHATSAPP_NUMBER = '34911528753';
@@ -235,6 +235,57 @@ const quickQuestions = [
   },
 ];
 
+type ChatMessage = {
+  id: string;
+  role: 'user' | 'assistant';
+  text: string;
+};
+
+const initialChatMessages: ChatMessage[] = [
+  {
+    id: 'welcome',
+    role: 'assistant',
+    text:
+      'Hola, soy la demo de Chat IA de Powered by IA. Puedo orientarte sobre precios, diagnóstico, WhatsApp, SEO local, contactos o cómo funciona este bot demo.',
+  },
+];
+
+const normalizeChatText = (text: string) =>
+  text
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+
+const getDemoAnswer = (message: string) => {
+  const text = normalizeChatText(message);
+
+  if (text.includes('precio') || text.includes('cuanto') || text.includes('cuesta') || text.includes('web sencilla')) {
+    return 'Una Web Local Base empieza desde 350 €. Si ya tienes web y solo necesita mejora, puede empezar desde 180 €. Para web + contactos ordenados, el pack recomendado empieza desde 500 €.';
+  }
+
+  if (text.includes('diagnostico') || text.includes('revis') || text.includes('empezar')) {
+    return 'El diagnóstico gratis revisa qué necesita tu negocio, qué no merece la pena hacer todavía y cuál sería el primer paso más útil: mejorar web, crear landing o preparar captación de contactos.';
+  }
+
+  if (text.includes('whatsapp') || text.includes('contacto') || text.includes('contactar')) {
+    return 'WhatsApp puede ser el CTA principal de la web. También se puede combinar con formulario o email para que las consultas no se pierdan y tengan un siguiente paso claro.';
+  }
+
+  if (text.includes('seo') || text.includes('local') || text.includes('alcala') || text.includes('madrid')) {
+    return 'El SEO local básico incluye estructura clara, textos orientados a tu zona, títulos correctos y contenido preparado para que clientes de Alcalá de Henares, Madrid o tu área entiendan rápido qué ofreces.';
+  }
+
+  if (text.includes('automat') || text.includes('lead') || text.includes('captacion') || text.includes('contactos') || text.includes('sheets')) {
+    return 'La captación ordenada puede conectar formulario, email y Google Sheets para registrar consultas de forma simple. La idea es no depender solo de mensajes sueltos.';
+  }
+
+  if (text.includes('bot') || text.includes('ia') || text.includes('demo') || text.includes('chat')) {
+    return 'Este bot IA está en demo: responde con reglas básicas y FAQ locales, sin backend real. Sirve para enseñar el flujo conversacional, no sustituye atención humana.';
+  }
+
+  return 'Puedo orientarte sobre precios, WhatsApp, SEO local, captación de contactos o diagnóstico gratis.';
+};
+
 function ProjectShot({
   src,
   alt,
@@ -305,10 +356,41 @@ export default function HomeContent() {
   const [openFaq, setOpenFaq] = useState<string | null>(null);
   const [openProject, setOpenProject] = useState<string | null>(null);
   const [isBotOpen, setIsBotOpen] = useState(false);
-  const [selectedQuestion, setSelectedQuestion] = useState(quickQuestions[0]);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>(initialChatMessages);
+  const [chatDraft, setChatDraft] = useState('');
 
   const openBot = () => {
     setIsBotOpen(true);
+  };
+
+  const sendBotMessage = (rawMessage: string) => {
+    const message = rawMessage.trim();
+
+    if (!message) {
+      return;
+    }
+
+    const sentAt = Date.now();
+
+    setChatMessages((current) => [
+      ...current,
+      {
+        id: `user-${sentAt}`,
+        role: 'user',
+        text: message,
+      },
+      {
+        id: `assistant-${sentAt}`,
+        role: 'assistant',
+        text: getDemoAnswer(message),
+      },
+    ]);
+  };
+
+  const handleChatSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    sendBotMessage(chatDraft);
+    setChatDraft('');
   };
 
   return (
@@ -497,7 +579,7 @@ export default function HomeContent() {
               Operador IA Local - Demo en desarrollo
             </h2>
             <p className="mt-4 max-w-2xl text-sm leading-7 text-white/80 sm:text-base">
-              Un asistente para responder dudas básicas, ayudar a recoger contactos y orientar conversaciones cuando el servidor esté activo. Ahora funciona como demo técnica FAQ/offline en desarrollo.
+              Un asistente para responder dudas básicas, ayudar a recoger contactos y orientar conversaciones. Ahora funciona como demo técnica con respuestas orientativas en desarrollo.
             </p>
             <div className="mt-5 flex flex-wrap gap-2 text-xs text-white/72">
               <span className="rounded-full bg-white/[0.06] px-3 py-2">Demo en desarrollo</span>
@@ -510,7 +592,7 @@ export default function HomeContent() {
               onClick={openBot}
               className="mt-6 inline-flex h-12 items-center justify-center rounded-full bg-cyan-300 px-6 text-sm font-semibold text-[#041018] transition hover:bg-cyan-200"
             >
-              Probar demo FAQ
+              Probar chat IA
             </button>
           </div>
 
@@ -522,10 +604,10 @@ export default function HomeContent() {
             <div className="flex items-center justify-between gap-3">
               <div>
                 <p className="text-sm font-semibold text-white">Chat IA demo</p>
-                <p className="mt-1 text-xs text-white/50">Servidor offline / FAQ</p>
+                <p className="mt-1 text-xs text-white/50">Demo interactiva en desarrollo</p>
               </div>
-              <span className="rounded-full bg-amber-300/12 px-3 py-1 text-xs font-medium text-amber-100">
-                Offline
+              <span className="rounded-full bg-cyan-300/12 px-3 py-1 text-xs font-medium text-cyan-100">
+                Demo
               </span>
             </div>
             <div className="mt-5 space-y-3">
@@ -817,7 +899,7 @@ export default function HomeContent() {
           <span className="flex flex-col gap-0.5 rounded-[0.85rem] bg-cyan-300 px-3 py-2 text-xs font-semibold leading-tight text-[#041018] sm:flex-row sm:items-center sm:gap-3 sm:px-4 sm:py-3 sm:text-sm">
             <span>Chat IA demo</span>
             <span className="rounded-full bg-[#041018]/10 px-2 py-0.5 text-[8px] uppercase tracking-[0.1em] sm:py-1 sm:text-[10px] sm:tracking-[0.14em]">
-              Servidor offline / FAQ
+              Demo en desarrollo
             </span>
           </span>
         </button>
@@ -838,7 +920,7 @@ export default function HomeContent() {
             <div className="flex shrink-0 items-start justify-between gap-4 border-b border-white/8 px-4 py-3 sm:px-5 sm:py-4">
               <div>
                 <p className="text-sm font-semibold text-white">Chat IA demo</p>
-                <p className="mt-1 text-xs text-amber-100/78">Servidor offline / FAQ</p>
+                <p className="mt-1 text-xs text-cyan-100/78">Demo en desarrollo · No sustituye atención humana</p>
               </div>
               <button
                 type="button"
@@ -852,47 +934,61 @@ export default function HomeContent() {
 
             <div className="flex-1 overflow-y-auto px-3 py-3 sm:px-5 sm:py-5">
               <div className="rounded-2xl rounded-tl-sm bg-white/[0.07] px-3 py-2.5 text-sm leading-6 text-white/82 sm:px-4 sm:py-3">
-                El operador IA está en modo demo. Cuando el servidor esté activo podrá responder con información real. Ahora puedes consultar respuestas rápidas.
+                El operador IA está en modo demo. Puedes escribir una duda o usar una pregunta rápida; responderá con información orientativa sin backend real.
               </div>
 
-              <div className="mt-4 grid gap-1.5 sm:mt-5 sm:gap-2">
+              <div className="mt-4 flex flex-wrap gap-1.5 sm:mt-5 sm:gap-2">
                 {quickQuestions.map((item) => (
                   <button
                     key={item.question}
                     type="button"
-                    onClick={() => setSelectedQuestion(item)}
-                    className={`rounded-full px-3 py-1.5 text-left text-xs font-medium transition sm:px-4 sm:py-2 sm:text-sm ${
-                      selectedQuestion.question === item.question
-                        ? 'bg-cyan-300 text-[#041018]'
-                        : 'bg-white/[0.06] text-white/78 hover:bg-white/[0.1]'
-                    }`}
+                    onClick={() => sendBotMessage(item.question)}
+                    className="rounded-full bg-white/[0.06] px-3 py-1.5 text-left text-xs font-medium text-white/78 transition hover:bg-white/[0.1] sm:px-4 sm:py-2 sm:text-sm"
                   >
                     {item.question}
                   </button>
                 ))}
-                <a
-                  href={WHATSAPP_LINK}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-full bg-cyan-300 px-3 py-1.5 text-center text-xs font-semibold text-[#041018] transition hover:bg-cyan-200 sm:px-4 sm:py-2 sm:text-sm"
-                >
-                  Quiero pedir diagnóstico
-                </a>
               </div>
 
               <div className="mt-4 space-y-3 sm:mt-5">
-                <div className="ml-auto max-w-[86%] rounded-2xl rounded-tr-sm bg-cyan-300 px-3 py-2.5 text-sm leading-6 text-[#041018] sm:px-4 sm:py-3">
-                  {selectedQuestion.question}
-                </div>
-                <div className="max-w-[92%] rounded-2xl rounded-tl-sm bg-white/[0.07] px-3 py-2.5 text-sm leading-6 text-white/84 sm:px-4 sm:py-3">
-                  {selectedQuestion.answer}
-                </div>
+                {chatMessages.map((message) => (
+                  <div
+                    key={message.id}
+                    className={`max-w-[92%] rounded-2xl px-3 py-2.5 text-sm leading-6 sm:px-4 sm:py-3 ${
+                      message.role === 'user'
+                        ? 'ml-auto rounded-tr-sm bg-cyan-300 text-[#041018]'
+                        : 'rounded-tl-sm bg-white/[0.07] text-white/84'
+                    }`}
+                  >
+                    {message.text}
+                  </div>
+                ))}
               </div>
 
               <p className="mt-5 text-xs leading-5 text-white/46">
-                Modo actual: FAQ/offline. No es atención automática 24/7 y no sustituye una revisión humana.
+                Demo en desarrollo. No sustituye atención humana.
               </p>
             </div>
+
+            <form
+              onSubmit={handleChatSubmit}
+              className="flex shrink-0 gap-2 border-t border-white/8 p-3 sm:p-4"
+            >
+              <input
+                type="text"
+                value={chatDraft}
+                onChange={(event) => setChatDraft(event.target.value)}
+                placeholder="Escribe tu pregunta"
+                className="min-w-0 flex-1 rounded-full border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-white outline-none transition placeholder:text-white/40 focus:border-cyan-300/50 focus:bg-white/[0.09]"
+              />
+              <button
+                type="submit"
+                disabled={!chatDraft.trim()}
+                className="rounded-full bg-cyan-300 px-4 py-3 text-sm font-semibold text-[#041018] transition hover:bg-cyan-200 disabled:cursor-not-allowed disabled:opacity-45 sm:px-5"
+              >
+                Enviar
+              </button>
+            </form>
           </div>
         </div>
       ) : null}
