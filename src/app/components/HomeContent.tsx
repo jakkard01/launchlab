@@ -405,9 +405,9 @@ export default function HomeContent() {
         backgroundAttachment: 'fixed',
       }}
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(34,211,238,0.18),transparent_24%),radial-gradient(circle_at_86%_8%,rgba(96,165,250,0.12),transparent_22%),linear-gradient(180deg,rgba(2,6,12,0.08)_0%,rgba(2,6,12,0.34)_44%,rgba(2,6,12,0.68)_100%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_0%,rgba(34,211,238,0.13),transparent_24%),linear-gradient(180deg,rgba(2,6,12,0.08)_0%,rgba(2,6,12,0.34)_44%,rgba(2,6,12,0.72)_100%)]" />
 
-      <header className="fixed inset-x-0 top-0 z-40 border-b border-white/8 bg-[#07111a]/82 shadow-[0_12px_36px_rgba(0,0,0,0.22)] backdrop-blur-md">
+      <header className="fixed inset-x-0 top-0 z-40 border-b border-white/8 bg-[#07111a]/88 shadow-[0_10px_30px_rgba(0,0,0,0.18)] backdrop-blur-md">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-2.5 sm:px-6 sm:py-3">
           <a href="#inicio" className="text-sm font-semibold tracking-[0.18em] text-white/88">
             Powered by <span className="text-cyan-300">IA</span>
@@ -423,19 +423,19 @@ export default function HomeContent() {
         </div>
       </header>
 
-      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-16 px-4 pb-44 pt-24 sm:gap-20 sm:px-6 sm:pb-36 sm:pt-28">
-        <section id="inicio" className="grid min-h-[72vh] gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
+      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-12 px-4 pb-36 pt-24 sm:gap-16 sm:px-6 sm:pb-32 sm:pt-28">
+        <section id="inicio" className="grid min-h-[68vh] gap-9 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
           <div className="relative max-w-3xl">
-            <span className="inline-flex rounded-full bg-cyan-300/12 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-cyan-100 shadow-[inset_0_0_0_1px_rgba(103,232,249,0.18)] backdrop-blur">
+            <span className="inline-flex rounded-full border border-cyan-200/18 bg-cyan-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-100">
               Diseño web para negocio local
             </span>
-            <h1 className="mt-5 max-w-4xl text-[2.55rem] font-semibold leading-[0.98] tracking-[-0.055em] text-white drop-shadow-[0_18px_42px_rgba(0,0,0,0.54)] sm:text-5xl lg:text-[4.35rem]">
+            <h1 className="mt-5 max-w-4xl text-[2.35rem] font-semibold leading-[1.02] text-white drop-shadow-[0_14px_34px_rgba(0,0,0,0.42)] sm:text-5xl lg:text-[4.15rem]">
               Webs claras para negocios locales que quieren recibir más contactos sin complicarse.
             </h1>
-            <p className="mt-6 max-w-2xl text-base leading-7 text-white/84 drop-shadow-[0_8px_22px_rgba(0,0,0,0.36)] sm:text-[1.1rem]">
+            <p className="mt-5 max-w-2xl text-base leading-7 text-white/84 drop-shadow-[0_8px_20px_rgba(0,0,0,0.28)] sm:text-[1.08rem]">
               Diseño una web sencilla, rápida y enfocada en que tus clientes entiendan qué haces, confíen en ti y te escriban por WhatsApp, formulario o correo.
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <a
                 href={WHATSAPP_LINK}
                 target="_blank"
@@ -451,11 +451,11 @@ export default function HomeContent() {
                 Ver ejemplos reales
               </a>
             </div>
-            <div className="mt-8 flex flex-wrap gap-2.5">
+            <div className="mt-7 flex flex-wrap gap-2">
               {badges.map((item) => (
                 <span
                   key={item}
-                  className="rounded-full bg-black/22 px-3 py-2 text-xs font-medium text-white/78 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] backdrop-blur"
+                  className="rounded-full border border-white/8 bg-black/18 px-3 py-1.5 text-xs font-medium text-white/76"
                 >
                   {item}
                 </span>
@@ -464,8 +464,7 @@ export default function HomeContent() {
           </div>
 
           <div className="relative lg:pl-8">
-            <div className="pointer-events-none absolute -inset-4 rounded-[2rem] bg-cyan-300/8 blur-3xl" />
-            <div className="relative overflow-hidden rounded-[1.7rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.54),rgba(7,17,26,0.28))] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08),0_24px_90px_rgba(0,0,0,0.34)] backdrop-blur-md">
+            <div className="relative overflow-hidden rounded-[1.25rem] border border-white/8 bg-[#07111a]/58 p-4 shadow-[0_18px_60px_rgba(0,0,0,0.22)] backdrop-blur-sm sm:p-5">
               <div className="flex items-center gap-4">
                 <Image
                   src="/imagenes/perfil/mifoto.jpg"
@@ -482,13 +481,13 @@ export default function HomeContent() {
                   </p>
                 </div>
               </div>
-              <div className="mt-6 grid gap-3">
+              <div className="mt-5 grid gap-3">
                 {[
                   ['Mensaje claro', 'Tu cliente entiende qué haces en segundos.'],
                   ['Contacto fácil', 'WhatsApp, formulario o correo sin esconder el siguiente paso.'],
                   ['Captación ordenada', 'Base preparada para registrar y seguir consultas.'],
                 ].map(([title, body]) => (
-                  <div key={title} className="rounded-[1.1rem] bg-black/18 p-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)]">
+                  <div key={title} className="border-t border-white/8 pt-3">
                     <p className="text-sm font-semibold text-white">{title}</p>
                     <p className="mt-1 text-sm leading-6 text-white/72">{body}</p>
                   </div>
@@ -498,9 +497,9 @@ export default function HomeContent() {
           </div>
         </section>
 
-        <section id="problema" className="rounded-[1.8rem] bg-[linear-gradient(135deg,rgba(7,17,26,0.7),rgba(7,17,26,0.28))] p-6 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)] backdrop-blur-md sm:p-8">
+        <section id="problema" className="border-l border-cyan-300/35 pl-5 sm:pl-7">
           <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Problema</p>
-          <h2 className="mt-4 max-w-4xl text-2xl font-semibold leading-tight tracking-[-0.03em] text-white sm:text-4xl">
+          <h2 className="mt-4 max-w-4xl text-2xl font-semibold leading-tight text-white sm:text-4xl">
             Muchos negocios no pierden clientes por falta de calidad, sino porque su web no se entiende, el contacto está escondido o las consultas quedan desordenadas.
           </h2>
         </section>
@@ -512,17 +511,17 @@ export default function HomeContent() {
               Elige una solución simple, clara y proporcional.
             </h2>
           </div>
-          <div className="grid gap-4 lg:grid-cols-2">
+          <div className="grid gap-3 lg:grid-cols-2">
             {services.map((service) => {
               const isOpen = openService === service.title;
 
               return (
                 <article
                   key={service.title}
-                  className={`relative flex h-full flex-col rounded-[1.5rem] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.07)] backdrop-blur-md ${
+                  className={`relative flex h-full flex-col rounded-[1.1rem] border p-4 shadow-[0_14px_42px_rgba(0,0,0,0.16)] backdrop-blur-sm sm:p-5 ${
                     service.recommended
-                      ? 'bg-[linear-gradient(180deg,rgba(34,211,238,0.18),rgba(7,17,26,0.34))] ring-1 ring-cyan-300/32'
-                      : 'bg-[linear-gradient(180deg,rgba(7,17,26,0.46),rgba(7,17,26,0.22))]'
+                      ? 'border-cyan-300/32 bg-cyan-300/[0.08]'
+                      : 'border-white/8 bg-[#07111a]/50'
                   }`}
                 >
                   {service.recommended ? (
@@ -530,11 +529,11 @@ export default function HomeContent() {
                       Recomendado
                     </span>
                   ) : null}
-                  <span className="block h-px w-14 bg-cyan-300/55" />
-                  <h3 className="mt-4 pr-28 text-xl font-semibold text-white">{service.title}</h3>
+                  <span className="block h-px w-10 bg-cyan-300/50" />
+                  <h3 className="mt-4 pr-24 text-xl font-semibold text-white">{service.title}</h3>
                   <p className="mt-2 text-2xl font-semibold text-cyan-100">{service.price}</p>
                   <p className="mt-4 text-sm leading-6 text-white/80">{service.intro}</p>
-                  <ul className="mt-5 space-y-2">
+                  <ul className="mt-4 space-y-2">
                     {service.bullets.map((item) => (
                       <li key={item} className="flex gap-2 text-sm leading-5 text-white/78">
                         <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-300/80" />
@@ -561,7 +560,7 @@ export default function HomeContent() {
                     </button>
                   </div>
                   {isOpen ? (
-                    <div className="mt-5 grid gap-5 rounded-[1.1rem] bg-black/14 p-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] md:grid-cols-2">
+                    <div className="mt-4 grid gap-5 border-t border-white/8 pt-4 md:grid-cols-2">
                       <ServiceList title="Incluye" items={service.includes} />
                       <ServiceList title="No incluye" items={service.excludes} />
                     </div>
@@ -572,7 +571,7 @@ export default function HomeContent() {
           </div>
         </section>
 
-        <section id="bot-ia-local" className="grid gap-5 rounded-[2rem] bg-[radial-gradient(circle_at_18%_12%,rgba(34,211,238,0.18),transparent_26%),linear-gradient(135deg,rgba(7,17,26,0.68),rgba(4,12,20,0.42))] p-5 shadow-[inset_0_0_0_1px_rgba(103,232,249,0.16)] backdrop-blur-md sm:p-7 lg:grid-cols-[1fr_0.82fr] lg:items-center">
+        <section id="bot-ia-local" className="grid gap-5 rounded-[1.35rem] border border-cyan-300/16 bg-[#061018]/62 p-4 shadow-[0_18px_55px_rgba(0,0,0,0.2)] backdrop-blur-sm sm:p-6 lg:grid-cols-[1fr_0.82fr] lg:items-center">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Producto futuro</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
@@ -582,10 +581,9 @@ export default function HomeContent() {
               Un asistente para responder dudas básicas, ayudar a recoger contactos y orientar conversaciones. Ahora funciona como demo técnica con respuestas orientativas en desarrollo.
             </p>
             <div className="mt-5 flex flex-wrap gap-2 text-xs text-white/72">
-              <span className="rounded-full bg-white/[0.06] px-3 py-2">Demo en desarrollo</span>
-              <span className="rounded-full bg-white/[0.06] px-3 py-2">No promete 24/7</span>
-              <span className="rounded-full bg-white/[0.06] px-3 py-2">No sustituye atención humana</span>
-              <span className="rounded-full bg-white/[0.06] px-3 py-2">Demo técnica PBIA</span>
+              <span className="rounded-full border border-white/8 bg-white/[0.04] px-3 py-1.5">Demo en desarrollo</span>
+              <span className="rounded-full border border-white/8 bg-white/[0.04] px-3 py-1.5">No sustituye atención humana</span>
+              <span className="rounded-full border border-white/8 bg-white/[0.04] px-3 py-1.5">Demo técnica PBIA</span>
             </div>
             <button
               type="button"
@@ -599,7 +597,7 @@ export default function HomeContent() {
           <button
             type="button"
             onClick={openBot}
-            className="rounded-[1.4rem] bg-[#061018]/82 p-4 text-left shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08),0_24px_70px_rgba(0,0,0,0.24)] transition hover:shadow-[inset_0_0_0_1px_rgba(103,232,249,0.2),0_24px_70px_rgba(0,0,0,0.24)]"
+            className="rounded-[1rem] border border-white/8 bg-[#07111a]/72 p-4 text-left transition hover:border-cyan-300/26"
           >
             <div className="flex items-center justify-between gap-3">
               <div>
@@ -621,14 +619,14 @@ export default function HomeContent() {
           </button>
         </section>
 
-        <section id="seo-local" className="grid gap-6 lg:grid-cols-[0.86fr_1.14fr]">
+        <section id="seo-local" className="grid gap-5 border-t border-white/8 pt-8 lg:grid-cols-[0.86fr_1.14fr]">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">SEO local</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
               Diseño web para negocios locales en Alcalá de Henares y Madrid
             </h2>
           </div>
-          <div className="rounded-[1.45rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.48),rgba(7,17,26,0.2))] p-5 text-sm leading-7 text-white/80 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.07)] backdrop-blur-md sm:p-6 sm:text-base">
+          <div className="text-sm leading-7 text-white/80 sm:text-base">
             <p>
               Trabajo con pequeños negocios que necesitan una web clara, rápida y pensada para móvil: peluquerías, barberías, clínicas de estética, consultas, restaurantes y servicios locales. Si estás en Alcalá de Henares, Madrid o trabajas en remoto, la prioridad es la misma: que el cliente entienda qué ofreces y tenga un siguiente paso claro para contactarte por WhatsApp, formulario o correo.
             </p>
@@ -661,14 +659,14 @@ export default function HomeContent() {
               Hablar sobre tu caso
             </a>
           </div>
-          <div className="grid gap-4">
+          <div className="grid gap-3">
             {projects.map((project) => {
               const isOpen = openProject === project.title;
 
               return (
                 <article
                   key={project.title}
-                  className="rounded-[1.4rem] bg-[linear-gradient(180deg,rgba(8,18,27,0.48),rgba(8,18,27,0.18))] p-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)] backdrop-blur-md"
+                  className="rounded-[1.1rem] border border-white/8 bg-[#07111a]/48 p-4 shadow-[0_12px_38px_rgba(0,0,0,0.14)] backdrop-blur-sm sm:p-5"
                 >
                   <div className="grid gap-4 lg:grid-cols-[1fr_auto] lg:items-start">
                     <div>
@@ -679,7 +677,7 @@ export default function HomeContent() {
                         {project.skills.map((skill) => (
                           <span
                             key={skill}
-                            className="rounded-full bg-cyan-300/10 px-3 py-1.5 text-xs font-medium text-cyan-100 shadow-[inset_0_0_0_1px_rgba(103,232,249,0.14)]"
+                            className="rounded-full border border-cyan-200/12 bg-cyan-300/8 px-3 py-1.5 text-xs font-medium text-cyan-100"
                           >
                             {skill}
                           </span>
@@ -707,7 +705,7 @@ export default function HomeContent() {
                   </div>
 
                   {isOpen ? (
-                    <div className="mt-5 border-t border-white/10 pt-5">
+                    <div className="mt-5 border-t border-white/8 pt-5">
                       <div className="grid gap-3 lg:grid-cols-3">
                         {[
                           ['Problema', project.problem],
@@ -716,7 +714,7 @@ export default function HomeContent() {
                         ].map(([label, text]) => (
                           <div
                             key={label}
-                            className="rounded-[1.1rem] bg-black/14 p-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]"
+                            className="border-l border-cyan-300/20 pl-4"
                           >
                             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-100/68">
                               {label}
@@ -755,11 +753,11 @@ export default function HomeContent() {
               Cómo trabajamos
             </h2>
           </div>
-          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-2.5 md:grid-cols-2 lg:grid-cols-3">
             {processSteps.map((step, index) => (
               <article
                 key={step.title}
-                className="flex gap-4 rounded-[1.35rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.46),rgba(7,17,26,0.2))] px-4 py-4 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.07)] backdrop-blur-md"
+                className="flex gap-4 rounded-[1rem] border border-white/8 bg-[#07111a]/42 px-4 py-3.5"
               >
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cyan-300 text-base font-bold text-[#041018] shadow-[0_10px_28px_rgba(34,211,238,0.18)]">
                   {index + 1}
@@ -780,28 +778,28 @@ export default function HomeContent() {
               Preguntas frecuentes
             </h2>
           </div>
-          <div className="grid gap-3">
+          <div className="grid gap-2">
             {faqs.map((faq) => {
               const isOpen = openFaq === faq.question;
 
               return (
                 <article
                   key={faq.question}
-                  className="overflow-hidden rounded-[1.25rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.46),rgba(7,17,26,0.18))] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.07)] backdrop-blur-md"
+                  className="overflow-hidden rounded-[0.95rem] border border-white/8 bg-[#07111a]/46"
                 >
                   <button
                     type="button"
                     onClick={() => setOpenFaq(isOpen ? null : faq.question)}
                     aria-expanded={isOpen}
-                    className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
+                    className="flex w-full items-center justify-between gap-4 px-4 py-3.5 text-left sm:px-5"
                   >
-                    <span className="text-base font-semibold text-white">{faq.question}</span>
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/[0.06] text-lg font-semibold text-cyan-100">
+                    <span className="text-sm font-semibold leading-6 text-white sm:text-base">{faq.question}</span>
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/[0.05] text-base font-semibold text-cyan-100">
                       {isOpen ? '-' : '+'}
                     </span>
                   </button>
                   {isOpen ? (
-                    <p className="border-t border-white/8 px-5 pb-5 pt-4 text-sm leading-6 text-white/76">
+                    <p className="border-t border-white/8 px-4 pb-4 pt-3 text-sm leading-6 text-white/76 sm:px-5">
                       {faq.answer}
                     </p>
                   ) : null}
@@ -811,14 +809,14 @@ export default function HomeContent() {
           </div>
         </section>
 
-        <section id="quien-esta-detras" className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
+        <section id="quien-esta-detras" className="grid gap-5 border-t border-white/8 pt-8 lg:grid-cols-[0.85fr_1.15fr]">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Quién está detrás</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
               Trato directo, ejecución clara y soluciones sin mareos.
             </h2>
           </div>
-          <div className="space-y-4 rounded-[1.45rem] bg-[linear-gradient(180deg,rgba(7,17,26,0.46),rgba(7,17,26,0.18))] p-5 text-sm leading-7 text-white/78 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.07)] backdrop-blur-md sm:text-base">
+          <div className="space-y-4 text-sm leading-7 text-white/78 sm:text-base">
             <p>
               Soy la persona que analiza, estructura y ejecuta el proyecto. Hablas conmigo desde el inicio hasta la entrega, sin intermediarios y sin venderte algo que no necesitas.
             </p>
@@ -830,7 +828,7 @@ export default function HomeContent() {
 
         <section
           id="contacto"
-          className="rounded-[2rem] bg-[linear-gradient(180deg,rgba(34,211,238,0.12),rgba(8,18,27,0.18))] px-5 py-8 shadow-[inset_0_0_0_1px_rgba(103,232,249,0.16)] backdrop-blur-md sm:px-7 sm:py-10"
+          className="rounded-[1.35rem] border border-cyan-300/18 bg-cyan-300/[0.07] px-5 py-7 shadow-[0_18px_55px_rgba(0,0,0,0.18)] backdrop-blur-sm sm:px-7 sm:py-9"
         >
           <div className="max-w-3xl">
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Contacto</p>
@@ -893,12 +891,12 @@ export default function HomeContent() {
         <button
           type="button"
           onClick={openBot}
-          className="group max-w-[calc(100vw-1.5rem)] rounded-[1rem] bg-[#061018]/92 p-0.5 text-left shadow-[0_14px_34px_rgba(0,0,0,0.3),inset_0_0_0_1px_rgba(103,232,249,0.18)] backdrop-blur-md transition hover:shadow-[0_14px_34px_rgba(0,0,0,0.3),inset_0_0_0_1px_rgba(103,232,249,0.34)] sm:rounded-2xl sm:p-1"
+          className="group max-w-[calc(100vw-1.5rem)] rounded-full bg-[#061018]/88 p-0.5 text-left shadow-[0_12px_30px_rgba(0,0,0,0.26),inset_0_0_0_1px_rgba(103,232,249,0.18)] backdrop-blur-md transition hover:shadow-[0_12px_30px_rgba(0,0,0,0.26),inset_0_0_0_1px_rgba(103,232,249,0.34)]"
           aria-label="Abrir chat IA demo"
         >
-          <span className="flex flex-col gap-0.5 rounded-[0.85rem] bg-cyan-300 px-3 py-2 text-xs font-semibold leading-tight text-[#041018] sm:flex-row sm:items-center sm:gap-3 sm:px-4 sm:py-3 sm:text-sm">
+          <span className="flex items-center gap-2 rounded-full bg-cyan-300 px-3 py-2 text-xs font-semibold leading-tight text-[#041018] sm:gap-3 sm:px-4 sm:py-2.5 sm:text-sm">
             <span>Chat IA demo</span>
-            <span className="rounded-full bg-[#041018]/10 px-2 py-0.5 text-[8px] uppercase tracking-[0.1em] sm:py-1 sm:text-[10px] sm:tracking-[0.14em]">
+            <span className="hidden rounded-full bg-[#041018]/10 px-2 py-1 text-[10px] uppercase tracking-[0.14em] sm:inline-flex">
               Demo en desarrollo
             </span>
           </span>
@@ -915,8 +913,8 @@ export default function HomeContent() {
       </div>
 
       {isBotOpen ? (
-        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/62 px-2 py-2 backdrop-blur-sm sm:items-center sm:p-6">
-          <div className="flex max-h-[75vh] w-full max-w-lg flex-col overflow-hidden rounded-[1.25rem] bg-[#061018] shadow-[0_28px_90px_rgba(0,0,0,0.46),inset_0_0_0_1px_rgba(255,255,255,0.1)] sm:rounded-[1.6rem]">
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/58 px-2 py-2 backdrop-blur-sm sm:items-center sm:p-6">
+          <div className="flex max-h-[82vh] w-full max-w-lg flex-col overflow-hidden rounded-[1rem] border border-white/10 bg-[#061018] shadow-[0_24px_80px_rgba(0,0,0,0.42)] sm:max-h-[75vh] sm:rounded-[1.35rem]">
             <div className="flex shrink-0 items-start justify-between gap-4 border-b border-white/8 px-4 py-3 sm:px-5 sm:py-4">
               <div>
                 <p className="text-sm font-semibold text-white">Chat IA demo</p>
@@ -933,7 +931,7 @@ export default function HomeContent() {
             </div>
 
             <div className="flex-1 overflow-y-auto px-3 py-3 sm:px-5 sm:py-5">
-              <div className="rounded-2xl rounded-tl-sm bg-white/[0.07] px-3 py-2.5 text-sm leading-6 text-white/82 sm:px-4 sm:py-3">
+              <div className="rounded-xl bg-white/[0.06] px-3 py-2.5 text-sm leading-6 text-white/82 sm:px-4 sm:py-3">
                 El operador IA está en modo demo. Puedes escribir una duda o usar una pregunta rápida; responderá con información orientativa sin backend real.
               </div>
 
