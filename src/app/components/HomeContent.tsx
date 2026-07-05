@@ -24,6 +24,8 @@ const services = [
     title: 'Mejora Web Express',
     price: 'Desde 180 €',
     intro: 'Para webs que existen, pero no transmiten confianza ni convierten bien en móvil.',
+    idealFor:
+      'webs que ya existen, pero necesitan comunicar mejor y facilitar más contactos.',
     bullets: ['Revisión de estructura', 'Textos y CTA más claros', 'Mejor experiencia móvil'],
     includes: [
       'Revisión de estructura',
@@ -43,6 +45,8 @@ const services = [
     title: 'Web Local Base',
     price: 'Desde 350 €',
     intro: 'Para tener una web profesional, clara y lista para recibir contactos.',
+    idealFor:
+      'negocios sin web o que necesitan una página profesional para explicar sus servicios y recibir mensajes.',
     bullets: ['Landing responsive', 'WhatsApp y formulario básico', 'SEO local básico'],
     includes: [
       'Landing responsive',
@@ -64,6 +68,8 @@ const services = [
     title: 'Pack Web + Contactos',
     price: 'Desde 500 €',
     intro: 'Para verte mejor y empezar a recoger contactos ordenados desde el primer día.',
+    idealFor:
+      'negocios que quieren recoger consultas de forma ordenada y no perder clientes entre WhatsApp, formularios y mensajes sueltos.',
     bullets: ['Web Local Base', 'Formulario conectado', 'Registro simple en Google Sheets'],
     includes: [
       'Web Local Base',
@@ -84,6 +90,8 @@ const services = [
     title: 'Pack Pro Captación',
     price: 'Desde 750 €',
     intro: 'Para una presencia más seria, con mejor mensaje y captación más preparada.',
+    idealFor:
+      'negocios que quieren una web más completa, mejor mensaje local y medición básica de contactos.',
     bullets: ['Copy más trabajado', 'SEO local más completo', 'Medición básica de conversiones'],
     includes: [
       'Web Local Base',
@@ -105,13 +113,13 @@ const services = [
 const projects = [
   {
     title: 'Powered by IA',
-    type: 'Landing comercial + demo técnica IA',
-    value: 'Caso aplicado para vender webs, captación ordenada y futuros operadores IA.',
-    skills: ['Estrategia comercial', 'UX mobile-first', 'SEO local', 'Demo FAQ IA'],
+    type: 'Landing comercial + asistente orientativo',
+    value: 'Caso aplicado para vender webs claras, contacto visible y captación ordenada.',
+    skills: ['Estrategia comercial', 'UX mobile-first', 'SEO local', 'Asistente orientativo'],
     problem:
       'Convertir una presencia digital básica en una landing comercial clara para clientes locales y, a la vez, enseñar capacidad técnica sin saturar la página.',
     solution:
-      'Estructura de servicios, precios orientativos, CTA a WhatsApp, SEO local, FAQ y una demo técnica FAQ/offline para preparar el producto de operador IA.',
+      'Estructura de servicios, precios orientativos, CTA a WhatsApp, SEO local, FAQ y un asistente orientativo para dudas rápidas.',
     proof:
       'Demuestra estrategia comercial, diseño mobile-first, copy de conversión, SEO local y una primera capa de producto IA explicada con límites claros.',
     desktopImage: '/imagenes/pbidesk.jpeg',
@@ -123,13 +131,13 @@ const projects = [
     title: 'RYS Minimarket',
     type: 'Catálogo mobile-first',
     value: 'Tienda ligera con navegación móvil, contacto claro y operación web simple.',
-    skills: ['Next.js', 'UX móvil', 'Catálogo', 'WhatsApp/contacto'],
+    skills: ['Web rápida', 'Catálogo fácil en móvil', 'Contacto visible', 'Operación simple'],
     problem:
       'Mostrar productos y facilitar contacto desde móvil sin convertir la experiencia en una tienda pesada o difícil de operar.',
     solution:
       'Catálogo web ligero con navegación clara, enfoque móvil, contacto visible y flujo pensado para operación sencilla.',
     proof:
-      'Demuestra ejecución en Next.js, criterio de UX móvil, organización de catálogo y orientación práctica a contacto/venta.',
+      'Demuestra una web rápida, criterio móvil, organización de catálogo y contacto visible para facilitar consultas.',
     desktopImage: '/imagenes/rysdesk.jpeg',
     mobileImage: '/imagenes/rysmov.jpeg',
     href: RYS_LINK,
@@ -198,7 +206,7 @@ const faqs = [
   {
     question: '¿El bot IA ya está disponible?',
     answer:
-      'Está en modo demo/FAQ. No promete 24/7 si el servidor local está apagado y no sustituye atención humana.',
+      'Está como asistente orientativo para dudas rápidas. Sus respuestas son orientativas y no sustituyen atención humana.',
   },
   {
     question: '¿Hay mantenimiento mensual?',
@@ -246,7 +254,7 @@ const initialChatMessages: ChatMessage[] = [
     id: 'welcome',
     role: 'assistant',
     text:
-      'Hola, soy la demo de Chat IA de Powered by IA. Puedo orientarte sobre precios, diagnóstico, WhatsApp, SEO local, contactos o cómo funciona este bot demo.',
+      'Hola, soy el asistente orientativo de Powered by IA. Puedo orientarte sobre precios, diagnóstico, WhatsApp, SEO local y contactos.',
   },
 ];
 
@@ -280,7 +288,7 @@ const getDemoAnswer = (message: string) => {
   }
 
   if (text.includes('bot') || text.includes('ia') || text.includes('demo') || text.includes('chat')) {
-    return 'Este bot IA está en demo: responde con reglas básicas y FAQ locales, sin backend real. Sirve para enseñar el flujo conversacional, no sustituye atención humana.';
+    return 'Este asistente da respuestas orientativas sobre servicios, precios y contacto. Para una propuesta real, pide diagnóstico gratis. No sustituye atención humana.';
   }
 
   return 'Puedo orientarte sobre precios, WhatsApp, SEO local, captación de contactos o diagnóstico gratis.';
@@ -455,7 +463,7 @@ export default function HomeContent() {
               Webs claras para negocios locales que quieren recibir más contactos sin complicarse.
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-7 text-white/84 drop-shadow-[0_8px_20px_rgba(0,0,0,0.28)] sm:text-[1.08rem]">
-              Diseño una web sencilla, rápida y enfocada en que tus clientes entiendan qué haces, confíen en ti y te escriban por WhatsApp, formulario o correo.
+              Diseño una web sencilla, rápida y enfocada en recibir clientes: que entiendan qué haces, confíen en ti y te escriban por WhatsApp, formulario o correo.
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <a
@@ -497,7 +505,7 @@ export default function HomeContent() {
                   priority
                 />
                 <div>
-                  <p className="text-xs uppercase tracking-[0.24em] text-cyan-200/78">Trato directo</p>
+                  <p className="text-xs uppercase tracking-[0.24em] text-cyan-200/78">Hablas conmigo directamente</p>
                   <p className="mt-2 text-xl font-semibold leading-tight text-white">
                     Claridad comercial, móvil y contacto visible.
                   </p>
@@ -555,6 +563,10 @@ export default function HomeContent() {
                   <h3 className="mt-4 pr-24 text-xl font-semibold text-white">{service.title}</h3>
                   <p className="mt-2 text-2xl font-semibold text-cyan-100">{service.price}</p>
                   <p className="mt-4 text-sm leading-6 text-white/80">{service.intro}</p>
+                  <p className="mt-3 rounded-xl border border-cyan-300/14 bg-cyan-300/[0.06] px-3 py-2 text-sm leading-6 text-cyan-50/82">
+                    <span className="font-semibold text-cyan-100">Ideal para: </span>
+                    {service.idealFor}
+                  </p>
                   <ul className="mt-4 space-y-2">
                     {service.bullets.map((item) => (
                       <li key={item} className="flex gap-2 text-sm leading-5 text-white/78">
@@ -595,24 +607,24 @@ export default function HomeContent() {
 
         <section id="bot-ia-local" className="grid gap-5 rounded-[1.35rem] border border-cyan-300/16 bg-[#061018]/62 p-4 shadow-[0_18px_55px_rgba(0,0,0,0.2)] backdrop-blur-sm sm:p-6 lg:grid-cols-[1fr_0.82fr] lg:items-center">
           <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Producto futuro</p>
+            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Dudas rápidas</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Operador IA Local - Demo en desarrollo
+              Asistente orientativo para primeras preguntas
             </h2>
             <p className="mt-4 max-w-2xl text-sm leading-7 text-white/80 sm:text-base">
-              Un asistente para responder dudas básicas, ayudar a recoger contactos y orientar conversaciones. Ahora funciona como demo técnica con respuestas orientativas en desarrollo.
+              Responde dudas básicas sobre precios, WhatsApp, SEO local y contactos. Sus respuestas son orientativas; para una propuesta real, pide diagnóstico gratis.
             </p>
             <div className="mt-5 flex flex-wrap gap-2 text-xs text-white/72">
-              <span className="rounded-full border border-white/8 bg-white/[0.04] px-3 py-1.5">Demo en desarrollo</span>
+              <span className="rounded-full border border-white/8 bg-white/[0.04] px-3 py-1.5">Respuestas orientativas</span>
               <span className="rounded-full border border-white/8 bg-white/[0.04] px-3 py-1.5">No sustituye atención humana</span>
-              <span className="rounded-full border border-white/8 bg-white/[0.04] px-3 py-1.5">Demo técnica PBIA</span>
+              <span className="rounded-full border border-white/8 bg-white/[0.04] px-3 py-1.5">Diagnóstico gratis disponible</span>
             </div>
             <button
               type="button"
               onClick={openBot}
               className="mt-6 inline-flex h-12 items-center justify-center rounded-full bg-cyan-300 px-6 text-sm font-semibold text-[#041018] transition hover:bg-cyan-200"
             >
-              Probar chat IA
+              Preguntar
             </button>
           </div>
 
@@ -623,11 +635,11 @@ export default function HomeContent() {
           >
             <div className="flex items-center justify-between gap-3">
               <div>
-                <p className="text-sm font-semibold text-white">Chat IA demo</p>
-                <p className="mt-1 text-xs text-white/50">Demo interactiva en desarrollo</p>
+                <p className="text-sm font-semibold text-white">Dudas rápidas</p>
+                <p className="mt-1 text-xs text-white/50">Respuestas orientativas</p>
               </div>
               <span className="rounded-full bg-cyan-300/12 px-3 py-1 text-xs font-medium text-cyan-100">
-                Demo
+                Preguntar
               </span>
             </div>
             <div className="mt-5 space-y-3">
@@ -835,15 +847,15 @@ export default function HomeContent() {
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Quién está detrás</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Trato directo, ejecución clara y soluciones sin mareos.
+              Hablas conmigo directamente, con ejecución clara y soluciones sin mareos.
             </h2>
           </div>
           <div className="space-y-4 text-sm leading-7 text-white/78 sm:text-base">
             <p>
-              Soy la persona que analiza, estructura y ejecuta el proyecto. Hablas conmigo desde el inicio hasta la entrega, sin intermediarios y sin venderte algo que no necesitas.
+              Soy Gerardo. Ayudo a negocios locales a tener una web clara, rápida y preparada para recibir consultas por WhatsApp, formulario o correo.
             </p>
             <p>
-              La prioridad es dejar una solución clara, útil y preparada para que un cliente entienda tu negocio y tenga un siguiente paso para contactarte.
+              Hablas conmigo desde el inicio hasta la entrega, sin intermediarios y sin venderte algo que no necesitas. La prioridad es dejar una solución clara, útil y preparada para que un cliente entienda tu negocio y tenga un siguiente paso para contactarte.
             </p>
           </div>
         </section>
@@ -914,12 +926,12 @@ export default function HomeContent() {
           type="button"
           onClick={openBot}
           className="group max-w-[calc(100vw-1.5rem)] rounded-full bg-[#061018]/88 p-0.5 text-left shadow-[0_12px_30px_rgba(0,0,0,0.26),inset_0_0_0_1px_rgba(103,232,249,0.18)] backdrop-blur-md transition hover:shadow-[0_12px_30px_rgba(0,0,0,0.26),inset_0_0_0_1px_rgba(103,232,249,0.34)]"
-          aria-label="Abrir chat IA demo"
+          aria-label="Abrir asistente orientativo"
         >
           <span className="flex items-center gap-2 rounded-full bg-cyan-300 px-3 py-2 text-xs font-semibold leading-tight text-[#041018] sm:gap-3 sm:px-4 sm:py-2.5 sm:text-sm">
-            <span>Chat IA demo</span>
+            <span>Dudas rápidas</span>
             <span className="hidden rounded-full bg-[#041018]/10 px-2 py-1 text-[10px] uppercase tracking-[0.14em] sm:inline-flex">
-              Demo en desarrollo
+              Respuestas orientativas
             </span>
           </span>
         </button>
@@ -939,7 +951,7 @@ export default function HomeContent() {
           className="fixed inset-0 z-50 flex items-end justify-center bg-black/58 px-2 py-2 backdrop-blur-sm sm:items-center sm:p-6"
           onMouseDown={closeBot}
           onTouchStart={closeBot}
-          aria-label="Cerrar chat IA demo"
+          aria-label="Cerrar asistente orientativo"
           role="presentation"
         >
           <div
@@ -948,18 +960,18 @@ export default function HomeContent() {
             onTouchStart={(event) => event.stopPropagation()}
             role="dialog"
             aria-modal="true"
-            aria-label="Chat IA demo"
+            aria-label="Asistente orientativo"
           >
             <div className="flex shrink-0 items-start justify-between gap-4 border-b border-white/8 px-4 py-3 sm:px-5 sm:py-4">
               <div>
-                <p className="text-sm font-semibold text-white">Chat IA demo</p>
-                <p className="mt-1 text-xs text-cyan-100/78">Demo en desarrollo · No sustituye atención humana</p>
+                <p className="text-sm font-semibold text-white">Dudas rápidas</p>
+                <p className="mt-1 text-xs text-cyan-100/78">Respuestas orientativas · No sustituye atención humana</p>
               </div>
               <button
                 type="button"
                 onClick={closeBot}
                 className="flex h-9 w-9 items-center justify-center rounded-full bg-white/[0.08] text-lg font-semibold text-white transition hover:bg-white/[0.13]"
-                aria-label="Cerrar chat IA demo"
+                aria-label="Cerrar asistente orientativo"
               >
                 ×
               </button>
@@ -967,7 +979,7 @@ export default function HomeContent() {
 
             <div className="flex-1 overflow-y-auto px-3 py-3 sm:px-5 sm:py-5">
               <div className="rounded-xl bg-white/[0.06] px-3 py-2.5 text-sm leading-6 text-white/82 sm:px-4 sm:py-3">
-                El operador IA está en modo demo. Puedes escribir una duda o usar una pregunta rápida; responderá con información orientativa sin backend real.
+                Respuestas orientativas. Para una propuesta real, pide diagnóstico gratis.
               </div>
 
               <div className="mt-4 flex flex-wrap gap-1.5 sm:mt-5 sm:gap-2">
@@ -999,7 +1011,7 @@ export default function HomeContent() {
               </div>
 
               <p className="mt-5 text-xs leading-5 text-white/46">
-                Demo en desarrollo. No sustituye atención humana.
+                Respuestas orientativas. No sustituye atención humana.
               </p>
             </div>
 
