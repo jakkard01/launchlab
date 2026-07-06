@@ -453,8 +453,8 @@ export default function HomeContent() {
         </div>
       </header>
 
-      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-12 px-4 pb-36 pt-24 sm:gap-16 sm:px-6 sm:pb-32 sm:pt-28">
-        <section id="inicio" className="grid min-h-[68vh] gap-9 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
+      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-12 px-4 pb-44 pt-24 sm:gap-16 sm:px-6 sm:pb-32 sm:pt-28">
+        <section id="inicio" className="grid min-h-[68vh] scroll-mt-24 gap-9 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
           <div className="relative max-w-3xl">
             <span className="inline-flex rounded-full border border-cyan-200/18 bg-cyan-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-100">
               Diseño web para negocio local
@@ -527,14 +527,14 @@ export default function HomeContent() {
           </div>
         </section>
 
-        <section id="problema" className="border-l border-cyan-300/35 pl-5 sm:pl-7">
+        <section id="problema" className="scroll-mt-24 border-l border-cyan-300/35 pl-5 sm:pl-7">
           <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Problema</p>
           <h2 className="mt-4 max-w-4xl text-2xl font-semibold leading-tight text-white sm:text-4xl">
             Muchos negocios no pierden clientes por falta de calidad, sino porque su web no se entiende, el contacto está escondido o las consultas quedan desordenadas.
           </h2>
         </section>
 
-        <section id="servicios" className="space-y-6">
+        <section id="servicios" className="scroll-mt-24 space-y-6">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Servicios y precios</p>
             <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
@@ -605,7 +605,7 @@ export default function HomeContent() {
           </div>
         </section>
 
-        <section id="bot-ia-local" className="grid gap-5 rounded-[1.35rem] border border-cyan-300/16 bg-[#061018]/62 p-4 shadow-[0_18px_55px_rgba(0,0,0,0.2)] backdrop-blur-sm sm:p-6 lg:grid-cols-[1fr_0.82fr] lg:items-center">
+        <section id="bot-ia-local" className="grid scroll-mt-24 gap-5 rounded-[1.35rem] border border-cyan-300/16 bg-[#061018]/62 p-4 shadow-[0_18px_55px_rgba(0,0,0,0.2)] backdrop-blur-sm sm:p-6 lg:grid-cols-[1fr_0.82fr] lg:items-center">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Dudas rápidas</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
@@ -653,7 +653,7 @@ export default function HomeContent() {
           </button>
         </section>
 
-        <section id="seo-local" className="grid gap-5 border-t border-white/8 pt-8 lg:grid-cols-[0.86fr_1.14fr]">
+        <section id="seo-local" className="grid scroll-mt-24 gap-5 border-t border-white/8 pt-8 lg:grid-cols-[0.86fr_1.14fr]">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">SEO local</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
@@ -780,7 +780,7 @@ export default function HomeContent() {
           </div>
         </section>
 
-        <section id="como-trabajamos" className="space-y-6">
+        <section id="como-trabajamos" className="scroll-mt-24 space-y-6">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Proceso</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
@@ -805,7 +805,7 @@ export default function HomeContent() {
           </div>
         </section>
 
-        <section id="faq" className="space-y-6">
+        <section id="faq" className="scroll-mt-24 space-y-6">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">FAQ</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
@@ -843,7 +843,7 @@ export default function HomeContent() {
           </div>
         </section>
 
-        <section id="quien-esta-detras" className="grid gap-5 border-t border-white/8 pt-8 lg:grid-cols-[0.85fr_1.15fr]">
+        <section id="quien-esta-detras" className="grid scroll-mt-24 gap-5 border-t border-white/8 pt-8 lg:grid-cols-[0.85fr_1.15fr]">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Quién está detrás</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
@@ -862,7 +862,7 @@ export default function HomeContent() {
 
         <section
           id="contacto"
-          className="rounded-[1.35rem] border border-cyan-300/18 bg-cyan-300/[0.07] px-5 py-7 shadow-[0_18px_55px_rgba(0,0,0,0.18)] backdrop-blur-sm sm:px-7 sm:py-9"
+          className="scroll-mt-24 rounded-[1.35rem] border border-cyan-300/18 bg-cyan-300/[0.07] px-5 py-7 shadow-[0_18px_55px_rgba(0,0,0,0.18)] backdrop-blur-sm sm:px-7 sm:py-9"
         >
           <div className="max-w-3xl">
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Contacto</p>
@@ -921,14 +921,14 @@ export default function HomeContent() {
         </footer>
       </div>
 
-      <div className="fixed bottom-3 right-3 z-30 flex flex-col items-end gap-2 sm:bottom-4 sm:right-4">
+      <div className="fixed bottom-2 right-2 z-30 flex flex-col items-end gap-2 sm:bottom-4 sm:right-4">
         <button
           type="button"
           onClick={openBot}
-          className="group max-w-[calc(100vw-1.5rem)] rounded-full bg-[#061018]/88 p-0.5 text-left shadow-[0_12px_30px_rgba(0,0,0,0.26),inset_0_0_0_1px_rgba(103,232,249,0.18)] backdrop-blur-md transition hover:shadow-[0_12px_30px_rgba(0,0,0,0.26),inset_0_0_0_1px_rgba(103,232,249,0.34)]"
+          className="group max-w-[calc(100vw-1rem)] rounded-full bg-[#061018]/88 p-0.5 text-left shadow-[0_12px_30px_rgba(0,0,0,0.26),inset_0_0_0_1px_rgba(103,232,249,0.18)] backdrop-blur-md transition hover:shadow-[0_12px_30px_rgba(0,0,0,0.26),inset_0_0_0_1px_rgba(103,232,249,0.34)] sm:max-w-[calc(100vw-1.5rem)]"
           aria-label="Abrir asistente orientativo"
         >
-          <span className="flex items-center gap-2 rounded-full bg-cyan-300 px-3 py-2 text-xs font-semibold leading-tight text-[#041018] sm:gap-3 sm:px-4 sm:py-2.5 sm:text-sm">
+          <span className="flex items-center gap-1.5 rounded-full bg-cyan-300 px-2.5 py-1.5 text-[11px] font-semibold leading-tight text-[#041018] sm:gap-3 sm:px-4 sm:py-2.5 sm:text-sm">
             <span>Dudas rápidas</span>
             <span className="hidden rounded-full bg-[#041018]/10 px-2 py-1 text-[10px] uppercase tracking-[0.14em] sm:inline-flex">
               Respuestas orientativas
