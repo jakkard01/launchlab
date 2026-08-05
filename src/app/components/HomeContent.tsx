@@ -16,6 +16,9 @@ const buildMailtoLink = (subject: string, body: string) =>
 const WHATSAPP_LINK = buildWhatsAppLink(
   'Hola Powered by IA, quiero información sobre Web Local Express.',
 );
+const POINT_IMPROVEMENT_LINK = buildWhatsAppLink(
+  'Hola Gerardo, necesito una mejora puntual para mi negocio. Me gustaría contarte el caso para saber si puedes ayudarme.',
+);
 
 const badges = ['Adaptada a móvil', 'WhatsApp o llamada', 'SEO local básico'];
 
@@ -25,7 +28,14 @@ const services = [
     price: '490 €',
     intro: 'Una web clara para mostrar tu negocio y facilitar que te contacten.',
     idealFor: 'pequeños negocios que necesitan explicar sus servicios, ubicación y horarios sin complicarse.',
-    bullets: ['Landing de una página', 'Hasta seis secciones', 'Entrega estimada en siete días laborables'],
+    bullets: [
+      'Landing de una página',
+      'Hasta seis secciones',
+      'Diseño adaptado a móvil',
+      'WhatsApp o llamada',
+      'SEO local básico',
+      'Entrega estimada en siete días laborables',
+    ],
     includes: [
       'Landing de una página',
       'Hasta seis secciones',
@@ -57,22 +67,6 @@ const services = [
 ];
 
 const projects = [
-  {
-    title: 'Powered by IA',
-    type: 'Landing comercial',
-    value: 'Caso aplicado para explicar una oferta web clara y contacto visible.',
-    skills: ['Estrategia comercial', 'UX mobile-first', 'SEO local'],
-    problem:
-      'Convertir una presencia digital básica en una landing comercial clara para clientes locales y, a la vez, enseñar capacidad técnica sin saturar la página.',
-    solution:
-      'Una oferta concreta, CTA a WhatsApp, SEO local básico y una estructura comercial fácil de revisar.',
-    proof:
-      'Demuestra estrategia comercial, diseño mobile-first, copy claro y SEO local básico.',
-    desktopImage: '/imagenes/pbidesk.jpeg',
-    mobileImage: '/imagenes/pbiamov.jpeg',
-    href: '#inicio',
-    cta: 'Ver proyecto',
-  },
   {
     title: 'RYS Minimarket',
     type: 'Web para negocio local',
@@ -279,8 +273,8 @@ export default function HomeContent() {
         </div>
       </header>
 
-      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-12 px-4 pb-44 pt-24 sm:gap-16 sm:px-6 sm:pb-32 sm:pt-28">
-        <section id="inicio" className="grid min-h-[68vh] scroll-mt-24 gap-9 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
+      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 pb-32 pt-24 sm:gap-14 sm:px-6 sm:pb-28 sm:pt-28">
+        <section id="inicio" className="grid min-h-[62vh] scroll-mt-24 gap-9 lg:min-h-[60vh] lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
           <div className="relative max-w-3xl">
             <span className="inline-flex rounded-full border border-cyan-200/18 bg-cyan-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-100">
               Diseño web para negocio local
@@ -355,7 +349,7 @@ export default function HomeContent() {
 
         <section id="problema" className="scroll-mt-24 border-l border-cyan-300/35 pl-5 sm:pl-7">
           <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Problema</p>
-          <h2 className="mt-4 max-w-4xl text-2xl font-semibold leading-tight text-white sm:text-4xl">
+          <h2 className="mt-4 max-w-4xl text-[1.65rem] font-semibold leading-[1.18] text-white sm:text-4xl">
             Muchos negocios no pierden clientes por falta de calidad, sino porque su web no se entiende, el contacto está escondido o las consultas quedan desordenadas.
           </h2>
         </section>
@@ -363,7 +357,7 @@ export default function HomeContent() {
         <section id="servicios" className="scroll-mt-24 space-y-6">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Servicios y precios</p>
-            <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
+            <h2 className="mt-3 max-w-3xl text-[1.7rem] font-semibold leading-tight tracking-[-0.03em] text-white sm:text-4xl">
               Una web clara, con el alcance definido desde el principio.
             </h2>
           </div>
@@ -428,12 +422,26 @@ export default function HomeContent() {
               );
             })}
           </div>
+          <aside className="rounded-[1.1rem] border border-white/8 bg-[#07111a]/42 p-4 sm:p-5">
+            <h3 className="text-lg font-semibold text-white">¿Ahora solo necesitas una mejora concreta?</h3>
+            <p className="mt-3 max-w-3xl text-sm leading-6 text-white/76">
+              También realizo trabajos puntuales como mejorar textos, configurar WhatsApp, optimizar tu presencia local o actualizar una web existente. Cuéntame tu caso y te diré con claridad si puedo ayudarte.
+            </p>
+            <a
+              href={POINT_IMPROVEMENT_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-5 inline-flex h-11 items-center justify-center rounded-full border border-cyan-300/22 bg-cyan-300/10 px-5 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/14"
+            >
+              Consultar una mejora puntual
+            </a>
+          </aside>
         </section>
 
         <section id="seo-local" className="grid scroll-mt-24 gap-5 border-t border-white/8 pt-8 lg:grid-cols-[0.86fr_1.14fr]">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">SEO local</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
+            <h2 className="mt-3 text-[1.7rem] font-semibold leading-tight tracking-[-0.03em] text-white sm:text-4xl">
               SEO local básico para una web que se entiende bien
             </h2>
           </div>
@@ -470,7 +478,7 @@ export default function HomeContent() {
               Hablar conmigo por WhatsApp
             </a>
           </div>
-          <div className="grid gap-3">
+          <div className="grid max-w-4xl gap-3">
             {projects.map((project) => {
               const isOpen = openProject === project.title;
 
@@ -634,7 +642,7 @@ export default function HomeContent() {
 
         <section
           id="contacto"
-          className="scroll-mt-24 rounded-[1.35rem] border border-cyan-300/18 bg-cyan-300/[0.07] px-5 py-7 shadow-[0_18px_55px_rgba(0,0,0,0.18)] backdrop-blur-sm sm:px-7 sm:py-9"
+          className="scroll-mt-24 rounded-[1.35rem] border border-cyan-300/18 bg-cyan-300/[0.07] px-5 py-6 shadow-[0_18px_55px_rgba(0,0,0,0.18)] backdrop-blur-sm sm:px-7 sm:py-8"
         >
           <div className="max-w-3xl">
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Contacto</p>

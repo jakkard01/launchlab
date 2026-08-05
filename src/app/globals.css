@@ -9,6 +9,7 @@ body {
   @apply bg-[#07111a] text-white;
   font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   scroll-behavior: smooth;
+  scroll-padding-top: 4.5rem;
 }
 
 * {
