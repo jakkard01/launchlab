@@ -224,24 +224,6 @@ export default function HomeContent() {
   const [openService, setOpenService] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<string | null>(null);
   const [openProject, setOpenProject] = useState<string | null>(null);
-  // The assistant remains available in the codebase for a future demo, but is
-  // intentionally excluded from this commercial flow.
-  const showAssistantDemo = false;
-  const [isBotOpen, setIsBotOpen] = useState(false);
-  const [chatMessages, setChatMessages] = useState<{ id: string; role: 'user' | 'assistant'; text: string }[]>([]);
-  const [chatDraft, setChatDraft] = useState('');
-  const quickQuestions: { question: string }[] = [];
-  const openBot = () => setIsBotOpen(true);
-  const closeBot = () => setIsBotOpen(false);
-  const sendBotMessage = (message: string) => {
-    if (!message.trim()) return;
-    setChatMessages((current) => [...current, { id: String(Date.now()), role: 'user', text: message }]);
-  };
-  const handleChatSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    sendBotMessage(chatDraft);
-    setChatDraft('');
-  };
 
   return (
     <main
@@ -458,15 +440,15 @@ export default function HomeContent() {
         <section id="proyectos" className="scroll-mt-24 space-y-5">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Casos reales</p>
+              <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Caso real</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-                Ejemplos reales
+                Un proyecto real
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-white/76 sm:text-base">
-              Proyectos existentes usados para enseñar criterio comercial, UX móvil y ejecución técnica sin inventar resultados.
+                Un proyecto existente que muestra criterio comercial, UX móvil y ejecución técnica sin inventar resultados.
               </p>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-cyan-100/78">
-                Abre solo el caso que quieras revisar. La idea es enseñar trabajo real sin llenar la página de ruido.
+                Puedes revisar el resumen o abrir directamente la tienda.
               </p>
             </div>
             <a
@@ -701,126 +683,6 @@ export default function HomeContent() {
         </footer>
       </div>
 
-      {showAssistantDemo ? (
-        <>
-      <div className="fixed bottom-2 right-2 z-30 flex flex-col items-end gap-2 sm:bottom-4 sm:right-4">
-        <button
-          type="button"
-          onClick={openBot}
-          className="group max-w-[calc(100vw-1rem)] rounded-full bg-[#061018]/88 p-0.5 text-left shadow-[0_12px_30px_rgba(0,0,0,0.26),inset_0_0_0_1px_rgba(103,232,249,0.18)] backdrop-blur-md transition hover:shadow-[0_12px_30px_rgba(0,0,0,0.26),inset_0_0_0_1px_rgba(103,232,249,0.34)] sm:max-w-[calc(100vw-1.5rem)]"
-          aria-label="Abrir asistente orientativo"
-        >
-          <span className="flex items-center gap-1.5 rounded-full bg-cyan-300 px-2.5 py-1.5 text-[11px] font-semibold leading-tight text-[#041018] sm:gap-3 sm:px-4 sm:py-2.5 sm:text-sm">
-            <span>Dudas rápidas</span>
-            <span className="hidden rounded-full bg-[#041018]/10 px-2 py-1 text-[10px] uppercase tracking-[0.14em] sm:inline-flex">
-              Respuestas orientativas
-            </span>
-          </span>
-        </button>
-        <a
-          href={WHATSAPP_LINK}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hidden h-10 items-center justify-center rounded-full bg-white/[0.08] px-4 text-xs font-semibold text-white/82 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12)] backdrop-blur-md transition hover:bg-white/[0.12] sm:inline-flex"
-          aria-label="Abrir WhatsApp"
-        >
-          WhatsApp
-        </a>
-      </div>
-
-      {isBotOpen ? (
-        <div
-          className="fixed inset-0 z-50 flex items-end justify-center bg-black/58 px-2 py-2 backdrop-blur-sm sm:items-center sm:p-6"
-          onMouseDown={closeBot}
-          onTouchStart={closeBot}
-          aria-label="Cerrar asistente orientativo"
-          role="presentation"
-        >
-          <div
-            className="flex max-h-[82vh] w-full max-w-lg flex-col overflow-hidden rounded-[1rem] border border-white/10 bg-[#061018] shadow-[0_24px_80px_rgba(0,0,0,0.42)] sm:max-h-[75vh] sm:rounded-[1.35rem]"
-            onMouseDown={(event) => event.stopPropagation()}
-            onTouchStart={(event) => event.stopPropagation()}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Asistente orientativo"
-          >
-            <div className="flex shrink-0 items-start justify-between gap-4 border-b border-white/8 px-4 py-3 sm:px-5 sm:py-4">
-              <div>
-                <p className="text-sm font-semibold text-white">Dudas rápidas</p>
-                <p className="mt-1 text-xs text-cyan-100/78">Respuestas orientativas · No sustituye atención humana</p>
-              </div>
-              <button
-                type="button"
-                onClick={closeBot}
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/[0.08] text-lg font-semibold text-white transition hover:bg-white/[0.13]"
-                aria-label="Cerrar asistente orientativo"
-              >
-                ×
-              </button>
-            </div>
-
-            <div className="flex-1 overflow-y-auto px-3 py-3 sm:px-5 sm:py-5">
-              <div className="rounded-xl bg-white/[0.06] px-3 py-2.5 text-sm leading-6 text-white/82 sm:px-4 sm:py-3">
-                Respuestas orientativas. Para una propuesta real, pide diagnóstico gratis.
-              </div>
-
-              <div className="mt-4 flex flex-wrap gap-1.5 sm:mt-5 sm:gap-2">
-                {quickQuestions.map((item) => (
-                  <button
-                    key={item.question}
-                    type="button"
-                    onClick={() => sendBotMessage(item.question)}
-                    className="rounded-full bg-white/[0.06] px-3 py-1.5 text-left text-xs font-medium text-white/78 transition hover:bg-white/[0.1] sm:px-4 sm:py-2 sm:text-sm"
-                  >
-                    {item.question}
-                  </button>
-                ))}
-              </div>
-
-              <div className="mt-4 space-y-3 sm:mt-5">
-                {chatMessages.map((message) => (
-                  <div
-                    key={message.id}
-                    className={`max-w-[92%] rounded-2xl px-3 py-2.5 text-sm leading-6 sm:px-4 sm:py-3 ${
-                      message.role === 'user'
-                        ? 'ml-auto rounded-tr-sm bg-cyan-300 text-[#041018]'
-                        : 'rounded-tl-sm bg-white/[0.07] text-white/84'
-                    }`}
-                  >
-                    {message.text}
-                  </div>
-                ))}
-              </div>
-
-              <p className="mt-5 text-xs leading-5 text-white/46">
-                Respuestas orientativas. No sustituye atención humana.
-              </p>
-            </div>
-
-            <form
-              onSubmit={handleChatSubmit}
-              className="flex shrink-0 gap-2 border-t border-white/8 p-3 sm:p-4"
-            >
-              <input
-                type="text"
-                value={chatDraft}
-                onChange={(event) => setChatDraft(event.target.value)}
-                placeholder="Escribe tu pregunta"
-                className="min-w-0 flex-1 rounded-full border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-white outline-none transition placeholder:text-white/40 focus:border-cyan-300/50 focus:bg-white/[0.09]"
-              />
-              <button
-                type="submit"
-                disabled={!chatDraft.trim()}
-                className="rounded-full bg-cyan-300 px-4 py-3 text-sm font-semibold text-[#041018] transition hover:bg-cyan-200 disabled:cursor-not-allowed disabled:opacity-45 sm:px-5"
-              >
-                Enviar
-              </button>
-            </form>
-          </div>
-        </div>
-      ) : null}
-        </>
-      ) : null}
     </main>
   );
 }
