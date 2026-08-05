@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import MainContent from './components/MainContent';
 
 export const metadata: Metadata = {
-  title: 'Powered by IA — Webs rápidas e IA para negocios locales',
+  title: 'Diseño web para negocios locales en Alcalá | Powered by IA',
   description:
-    'Diseño webs claras para negocios locales en Alcalá de Henares y Madrid, con WhatsApp, SEO local, captación de contactos, automatización básica e IA aplicada.',
+    'Diseño páginas web claras, rápidas y adaptadas a móvil para pequeños negocios de Alcalá de Henares. WhatsApp, ubicación, servicios y SEO local básico.',
   alternates: {
     canonical: 'https://www.poweredbyia.com/',
   },

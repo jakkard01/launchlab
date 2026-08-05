@@ -1,6 +1,6 @@
 "use client";
 
-import { type FormEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 const WHATSAPP_NUMBER = '34911528753';
@@ -14,98 +14,44 @@ const buildMailtoLink = (subject: string, body: string) =>
   `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
 const WHATSAPP_LINK = buildWhatsAppLink(
-  'Hola Powered by IA, quiero pedir un diagnostico gratis para mi negocio local.',
+  'Hola Powered by IA, quiero información sobre Web Local Express.',
 );
 
-const badges = ['Mobile-first', 'WhatsApp', 'SEO local', 'Contactos ordenados'];
+const badges = ['Adaptada a móvil', 'WhatsApp o llamada', 'SEO local básico'];
 
 const services = [
   {
-    title: 'Mejora Web Express',
-    price: 'Desde 180 €',
-    intro: 'Para webs que existen, pero no transmiten confianza ni convierten bien en móvil.',
-    idealFor:
-      'webs que ya existen, pero necesitan comunicar mejor y facilitar más contactos.',
-    bullets: ['Revisión de estructura', 'Textos y CTA más claros', 'Mejor experiencia móvil'],
+    title: 'Web Local Express',
+    price: '490 €',
+    intro: 'Una web clara para mostrar tu negocio y facilitar que te contacten.',
+    idealFor: 'pequeños negocios que necesitan explicar sus servicios, ubicación y horarios sin complicarse.',
+    bullets: ['Landing de una página', 'Hasta seis secciones', 'Entrega estimada en siete días laborables'],
     includes: [
-      'Revisión de estructura',
-      'Mejora de textos',
-      'Limpieza visual ligera',
-      'CTA más claros',
-      'Mejora de experiencia móvil',
-      'Recomendaciones SEO básicas',
-    ],
-    excludes: ['Rediseño completo', 'Nueva marca visual desde cero', 'Automatizaciones', 'Tienda online'],
-    cta: 'Revisar mi web',
-    href: buildWhatsAppLink(
-      'Hola, me interesa Mejora Web Express. Quiero revisar si mi web actual puede convertir mejor en movil.',
-    ),
-  },
-  {
-    title: 'Web Local Base',
-    price: 'Desde 350 €',
-    intro: 'Para tener una web profesional, clara y lista para recibir contactos.',
-    idealFor:
-      'negocios sin web o que necesitan una página profesional para explicar sus servicios y recibir mensajes.',
-    bullets: ['Landing responsive', 'WhatsApp y formulario básico', 'SEO local básico'],
-    includes: [
-      'Landing responsive',
-      'Textos claros',
-      'Secciones de servicios',
-      'Botones a WhatsApp',
-      'Formulario básico',
+      'Landing de una página',
+      'Hasta seis secciones',
+      'Diseño adaptado a móvil',
+      'Servicios, horarios, ubicación y mapa',
+      'Botón de WhatsApp o llamada',
+      'Formulario sencillo, solo si ya existe y funciona',
       'SEO local básico',
-      'Publicación',
-      'Revisión final en móvil',
+      'Conexión técnica de un dominio existente y publicación',
+      'Dos rondas de revisión',
+      'Catorce días de soporte',
+      'Entrega estimada en siete días laborables desde la recepción completa del material',
     ],
-    excludes: ['Tienda online', 'Reservas complejas', 'Automatizaciones avanzadas', 'Campañas de anuncios'],
-    cta: 'Quiero una web clara',
-    href: buildWhatsAppLink(
-      'Hola, me interesa Web Local Base. Quiero una web clara para recibir contactos.',
-    ),
-  },
-  {
-    title: 'Pack Web + Contactos',
-    price: 'Desde 500 €',
-    intro: 'Para verte mejor y empezar a recoger contactos ordenados desde el primer día.',
-    idealFor:
-      'negocios que quieren recoger consultas de forma ordenada y no perder clientes entre WhatsApp, formularios y mensajes sueltos.',
-    bullets: ['Web Local Base', 'Formulario conectado', 'Registro simple en Google Sheets'],
-    includes: [
-      'Web Local Base',
-      'Formulario conectado',
-      'Google Sheets como registro simple',
-      'Aviso por email',
-      'WhatsApp visible',
-      'Estructura preparada para campañas',
+    excludes: [
+      'Tienda online o pasarela de pago',
+      'Logotipo o identidad completa',
+      'Fotografía profesional',
+      'Reservas complejas',
+      'Automatizaciones personalizadas',
+      'Gestión de redes sociales',
+      'Contenido nuevo ilimitado',
+      'Posicionamiento garantizado',
     ],
-    excludes: ['Bot conversacional IA', 'CRM profesional complejo', 'Gestión mensual de anuncios', 'Soporte 24/7'],
-    cta: 'Quiero el recomendado',
+    cta: 'Hablar conmigo por WhatsApp',
     href: buildWhatsAppLink(
-      'Hola, me interesa Pack Web + Contactos. Quiero una web y contactos ordenados desde el primer dia.',
-    ),
-    recommended: true,
-  },
-  {
-    title: 'Pack Pro Captación',
-    price: 'Desde 750 €',
-    intro: 'Para una presencia más seria, con mejor mensaje y captación más preparada.',
-    idealFor:
-      'negocios que quieren una web más completa, mejor mensaje local y medición básica de contactos.',
-    bullets: ['Copy más trabajado', 'SEO local más completo', 'Medición básica de conversiones'],
-    includes: [
-      'Web Local Base',
-      'Google Sheets',
-      'Email automático',
-      'Copy más trabajado',
-      'SEO local más completo',
-      'FAQ',
-      'Medición básica de conversiones',
-    ],
-    excludes: ['Inversión publicitaria', 'Gestión mensual de campañas', 'Bot IA avanzado', 'Integraciones complejas'],
-    cta: 'Preparar captación',
-    href: buildWhatsAppLink(
-      'Hola, me interesa Pack Pro Captacion. Quiero una presencia mas seria y captacion mejor preparada.',
+      'Hola, me interesa Web Local Express por 490 €.',
     ),
   },
 ];
@@ -113,15 +59,15 @@ const services = [
 const projects = [
   {
     title: 'Powered by IA',
-    type: 'Landing comercial + asistente orientativo',
-    value: 'Caso aplicado para vender webs claras, contacto visible y captación ordenada.',
-    skills: ['Estrategia comercial', 'UX mobile-first', 'SEO local', 'Asistente orientativo'],
+    type: 'Landing comercial',
+    value: 'Caso aplicado para explicar una oferta web clara y contacto visible.',
+    skills: ['Estrategia comercial', 'UX mobile-first', 'SEO local'],
     problem:
       'Convertir una presencia digital básica en una landing comercial clara para clientes locales y, a la vez, enseñar capacidad técnica sin saturar la página.',
     solution:
-      'Estructura de servicios, precios orientativos, CTA a WhatsApp, SEO local, FAQ y un asistente orientativo para dudas rápidas.',
+      'Una oferta concreta, CTA a WhatsApp, SEO local básico y una estructura comercial fácil de revisar.',
     proof:
-      'Demuestra estrategia comercial, diseño mobile-first, copy de conversión, SEO local y una primera capa de producto IA explicada con límites claros.',
+      'Demuestra estrategia comercial, diseño mobile-first, copy claro y SEO local básico.',
     desktopImage: '/imagenes/pbidesk.jpeg',
     mobileImage: '/imagenes/pbiamov.jpeg',
     href: '#inicio',
@@ -129,15 +75,15 @@ const projects = [
   },
   {
     title: 'RYS Minimarket',
-    type: 'Catálogo mobile-first',
-    value: 'Tienda ligera con navegación móvil, contacto claro y operación web simple.',
-    skills: ['Web rápida', 'Catálogo fácil en móvil', 'Contacto visible', 'Operación simple'],
+    type: 'Web para negocio local',
+    value: 'Proyecto real de Yasmin con presentación digital y estructura comercial clara.',
+    skills: ['Web rápida', 'Presentación digital', 'Contacto visible', 'Estructura comercial'],
     problem:
-      'Mostrar productos y facilitar contacto desde móvil sin convertir la experiencia en una tienda pesada o difícil de operar.',
+      'Dar al negocio una presencia web clara y fácil de consultar desde móvil.',
     solution:
-      'Catálogo web ligero con navegación clara, enfoque móvil, contacto visible y flujo pensado para operación sencilla.',
+      'Gerardo ayudó con la web, la presentación digital y la estructura comercial.',
     proof:
-      'Demuestra una web rápida, criterio móvil, organización de catálogo y contacto visible para facilitar consultas.',
+      'Demuestra criterio móvil, presentación clara y contacto visible para facilitar consultas.',
     desktopImage: '/imagenes/rysdesk.jpeg',
     mobileImage: '/imagenes/rysmov.jpeg',
     href: RYS_LINK,
@@ -147,28 +93,28 @@ const projects = [
 
 const processSteps = [
   {
-    title: 'Diagnóstico rápido',
-    body: 'Vemos qué necesitas y qué no merece la pena hacer.',
+    title: 'Alcance y material',
+    body: 'Fijamos qué incluye la web y reunimos el material necesario.',
   },
   {
-    title: 'Estructura y mensaje',
-    body: 'Ordenamos la oferta para que se entienda rápido.',
+    title: 'Estructura y contenido',
+    body: 'Ordenamos servicios, horarios, ubicación y contacto.',
   },
   {
     title: 'Diseño mobile-first',
     body: 'Primero móvil, luego escritorio.',
   },
   {
-    title: 'Contacto y captación',
-    body: 'WhatsApp, formulario o correo con siguiente paso claro.',
+    title: 'Contacto visible',
+    body: 'Dejamos WhatsApp o llamada con un siguiente paso claro.',
   },
   {
-    title: 'Revisión final',
-    body: 'Ajustamos textos, enlaces y visual antes de publicar.',
+    title: 'Dos rondas de revisión',
+    body: 'Ajustamos el contenido dentro del alcance acordado.',
   },
   {
     title: 'Publicación',
-    body: 'Dejamos la web lista para compartir y medir.',
+    body: 'Conectamos el dominio existente y dejamos la web publicada.',
   },
 ];
 
@@ -176,123 +122,44 @@ const faqs = [
   {
     question: '¿Cuánto cuesta una web?',
     answer:
-      'Una mejora empieza desde 180 €. Una web local clara desde 350 €. Si quieres ordenar contactos, el pack recomendado empieza desde 500 €.',
+      'Web Local Express cuesta 490 €.',
   },
   {
     question: '¿Qué necesito para empezar?',
     answer:
-      'Una explicación breve de tu negocio, servicios, zona, forma de contacto y, si ya tienes web, el enlace actual.',
+      'Necesito el material completo de tu negocio: servicios, horarios, ubicación, formas de contacto y contenido que quieras incluir.',
   },
   {
     question: '¿Cuánto tarda?',
     answer:
-      'Depende del alcance. Una mejora simple puede ir rápido; una web nueva necesita estructura, textos, revisión móvil y publicación.',
+      'La entrega estimada es de siete días laborables desde la recepción completa del material.',
   },
   {
-    question: '¿Qué diferencia hay entre una web normal y una web preparada para captar contactos?',
+    question: '¿Qué incluye el SEO local básico?',
     answer:
-      'La segunda no solo se ve bien: explica rápido, genera confianza y deja WhatsApp, formulario o correo como siguiente paso claro.',
+      'Incluye una estructura técnica y de contenido preparada para búsquedas locales. No incluye gestión continuada del Perfil de Empresa ni posiciones garantizadas.',
   },
   {
     question: '¿Puedo empezar solo con WhatsApp?',
     answer:
-      'Sí. WhatsApp puede ser el contacto principal. Si necesitas más orden, se puede sumar formulario y registro simple.',
+      'Sí. La web incluye un botón de WhatsApp o llamada. El formulario sencillo solo se incluye si ya existe y funciona.',
   },
   {
     question: '¿Y si ya tengo web?',
     answer:
-      'Podemos revisarla y mejorar estructura, textos, móvil y llamadas a la acción sin rehacer todo desde cero.',
+      'Incluye conexión técnica de un dominio existente y publicación. Los costes de dominio, hosting, correo y servicios externos no están incluidos.',
   },
   {
-    question: '¿El bot IA ya está disponible?',
+    question: '¿Qué cubre el soporte?',
     answer:
-      'Está como asistente orientativo para dudas rápidas. Sus respuestas son orientativas y no sustituyen atención humana.',
+      'Catorce días para errores de entrega y pequeños ajustes dentro del alcance.',
   },
   {
-    question: '¿Hay mantenimiento mensual?',
+    question: '¿Qué no está incluido?',
     answer:
-      'No es obligatorio. Se puede plantear solo si necesitas cambios frecuentes, medición, campañas o mejoras continuas.',
+      'No incluye tienda online, identidad completa, fotografía profesional, reservas complejas, automatizaciones personalizadas, redes sociales, contenido ilimitado ni posicionamiento garantizado.',
   },
 ];
-
-const quickQuestions = [
-  {
-    question: '¿Cuánto cuesta una web?',
-    answer:
-      'Desde 350 € para una Web Local Base. Si ya tienes web y solo necesita mejora, puede empezar desde 180 €.',
-  },
-  {
-    question: '¿Qué incluye el pack recomendado?',
-    answer:
-      'Incluye Web Local Base, formulario conectado, Google Sheets como registro simple, aviso por email y WhatsApp visible.',
-  },
-  {
-    question: '¿Puedo usar WhatsApp?',
-    answer:
-      'Sí. WhatsApp puede ser el CTA principal y estar presente en hero, servicios y cierre de la web.',
-  },
-  {
-    question: '¿Trabajas en Alcalá de Henares?',
-    answer:
-      'Sí. Trabajo en Alcalá de Henares, Madrid y también en remoto con negocios locales.',
-  },
-  {
-    question: '¿Qué es Captación Ordenada?',
-    answer:
-      'Es dejar el contacto claro y registrar consultas para que no dependas solo de mensajes sueltos.',
-  },
-];
-
-type ChatMessage = {
-  id: string;
-  role: 'user' | 'assistant';
-  text: string;
-};
-
-const initialChatMessages: ChatMessage[] = [
-  {
-    id: 'welcome',
-    role: 'assistant',
-    text:
-      'Hola, soy el asistente orientativo de Powered by IA. Puedo orientarte sobre precios, diagnóstico, WhatsApp, SEO local y contactos.',
-  },
-];
-
-const normalizeChatText = (text: string) =>
-  text
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '');
-
-const getDemoAnswer = (message: string) => {
-  const text = normalizeChatText(message);
-
-  if (text.includes('precio') || text.includes('cuanto') || text.includes('cuesta') || text.includes('web sencilla')) {
-    return 'Una Web Local Base empieza desde 350 €. Si ya tienes web y solo necesita mejora, puede empezar desde 180 €. Para web + contactos ordenados, el pack recomendado empieza desde 500 €.';
-  }
-
-  if (text.includes('diagnostico') || text.includes('revis') || text.includes('empezar')) {
-    return 'El diagnóstico gratis revisa qué necesita tu negocio, qué no merece la pena hacer todavía y cuál sería el primer paso más útil: mejorar web, crear landing o preparar captación de contactos.';
-  }
-
-  if (text.includes('whatsapp') || text.includes('contacto') || text.includes('contactar')) {
-    return 'WhatsApp puede ser el CTA principal de la web. También se puede combinar con formulario o email para que las consultas no se pierdan y tengan un siguiente paso claro.';
-  }
-
-  if (text.includes('seo') || text.includes('local') || text.includes('alcala') || text.includes('madrid')) {
-    return 'El SEO local básico incluye estructura clara, textos orientados a tu zona, títulos correctos y contenido preparado para que clientes de Alcalá de Henares, Madrid o tu área entiendan rápido qué ofreces.';
-  }
-
-  if (text.includes('automat') || text.includes('lead') || text.includes('captacion') || text.includes('contactos') || text.includes('sheets')) {
-    return 'La captación ordenada puede conectar formulario, email y Google Sheets para registrar consultas de forma simple. La idea es no depender solo de mensajes sueltos.';
-  }
-
-  if (text.includes('bot') || text.includes('ia') || text.includes('demo') || text.includes('chat')) {
-    return 'Este asistente da respuestas orientativas sobre servicios, precios y contacto. Para una propuesta real, pide diagnóstico gratis. No sustituye atención humana.';
-  }
-
-  return 'Puedo orientarte sobre precios, WhatsApp, SEO local, captación de contactos o diagnóstico gratis.';
-};
 
 function ProjectShot({
   src,
@@ -363,65 +230,24 @@ export default function HomeContent() {
   const [openService, setOpenService] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<string | null>(null);
   const [openProject, setOpenProject] = useState<string | null>(null);
+  // The assistant remains available in the codebase for a future demo, but is
+  // intentionally excluded from this commercial flow.
+  const showAssistantDemo = false;
   const [isBotOpen, setIsBotOpen] = useState(false);
-  const [chatMessages, setChatMessages] = useState<ChatMessage[]>(initialChatMessages);
+  const [chatMessages, setChatMessages] = useState<{ id: string; role: 'user' | 'assistant'; text: string }[]>([]);
   const [chatDraft, setChatDraft] = useState('');
-
-  const openBot = () => {
-    setIsBotOpen(true);
+  const quickQuestions: { question: string }[] = [];
+  const openBot = () => setIsBotOpen(true);
+  const closeBot = () => setIsBotOpen(false);
+  const sendBotMessage = (message: string) => {
+    if (!message.trim()) return;
+    setChatMessages((current) => [...current, { id: String(Date.now()), role: 'user', text: message }]);
   };
-
-  const closeBot = () => {
-    setIsBotOpen(false);
-  };
-
-  const sendBotMessage = (rawMessage: string) => {
-    const message = rawMessage.trim();
-
-    if (!message) {
-      return;
-    }
-
-    const sentAt = Date.now();
-
-    setChatMessages((current) => [
-      ...current,
-      {
-        id: `user-${sentAt}`,
-        role: 'user',
-        text: message,
-      },
-      {
-        id: `assistant-${sentAt}`,
-        role: 'assistant',
-        text: getDemoAnswer(message),
-      },
-    ]);
-  };
-
-  const handleChatSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleChatSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     sendBotMessage(chatDraft);
     setChatDraft('');
   };
-
-  useEffect(() => {
-    if (!isBotOpen) {
-      return;
-    }
-
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setIsBotOpen(false);
-      }
-    };
-
-    window.addEventListener('keydown', handleEscape);
-
-    return () => {
-      window.removeEventListener('keydown', handleEscape);
-    };
-  }, [isBotOpen]);
 
   return (
     <main
@@ -448,7 +274,7 @@ export default function HomeContent() {
             rel="noopener noreferrer"
             className="inline-flex h-9 items-center rounded-full bg-cyan-300 px-3 text-xs font-semibold text-[#041018] shadow-[0_10px_32px_rgba(34,211,238,0.2)] transition hover:bg-cyan-200 sm:h-10 sm:px-4 sm:text-sm"
           >
-            Diagnóstico gratis
+            WhatsApp
           </a>
         </div>
       </header>
@@ -460,10 +286,10 @@ export default function HomeContent() {
               Diseño web para negocio local
             </span>
             <h1 className="mt-5 max-w-4xl text-[2.35rem] font-semibold leading-[1.02] text-white drop-shadow-[0_14px_34px_rgba(0,0,0,0.42)] sm:text-5xl lg:text-[4.15rem]">
-              Webs claras para negocios locales que quieren recibir más contactos sin complicarse.
+              Webs claras para negocios locales en Alcalá de Henares
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-7 text-white/84 drop-shadow-[0_8px_20px_rgba(0,0,0,0.28)] sm:text-[1.08rem]">
-              Diseño una web sencilla, rápida y enfocada en recibir clientes: que entiendan qué haces, confíen en ti y te escriban por WhatsApp, formulario o correo.
+              Creo páginas rápidas y adaptadas a móvil para mostrar tus servicios, ubicación y horarios, y facilitar que tus clientes contacten contigo.
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <a
@@ -472,13 +298,13 @@ export default function HomeContent() {
                 rel="noopener noreferrer"
                 className="inline-flex h-12 items-center justify-center rounded-full bg-cyan-300 px-6 text-sm font-semibold text-[#041018] shadow-[0_18px_42px_rgba(34,211,238,0.24)] transition hover:bg-cyan-200"
               >
-                Pedir diagnóstico gratis
+                Hablar conmigo por WhatsApp
               </a>
               <a
                 href="#proyectos"
                 className="inline-flex h-12 items-center justify-center rounded-full border border-white/16 bg-white/[0.04] px-6 text-sm font-semibold text-white/88 transition hover:border-cyan-300/40 hover:bg-white/[0.08]"
               >
-                Ver ejemplos reales
+                Ver proyecto real
               </a>
             </div>
             <div className="mt-7 flex flex-wrap gap-2">
@@ -498,7 +324,7 @@ export default function HomeContent() {
               <div className="flex items-center gap-4">
                 <Image
                   src="/imagenes/perfil/mifoto.jpg"
-                  alt="Foto de perfil de Powered by IA"
+                  alt="Gerardo, creador de Powered by IA"
                   width={112}
                   height={112}
                   className="h-20 w-20 rounded-full object-cover ring-1 ring-white/16 sm:h-24 sm:w-24"
@@ -507,15 +333,15 @@ export default function HomeContent() {
                 <div>
                   <p className="text-xs uppercase tracking-[0.24em] text-cyan-200/78">Hablas conmigo directamente</p>
                   <p className="mt-2 text-xl font-semibold leading-tight text-white">
-                    Claridad comercial, móvil y contacto visible.
+                    Una web clara para que te encuentren y contacten.
                   </p>
                 </div>
               </div>
               <div className="mt-5 grid gap-3">
                 {[
-                  ['Mensaje claro', 'Tu cliente entiende qué haces en segundos.'],
-                  ['Contacto fácil', 'WhatsApp, formulario o correo sin esconder el siguiente paso.'],
-                  ['Captación ordenada', 'Base preparada para registrar y seguir consultas.'],
+                  ['Servicios y horarios', 'La información esencial de tu negocio, a la vista.'],
+                  ['Contacto fácil', 'WhatsApp o llamada sin esconder el siguiente paso.'],
+                  ['SEO local básico', 'Una base técnica y de contenido para búsquedas locales.'],
                 ].map(([title, body]) => (
                   <div key={title} className="border-t border-white/8 pt-3">
                     <p className="text-sm font-semibold text-white">{title}</p>
@@ -538,29 +364,20 @@ export default function HomeContent() {
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Servicios y precios</p>
             <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Elige una solución simple, clara y proporcional.
+              Una web clara, con el alcance definido desde el principio.
             </h2>
           </div>
-          <div className="grid gap-3 lg:grid-cols-2">
+          <div className="grid gap-3">
             {services.map((service) => {
               const isOpen = openService === service.title;
 
               return (
                 <article
                   key={service.title}
-                  className={`relative flex h-full flex-col rounded-[1.1rem] border p-4 shadow-[0_14px_42px_rgba(0,0,0,0.16)] backdrop-blur-sm sm:p-5 ${
-                    service.recommended
-                      ? 'border-cyan-300/32 bg-cyan-300/[0.08]'
-                      : 'border-white/8 bg-[#07111a]/50'
-                  }`}
+                  className="relative flex h-full flex-col rounded-[1.1rem] border border-cyan-300/32 bg-cyan-300/[0.08] p-4 shadow-[0_14px_42px_rgba(0,0,0,0.16)] backdrop-blur-sm sm:p-5"
                 >
-                  {service.recommended ? (
-                    <span className="absolute right-4 top-4 rounded-full bg-cyan-300 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#041018]">
-                      Recomendado
-                    </span>
-                  ) : null}
                   <span className="block h-px w-10 bg-cyan-300/50" />
-                  <h3 className="mt-4 pr-24 text-xl font-semibold text-white">{service.title}</h3>
+                  <h3 className="mt-4 text-xl font-semibold text-white">{service.title}</h3>
                   <p className="mt-2 text-2xl font-semibold text-cyan-100">{service.price}</p>
                   <p className="mt-4 text-sm leading-6 text-white/80">{service.intro}</p>
                   <p className="mt-3 rounded-xl border border-cyan-300/14 bg-cyan-300/[0.06] px-3 py-2 text-sm leading-6 text-cyan-50/82">
@@ -596,7 +413,15 @@ export default function HomeContent() {
                   {isOpen ? (
                     <div className="mt-4 grid gap-5 border-t border-white/8 pt-4 md:grid-cols-2">
                       <ServiceList title="Incluye" items={service.includes} />
-                      <ServiceList title="No incluye" items={service.excludes} />
+                      <div className="space-y-5">
+                        <ServiceList title="No incluye" items={service.excludes} />
+                        <p className="text-sm leading-6 text-white/68">
+                          Los costes de dominio, hosting, correo y servicios externos no están incluidos.
+                        </p>
+                        <p className="text-sm leading-6 text-white/68">
+                          El soporte cubre errores de entrega y pequeños ajustes dentro del alcance. El SEO local básico no incluye gestión continuada del Perfil de Empresa ni posiciones garantizadas.
+                        </p>
+                      </div>
                     </div>
                   ) : null}
                 </article>
@@ -605,67 +430,19 @@ export default function HomeContent() {
           </div>
         </section>
 
-        <section id="bot-ia-local" className="grid scroll-mt-24 gap-5 rounded-[1.35rem] border border-cyan-300/16 bg-[#061018]/62 p-4 shadow-[0_18px_55px_rgba(0,0,0,0.2)] backdrop-blur-sm sm:p-6 lg:grid-cols-[1fr_0.82fr] lg:items-center">
-          <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Dudas rápidas</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Asistente orientativo para primeras preguntas
-            </h2>
-            <p className="mt-4 max-w-2xl text-sm leading-7 text-white/80 sm:text-base">
-              Responde dudas básicas sobre precios, WhatsApp, SEO local y contactos. Sus respuestas son orientativas; para una propuesta real, pide diagnóstico gratis.
-            </p>
-            <div className="mt-5 flex flex-wrap gap-2 text-xs text-white/72">
-              <span className="rounded-full border border-white/8 bg-white/[0.04] px-3 py-1.5">Respuestas orientativas</span>
-              <span className="rounded-full border border-white/8 bg-white/[0.04] px-3 py-1.5">No sustituye atención humana</span>
-              <span className="rounded-full border border-white/8 bg-white/[0.04] px-3 py-1.5">Diagnóstico gratis disponible</span>
-            </div>
-            <button
-              type="button"
-              onClick={openBot}
-              className="mt-6 inline-flex h-12 items-center justify-center rounded-full bg-cyan-300 px-6 text-sm font-semibold text-[#041018] transition hover:bg-cyan-200"
-            >
-              Preguntar
-            </button>
-          </div>
-
-          <button
-            type="button"
-            onClick={openBot}
-            className="rounded-[1rem] border border-white/8 bg-[#07111a]/72 p-4 text-left transition hover:border-cyan-300/26"
-          >
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <p className="text-sm font-semibold text-white">Dudas rápidas</p>
-                <p className="mt-1 text-xs text-white/50">Respuestas orientativas</p>
-              </div>
-              <span className="rounded-full bg-cyan-300/12 px-3 py-1 text-xs font-medium text-cyan-100">
-                Preguntar
-              </span>
-            </div>
-            <div className="mt-5 space-y-3">
-              <div className="ml-auto max-w-[86%] rounded-2xl rounded-tr-sm bg-cyan-300 px-4 py-3 text-sm leading-6 text-[#041018]">
-                ¿Cuánto cuesta una web sencilla?
-              </div>
-              <div className="max-w-[90%] rounded-2xl rounded-tl-sm bg-white/[0.07] px-4 py-3 text-sm leading-6 text-white/84">
-                Desde 350 €. Si quieres ordenar contactos, el pack recomendado empieza desde 500 €.
-              </div>
-            </div>
-          </button>
-        </section>
-
         <section id="seo-local" className="grid scroll-mt-24 gap-5 border-t border-white/8 pt-8 lg:grid-cols-[0.86fr_1.14fr]">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">SEO local</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Diseño web para negocios locales en Alcalá de Henares y Madrid
+              SEO local básico para una web que se entiende bien
             </h2>
           </div>
           <div className="text-sm leading-7 text-white/80 sm:text-base">
             <p>
-              Trabajo con pequeños negocios que necesitan una web clara, rápida y pensada para móvil: peluquerías, barberías, clínicas de estética, consultas, restaurantes y servicios locales. Si estás en Alcalá de Henares, Madrid o trabajas en remoto, la prioridad es la misma: que el cliente entienda qué ofreces y tenga un siguiente paso claro para contactarte por WhatsApp, formulario o correo.
+              Trabajo con pequeños negocios que necesitan una web clara, rápida y pensada para móvil. La estructura ayuda a mostrar servicios, ubicación y formas de contacto de manera comprensible para personas y buscadores.
             </p>
             <p className="mt-4">
-              El enfoque combina diseño web para negocios locales, landing page para negocio local, web con WhatsApp y automatización de contactos cuando aporta orden de verdad.
+              El SEO local básico prepara títulos, descripción, estructura y contenido relevante para Alcalá de Henares y alrededores. No incluye gestión continuada del Perfil de Empresa ni posiciones garantizadas.
             </p>
           </div>
         </section>
@@ -678,7 +455,7 @@ export default function HomeContent() {
                 Ejemplos reales
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-white/76 sm:text-base">
-                Proyectos existentes usados para enseñar criterio comercial, UX móvil y ejecución técnica sin inventar clientes no autorizados.
+              Proyectos existentes usados para enseñar criterio comercial, UX móvil y ejecución técnica sin inventar resultados.
               </p>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-cyan-100/78">
                 Abre solo el caso que quieras revisar. La idea es enseñar trabajo real sin llenar la página de ruido.
@@ -690,7 +467,7 @@ export default function HomeContent() {
               rel="noopener noreferrer"
               className="inline-flex h-11 items-center justify-center rounded-full border border-cyan-300/22 bg-cyan-300/10 px-5 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/14"
             >
-              Hablar sobre tu caso
+              Hablar conmigo por WhatsApp
             </a>
           </div>
           <div className="grid gap-3">
@@ -780,6 +557,18 @@ export default function HomeContent() {
           </div>
         </section>
 
+        <section className="grid scroll-mt-24 gap-5 border-t border-white/8 pt-8 lg:grid-cols-[0.85fr_1.15fr]">
+          <div>
+            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Trabajo directo</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
+              Alcance claro antes de empezar.
+            </h2>
+          </div>
+          <p className="text-sm leading-7 text-white/78 sm:text-base">
+            Soy Gerardo y trabajo directamente con pequeños negocios. No hay comerciales ni intermediarios: hablamos, fijamos el alcance y sabes qué voy a entregar antes de empezar.
+          </p>
+        </section>
+
         <section id="como-trabajamos" className="scroll-mt-24 space-y-6">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Proceso</p>
@@ -843,23 +632,6 @@ export default function HomeContent() {
           </div>
         </section>
 
-        <section id="quien-esta-detras" className="grid scroll-mt-24 gap-5 border-t border-white/8 pt-8 lg:grid-cols-[0.85fr_1.15fr]">
-          <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Quién está detrás</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Hablas conmigo directamente, con ejecución clara y soluciones sin mareos.
-            </h2>
-          </div>
-          <div className="space-y-4 text-sm leading-7 text-white/78 sm:text-base">
-            <p>
-              Soy Gerardo. Ayudo a negocios locales a tener una web clara, rápida y preparada para recibir consultas por WhatsApp, formulario o correo.
-            </p>
-            <p>
-              Hablas conmigo desde el inicio hasta la entrega, sin intermediarios y sin venderte algo que no necesitas. La prioridad es dejar una solución clara, útil y preparada para que un cliente entienda tu negocio y tenga un siguiente paso para contactarte.
-            </p>
-          </div>
-        </section>
-
         <section
           id="contacto"
           className="scroll-mt-24 rounded-[1.35rem] border border-cyan-300/18 bg-cyan-300/[0.07] px-5 py-7 shadow-[0_18px_55px_rgba(0,0,0,0.18)] backdrop-blur-sm sm:px-7 sm:py-9"
@@ -867,10 +639,10 @@ export default function HomeContent() {
           <div className="max-w-3xl">
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Contacto</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-              Pide un diagnóstico gratis y te digo qué haría primero.
+              Cuéntame tu negocio y hablamos de la web.
             </h2>
             <p className="mt-4 text-base leading-7 text-white/80">
-              Cuéntame tu caso y reviso si te conviene mejorar tu web, crear una landing nueva o preparar un sistema simple para ordenar contactos.
+              Si Web Local Express encaja contigo, fijamos el alcance y el material necesario para empezar.
             </p>
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
               <a
@@ -879,12 +651,12 @@ export default function HomeContent() {
                 rel="noopener noreferrer"
                 className="inline-flex h-12 items-center justify-center rounded-full bg-cyan-300 px-5 text-sm font-semibold text-[#041018] shadow-[0_18px_42px_rgba(34,211,238,0.24)] transition hover:bg-cyan-200"
               >
-                Pedir diagnóstico gratis
+                Hablar conmigo por WhatsApp
               </a>
               <a
                 href={buildMailtoLink(
-                  'Diagnóstico Powered by IA',
-                  'Hola, quiero pedir un diagnostico gratis. Mi negocio es:',
+                  'Web Local Express | Powered by IA',
+                  'Hola, quiero información sobre Web Local Express. Mi negocio es:',
                 )}
                 className="inline-flex h-12 items-center justify-center rounded-full border border-white/14 bg-white/[0.04] px-5 text-sm font-semibold text-white/88 transition hover:border-cyan-300/40 hover:bg-white/[0.08]"
               >
@@ -894,7 +666,7 @@ export default function HomeContent() {
                 href="#servicios"
                 className="inline-flex h-12 items-center justify-center rounded-full border border-cyan-300/22 bg-cyan-300/10 px-5 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/14"
               >
-                Ver servicios
+                Ver Web Local Express
               </a>
             </div>
           </div>
@@ -902,7 +674,7 @@ export default function HomeContent() {
 
         <footer className="border-t border-white/8 pt-6 text-sm text-white/54">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p>Powered by IA · diseño web y captación para negocios locales.</p>
+            <p>Powered by IA · diseño web para negocios locales.</p>
             <div className="flex flex-wrap gap-4">
               <a href="/aviso-legal" className="transition hover:text-white">
                 Aviso legal
@@ -921,6 +693,8 @@ export default function HomeContent() {
         </footer>
       </div>
 
+      {showAssistantDemo ? (
+        <>
       <div className="fixed bottom-2 right-2 z-30 flex flex-col items-end gap-2 sm:bottom-4 sm:right-4">
         <button
           type="button"
@@ -1036,6 +810,8 @@ export default function HomeContent() {
             </form>
           </div>
         </div>
+      ) : null}
+        </>
       ) : null}
     </main>
   );
